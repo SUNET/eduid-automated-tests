@@ -12,7 +12,7 @@ public class PasswordChanged {
         login = new Login(common);
     }
 
-    public void runPasswordChanged2(String username, String newPassword){
+    public void runPasswordChanged(String username, String newPassword){
         //TODO add pagetitle check when its present, missing at the moment 23/4-2020
         //verifyPageTitle();
         verifyLabels();

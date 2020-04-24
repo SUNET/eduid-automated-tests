@@ -9,7 +9,7 @@ public class PhoneNumber {
         this.common = common;
     }
 
-    public void runPhoneNumber2(){
+    public void runPhoneNumber(){
         verifyLabelsSwedish();
         verifyLabelsEnglish();
     }

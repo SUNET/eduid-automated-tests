@@ -47,26 +47,26 @@ public class TC_36 {
     }
 
     @Test
-    void startPage2(){
-        startPage.runStartPage2(registerAccount);
+    void startPage(){
+        startPage.runStartPage(registerAccount);
     }
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        login.runLogin2(username, password, resetPassword, registerAccount, incorrectPassword);
+    @Test( dependsOnMethods = {"startPage"} )
+    void login(){
+        login.runLogin(username, password, resetPassword, registerAccount, incorrectPassword);
     }
 
-    @Test( dependsOnMethods = {"login2"} )
-    void dashboard2() {
-        dashBoard.runDashBoard2(givenName_Dashboard, surName_Dashboard, language_Dashboard);
+    @Test( dependsOnMethods = {"login"} )
+    void dashboard() {
+        dashBoard.runDashBoard(givenName_Dashboard, surName_Dashboard, language_Dashboard);
    }
 
-    @Test( dependsOnMethods = {"dashboard2"} )
-    void delete2() { deleteAccount.runDeleteAccount2(deleteButton, username, password); }
+    @Test( dependsOnMethods = {"dashboard"} )
+    void delete() { deleteAccount.runDeleteAccount(deleteButton, username, password); }
 
-    @Test( dependsOnMethods = {"delete2"} )
-    void logout2() {
-        logout.runLogout2();
+    @Test( dependsOnMethods = {"delete"} )
+    void logout() {
+        logout.runLogout();
     }
 
     @AfterTest

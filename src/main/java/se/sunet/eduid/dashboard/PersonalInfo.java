@@ -9,7 +9,7 @@ public class PersonalInfo {
         this.common = common;
     }
 
-    public void runPersonalInfo2(String givenName, String surName, String displayName, String language){
+    public void runPersonalInfo(String givenName, String surName, String displayName, String language){
         verifyPageTitle();
         verifyAndUpdatePersonalInfo(givenName, surName, displayName, language);
         selectLanguage(language);

@@ -9,7 +9,7 @@ public class EmailLink {
         this.common = common;
     }
 
-    public void runEmailLink2(String magicCode){
+    public void runEmailLink(String magicCode){
         clickEmailLink(magicCode);
     }
 

@@ -11,7 +11,7 @@ public class DashBoard {
         this.common = common;
     }
 
-    public void runDashBoard2(String givenName_Dashboard, String surName_Dashboard, String language_Dashboard){
+    public void runDashBoard(String givenName_Dashboard, String surName_Dashboard, String language_Dashboard){
         verifyPageTitle();
         verifyUserId();
         verifyFirstName(givenName_Dashboard);

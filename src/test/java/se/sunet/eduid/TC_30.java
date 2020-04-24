@@ -34,13 +34,13 @@ public class TC_30 {
     }
 
     @Test
-    void startPage2(){
-        startPage.runStartPage2(registerAccount);
+    void startPage(){
+        startPage.runStartPage(registerAccount);
     }
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        login.runLogin2(username, password, resetPassword, registerAccount, incorrectPassword);
+    @Test( dependsOnMethods = {"startPage"} )
+    void login(){
+        login.runLogin(username, password, resetPassword, registerAccount, incorrectPassword);
     }
 
     @AfterTest

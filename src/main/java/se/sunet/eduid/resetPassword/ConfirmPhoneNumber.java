@@ -9,7 +9,7 @@ public class ConfirmPhoneNumber {
         this.common = common;
     }
 
-    public void runConfirmPhoneNumber2(boolean codeSentTooEarly, String confirmPhoneNumberCode){
+    public void runConfirmPhoneNumber(boolean codeSentTooEarly, String confirmPhoneNumberCode){
         verifyPageTitle();
         getConfirmationCode(codeSentTooEarly, confirmPhoneNumberCode);
         confirmPhoneNumber(confirmPhoneNumberCode);

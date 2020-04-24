@@ -9,7 +9,7 @@ public class Logout {
         this.common = common;
     }
 
-    public void runLogout2(){
+    public void runLogout(){
        verifyPageTitle();
        pressLogOut();
        verifyLabels();

@@ -9,7 +9,7 @@ public class VerifyPhoneNumber {
         this.common = common;
     }
 
-    public void runVerifyPhoneNumber2(boolean resendOTP){
+    public void runVerifyPhoneNumber(boolean resendOTP){
         verifyPageTitle();
         verifyLabels();
         continueOrResendOTP(resendOTP);
@@ -32,7 +32,7 @@ public class VerifyPhoneNumber {
             //Testng cannot execute same class twice in *.xml file. Therefore call neccessary methods separately
             //to test the re-send OTP functionality.
             ExtraSecurity security = new ExtraSecurity(common);
-            security.runExtraSecurity2(true);
+            security.runExtraSecurity(true);
 
             //To continue the flow and enter the OTP with magic-code
             continueOrResendOTP(false);

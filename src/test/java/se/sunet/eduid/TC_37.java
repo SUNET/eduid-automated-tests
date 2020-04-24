@@ -44,31 +44,31 @@ public class TC_37 {
     }
 
     @Test
+    void startPage(){
+        startPage.runStartPage(registerAccount);
+    }
+
+    @Test( dependsOnMethods = {"startPage"} )
+    void login(){
+        login.runLogin(username, password, resetPassword, registerAccount, incorrectPassword);
+    }
+
+    @Test( dependsOnMethods = {"login"} )
+    void dashboard() {
+        dashBoard.runDashBoard(givenName_Dashboard, surName_Dashboard, language_Dashboard);
+   }
+
+    @Test( dependsOnMethods = {"dashboard"} )
+    void delete() { deleteAccount.runDeleteAccount(deleteButton, username, password); }
+
+    @Test( dependsOnMethods = {"delete"} )
     void startPage2(){
-        startPage.runStartPage2(registerAccount);
+        startPage.runStartPage(registerAccount);
     }
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        login.runLogin2(username, password, resetPassword, registerAccount, incorrectPassword);
-    }
-
-    @Test( dependsOnMethods = {"login2"} )
-    void dashboard2() {
-        dashBoard.runDashBoard2(givenName_Dashboard, surName_Dashboard, language_Dashboard);
-   }
-
-    @Test( dependsOnMethods = {"dashboard2"} )
-    void delete2() { deleteAccount.runDeleteAccount2(deleteButton, username, password); }
-
-    @Test( dependsOnMethods = {"delete2"} )
-    void startPage22(){
-        startPage.runStartPage2(registerAccount);
-    }
-
-    @Test( dependsOnMethods = {"startPage22"} )
-    void login22(){
-        login.runLogin2(username, password, resetPassword, registerAccount, true);
+        login.runLogin(username, password, resetPassword, registerAccount, true);
     }
 
     @AfterTest

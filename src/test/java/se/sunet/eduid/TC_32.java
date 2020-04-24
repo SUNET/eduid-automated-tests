@@ -42,23 +42,23 @@ public class TC_32 {
     }
 
     @Test
-    void startPage2(){
-        startPage.runStartPage2(registerAccount);
+    void startPage(){
+        startPage.runStartPage(registerAccount);
     }
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        login.runLogin2(username, password, resetPassword, registerAccount, incorrectPassword);
+    @Test( dependsOnMethods = {"startPage"} )
+    void login(){
+        login.runLogin(username, password, resetPassword, registerAccount, incorrectPassword);
     }
 
-    @Test( dependsOnMethods = {"login2"} )
-    void requestNewPassword2() { requestNewPassword.runRequestNewPassword2(username); }
+    @Test( dependsOnMethods = {"login"} )
+    void requestNewPassword() { requestNewPassword.runRequestNewPassword(username); }
 
-    @Test( dependsOnMethods = {"requestNewPassword2"} )
-    void emailSent2() { emailSent.runEmailSent2(); }
+    @Test( dependsOnMethods = {"requestNewPassword"} )
+    void emailSent() { emailSent.runEmailSent(); }
 
-    @Test( dependsOnMethods = {"emailSent2"} )
-    void emailLink2() { emailLink.runEmailLink2(magicCode); }
+    @Test( dependsOnMethods = {"emailSent"} )
+    void emailLink() { emailLink.runEmailLink(magicCode); }
 
     @AfterTest
     void quitBrowser(){

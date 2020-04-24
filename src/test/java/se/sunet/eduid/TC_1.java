@@ -63,39 +63,39 @@ public class TC_1 {
     }
 
     @Test
-    void startPage2(){
-        startPage.runStartPage2(registerAccount);
+    void startPage(){
+        startPage.runStartPage(registerAccount);
     }
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        login.runLogin2(username, passwd, resetPassword, registerAccount, incorrectPassword);
+    @Test( dependsOnMethods = {"startPage"} )
+    void login(){
+        login.runLogin(username, passwd, resetPassword, registerAccount, incorrectPassword);
     }
 
-    @Test( dependsOnMethods = {"login2"} )
-    void dashboard2() {
-        dashBoard.runDashBoard2(givenName_Dashboard, surName_Dashboard, language_Dashboard);
+    @Test( dependsOnMethods = {"login"} )
+    void dashboard() {
+        dashBoard.runDashBoard(givenName_Dashboard, surName_Dashboard, language_Dashboard);
    }
 
-    @Test( dependsOnMethods = {"dashboard2"} )
-    void personalInfo2() {
-        personalInfo.runPersonalInfo2(givenName, surName, displayName, language);
+    @Test( dependsOnMethods = {"dashboard"} )
+    void personalInfo() {
+        personalInfo.runPersonalInfo(givenName, surName, displayName, language);
     }
 
-    @Test( dependsOnMethods = {"personalInfo2"} )
-    void emailAddresses2() { emailAddresses.runEmailAddresses2(removePrimary, removeNewEmail1, addNewEmail1, confirmNewEmail1); }
+    @Test( dependsOnMethods = {"personalInfo"} )
+    void emailAddresses() { emailAddresses.runEmailAddresses(removePrimary, removeNewEmail1, addNewEmail1, confirmNewEmail1); }
 
-    @Test( dependsOnMethods = {"emailAddresses2"} )
-    void phoneNumber2() {
-        phoneNumber.runPhoneNumber2();
+    @Test( dependsOnMethods = {"emailAddresses"} )
+    void phoneNumber() {
+        phoneNumber.runPhoneNumber();
     }
 
-    @Test( dependsOnMethods = {"phoneNumber2"} )
-    void password2() { password.runPassword2(newPassword, buttonValuePopup, useRecommendedPw, buttonValueConfirm, username, passwd, incorrectPassword); }
+    @Test( dependsOnMethods = {"phoneNumber"} )
+    void password() { password.runPassword(newPassword, buttonValuePopup, useRecommendedPw, buttonValueConfirm, username, passwd, incorrectPassword); }
 
-    @Test( dependsOnMethods = {"password2"} )
-    void logout2() {
-        logout.runLogout2();
+    @Test( dependsOnMethods = {"password"} )
+    void logout() {
+        logout.runLogout();
     }
 
     @AfterTest

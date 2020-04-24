@@ -9,7 +9,7 @@ public class RequestNewPassword {
         this.common = common;
     }
 
-    public void runRequestNewPassword2(String username){
+    public void runRequestNewPassword(String username){
         verifyPageTitle();
         enterEmail(username);
         pressRestPassword();

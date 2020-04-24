@@ -57,39 +57,39 @@ public class TC_33 {
     }
 
     @Test
-    void startPage2(){
-        startPage.runStartPage2(registerAccount);
+    void startPage(){
+        startPage.runStartPage(registerAccount);
     }
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        login.runLogin2(username, password, resetPassword, registerAccount, incorrectPassword);
+    @Test( dependsOnMethods = {"startPage"} )
+    void login(){
+        login.runLogin(username, password, resetPassword, registerAccount, incorrectPassword);
     }
 
-    @Test( dependsOnMethods = {"login2"} )
-    void requestNewPassword2() { requestNewPassword.runRequestNewPassword2(username); }
+    @Test( dependsOnMethods = {"login"} )
+    void requestNewPassword() { requestNewPassword.runRequestNewPassword(username); }
 
-    @Test( dependsOnMethods = {"requestNewPassword2"} )
-    void emailSent2() { emailSent.runEmailSent2(); }
+    @Test( dependsOnMethods = {"requestNewPassword"} )
+    void emailSent() { emailSent.runEmailSent(); }
 
-    @Test( dependsOnMethods = {"emailSent2"} )
-    void emailLink2() { emailLink.runEmailLink2(magicCode); }
+    @Test( dependsOnMethods = {"emailSent"} )
+    void emailLink() { emailLink.runEmailLink(magicCode); }
 
-    @Test( dependsOnMethods = {"emailLink2"} )
-    void extraSecurity2() { extraSecurity.runExtraSecurity2(sendMobileOneTimePassword); }
+    @Test( dependsOnMethods = {"emailLink"} )
+    void extraSecurity() { extraSecurity.runExtraSecurity(sendMobileOneTimePassword); }
 
-    @Test( dependsOnMethods = {"extraSecurity2"} )
-    void newPassword2() { newPassword.runNewPassword2(useCustomPassword, newPasswd); }
+    @Test( dependsOnMethods = {"extraSecurity"} )
+    void newPassword() { newPassword.runNewPassword(useCustomPassword, newPasswd); }
 
-    @Test( dependsOnMethods = {"newPassword2"} )
-    void passwordChanged2() { passwordChanged.runPasswordChanged2(username, newPasswd); }
+    @Test( dependsOnMethods = {"newPassword"} )
+    void passwordChanged() { passwordChanged.runPasswordChanged(username, newPasswd); }
 
-    @Test( dependsOnMethods = {"passwordChanged2"} )
-    void confirmPhoneNumber2() { confirmPhoneNumber.runConfirmPhoneNumber2(false, confirmPhoneNumberCode); }
+    @Test( dependsOnMethods = {"passwordChanged"} )
+    void confirmPhoneNumber() { confirmPhoneNumber.runConfirmPhoneNumber(false, confirmPhoneNumberCode); }
 
-    @Test( dependsOnMethods = {"passwordChanged2"} )
-    void logout2() {
-        logout.runLogout2();
+    @Test( dependsOnMethods = {"passwordChanged"} )
+    void logout() {
+        logout.runLogout();
     }
 
     @AfterTest

@@ -50,26 +50,26 @@ public class TC_23 {
     }
 
     @Test
-    void startPage2(){
-        startPage.runStartPage2(registerAccount);
+    void startPage(){
+        startPage.runStartPage(registerAccount);
     }
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        login.runLogin2(username, passwd, resetPassword, registerAccount, false);
+    @Test( dependsOnMethods = {"startPage"} )
+    void login(){
+        login.runLogin(username, passwd, resetPassword, registerAccount, false);
     }
 
-    @Test( dependsOnMethods = {"login2"} )
-    void dashboard2() {
-        dashBoard.runDashBoard2(givenName_Dashboard, surName_Dashboard, language_Dashboard);
+    @Test( dependsOnMethods = {"login"} )
+    void dashboard() {
+        dashBoard.runDashBoard(givenName_Dashboard, surName_Dashboard, language_Dashboard);
    }
 
-    @Test( dependsOnMethods = {"dashboard2"} )
-    void password2() { password.runPassword2(newPassword, buttonValuePopup, useRecommendedPw, buttonValueConfirm, username, passwd, incorrectPassword); }
+    @Test( dependsOnMethods = {"dashboard"} )
+    void password() { password.runPassword(newPassword, buttonValuePopup, useRecommendedPw, buttonValueConfirm, username, passwd, incorrectPassword); }
 
-    @Test( dependsOnMethods = {"password2"} )
-    void logout2() {
-        logout.runLogout2();
+    @Test( dependsOnMethods = {"password"} )
+    void logout() {
+        logout.runLogout();
     }
 
     @AfterTest

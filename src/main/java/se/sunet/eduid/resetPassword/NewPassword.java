@@ -9,7 +9,7 @@ public class NewPassword {
         this.common = common;
     }
 
-    public void runNewPassword2(boolean useCustomPassword, String newPassword){
+    public void runNewPassword(boolean useCustomPassword, String newPassword){
         //TODO add pagetitle check when its present, missing at the moment 23/4-2020
         //verifyPageTitle();
         verifyLabels();

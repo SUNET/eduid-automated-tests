@@ -50,26 +50,26 @@ public class TC_14 {
     }
 
     @Test
-    void startPage2(){
-        startPage.runStartPage2(registerAccount);
+    void startPage(){
+        startPage.runStartPage(registerAccount);
     }
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        login.runLogin2(username, password, resetPassword, registerAccount, incorrectPassword);
+    @Test( dependsOnMethods = {"startPage"} )
+    void login(){
+        login.runLogin(username, password, resetPassword, registerAccount, incorrectPassword);
     }
 
-    @Test( dependsOnMethods = {"login2"} )
-    void dashboard2() {
-        dashBoard.runDashBoard2(givenName_Dashboard, surName_Dashboard, language_Dashboard);
+    @Test( dependsOnMethods = {"login"} )
+    void dashboard() {
+        dashBoard.runDashBoard(givenName_Dashboard, surName_Dashboard, language_Dashboard);
    }
 
-    @Test( dependsOnMethods = {"dashboard2"} )
-    void emailAddresses2() { emailAddresses.runEmailAddresses2(removePrimary, removeNewEmail1, addNewEmail1, confirmNewEmail1); }
+    @Test( dependsOnMethods = {"dashboard"} )
+    void emailAddresses() { emailAddresses.runEmailAddresses(removePrimary, removeNewEmail1, addNewEmail1, confirmNewEmail1); }
 
-    @Test( dependsOnMethods = {"emailAddresses2"} )
-    void logout2() {
-        logout.runLogout2();
+    @Test( dependsOnMethods = {"emailAddresses"} )
+    void logout() {
+        logout.runLogout();
     }
 
     @AfterTest

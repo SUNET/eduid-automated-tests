@@ -9,7 +9,7 @@ public class StartPage {
         this.common = common;
     }
 
-    public void runStartPage2(boolean registerAccount){
+    public void runStartPage(boolean registerAccount){
         verifyPageTitle();
 
         if(registerAccount)

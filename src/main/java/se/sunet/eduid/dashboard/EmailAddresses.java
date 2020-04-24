@@ -10,7 +10,7 @@ public class EmailAddresses {
         this.common = common;
     }
 
-    public void runEmailAddresses2(boolean removePrimary, boolean removeNewEmail1, String email1, String confirm1){
+    public void runEmailAddresses(boolean removePrimary, boolean removeNewEmail1, String email1, String confirm1){
         verifyPageTitle();
         removeEmail(removePrimary, removeNewEmail1);
         addNewEmail(email1, confirm1);

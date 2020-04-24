@@ -12,7 +12,7 @@ public class Password {
         login = new Login(common);
     }
 
-    public void runPassword2(String newPassword, boolean buttonValuePopup, boolean useRecommendedPw, boolean buttonValueConfirm,
+    public void runPassword(String newPassword, boolean buttonValuePopup, boolean useRecommendedPw, boolean buttonValueConfirm,
                              String username, String password, boolean incorrectPassword){
         verifyPageTitle();
         changePassword(newPassword, buttonValuePopup, useRecommendedPw, buttonValueConfirm, username, password, incorrectPassword);

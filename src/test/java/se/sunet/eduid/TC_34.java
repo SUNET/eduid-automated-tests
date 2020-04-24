@@ -41,21 +41,21 @@ public class TC_34 {
     }
 
     @Test
-    void startPage2(){
-        startPage.runStartPage2(registerAccount);
+    void startPage(){
+        startPage.runStartPage(registerAccount);
     }
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        login.runLogin2(username, password, resetPassword, registerAccount, incorrectPassword);
+    @Test( dependsOnMethods = {"startPage"} )
+    void login(){
+        login.runLogin(username, password, resetPassword, registerAccount, incorrectPassword);
     }
 
-    @Test( dependsOnMethods = {"login2"} )
-    void confirmPhoneNumber2() { confirmPhoneNumber.runConfirmPhoneNumber2(false, confirmPhoneNumberCode); }
+    @Test( dependsOnMethods = {"login"} )
+    void confirmPhoneNumber() { confirmPhoneNumber.runConfirmPhoneNumber(false, confirmPhoneNumberCode); }
 
-    @Test( dependsOnMethods = {"confirmPhoneNumber2"} )
-    void logout2() {
-        logout.runLogout2();
+    @Test( dependsOnMethods = {"confirmPhoneNumber"} )
+    void logout() {
+        logout.runLogout();
     }
 
     @AfterTest

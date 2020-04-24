@@ -9,7 +9,7 @@ public class ExtraSecurity {
         this.common = common;
     }
 
-    public void runExtraSecurity2(boolean sendMobileOneTimePassword){
+    public void runExtraSecurity(boolean sendMobileOneTimePassword){
         verifyPageTitle();
         verifyLabels();
         confirmPasswordChange(sendMobileOneTimePassword);

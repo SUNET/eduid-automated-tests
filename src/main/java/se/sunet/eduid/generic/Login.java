@@ -9,7 +9,7 @@ public class Login {
         this.common = common;
     }
 
-    public void runLogin2(String username, String password, boolean resetPassword, boolean registerAccount, boolean incorrectPassword){
+    public void runLogin(String username, String password, boolean resetPassword, boolean registerAccount, boolean incorrectPassword){
         verifyPageTitle();
 
         if(resetPassword) {

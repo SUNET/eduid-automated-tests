@@ -9,7 +9,7 @@ public class EmailSent {
         this.common = common;
     }
 
-    public void runEmailSent2(){
+    public void runEmailSent(){
         verifyPageTitle();
         verifyLabels();
     }

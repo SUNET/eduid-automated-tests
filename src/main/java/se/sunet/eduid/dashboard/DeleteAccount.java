@@ -10,7 +10,7 @@ public class DeleteAccount {
         this.common = common;
     }
 
-    public void runDeleteAccount2(boolean deleteButton, String username, String password){
+    public void runDeleteAccount(boolean deleteButton, String username, String password){
         verifyLabelsSwedish();
         verifyLabelsEnglish();
         clickDelete();
