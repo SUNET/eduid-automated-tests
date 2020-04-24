@@ -1,0 +1,315 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="dev">
+    <parameter name="headless" value="true" />
+    <parameter name="browser" value="chrome" />
+    <listeners>
+        <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
+    </listeners>
+
+    <parameter name="url" value="https://dev.eduid.se" />
+
+    <test name="TC_1">
+        <parameter name="testDescription" value="Log in and check account data and labels" />
+        <classes>
+            <class name="se.sunet.eduid.TC_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_2">
+        <parameter name="testDescription" value="Change givenName, surName and displayName" />
+        <classes>
+            <class name="se.sunet.eduid.TC_2" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_3">
+        <parameter name="testDescription" value="Check that dashboard names changed according to TC_2 and restore names to default" />
+        <classes>
+            <class name="se.sunet.eduid.TC_3" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_4">
+        <parameter name="testDescription" value="Change language to English" />
+        <classes>
+            <class name="se.sunet.eduid.TC_4" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_5">
+        <parameter name="testDescription" value="Check that dashboard language is english and restore language to default" />
+        <classes>
+            <class name="se.sunet.eduid.TC_5" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_6">
+        <parameter name="testDescription" value="Try to remove the primary email address" />
+        <classes>
+            <class name="se.sunet.eduid.TC_6" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_7">
+        <parameter name="testDescription" value="Add an additional email address and confirm it by code" />
+        <classes>
+            <class name="se.sunet.eduid.TC_7" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_8">
+        <parameter name="testDescription" value="Remove the additional email address added in TC_7" />
+        <classes>
+            <class name="se.sunet.eduid.TC_8" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_9">
+        <parameter name="testDescription" value="Try to add the default email address as extra email address" />
+        <classes>
+            <class name="se.sunet.eduid.TC_9" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_10">
+        <parameter name="testDescription" value="Add additional email address, try to confirm with empty code" />
+        <classes>
+            <class name="se.sunet.eduid.TC_10" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_11">
+        <parameter name="testDescription" value="Remove the additional email address added in TC_10" />
+        <classes>
+            <class name="se.sunet.eduid.TC_11" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_12">
+        <parameter name="testDescription" value="Add additional email address, try to confirm with incorrect code" />
+        <classes>
+            <class name="se.sunet.eduid.TC_12" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_13">
+        <parameter name="testDescription" value="Remove the additional email address added in TC_12" />
+        <classes>
+            <class name="se.sunet.eduid.TC_13" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_14">
+        <parameter name="testDescription" value="Try to add additional email address thats invalid" />
+        <classes>
+            <class name="se.sunet.eduid.TC_14" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_15">
+        <parameter name="testDescription" value="Add an extra email address and confirm it by clicking on link in email" />
+        <classes>
+            <class name="se.sunet.eduid.TC_15" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_16">
+        <parameter name="testDescription" value="Remove the extra email address added in TC_15" />
+        <classes>
+            <class name="se.sunet.eduid.TC_16" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_17">
+        <parameter name="testDescription" value="Inititiate password change but abort at pop-up window" />
+        <classes>
+            <class name="se.sunet.eduid.TC_17" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_18">
+        <parameter name="testDescription" value="Inititiate password change but abort instead of save new password" />
+        <classes>
+            <class name="se.sunet.eduid.TC_18" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_19">
+        <parameter name="testDescription" value="Change password, use recommended" />
+        <classes>
+            <class name="se.sunet.eduid.TC_19" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_20">
+        <parameter name="testDescription" value="Change password, to default" />
+        <classes>
+            <class name="se.sunet.eduid.TC_20" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_21">
+        <parameter name="testDescription" value="Change password, use custom" />
+        <classes>
+            <class name="se.sunet.eduid.TC_21" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_22">
+        <parameter name="testDescription" value="Change password, to default" />
+        <classes>
+            <class name="se.sunet.eduid.TC_22" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_23">
+        <parameter name="testDescription" value="Initiate password change but enter incorrect current password" />
+        <classes>
+            <class name="se.sunet.eduid.TC_23" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_24">
+        <parameter name="testDescription" value="Initiate password change but choose a too week password" />
+        <classes>
+            <class name="se.sunet.eduid.TC_24" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_25">
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password, use default pw" />
+        <classes>
+            <class name="se.sunet.eduid.TC_25" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_26">
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password" />
+        <classes>
+            <class name="se.sunet.eduid.TC_26" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_27">
+        <parameter name="testDescription" value="Change password, to default" />
+        <classes>
+            <class name="se.sunet.eduid.TC_27" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_28">
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set new recommended password" />
+        <classes>
+            <class name="se.sunet.eduid.TC_28" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_29">
+        <parameter name="testDescription" value="Change password, to default" />
+        <classes>
+            <class name="se.sunet.eduid.TC_29" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_30">
+        <parameter name="testDescription" value="Try to log in with incorrect password" />
+        <classes>
+            <class name="se.sunet.eduid.TC_30" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_31">
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP), resend mobile OTP once. Set a new custom password, use default pw" />
+        <classes>
+            <class name="se.sunet.eduid.TC_31" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_32">
+        <parameter name="testDescription" value="Try to reset password with incorrect magic code" />
+        <classes>
+            <class name="se.sunet.eduid.TC_32" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_33">
+        <parameter name="testDescription" value="Reset password without no extra security (mobile OTP). Abort confirmation of the phone number from dashboard" />
+        <classes>
+            <class name="se.sunet.eduid.TC_33" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_34">
+        <parameter name="testDescription" value="After Reset password without no extra security (mobile OTP). Enter incorrect code for confirmation of the phone number from dashboard" />
+        <classes>
+            <class name="se.sunet.eduid.TC_34" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_35">
+        <parameter name="testDescription" value="Reset password without no extra security (mobile OTP). Confirm the phone number from dashboard" />
+        <classes>
+            <class name="se.sunet.eduid.TC_35" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_36">
+        <parameter name="testDescription" value="Initiate account termination but abort in confirm pop-up" />
+        <classes>
+            <class name="se.sunet.eduid.TC_36" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_37">
+        <parameter name="testDescription" value="Delete the account" />
+        <classes>
+            <class name="se.sunet.eduid.TC_37" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_38">
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password, use default pw" />
+        <classes>
+            <class name="se.sunet.eduid.TC_38" >
+            </class>
+        </classes>
+    </test>
+</suite>
