@@ -24,6 +24,6 @@ public class RequestNewPassword {
     }
 
     private void pressRestPassword(){
-        common.findWebElementByXpath("//div/div[3]/form/div[2]/div/button").click();
+        common.click(common.findWebElementByXpath("//div/div[3]/form/div[2]/div/button"));
     }
 }

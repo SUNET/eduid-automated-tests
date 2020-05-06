@@ -7,6 +7,7 @@ import se.sunet.eduid.dashboard.Password;
 import se.sunet.eduid.generic.Login;
 import se.sunet.eduid.generic.Logout;
 import se.sunet.eduid.generic.StartPage;
+import se.sunet.eduid.resetPassword.*;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
@@ -14,23 +15,26 @@ import se.sunet.eduid.utils.WebDriverManager;
 public class TC_29 {
     private StartPage startPage;
     private Login login;
-    private DashBoard dashBoard;
-    private Password password;
+    private RequestNewPassword requestNewPassword;
+    private EmailSent emailSent;
+    private EmailLink emailLink;
+    private ExtraSecurity extraSecurity;
+    private VerifyPhoneNumber verifyPhoneNumber;
+    private NewPassword newPassword;
+    private PasswordChanged passwordChanged;
     private Logout logout;
     private Common common;
 
     private String username = "ove@idsec.se";
-    private String passwd = "Test?=59(GG1234%€#\\";
-    private boolean resetPassword = false;
+    private String password = "lq2k dvzo 917s";
+    private boolean resetPassword = true;
     private boolean registerAccount = false;
     private boolean incorrectPassword = false;
-    private String givenName_Dashboard = "";
-    private String surName_Dashboard = "";
-    private String language_Dashboard = "";
-    private String newPassword = "lq2k dvzo 917s";
-    private boolean buttonValuePopup = true;
-    private boolean useRecommendedPw = false;
-    private boolean buttonValueConfirm = true;
+    private String magicCode = "mknhKYFl94fJaWaiVk2oG9Tl";
+    private boolean sendMobileOneTimePassword = true;
+    private boolean resendOTP = false;
+    private boolean useCustomPassword = true;
+    private String newPasswd = "lq2k dvzo 917s";
 
     @BeforeTest
     @Parameters( {"url", "browser", "headless"})
@@ -42,8 +46,13 @@ public class TC_29 {
         common = new Common(WebDriverManager.getWebDriver());
         startPage = new StartPage(common);
         login = new Login(common);
-        dashBoard = new DashBoard(common);
-        password = new Password(common);
+        requestNewPassword = new RequestNewPassword(common);
+        emailSent = new EmailSent(common);
+        emailLink = new EmailLink(common);
+        extraSecurity = new ExtraSecurity(common);
+        verifyPhoneNumber = new VerifyPhoneNumber(common);
+        newPassword = new NewPassword(common);
+        passwordChanged = new PasswordChanged(common);
         logout = new Logout(common);
 
         System.out.println("Executing: " +testContext.getName());
@@ -56,18 +65,31 @@ public class TC_29 {
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
-        login.runLogin(username, passwd, resetPassword, registerAccount, incorrectPassword);
+        login.runLogin(username, password, resetPassword, registerAccount, incorrectPassword);
     }
 
     @Test( dependsOnMethods = {"login"} )
-    void dashboard() {
-        dashBoard.runDashBoard(givenName_Dashboard, surName_Dashboard, language_Dashboard);
-   }
+    void requestNewPassword() { requestNewPassword.runRequestNewPassword(username); }
 
-    @Test( dependsOnMethods = {"dashboard"} )
-    void password() { password.runPassword(newPassword, buttonValuePopup, useRecommendedPw, buttonValueConfirm, username, passwd, incorrectPassword); }
+    @Test( dependsOnMethods = {"requestNewPassword"} )
+    void emailSent() { emailSent.runEmailSent(); }
 
-    @Test( dependsOnMethods = {"password"} )
+    @Test( dependsOnMethods = {"emailSent"} )
+    void emailLink() { emailLink.runEmailLink(magicCode); }
+
+    @Test( dependsOnMethods = {"emailLink"} )
+    void extraSecurity() { extraSecurity.runExtraSecurity(sendMobileOneTimePassword); }
+
+    @Test( dependsOnMethods = {"extraSecurity"} )
+    void verifyPhoneNumber() { verifyPhoneNumber.runVerifyPhoneNumber(resendOTP); }
+
+    @Test( dependsOnMethods = {"verifyPhoneNumber"} )
+    void newPassword() { newPassword.runNewPassword(useCustomPassword, newPasswd); }
+
+    @Test( dependsOnMethods = {"newPassword"} )
+    void passwordChanged() { passwordChanged.runPasswordChanged(username, newPasswd); }
+
+    @Test( dependsOnMethods = {"passwordChanged"} )
     void logout() {
         logout.runLogout();
     }

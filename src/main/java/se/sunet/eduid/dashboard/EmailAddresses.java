@@ -30,11 +30,11 @@ public class EmailAddresses {
 
             //Verify info bar message - swedish
             verifyUpdatedInfoBar("Du måste ha minst en e-postadress knuten till ditt konto");
-            common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a"));
+            common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
 
             //Verify info bar message - english
             verifyUpdatedInfoBar("You must have at least one email address");
-            common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
+            common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
         }
 
         // RemoveNewEmail1 the primary email
@@ -43,11 +43,11 @@ public class EmailAddresses {
 
             //Verify info bar message - swedish
             verifyUpdatedInfoBar("E-postadress borttagen");
-            common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a"));
+            common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
 
             //Verify info bar message - english
             verifyUpdatedInfoBar("Successfully removed email address");
-            common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
+            common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
         }
     }
 
@@ -57,7 +57,7 @@ public class EmailAddresses {
         // Try to remove the primary email
         if(!email1.equals("") && email1.contains("@")) {
             //explicitWaitVisibilityElementId("add-more-button");
-            common.click(common.findWebElementById("add-more-button"));
+            common.findWebElementById("add-more-button").click();
 
             //Add new email address
             common.findWebElementByXpath("//*[@id=\"email\"]/input").clear();
@@ -95,7 +95,7 @@ public class EmailAddresses {
                 common.verifyStringByXpath("//*[@id=\"email\"]/small/span", "A valid email address");
 
                 //Click Add button
-                common.findWebElementById("email-button").click();
+                common.click(common.findWebElementById("email-button"));
 
                 common.verifyStringByXpath("//*[@id=\"email\"]/small/span[1]/span", "That email address is already in use, please choose another");
 
@@ -227,15 +227,15 @@ public class EmailAddresses {
 
     private void verifyLabelsSwedish() {
         //Heading
-        common.verifyStringByXpath("//*[@id=\"settings-content\"]/div[2]/div[1]/h4/span", "E-postadresser");
+        common.verifyStringOnPage("E-postadresser");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"settings-content\"]/div[2]/div[1]/p/span", "Du kan " +
+        common.verifyStringOnPage("Du kan " +
                 "koppla en eller flera av dina e-postadresser till ditt eduID-konto och därefter välja vilken av dem som " +
                 "ska vara primär.");
 
         //Add more addresses
-        common.verifyStringByXpath("//*[@id=\"add-more-button\"]/span", "+ lägg till fler");
+        common.verifyStringOnPage("+ lägg till fler");
     }
 
     private void verifyLabelsEnglish() {
@@ -243,14 +243,14 @@ public class EmailAddresses {
         common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a"));
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"settings-content\"]/div[2]/div[1]/h4/span", "Email addresses");
+        common.verifyStringOnPage("Email addresses");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"settings-content\"]/div[2]/div[1]/p/span", "You can " +
+        common.verifyStringOnPage("You can " +
                 "connect one or more email addresses with your eduID account and select one to be your primary email address.");
 
         //Add more addresses
-        common.verifyStringByXpath("//*[@id=\"add-more-button\"]/span", "+ add more");
+        common.verifyStringOnPage("+ add more");
 
         //Click on Swedish
         common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
@@ -259,6 +259,6 @@ public class EmailAddresses {
     private void verifyUpdatedInfoBar(String message){
         //Verify the saved info label
         common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", message);
+        common.verifyStringOnPage(message);
     }
 }

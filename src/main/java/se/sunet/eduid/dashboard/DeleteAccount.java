@@ -18,7 +18,7 @@ public class DeleteAccount {
     }
 
     private void clickDelete(){
-        common.click(common.findWebElementById("delete-button"));
+        common.findWebElementById("delete-button").click();
 
         common.switchToPopUpWindow();
         verifyPopUpLabels();
@@ -64,7 +64,7 @@ public class DeleteAccount {
         common.verifyStringByXpath("//*[@id=\"delete-button\"]/span", "DELETE EDUID");
 
         //Click on Swedish
-        common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
+        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
     }
 
     private void verifyPopUpLabels(){

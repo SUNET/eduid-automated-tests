@@ -1,47 +1,62 @@
 package se.sunet.eduid.registration;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import se.sunet.eduid.utils.CommonOperations;
+import se.sunet.eduid.utils.Common;
 
-public class ConfirmHuman extends CommonOperations {
-    @Test
-    private void verifyPageTitle() {
-        verifyPageTitle("eduID");
+public class ConfirmHuman {
+    private Common common;
+
+    public ConfirmHuman(Common common){
+        this.common = common;
     }
 
-    @Test(dependsOnMethods = {"verifyPageTitle"})
+    public void runConfirmHuman(boolean captcha, boolean incorrectMagicCode, boolean generateUsername ){
+        verifyPageTitle();
+        verifyLabels();
+        clickButton(captcha, incorrectMagicCode, generateUsername);
+    }
+
+    private void verifyPageTitle() {
+        common.verifyPageTitle("eduID");
+    }
+
     private void verifyLabels() {
 
         //Heading
-        verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
-        verifyStringByXpath("//*[@id=\"welcome\"]/h2/span", "Sign up with your email address to start.");
+        common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
+        common.verifyStringByXpath("//*[@id=\"welcome\"]/h2/span", "Sign up with your email address to start.");
 
         //Label1
-        //explicitWaitVisibilityElement("//*[@id=\"register-container\"]/h3/span");
-        verifyStringByXpath("//*[@id=\"register-container\"]/h3/span", "Confirm that you are a human.");
+        common.verifyStringByXpath("//*[@id=\"register-container\"]/h3/span", "Confirm that you are a human.");
 
 
     }
 
-    @Test(dependsOnMethods = {"verifyLabels"})
-    @Parameters( {"sendCaptcha"} )
-    private void clickButton(@Optional("true") String sendCaptcha){
-        if(sendCaptcha.equalsIgnoreCase("true")) {
-            click(findWebElementById("send-captcha-button"));
-            timeoutMilliSeconds(400);
+    private void clickButton(boolean sendCaptcha, boolean incorrectMagicCode, boolean generateUsername){
+        if(sendCaptcha) {
+           //Click on Done button
+            common.timeoutMilliSeconds(1000);
+            common.click(common.findWebElementById("send-captcha-button"));
 
             //Verify that status info is displayed
-            verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "There was a problem " +
-                    "verifying that you are a human. Please try again");
+            common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
+            if(incorrectMagicCode){
+                common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "There was a problem " +
+                        "verifying that you are a human. Please try again");
+            }
+            else if(!generateUsername){
+                common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "The email address you entered is already in use");
+            }
+            else {
+                common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "Email address successfully registered");
 
-            timeoutSeconds(3);//devtestuser1@dev.eduid.sunet.com
-            navigateToUrl("https://signup.dev.eduid.se/register/code/mknhKYFl94fJaWaiVk2oG9Tl");
+                //Continue with magic url to get to successful registered page
+                common.timeoutSeconds(2);
+                common.navigateToUrl("https://signup.dev.eduid.se/register/code/mknhKYFl94fJaWaiVk2oG9Tl");
+            }
         }
         else {
-            click(findWebElementById("cancel-captcha-button"));
-            verifyStringByXpath("//*[@id=\"register-container\"]/label", "EMAIL ADDRESS");
+            common.click(common.findWebElementById("cancel-captcha-button"));
+            common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
         }
     }
 }

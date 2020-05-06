@@ -49,92 +49,92 @@ public class DashBoard {
             common.verifyStringOnPage(default_surName);
     }
 
-    private void verifyIdentityNumber() {
-        common.verifyStringByXpath("//div/div/div/div[2]/div[2]/div/div[2]/div[2]/div/a", "197501100395");
+    private void verifyIdentityNumber() {//*[@id="profile-grid"]/div[2]/a/span
+        common.verifyStringOnPage("197501100395");
     }
 
     private void verifyPhone() {
-        common.verifyStringByXpath("//div/div/div/div[2]/div[2]/div/div[2]/div[3]/div/p", "+46707136728");
+        common.verifyStringOnPage("+46707136728");
     }
 
     private void verifyEmail() {
-        common.verifyStringByXpath("//div/div/div/div[2]/div[2]/div/div[2]/div[4]/div/p", "ove@idsec.se");
+        common.verifyStringOnPage("ove@idsec.se");
     }
 
     private void verifyLabelsSwedish() {
         //Welcome label
-        common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "eduID för");
+        common.verifyStringOnPage( "eduID för");
 
         //Profile not verified label
-        common.verifyStringByXpath("//*[@id=\"profile-prompt-link\"]/h2/span", "Glöm inte att koppla din identitet till ditt eduID");
+        //common.verifyStringByXpath("//*[@id=\"profile-prompt-link\"]/h2/span", "Glöm inte att koppla din identitet till ditt eduID");
 
         //Profile
-        common.verifyStringByXpath("//*[@id=\"dashboard-nav\"]/ul/a[1]/li/h5/span", "Profil");
+        common.verifyStringOnPage("Profil");
 
         //Settings
-        common.verifyStringByXpath("//*[@id=\"dashboard-nav\"]/ul/a[2]/li/h5/span", "Inställningar");
+        common.verifyStringOnPage("Inställningar");
 
         //Name
-        common.verifyStringByXpath("//*[@id=\"profile-detail-grid\"]/div[1]/label/span", "NAMN");
+        common.verifyStringOnPage("NAMN");
 
         //Personal number
-        common.verifyStringByXpath("//*[@id=\"profile-detail-grid\"]/div[2]/label/span", "PERSONNUMMER");
+        common.verifyStringOnPage("PERSONNUMMER");
 
         //Phone number
-        common.verifyStringByXpath("//*[@id=\"profile-detail-grid\"]/div[3]/label/span", "TELEFONNUMMER");
+        common.verifyStringOnPage( "TELEFONNUMMER");
 
         //Email
-        common.verifyStringByXpath("//*[@id=\"profile-detail-grid\"]/div[4]/label/span", "E-POSTADRESS");
+        common.verifyStringOnPage( "E-POSTADRESS");
 
         //FAQ
-        common.verifyStringByXpath("//*[@id=\"footer\"]/nav/ul/li[1]/a/span", "Hjälp");
+        common.verifyStringOnPage("Hjälp");
 
         //Logout
-        common.verifyStringByXpath("//*[@id=\"logout\"]/span", "Logga ut");
+        common.verifyStringOnPage("Logga ut");
 
         //Language change
-        common.verifyStringByXpath("//*[@id=\"language-selector\"]/p[1]/a", "English");
+        common.verifyStringOnPage("English");
     }
 
     private void verifyLabelsEnglish() {
         //Welcome label
-        common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "eduID for");
+        common.verifyStringOnPage( "eduID for");
 
         //Profile not verified label
-        common.verifyStringByXpath("//*[@id=\"profile-prompt-link\"]/h2/span", "Don't forget to connect your identity to eduID");
+        //common.verifyStringOnPage("Don't forget to connect your identity to eduID");
 
         //Profile
-        common.verifyStringByXpath("//*[@id=\"dashboard-nav\"]/ul/a[1]/li/h5/span", "Profile");
+        common.verifyStringOnPage("Profile");
 
         //Settings
-        common.verifyStringByXpath("//*[@id=\"dashboard-nav\"]/ul/a[2]/li/h5/span", "Settings");
+        common.verifyStringOnPage( "Settings");
 
         //Name
-        common.verifyStringByXpath("//*[@id=\"profile-detail-grid\"]/div[1]/label/span", "NAME");
+        common.verifyStringOnPage( "NAME");
 
         //Personal number
-        common.verifyStringByXpath("//*[@id=\"profile-detail-grid\"]/div[2]/label/span", "NATIONAL ID NUMBER");
+        common.verifyStringOnPage( "ID NUMBER");
 
         //Phone number
-        common.verifyStringByXpath("//*[@id=\"profile-detail-grid\"]/div[3]/label/span", "PHONE NUMBER");
+        common.verifyStringOnPage( "PHONE NUMBER");
 
         //Email
-        common.verifyStringByXpath("//*[@id=\"profile-detail-grid\"]/div[4]/label/span", "EMAIL ADDRESS");
+        common.verifyStringOnPage("EMAIL ADDRESS");
 
         //FAQ
-        common.verifyStringByXpath("//*[@id=\"footer\"]/nav/ul/li[1]/a/span", "Help");
+        common.verifyStringOnPage( "Help");
 
         //Logout
-        common.verifyStringByXpath("//*[@id=\"logout\"]/span", "Logout");
+        common.verifyStringOnPage("Logout");
 
         //Language change
-        common.verifyStringByXpath("//*[@id=\"language-selector\"]/p[2]/a", "Svenska");
+        common.verifyStringOnPage("Svenska");
 
         //Click on Swedish
         common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
     }
 
     private void pressSettings(){
-        common.click(common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[2]/li/h5/span"));
+        common.click(common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span"));
     }
 }

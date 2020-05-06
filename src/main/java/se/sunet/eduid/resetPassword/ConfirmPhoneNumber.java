@@ -21,7 +21,7 @@ public class ConfirmPhoneNumber {
 
     private void getConfirmationCode(boolean codeSentTooEarly, String confirmPhoneNumberCode){
         //Press settings tab
-        common.click(common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[2]/li/h5/span"));
+        common.click(common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span"));
 
         //Press the Confirm phone number link
         common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span"));

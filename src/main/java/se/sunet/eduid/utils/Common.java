@@ -17,11 +17,12 @@ import static org.testng.Assert.fail;
 
 public class Common {
 
-    private String errorMsg ="Verification failed! Search result: ";
+    private String errorMsg ="Verification failed! ";
     public static final Logger log = LogManager.getLogger(Common.class);
     private WebDriver webDriver;
     private String firstWinHandle = null;
-    private static ThreadLocal <String> recommendedPw = new ThreadLocal<>();
+    private String recommendedPw;
+    private String username;
 
 
     public Common(WebDriver webDriver){
@@ -71,8 +72,7 @@ public class Common {
 
     public void verifyStringByXpath(String xpath, String stringToCompareWith) {
         try {
-            Assert.assertEquals(findWebElementByXpath(xpath).getText(), stringToCompareWith, errorMsg + findWebElementByXpath(xpath).getText()
-                    +" and " +stringToCompareWith + " Does not match");
+            Assert.assertEquals(findWebElementByXpath(xpath).getText(), stringToCompareWith, errorMsg);
         } catch (AssertionError e) {
             log.warn(e.getMessage());
             addJsonFailureReason(e);
@@ -273,6 +273,10 @@ public class Common {
     }
 
     public void click(WebElement element){
+        ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", element);
+    }
+/*
+    public void click(WebElement element){
         try {
             ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", element);
         } catch (AssertionError e) {
@@ -285,7 +289,7 @@ public class Common {
             fail();
         }
     }
-
+*/
     public Select selectDropDown(String dropDownId) {
         try {
             return new Select(findWebElementById(dropDownId));
@@ -310,11 +314,11 @@ public class Common {
         webDriver.switchTo().window(firstWinHandle);
     }
 
-    public String getRecommendedPw() {
-        return recommendedPw.get();
-    }
+    public String getRecommendedPw() { return recommendedPw; }
 
-    public void setRecommendedPw(String value) {
-        recommendedPw.set(value);
-    }
+    public void setRecommendedPw(String value) { recommendedPw = value; }
+
+    public String getUsername(){ return username; }
+
+    public void setUsername(String username){ this.username = username; }
 }

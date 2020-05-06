@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -27,8 +26,8 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
         if (!iTestResult.isSuccess()) {
             int maxTry = 2;
             if (retryCount < maxTry) {
-                System.out.println("Test failed at attempt " +(retryCount +1) +" will try again\n");
-                log.warn("Test failed at attempt " +(retryCount +1) +" will try again\n");
+                //System.out.println("Test failed at attempt " +(retryCount +1) +" will try again\n");
+                log.warn("Test failed at attempt " +(retryCount +1) +" will try again\n" +iTestResult.getThrowable().getMessage());
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -41,7 +40,7 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
                 return true;
             }
             else {
-                log.error("Test failed at attempt " +(retryCount +1) +" will test will be marked as failed");
+                log.error("Test failed at attempt " +(retryCount +1) +", test will be marked as failed\n" +iTestResult.getThrowable().getMessage());
                 windowMaximizeSize();
                 screenshot();
                 iTestResult.setStatus(ITestResult.FAILURE);

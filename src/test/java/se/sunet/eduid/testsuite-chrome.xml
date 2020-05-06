@@ -160,7 +160,7 @@
             </class>
         </classes>
     </test>
-
+<!--
     <test name="TC_20">
         <parameter name="testDescription" value="Change password, to default" />
         <classes>
@@ -168,7 +168,7 @@
             </class>
         </classes>
     </test>
-
+-->
     <test name="TC_21">
         <parameter name="testDescription" value="Change password, use custom" />
         <classes>
@@ -208,7 +208,7 @@
             </class>
         </classes>
     </test>
-
+<!--
     <test name="TC_26">
         <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password" />
         <classes>
@@ -224,7 +224,7 @@
             </class>
         </classes>
     </test>
-
+-->
     <test name="TC_28">
         <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set new recommended password" />
         <classes>
@@ -234,7 +234,7 @@
     </test>
 
     <test name="TC_29">
-        <parameter name="testDescription" value="Change password, to default" />
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP), resend mobile OTP once. Set a new custom password, use default pw" />
         <classes>
             <class name="se.sunet.eduid.TC_29" >
             </class>
@@ -309,6 +309,46 @@
         <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password, use default pw" />
         <classes>
             <class name="se.sunet.eduid.TC_38" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_39">
+        <parameter name="testDescription" value="Initiate Register of new account, abort at terms" />
+        <classes>
+            <class name="se.sunet.eduid.TC_39" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_40">
+        <parameter name="testDescription" value="Initiate Register of new account, abort at captcha" />
+        <classes>
+            <class name="se.sunet.eduid.TC_40" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_41">
+        <parameter name="testDescription" value="Initiate Register of new account, use incorrect magic code" />
+        <classes>
+            <class name="se.sunet.eduid.TC_41" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_42">
+        <parameter name="testDescription" value="Register a new account" />
+        <classes>
+            <class name="se.sunet.eduid.TC_42" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_43">
+        <parameter name="testDescription" value="Try to register new account with already existing user name" />
+        <classes>
+            <class name="se.sunet.eduid.TC_43" >
             </class>
         </classes>
     </test>

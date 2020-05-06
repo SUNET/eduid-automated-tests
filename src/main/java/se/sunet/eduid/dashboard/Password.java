@@ -51,15 +51,15 @@ public class Password {
 
                 //Heading
                 common.timeoutMilliSeconds(500);
-                common.verifyStringByXpath("//*[@id=\"password-container\"]/h3/span", "Byt ditt lösenord");
+                common.verifyStringOnPage("Byt ditt lösenord");
 
                 //Label 1
-                common.verifyStringByXpath("//*[@id=\"old-password-field\"]/label/span", "SKRIV DITT NUVARANDE LÖSENORD");
+                common.verifyStringOnPage("SKRIV DITT NUVARANDE LÖSENORD");
                 //Label 2
-                common.verifyStringByXpath("//*[@id=\"suggested-password-field\"]/label/span", "REKOMMENDERAT LÖSENORD");
+                common.verifyStringOnPage("REKOMMENDERAT LÖSENORD");
 
                 // Link label
-                common.verifyStringByXpath("//*[@id=\"password-suggestion\"]/div/button/span", "JAG VILL INTE ANVÄNDA DET REKOMMENDERADE LÖSENORDET");
+                common.verifyStringOnPage("JAG VILL INTE ANVÄNDA DET REKOMMENDERADE LÖSENORDET");
 
                 //Should recommended password be used
                 if(!useRecommendedPw) {
@@ -104,7 +104,7 @@ public class Password {
                     // If not the correct password was entered at password change
                     if(incorrectPassword) {
                         common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
-                        common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "Ett fel har " +
+                        common.verifyStringOnPage("Ett fel har " +
                                 "uppstått vid ändring av ditt lösenord. Vänligen försök igen eller kontakta supporten om problemet kvarstår.");
                         common.timeoutMilliSeconds(500);
                         //Click abort
@@ -116,7 +116,7 @@ public class Password {
                     }
                     else {
                         common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
-                        common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "Lösenordet har ändrats");
+                        common.verifyStringOnPage("Lösenordet har ändrats");
                         //common.timeoutMilliSeconds(500);
                     }
                 } else
@@ -131,34 +131,34 @@ public class Password {
 
     private void verifyPopupLabels(){
         //Heading
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5/span", "Av säkerhetsskäl...");
+        common.verifyStringOnPage("Av säkerhetsskäl...");
 
         //Text
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]/div/p/span", "Du kommer behöva logga in igen med ditt nuvarande lösenord för att kunna skriva in det nya.");
+        common.verifyStringOnPage("Du kommer behöva logga in igen med ditt nuvarande lösenord för att kunna skriva in det nya.");
 
         //Buttons
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span", "ACCEPTERA");
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[3]/button[2]/span", "AVBRYT");
+        common.verifyStringOnPage("ACCEPTERA");
+        common.verifyStringOnPage("AVBRYT");
     }
 
     private void verifyOwnPasswordLabels(){
         //Heading - Swedish
-        common.verifyStringByXpath("//*[@id=\"passwordsview-form\"]/div[1]/label", "TÄNK PÅ ATT VÄLJA ETT SÄKERT LÖSENORD:");
+        common.verifyStringOnPage("TÄNK PÅ ATT VÄLJA ETT SÄKERT LÖSENORD:");
 
         //Text - Swedish
-        common.verifyStringByXpath("//*[@id=\"passwordsview-form\"]/div[1]/ul/li[1]", "Använd stora och små bokstäver (inte bara första bokstaven)");
-        common.verifyStringByXpath("//*[@id=\"passwordsview-form\"]/div[1]/ul/li[2]", "Lägg till en eller flera siffror någonstans i mitten av lösenordet");
-        common.verifyStringByXpath("//*[@id=\"passwordsview-form\"]/div[1]/ul/li[3]", "Använd specialtecken som @ $ \\ + _ %");
-        common.verifyStringByXpath("//*[@id=\"passwordsview-form\"]/div[1]/ul/li[4]", "Blanksteg (mellanslag) ignoreras");
+        common.verifyStringOnPage("Använd stora och små bokstäver (inte bara första bokstaven)");
+        common.verifyStringOnPage("Lägg till en eller flera siffror någonstans i mitten av lösenordet");
+        common.verifyStringOnPage("Använd specialtecken som @ $ \\ + _ %");
+        common.verifyStringOnPage("Blanksteg (mellanslag) ignoreras");
 
         //Heading 2 - Swedish
-        common.verifyStringByXpath("//*[@id=\"custom-password-field\"]/label/span", "SKRIV DITT NYA LÖSENORD");
+        common.verifyStringOnPage("SKRIV DITT NYA LÖSENORD");
 
         //Heading 3 - Swedish
-        common.verifyStringByXpath("//*[@id=\"repeat-password-field\"]/label/span", "REPETERA DITT NYA LÖSENORD");
+        common.verifyStringOnPage("REPETERA DITT NYA LÖSENORD");
 
         //Link - Swedish
-        common.verifyStringByXpath("//*[@id=\"password-suggestion\"]/div/button/span", "REKOMMENDERA ETT LÖSENORD");
+        common.verifyStringOnPage("REKOMMENDERA ETT LÖSENORD");
 
         //Switch to English
         common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a"));
@@ -167,22 +167,22 @@ public class Password {
         common.click(common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button/span"));
 
         //Heading - English
-        common.verifyStringByXpath("//*[@id=\"passwordsview-form\"]/div[1]/label", "TIP: CHOOSE A STRONG PASSWORD");
+        common.verifyStringOnPage("TIP: CHOOSE A STRONG PASSWORD");
 
         //Text - English
-        common.verifyStringByXpath("//*[@id=\"passwordsview-form\"]/div[1]/ul/li[1]", "Use upper- and lowercase characters, but not at the beginning or end");
-        common.verifyStringByXpath("//*[@id=\"passwordsview-form\"]/div[1]/ul/li[2]", "Add digits somewhere, but not at the beginning or end");
-        common.verifyStringByXpath("//*[@id=\"passwordsview-form\"]/div[1]/ul/li[3]", "Add special characters, such as @ $ \\ + _ %");
-        common.verifyStringByXpath("//*[@id=\"passwordsview-form\"]/div[1]/ul/li[4]", "Spaces are ignored");
+        common.verifyStringOnPage("Use upper- and lowercase characters, but not at the beginning or end");
+        common.verifyStringOnPage("Add digits somewhere, but not at the beginning or end");
+        common.verifyStringOnPage("Add special characters, such as @ $ \\ + _ %");
+        common.verifyStringOnPage("Spaces are ignored");
 
         //Heading 2 - English
-        common.verifyStringByXpath("//*[@id=\"custom-password-field\"]/label/span", "ENTER NEW PASSWORD");
+        common.verifyStringOnPage("ENTER NEW PASSWORD");
 
         //Heading 3 - English
-        common.verifyStringByXpath("//*[@id=\"repeat-password-field\"]/label/span", "REPEAT NEW PASSWORD");
+        common.verifyStringOnPage("REPEAT NEW PASSWORD");
 
         //Link - English
-        common.verifyStringByXpath("//*[@id=\"password-suggestion\"]/div/button/span", "SUGGEST A PASSWORD FOR ME");
+        common.verifyStringOnPage("SUGGEST A PASSWORD FOR ME");
 
         //Switch to Swedish
         common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
@@ -190,28 +190,28 @@ public class Password {
 
     private void verifyLabelsSwedish() {
         //Heading
-        common.verifyStringByXpath("//*[@id=\"change-password-container\"]/div[1]/h4/span", "Byt lösenord");
+        common.verifyStringOnPage("Byt lösenord");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"change-password-container\"]/div[1]/p/span", "Du kan antigen " +
+        common.verifyStringOnPage("Du kan antigen " +
                 "använda ett rekommenderat lösenord som vi skapar åt dig eller ett du väljer helt själv.");
 
         //Add more phone numbers
-        common.verifyStringByXpath("//*[@id=\"security-change-button\"]/span", "BYT LÖSENORD");
+        common.verifyStringOnPage("BYT LÖSENORD");
     }
 
     private void verifyLabelsEnglish() {
         common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a"));
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"change-password-container\"]/div[1]/h4/span", "Change password");
+        common.verifyStringOnPage("Change password");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"change-password-container\"]/div[1]/p/span", "Click the link " +
+        common.verifyStringOnPage("Click the link " +
                 "to change your eduID password.");
 
         //Add more phone numbers
-        common.verifyStringByXpath("//*[@id=\"security-change-button\"]/span", "CHANGE PASSWORD");
+        common.verifyStringOnPage("CHANGE PASSWORD");
 
         //Click on Swedish
         common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));

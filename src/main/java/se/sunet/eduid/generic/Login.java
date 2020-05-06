@@ -30,6 +30,12 @@ public class Login {
     }
 
     public void enterUsernamePassword(String username, String password, boolean incorrectPassword){
+        //Check if username has been set
+        if(common.getUsername() == null)
+            common.setUsername(username);
+        else
+            username = common.getUsername();
+
         //Enter username
         common.findWebElementById("username").sendKeys(username);
 
@@ -57,7 +63,7 @@ public class Login {
             common.verifyStringByXpath("//*[@id=\"alert_msg\"]", "Ogiltigt användarnamn eller lösenord (1 försök)");
         else {
             common.timeoutSeconds(1);
-            common.verifyStringOnPage(username);
+            common.verifyStringOnPage(username.toLowerCase());
         }
     }
 

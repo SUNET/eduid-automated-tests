@@ -72,6 +72,32 @@ public class TC_19 {
         logout.runLogout();
     }
 
+    //Log back in with stored pw and then change back to default.
+
+    @Test( dependsOnMethods = {"logout"} )
+    void startPage2(){
+        startPage.runStartPage(registerAccount);
+    }
+
+    @Test( dependsOnMethods = {"startPage2"} )
+    void login2(){
+        login.runLogin(username, common.getRecommendedPw(), resetPassword, registerAccount, incorrectPassword);
+    }
+
+    @Test( dependsOnMethods = {"login2"} )
+    void dashboard2() {
+        dashBoard.runDashBoard(givenName_Dashboard, surName_Dashboard, language_Dashboard);
+    }
+
+    @Test( dependsOnMethods = {"dashboard2"} )
+    void password2() { password.runPassword("lq2k dvzo 917s", buttonValuePopup, false,
+            buttonValueConfirm, username, passwd, incorrectPassword); }
+
+    @Test( dependsOnMethods = {"password2"} )
+    void logout2() {
+        logout.runLogout();
+    }
+
     @AfterTest
     void quitBrowser(){
         WebDriverManager.quitWebDriver();

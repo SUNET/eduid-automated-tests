@@ -28,6 +28,6 @@ public class StartPage {
 
     private void registerAccount(){
         //Click on sign up button
-        common.click(common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[2]/a"));
+        common.click(common.findWebElementById("register"));
     }
 }

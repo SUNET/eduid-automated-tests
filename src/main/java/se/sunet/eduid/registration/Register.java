@@ -1,35 +1,43 @@
 package se.sunet.eduid.registration;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import se.sunet.eduid.utils.CommonOperations;
+import se.sunet.eduid.utils.Common;
 
-public class Register extends CommonOperations {
-    @Test
-    public void verifyPageTitle() {
-        switchToPopUpWindow();
+public class Register {
+    private Common common;
 
-        verifyPageTitle("eduID");
+    public Register(Common common){
+        this.common = common;
     }
 
-    @Test( dependsOnMethods = {"verifyPageTitle"} )
+    public void runRegister(boolean acceptTerms, boolean incorrectMagicCode, boolean generateUsername){
+        verifyPageTitle();
+        verifyLabels();
+        enterEmailAndPressRegister(incorrectMagicCode, generateUsername);
+        registerPopUp(acceptTerms);
+    }
+
+    private void verifyPageTitle() {
+        common.verifyPageTitle("eduID");
+    }
+
     private void verifyLabels(){
-        verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
-        verifyStringByXpath("//*[@id=\"welcome\"]/h2/span", "Sign up with your email address to start.");
-        verifyStringByXpath("//*[@id=\"register-container\"]/label", "EMAIL ADDRESS");
+        common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
+        common.verifyStringByXpath("//*[@id=\"welcome\"]/h2/span", "Sign up with your email address to start.");
+        common.verifyStringByXpath("//*[@id=\"register-container\"]/label", "EMAIL ADDRESS");
     }
 
-    @Test( dependsOnMethods = {"verifyLabels"} )
-    @Parameters( {"username"} )
-    private void enterEmailAndPressRegister(@Optional("ovemknhKYFl94fJaWaiVk2oG9Tl@idsec.se") String username){
-        findWebElementByXpath("//*[@id=\"email\"]/input").sendKeys(username);
-        click(findWebElementById("register-button"));
+    private void enterEmailAndPressRegister(boolean incorrectMagicCode, boolean generateUsername){
+        //Generate new username
+        if(generateUsername)
+            generateUsername(incorrectMagicCode);
+
+        common.log.info("Register user: " +common.getUsername());
+
+        common.findWebElementByXpath("//*[@id=\"email\"]/input").sendKeys(common.getUsername());
+        common.click(common.findWebElementById("register-button"));
     }
 
-    @Test( dependsOnMethods = {"enterEmailAndPressRegister"} )
-    @Parameters( {"acceptTerms"} )
-    private void registerPopUp(@Optional("true") String acceptTerms){
+    private void registerPopUp(boolean acceptTerms){
         //wait for buttons to appear
         //explicitWaitVisibilityElementId("accept-tou-button");
 
@@ -37,37 +45,69 @@ public class Register extends CommonOperations {
         verifyPopupLabels();
 
         //Click on accept or reject
-        if(acceptTerms.equalsIgnoreCase("true"))
-            click(findWebElementById("accept-tou-button"));
-        else
-            click(findWebElementById("reject-tou-button"));
+        if(acceptTerms)
+            common.click(common.findWebElementById("accept-tou-button"));
+        else {
+            common.click(common.findWebElementById("reject-tou-button"));
+            common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
+        }
     }
 
     private void verifyPopupLabels(){
-        verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[1]/h5/span", "General rules for eduID users");
-        verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/p[1]", "The following generally applies:");
-        verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[1]", "that all usage of user " +
+        common.explicitWaitVisibilityElement("//*[@id=\"register-modal\"]/div/div[1]/h5/span");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[1]/h5/span", "General rules for eduID users");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/p[1]", "The following generally applies:");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[1]", "that all usage of user " +
                 "accounts follow Sweden's laws and by-laws,");
-        verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[2]", "that all personal information " +
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[2]", "that all personal information " +
                 "that you provide, such as name and contact information shall be truthful,");
-        verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[3]", "that user accounts, password " +
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[3]", "that user accounts, password " +
                 "and codes are individual and shall only be used by the intended individual,");
-        verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[4]", "that SUNET's ethical rules " +
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[4]", "that SUNET's ethical rules " +
                 "regulate the \"other\" usage. SUNET judges unethical behaviour to be when someone");
-        verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[1]", "attempts to gain access to " +
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[1]", "attempts to gain access to " +
                 "network resources that they do not have the right to");
-        verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[2]", "attempts to conceal their " +
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[2]", "attempts to conceal their " +
                 "user identity");
-        verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[3]", "attempts to interfere or " +
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[3]", "attempts to interfere or " +
                 "disrupt the intended usage of the network");
-        verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[4]", "clearly wastes available " +
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[4]", "clearly wastes available " +
                 "resources (personnel, hardware or software)");
-        verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[5]", "attempts to disrupt or " +
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[5]", "attempts to disrupt or " +
                 "destroy computer-based information");
-        verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[6]", "infringes on the privacy of others");
-        verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[7]", "attempts to insult or offend others");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[6]", "infringes on the privacy of others");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[7]", "attempts to insult or offend others");
 
-        verifyStringOnPage("Any person found violating or suspected of violating these rules can be disabled from eduID.se for " +
+        common.verifyStringOnPage("Any person found violating or suspected of violating these rules can be disabled from eduID.se for " +
                 "investigation. Furthermore, legal action can be taken.");
+    }
+
+    private void generateUsername(boolean incorrectMagicCode){
+        int n = 8;
+
+//        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        String AlphaNumericString = "0123456789"
+        + "abcdefghijklmnopqrstuvxyz";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(n);
+
+        for (int i = 0; i < n; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+        //Add the magic to random string
+        if(incorrectMagicCode)
+            common.setUsername(sb.toString() +"notTheCorrectMagicCode@dev.eduid.sunet.se");
+        else
+            common.setUsername(sb.toString() +"mknhKYFl94fJaWaiVk2oG9Tl@dev.eduid.sunet.se");
     }
 }

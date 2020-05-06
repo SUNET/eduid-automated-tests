@@ -81,7 +81,7 @@ public class PersonalInfo {
             common.findWebElementByXpath("//*[@id=\"language\"]/select/option[3]").click();
 
             //Click Add button
-            common.click(common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span"));
+            common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span").click();
 
             common.timeoutMilliSeconds(500);
             common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "LÄGG TILL");
@@ -97,7 +97,7 @@ public class PersonalInfo {
             common.findWebElementByXpath("//*[@id=\"language\"]/select/option[2]").click();
 
             //Click Add button
-            common.click(common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span"));
+            common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span").click();
 
             //Verify the label
             //explicitWaitClickableElement("//*[@id=\"personal-data-button\"]/span");
@@ -114,59 +114,59 @@ public class PersonalInfo {
 
     private void verifyLabelsSwedish() {
         //Heading
-        common.verifyStringByXpath("//*[@id=\"settings-content\"]/div[1]/div/h4/span", "Personlig information");
+        common.verifyStringOnPage( "Personlig information");
 
         //Text
         common.verifyStringOnPage("Den här informationen skickas till tjänsteleverantörer när du loggar " +
                 "in med eduID för att kunna anpassa dessa tjänster för dig.");
 
         //Given name
-        common.verifyStringByXpath("//*[@id=\"given_name\"]/label", "FÖRNAMN");
+        common.verifyStringOnPage("FÖRNAMN");
 
         //Sur name
-        common.verifyStringByXpath("//*[@id=\"surname\"]/label", "EFTERNAMN");
+        common.verifyStringOnPage( "EFTERNAMN");
 
         //Display name
-        common.verifyStringByXpath("//*[@id=\"display_name\"]/label", "VISNINGSNAMN");
+        common.verifyStringOnPage( "VISNINGSNAMN");
 
         //Display name text
-        common.verifyStringByXpath("//*[@id=\"display_name\"]/small/span", "Vissa tjänster visar detta " +
+        common.verifyStringOnPage( "Vissa tjänster visar detta " +
                 "i stället för förnamn och efternamn.");
 
         //Language
-        common.verifyStringByXpath("//*[@id=\"language\"]/label", "SPRÅK");
+        common.verifyStringOnPage( "SPRÅK");
     }
 
     private void verifyLabelsEnglish() {
         //Heading
-        common.verifyStringByXpath("//*[@id=\"settings-content\"]/div[1]/div/h4/span", "Name & language");
+        common.verifyStringOnPage("Name & language");
 
         //Text
         common.verifyStringOnPage("Your name and preferred language will be used to personalise some services that you access with eduID.");
 
         //Given name
-        common.verifyStringByXpath("//*[@id=\"given_name\"]/label", "FIRST NAME");
+        common.verifyStringOnPage("FIRST NAME");
 
         //Sur name
-        common.verifyStringByXpath("//*[@id=\"surname\"]/label", "LAST NAME");
+        common.verifyStringOnPage("LAST NAME");
 
         //Display name
-        common.verifyStringByXpath("//*[@id=\"display_name\"]/label", "DISPLAY NAME");
+        common.verifyStringOnPage( "DISPLAY NAME");
 
         //Display name text
-        common.verifyStringByXpath("//*[@id=\"display_name\"]/small/span", "Some services will show this " +
+        common.verifyStringOnPage("Some services will show this " +
                 "instead of your first and last name.");
 
         //Language
-        common.verifyStringByXpath("//*[@id=\"language\"]/label", "LANGUAGE");
+        common.verifyStringOnPage("LANGUAGE");
     }
 
     private void verifyUpdatedInfoBar(String language){
         //Verify the saved info message
         common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
         if(!language.equals("English"))
-            common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "Personlig information sparad");
+            common.verifyStringOnPage( "Personlig information sparad");
         else
-            common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "Personal information updated");
+            common.verifyStringOnPage( "Personal information updated");
     }
 }
