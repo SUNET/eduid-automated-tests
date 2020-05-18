@@ -1,7 +1,10 @@
 package se.sunet.eduid;
 
 import org.testng.ITestContext;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import se.sunet.eduid.generic.Login;
 import se.sunet.eduid.generic.Logout;
 import se.sunet.eduid.generic.StartPage;
@@ -9,6 +12,8 @@ import se.sunet.eduid.resetPassword.*;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
+
+import java.io.IOException;
 
 public class TC_25 {
     private StartPage startPage;
@@ -23,23 +28,11 @@ public class TC_25 {
     private Logout logout;
     private Common common;
 
-    private String username = "ove@idsec.se";
-    private String passwd = "lq2k dvzo 917s";
-    private boolean resetPassword = true;
-    private boolean registerAccount = false;
-    private boolean incorrectPassword = false;
-    private String magicCode = "mknhKYFl94fJaWaiVk2oG9Tl";
-    private boolean sendMobileOneTimePassword = true;
-    private boolean resendOTP = false;
-    private boolean useCustomPassword = true;
-    private String newPasswd = "lq2k dvzo 917s";
-
     @BeforeTest
-    @Parameters( {"url", "browser", "headless"})
-    void initBrowser(@Optional("https://qa.test.swedenconnect.se") String url, @Optional("chrome") String browser,
-                     @Optional("true") String headless, final ITestContext testContext){
+    @Parameters( {"url", "browser", "headless", "language"})
+    void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
         InitBrowser initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless), url);
+        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
 
         common = new Common(WebDriverManager.getWebDriver());
         startPage = new StartPage(common);
@@ -58,34 +51,35 @@ public class TC_25 {
 
     @Test
     void startPage(){
-        startPage.runStartPage(registerAccount);
+        startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
-        login.runLogin(username, passwd, resetPassword, registerAccount, incorrectPassword);
+        common.setResetPassword(true);
+        login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login"} )
-    void requestNewPassword() { requestNewPassword.runRequestNewPassword(username); }
+    void requestNewPassword() { requestNewPassword.runRequestNewPassword(); }
 
     @Test( dependsOnMethods = {"requestNewPassword"} )
     void emailSent() { emailSent.runEmailSent(); }
 
     @Test( dependsOnMethods = {"emailSent"} )
-    void emailLink() { emailLink.runEmailLink(magicCode); }
+    void emailLink() { emailLink.runEmailLink(); }
 
     @Test( dependsOnMethods = {"emailLink"} )
-    void extraSecurity() { extraSecurity.runExtraSecurity(sendMobileOneTimePassword); }
+    void extraSecurity() { extraSecurity.runExtraSecurity(); }
 
     @Test( dependsOnMethods = {"extraSecurity"} )
-    void verifyPhoneNumber() { verifyPhoneNumber.runVerifyPhoneNumber(resendOTP); }
+    void verifyPhoneNumber() { verifyPhoneNumber.runVerifyPhoneNumber(); }
 
     @Test( dependsOnMethods = {"verifyPhoneNumber"} )
-    void newPassword() { newPassword.runNewPassword(useCustomPassword, newPasswd); }
+    void newPassword() { newPassword.runNewPassword(); }
 
     @Test( dependsOnMethods = {"newPassword"} )
-    void passwordChanged() { passwordChanged.runPasswordChanged(username, newPasswd); }
+    void passwordChanged() { passwordChanged.runPasswordChanged(); }
 
     @Test( dependsOnMethods = {"passwordChanged"} )
     void logout() {

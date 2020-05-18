@@ -2,6 +2,7 @@ package se.sunet.eduid.dashboard;
 
 import se.sunet.eduid.generic.Login;
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.WebDriverManager;
 
 public class DeleteAccount {
     private Common common;
@@ -10,11 +11,11 @@ public class DeleteAccount {
         this.common = common;
     }
 
-    public void runDeleteAccount(boolean deleteButton, String username, String password){
+    public void runDeleteAccount(){
         verifyLabelsSwedish();
         verifyLabelsEnglish();
         clickDelete();
-        clickDeleteInPopUp(deleteButton, username, password);
+        clickDeleteInPopUp();
     }
 
     private void clickDelete(){
@@ -24,17 +25,18 @@ public class DeleteAccount {
         verifyPopUpLabels();
     }
 
-    private void clickDeleteInPopUp(boolean deleteButton, String username, String password){
-        if(deleteButton) {
-            common.click(common.findWebElementByXpath("//*[@id=\"delete-account-modal\"]/div/div[2]/button/span"));
+    private void clickDeleteInPopUp(){
+        if(common.getDeleteButton()) {
+            common.click(common.findWebElementByXpath("//*[@id=\"delete-account-modal\"]/div/div[3]/button[1]/span"));
 
             //Enter userName and password since we need to login again before account is deleted
             Login login = new Login(common);
-            login.enterUsernamePassword(username, password, false);
+            login.enterUsernamePassword();
             common.click(common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[1]/button"));
         }
-        else
-            common.click(common.findWebElementByXpath("//*[@id=\"delete-account-modal\"]/div/div[3]/button/span"));
+        else {
+            common.click(common.findWebElementByXpath("//*[@id=\"delete-account-modal\"]/div/div[3]/button[2]/span"));
+        }
     }
 
     private void verifyLabelsSwedish() {
@@ -74,10 +76,8 @@ public class DeleteAccount {
                 "på att du vill ta bort ditt eduID?");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"delete-account-modal\"]/div/div[2]/p[1]/span", "När du tar " +
-                "bort ditt eduID kommer all information du sparat rensas permanent.");
-
-        //Text
-        common.verifyStringOnPage("Om du väljer att ta bort ditt eduID kommer du att behöva logga in igen en sista gång.");
+        common.verifyStringByXpath("//*[@id=\"delete-account-modal\"]/div/div[2]/p[1]/span", "När " +
+                "du tar bort ditt eduID kommer all information du sparat rensas permanent. Om du väljer att ta bort ditt eduID " +
+                "kommer du att behöva logga in igen en sista gång.");
     }
 }

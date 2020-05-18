@@ -9,18 +9,17 @@ public class Login {
         this.common = common;
     }
 
-    public void runLogin(String username, String password, boolean resetPassword, boolean registerAccount, boolean incorrectPassword){
+    public void runLogin(){
         verifyPageTitle();
 
-        if(resetPassword) {
+        if(common.getResetPassword()) {
             resetPassword();
         }
-        else if(registerAccount)
+        else if(common.getRegisterAccount())
             registerAccount();
         else {
-            enterUsernamePassword(username, password, incorrectPassword);
-            signIn(username, incorrectPassword);
-
+            enterUsernamePassword();
+            signIn();
         }
     }
 
@@ -29,41 +28,24 @@ public class Login {
         common.verifyPageTitle("eduID-inloggning");
     }
 
-    public void enterUsernamePassword(String username, String password, boolean incorrectPassword){
-        //Check if username has been set
-        if(common.getUsername() == null)
-            common.setUsername(username);
-        else
-            username = common.getUsername();
-
+    public void enterUsernamePassword(){
         //Enter username
-        common.findWebElementById("username").sendKeys(username);
+        common.findWebElementById("username").sendKeys(common.getUsername());
 
-        //Set the recommended password to "", to prepare for change pw test cases
-        if(common.getRecommendedPw() == null)
-            common.setRecommendedPw("");
-
-        //If we have saved the recommended password, we use it
-        if(!common.getRecommendedPw().equals("")) {
-            Common.log.info("Log in with stored generated password: " + common.getRecommendedPw());
-            common.findWebElementById("password").sendKeys(common.getRecommendedPw());
-        }
-        else {
-            if(incorrectPassword)
-                common.findWebElementById("password").sendKeys("notTheCorrectPassword");
-            else
-                common.findWebElementById("password").sendKeys(password);
-        }
+        if(common.getIncorrectPassword())
+            common.findWebElementById("password").sendKeys("notTheCorrectPassword");
+        else
+            common.findWebElementById("password").sendKeys(common.getPassword());
     }
 
-    public void signIn(String username, boolean incorrectPassword){
+    public void signIn(){
         common.click(common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[1]/button"));
 
-        if(incorrectPassword)
+        if(common.getIncorrectPassword())
             common.verifyStringByXpath("//*[@id=\"alert_msg\"]", "Ogiltigt användarnamn eller lösenord (1 försök)");
         else {
             common.timeoutSeconds(1);
-            common.verifyStringOnPage(username.toLowerCase());
+            common.verifyStringOnPage(common.getUsername().toLowerCase());
         }
     }
 

@@ -3,12 +3,15 @@ package se.sunet.eduid;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 import se.sunet.eduid.generic.Login;
-import se.sunet.eduid.generic.Logout;
 import se.sunet.eduid.generic.StartPage;
 import se.sunet.eduid.resetPassword.*;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 public class TC_28 {
     private StartPage startPage;
@@ -16,30 +19,13 @@ public class TC_28 {
     private RequestNewPassword requestNewPassword;
     private EmailSent emailSent;
     private EmailLink emailLink;
-    private ExtraSecurity extraSecurity;
-    private VerifyPhoneNumber verifyPhoneNumber;
-    private NewPassword newPassword;
-    private PasswordChanged passwordChanged;
-    private Logout logout;
     private Common common;
 
-    private String username = "ove@idsec.se";
-    private String password = "lq2k dvzo 917s";
-    private boolean resetPassword = true;
-    private boolean registerAccount = false;
-    private boolean incorrectPassword = false;
-    private String magicCode = "mknhKYFl94fJaWaiVk2oG9Tl";
-    private boolean sendMobileOneTimePassword = true;
-    private boolean resendOTP = false;
-    private boolean useCustomPassword = false;
-    private String newPasswd = "Test?=59(GG1234%€#\\";
-
     @BeforeTest
-    @Parameters( {"url", "browser", "headless"})
-    void initBrowser(@Optional("https://qa.test.swedenconnect.se") String url, @Optional("chrome") String browser,
-                     @Optional("true") String headless, final ITestContext testContext){
+    @Parameters( {"url", "browser", "headless", "language"})
+    void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
         InitBrowser initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless), url);
+        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
 
         common = new Common(WebDriverManager.getWebDriver());
         startPage = new StartPage(common);
@@ -47,50 +33,31 @@ public class TC_28 {
         requestNewPassword = new RequestNewPassword(common);
         emailSent = new EmailSent(common);
         emailLink = new EmailLink(common);
-        extraSecurity = new ExtraSecurity(common);
-        verifyPhoneNumber = new VerifyPhoneNumber(common);
-        newPassword = new NewPassword(common);
-        passwordChanged = new PasswordChanged(common);
-        logout = new Logout(common);
 
         System.out.println("Executing: " +testContext.getName());
     }
 
     @Test
     void startPage(){
-        startPage.runStartPage(registerAccount);
+        startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
-        login.runLogin(username, password, resetPassword, registerAccount, incorrectPassword);
+        common.setResetPassword(true);
+        login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login"} )
-    void requestNewPassword() { requestNewPassword.runRequestNewPassword(username); }
+    void requestNewPassword() { requestNewPassword.runRequestNewPassword(); }
 
     @Test( dependsOnMethods = {"requestNewPassword"} )
     void emailSent() { emailSent.runEmailSent(); }
 
     @Test( dependsOnMethods = {"emailSent"} )
-    void emailLink() { emailLink.runEmailLink(magicCode); }
-
-    @Test( dependsOnMethods = {"emailLink"} )
-    void extraSecurity() { extraSecurity.runExtraSecurity(sendMobileOneTimePassword); }
-
-    @Test( dependsOnMethods = {"extraSecurity"} )
-    void verifyPhoneNumber() { verifyPhoneNumber.runVerifyPhoneNumber(resendOTP); }
-
-    @Test( dependsOnMethods = {"verifyPhoneNumber"} )
-    void newPassword() { newPassword.runNewPassword(useCustomPassword, newPasswd); }
-
-    @Test( dependsOnMethods = {"newPassword"} )
-    void passwordChanged() { passwordChanged.runPasswordChanged(username, newPasswd); }
-
-    @Test( dependsOnMethods = {"passwordChanged"} )
-    void logout() {
-        logout.runLogout();
-    }
+    void emailLink() {
+        common.setMagicCode("notTheCorrectMagicCode");
+        emailLink.runEmailLink(); }
 
     @AfterTest
     void quitBrowser(){

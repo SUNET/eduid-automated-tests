@@ -9,9 +9,9 @@ public class RequestNewPassword {
         this.common = common;
     }
 
-    public void runRequestNewPassword(String username){
+    public void runRequestNewPassword(){
         verifyPageTitle();
-        enterEmail(username);
+        enterEmail();
         pressRestPassword();
     }
 
@@ -19,8 +19,8 @@ public class RequestNewPassword {
         common.verifyPageTitle("Reset password - Email");
     }
 
-    private void enterEmail(String username){
-        common.findWebElementById("email").sendKeys(username);
+    private void enterEmail(){
+        common.findWebElementById("email").sendKeys(common.getUsername());
     }
 
     private void pressRestPassword(){

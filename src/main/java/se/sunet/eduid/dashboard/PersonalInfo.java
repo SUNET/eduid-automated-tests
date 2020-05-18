@@ -9,11 +9,11 @@ public class PersonalInfo {
         this.common = common;
     }
 
-    public void runPersonalInfo(String givenName, String surName, String displayName, String language){
+    public void runPersonalInfo(){
         verifyPageTitle();
-        verifyAndUpdatePersonalInfo(givenName, surName, displayName, language);
-        selectLanguage(language);
-        if(!language.equals("English"))
+        verifyAndUpdatePersonalInfo();
+        selectLanguage();
+        if(!common.getLanguage().equals("English"))
             verifyLabelsSwedish();
         else
             verifyLabelsEnglish();
@@ -24,59 +24,52 @@ public class PersonalInfo {
         common.verifyPageTitle("eduID");
     }
 
-    private void verifyAndUpdatePersonalInfo(String givenName, String surName, String displayName, String language) {
+    private void verifyAndUpdatePersonalInfo() {
         boolean pressAddButton = false;
 
         // If given name shall be updated else verify the default value
-        if(givenName.equals(common.getAttributeByXpath("//*[@id=\"given_name\"]/input")))
-            common.verifyStrings(givenName, common.getAttributeByXpath("//*[@id=\"given_name\"]/input"));
-        else if(!givenName.equals("")) {
+        if(common.getGivenName().equals(common.getAttributeByXpath("//*[@id=\"given_name\"]/input")))
+            common.verifyStrings(common.getGivenName(), common.getAttributeByXpath("//*[@id=\"given_name\"]/input"));
+        else{
             common.findWebElementByXpath("//*[@id=\"given_name\"]/input").clear();
-            common.findWebElementByXpath("//*[@id=\"given_name\"]/input").sendKeys(givenName);
-            common.verifyStrings(givenName, common.getAttributeByXpath("//*[@id=\"given_name\"]/input"));
+            common.findWebElementByXpath("//*[@id=\"given_name\"]/input").sendKeys(common.getGivenName());
+            common.verifyStrings(common.getGivenName(), common.getAttributeByXpath("//*[@id=\"given_name\"]/input"));
 
             pressAddButton = true;
         }
-        else
-            common.verifyStrings(givenName, common.getAttributeByXpath("//*[@id=\"given_name\"]/input"));
 
         // If sur name shall be updated else verify the default value
-        if(surName.equals(common.getAttributeByXpath("//*[@id=\"surname\"]/input")))
-            common.verifyStrings(surName, common.getAttributeByXpath("//*[@id=\"surname\"]/input"));
-        else if(!surName.equals("")) {
+        if(common.getSurName().equals(common.getAttributeByXpath("//*[@id=\"surname\"]/input")))
+            common.verifyStrings(common.getSurName(), common.getAttributeByXpath("//*[@id=\"surname\"]/input"));
+        else{
             common.findWebElementByXpath("//*[@id=\"surname\"]/input").clear();
-            common.findWebElementByXpath("//*[@id=\"surname\"]/input").sendKeys(surName);
-            common.verifyStrings(surName, common.getAttributeByXpath("//*[@id=\"surname\"]/input"));
+            common.findWebElementByXpath("//*[@id=\"surname\"]/input").sendKeys(common.getSurName());
+            common.verifyStrings(common.getSurName(), common.getAttributeByXpath("//*[@id=\"surname\"]/input"));
 
             pressAddButton = true;
         }
-        else
-            common.verifyStrings(surName, common.getAttributeByXpath("//*[@id=\"surname\"]/input"));
 
         // If display name shall be updated else verify the default value
-        if(displayName.equals(common.getAttributeByXpath("//*[@id=\"display_name\"]/input")))
-            common.verifyStrings(displayName, common.getAttributeByXpath("//*[@id=\"display_name\"]/input"));
-        else if(!displayName.equals("")) {
+        if(common.getDisplayName().equals(common.getAttributeByXpath("//*[@id=\"display_name\"]/input")))
+            common.verifyStrings(common.getDisplayName(), common.getAttributeByXpath("//*[@id=\"display_name\"]/input"));
+        else {
             common.findWebElementByXpath("//*[@id=\"display_name\"]/input").clear();
-            common.findWebElementByXpath("//*[@id=\"display_name\"]/input").sendKeys(displayName);
-            common.verifyStrings(displayName, common.getAttributeByXpath("//*[@id=\"display_name\"]/input"));
+            common.findWebElementByXpath("//*[@id=\"display_name\"]/input").sendKeys(common.getDisplayName());
+            common.verifyStrings(common.getDisplayName(), common.getAttributeByXpath("//*[@id=\"display_name\"]/input"));
 
             pressAddButton = true;
         }
-        else
-            common.verifyStrings(displayName,  common.getAttributeByXpath("//*[@id=\"display_name\"]/input"));
 
         // If any value updated we need to save it and verify that the info message appears
         if(pressAddButton) {
             //Click Add button
             common.click(common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span"));
-            verifyUpdatedInfoBar(language);
+            verifyUpdatedInfoBar(common.getLanguage());
         }
     }
 
-    private void selectLanguage(String language) {
-        //language = lang;
-        if(language.equalsIgnoreCase("Svenska")) {
+    private void selectLanguage() {
+        if(common.getLanguage().equalsIgnoreCase("Svenska")) {
             //Select new language - Swedish
             common.findWebElementByXpath("//*[@id=\"language\"]/select/option[3]").click();
 
@@ -87,9 +80,9 @@ public class PersonalInfo {
             common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "LÄGG TILL");
 
             //Verify the saved info message - Swedish
-            verifyUpdatedInfoBar(language);
+            verifyUpdatedInfoBar(common.getLanguage());
         }
-        else if(language.equalsIgnoreCase("English")){
+        else if(common.getLanguage().equalsIgnoreCase("English")){
             //Verify the label
             common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "LÄGG TILL");
 
@@ -105,7 +98,7 @@ public class PersonalInfo {
             common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "ADD");
 
             //Verify the saved info message - English
-            verifyUpdatedInfoBar(language);
+            verifyUpdatedInfoBar(common.getLanguage());
 
             //Verify labels in english
             verifyLabelsEnglish();

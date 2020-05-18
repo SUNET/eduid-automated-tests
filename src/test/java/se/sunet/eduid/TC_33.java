@@ -2,94 +2,69 @@ package se.sunet.eduid;
 
 import org.testng.ITestContext;
 import org.testng.annotations.*;
+import se.sunet.eduid.dashboard.DashBoard;
+import se.sunet.eduid.dashboard.DeleteAccount;
 import se.sunet.eduid.generic.Login;
-import se.sunet.eduid.generic.Logout;
 import se.sunet.eduid.generic.StartPage;
-import se.sunet.eduid.resetPassword.*;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 public class TC_33 {
     private StartPage startPage;
     private Login login;
-    private RequestNewPassword requestNewPassword;
-    private EmailSent emailSent;
-    private EmailLink emailLink;
-    private ExtraSecurity extraSecurity;
-    private NewPassword newPassword;
-    private PasswordChanged passwordChanged;
-    private ConfirmPhoneNumber confirmPhoneNumber;
-    private Logout logout;
+    private DashBoard dashBoard;
+    private DeleteAccount deleteAccount;
     private Common common;
 
-    private String username = "ove@idsec.se";
-    private String password = "lq2k dvzo 917s";
-    private boolean resetPassword = true;
-    private boolean registerAccount = false;
-    private boolean incorrectPassword = false;
-    private String magicCode = "mknhKYFl94fJaWaiVk2oG9Tl";
-    private String confirmPhoneNumberCode = "cancel";
-    private boolean sendMobileOneTimePassword = false;
-    private boolean useCustomPassword = true;
-    private String newPasswd = "lq2k dvzo 917s";
-
     @BeforeTest
-    @Parameters( {"url", "browser", "headless"})
-    void initBrowser(@Optional("https://qa.test.swedenconnect.se") String url, @Optional("chrome") String browser,
-                     @Optional("true") String headless, final ITestContext testContext){
+    @Parameters( {"url", "browser", "headless", "language"})
+    void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
         InitBrowser initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless), url);
+        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
 
         common = new Common(WebDriverManager.getWebDriver());
         startPage = new StartPage(common);
         login = new Login(common);
-        requestNewPassword = new RequestNewPassword(common);
-        emailSent = new EmailSent(common);
-        emailLink = new EmailLink(common);
-        extraSecurity = new ExtraSecurity(common);
-        newPassword = new NewPassword(common);
-        passwordChanged = new PasswordChanged(common);
-        confirmPhoneNumber = new ConfirmPhoneNumber(common);
-        logout = new Logout(common);
+        dashBoard = new DashBoard(common);
+        deleteAccount = new DeleteAccount(common);
 
         System.out.println("Executing: " +testContext.getName());
     }
 
     @Test
     void startPage(){
-        startPage.runStartPage(registerAccount);
+        startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
-        login.runLogin(username, password, resetPassword, registerAccount, incorrectPassword);
+        login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login"} )
-    void requestNewPassword() { requestNewPassword.runRequestNewPassword(username); }
+    void dashboard() {
+        dashBoard.runDashBoard();
+   }
 
-    @Test( dependsOnMethods = {"requestNewPassword"} )
-    void emailSent() { emailSent.runEmailSent(); }
+    @Test( dependsOnMethods = {"dashboard"} )
+    void delete() {
+        common.setDeleteButton(true);
+        deleteAccount.runDeleteAccount(); }
 
-    @Test( dependsOnMethods = {"emailSent"} )
-    void emailLink() { emailLink.runEmailLink(magicCode); }
+    @Test( dependsOnMethods = {"delete"} )
+    void startPage2(){
+        startPage.runStartPage();
+    }
 
-    @Test( dependsOnMethods = {"emailLink"} )
-    void extraSecurity() { extraSecurity.runExtraSecurity(sendMobileOneTimePassword); }
-
-    @Test( dependsOnMethods = {"extraSecurity"} )
-    void newPassword() { newPassword.runNewPassword(useCustomPassword, newPasswd); }
-
-    @Test( dependsOnMethods = {"newPassword"} )
-    void passwordChanged() { passwordChanged.runPasswordChanged(username, newPasswd); }
-
-    @Test( dependsOnMethods = {"passwordChanged"} )
-    void confirmPhoneNumber() { confirmPhoneNumber.runConfirmPhoneNumber(false, confirmPhoneNumberCode); }
-
-    @Test( dependsOnMethods = {"passwordChanged"} )
-    void logout() {
-        logout.runLogout();
+    @Test( dependsOnMethods = {"startPage2"} )
+    void login2(){
+        common.setIncorrectPassword(true);
+        login.runLogin();
     }
 
     @AfterTest

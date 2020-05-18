@@ -1,6 +1,8 @@
 package se.sunet.eduid.registration;
 
+import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.WebDriverManager;
 
 public class Register {
     private Common common;
@@ -9,11 +11,12 @@ public class Register {
         this.common = common;
     }
 
-    public void runRegister(boolean acceptTerms, boolean incorrectMagicCode, boolean generateUsername){
+    public void runRegister(){
+        //common.log.info("PAGE SOURCE: " +WebDriverManager.getWebDriver().getPageSource());
         verifyPageTitle();
         verifyLabels();
-        enterEmailAndPressRegister(incorrectMagicCode, generateUsername);
-        registerPopUp(acceptTerms);
+        enterEmailAndPressRegister();
+        registerPopUp();
     }
 
     private void verifyPageTitle() {
@@ -21,15 +24,24 @@ public class Register {
     }
 
     private void verifyLabels(){
+        //TODO I get swedish when running TC38 first in headless mode otherwise I get english. needs to be fixed.
+
+        common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Välkommen till eduID");
+        common.verifyStringByXpath("//*[@id=\"welcome\"]/h2/span", "Skapa ett eduID med din e-postadress för att börja.");
+        //TODO should be email address in swedish.... bug?
+        common.verifyStringByXpath("//*[@id=\"register-container\"]/label", "E-POSTADRESS");
+        //English
+        /*
         common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
         common.verifyStringByXpath("//*[@id=\"welcome\"]/h2/span", "Sign up with your email address to start.");
         common.verifyStringByXpath("//*[@id=\"register-container\"]/label", "EMAIL ADDRESS");
+        */
     }
 
-    private void enterEmailAndPressRegister(boolean incorrectMagicCode, boolean generateUsername){
+    private void enterEmailAndPressRegister(){
         //Generate new username
-        if(generateUsername)
-            generateUsername(incorrectMagicCode);
+        if(common.getGenerateUsername())
+            generateUsername();
 
         common.log.info("Register user: " +common.getUsername());
 
@@ -37,23 +49,54 @@ public class Register {
         common.click(common.findWebElementById("register-button"));
     }
 
-    private void registerPopUp(boolean acceptTerms){
+    private void registerPopUp(){
         //wait for buttons to appear
         //explicitWaitVisibilityElementId("accept-tou-button");
 
         //In pop-up, verify text
-        verifyPopupLabels();
+        verifyTerms();
 
         //Click on accept or reject
-        if(acceptTerms)
+        if(common.getAcceptTerms())
             common.click(common.findWebElementById("accept-tou-button"));
         else {
             common.click(common.findWebElementById("reject-tou-button"));
-            common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
+            //TODO language
+            //common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
+            common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Välkommen till eduID");
         }
     }
 
-    private void verifyPopupLabels(){
+    private void verifyTerms(){
+        //Swedish
+        common.explicitWaitVisibilityElement("//*[@id=\"register-modal\"]/div/div[1]/h5/span");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[1]/h5/span", "Användarvillkor för eduID.se");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/p[1]", "För eduID.se gäller generellt:");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[1]", "att all användning av " +
+                "användarkonton ska följa Sveriges lagar och förordningar,");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[2]", "att man är " +
+                "sanningsenlig vid uppgivande av personlig information som namn, kontaktuppgifter el. dyl,");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[3]", "att användarkonton, " +
+                "lösenord och koder är personliga och får endast användas av innehavaren,");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[4]", "att SUNET:s " +
+                "etiska regler reglerar övrig tillåten användning. SUNET fördömer som oetiskt när någon");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[1]", "försöker " +
+                "få tillgång till nätverksresurser utan att ha rätt till det");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[2]", "försöker dölja sin användaridentitet");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[3]", "försöker " +
+                "störa eller avbryta den avsedda användningen av nätverken");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[4]", "uppenbart " +
+                "slösar med tillgängliga resurser (personal, maskinvara eller programvara)");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[5]", "försöker " +
+                "skada eller förstöra den datorbaserade informationen");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[6]", "gör intrång i andras privatliv");
+        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[7]", "försöker förolämpa eller förnedra andra");
+
+        common.verifyStringOnPage("Den som överträder, eller misstänks överträda, ovanstående regler kan " +
+                "stängas av från eduID.se. Dessutom kan rättsliga åtgärder komma att vidtas.");
+
+        //English
+        /*
         common.explicitWaitVisibilityElement("//*[@id=\"register-modal\"]/div/div[1]/h5/span");
         common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[1]/h5/span", "General rules for eduID users");
         common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/p[1]", "The following generally applies:");
@@ -80,9 +123,10 @@ public class Register {
 
         common.verifyStringOnPage("Any person found violating or suspected of violating these rules can be disabled from eduID.se for " +
                 "investigation. Furthermore, legal action can be taken.");
+                */
     }
 
-    private void generateUsername(boolean incorrectMagicCode){
+    private void generateUsername(){
         int n = 8;
 
 //        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -105,9 +149,6 @@ public class Register {
                     .charAt(index));
         }
         //Add the magic to random string
-        if(incorrectMagicCode)
-            common.setUsername(sb.toString() +"notTheCorrectMagicCode@dev.eduid.sunet.se");
-        else
-            common.setUsername(sb.toString() +"mknhKYFl94fJaWaiVk2oG9Tl@dev.eduid.sunet.se");
+        common.setUsername(sb.toString() +common.getMagicCode() +"@dev.eduid.sunet.se");
     }
 }

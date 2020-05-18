@@ -12,10 +12,9 @@ public class Password {
         login = new Login(common);
     }
 
-    public void runPassword(String newPassword, boolean buttonValuePopup, boolean useRecommendedPw, boolean buttonValueConfirm,
-                             String username, String password, boolean incorrectPassword){
+    public void runPassword(){
         verifyPageTitle();
-        changePassword(newPassword, buttonValuePopup, useRecommendedPw, buttonValueConfirm, username, password, incorrectPassword);
+        changePassword();
 
         verifyLabelsSwedish();
         verifyLabelsEnglish();
@@ -26,11 +25,10 @@ public class Password {
         common.verifyPageTitle("eduID");
     }
 
-    private void changePassword(String newPassword, boolean buttonValuePopup, boolean useRecommendedPw, boolean buttonValueConfirm,
-         String username, String password, boolean incorrectPassword){
+    private void changePassword(){
 
         //If a new password is provided, initiate the change flow
-        if(!newPassword.equals("")) {
+        if(!common.getNewPassword().equals("")) {
             common.click(common.findWebElementById("security-change-button"));
 
             common.switchToPopUpWindow();
@@ -39,15 +37,20 @@ public class Password {
             verifyPopupLabels();
 
             //Accept if true else Abort
-            if(buttonValuePopup) {
+            if(common.getButtonValuePopup()) {
                 common.click(common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span"));
 
                 common.timeoutMilliSeconds(500);
                 common.switchToDefaultWindow();
 
+                //Check first if the incorrect password flag is set, then we need to re-set it after login.
+                boolean tempIncorrectPassword = common.getIncorrectPassword();
+                common.setIncorrectPassword(false);
+
                 //Enter userName and password since we need to login again before pw change
-                login.enterUsernamePassword(username, password, false);
-                login.signIn(username, false);
+                login.enterUsernamePassword();
+                login.signIn();
+                common.setIncorrectPassword(tempIncorrectPassword);
 
                 //Heading
                 common.timeoutMilliSeconds(500);
@@ -62,7 +65,7 @@ public class Password {
                 common.verifyStringOnPage("JAG VILL INTE ANVÄNDA DET REKOMMENDERADE LÖSENORDET");
 
                 //Should recommended password be used
-                if(!useRecommendedPw) {
+                if(!common.getUseRecommendedPw()) {
                     //Select use own password
                     common.click(common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button/span"));
                     verifyOwnPasswordLabels();
@@ -70,39 +73,54 @@ public class Password {
                     //Select use own password again since when switch between language it will come back to default change pw page
                     common.click(common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button/span"));
 
-                    //Type new password
-                    common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
-                    common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").sendKeys(newPassword);
-
-                    //Repeat new password
-                    common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
-                    common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").sendKeys(newPassword);
-                }
-                else if(useRecommendedPw){
-                    common.setRecommendedPw(common.findWebElementByXpath("//*[@id=\"suggested-password-field\"]/input").getAttribute("value"));
-                    Common.log.info("Stored recommendedPw: " +common.getRecommendedPw());
-                }
-
-                if((!common.getRecommendedPw().equals("") && useRecommendedPw || common.getRecommendedPw().equals("") && !useRecommendedPw)) {
                     //Enter current password
                     common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").clear();
-                    if(incorrectPassword)
+                    if (common.getIncorrectPassword()){
                         common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys("notCorrectPw");
-                    else
-                        common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys(password);
+
+                        //Type new password
+                        common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
+                        common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").sendKeys(common.getNewPassword());
+
+                        //Repeat new password
+                        common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
+                        common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").sendKeys(common.getNewPassword());
+                    }
+                    else {
+                        common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys(common.getPassword());
+
+                        //Type new password
+                        common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
+                        common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").sendKeys(common.getNewPassword());
+
+                        //Repeat new password
+                        common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
+                        common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").sendKeys(common.getNewPassword());
+
+                        //Store the new password
+                        common.setPassword(common.getNewPassword());
+                        Common.log.info("Stored custom password: " +common.getPassword());
+                    }
                 }
-                else if(!common.getRecommendedPw().equals("") && !useRecommendedPw){
+                else if(common.getUseRecommendedPw()){
+                    //Enter current password
                     common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").clear();
-                    common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys(common.getRecommendedPw());
-                    common.setRecommendedPw("");
+                    if(common.getIncorrectPassword())
+                        common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys("notCorrectPw");
+                    else {
+                        common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys(common.getPassword());
+
+                        common.setPassword(common.findWebElementByXpath("//*[@id=\"suggested-password-field\"]/input").getAttribute("value"));
+                        Common.log.info("Stored recommendedPw: " +common.getPassword());
+                    }
                 }
 
                 //Save button or Abort
-                if(buttonValueConfirm) {
+                if(common.getButtonValueConfirm()) {
                     common.click(common.findWebElementById("chpass-button"));
 
                     // If not the correct password was entered at password change
-                    if(incorrectPassword) {
+                    if(common.getIncorrectPassword()) {
                         common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
                         common.verifyStringOnPage("Ett fel har " +
                                 "uppstått vid ändring av ditt lösenord. Vänligen försök igen eller kontakta supporten om problemet kvarstår.");
@@ -111,7 +129,7 @@ public class Password {
                         common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span"));
                     }
                     //If too weak password is chosen, click abort. Inside save button if-statement to test if its possible to click it
-                    else if(newPassword.equalsIgnoreCase("test")) {
+                    else if(common.getNewPassword().equalsIgnoreCase("test")) {
                         common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span"));
                     }
                     else {

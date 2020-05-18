@@ -2,75 +2,50 @@ package se.sunet.eduid;
 
 import org.testng.ITestContext;
 import org.testng.annotations.*;
-import se.sunet.eduid.dashboard.DashBoard;
-import se.sunet.eduid.dashboard.DeleteAccount;
-import se.sunet.eduid.generic.Login;
-import se.sunet.eduid.generic.Logout;
 import se.sunet.eduid.generic.StartPage;
+import se.sunet.eduid.registration.ConfirmHuman;
+import se.sunet.eduid.registration.Register;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 public class TC_36 {
     private StartPage startPage;
-    private Login login;
-    private DashBoard dashBoard;
-    private DeleteAccount deleteAccount;
-    private Logout logout;
+    private Register register;
+    private ConfirmHuman confirmHuman;
     private Common common;
 
-    private String username = "ove@idsec.se";
-    private String password = "lq2k dvzo 917s";
-    private boolean resetPassword = false;
-    private boolean registerAccount = false;
-    private boolean incorrectPassword = false;
-    private String givenName_Dashboard = "";
-    private String surName_Dashboard = "";
-    private String language_Dashboard = "";
-    private boolean deleteButton = false;
-
     @BeforeTest
-    @Parameters( {"url", "browser", "headless"})
-    void initBrowser(@Optional("https://qa.test.swedenconnect.se") String url, @Optional("chrome") String browser,
-                     @Optional("true") String headless, final ITestContext testContext){
+    @Parameters( {"url", "browser", "headless", "language"})
+    void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
         InitBrowser initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless), url);
+        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
 
         common = new Common(WebDriverManager.getWebDriver());
         startPage = new StartPage(common);
-        login = new Login(common);
-        dashBoard = new DashBoard(common);
-        deleteAccount = new DeleteAccount(common);
-        logout = new Logout(common);
+        register = new Register(common);
+        confirmHuman = new ConfirmHuman(common);
 
         System.out.println("Executing: " +testContext.getName());
     }
 
     @Test
     void startPage(){
-        startPage.runStartPage(registerAccount);
-    }
+        common.setRegisterAccount(true);
+        startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage"} )
-    void login(){
-        login.runLogin(username, password, resetPassword, registerAccount, incorrectPassword);
-    }
+    void register(){ register.runRegister(); }
 
-    @Test( dependsOnMethods = {"login"} )
-    void dashboard() {
-        dashBoard.runDashBoard(givenName_Dashboard, surName_Dashboard, language_Dashboard);
-   }
-
-    @Test( dependsOnMethods = {"dashboard"} )
-    void delete() { deleteAccount.runDeleteAccount(deleteButton, username, password); }
-
-    @Test( dependsOnMethods = {"delete"} )
-    void logout() {
-        logout.runLogout();
-    }
+    @Test( dependsOnMethods = {"register"} )
+    void confirmHuman() {
+        common.setSendCaptcha(false);
+        confirmHuman.runConfirmHuman(); }
 
     @AfterTest
-    void quitBrowser(){
-        WebDriverManager.quitWebDriver();
-    }
+    void quitBrowser(){ WebDriverManager.quitWebDriver(); }
 }

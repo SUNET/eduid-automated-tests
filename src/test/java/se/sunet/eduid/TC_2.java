@@ -10,6 +10,10 @@ import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 public class TC_2 {
     private StartPage startPage;
     private Login login;
@@ -18,25 +22,11 @@ public class TC_2 {
     private Logout logout;
     private Common common;
 
-    private String username = "ove@idsec.se";
-    private String password = "lq2k dvzo 917s";
-    private boolean resetPassword = false;
-    private boolean registerAccount = false;
-    private boolean incorrectPassword = false;
-    private String givenName_Dashboard = "";
-    private String surName_Dashboard = "";
-    private String language_Dashboard = "";
-    private String givenName = "palle";
-    private String surName = "kuling";
-    private String displayName = "palle kuling";
-    private String language = "";
-
     @BeforeTest
-    @Parameters( {"url", "browser", "headless"})
-    void initBrowser(@Optional("https://qa.test.swedenconnect.se") String url, @Optional("chrome") String browser,
-                     @Optional("true") String headless, final ITestContext testContext){
+    @Parameters( {"url", "browser", "headless", "language"})
+    void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
         InitBrowser initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless), url);
+        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
 
         common = new Common(WebDriverManager.getWebDriver());
         startPage = new StartPage(common);
@@ -49,23 +39,24 @@ public class TC_2 {
     }
 
     @Test
-    void startPage(){
-        startPage.runStartPage(registerAccount);
-    }
+    void startPage(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
-        login.runLogin(username, password, resetPassword, registerAccount, incorrectPassword);
+        login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login"} )
     void dashboard() {
-        dashBoard.runDashBoard(givenName_Dashboard, surName_Dashboard, language_Dashboard);
+        dashBoard.runDashBoard();
    }
 
     @Test( dependsOnMethods = {"dashboard"} )
     void personalInfo() {
-        personalInfo.runPersonalInfo(givenName, surName, displayName, language);
+        common.setGivenName("palle");
+        common.setSurName("kuling");
+        common.setDisplayName("palle kuling");
+        personalInfo.runPersonalInfo();
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )

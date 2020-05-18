@@ -9,11 +9,11 @@ public class NewPassword {
         this.common = common;
     }
 
-    public void runNewPassword(boolean useCustomPassword, String newPassword){
+    public void runNewPassword(){
         //TODO add pagetitle check when its present, missing at the moment 23/4-2020
         //verifyPageTitle();
         verifyLabels();
-        acceptPwOrSetCustomPw(useCustomPassword, newPassword);
+        acceptPwOrSetCustomPw();
     }
 
 
@@ -33,8 +33,8 @@ public class NewPassword {
         common.verifyStringByXpath("//*[@id=\"generated-pw\"]/div/form/div[1]/div/p[3]", "Copy and save the above password somewhere safe and click \"Accept password\".");
     }
 
-    private void acceptPwOrSetCustomPw(boolean useCustomPassword, String newPassword){
-        if(useCustomPassword){
+    private void acceptPwOrSetCustomPw(){
+        if(!common.getUseRecommendedPw()){
             //Click on custom password tab
             common.click(common.findWebElementByXpath("//div/div[3]/ul/li[2]/a"));
 
@@ -42,16 +42,16 @@ public class NewPassword {
             verifyCustomPwLabels();
 
             //Enter new password
-            common.findWebElementById("custom-password").sendKeys(newPassword);
-            common.findWebElementById("repeat-password").sendKeys(newPassword);
+            common.findWebElementById("custom-password").sendKeys(common.getPassword());
+            common.findWebElementById("repeat-password").sendKeys(common.getPassword());
 
             //Click save new passwword button
             common.click(common.findWebElementByXpath("//*[@id=\"custom-pw\"]/div/form/div[2]/div/button"));
         }
         else{
             //Save the recommended password
-            common.setRecommendedPw(common.findWebElementByXpath("//*[@id=\"generated-pw\"]/div/form/div[1]/div/p[2]/mark").getText());
-            Common.log.info("Recommended password saved: " + common.getRecommendedPw());
+            common.setPassword(common.findWebElementByXpath("//*[@id=\"generated-pw\"]/div/form/div[1]/div/p[2]/mark").getText());
+            Common.log.info("Recommended password saved: " + common.getPassword());
 
             common.click(common.findWebElementByXpath("//*[@id=\"generated-pw\"]/div/form/div[2]/div/button"));
         }

@@ -1,6 +1,7 @@
 package se.sunet.eduid.utils;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -8,21 +9,25 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class InitBrowser {
     private WebDriver webDriver;
     private static final Logger log = LogManager.getLogger(InitBrowser.class);
 
-    public WebDriver initiateBrowser(String browser, String headless){
+    public WebDriver initiateBrowser(String browser, String headless, String language){
         if(browser.equalsIgnoreCase("chrome"))
-            initChromeDriver(headless);
+            initChromeDriver(headless, language);
         else
-            initFirefoxDriver(headless);
+            initFirefoxDriver(headless, language);
 
         //Time we will wait before retry functionality will step in
         webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -32,8 +37,8 @@ public class InitBrowser {
 
         return webDriver;
     }
-    
-    private void initChromeDriver(String headless){
+
+    private void initChromeDriver(String headless, String language){
         if(System.getProperty("os.name").toLowerCase().contains("mac")) {
 
             //Create Chrome instance with options
@@ -41,10 +46,7 @@ public class InitBrowser {
 
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("disable-infobars");
-            chromeOptions.addArguments("--lang=sv");
-
-            // Below did not help selecting the certificate for Spain
-            chromeOptions.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+            chromeOptions.addArguments("--lang=" +language);
 
             // If execution should be performed headless
             if (headless.equals("true")) {
@@ -52,14 +54,16 @@ public class InitBrowser {
             }
 
             webDriver = new ChromeDriver(chromeOptions);
-        } else {
+
+        }
+        else {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.setCapability("Platform", "LINUX");
             chromeOptions.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
             chromeOptions.setAcceptInsecureCerts(true);
             chromeOptions.addArguments("--no-sandbox");
             chromeOptions.addArguments("--headless");
-            chromeOptions.addArguments("--lang=sv");
+            chromeOptions.addArguments("--lang=" +language);
 
             try {
                 webDriver = new RemoteWebDriver(new URL("http://selenium-hub:4444/wd/hub"), chromeOptions);
@@ -69,14 +73,14 @@ public class InitBrowser {
         }
     }
 
-    private void initFirefoxDriver(String headless) {
+    private void initFirefoxDriver(String headless, String language) {
         if (System.getProperty("os.name").toLowerCase().contains("mac")) {
 
             //Create Firefox instance with options
             WebDriverManager.firefoxdriver().setup();
 
             FirefoxOptions firefoxOptions = new FirefoxOptions();
-            firefoxOptions.addArguments("--lang=sv");
+            firefoxOptions.addArguments("--lang=" +language);
 
             // If execution should be performed headless
             if (headless.equals("true"))
@@ -87,7 +91,7 @@ public class InitBrowser {
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             firefoxOptions.setCapability("Platform", "LINUX");
             firefoxOptions.setCapability("marionette", true);
-            firefoxOptions.setCapability("language", "sv");
+            firefoxOptions.setCapability("language", language);
 
             try {
                 webDriver = new RemoteWebDriver(new URL("http://selenium-hub:4444/wd/hub"), firefoxOptions);

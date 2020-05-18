@@ -2,41 +2,82 @@ package se.sunet.eduid;
 
 import org.testng.ITestContext;
 import org.testng.annotations.*;
+import se.sunet.eduid.generic.Login;
+import se.sunet.eduid.generic.Logout;
 import se.sunet.eduid.generic.StartPage;
+import se.sunet.eduid.registration.ConfirmHuman;
+import se.sunet.eduid.registration.ConfirmedNewAccount;
 import se.sunet.eduid.registration.Register;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 public class TC_39 {
     private StartPage startPage;
     private Register register;
+    private ConfirmHuman confirmHuman;
+    private ConfirmedNewAccount confirmedNewAccount;
+    private Login login;
+    private Logout logout;
     private Common common;
 
-    private boolean acceptTerms = false;
-    private boolean registerAccount = true;
-    private boolean incorrectMagicCode = false;
-    private boolean generateUsername = true;
-
     @BeforeTest
-    @Parameters( {"url", "browser", "headless"})
-    void initBrowser(@Optional("https://qa.test.swedenconnect.se") String url, @Optional("chrome") String browser,
-                     @Optional("true") String headless, final ITestContext testContext){
+    @Parameters( {"url", "browser", "headless", "language"})
+    void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
         InitBrowser initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless), url);
+        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
 
         common = new Common(WebDriverManager.getWebDriver());
         startPage = new StartPage(common);
         register = new Register(common);
+        confirmedNewAccount = new ConfirmedNewAccount(common);
+        confirmHuman = new ConfirmHuman(common);
+        login = new Login(common);
+        logout = new Logout(common);
 
         System.out.println("Executing: " +testContext.getName());
     }
 
     @Test
-    void startPage(){ startPage.runStartPage(registerAccount); }
+    void startPage(){
+        common.setRegisterAccount(true);
+        startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage"} )
-    void register(){ register.runRegister(acceptTerms, incorrectMagicCode, generateUsername); }
+    void register(){ register.runRegister(); }
+
+    @Test( dependsOnMethods = {"register"} )
+    void confirmHuman() { confirmHuman.runConfirmHuman(); }
+
+    @Test( dependsOnMethods = {"confirmHuman"} )
+    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
+
+    @Test( dependsOnMethods = {"confirmedNewAccount"} )
+    void login(){
+        common.setRegisterAccount(false);
+        login.runLogin(); }
+
+    @Test( dependsOnMethods = {"login"} )
+    void logout() {
+        logout.runLogout();
+    }
+
+    @Test( dependsOnMethods = {"logout"} )
+    void startPage2(){
+        common.setRegisterAccount(true);
+        startPage.runStartPage(); }
+
+    @Test( dependsOnMethods = {"startPage2"} )
+    void register2(){
+        common.setGenerateUsername(false);
+        register.runRegister(); }
+
+    @Test( dependsOnMethods = {"register2"} )
+    void confirmHuman2() { confirmHuman.runConfirmHuman(); }
 
     @AfterTest
     void quitBrowser(){ WebDriverManager.quitWebDriver(); }

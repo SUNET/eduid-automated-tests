@@ -9,10 +9,10 @@ public class VerifyPhoneNumber {
         this.common = common;
     }
 
-    public void runVerifyPhoneNumber(boolean resendOTP){
+    public void runVerifyPhoneNumber(){
         verifyPageTitle();
         verifyLabels();
-        continueOrResendOTP(resendOTP);
+        continueOrResendOTP();
     }
 
     private void verifyPageTitle() {
@@ -25,17 +25,20 @@ public class VerifyPhoneNumber {
         common.verifyStringByXpath("//div/div[3]/form/div[3]/a", "Resend code or try another way");
     }
 
-    private void continueOrResendOTP(boolean resendOTP){
-        if(resendOTP) {
+    private void continueOrResendOTP(){
+        if(common.getResendOTP()) {
+            common.setResendOTP(false);
             common.click(common.findWebElementByXpath("//div/div[3]/form/div[3]/a"));
 
             //Testng cannot execute same class twice in *.xml file. Therefore call neccessary methods separately
             //to test the re-send OTP functionality.
             ExtraSecurity security = new ExtraSecurity(common);
-            security.runExtraSecurity(true);
+            common.setSendMobileOneTimePassword(true);
+            security.runExtraSecurity();
 
             //To continue the flow and enter the OTP with magic-code
-            continueOrResendOTP(false);
+            common.setSendMobileOneTimePassword(false);
+            continueOrResendOTP();
         }
         else {
             common.findWebElementById("phone_code").sendKeys("mknhKYFl94fJaWaiVk2oG9Tl");

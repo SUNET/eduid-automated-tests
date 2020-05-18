@@ -9,10 +9,10 @@ public class ExtraSecurity {
         this.common = common;
     }
 
-    public void runExtraSecurity(boolean sendMobileOneTimePassword){
+    public void runExtraSecurity(){
         verifyPageTitle();
         verifyLabels();
-        confirmPasswordChange(sendMobileOneTimePassword);
+        confirmPasswordChange();
     }
 
     private void verifyPageTitle() {
@@ -27,8 +27,8 @@ public class ExtraSecurity {
                 "I UNDERSTAND THAT I WILL HAVE TO VERIFY MY ACCOUNT AGAIN.");
     }
 
-    private void confirmPasswordChange(boolean sendMobileOneTimePassword){
-        if(sendMobileOneTimePassword) {
+    private void confirmPasswordChange(){
+        if(common.getSendMobileOneTimePassword()) {
             common.click(common.findWebElementByXpath("//div/div[3]/form/div/div/button"));
         }
         else

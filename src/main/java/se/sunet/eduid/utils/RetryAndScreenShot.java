@@ -41,10 +41,10 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
             }
             else {
                 log.error("Test failed at attempt " +(retryCount +1) +", test will be marked as failed\n" +iTestResult.getThrowable().getMessage());
-                windowMaximizeSize();
+                //windowMaximizeSize();
                 screenshot();
                 iTestResult.setStatus(ITestResult.FAILURE);
-                windowDefaultSize();
+                //windowDefaultSize();
                 retryCount = 0;
             }
         }

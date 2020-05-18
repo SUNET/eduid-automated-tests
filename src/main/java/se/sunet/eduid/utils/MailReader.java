@@ -4,7 +4,7 @@ import javax.mail.*;
 import java.io.IOException;
 import java.util.Properties;
 
-public class MailReader extends CommonOperations{
+public class MailReader{
 
     private String hostName = "smtp.gmail.com";
     private String username = "eduidtest.se1@gmail.com";

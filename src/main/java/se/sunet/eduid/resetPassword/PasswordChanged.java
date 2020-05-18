@@ -12,16 +12,15 @@ public class PasswordChanged {
         login = new Login(common);
     }
 
-    public void runPasswordChanged(String username, String newPassword){
+    public void runPasswordChanged(){
         //TODO add pagetitle check when its present, missing at the moment 23/4-2020
         //verifyPageTitle();
         verifyLabels();
         clickReturnToLoginLink();
-        login(username, newPassword);
-        verifyLogin(username);
+        login();
+        verifyLogin();
     }
 
-//    @Test
     private void verifyPageTitle() {
         common.verifyPageTitle("");
     }
@@ -38,17 +37,18 @@ public class PasswordChanged {
         common.verifyPageTitle("eduID");
     }
 
-    private void login(String username, String newPassword){
+    //TODO move this two methods below into the test case instead....
+    private void login(){
         //Login again
         common.click(common.findWebElementByXpath("//*[@id=\"login\"]/a"));
-        login.enterUsernamePassword(username, newPassword, false);
-        login.signIn(username, false);
+        login.enterUsernamePassword();
+        login.signIn();
     }
 
-    private void verifyLogin(String username){
+    private void verifyLogin(){
         common.explicitWaitPageTitle("eduID");
 
         //Just verify that log in succeeded
-        common.verifyStringOnPage(username);
+        common.verifyStringOnPage(common.getUsername());
     }
 }

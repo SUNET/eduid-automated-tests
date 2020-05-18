@@ -3,23 +3,22 @@ package se.sunet.eduid.dashboard;
 import se.sunet.eduid.utils.Common;
 
 public class DashBoard {
-    private String default_givenName = "ove";
-    private String default_surName = "semart";
     private Common common;
 
     public DashBoard(Common common){
         this.common = common;
     }
 
-    public void runDashBoard(String givenName_Dashboard, String surName_Dashboard, String language_Dashboard){
+    public void runDashBoard(){
         verifyPageTitle();
         verifyUserId();
-        verifyFirstName(givenName_Dashboard);
-        verifyLastName(surName_Dashboard);
+        verifyDisplayName();
+        verifyGivenName();
+        verifySurName();
         verifyIdentityNumber();
         verifyPhone();
         verifyEmail();
-        if(!language_Dashboard.equals("English"))
+        if(!common.getLanguage().equals("English"))
             verifyLabelsSwedish();
         else
             verifyLabelsEnglish();
@@ -32,33 +31,31 @@ public class DashBoard {
     }
 
     private void verifyUserId() {
-        common.verifyStringOnPage("ove@idsec.se");
+        common.verifyStringOnPage(common.getUsername());
     }
 
-    private void verifyFirstName(String givenName_Dashboard) {
-        if(!givenName_Dashboard.equals(""))
-            common.verifyStringOnPage(givenName_Dashboard);
-        else
-            common.verifyStringOnPage(default_givenName);
+    private void verifyDisplayName() {
+        common.verifyStringOnPage(common.getDisplayName());
     }
 
-    private void verifyLastName(String surName_Dashboard) {
-        if(!surName_Dashboard.equals(""))
-            common.verifyStringOnPage(surName_Dashboard);
-        else
-            common.verifyStringOnPage(default_surName);
+    private void verifyGivenName() {
+        common.verifyStringOnPage(common.getGivenName());
     }
 
-    private void verifyIdentityNumber() {//*[@id="profile-grid"]/div[2]/a/span
-        common.verifyStringOnPage("197501100395");
+    private void verifySurName() {
+        common.verifyStringOnPage(common.getSurName());
+    }
+
+    private void verifyIdentityNumber() {
+        common.verifyStringOnPage(common.getPersonalNumber());
     }
 
     private void verifyPhone() {
-        common.verifyStringOnPage("+46707136728");
+        common.verifyStringOnPage(common.getPhoneNumber());
     }
 
     private void verifyEmail() {
-        common.verifyStringOnPage("ove@idsec.se");
+        common.verifyStringOnPage(common.getEmail());
     }
 
     private void verifyLabelsSwedish() {

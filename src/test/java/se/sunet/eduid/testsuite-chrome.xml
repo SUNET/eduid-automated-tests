@@ -1,13 +1,14 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="dev">
-    <parameter name="headless" value="true" />
+    <parameter name="url" value="https://dev.eduid.se" />
     <parameter name="browser" value="chrome" />
+    <parameter name="headless" value="true" />
+    <parameter name="language" value="sv" />
+
     <listeners>
         <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
     </listeners>
-
-    <parameter name="url" value="https://dev.eduid.se" />
 
     <test name="TC_1">
         <parameter name="testDescription" value="Log in and check account data and labels" />
@@ -160,17 +161,17 @@
             </class>
         </classes>
     </test>
-<!--
+
     <test name="TC_20">
-        <parameter name="testDescription" value="Change password, to default" />
+        <parameter name="testDescription" value="Change password, use custom" />
         <classes>
             <class name="se.sunet.eduid.TC_20" >
             </class>
         </classes>
     </test>
--->
+
     <test name="TC_21">
-        <parameter name="testDescription" value="Change password, use custom" />
+        <parameter name="testDescription" value="Initiate password change but enter incorrect current password" />
         <classes>
             <class name="se.sunet.eduid.TC_21" >
             </class>
@@ -178,7 +179,7 @@
     </test>
 
     <test name="TC_22">
-        <parameter name="testDescription" value="Change password, to default" />
+        <parameter name="testDescription" value="Initiate password change but choose a too week password" />
         <classes>
             <class name="se.sunet.eduid.TC_22" >
             </class>
@@ -186,7 +187,7 @@
     </test>
 
     <test name="TC_23">
-        <parameter name="testDescription" value="Initiate password change but enter incorrect current password" />
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password, use default pw" />
         <classes>
             <class name="se.sunet.eduid.TC_23" >
             </class>
@@ -194,7 +195,7 @@
     </test>
 
     <test name="TC_24">
-        <parameter name="testDescription" value="Initiate password change but choose a too week password" />
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set new recommended password" />
         <classes>
             <class name="se.sunet.eduid.TC_24" >
             </class>
@@ -202,15 +203,15 @@
     </test>
 
     <test name="TC_25">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password, use default pw" />
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP). Set a new custom password, use default pw" />
         <classes>
             <class name="se.sunet.eduid.TC_25" >
             </class>
         </classes>
     </test>
-<!--
+
     <test name="TC_26">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password" />
+        <parameter name="testDescription" value="Try to log in with incorrect password" />
         <classes>
             <class name="se.sunet.eduid.TC_26" >
             </class>
@@ -218,15 +219,15 @@
     </test>
 
     <test name="TC_27">
-        <parameter name="testDescription" value="Change password, to default" />
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP), resend mobile OTP once. Set a new custom password, use default pw" />
         <classes>
             <class name="se.sunet.eduid.TC_27" >
             </class>
         </classes>
     </test>
--->
+
     <test name="TC_28">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set new recommended password" />
+        <parameter name="testDescription" value="Try to reset password with incorrect magic code" />
         <classes>
             <class name="se.sunet.eduid.TC_28" >
             </class>
@@ -234,7 +235,7 @@
     </test>
 
     <test name="TC_29">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP), resend mobile OTP once. Set a new custom password, use default pw" />
+        <parameter name="testDescription" value="Reset password without extra security (mobile OTP). Abort confirmation of the phone number from dashboard" />
         <classes>
             <class name="se.sunet.eduid.TC_29" >
             </class>
@@ -242,7 +243,7 @@
     </test>
 
     <test name="TC_30">
-        <parameter name="testDescription" value="Try to log in with incorrect password" />
+        <parameter name="testDescription" value="After reset password without extra security (mobile OTP). Enter incorrect code for confirmation of the phone number from dashboard" />
         <classes>
             <class name="se.sunet.eduid.TC_30" >
             </class>
@@ -250,7 +251,7 @@
     </test>
 
     <test name="TC_31">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP), resend mobile OTP once. Set a new custom password, use default pw" />
+        <parameter name="testDescription" value="After reset password without extra security (mobile OTP). Confirm the phone number from dashboard" />
         <classes>
             <class name="se.sunet.eduid.TC_31" >
             </class>
@@ -258,7 +259,7 @@
     </test>
 
     <test name="TC_32">
-        <parameter name="testDescription" value="Try to reset password with incorrect magic code" />
+        <parameter name="testDescription" value="Initiate account termination but abort in confirm pop-up" />
         <classes>
             <class name="se.sunet.eduid.TC_32" >
             </class>
@@ -266,7 +267,7 @@
     </test>
 
     <test name="TC_33">
-        <parameter name="testDescription" value="Reset password without no extra security (mobile OTP). Abort confirmation of the phone number from dashboard" />
+        <parameter name="testDescription" value="Delete the account" />
         <classes>
             <class name="se.sunet.eduid.TC_33" >
             </class>
@@ -274,7 +275,7 @@
     </test>
 
     <test name="TC_34">
-        <parameter name="testDescription" value="After Reset password without no extra security (mobile OTP). Enter incorrect code for confirmation of the phone number from dashboard" />
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password, use default pw" />
         <classes>
             <class name="se.sunet.eduid.TC_34" >
             </class>
@@ -282,7 +283,7 @@
     </test>
 
     <test name="TC_35">
-        <parameter name="testDescription" value="Reset password without no extra security (mobile OTP). Confirm the phone number from dashboard" />
+        <parameter name="testDescription" value="Initiate Register of new account, abort at terms" />
         <classes>
             <class name="se.sunet.eduid.TC_35" >
             </class>
@@ -290,7 +291,7 @@
     </test>
 
     <test name="TC_36">
-        <parameter name="testDescription" value="Initiate account termination but abort in confirm pop-up" />
+        <parameter name="testDescription" value="Initiate Register of new account, abort at captcha" />
         <classes>
             <class name="se.sunet.eduid.TC_36" >
             </class>
@@ -298,7 +299,7 @@
     </test>
 
     <test name="TC_37">
-        <parameter name="testDescription" value="Delete the account" />
+        <parameter name="testDescription" value="Initiate Register of new account, use incorrect magic code" />
         <classes>
             <class name="se.sunet.eduid.TC_37" >
             </class>
@@ -306,7 +307,7 @@
     </test>
 
     <test name="TC_38">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password, use default pw" />
+        <parameter name="testDescription" value="Register a new account" />
         <classes>
             <class name="se.sunet.eduid.TC_38" >
             </class>
@@ -314,41 +315,9 @@
     </test>
 
     <test name="TC_39">
-        <parameter name="testDescription" value="Initiate Register of new account, abort at terms" />
-        <classes>
-            <class name="se.sunet.eduid.TC_39" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_40">
-        <parameter name="testDescription" value="Initiate Register of new account, abort at captcha" />
-        <classes>
-            <class name="se.sunet.eduid.TC_40" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_41">
-        <parameter name="testDescription" value="Initiate Register of new account, use incorrect magic code" />
-        <classes>
-            <class name="se.sunet.eduid.TC_41" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_42">
-        <parameter name="testDescription" value="Register a new account" />
-        <classes>
-            <class name="se.sunet.eduid.TC_42" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_43">
         <parameter name="testDescription" value="Try to register new account with already existing user name" />
         <classes>
-            <class name="se.sunet.eduid.TC_43" >
+            <class name="se.sunet.eduid.TC_39" >
             </class>
         </classes>
     </test>
