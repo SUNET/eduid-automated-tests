@@ -128,10 +128,10 @@ public class DashBoard {
         common.verifyStringOnPage("Svenska");
 
         //Click on Swedish
-        common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
+        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
     }
 
-    private void pressSettings(){
-        common.click(common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span"));
+    public void pressSettings(){
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
     }
 }

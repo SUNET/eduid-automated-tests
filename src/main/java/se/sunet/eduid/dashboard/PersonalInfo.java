@@ -63,7 +63,7 @@ public class PersonalInfo {
         // If any value updated we need to save it and verify that the info message appears
         if(pressAddButton) {
             //Click Add button
-            common.click(common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span"));
+            common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span").click();
             verifyUpdatedInfoBar(common.getLanguage());
         }
     }

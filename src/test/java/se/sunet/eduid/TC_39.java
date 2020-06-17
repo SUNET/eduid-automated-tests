@@ -2,6 +2,8 @@ package se.sunet.eduid;
 
 import org.testng.ITestContext;
 import org.testng.annotations.*;
+import se.sunet.eduid.dashboard.DashBoard;
+import se.sunet.eduid.dashboard.DeleteAccount;
 import se.sunet.eduid.generic.Login;
 import se.sunet.eduid.generic.Logout;
 import se.sunet.eduid.generic.StartPage;
@@ -23,6 +25,8 @@ public class TC_39 {
     private ConfirmedNewAccount confirmedNewAccount;
     private Login login;
     private Logout logout;
+    private DashBoard dashBoard;
+    private DeleteAccount deleteAccount;
     private Common common;
 
     @BeforeTest
@@ -38,6 +42,8 @@ public class TC_39 {
         confirmHuman = new ConfirmHuman(common);
         login = new Login(common);
         logout = new Logout(common);
+        deleteAccount = new DeleteAccount(common);
+        dashBoard = new DashBoard(common);
 
         System.out.println("Executing: " +testContext.getName());
     }
@@ -78,6 +84,29 @@ public class TC_39 {
 
     @Test( dependsOnMethods = {"register2"} )
     void confirmHuman2() { confirmHuman.runConfirmHuman(); }
+
+    //Delete the account, so it will be removed after 2 weeks by script
+    @Test( dependsOnMethods = {"confirmHuman2"} )
+    void login2(){
+        common.setRegisterAccount(false);
+        login.runLogin(); }
+
+    @Test( dependsOnMethods = {"login2"} )
+    void dashboard() { dashBoard.pressSettings(); }
+
+    @Test( dependsOnMethods = {"dashboard"} )
+    void delete() {
+        common.setDeleteButton(true);
+        deleteAccount.runDeleteAccount(); }
+
+    @Test( dependsOnMethods = {"delete"} )
+    void startPage3(){ startPage.runStartPage(); }
+
+    @Test( dependsOnMethods = {"startPage3"} )
+    void login3(){
+        common.setIncorrectPassword(true);
+        login.runLogin();
+    }
 
     @AfterTest
     void quitBrowser(){ WebDriverManager.quitWebDriver(); }

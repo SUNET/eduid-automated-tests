@@ -36,10 +36,12 @@ public class Login {
             common.findWebElementById("password").sendKeys("notTheCorrectPassword");
         else
             common.findWebElementById("password").sendKeys(common.getPassword());
+
+        common.log.info("Log in with password: " +common.getPassword());
     }
 
     public void signIn(){
-        common.click(common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[1]/button"));
+        common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[1]/button").click();
 
         if(common.getIncorrectPassword())
             common.verifyStringByXpath("//*[@id=\"alert_msg\"]", "Ogiltigt användarnamn eller lösenord (1 försök)");
@@ -51,11 +53,11 @@ public class Login {
 
     private void registerAccount(){
         //Click on sign up button
-        common.click(common.findWebElementByXpath("//*[@id=\"eduid-idp-menu\"]/div/div[1]/a"));
+        common.findWebElementByXpath("//*[@id=\"eduid-idp-menu\"]/div/div[1]/a").click();
     }
 
     private void resetPassword(){
         //Click on forgot password link
-        common.click(common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[2]/a"));
+        common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[2]/a").click();
     }
 }

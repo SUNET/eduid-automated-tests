@@ -1,6 +1,7 @@
 package se.sunet.eduid.resetPassword;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.WebDriverManager;
 
 public class VerifyPhoneNumber {
     private Common common;
@@ -30,7 +31,7 @@ public class VerifyPhoneNumber {
             common.setResendOTP(false);
             common.click(common.findWebElementByXpath("//div/div[3]/form/div[3]/a"));
 
-            //Testng cannot execute same class twice in *.xml file. Therefore call neccessary methods separately
+            //Testng cannot execute same class twice in *.xml file. Therefore call necessary methods separately
             //to test the re-send OTP functionality.
             ExtraSecurity security = new ExtraSecurity(common);
             common.setSendMobileOneTimePassword(true);
@@ -41,7 +42,16 @@ public class VerifyPhoneNumber {
             continueOrResendOTP();
         }
         else {
-            common.findWebElementById("phone_code").sendKeys("mknhKYFl94fJaWaiVk2oG9Tl");
+            //Fetch the code
+            common.navigateToUrl("https://dashboard.dev.eduid.se/services/security/reset-password/get-phone-code?eppn=nunif-mados");
+
+            String phoneCode = common.findWebElementByXpath("/html/body").getText();
+
+            WebDriverManager.getWebDriver().navigate().back();
+            common.findWebElementById("phone_code").sendKeys(phoneCode);
+
+
+            //common.findWebElementById("phone_code").sendKeys("mknhKYFl94fJaWaiVk2oG9Tl");
             common.click(common.findWebElementByXpath("//div/div[3]/form/div[2]/div/button"));
         }
     }

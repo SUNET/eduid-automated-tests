@@ -1,8 +1,6 @@
 package se.sunet.eduid.registration;
 
-import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
-import se.sunet.eduid.utils.WebDriverManager;
 
 public class ConfirmHuman {
     private Common common;
@@ -45,9 +43,12 @@ public class ConfirmHuman {
 
     private void clickButton(){
         if(common.getSendCaptcha()) {
+            //Add cookie for back doors
+            if(common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
+                common.addMagicCookie();
+
            //Click on Done button
-            common.timeoutMilliSeconds(1000);
-            common.click(common.findWebElementById("send-captcha-button"));
+            common.findWebElementById("send-captcha-button").click();
 
             //Verify that status info is displayed
             common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
@@ -62,6 +63,9 @@ public class ConfirmHuman {
                 //TODO bug with language
                 common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "E-postadressen används redan");
                 //common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "The email address you entered is already in use");
+
+                //Press on login button to prepare Log in and delete the account
+                common.findWebElementById("login").click();
             }
             else {
                 common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "E-postaddressen har registrerats");
@@ -69,11 +73,18 @@ public class ConfirmHuman {
 
                 //Continue with magic url to get to successful registered page
                 common.timeoutSeconds(2);
-                common.navigateToUrl("https://signup.dev.eduid.se/register/code/mknhKYFl94fJaWaiVk2oG9Tl");
+
+                //Fetch the registration code
+                common.navigateToUrl("https://signup.dev.eduid.se/services/signup/get-code/?email=" +common.getUsername());
+                String registrationCode = common.findWebElementByXpath("/html/body").getText();
+                common.log.info("Sign up code: " +registrationCode);
+
+                //Simulate that clicking on link with code in email.
+                common.navigateToUrl("https://signup.dev.eduid.se/register/code/" +registrationCode);
             }
         }
         else {
-            common.click(common.findWebElementById("cancel-captcha-button"));
+            common.findWebElementById("cancel-captcha-button").click();
             common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Välkommen till eduID");
             //common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
         }

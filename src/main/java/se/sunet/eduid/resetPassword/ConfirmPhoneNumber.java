@@ -1,6 +1,7 @@
 package se.sunet.eduid.resetPassword;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.WebDriverManager;
 
 public class ConfirmPhoneNumber {
     private Common common;
@@ -55,7 +56,34 @@ public class ConfirmPhoneNumber {
 
             common.switchToPopUpWindow();
 
-            common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").sendKeys(common.getMagicCode());
+            //Add cookie for back doors
+            common.addMagicCookie();
+
+            //Back door can not handle phone number with +, replacing it.
+            String phoneNumber;
+            if(common.getPhoneNumber().contains("+"))
+                phoneNumber = common.getPhoneNumber().replace("+", "%2b");
+            else
+                phoneNumber = common.getPhoneNumber();
+
+            //Fetch the code
+            common.navigateToUrl("https://dashboard.dev.eduid.se/services/phone/get-code?eppn=nunif-mados&phone=" +phoneNumber);
+
+            String phoneCode = common.findWebElementByXpath("/html/body").getText();
+            common.log.info("Phone code: " +phoneCode);
+
+            WebDriverManager.getWebDriver().navigate().back();
+
+            //Press the Confirm phone number link - again
+            common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span"));
+
+            common.switchToPopUpWindow();
+
+            //Enter code in pop-up window, if correct code should be sent, else send not correct code
+            if(common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
+                common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").sendKeys(phoneCode);
+            else
+                common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").sendKeys(common.getMagicCode());
 
             //Send the code by click OK
             common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]"));

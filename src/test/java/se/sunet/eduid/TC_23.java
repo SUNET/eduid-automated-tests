@@ -9,10 +9,7 @@ import se.sunet.eduid.resetPassword.*;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
-
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 
 public class TC_23 {
     private StartPage startPage;

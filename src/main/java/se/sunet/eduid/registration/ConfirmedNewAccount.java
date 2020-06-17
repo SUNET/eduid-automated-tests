@@ -19,6 +19,10 @@ public class ConfirmedNewAccount {
 
     private void verifyPageTitle() {
         common.verifyPageTitle("eduID");
+
+        //TODO temp fix to get swedish language
+        if(common.findWebElementByXpath("/html").getText().contains("Svenska"))
+            common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
     }
 
     private void verifyLabels(){
@@ -60,6 +64,6 @@ public class ConfirmedNewAccount {
     }
 
     private void clickGoToMyEduID(){
-        common.click(common.findWebElementByXpath("//*[@id=\"gotit-button\"]/span"));
+        common.findWebElementByXpath("//*[@id=\"gotit-button\"]/span").click();
     }
 }

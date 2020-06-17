@@ -1,11 +1,15 @@
 package se.sunet.eduid;
 
 import org.testng.ITestContext;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import se.sunet.eduid.dashboard.ConfirmIdentity;
 import se.sunet.eduid.dashboard.DashBoard;
 import se.sunet.eduid.dashboard.DeleteAccount;
+import se.sunet.eduid.dashboard.PhoneNumber;
 import se.sunet.eduid.generic.Login;
-import se.sunet.eduid.generic.Logout;
 import se.sunet.eduid.generic.StartPage;
 import se.sunet.eduid.registration.ConfirmHuman;
 import se.sunet.eduid.registration.ConfirmedNewAccount;
@@ -14,17 +18,16 @@ import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 
-public class TC_38 {
+public class TC_41 {
     private StartPage startPage;
     private Register register;
     private ConfirmHuman confirmHuman;
     private ConfirmedNewAccount confirmedNewAccount;
     private Login login;
-    private Logout logout;
+    private ConfirmIdentity confirmIdentity;
+    private PhoneNumber phoneNumber;
     private DashBoard dashBoard;
     private DeleteAccount deleteAccount;
     private Common common;
@@ -41,7 +44,8 @@ public class TC_38 {
         confirmedNewAccount = new ConfirmedNewAccount(common);
         confirmHuman = new ConfirmHuman(common);
         login = new Login(common);
-        logout = new Logout(common);
+        confirmIdentity = new ConfirmIdentity(common);
+        phoneNumber = new PhoneNumber(common);
         dashBoard = new DashBoard(common);
         deleteAccount = new DeleteAccount(common);
 
@@ -67,11 +71,19 @@ public class TC_38 {
         common.setRegisterAccount(false);
         login.runLogin(); }
 
-    //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"login"} )
-    void dashboard() {
-        dashBoard.pressSettings();
-    }
+    void addPhoneNumber(){
+        phoneNumber.addPhoneNumber();
+        phoneNumber.confirmNewPhoneNumber(); }
+
+    @Test( dependsOnMethods = {"addPhoneNumber"} )
+    void confirmIdentity(){
+        common.setConfirmIdBy("mail");
+        confirmIdentity.runConfirmIdentity(); }
+
+    //Delete the account, so it will be removed after 2 weeks by script
+    @Test( dependsOnMethods = {"confirmIdentity"} )
+    void dashboard() { dashBoard.pressSettings(); }
 
     @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
@@ -79,9 +91,7 @@ public class TC_38 {
         deleteAccount.runDeleteAccount(); }
 
     @Test( dependsOnMethods = {"delete"} )
-    void startPage2(){
-        startPage.runStartPage();
-    }
+    void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){

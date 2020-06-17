@@ -27,12 +27,12 @@ public class StartPage {
     }
 
     private void signIn(){
-        common.click(common.findWebElementByXpath("//*[@id=\"login\"]/a"));
+        common.findWebElementByXpath("//*[@id=\"login\"]/a").click();
     }
 
     private void registerAccount(){
         //Click on sign up button
-        common.click(common.findWebElementById("register"));
+        common.findWebElementById("register").click();
     }
 
     private void verifyLabelsSwedish(){

@@ -27,7 +27,8 @@ public class Common {
     private String recommendedPw, addNewEmail1 = "";
     private String confirmNewEmail1 = "";
     private String newPassword = "";
-    private String username, password, givenName, surName, displayName, magicCode, email, phoneNumber, personalNumber, language;
+    private String username, password, givenName, surName, displayName, magicCode, email, phoneNumber, personalNumber, language,
+    confirmIdBy;
     private boolean registerAccount, resetPassword, incorrectPassword, removePrimary, removeNewEmail1, resendOTP, deleteButton,
             buttonValuePopup = true, useRecommendedPw, buttonValueConfirm = true, sendMobileOneTimePassword = true,
             generateUsername = true, acceptTerms = true, sendCaptcha = true;
@@ -338,6 +339,10 @@ public class Common {
         log.info("Properties loaded!");
     }
 
+    public void addMagicCookie(){
+        webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi"));
+    }
+
     public void switchToDefaultWindow(){
         webDriver.switchTo().window(firstWinHandle);
     }
@@ -347,110 +352,86 @@ public class Common {
     public void setRecommendedPw(String value) { recommendedPw = value; }
 */
     public String getUsername(){ return username; }
-
     public void setUsername(String username){ this.username = username; }
 
     public String getPassword(){ return password; }
-
     public void setPassword(String password){ this.password = password; }
 
     public String getGivenName(){ return givenName; }
-
     public void setGivenName(String givenName){ this.givenName = givenName; }
 
     public String getSurName(){ return surName; }
-
     public void setSurName(String surName){ this.surName = surName; }
 
     public String getDisplayName(){ return displayName; }
-
     public void setDisplayName(String displayName){ this.displayName = displayName; }
 
     public String getMagicCode(){ return magicCode; }
-
     public void setMagicCode(String magicCode){ this.magicCode = magicCode; }
 
     public String getPersonalNumber(){ return personalNumber; }
-
     public void setPersonalNumber(String personalNumber){ this.personalNumber = personalNumber; }
 
     public String getPhoneNumber(){ return phoneNumber; }
-
     public void setPhoneNumber(String phoneNumber){ this.phoneNumber = phoneNumber; }
 
     public String getEmail(){ return email; }
-
     public void setEmail(String email){ this.email = email; }
 
     public String getLanguage(){ return language; }
-
     public void setLanguage(String language){ this.language = language; }
 
     public boolean getRegisterAccount(){ return registerAccount; }
-
     public void setRegisterAccount(boolean registerAccount){ this.registerAccount = registerAccount; }
 
     public boolean getResetPassword(){ return resetPassword; }
-
     public void setResetPassword(boolean resetPassword){ this.resetPassword = resetPassword; }
 
     public boolean getIncorrectPassword(){ return incorrectPassword; }
-
     public void setIncorrectPassword(boolean incorrectPassword){ this.incorrectPassword = incorrectPassword; }
 
     public boolean getRemovePrimary(){ return removePrimary; }
-
     public void setRemovePrimary(boolean removePrimary){ this.removePrimary = removePrimary; }
 
     public boolean getRemoveNewEmail1(){ return removeNewEmail1; }
-
     public void setRemoveNewEmail1(boolean removeNewEmail1){ this.removeNewEmail1 = removeNewEmail1; }
 
     public boolean getButtonValuePopup(){ return buttonValuePopup; }
-
     public void setButtonValuePopup(boolean buttonValuePopup){ this.buttonValuePopup = buttonValuePopup; }
 
     public boolean getUseRecommendedPw(){ return useRecommendedPw; }
-
     public void setUseRecommendedPw(boolean useRecommendedPw){ this.useRecommendedPw = useRecommendedPw; }
 
     public boolean getButtonValueConfirm(){ return buttonValueConfirm; }
-
     public void setButtonValueConfirm(boolean buttonValueConfirm){ this.buttonValueConfirm = buttonValueConfirm; }
 
     public String getAddNewEmail1(){ return addNewEmail1; }
-
     public void setAddNewEmail1(String addNewEmail1){ this.addNewEmail1 = addNewEmail1; }
 
     public String getConfirmNewEmail1(){ return confirmNewEmail1; }
-
     public void setConfirmNewEmail1(String confirmNewEmail1){ this.confirmNewEmail1 = confirmNewEmail1; }
 
     public String getNewPassword(){ return newPassword; }
-
     public void setNewPassword(String newPassword){ this.newPassword = newPassword; }
 
     public void setResendOTP(boolean resendOTP){ this.resendOTP = resendOTP; }
-
     public boolean getResendOTP(){ return resendOTP; }
 
     public void setSendMobileOneTimePassword(boolean sendMobileOneTimePassword){ this.sendMobileOneTimePassword = sendMobileOneTimePassword; }
-
     public boolean getSendMobileOneTimePassword(){ return sendMobileOneTimePassword; }
 
     public void setDeleteButton(boolean deleteButton){ this.deleteButton = deleteButton; }
-
     public boolean getDeleteButton(){ return deleteButton; }
 
     public void setGenerateUsername(boolean generateUsername){ this.generateUsername = generateUsername; }
-
     public boolean getGenerateUsername(){ return generateUsername; }
 
     public void setAcceptTerms(boolean acceptTerms){ this.acceptTerms = acceptTerms; }
-
     public boolean getAcceptTerms(){ return acceptTerms; }
 
     public void setSendCaptcha(boolean sendCaptcha){ this.sendCaptcha = sendCaptcha; }
-
     public boolean getSendCaptcha(){ return sendCaptcha; }
+
+    public String getConfirmIdBy(){ return confirmIdBy; }
+    public void setConfirmIdBy(String confirmIdBy){ this.confirmIdBy = confirmIdBy; }
 }

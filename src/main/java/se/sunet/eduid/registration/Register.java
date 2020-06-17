@@ -21,6 +21,11 @@ public class Register {
 
     private void verifyPageTitle() {
         common.verifyPageTitle("eduID");
+
+        //TODO temp fix to get swedish language
+        if(common.findWebElementByXpath("/html").getText().contains("Svenska"))
+            common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
+
     }
 
     private void verifyLabels(){
@@ -46,7 +51,7 @@ public class Register {
         common.log.info("Register user: " +common.getUsername());
 
         common.findWebElementByXpath("//*[@id=\"email\"]/input").sendKeys(common.getUsername());
-        common.click(common.findWebElementById("register-button"));
+        common.findWebElementById("register-button").click();
     }
 
     private void registerPopUp(){
@@ -58,9 +63,9 @@ public class Register {
 
         //Click on accept or reject
         if(common.getAcceptTerms())
-            common.click(common.findWebElementById("accept-tou-button"));
+            common.findWebElementById("accept-tou-button").click();
         else {
-            common.click(common.findWebElementById("reject-tou-button"));
+            common.findWebElementById("reject-tou-button").click();
             //TODO language
             //common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
             common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Välkommen till eduID");
@@ -149,6 +154,7 @@ public class Register {
                     .charAt(index));
         }
         //Add the magic to random string
-        common.setUsername(sb.toString() +common.getMagicCode() +"@dev.eduid.sunet.se");
+        //common.setUsername(sb.toString() +common.getMagicCode() +"@dev.eduid.sunet.se");
+        common.setUsername(sb.toString() +"@dev.eduid.sunet.se");
     }
 }

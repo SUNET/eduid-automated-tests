@@ -29,7 +29,7 @@ public class Password {
 
         //If a new password is provided, initiate the change flow
         if(!common.getNewPassword().equals("")) {
-            common.click(common.findWebElementById("security-change-button"));
+            common.findWebElementById("security-change-button").click();
 
             common.switchToPopUpWindow();
 
@@ -38,7 +38,7 @@ public class Password {
 
             //Accept if true else Abort
             if(common.getButtonValuePopup()) {
-                common.click(common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span"));
+                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span").click();
 
                 common.timeoutMilliSeconds(500);
                 common.switchToDefaultWindow();
@@ -67,11 +67,11 @@ public class Password {
                 //Should recommended password be used
                 if(!common.getUseRecommendedPw()) {
                     //Select use own password
-                    common.click(common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button/span"));
+                    common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button/span").click();
                     verifyOwnPasswordLabels();
 
                     //Select use own password again since when switch between language it will come back to default change pw page
-                    common.click(common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button/span"));
+                    common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button/span").click();
 
                     //Enter current password
                     common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").clear();
@@ -117,7 +117,7 @@ public class Password {
 
                 //Save button or Abort
                 if(common.getButtonValueConfirm()) {
-                    common.click(common.findWebElementById("chpass-button"));
+                    common.findWebElementById("chpass-button").click();
 
                     // If not the correct password was entered at password change
                     if(common.getIncorrectPassword()) {
@@ -126,11 +126,11 @@ public class Password {
                                 "uppstått vid ändring av ditt lösenord. Vänligen försök igen eller kontakta supporten om problemet kvarstår.");
                         common.timeoutMilliSeconds(500);
                         //Click abort
-                        common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span"));
+                        common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span").click();
                     }
                     //If too weak password is chosen, click abort. Inside save button if-statement to test if its possible to click it
                     else if(common.getNewPassword().equalsIgnoreCase("test")) {
-                        common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span"));
+                        common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span").click();
                     }
                     else {
                         common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
@@ -138,10 +138,10 @@ public class Password {
                         //common.timeoutMilliSeconds(500);
                     }
                 } else
-                    common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span"));
+                    common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span").click();
             }
             else {
-                common.click(common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[2]/span"));
+                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[2]/span").click();
                 common.timeoutMilliSeconds(500);
             }
         }
@@ -179,10 +179,10 @@ public class Password {
         common.verifyStringOnPage("REKOMMENDERA ETT LÖSENORD");
 
         //Switch to English
-        common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a"));
+        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
 
         //Click on not use recommended password
-        common.click(common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button/span"));
+        common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button/span").click();
 
         //Heading - English
         common.verifyStringOnPage("TIP: CHOOSE A STRONG PASSWORD");
@@ -203,7 +203,7 @@ public class Password {
         common.verifyStringOnPage("SUGGEST A PASSWORD FOR ME");
 
         //Switch to Swedish
-        common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
+        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
     }
 
     private void verifyLabelsSwedish() {
@@ -219,7 +219,7 @@ public class Password {
     }
 
     private void verifyLabelsEnglish() {
-        common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a"));
+        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
 
         //Heading
         common.verifyStringOnPage("Change password");
@@ -232,6 +232,6 @@ public class Password {
         common.verifyStringOnPage("CHANGE PASSWORD");
 
         //Click on Swedish
-        common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
+        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
     }
 }

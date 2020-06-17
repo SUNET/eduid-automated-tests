@@ -3,8 +3,10 @@ package se.sunet.eduid;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 import se.sunet.eduid.dashboard.ConfirmIdentity;
+import se.sunet.eduid.dashboard.DashBoard;
+import se.sunet.eduid.dashboard.DeleteAccount;
+import se.sunet.eduid.dashboard.PhoneNumber;
 import se.sunet.eduid.generic.Login;
-import se.sunet.eduid.generic.Logout;
 import se.sunet.eduid.generic.StartPage;
 import se.sunet.eduid.registration.ConfirmHuman;
 import se.sunet.eduid.registration.ConfirmedNewAccount;
@@ -12,10 +14,7 @@ import se.sunet.eduid.registration.Register;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
-
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 
 public class TC_40 {
     private StartPage startPage;
@@ -23,8 +22,10 @@ public class TC_40 {
     private ConfirmHuman confirmHuman;
     private ConfirmedNewAccount confirmedNewAccount;
     private Login login;
-    private Logout logout;
     private ConfirmIdentity confirmIdentity;
+    private PhoneNumber phoneNumber;
+    private DashBoard dashBoard;
+    private DeleteAccount deleteAccount;
     private Common common;
 
     @BeforeTest
@@ -39,8 +40,10 @@ public class TC_40 {
         confirmedNewAccount = new ConfirmedNewAccount(common);
         confirmHuman = new ConfirmHuman(common);
         login = new Login(common);
-        logout = new Logout(common);
         confirmIdentity = new ConfirmIdentity(common);
+        phoneNumber = new PhoneNumber(common);
+        dashBoard = new DashBoard(common);
+        deleteAccount = new DeleteAccount(common);
 
         System.out.println("Executing: " +testContext.getName());
     }
@@ -65,13 +68,33 @@ public class TC_40 {
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-    void confirmIdentity(){ confirmIdentity.runConfirmIdentity(); }
+    void addPhoneNumber(){
+        phoneNumber.addPhoneNumber();
+        phoneNumber.confirmNewPhoneNumber(); }
 
-//    @Test( dependsOnMethods = {"login"} )
-    void logout() {
-        logout.runLogout();
+    @Test( dependsOnMethods = {"addPhoneNumber"} )
+    void confirmIdentity(){
+        common.setConfirmIdBy("phone");
+        confirmIdentity.runConfirmIdentity(); }
+
+    //Delete the account, so it will be removed after 2 weeks by script
+    @Test( dependsOnMethods = {"confirmIdentity"} )
+    void dashboard() { dashBoard.pressSettings(); }
+
+    @Test( dependsOnMethods = {"dashboard"} )
+    void delete() {
+        common.setDeleteButton(true);
+        deleteAccount.runDeleteAccount(); }
+
+    @Test( dependsOnMethods = {"delete"} )
+    void startPage2(){ startPage.runStartPage(); }
+
+    @Test( dependsOnMethods = {"startPage2"} )
+    void login2(){
+        common.setIncorrectPassword(true);
+        login.runLogin();
     }
 
-//    @AfterTest
+    @AfterTest
     void quitBrowser(){ WebDriverManager.quitWebDriver(); }
 }

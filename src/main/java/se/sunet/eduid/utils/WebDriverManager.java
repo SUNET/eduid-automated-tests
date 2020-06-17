@@ -1,6 +1,11 @@
 package se.sunet.eduid.utils;
 
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
+
+import java.time.Instant;
+import java.util.Date;
+import java.util.Set;
 
 public class WebDriverManager {
     private static ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();

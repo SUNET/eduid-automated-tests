@@ -12,6 +12,10 @@ public class DeleteAccount {
     }
 
     public void runDeleteAccount(){
+        //TODO temp fix to get swedish language
+//        if(common.findWebElementByXpath("/html").getText().contains("Svenska"))
+//            common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
+
         verifyLabelsSwedish();
         verifyLabelsEnglish();
         clickDelete();
@@ -27,15 +31,15 @@ public class DeleteAccount {
 
     private void clickDeleteInPopUp(){
         if(common.getDeleteButton()) {
-            common.click(common.findWebElementByXpath("//*[@id=\"delete-account-modal\"]/div/div[3]/button[1]/span"));
+            common.findWebElementByXpath("//*[@id=\"delete-account-modal\"]/div/div[3]/button[1]/span").click();
 
             //Enter userName and password since we need to login again before account is deleted
             Login login = new Login(common);
             login.enterUsernamePassword();
-            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[1]/button"));
+            common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[1]/button").click();
         }
         else {
-            common.click(common.findWebElementByXpath("//*[@id=\"delete-account-modal\"]/div/div[3]/button[2]/span"));
+            common.findWebElementByXpath("//*[@id=\"delete-account-modal\"]/div/div[3]/button[2]/span").click();
         }
     }
 
@@ -53,7 +57,7 @@ public class DeleteAccount {
 
     private void verifyLabelsEnglish() {
         //Click on English
-        common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a"));
+        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
 
         //Heading
         common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/h4/span", "Delete eduID");

@@ -20,7 +20,7 @@ public class Logout {
     }
 
     private void pressLogOut(){
-        common.click(common.findWebElementById("logout"));
+        common.findWebElementById("logout").click();
     }
 
     private void verifyLabels(){
