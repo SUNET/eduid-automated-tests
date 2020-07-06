@@ -23,6 +23,7 @@ public class TC_1 {
     private EmailAddresses emailAddresses;
     private PhoneNumber phoneNumber;
     private Password password;
+    private AdvancedSettings advancedSettings;
     private Logout logout;
     private Common common;
 
@@ -40,9 +41,10 @@ public class TC_1 {
         emailAddresses = new EmailAddresses(common);
         phoneNumber = new PhoneNumber(common);
         password = new Password(common);
+        advancedSettings = new AdvancedSettings(common);
         logout = new Logout(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test
@@ -67,6 +69,9 @@ public class TC_1 {
     void password() { password.runPassword(); }
 
     @Test( dependsOnMethods = {"password"} )
+    void advancedSettings() { advancedSettings.runAdvancedSettings(); }
+
+    @Test( dependsOnMethods = {"advancedSettings"} )
     void logout() { logout.runLogout(); }
 
     @AfterTest

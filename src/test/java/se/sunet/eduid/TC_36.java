@@ -30,7 +30,7 @@ public class TC_36 {
         register = new Register(common);
         confirmHuman = new ConfirmHuman(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test

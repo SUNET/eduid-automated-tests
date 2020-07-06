@@ -1,8 +1,6 @@
 package se.sunet.eduid.registration;
 
-import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
-import se.sunet.eduid.utils.WebDriverManager;
 
 public class Register {
     private Common common;
@@ -23,18 +21,23 @@ public class Register {
         common.verifyPageTitle("eduID");
 
         //TODO temp fix to get swedish language
-        if(common.findWebElementByXpath("/html").getText().contains("Svenska"))
-            common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
+        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
+            common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
 
     }
 
     private void verifyLabels(){
         //TODO I get swedish when running TC38 first in headless mode otherwise I get english. needs to be fixed.
 
-        common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Välkommen till eduID");
-        common.verifyStringByXpath("//*[@id=\"welcome\"]/h2/span", "Skapa ett eduID med din e-postadress för att börja.");
-        //TODO should be email address in swedish.... bug?
-        common.verifyStringByXpath("//*[@id=\"register-container\"]/label", "E-POSTADRESS");
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID är enklare och säkrare inloggning.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]/span", "Registrera din e-postadress för att skapa ditt eduID.");
+
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]/span", "När du har skapat ditt eduID kan du logga in och koppla det till ditt svenska personnummer.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/label/span", "E-POSTADRESS");
+
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[3]/span", "Om du redan har ett eduID kan du logga in");
+
+        common.verifyStringNotEmptyByXpath("//*[@id=\"content\"]/p[3]/a/span", "//*[@id=\"content\"]/p[3]/a/span");
         //English
         /*
         common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
@@ -48,10 +51,11 @@ public class Register {
         if(common.getGenerateUsername())
             generateUsername();
 
-        common.log.info("Register user: " +common.getUsername());
+        Common.log.info("Register user: " +common.getUsername());
 
+        common.findWebElementByXpath("//*[@id=\"email\"]/input").clear();
         common.findWebElementByXpath("//*[@id=\"email\"]/input").sendKeys(common.getUsername());
-        common.findWebElementById("register-button").click();
+        common.click(common.findWebElementById("register-button"));
     }
 
     private void registerPopUp(){
@@ -63,12 +67,12 @@ public class Register {
 
         //Click on accept or reject
         if(common.getAcceptTerms())
-            common.findWebElementById("accept-tou-button").click();
+            common.click(common.findWebElementById("accept-tou-button"));
         else {
-            common.findWebElementById("reject-tou-button").click();
+            common.click(common.findWebElementById("reject-tou-button"));
             //TODO language
-            //common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
-            common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Välkommen till eduID");
+            //common.verifyStringByXpath("//*[@id="root"]/section[1]/div/h1/span", "Welcome to eduID");
+            common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID är enklare och säkrare inloggning.");
         }
     }
 

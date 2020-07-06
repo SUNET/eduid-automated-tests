@@ -35,7 +35,7 @@ public class TC_2 {
         personalInfo = new PersonalInfo(common);
         logout = new Logout(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test

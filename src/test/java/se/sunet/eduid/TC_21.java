@@ -24,19 +24,6 @@ public class TC_21 {
     private Common common;
     Properties properties;
 
-    private String username = "ove@idsec.se";
-    private String passwd = "lq2k dvzo 917s";
-    private boolean resetPassword = false;
-    private boolean registerAccount = false;
-    private boolean incorrectPassword = true;
-    private String givenName_Dashboard = "";
-    private String surName_Dashboard = "";
-    private String language_Dashboard = "";
-    private String newPassword = "Test?=59(GG1234%€#\\";
-    private boolean buttonValuePopup = true;
-    private boolean useRecommendedPw = false;
-    private boolean buttonValueConfirm = true;
-
     @BeforeTest
     @Parameters( {"url", "browser", "headless", "language"})
     void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
@@ -50,7 +37,7 @@ public class TC_21 {
         password = new Password(common);
         logout = new Logout(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test

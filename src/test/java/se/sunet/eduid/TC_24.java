@@ -45,7 +45,7 @@ public class TC_24 {
         passwordChanged = new PasswordChanged(common);
         logout = new Logout(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test
@@ -83,6 +83,17 @@ public class TC_24 {
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
 
     @Test( dependsOnMethods = {"passwordChanged"} )
+    void startPage2(){
+        startPage.runStartPage();
+    }
+
+    @Test( dependsOnMethods = {"startPage2"} )
+    void login2(){
+        common.setResetPassword(false);
+        login.runLogin();
+    }
+
+    @Test( dependsOnMethods = {"login2"} )
     void logout() {
         logout.runLogout();
     }

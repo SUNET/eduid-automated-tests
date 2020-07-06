@@ -36,7 +36,7 @@ public class TC_9 {
         emailAddresses = new EmailAddresses(common);
         logout = new Logout(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test

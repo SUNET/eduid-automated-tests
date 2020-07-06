@@ -33,7 +33,7 @@ public class TC_33 {
         dashBoard = new DashBoard(common);
         deleteAccount = new DeleteAccount(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test

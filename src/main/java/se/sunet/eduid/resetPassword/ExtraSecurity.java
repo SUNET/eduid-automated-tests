@@ -29,9 +29,9 @@ public class ExtraSecurity {
 
     private void confirmPasswordChange(){
         if(common.getSendMobileOneTimePassword()) {
-            common.click(common.findWebElementByXpath("//div/div[3]/form/div/div/button"));
+            common.findWebElementByXpath("//div/div[3]/form/div/div/button").click();
         }
         else
-            common.click(common.findWebElementByXpath("//div/div[4]/form/div/div/button"));
+            common.findWebElementByXpath("//div/div[4]/form/div/div/button").click();
     }
 }

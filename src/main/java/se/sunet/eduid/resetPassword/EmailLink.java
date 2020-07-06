@@ -26,7 +26,7 @@ public class EmailLink {
             //Fetch the code
             common.navigateToUrl("https://dashboard.dev.eduid.se/services/security/reset-password/get-email-code?eppn=nunif-mados");
             String emailCode = common.findWebElementByXpath("/html/body").getText();
-            common.log.info("Email code: " +emailCode);
+            Common.log.info("Email code: " +emailCode);
 
             //Simulate that clicking on link with code in email.
             common.navigateToUrl("https://dashboard.dev.eduid.se/services/security/reset-password/email/" +emailCode);

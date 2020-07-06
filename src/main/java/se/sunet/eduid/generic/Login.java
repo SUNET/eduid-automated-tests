@@ -30,14 +30,16 @@ public class Login {
 
     public void enterUsernamePassword(){
         //Enter username
+        common.findWebElementById("username").clear();
         common.findWebElementById("username").sendKeys(common.getUsername());
 
+        common.findWebElementById("password").clear();
         if(common.getIncorrectPassword())
             common.findWebElementById("password").sendKeys("notTheCorrectPassword");
         else
             common.findWebElementById("password").sendKeys(common.getPassword());
 
-        common.log.info("Log in with password: " +common.getPassword());
+        Common.log.info("Log in with password: " +common.getPassword());
     }
 
     public void signIn(){

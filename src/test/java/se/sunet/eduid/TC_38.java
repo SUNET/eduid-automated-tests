@@ -24,7 +24,6 @@ public class TC_38 {
     private ConfirmHuman confirmHuman;
     private ConfirmedNewAccount confirmedNewAccount;
     private Login login;
-    private Logout logout;
     private DashBoard dashBoard;
     private DeleteAccount deleteAccount;
     private Common common;
@@ -41,11 +40,10 @@ public class TC_38 {
         confirmedNewAccount = new ConfirmedNewAccount(common);
         confirmHuman = new ConfirmHuman(common);
         login = new Login(common);
-        logout = new Logout(common);
         dashBoard = new DashBoard(common);
         deleteAccount = new DeleteAccount(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test

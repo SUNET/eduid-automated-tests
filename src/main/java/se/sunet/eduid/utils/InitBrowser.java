@@ -61,8 +61,6 @@ public class InitBrowser {
         else {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.setCapability("Platform", "LINUX");
-            chromeOptions.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-            chromeOptions.setAcceptInsecureCerts(true);
             chromeOptions.addArguments("--no-sandbox");
             chromeOptions.addArguments("--headless");
             chromeOptions.addArguments("--lang=" +language);

@@ -45,7 +45,7 @@ public class TC_39 {
         deleteAccount = new DeleteAccount(common);
         dashBoard = new DashBoard(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test

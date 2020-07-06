@@ -155,11 +155,11 @@ public class PersonalInfo {
     }
 
     private void verifyUpdatedInfoBar(String language){
-        //Verify the saved info message
-        common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
+        //Verify the saved info message, using timeout to get better flow...
+        common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
         if(!language.equals("English"))
-            common.verifyStringOnPage( "Personlig information sparad");
+            common.verifyStringByXpath( "//*[@id=\"panel\"]/div[1]/div/span", "Personlig information sparad");
         else
-            common.verifyStringOnPage( "Personal information updated");
+            common.verifyStringByXpath( "//*[@id=\"panel\"]/div[1]/div/span", "Personal information updated");
     }
 }

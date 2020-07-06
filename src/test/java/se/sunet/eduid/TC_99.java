@@ -34,7 +34,7 @@ public class TC_99 {
         startPage = new StartPage(common);
         help = new Help(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test

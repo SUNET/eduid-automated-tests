@@ -13,6 +13,7 @@ import se.sunet.eduid.registration.ConfirmedNewAccount;
 import se.sunet.eduid.registration.Register;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
+import se.sunet.eduid.utils.RetryAndScreenShot;
 import se.sunet.eduid.utils.WebDriverManager;
 import java.io.IOException;
 
@@ -45,13 +46,14 @@ public class TC_40 {
         dashBoard = new DashBoard(common);
         deleteAccount = new DeleteAccount(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test
     void startPage(){
         common.setRegisterAccount(true);
-        startPage.runStartPage(); }
+        startPage.runStartPage();
+    }
 
     @Test( dependsOnMethods = {"startPage"} )
     void register(){ register.runRegister(); }

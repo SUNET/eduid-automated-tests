@@ -341,7 +341,7 @@
     <test name="TC_98">
         <parameter name="testDescription" value="Confirm phone number on default account, to restore it from previous tests" />
         <classes>
-            <class name="se.sunet.eduid.TC_98" >
+            <class name="se.sunet.eduid.TC_31" >
             </class>
         </classes>
     </test>

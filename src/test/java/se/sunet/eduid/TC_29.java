@@ -45,7 +45,7 @@ public class TC_29 {
         confirmPhoneNumber = new ConfirmPhoneNumber(common);
         logout = new Logout(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test
@@ -80,11 +80,22 @@ public class TC_29 {
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
 
     @Test( dependsOnMethods = {"passwordChanged"} )
+    void startPage2(){
+        startPage.runStartPage();
+    }
+
+    @Test( dependsOnMethods = {"startPage2"} )
+    void login2(){
+        common.setResetPassword(false);
+        login.runLogin();
+    }
+
+    @Test( dependsOnMethods = {"login2"} )
     void confirmPhoneNumber() {
         common.setMagicCode("cancel");
         confirmPhoneNumber.runConfirmPhoneNumber(); }
 
-    @Test( dependsOnMethods = {"passwordChanged"} )
+    @Test( dependsOnMethods = {"confirmPhoneNumber"} )
     void logout() {
         logout.runLogout();
     }

@@ -36,7 +36,7 @@ public class TC_20 {
         password = new Password(common);
         logout = new Logout(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test

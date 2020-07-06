@@ -1,18 +1,13 @@
 package se.sunet.eduid.utils;
 
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
-
-import java.time.Instant;
-import java.util.Date;
-import java.util.Set;
 
 public class WebDriverManager {
     private static ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
 
     public static WebDriver getWebDriver() {
         if(webDriver.get() == null)
-            System.out.println("Driver is null in getWebdriver");
+            Common.log.info("Driver is null in getWebdriver");
         return webDriver.get();
     }
 
@@ -25,7 +20,7 @@ public class WebDriverManager {
         try{
             webDriver.get().quit();
         }catch(Exception ex){
-            //log.warn("Catching exception in quit of browser \n" +ex);
+            Common.log.warn("Quit browser exception: " +ex);
         }finally {
             webDriver.get().quit();
         }

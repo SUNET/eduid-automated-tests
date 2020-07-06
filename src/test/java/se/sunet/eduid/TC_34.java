@@ -46,7 +46,7 @@ public class TC_34 {
         passwordChanged = new PasswordChanged(common);
         logout = new Logout(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test
@@ -80,11 +80,6 @@ public class TC_34 {
 
     @Test( dependsOnMethods = {"newPassword"} )
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
-
-    @Test( dependsOnMethods = {"passwordChanged"} )
-    void logout() {
-        logout.runLogout();
-    }
 
     @AfterTest
     void quitBrowser(){

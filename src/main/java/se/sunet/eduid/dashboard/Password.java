@@ -73,28 +73,30 @@ public class Password {
                     //Select use own password again since when switch between language it will come back to default change pw page
                     common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button/span").click();
 
-                    //Enter current password
+                    //Enter current password, first clear the input fields
                     common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").clear();
+                    common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
+                    common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
                     if (common.getIncorrectPassword()){
                         common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys("notCorrectPw");
 
                         //Type new password
-                        common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
+                        //common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
                         common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").sendKeys(common.getNewPassword());
 
                         //Repeat new password
-                        common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
+                        //common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
                         common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").sendKeys(common.getNewPassword());
                     }
                     else {
                         common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys(common.getPassword());
 
                         //Type new password
-                        common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
+                        //common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
                         common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").sendKeys(common.getNewPassword());
 
                         //Repeat new password
-                        common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
+                        //common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
                         common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").sendKeys(common.getNewPassword());
 
                         //Store the new password
@@ -122,8 +124,9 @@ public class Password {
                     // If not the correct password was entered at password change
                     if(common.getIncorrectPassword()) {
                         common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
-                        common.verifyStringOnPage("Ett fel har " +
-                                "uppstått vid ändring av ditt lösenord. Vänligen försök igen eller kontakta supporten om problemet kvarstår.");
+                        //Common.log.info(common.findWebElementByXpath("//*[@id=\"content\"]/div[1]/div/span").getText());
+                        common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Ett " +
+                                "fel har uppstått vid ändring av ditt lösenord. Vänligen försök igen eller kontakta supporten om problemet kvarstår.");
                         common.timeoutMilliSeconds(500);
                         //Click abort
                         common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span").click();
@@ -134,7 +137,7 @@ public class Password {
                     }
                     else {
                         common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
-                        common.verifyStringOnPage("Lösenordet har ändrats");
+                        common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span","Lösenordet har ändrats");
                         //common.timeoutMilliSeconds(500);
                     }
                 } else

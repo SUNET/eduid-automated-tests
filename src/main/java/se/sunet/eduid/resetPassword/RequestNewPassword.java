@@ -20,10 +20,11 @@ public class RequestNewPassword {
     }
 
     private void enterEmail(){
+        common.findWebElementById("email").clear();
         common.findWebElementById("email").sendKeys(common.getUsername());
     }
 
     private void pressRestPassword(){
-        common.click(common.findWebElementByXpath("//div/div[3]/form/div[2]/div/button"));
+        common.findWebElementByXpath("//div/div[3]/form/div[2]/div/button").click();
     }
 }

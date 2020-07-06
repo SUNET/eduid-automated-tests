@@ -13,8 +13,8 @@ public class DeleteAccount {
 
     public void runDeleteAccount(){
         //TODO temp fix to get swedish language
-//        if(common.findWebElementByXpath("/html").getText().contains("Svenska"))
-//            common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
+        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
+            common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
 
         verifyLabelsSwedish();
         verifyLabelsEnglish();

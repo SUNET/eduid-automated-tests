@@ -27,7 +27,7 @@ public class Common {
     private String recommendedPw, addNewEmail1 = "";
     private String confirmNewEmail1 = "";
     private String newPassword = "";
-    private String username, password, givenName, surName, displayName, magicCode, email, phoneNumber, personalNumber, language,
+    private String username, password, givenName, surName, displayName, magicCode, email, phoneNumber, personalNumber, language, eppn,
     confirmIdBy;
     private boolean registerAccount, resetPassword, incorrectPassword, removePrimary, removeNewEmail1, resendOTP, deleteButton,
             buttonValuePopup = true, useRecommendedPw, buttonValueConfirm = true, sendMobileOneTimePassword = true,
@@ -217,6 +217,7 @@ public class Common {
         } catch (Exception ex) {
             log.warn("Catching exception when explicit wait for visibility of element\n" + ex);
         }
+
     }
 
     public void explicitWaitVisibilityElementId(String idToElementToWaitFor) {
@@ -284,21 +285,7 @@ public class Common {
     public void click(WebElement element){
         ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", element);
     }
-/*
-    public void click(WebElement element){
-        try {
-            ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", element);
-        } catch (AssertionError e) {
-            log.warn(e.getMessage());
-            try {
-//                ResultReporter.jsonReasonArray.put(jsonReasonObject.put(testCase, testClass + ": " + "AssertionError, could not click on: " + element));
-            }catch(Exception ex){
-                log.warn("Test case failure message already registered");
-            }
-            fail();
-        }
-    }
-*/
+
     public Select selectDropDown(String dropDownId) {
         try {
             return new Select(findWebElementById(dropDownId));
@@ -333,6 +320,7 @@ public class Common {
         setDisplayName(properties.getProperty("displayname"));
         setPhoneNumber(properties.getProperty("phonenumber"));
         setEmail(properties.getProperty("email"));
+        setEppn(properties.getProperty("eppn"));
 
         setLanguage("Swedish");
 
@@ -434,4 +422,7 @@ public class Common {
 
     public String getConfirmIdBy(){ return confirmIdBy; }
     public void setConfirmIdBy(String confirmIdBy){ this.confirmIdBy = confirmIdBy; }
+
+    public String getEppn(){ return eppn; }
+    public void setEppn(String eppn){ this.eppn = eppn; }
 }

@@ -27,7 +27,7 @@ public class TC_35 {
         startPage = new StartPage(common);
         register = new Register(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test

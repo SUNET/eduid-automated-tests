@@ -33,7 +33,7 @@ public class TC_30 {
         confirmPhoneNumber = new ConfirmPhoneNumber(common);
         logout = new Logout(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test

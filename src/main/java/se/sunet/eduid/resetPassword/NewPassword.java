@@ -36,24 +36,26 @@ public class NewPassword {
     private void acceptPwOrSetCustomPw(){
         if(!common.getUseRecommendedPw()){
             //Click on custom password tab
-            common.click(common.findWebElementByXpath("//div/div[3]/ul/li[2]/a"));
+            common.findWebElementByXpath("//div/div[3]/ul/li[2]/a").click();
 
             //Verify custom pw labels
             verifyCustomPwLabels();
 
             //Enter new password
+            common.findWebElementById("custom-password").clear();
             common.findWebElementById("custom-password").sendKeys(common.getPassword());
+            common.findWebElementById("repeat-password").clear();
             common.findWebElementById("repeat-password").sendKeys(common.getPassword());
 
             //Click save new passwword button
-            common.click(common.findWebElementByXpath("//*[@id=\"custom-pw\"]/div/form/div[2]/div/button"));
+            common.findWebElementByXpath("//*[@id=\"custom-pw\"]/div/form/div[2]/div/button").click();
         }
         else{
             //Save the recommended password
             common.setPassword(common.findWebElementByXpath("//*[@id=\"generated-pw\"]/div/form/div[1]/div/p[2]/mark").getText());
             Common.log.info("Recommended password saved: " + common.getPassword());
 
-            common.click(common.findWebElementByXpath("//*[@id=\"generated-pw\"]/div/form/div[2]/div/button"));
+            common.findWebElementByXpath("//*[@id=\"generated-pw\"]/div/form/div[2]/div/button").click();
         }
     }
 

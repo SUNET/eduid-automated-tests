@@ -14,6 +14,7 @@ import se.sunet.eduid.generic.StartPage;
 import se.sunet.eduid.registration.ConfirmHuman;
 import se.sunet.eduid.registration.ConfirmedNewAccount;
 import se.sunet.eduid.registration.Register;
+import se.sunet.eduid.resetPassword.ConfirmPhoneNumber;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
@@ -30,6 +31,7 @@ public class TC_98 {
     private PhoneNumber phoneNumber;
     private DashBoard dashBoard;
     private DeleteAccount deleteAccount;
+    private ConfirmPhoneNumber confirmPhoneNumber;
     private Common common;
 
     @BeforeTest
@@ -47,9 +49,10 @@ public class TC_98 {
         confirmIdentity = new ConfirmIdentity(common);
         phoneNumber = new PhoneNumber(common);
         dashBoard = new DashBoard(common);
+        confirmPhoneNumber = new ConfirmPhoneNumber(common);
         deleteAccount = new DeleteAccount(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test
@@ -59,14 +62,10 @@ public class TC_98 {
     void login(){ login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-    void confirmPhoneNumber(){
+    void confirmPhoneNumber() {
         dashBoard.pressSettings();
-        phoneNumber.confirmNewPhoneNumber(); }
-
-//    @Test( dependsOnMethods = {"confirmPhoneNumber"} )
-    void confirmIdentity(){
-        common.setConfirmIdBy("phone");
-        confirmIdentity.runConfirmIdentity(); }
+        confirmPhoneNumber.runConfirmPhoneNumber();
+    }
 
     @AfterTest
     void quitBrowser(){ WebDriverManager.quitWebDriver(); }

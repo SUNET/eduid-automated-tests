@@ -22,7 +22,7 @@ public class ConfirmPhoneNumber {
 
     private void getConfirmationCode(){
         //Press settings tab
-        common.click(common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span"));
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
 
         //Press the Confirm phone number link
         common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span"));
@@ -35,16 +35,15 @@ public class ConfirmPhoneNumber {
         // incorrect code is entered for phone number confirmation. The confirmPhoneNumberCode is the same as the magic
         if(!common.getMagicCode().equalsIgnoreCase("cancel") && common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
             common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a"));
-
-            common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
+            common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
 
             //Pop up will now be closed and info that code has been sent is displayed
             //TODO maybe we should have test case when code is sent to earyl as well... later on
             boolean codeSentTooEarly = false;
             if(codeSentTooEarly)
-                common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "Vi kan bara skicka en kod var 5:e minut, var god vänta innan du ber om en ny kod.");
+                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Vi kan bara skicka en kod var 5:e minut, var god vänta innan du ber om en ny kod.");
             else
-                common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "En ny bekräftelsekod har skickats till dig");
+                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "En ny bekräftelsekod har skickats till dig");
         }
     }
 
@@ -67,10 +66,10 @@ public class ConfirmPhoneNumber {
                 phoneNumber = common.getPhoneNumber();
 
             //Fetch the code
-            common.navigateToUrl("https://dashboard.dev.eduid.se/services/phone/get-code?eppn=nunif-mados&phone=" +phoneNumber);
+            common.navigateToUrl("https://dashboard.dev.eduid.se/services/phone/get-code?eppn=" +common.getEppn() +"&phone=" +phoneNumber);
 
             String phoneCode = common.findWebElementByXpath("/html/body").getText();
-            common.log.info("Phone code: " +phoneCode);
+            Common.log.info("Phone code: " +phoneCode);
 
             WebDriverManager.getWebDriver().navigate().back();
 
@@ -80,6 +79,7 @@ public class ConfirmPhoneNumber {
             common.switchToPopUpWindow();
 
             //Enter code in pop-up window, if correct code should be sent, else send not correct code
+            common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").clear();
             if(common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
                 common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").sendKeys(phoneCode);
             else
@@ -89,11 +89,11 @@ public class ConfirmPhoneNumber {
             common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]"));
 
             //Verify that the confirmation info label shows
-            common.explicitWaitClickableElement("//*[@id=\"content\"]/div[1]/div/span");
+            common.explicitWaitClickableElement("//*[@id=\"panel\"]/div[1]/div/span");
             if(common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
-                common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "Telefonnummer har bekräftats");
+                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Telefonnummer har bekräftats");
             else
-                common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "Telefonummret du angav kan inte hittas");
+                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Telefonummret du angav kan inte hittas");
 
         }
         else {

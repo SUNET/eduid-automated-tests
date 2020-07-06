@@ -34,7 +34,7 @@ public class TC_28 {
         emailSent = new EmailSent(common);
         emailLink = new EmailLink(common);
 
-        System.out.println("Executing: " +testContext.getName());
+        Common.log.info("Executing: " +testContext.getName());
     }
 
     @Test

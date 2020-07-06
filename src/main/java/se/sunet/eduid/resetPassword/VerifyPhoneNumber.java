@@ -29,7 +29,7 @@ public class VerifyPhoneNumber {
     private void continueOrResendOTP(){
         if(common.getResendOTP()) {
             common.setResendOTP(false);
-            common.click(common.findWebElementByXpath("//div/div[3]/form/div[3]/a"));
+            common.findWebElementByXpath("//div/div[3]/form/div[3]/a").click();
 
             //Testng cannot execute same class twice in *.xml file. Therefore call necessary methods separately
             //to test the re-send OTP functionality.
@@ -48,11 +48,12 @@ public class VerifyPhoneNumber {
             String phoneCode = common.findWebElementByXpath("/html/body").getText();
 
             WebDriverManager.getWebDriver().navigate().back();
+
+            common.explicitWaitVisibilityElementId("phone_code");
+            common.findWebElementById("phone_code").clear();
             common.findWebElementById("phone_code").sendKeys(phoneCode);
 
-
-            //common.findWebElementById("phone_code").sendKeys("mknhKYFl94fJaWaiVk2oG9Tl");
-            common.click(common.findWebElementByXpath("//div/div[3]/form/div[2]/div/button"));
+            common.findWebElementByXpath("//div/div[3]/form/div[2]/div/button").click();
         }
     }
 }

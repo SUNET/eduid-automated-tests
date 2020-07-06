@@ -35,19 +35,40 @@ public class ConfirmIdentity{
     }
 
     private void pressAddButton(){
-        common.findWebElementByXpath("//*[@id=\"nin-form\"]/button/span").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"nin-form\"]/button/span"));
     }
 
     private void selectConfirmIdentity(){
         //Select way to confirm the identity. By mail, By phone or Freja Id
-        if(common.getConfirmIdBy().equalsIgnoreCase("mail"))
-            common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button").click();
+        if(common.getConfirmIdBy().equalsIgnoreCase("mail")) {
+            common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button"));
 
+            //Switch to pop up and verify its text
+            common.switchToPopUpWindow();
+            common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5/span");
+            common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5/span", "Få en bekräftelsekod via post");
+            common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]/div/p/span", "Om du " +
+                    "accepterar att få ett brev hem måste du skriva in bekräfelsekoden här för att bevisa att personnumret " +
+                    "är ditt. Av säkerhetsskäl går koden ut om två veckor.");
+
+            //Click first on abort
+            common.click(common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[2]/span"));
+
+            //Click on mail again, switch to pop-up and then press accept
+            common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button"));
+            common.switchToPopUpWindow();
+            common.explicitWaitClickableElement("//div[2]/div/div[1]/div/div/div[3]/button[1]/span");
+            common.click(common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span"));
+
+            common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
+            common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Overifierat personnummer sparat");
+
+        }
         //TODO at the moment "nothing" visual happens when clicking on mail. But that will be improved later on.
 
         //By phone
         else if(common.getConfirmIdBy().equalsIgnoreCase("phone")) {
-            common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button"));
             //Switch to pop up
             common.switchToPopUpWindow();
 
@@ -56,23 +77,23 @@ public class ConfirmIdentity{
             verifyPhoneLabels();
 
             //Press accept button
-            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span").click();
+            common.click(common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span"));
 
             //Verify status label
-            common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
-            common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "Personnumret är bekräftat");
+            common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
+            common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Personnummer har lagts till.");
 
             //Verify text
+            common.timeoutMilliSeconds(500);
             common.verifyStringOnPage("Ditt eduID är redo att användas");
-            common.verifyStringOnPage("För att kunna använda eduID måste du bevisa din identitet. Lägg " +
-                    "till ditt personnumer och bekräfta det i verkliga livet.");
-
+            common.verifyStringByXpath("//*[@id=\"text-content\"]/div/p[1]/span", "Personummret nedan är nu kopplat till detta eduID. Använd ditt " +
+                    "eduID för att logga in till olika tjänster inom högskolan.");
         }
         //Freja ID
         else {
             //Select Freja ID
             common.addMagicCookie();
-            common.findWebElementByXpath("//*[@id=\"eidas-show-modal\"]").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"eidas-show-modal\"]"));
 
             //Switch to the Freja Id pop up
             common.switchToPopUpWindow();
@@ -81,7 +102,7 @@ public class ConfirmIdentity{
             verifyFrejaIdLabels();
 
             //Press use Freja ID
-            common.findWebElementByXpath("//*[@id=\"freja-links\"]/a[1]/span").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"freja-links\"]/a[1]/span"));
         }
     }
 
