@@ -77,3 +77,11 @@ TC_37 - Initiate Register of new account, use incorrect magic code
 TC_38 - Register a new account
 
 TC_39 - Try to register new account with already existing user name
+
+TC_40 - Register new account, add and confirm phone number. Confirm identity by phone
+
+TC_41 - Register new account, add and confirm phone number. Confirm identity by mail
+
+TC_98 - Confirm phone number on default account, to restore it from previous tests
+
+TC_99 - Check the Help pages
