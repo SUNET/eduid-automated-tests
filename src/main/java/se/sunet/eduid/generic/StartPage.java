@@ -28,6 +28,9 @@ public class StartPage {
 
     private void signIn(){
         common.findWebElementByXpath("//*[@id=\"login\"]/a").click();
+
+        //Wait for next page
+        common.explicitWaitPageTitle("eduID-inloggning");
     }
 
     private void registerAccount(){

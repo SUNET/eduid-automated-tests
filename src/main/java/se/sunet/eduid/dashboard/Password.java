@@ -123,7 +123,7 @@ public class Password {
 
                     // If not the correct password was entered at password change
                     if(common.getIncorrectPassword()) {
-                        common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
+                        common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
                         //Common.log.info(common.findWebElementByXpath("//*[@id=\"content\"]/div[1]/div/span").getText());
                         common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Ett " +
                                 "fel har uppstått vid ändring av ditt lösenord. Vänligen försök igen eller kontakta supporten om problemet kvarstår.");
@@ -136,7 +136,7 @@ public class Password {
                         common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span").click();
                     }
                     else {
-                        common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div[1]/div/span");
+                        common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
                         common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span","Lösenordet har ändrats");
                         //common.timeoutMilliSeconds(500);
                     }

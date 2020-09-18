@@ -1,22 +1,16 @@
 package se.sunet.eduid.utils;
 
+import io.appium.java_client.ios.IOSDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.TestNG;
-
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.testng.Assert.fail;
 
 public class Common {
 
@@ -24,7 +18,7 @@ public class Common {
     public static final Logger log = LogManager.getLogger(Common.class);
     private WebDriver webDriver;
     private String firstWinHandle = null;
-    private String recommendedPw, addNewEmail1 = "";
+    private String addNewEmail1 = "";
     private String confirmNewEmail1 = "";
     private String newPassword = "";
     private String username, password, givenName, surName, displayName, magicCode, email, phoneNumber, personalNumber, language, eppn,
@@ -38,11 +32,9 @@ public class Common {
         setProperties();
     }
 
-    protected void startTestNg(List<String> suites){
-        TestNG testNG = new TestNG();
-        testNG.setTestSuites(suites);
-        testNG.setUseDefaultListeners(false);
-        testNG.run();
+    public Common(IOSDriver<?> webDriver) throws IOException {
+        this.webDriver = webDriver;
+        setProperties();
     }
 
     private String getTitle() {
@@ -59,20 +51,7 @@ public class Common {
     }
 
     public void verifyPageTitle(String pageTitle) {
-        try {
-            Assert.assertEquals(getTitle(), pageTitle);
-        } catch (AssertionError e) {
-            log.warn("Page title error: " + e.getMessage());
-            System.out.println("Page title error: " + e.getMessage());
-            fail();
-            try {
- //               Assert.fail();
-//                ResultReporter.jsonReasonArray.put(jsonReasonObject.put(testCase, testClass + ": " + "Page title error: " + e.getMessage()));
-//                Assert.fail();
-            }catch (Exception ex){
-                log.warn("Test case failure message already registered for Page Title" +ex);
-            }
-        }
+        Assert.assertEquals(getTitle(), pageTitle);
     }
 
     public void navigateToUrl(String url){
@@ -80,116 +59,34 @@ public class Common {
     }
 
     public void verifyStringByXpath(String xpath, String stringToCompareWith) {
-        try {
-            Assert.assertEquals(findWebElementByXpath(xpath).getText(), stringToCompareWith, errorMsg);
-        } catch (AssertionError e) {
-            log.warn(e.getMessage());
-            addJsonFailureReason(e);
-            fail();
-        }
+        Assert.assertEquals(findWebElementByXpath(xpath).getText(), stringToCompareWith, errorMsg);
     }
 
     public void verifyXpathContainsString(String xpathToBeEval, String stringToCompareWith) {
-        try {
-            Assert.assertTrue(findWebElementByXpath(xpathToBeEval).getText().contains(stringToCompareWith), errorMsg
+        Assert.assertTrue(findWebElementByXpath(xpathToBeEval).getText().contains(stringToCompareWith), errorMsg
                     + findWebElementByXpath(xpathToBeEval).getText() + " Does not contain search string: " + stringToCompareWith);
-        } catch (AssertionError e) {
-            log.warn(e.getMessage());
-            addJsonFailureReason(e);
-            fail();
-        }
     }
 
     public void verifyStringContainsXpath(String xpathToCompareWith, String stringToBeEval) {
-        try {
-            Assert.assertTrue(stringToBeEval.contains(findWebElementByXpath(xpathToCompareWith).getText()), errorMsg
+        Assert.assertTrue(stringToBeEval.contains(findWebElementByXpath(xpathToCompareWith).getText()), errorMsg
                     + findWebElementByXpath(xpathToCompareWith).getText() + " Does not contain search string: " + xpathToCompareWith);
-        } catch (AssertionError e) {
-            log.warn(e.getMessage());
-            addJsonFailureReason(e);
-            fail();
-        }
     }
 
     public void verifyStrings(String stringToCompareWith, String stringToBeEval) {
-        try {
-            Assert.assertTrue(stringToBeEval.contains(stringToCompareWith), errorMsg
+        Assert.assertTrue(stringToBeEval.contains(stringToCompareWith), errorMsg
                     + stringToBeEval + " Does not contain: " + stringToCompareWith);
-        } catch (AssertionError e) {
-            log.warn(e.getMessage());
-            addJsonFailureReason(e);
-            fail();
-        }
-    }
-
-    public void verifyStringByRegExp(String regExp, String xpathToParameter, String parameterNameXpath) {
-        parameterNameXpath = findWebElementByXpath(parameterNameXpath).getText();
-        Pattern pattern = Pattern.compile(regExp);
-        Matcher matcher = pattern.matcher(findWebElementByXpath(xpathToParameter).getText());
-        try {
-            Assert.assertTrue(matcher.matches(), "The parameter " + parameterNameXpath + " did not fulfill the regexp " +
-                    regExp + " according to attribute specification");
-        } catch (AssertionError e) {
-            log.warn(e.getMessage());
-            addJsonFailureReason(e);
-            fail();
-        }
     }
 
     public void verifyStringNotEmptyByXpath(String xpath, String parameterNameXpath) {
         parameterNameXpath = findWebElementByXpath(parameterNameXpath).getText();
-        try {
-            Assert.assertFalse((findWebElementByXpath(xpath).getText()).isEmpty(), errorMsg +parameterNameXpath +" Parameter is empty or missing!");
-        } catch (AssertionError e) {
-            log.warn(e.getMessage());
-            addJsonFailureReason(e);
-            fail();
-        }
+        Assert.assertFalse((findWebElementByXpath(xpath).getText()).isEmpty(), errorMsg +parameterNameXpath +" Parameter is empty or missing!");
     }
 
     public void verifyStringOnPage(String stringToBeVerified){
         timeoutMilliSeconds(100);
         if(!webDriver.findElement(By.tagName("body")).getText().contains(stringToBeVerified)){
             log.warn(errorMsg + stringToBeVerified +" - is missing on web page!");
-            addJsonFailureReasonString(errorMsg + stringToBeVerified +" - is missing on web page: " +getTitle(), "");
-            Assert.fail();
-        }
-    }
-
-    public void verifyIdPersistance(String xpath) {
-        try {
-            Assert.assertTrue(findWebElementByXpath(xpath).getText().contains("A") ||
-                    findWebElementByXpath(xpath).getText().contains("B") ||
-                    findWebElementByXpath(xpath).getText().contains("C"), "Failed verification of: ID persistence");
-        } catch (AssertionError e) {
-            log.warn(e.getMessage());
-            addJsonFailureReason(e);
-            fail();
-        }
-    }
-
-    private void addJsonFailureReason(AssertionError e){
-        try{
-//            ResultReporter.jsonReasonArray.put(jsonReasonObject.put(testCase, testClass +": " + e.getMessage()));
-        }catch (Exception ex){
-            log.warn("Test case failure message already registered");
-        }
-    }
-
-    private void addJsonFailureReasonString(String errorString, String elementToFind){
-        try{
-            //TODO putonce only to insert the reason one time
-//            ResultReporter.jsonReasonArray.put(jsonReasonObject.put(testCase, testClass +": " + errorString + elementToFind));
-        }catch (Exception ex){
-            log.warn("Test case failure message already registered");
-        }
-    }
-
-    public void timeout() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            log.error(e.getMessage());
+            Assert.fail(errorMsg + stringToBeVerified +" - is missing on web page!");
         }
     }
 
@@ -202,43 +99,28 @@ public class Common {
     }
 
     public void explicitWaitClickableElement(String xpathToElementToWaitFor) {
-        try {
-            WebDriverWait wait = new WebDriverWait(webDriver, 20);
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathToElementToWaitFor)));
-        } catch (Exception ex) {
-            log.warn("Catching exception when explicit wait for clickable element\n" + ex);
-        }
+        WebDriverWait wait = new WebDriverWait(webDriver, 20);
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathToElementToWaitFor)));
+    }
+
+    public void explicitWaitClickableElementId(String idToElementToWaitFor) {
+        WebDriverWait wait = new WebDriverWait(webDriver, 10);
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(idToElementToWaitFor)));
     }
 
     public void explicitWaitVisibilityElement(String xpathToElementToWaitFor) {
-        try {
-            WebDriverWait wait = new WebDriverWait(webDriver, 20);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathToElementToWaitFor)));
-        } catch (Exception ex) {
-            log.warn("Catching exception when explicit wait for visibility of element\n" + ex);
-        }
-
+        WebDriverWait wait = new WebDriverWait(webDriver, 20);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathToElementToWaitFor)));
     }
 
     public void explicitWaitVisibilityElementId(String idToElementToWaitFor) {
-        try {
-            WebDriverWait wait = new WebDriverWait(webDriver, 20);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(idToElementToWaitFor)));
-        } catch (Exception ex) {
-            log.warn("Catching exception when explicit wait for visibility of element\n" + ex);
-        }
+        WebDriverWait wait = new WebDriverWait(webDriver, 20);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(idToElementToWaitFor)));
     }
 
     public void explicitWaitPageTitle(String pageTitle) {
-        try {
-            WebDriverWait wait = new WebDriverWait(webDriver, 20);
-            wait.until(ExpectedConditions.titleContains(pageTitle));
-        } catch (Exception ex) {
-            log.warn("Catching exception when explicit wait for page title\n" + ex);
-            addJsonFailureReasonString(": " + "TimeOutException, waiting for: ", "page title");
-            //skipNextTest = true;
-//            sqlConnector.updateDb("testdata","skipNextTest", "true");
-        }
+        WebDriverWait wait = new WebDriverWait(webDriver, 20);
+        wait.until(ExpectedConditions.titleContains(pageTitle));
     }
 
     public void timeoutMilliSeconds(int milliSeconds) {
@@ -250,50 +132,20 @@ public class Common {
     }
 
     public WebElement findWebElementById(String elementToFind){
-        try {
-//            explicitWaitVisibilityElement(elementToFind);
-            return webDriver.findElement(By.id(elementToFind));
-        } catch (TimeoutException | NoSuchElementException e) {
-            log.warn(e.getMessage());
-            addJsonFailureReasonString(": " + "NoSuchElementException, could not find: ", elementToFind);
-            throw e;
-        }
+        return webDriver.findElement(By.id(elementToFind));
     }
 
     public WebElement findWebElementByXpath(String elementToFind){
-        try {
-//            explicitWaitVisibilityElement(elementToFind);
-            return webDriver.findElement(By.xpath(elementToFind));
-        } catch (TimeoutException | NoSuchElementException e) {
-            log.warn(e.getMessage());
-            addJsonFailureReasonString(": " + "NoSuchElementException, could not find: ", elementToFind);
-            throw e;
-        }
+        return webDriver.findElement(By.xpath(elementToFind));
     }
 
     public String getAttributeByXpath(String elementToFind){
-        try {
-            explicitWaitVisibilityElement(elementToFind);
-            return webDriver.findElement(By.xpath(elementToFind)).getAttribute("value");
-        } catch (TimeoutException|NoSuchElementException e) {
-            log.warn(e.getMessage());
-            addJsonFailureReasonString(": " + "NoSuchElementException, could not find: ", elementToFind);
-            throw e;
-        }
+        explicitWaitVisibilityElement(elementToFind);
+        return webDriver.findElement(By.xpath(elementToFind)).getAttribute("value");
     }
 
     public void click(WebElement element){
         ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", element);
-    }
-
-    public Select selectDropDown(String dropDownId) {
-        try {
-            return new Select(findWebElementById(dropDownId));
-        } catch (NoSuchElementException e) {
-            log.warn(e.getMessage());
-            addJsonFailureReasonString(": " + "NoSuchElementException, could not find: ", dropDownId);
-            throw e;
-        }
     }
 
     public void switchToPopUpWindow(){
@@ -334,11 +186,7 @@ public class Common {
     public void switchToDefaultWindow(){
         webDriver.switchTo().window(firstWinHandle);
     }
-/*
-    public String getRecommendedPw() { return recommendedPw; }
 
-    public void setRecommendedPw(String value) { recommendedPw = value; }
-*/
     public String getUsername(){ return username; }
     public void setUsername(String username){ this.username = username; }
 

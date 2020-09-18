@@ -1,6 +1,8 @@
 package se.sunet.eduid.dashboard;
 
+import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.WebDriverManager;
 
 public class PersonalInfo {
     private Common common;
@@ -71,10 +73,12 @@ public class PersonalInfo {
     private void selectLanguage() {
         if(common.getLanguage().equalsIgnoreCase("Svenska")) {
             //Select new language - Swedish
-            common.findWebElementByXpath("//*[@id=\"language\"]/select/option[3]").click();
+            //common.findWebElementByXpath("//*[@id=\"language\"]/select/option[3]").click();
+            common.findWebElementById("Svenska").click();
 
             //Click Add button
-            common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span").click();
+            //common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span").click();
+            common.findWebElementById("personal-data-button").click();
 
             common.timeoutMilliSeconds(500);
             common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "LÄGG TILL");
@@ -87,10 +91,12 @@ public class PersonalInfo {
             common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "LÄGG TILL");
 
             //Select new language - English
-            common.findWebElementByXpath("//*[@id=\"language\"]/select/option[2]").click();
+            //common.findWebElementByXpath("//*[@id=\"language\"]/select/option[2]").click();
+            common.findWebElementById("English").click();
 
             //Click Add button
-            common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span").click();
+            //common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span").click();
+            common.findWebElementById("personal-data-button").click();
 
             //Verify the label
             //explicitWaitClickableElement("//*[@id=\"personal-data-button\"]/span");
@@ -114,20 +120,20 @@ public class PersonalInfo {
                 "in med eduID för att kunna anpassa dessa tjänster för dig.");
 
         //Given name
-        common.verifyStringOnPage("FÖRNAMN");
+        common.verifyStringOnPage("Förnamn");
 
         //Sur name
-        common.verifyStringOnPage( "EFTERNAMN");
+        common.verifyStringOnPage( "Efternamn");
 
         //Display name
-        common.verifyStringOnPage( "VISNINGSNAMN");
+        common.verifyStringOnPage( "Visningsnamn");
 
         //Display name text
-        common.verifyStringOnPage( "Vissa tjänster visar detta " +
+        common.verifyStringOnPage( "vissa tjänster visar detta " +
                 "i stället för förnamn och efternamn.");
 
         //Language
-        common.verifyStringOnPage( "SPRÅK");
+        common.verifyStringOnPage( "Språk");
     }
 
     private void verifyLabelsEnglish() {
@@ -138,20 +144,20 @@ public class PersonalInfo {
         common.verifyStringOnPage("Your name and preferred language will be used to personalise some services that you access with eduID.");
 
         //Given name
-        common.verifyStringOnPage("FIRST NAME");
+        common.verifyStringOnPage("First name");
 
         //Sur name
-        common.verifyStringOnPage("LAST NAME");
+        common.verifyStringOnPage("Last name");
 
         //Display name
-        common.verifyStringOnPage( "DISPLAY NAME");
+        common.verifyStringOnPage( "Display name");
 
         //Display name text
-        common.verifyStringOnPage("Some services will show this " +
+        common.verifyStringOnPage("some services will show this " +
                 "instead of your first and last name.");
 
         //Language
-        common.verifyStringOnPage("LANGUAGE");
+        common.verifyStringOnPage("Language");
     }
 
     private void verifyUpdatedInfoBar(String language){

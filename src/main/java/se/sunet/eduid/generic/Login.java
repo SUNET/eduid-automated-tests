@@ -24,8 +24,8 @@ public class Login {
     }
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("eduID-inloggning");
-        common.verifyPageTitle("eduID-inloggning");
+//        common.explicitWaitPageTitle("eduID-inloggning");
+//        common.verifyPageTitle("eduID-inloggning");
     }
 
     public void enterUsernamePassword(){
@@ -48,18 +48,27 @@ public class Login {
         if(common.getIncorrectPassword())
             common.verifyStringByXpath("//*[@id=\"alert_msg\"]", "Ogiltigt användarnamn eller lösenord (1 försök)");
         else {
-            common.timeoutSeconds(1);
-            common.verifyStringOnPage(common.getUsername().toLowerCase());
+            //common.timeoutSeconds(1);
+            //common.verifyStringOnPage(common.getUsername().toLowerCase());
+
+            //Wait for the "EduId for" label at dashboard
+            common.explicitWaitVisibilityElement("//section[1]/div/h1/span");
         }
     }
 
     private void registerAccount(){
         //Click on sign up button
         common.findWebElementByXpath("//*[@id=\"eduid-idp-menu\"]/div/div[1]/a").click();
+
+        //Wait for next page
+        common.explicitWaitClickableElement("//section[1]/div/h1/span");
     }
 
     private void resetPassword(){
         //Click on forgot password link
         common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[2]/a").click();
+
+        //Wait for next page
+        common.explicitWaitPageTitle("Reset password - Email");
     }
 }

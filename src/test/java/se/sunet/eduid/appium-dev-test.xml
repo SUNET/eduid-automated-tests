@@ -1,0 +1,88 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="dev" parallel="tests" thread-count="1">
+    <parameter name="url" value="https://dev.eduid.se" />
+    <parameter name="browser" value="chrome" />
+    <parameter name="headless" value="false" />
+    <parameter name="language" value="sv" />
+<!--
+    <listeners>
+        <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
+    </listeners>
+-->
+
+    <!--
+
+    eduidtest.se1@gmail.com
+    test1eduid!
+
+
+Test?=59(GG1234%€#\
+default pw
+lq2k dvzo 917s
+mknhKYFl94fJaWaiVk2oG9Tl
+
+ovemknhKYFl94fJaWaiVk2oG9Tl@idsec.se
+
+https://dashboard.dev.eduid.se/services/security/reset-password/email/mknhKYFl94fJaWaiVk2oG9Tl
+
+https://signup.dev.eduid.se/register/code/mknhKYFl94fJaWaiVk2oG9Tl
+
+        <parameter name="newPassword" value="Test?=59(GG1234%€#\"/>
+        <parameter name="useRecommendedPw" value="false" />
+
+        <parameter name="passWord" value="lq2k dvzo 917s" />
+                <parameter name="buttonValueConfirm" value="true" />
+
+                            <class name="se.sunet.eduid.resetPassword.PasswordResetExtraSecuritySecurity>
+                                        <class name="se.sunet.eduid.resetPassword.EmailLink" >
+
+-->
+
+<!---->
+
+
+    <test name="APP_1">
+        <parameter name="platformName" value="iOS" />
+        <parameter name="platformVersion" value="13.7" />
+        <parameter name="automationName" value="XCUITest" />
+        <parameter name="deviceName" value="iPhone SE" />
+        <parameter name="browserName" value="Safari" />
+        <parameter name="uuid" value="2CDE1561-07C0-4FAA-8FAC-0FF87C8A2375" />
+        <parameter name="testDescription" value="Log in and check account data and labels" />
+        <classes>
+            <class name="se.sunet.eduid.APP_1" >
+            </class>
+        </classes>
+    </test>
+
+<!--
+        <test name="APP_2">
+            <parameter name="platformName" value="iOS" />
+            <parameter name="platformVersion" value="13.7" />
+            <parameter name="automationName" value="XCUITest" />
+            <parameter name="deviceName" value="iPhone 11 Pro Max" />
+            <parameter name="browserName" value="Safari" />
+                    <parameter name="uuid" value="16B6BDDB-FF4B-46D3-B4B3-A99ADA52B22C" />
+            <parameter name="testDescription" value="Log in and check account data and labels" />
+            <classes>
+                <class name="se.sunet.eduid.APP_1" />
+                </classes>
+        </test>
+-->
+<!--
+    <test name="APP_2">
+        <parameter name="platformName" value="ANDROID" />
+        <parameter name="platformVersion" value="6.0.1" />
+        <parameter name="automationName" value="XCUITest" />
+        <parameter name="deviceName" value="Galaxy Note5" />
+        <parameter name="browserName" value="chrome" />
+        <parameter name="uuid" value="2CDE1561-07C0-4FAA-8FAC-0FF87C8A2375" />
+        <parameter name="testDescription" value="Log in and check account data and labels" />
+        <classes>
+            <class name="se.sunet.eduid.APP_2" >
+            </class>
+        </classes>
+    </test>
+-->
+</suite>

@@ -38,7 +38,7 @@ public class AdvancedSettings {
 
         //Verify text
         common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span");
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span", "Ge ett namn till säkerhetsnyckeln");
+        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span", "Ge ett namn till din säkerhetsnyckel");
 
         //Press abort
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[2]/span").click();
@@ -75,7 +75,7 @@ public class AdvancedSettings {
         common.verifyStringOnPage("Unikt ID");
         common.verifyStringOnPage("Detta är ett autogenererat unikt id för ditt eduID som du kan behöva " +
                 "ange när du ber om teknisk support.");
-        common.verifyStringOnPage("EPPN");
+        common.verifyStringOnPage("eppn");
         common.verifyStringNotEmptyByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]", "//*[@id=\"uniqueId-container\"]/div[2]/label/span");
 
         //click on english
@@ -93,7 +93,7 @@ public class AdvancedSettings {
 
         common.verifyStringOnPage("Unique ID");
         common.verifyStringOnPage("This is an automatically generated unique identifier for your eduID.");
-        common.verifyStringOnPage("EPPN");
+        common.verifyStringOnPage("eppn");
         common.verifyStringNotEmptyByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]", "//*[@id=\"uniqueId-container\"]/div[2]/label/span");
         common.verifyStringOnPage("You might be asked to share this information if you need technical support.");
 

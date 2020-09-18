@@ -9,11 +9,7 @@ import se.sunet.eduid.generic.StartPage;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Properties;
 
 public class TC_1 {
     private StartPage startPage;
@@ -26,11 +22,12 @@ public class TC_1 {
     private AdvancedSettings advancedSettings;
     private Logout logout;
     private Common common;
+    private InitBrowser initBrowser;
 
     @BeforeTest
-    @Parameters( {"url", "browser", "headless", "language"})
+    @Parameters({"url", "browser", "headless", "language"})
     void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
-        InitBrowser initBrowser = new InitBrowser();
+        initBrowser = new InitBrowser();
         WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
 
         common = new Common(WebDriverManager.getWebDriver());
@@ -44,11 +41,13 @@ public class TC_1 {
         advancedSettings = new AdvancedSettings(common);
         logout = new Logout(common);
 
-        Common.log.info("Executing: " +testContext.getName());
+        Common.log.info("Executing: " + testContext.getName());
+
+//        initBrowser.startHarSession(testContext.getName());
     }
 
     @Test
-    void startPage(){ startPage.runStartPage(); }
+    void startPage() { startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){ login.runLogin(); }
@@ -75,5 +74,7 @@ public class TC_1 {
     void logout() { logout.runLogout(); }
 
     @AfterTest
-    void quitBrowser(){ WebDriverManager.quitWebDriver(); }
+    void quitBrowser() throws IOException {
+//        initBrowser.stopHarSession();
+        WebDriverManager.quitWebDriver(); }
 }

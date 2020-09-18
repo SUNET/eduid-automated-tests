@@ -72,16 +72,16 @@ public class DashBoard {
         common.verifyStringOnPage("Inställningar");
 
         //Name
-        common.verifyStringOnPage("NAMN");
+        common.verifyStringOnPage("Namn");
 
         //Personal number
-        common.verifyStringOnPage("PERSONNUMMER");
+        common.verifyStringOnPage("Personnummer");
 
         //Phone number
-        common.verifyStringOnPage( "TELEFONNUMMER");
+        common.verifyStringOnPage( "Telefonnummer");
 
         //Email
-        common.verifyStringOnPage( "E-POSTADRESS");
+        common.verifyStringOnPage( "E-postadress");
 
         //FAQ
         common.verifyStringOnPage("Hjälp");
@@ -107,16 +107,16 @@ public class DashBoard {
         common.verifyStringOnPage( "Settings");
 
         //Name
-        common.verifyStringOnPage( "NAME");
+        common.verifyStringOnPage( "Name");
 
         //Personal number
-        common.verifyStringOnPage( "ID NUMBER");
+        common.verifyStringOnPage( "Id number");
 
         //Phone number
-        common.verifyStringOnPage( "PHONE NUMBER");
+        common.verifyStringOnPage( "Phone number");
 
         //Email
-        common.verifyStringOnPage("EMAIL ADDRESS");
+        common.verifyStringOnPage("Email address");
 
         //FAQ
         common.verifyStringOnPage( "Help");

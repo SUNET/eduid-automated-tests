@@ -27,7 +27,7 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
             int maxTry = 2;
             if (retryCount < maxTry) {
                 //System.out.println("Test failed at attempt " +(retryCount +1) +" will try again\n");
-                log.warn("Test failed at attempt " +(retryCount +1) +" will try again\n" +iTestResult.getThrowable().getMessage());
+                log.warn(testCase + " - " + testMethod + " - Test failed at attempt " +(retryCount +1) +" will try again\n" +iTestResult.getThrowable().getMessage());
                 screenshot();
                 try {
                     Thread.sleep(2000);
@@ -41,7 +41,7 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
                 return true;
             }
             else {
-                log.error("Test failed at attempt " +(retryCount +1) +", test will be marked as failed\n" );
+                log.error(testCase + " - " + testMethod + " - Test failed at attempt " +(retryCount +1) +", test will be marked as failed\n" );
                 //windowMaximizeSize();
                 //screenshot();
                 iTestResult.setStatus(ITestResult.FAILURE);
