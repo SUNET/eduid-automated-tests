@@ -12,6 +12,7 @@ import se.sunet.eduid.registration.ConfirmedNewAccount;
 import se.sunet.eduid.registration.Register;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
+import se.sunet.eduid.utils.RetryAndScreenShot;
 import se.sunet.eduid.utils.WebDriverManager;
 
 import java.io.FileInputStream;
@@ -27,6 +28,7 @@ public class TC_38 {
     private DashBoard dashBoard;
     private DeleteAccount deleteAccount;
     private Common common;
+
 
     @BeforeTest
     @Parameters( {"url", "browser", "headless", "language"})
@@ -49,7 +51,8 @@ public class TC_38 {
     @Test
     void startPage(){
         common.setRegisterAccount(true);
-        startPage.runStartPage(); }
+        startPage.runStartPage();
+    }
 
     @Test( dependsOnMethods = {"startPage"} )
     void register(){ register.runRegister(); }
@@ -58,7 +61,8 @@ public class TC_38 {
     void confirmHuman() { confirmHuman.runConfirmHuman(); }
 
     @Test( dependsOnMethods = {"confirmHuman"} )
-    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
+    void confirmedNewAccount() {
+        confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
@@ -67,19 +71,16 @@ public class TC_38 {
 
     //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"login"} )
-    void dashboard() {
-        dashBoard.pressSettings();
-    }
+    void dashboard() { dashBoard.runDashBoard(); }
 
     @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
         common.setDeleteButton(true);
-        deleteAccount.runDeleteAccount(); }
+        deleteAccount.runDeleteAccount();
+    }
 
     @Test( dependsOnMethods = {"delete"} )
-    void startPage2(){
-        startPage.runStartPage();
-    }
+    void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){

@@ -22,8 +22,7 @@ public class Register {
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
-            common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
-
+            common.findWebElementByLinkText("Svenska").click();
     }
 
     private void verifyLabels(){
@@ -33,17 +32,24 @@ public class Register {
         common.verifyStringByXpath("//*[@id=\"content\"]/p[1]/span", "Registrera din e-postadress för att skapa ditt eduID.");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/p[2]/span", "När du har skapat ditt eduID kan du logga in och koppla det till ditt svenska personnummer.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/label/span", "E-POSTADRESS");
+        common.verifyStringByXpath("//*[@id=\"email\"]/div/label/span", "E-postadress");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/p[3]/span", "Om du redan har ett eduID kan du logga in");
 
         common.verifyStringNotEmptyByXpath("//*[@id=\"content\"]/p[3]/a/span", "//*[@id=\"content\"]/p[3]/a/span");
-        //English
-        /*
-        common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
-        common.verifyStringByXpath("//*[@id=\"welcome\"]/h2/span", "Sign up with your email address to start.");
-        common.verifyStringByXpath("//*[@id=\"register-container\"]/label", "EMAIL ADDRESS");
-        */
+
+        //Switch language to English
+        common.findWebElementByLinkText("English").click();
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID is easier and safer login.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]/span", "Register your email address to create your eduID.");
+
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]/span", "Once you have created an eduID you will be able to log in and connect it to your Swedish national identity number.");
+        common.verifyStringByXpath("//*[@id=\"email\"]/div/label/span", "Email address");
+
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[3]/span", "If you already have eduID you can log in");
+
+        common.verifyStringNotEmptyByXpath("//*[@id=\"content\"]/p[3]/a/span", "//*[@id=\"content\"]/p[3]/a/span");
+
     }
 
     private void enterEmailAndPressRegister(){
@@ -55,15 +61,20 @@ public class Register {
 
         common.findWebElementByXpath("//*[@id=\"email\"]/input").clear();
         common.findWebElementByXpath("//*[@id=\"email\"]/input").sendKeys(common.getUsername());
-        common.click(common.findWebElementById("register-button"));
+        common.findWebElementById("register-button").click();
     }
 
     private void registerPopUp(){
-        //wait for buttons to appear
-        //explicitWaitVisibilityElementId("accept-tou-button");
+        //First verify terms in english
+        verifyTermsEnglish();
 
-        //In pop-up, verify text
-        verifyTerms();
+        //Press abort and switch to swedish
+        common.findWebElementById("reject-tou-button").click();
+        common.findWebElementByLinkText("Svenska").click();
+
+        //Click on register button again and verify terms in swedish
+        common.findWebElementById("register-button").click();
+        verifyTermsSwedish();
 
         //Click on accept or reject
         if(common.getAcceptTerms())
@@ -76,69 +87,68 @@ public class Register {
         }
     }
 
-    private void verifyTerms(){
+    private void verifyTermsSwedish(){
         //Swedish
-        common.explicitWaitVisibilityElement("//*[@id=\"register-modal\"]/div/div[1]/h5/span");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[1]/h5/span", "Användarvillkor för eduID.se");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/p[1]", "För eduID.se gäller generellt:");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[1]", "att all användning av " +
+        common.explicitWaitVisibilityElement("//div/div[1]/h5/span");
+        common.verifyStringByXpath("//div/div[1]/h5/span", "Användarvillkor för eduID.se");
+        common.verifyStringByXpath("//div/div[2]/p[1]", "För eduID.se gäller generellt:");
+        common.verifyStringByXpath("//div/div[2]/ul/li[1]", "att all användning av " +
                 "användarkonton ska följa Sveriges lagar och förordningar,");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[2]", "att man är " +
+        common.verifyStringByXpath("//div/div[2]/ul/li[2]", "att man är " +
                 "sanningsenlig vid uppgivande av personlig information som namn, kontaktuppgifter el. dyl,");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[3]", "att användarkonton, " +
+        common.verifyStringByXpath("//div/div[2]/ul/li[3]", "att användarkonton, " +
                 "lösenord och koder är personliga och får endast användas av innehavaren,");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[4]", "att SUNET:s " +
+        common.verifyStringByXpath("//div/div[2]/ul/li[4]", "att SUNET:s " +
                 "etiska regler reglerar övrig tillåten användning. SUNET fördömer som oetiskt när någon");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[1]", "försöker " +
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[1]", "försöker " +
                 "få tillgång till nätverksresurser utan att ha rätt till det");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[2]", "försöker dölja sin användaridentitet");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[3]", "försöker " +
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[2]", "försöker dölja sin användaridentitet");
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[3]", "försöker " +
                 "störa eller avbryta den avsedda användningen av nätverken");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[4]", "uppenbart " +
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[4]", "uppenbart " +
                 "slösar med tillgängliga resurser (personal, maskinvara eller programvara)");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[5]", "försöker " +
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[5]", "försöker " +
                 "skada eller förstöra den datorbaserade informationen");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[6]", "gör intrång i andras privatliv");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[7]", "försöker förolämpa eller förnedra andra");
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[6]", "gör intrång i andras privatliv");
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[7]", "försöker förolämpa eller förnedra andra");
 
         common.verifyStringOnPage("Den som överträder, eller misstänks överträda, ovanstående regler kan " +
                 "stängas av från eduID.se. Dessutom kan rättsliga åtgärder komma att vidtas.");
+    }
 
-        //English
-        /*
-        common.explicitWaitVisibilityElement("//*[@id=\"register-modal\"]/div/div[1]/h5/span");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[1]/h5/span", "General rules for eduID users");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/p[1]", "The following generally applies:");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[1]", "that all usage of user " +
+    private void verifyTermsEnglish(){
+        common.explicitWaitVisibilityElement("//div/div[1]/h5/span");
+        common.verifyStringByXpath("//div/div[1]/h5/span", "General rules for eduID users");
+        common.verifyStringByXpath("//div/div[2]/p[1]", "The following generally applies:");
+        common.verifyStringByXpath("//div/div[2]/ul/li[1]", "that all usage of user " +
                 "accounts follow Sweden's laws and by-laws,");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[2]", "that all personal information " +
+        common.verifyStringByXpath("//div/div[2]/ul/li[2]", "that all personal information " +
                 "that you provide, such as name and contact information shall be truthful,");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[3]", "that user accounts, password " +
+        common.verifyStringByXpath("//div/div[2]/ul/li[3]", "that user accounts, password " +
                 "and codes are individual and shall only be used by the intended individual,");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/li[4]", "that SUNET's ethical rules " +
+        common.verifyStringByXpath("//div/div[2]/ul/li[4]", "that SUNET's ethical rules " +
                 "regulate the \"other\" usage. SUNET judges unethical behaviour to be when someone");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[1]", "attempts to gain access to " +
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[1]", "attempts to gain access to " +
                 "network resources that they do not have the right to");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[2]", "attempts to conceal their " +
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[2]", "attempts to conceal their " +
                 "user identity");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[3]", "attempts to interfere or " +
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[3]", "attempts to interfere or " +
                 "disrupt the intended usage of the network");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[4]", "clearly wastes available " +
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[4]", "clearly wastes available " +
                 "resources (personnel, hardware or software)");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[5]", "attempts to disrupt or " +
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[5]", "attempts to disrupt or " +
                 "destroy computer-based information");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[6]", "infringes on the privacy of others");
-        common.verifyStringByXpath("//*[@id=\"register-modal\"]/div/div[2]/ul/ul/li[7]", "attempts to insult or offend others");
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[6]", "infringes on the privacy of others");
+        common.verifyStringByXpath("//div/div[2]/ul/ul/li[7]", "attempts to insult or offend others");
 
         common.verifyStringOnPage("Any person found violating or suspected of violating these rules can be disabled from eduID.se for " +
                 "investigation. Furthermore, legal action can be taken.");
-                */
     }
+
 
     private void generateUsername(){
         int n = 8;
 
-//        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         String AlphaNumericString = "0123456789"
         + "abcdefghijklmnopqrstuvxyz";
 

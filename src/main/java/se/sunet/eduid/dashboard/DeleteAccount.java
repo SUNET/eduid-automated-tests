@@ -2,6 +2,7 @@ package se.sunet.eduid.dashboard;
 
 import se.sunet.eduid.generic.Login;
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.RetryAndScreenShot;
 import se.sunet.eduid.utils.WebDriverManager;
 
 public class DeleteAccount {
@@ -25,21 +26,24 @@ public class DeleteAccount {
     private void clickDelete(){
         common.findWebElementById("delete-button").click();
 
-        common.switchToPopUpWindow();
         verifyPopUpLabels();
     }
 
     private void clickDeleteInPopUp(){
+        //Press delete
         if(common.getDeleteButton()) {
-            common.findWebElementByXpath("//*[@id=\"delete-account-modal\"]/div/div[3]/button[1]/span").click();
+            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span").click();
 
             //Enter userName and password since we need to login again before account is deleted
             Login login = new Login(common);
             login.enterUsernamePassword();
+
             common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[1]/button").click();
+
         }
+        //Press abort
         else {
-            common.findWebElementByXpath("//*[@id=\"delete-account-modal\"]/div/div[3]/button[2]/span").click();
+            common.findWebElementByXpath("//div/div[3]/button[2]/span").click();
         }
     }
 
@@ -75,13 +79,11 @@ public class DeleteAccount {
 
     private void verifyPopUpLabels(){
         //Heading
-        common.explicitWaitVisibilityElement("//*[@id=\"delete-account-modal\"]/div/div[1]/h5/span");
-        common.verifyStringByXpath("//*[@id=\"delete-account-modal\"]/div/div[1]/h5/span", "Är du säker " +
-                "på att du vill ta bort ditt eduID?");
+        common.explicitWaitVisibilityElement("//div/div[1]/h5/span");
+        common.verifyStringOnPage( "Är du säker på att du vill ta bort ditt eduID?");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"delete-account-modal\"]/div/div[2]/p[1]/span", "När " +
-                "du tar bort ditt eduID kommer all information du sparat rensas permanent. Om du väljer att ta bort ditt eduID " +
-                "kommer du att behöva logga in igen en sista gång.");
+        common.verifyStringOnPage("När du tar bort ditt eduID kommer all information du sparat rensas " +
+                "permanent. Om du väljer att ta bort ditt eduID kommer du att behöva logga in igen en sista gång.");
     }
 }

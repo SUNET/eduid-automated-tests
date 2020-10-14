@@ -24,8 +24,8 @@ public class Login {
     }
 
     private void verifyPageTitle() {
-//        common.explicitWaitPageTitle("eduID-inloggning");
-//        common.verifyPageTitle("eduID-inloggning");
+        common.explicitWaitPageTitle("eduID-inloggning");
+        common.verifyPageTitle("eduID-inloggning");
     }
 
     public void enterUsernamePassword(){
@@ -45,8 +45,9 @@ public class Login {
     public void signIn(){
         common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[1]/button").click();
 
-        if(common.getIncorrectPassword())
+        if(common.getIncorrectPassword()) {
             common.verifyStringByXpath("//*[@id=\"alert_msg\"]", "Ogiltigt användarnamn eller lösenord (1 försök)");
+        }
         else {
             //common.timeoutSeconds(1);
             //common.verifyStringOnPage(common.getUsername().toLowerCase());

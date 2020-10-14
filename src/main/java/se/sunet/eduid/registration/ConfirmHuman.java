@@ -29,14 +29,18 @@ public class ConfirmHuman {
         common.verifyStringByXpath("//*[@id=\"content\"]/h3/span", "eduID måste " +
                 "verifiera att du är en människa och inte en maskin.");
 
-        /*
-        //English
+        //Switch language to English
+        common.findWebElementByLinkText("English").click();
+
         //Heading
-        common.verifyStringByXpath("//*[@id="root"]/section[1]/div/h1/span", "eduID är enklare och säkrare inloggning.");
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID is easier and safer login.");
 
         //Label1
-        common.verifyStringByXpath("//*[@id=\"register-container\"]/h3/span", "Confirm that you are a human.");
-*/
+        common.verifyStringByXpath("//*[@id=\"content\"]/h3/span", "Confirm that you are a human.");
+
+        //Switch language to Swedish
+        common.findWebElementByLinkText("Svenska").click();
+
     }
 
     private void clickButton(){
@@ -84,7 +88,6 @@ public class ConfirmHuman {
         else {
             common.findWebElementById("cancel-captcha-button").click();
             common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID är enklare och säkrare inloggning.");
-            //common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
         }
     }
 }

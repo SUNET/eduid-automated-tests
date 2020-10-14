@@ -23,14 +23,8 @@ import java.io.IOException;
 
 public class TC_98 {
     private StartPage startPage;
-    private Register register;
-    private ConfirmHuman confirmHuman;
-    private ConfirmedNewAccount confirmedNewAccount;
     private Login login;
-    private ConfirmIdentity confirmIdentity;
-    private PhoneNumber phoneNumber;
     private DashBoard dashBoard;
-    private DeleteAccount deleteAccount;
     private ConfirmPhoneNumber confirmPhoneNumber;
     private Common common;
 
@@ -42,15 +36,9 @@ public class TC_98 {
 
         common = new Common(WebDriverManager.getWebDriver());
         startPage = new StartPage(common);
-        register = new Register(common);
-        confirmedNewAccount = new ConfirmedNewAccount(common);
-        confirmHuman = new ConfirmHuman(common);
         login = new Login(common);
-        confirmIdentity = new ConfirmIdentity(common);
-        phoneNumber = new PhoneNumber(common);
         dashBoard = new DashBoard(common);
         confirmPhoneNumber = new ConfirmPhoneNumber(common);
-        deleteAccount = new DeleteAccount(common);
 
         Common.log.info("Executing: " +testContext.getName());
     }

@@ -26,7 +26,6 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
         if (!iTestResult.isSuccess()) {
             int maxTry = 2;
             if (retryCount < maxTry) {
-                //System.out.println("Test failed at attempt " +(retryCount +1) +" will try again\n");
                 log.warn(testCase + " - " + testMethod + " - Test failed at attempt " +(retryCount +1) +" will try again\n" +iTestResult.getThrowable().getMessage());
                 screenshot();
                 try {
@@ -67,7 +66,7 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
         webDriver.manage().window().setSize(windowSize);
     }
 
-    private void screenshot() {
+    public void screenshot() {
         TakesScreenshot ts;
         ts = (TakesScreenshot) webDriver;
 
@@ -82,6 +81,6 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
         } catch (IOException e) {
             log.warn("Failed taking a screenshot of failed test case: "+testCase +" " +e);
         }
-        log.error("Test case:" +testCase +" - "+testMethod +" failed, see directory: <root>/screenshots/<test case name> for screenshots");
+        //log.error("Test case:" +testCase +" - "+testMethod +" failed, see directory: <root>/screenshots/<test case name> for screenshots");
     }
 }

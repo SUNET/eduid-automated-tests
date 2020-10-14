@@ -187,9 +187,7 @@ public class Help {
                 "kan du kontakta eduID-supporten via e-post till support@eduid.se.");
         common.verifyStringOnPage("Ange alltid den e-postadress som du använde när du loggade in på eduID. " +
                 "Om något har blivit fel är det alltid bra att skicka med skärmdumpar med felmeddelanden för att underlätta felsökning.");
-        common.verifyStringOnPage("För bästa möjliga support rekommenderar vi dig alltid att skicka e-post " +
-                "men för enklare ärenden kan du också nå oss per telefon 0455-385200.\n" +
-                "(Öppet måndag till torsdag 09:00-12:00, 13:00-16:00, fredag 9:00-12:00, 13:00-14:30)");
+        common.verifyStringOnPage("Mellan 6-24 juli 2020 kan eduid-supporten endast nås via e-post.");
     }
 
     private void verifyEnglish(){
@@ -368,9 +366,6 @@ public class Help {
         common.verifyStringOnPage("Always let us know the e-mail address you used when you logged into " +
                 "eduID. If something went wrong, it is always a good idea to include screenshots with error messages to " +
                 "ease troubleshooting.");
-        common.verifyStringOnPage("In order to get best possible support, we recommend that you send " +
-                "e-mail, but for simple matters you can also find us on phone number 0455-385200. (Open on Monday to " +
-                "Thursday 09:00-12:00, 13:00-16:00, Friday 9:00-12:00, 13:00-14:30).\n" +
-                "Phone support will be closed between 8th of July and 4th of August 2019. Support via e-mail is still available during the time period.");
+        common.verifyStringOnPage("Between 6-24 July 2020, the support will only be available via email.");
     }
 }

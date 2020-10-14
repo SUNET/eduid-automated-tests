@@ -90,6 +90,11 @@ public class Common {
         }
     }
 
+    public void logPageBody(){
+        timeoutSeconds(1);
+        log.info(webDriver.findElement(By.tagName("body")).getText());
+    }
+
     public void timeoutSeconds(int seconds) {
         try {
             Thread.sleep(seconds*1000);
@@ -135,6 +140,10 @@ public class Common {
         return webDriver.findElement(By.id(elementToFind));
     }
 
+    public WebElement findWebElementByLinkText(String linkText) {
+        return webDriver.findElement(By.linkText(linkText));
+    }
+
     public WebElement findWebElementByXpath(String elementToFind){
         return webDriver.findElement(By.xpath(elementToFind));
     }
@@ -156,6 +165,10 @@ public class Common {
         for (String winHandle : webDriver.getWindowHandles()) {
             webDriver.switchTo().window(winHandle);
         }
+    }
+
+    public void switchToDefaultWindow(){
+        webDriver.switchTo().window(firstWinHandle);
     }
 
     private void setProperties() throws IOException {
@@ -181,10 +194,6 @@ public class Common {
 
     public void addMagicCookie(){
         webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi"));
-    }
-
-    public void switchToDefaultWindow(){
-        webDriver.switchTo().window(firstWinHandle);
     }
 
     public String getUsername(){ return username; }

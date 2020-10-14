@@ -27,6 +27,7 @@ public class StartPage {
     }
 
     private void signIn(){
+        //Click on sign in link
         common.findWebElementByXpath("//*[@id=\"login\"]/a").click();
 
         //Wait for next page

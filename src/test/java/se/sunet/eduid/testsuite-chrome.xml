@@ -81,7 +81,7 @@
             </class>
         </classes>
     </test>
-
+<!-- obsolete, since its now not possible to click ok-button without first typing a code
     <test name="TC_10">
         <parameter name="testDescription" value="Add additional email address, try to confirm with empty code" />
         <classes>
@@ -97,7 +97,7 @@
             </class>
         </classes>
     </test>
-
+    -->
     <test name="TC_12">
         <parameter name="testDescription" value="Add additional email address, try to confirm with incorrect code" />
         <classes>
@@ -139,7 +139,7 @@
     </test>
 
     <test name="TC_17">
-        <parameter name="testDescription" value="Inititiate password change but abort at pop-up window" />
+        <parameter name="testDescription" value="Initiate password change but abort at pop-up window" />
         <classes>
             <class name="se.sunet.eduid.TC_17" >
             </class>
@@ -147,7 +147,7 @@
     </test>
 
     <test name="TC_18">
-        <parameter name="testDescription" value="Inititiate password change but abort instead of save new password" />
+        <parameter name="testDescription" value="Initiate password change but abort instead of save new password" />
         <classes>
             <class name="se.sunet.eduid.TC_18" >
             </class>
@@ -227,7 +227,7 @@
     </test>
 
     <test name="TC_28">
-        <parameter name="testDescription" value="Try to reset password with incorrect magic code" />
+        <parameter name="testDescription" value="Try to reset password with incorrect magic code, ends with a 404-page" />
         <classes>
             <class name="se.sunet.eduid.TC_28" >
             </class>
@@ -275,7 +275,7 @@
     </test>
 
     <test name="TC_34">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password, use default pw" />
+        <parameter name="testDescription" value="Restore the account by reset password with extra security (mobile OTP) and set a new custom password, use default pw" />
         <classes>
             <class name="se.sunet.eduid.TC_34" >
             </class>
@@ -299,7 +299,7 @@
     </test>
 
     <test name="TC_37">
-        <parameter name="testDescription" value="Initiate Register of new account, use incorrect magic code" />
+        <parameter name="testDescription" value="Initiate Register of new account, use incorrect magic code - results in failure at confirm human" />
         <classes>
             <class name="se.sunet.eduid.TC_37" >
             </class>

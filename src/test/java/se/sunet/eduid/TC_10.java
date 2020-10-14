@@ -23,6 +23,7 @@ public class TC_10 {
     private Logout logout;
     private Common common;
 
+    //TODO test case obsolete, can be removed!
     @BeforeTest
     @Parameters( {"url", "browser", "headless", "language"})
     void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {

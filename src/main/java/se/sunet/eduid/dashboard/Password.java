@@ -57,9 +57,9 @@ public class Password {
                 common.verifyStringOnPage("Byt ditt lösenord");
 
                 //Label 1
-                common.verifyStringOnPage("SKRIV DITT NUVARANDE LÖSENORD");
+                common.verifyStringOnPage("Skriv ditt nuvarande lösenord");
                 //Label 2
-                common.verifyStringOnPage("REKOMMENDERAT LÖSENORD");
+                common.verifyStringOnPage("Rekommenderat lösenord");
 
                 // Link label
                 common.verifyStringOnPage("JAG VILL INTE ANVÄNDA DET REKOMMENDERADE LÖSENORDET");
@@ -140,7 +140,8 @@ public class Password {
                         common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span","Lösenordet har ändrats");
                         //common.timeoutMilliSeconds(500);
                     }
-                } else
+                }
+                else
                     common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span").click();
             }
             else {
@@ -164,19 +165,21 @@ public class Password {
 
     private void verifyOwnPasswordLabels(){
         //Heading - Swedish
-        common.verifyStringOnPage("TÄNK PÅ ATT VÄLJA ETT SÄKERT LÖSENORD:");
+        common.verifyStringOnPage("Byt ditt lösenord");
+        common.verifyStringOnPage("Skriv ditt nuvarande lösenord");
 
         //Text - Swedish
+        common.verifyStringOnPage("Tänk på att välja ett säkert lösenord:");
         common.verifyStringOnPage("Använd stora och små bokstäver (inte bara första bokstaven)");
         common.verifyStringOnPage("Lägg till en eller flera siffror någonstans i mitten av lösenordet");
         common.verifyStringOnPage("Använd specialtecken som @ $ \\ + _ %");
         common.verifyStringOnPage("Blanksteg (mellanslag) ignoreras");
 
         //Heading 2 - Swedish
-        common.verifyStringOnPage("SKRIV DITT NYA LÖSENORD");
+        common.verifyStringOnPage("Skriv ditt nya lösenord");
 
         //Heading 3 - Swedish
-        common.verifyStringOnPage("REPETERA DITT NYA LÖSENORD");
+        common.verifyStringOnPage("Repetera ditt nya lösenord");
 
         //Link - Swedish
         common.verifyStringOnPage("REKOMMENDERA ETT LÖSENORD");
@@ -188,19 +191,21 @@ public class Password {
         common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button/span").click();
 
         //Heading - English
-        common.verifyStringOnPage("TIP: CHOOSE A STRONG PASSWORD");
+        common.verifyStringOnPage("Change your current password");
+        common.verifyStringOnPage("Current password");
 
         //Text - English
+        common.verifyStringOnPage("Tip: Choose a strong password");
         common.verifyStringOnPage("Use upper- and lowercase characters, but not at the beginning or end");
         common.verifyStringOnPage("Add digits somewhere, but not at the beginning or end");
         common.verifyStringOnPage("Add special characters, such as @ $ \\ + _ %");
         common.verifyStringOnPage("Spaces are ignored");
 
         //Heading 2 - English
-        common.verifyStringOnPage("ENTER NEW PASSWORD");
+        common.verifyStringOnPage("Enter new password");
 
         //Heading 3 - English
-        common.verifyStringOnPage("REPEAT NEW PASSWORD");
+        common.verifyStringOnPage("Repeat new password");
 
         //Link - English
         common.verifyStringOnPage("SUGGEST A PASSWORD FOR ME");

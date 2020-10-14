@@ -12,6 +12,7 @@ public class ConfirmedNewAccount {
     public void runConfirmedNewAccount(){
         verifyPageTitle();
         verifyLabels();
+        setUserData();
         clickGoToMyEduID();
     }
 
@@ -28,36 +29,47 @@ public class ConfirmedNewAccount {
         common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID är enklare och säkrare inloggning.");
 
         //Details
-        //TODO bug - email address should be printed and not the {email}
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h3/span", "Registrering av {email} är klar");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/h3/span", "Registrering av ditt eduID är klar.");
         common.verifyStringByXpath("//*[@id=\"content\"]/div/p/span", "Detta är dina inloggningsuppgifter för eduID.");
 
-        //TODO bug - email and password labels should be in swedish
+        //TODO bug - email and password labels should be in swedish #245
         //Email
-        common.verifyStringByXpath("//*[@id=\"email-display\"]/label[1]", "EMAIL");
+        //common.verifyStringByXpath("//*[@id=\"email-display\"]/label[1]", "Epost");
+        common.verifyStringByXpath("//*[@id=\"email-display\"]/label[1]", "Email");
         common.verifyStringByXpath("//*[@id=\"user-email\"]", common.getUsername().toLowerCase());
 
         //Password
-        common.verifyStringByXpath("//*[@id=\"email-display\"]/label[2]", "PASSWORD");
+        common.verifyStringByXpath("//*[@id=\"email-display\"]/label[2]", "Password");
         common.setPassword(common.findWebElementById("user-password").getText());
-        //English
-        /*
+
+        //Switch language to English
+        common.findWebElementByLinkText("English").click();
+
         //Headings
-        common.verifyStringByXpath("//*[@id=\"welcome\"]/h1/span", "Welcome to eduID");
-        common.verifyStringByXpath("//*[@id=\"welcome\"]/h2/span", "Sign up with your email address to start.");
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID is easier and safer login.");
 
         //Details
-        common.verifyStringByXpath("//*[@id=\"register-container\"]/div/h3/span", "You have completed the registration for eduID.");
-        common.verifyStringByXpath("//*[@id=\"register-container\"]/div/p/span", "These are your login details for eduID.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/h3/span", "You have completed the registration for eduID.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p/span", "These are your login details for eduID.");
 
         //Email
-        common.verifyStringByXpath("//*[@id=\"email-display\"]/label[1]", "EMAIL");
+        common.verifyStringByXpath("//*[@id=\"email-display\"]/label[1]", "Email");
         common.verifyStringByXpath("//*[@id=\"user-email\"]", common.getUsername().toLowerCase());
 
         //Password
-        common.verifyStringByXpath("//*[@id=\"email-display\"]/label[2]", "PASSWORD");
-        common.setRecommendedPw(common.findWebElementById("user-password").getText());
-        */
+        common.verifyStringByXpath("//*[@id=\"email-display\"]/label[2]", "Password");
+
+        //Switch language to Swedish
+        common.findWebElementByLinkText("Svenska").click();
+    }
+
+    private void setUserData(){
+        common.setDisplayName("inget namn sparat");
+        common.setGivenName("inget");
+        common.setSurName("namn");
+        common.setPersonalNumber("lägg till personnummer");
+        common.setPhoneNumber("inget telefonnummer sparat");
+        common.setEmail(common.getUsername());
     }
 
     private void clickGoToMyEduID(){

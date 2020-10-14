@@ -47,7 +47,7 @@ public class ConfirmIdentity{
             common.switchToPopUpWindow();
             common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5/span");
             common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5/span", "Få en bekräftelsekod via post");
-            common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]/div/p/span", "Om du " +
+            common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]/span", "Om du " +
                     "accepterar att få ett brev hem måste du skriva in bekräfelsekoden här för att bevisa att personnumret " +
                     "är ditt. Av säkerhetsskäl går koden ut om två veckor.");
 
@@ -116,8 +116,8 @@ public class ConfirmIdentity{
 
         //1. Add your id number
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3/span", "1. Lägg till ditt personnummer");
-        common.verifyStringByXpath("//*[@id=\"nin\"]/label/span", "PERSONNUMMER");
-        common.verifyStringByXpath("//*[@id=\"nin\"]/small/span", "Personnummer med 12 siffror");
+        common.verifyStringByXpath("//*[@id=\"nin\"]/div/label/span", "Personnummer");
+        common.verifyStringByXpath("//*[@id=\"nin\"]/div/span/span", "personnummer med 12 siffror");
 
         //2. Verify your id number
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/h3/span", "2. Bekräfta ditt personnummer");
@@ -125,13 +125,12 @@ public class ConfirmIdentity{
                 "du har tillgång till det angivna personnumret. Om en av metoderna inte fungerar får du prova en annan.");
 
         //Fine text
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/p/span", "Brevet innehåller en " +
-                "bekräftelsekod som av säkehetsskäl går ut efter två veckor.");
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/p/span", "Registret med telefonnummer " +
-                "uppdateras av mobiloperatörerna och har inget krav på att innehålla alla nummer.");
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/p/span", "Brevet innehåller " +
+                "en bekräftelsekod som av säkerhetsskäl går ut efter två veckor.");
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/p/span", "Registret med " +
+                "telefonnummer uppdateras av mobiloperatörerna och innehåller inte nödvändigtvis alla nummer.");
         common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[3]/p/span", "För att använda " +
-                "det här alternativet så måste du först skaffa ett digitalt ID-kort i Freja eID appen.");
-
+                "det här alternativet måste du först skaffa ett digitalt ID-kort i Freja eID appen.");
 
         //English
 
@@ -145,8 +144,8 @@ public class ConfirmIdentity{
 
         //1. Add your id number
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3/span", "1. Add your id number");
-        common.verifyStringByXpath("//*[@id=\"nin\"]/label/span", "ID NUMBER");
-        common.verifyStringByXpath("//*[@id=\"nin\"]/small/span", "National identity number with 12 digits");
+        common.verifyStringByXpath("//*[@id=\"nin\"]/div/label/span", "Id number");
+        common.verifyStringByXpath("//*[@id=\"nin\"]/div/span/span", "national identity number with 12 digits");
 
         //2. Verify your id number
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/h3/span", "2. Verify your id number");
