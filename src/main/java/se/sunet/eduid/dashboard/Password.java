@@ -145,7 +145,8 @@ public class Password {
                     common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span").click();
             }
             else {
-                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[2]/span").click();
+                //Close pop-up window
+                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[1]/h5/div/button").click();
                 common.timeoutMilliSeconds(500);
             }
         }
@@ -160,7 +161,6 @@ public class Password {
 
         //Buttons
         common.verifyStringOnPage("ACCEPTERA");
-        common.verifyStringOnPage("AVBRYT");
     }
 
     private void verifyOwnPasswordLabels(){
@@ -219,7 +219,7 @@ public class Password {
         common.verifyStringOnPage("Byt lösenord");
 
         //Text
-        common.verifyStringOnPage("Du kan antigen " +
+        common.verifyStringOnPage("Du kan antingen " +
                 "använda ett rekommenderat lösenord som vi skapar åt dig eller ett du väljer helt själv.");
 
         //Add more phone numbers

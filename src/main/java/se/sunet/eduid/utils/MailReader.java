@@ -64,10 +64,12 @@ public class MailReader{
             //Get message body into string
             String mailBody = getMessageContent(emailMessage);
 
-            //Extract the confirmation url into a string
-            confirmationUrl = mailBody.substring(mailBody.indexOf("link:") +5, mailBody.indexOf("If")).replaceAll("[\\n\\t ]", "");
-            confirmationCode = mailBody.substring(mailBody.indexOf("code:") +5).replaceAll("[\\n\\t ]", "");
-/*
+            //Extract the confirmation url and code into a string
+            //System.out.println("Mail body: " +mailBody);
+            confirmationUrl = mailBody.substring(mailBody.indexOf("nedan:") +6, mailBody.indexOf("Fungerar")).replaceAll("[\\n\\t ]", "");
+            confirmationCode = mailBody.substring(mailBody.indexOf("kod:") +4).replaceAll("[\\n\\t ]", "");
+
+            /*
             System.out.println("confirmationUrl: " +confirmationUrl);
             System.out.println("confirmationCode: " +confirmationCode);
 

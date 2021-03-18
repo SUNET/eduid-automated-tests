@@ -10,7 +10,6 @@ public class Register {
     }
 
     public void runRegister(){
-        //common.log.info("PAGE SOURCE: " +WebDriverManager.getWebDriver().getPageSource());
         verifyPageTitle();
         verifyLabels();
         enterEmailAndPressRegister();
@@ -21,7 +20,7 @@ public class Register {
         common.verifyPageTitle("eduID");
 
         //TODO temp fix to get swedish language
-        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
+        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
             common.findWebElementByLinkText("Svenska").click();
     }
 
@@ -150,7 +149,7 @@ public class Register {
         int n = 8;
 
         String AlphaNumericString = "0123456789"
-        + "abcdefghijklmnopqrstuvxyz";
+        + "abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ";
 
         // create StringBuffer size of AlphaNumericString
         StringBuilder sb = new StringBuilder(n);
@@ -168,7 +167,6 @@ public class Register {
                     .charAt(index));
         }
         //Add the magic to random string
-        //common.setUsername(sb.toString() +common.getMagicCode() +"@dev.eduid.sunet.se");
         common.setUsername(sb.toString() +"@dev.eduid.sunet.se");
     }
 }

@@ -1,6 +1,6 @@
 package se.sunet.eduid.utils;
 
-import io.appium.java_client.ios.IOSDriver;
+//import io.appium.java_client.ios.IOSDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Properties;
 
 public class Common {
@@ -22,21 +23,21 @@ public class Common {
     private String confirmNewEmail1 = "";
     private String newPassword = "";
     private String username, password, givenName, surName, displayName, magicCode, email, phoneNumber, personalNumber, language, eppn,
-    confirmIdBy;
+    confirmIdBy, supportUsername;
     private boolean registerAccount, resetPassword, incorrectPassword, removePrimary, removeNewEmail1, resendOTP, deleteButton,
             buttonValuePopup = true, useRecommendedPw, buttonValueConfirm = true, sendMobileOneTimePassword = true,
-            generateUsername = true, acceptTerms = true, sendCaptcha = true;
+            generateUsername = true, acceptTerms = true, sendCaptcha = true, addSecurityKey = false;
 
     public Common(WebDriver webDriver) throws IOException {
         this.webDriver = webDriver;
         setProperties();
     }
-
+/*
     public Common(IOSDriver<?> webDriver) throws IOException {
         this.webDriver = webDriver;
         setProperties();
     }
-
+*/
     private String getTitle() {
         int counter = 0;
         while(webDriver.getTitle().isEmpty()){
@@ -104,27 +105,27 @@ public class Common {
     }
 
     public void explicitWaitClickableElement(String xpathToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, 20);
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathToElementToWaitFor)));
     }
 
     public void explicitWaitClickableElementId(String idToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, 10);
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(By.id(idToElementToWaitFor)));
     }
 
     public void explicitWaitVisibilityElement(String xpathToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, 20);
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathToElementToWaitFor)));
     }
 
     public void explicitWaitVisibilityElementId(String idToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, 20);
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(idToElementToWaitFor)));
     }
 
     public void explicitWaitPageTitle(String pageTitle) {
-        WebDriverWait wait = new WebDriverWait(webDriver, 20);
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.titleContains(pageTitle));
     }
 
@@ -186,8 +187,9 @@ public class Common {
         setPhoneNumber(properties.getProperty("phonenumber"));
         setEmail(properties.getProperty("email"));
         setEppn(properties.getProperty("eppn"));
+        setSupportUsername(properties.getProperty("support_username"));
 
-        setLanguage("Swedish");
+        setLanguage("Svenska");
 
         log.info("Properties loaded!");
     }
@@ -282,4 +284,10 @@ public class Common {
 
     public String getEppn(){ return eppn; }
     public void setEppn(String eppn){ this.eppn = eppn; }
+
+    public String getSupportUsername(){ return supportUsername; }
+    public void setSupportUsername(String supportUsername){ this.supportUsername = supportUsername; }
+
+    public boolean getAddSecurityKey(){ return addSecurityKey; }
+    public void setAddSecurityKey(boolean addSecurityKey){ this.addSecurityKey = addSecurityKey; }
 }

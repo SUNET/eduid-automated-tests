@@ -1,5 +1,8 @@
 package se.sunet.eduid.dashboard;
 
+import org.openqa.selenium.virtualauthenticator.HasVirtualAuthenticator;
+import org.openqa.selenium.virtualauthenticator.VirtualAuthenticator;
+import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.WebDriverManager;
 
@@ -21,17 +24,26 @@ public class AdvancedSettings {
 
     private void verifyPageTitle() {
         common.verifyPageTitle("eduID");
+
+        //TODO temp fix to get swedish language
+        if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
+            common.findWebElementByLinkText("Svenska").click();
     }
 
     private void pressAdvancedSettings(){
         common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[4]/li/span").click();
+
+        //Wait for heading "Gör ditt eduID säkrare"
+        common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h4/span");
     }
 
     private void storeEppn(){
         common.setEppn(common.findWebElementByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]").getText());
+        Common.log.info("Saved EPPN: " +common.getEppn());
     }
 
     private void pressAddSecurityKey(){
+        //Click on add security key
         common.findWebElementByXpath("//*[@id=\"security-webauthn-button\"]/span").click();
 
         common.switchToPopUpWindow();
@@ -39,16 +51,18 @@ public class AdvancedSettings {
         //Verify text
         common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span");
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span", "Ge ett namn till din säkerhetsnyckel");
+        common.verifyStringByXpath("//*[@id=\"describeWebauthnTokenDialogControl\"]/div/label/span", "Säkerhetsnyckel");
+        common.verifyStringByXpath("//*[@id=\"describeWebauthnTokenDialogControl\"]/div/span", "max 50 tecken");
 
-        //Press abort
-        common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[2]/span").click();
 
-//        common.switchToDefaultWindow();
+//        else{
+            //Press close, in corner of pop-up
+            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button").click();
+  //      }
     }
 
     private void pressOrcid(){
         common.timeoutMilliSeconds(500);
-        //common.explicitWaitClickableElement("//*[@id=\"connect-orcid-button\"]/span");
         common.findWebElementByXpath("//*[@id=\"connect-orcid-button\"]/span").click();
 
         //Transferred to orcid after click
@@ -87,7 +101,7 @@ public class AdvancedSettings {
                 "and password, to prove you are the owner of your eduID.");
 
         common.verifyStringOnPage("ORCID account");
-        common.verifyStringOnPage("If you are a reseacher with an ORCID iD you can share it with your eduID.");
+        common.verifyStringOnPage("If you are a researcher with an ORCID iD you can share it with your eduID.");
         common.verifyStringOnPage("ORCID iD distinguishes you from other researchers and allows linking of " +
                 "your research outputs and activities to your identity, regardless of the organisation you are working with.");
 

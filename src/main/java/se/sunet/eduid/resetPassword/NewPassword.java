@@ -23,14 +23,15 @@ public class NewPassword {
 
     private void verifyLabels(){
         //verify the labels
-        common.verifyStringByXpath("//div/div[2]/h2", "New password");
-        common.verifyStringByXpath("//div/div[2]/p", "Please choose a new password for your eduID account. " +
-                "A strong password has been generated for you. You can accept the generated password by clicking \"Change password\" " +
-                "or you can opt to choose your own password by clicking \"Custom Password\".");
+        common.verifyStringByXpath("//div/div[2]/h2", "Nytt lösenord");
+        common.verifyStringByXpath("//div/div[2]/p", "Ändra lösenord för ditt eduID-konto. " +
+                "Ett säkert lösenord har genererats åt dig. Du kan acceptera det med knappen \"Acceptera lösenord\" " +
+                "eller så kan du välja att använda ett eget lösenord om du klickar på fliken \"Eget lösenord\".");
 
-        common.verifyStringByXpath("//*[@id=\"generated-pw\"]/div/form/div[1]/div/p[1]", "Your generated password is:");
+        common.verifyStringByXpath("//*[@id=\"generated-pw\"]/div/form/div[1]/div/p[1]", "Ditt genererade lösenord är:");
         common.verifyStringNotEmptyByXpath("//*[@id=\"generated-pw\"]/div/form/div[1]/div/p[2]/mark", "//div/div[2]/h2");
-        common.verifyStringByXpath("//*[@id=\"generated-pw\"]/div/form/div[1]/div/p[3]", "Copy and save the above password somewhere safe and click \"Accept password\".");
+        common.verifyStringByXpath("//*[@id=\"generated-pw\"]/div/form/div[1]/div/p[3]",
+                "Kopiera och spara det ovanstående lösenordet på en säker plats och klicka \"Acceptera lösenord\".");
     }
 
     private void acceptPwOrSetCustomPw(){
@@ -60,14 +61,14 @@ public class NewPassword {
     }
 
     private void verifyCustomPwLabels(){
-        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/p[1]/strong", "Choose a strong password");
-        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/p[2]", "Some tips:");
-        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/ul/li[1]", "Use upper- and lowercase characters (preferably not in the beginning or end)");
-        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/ul/li[2]", "Add digits somewhere else than at the end of the password");
-        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/ul/li[3]", "Add special characters, such as @ $ \\ + _ %");
-        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/ul/li[4]", "Spaces are ignored");
+        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/p[1]/strong", "Välj ett säkert lösenord.");
+        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/p[2]", "Några tips:");
+        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/ul/li[1]", "Använd stora och små bokstäver (inte bara första bokstaven)");
+        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/ul/li[2]", "Lägg till en eller flera siffror någonstans i mitten av lösenordet");
+        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/ul/li[3]", "Använd specialtecken som @ $ \\ + _ %");
+        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/ul/li[4]", "Blanksteg (mellanslag) ignoreras");
 
-        common.verifyStringByXpath("//*[@id=\"pwd-container\"]/label", "Password");
-        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/form/div[1]/div[2]/label", "Repeat password");
+        common.verifyStringByXpath("//*[@id=\"pwd-container\"]/label", "Lösenord");
+        common.verifyStringByXpath("//*[@id=\"custom-pw\"]/div/form/div[1]/div[2]/label", "Repetera lösenord");
     }
 }

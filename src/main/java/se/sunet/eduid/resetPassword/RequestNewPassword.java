@@ -16,7 +16,7 @@ public class RequestNewPassword {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Reset password - Email");
+        common.verifyPageTitle("Återställ lösenord - E-post");
     }
 
     private void enterEmail(){

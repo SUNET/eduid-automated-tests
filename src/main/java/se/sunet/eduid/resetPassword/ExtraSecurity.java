@@ -16,15 +16,15 @@ public class ExtraSecurity {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Reset password - Extra security");
+        common.verifyPageTitle("Återställ lösenord - Extra säkerhet");
     }
 
     private void verifyLabels(){
         //verify the labels
-        common.verifyStringByXpath("//div/div[2]/h2", "Extra security");
-        common.verifyStringByXpath("//div/div[2]/p", "Choose an option to enhance the security");
-        common.verifyStringByXpath("//div/div[4]/form/div/div/button", "CONTINUE WITH NO EXTRA SECURITY. " +
-                "I UNDERSTAND THAT I WILL HAVE TO VERIFY MY ACCOUNT AGAIN.");
+        common.verifyStringByXpath("//div/div[2]/h2", "Extra säkerhet");
+        common.verifyStringByXpath("//div/div[2]/p", "Välj en metod för att öka säkerheten");
+        common.verifyStringByXpath("//div/div[4]/form/div/div/button", "FORTSÄTT UTAN EXTRA " +
+                "SÄKERHET. JAG FÖRSTÅR ATT DET BETYDER ATT JAG MÅSTE BEKRÄFTA MITT KONTO IGEN.");
     }
 
     private void confirmPasswordChange(){

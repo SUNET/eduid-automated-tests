@@ -17,7 +17,7 @@ public class EmailLink {
         if(!common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")){
             common.navigateToUrl("https://dashboard.dev.eduid.se/services/security/reset-password/email/" +common.getMagicCode());
 
-            common.verifyStringByXpath("//div/div[2]/h2", "404 Not found");
+            common.verifyStringByXpath("//div/div[2]/h2", "404 Hittades inte");
         }
         else{
             //Add cookie for back doors

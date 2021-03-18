@@ -338,10 +338,26 @@
         </classes>
     </test>
 
+    <test name="TC_43">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <classes>
+            <class name="se.sunet.eduid.TC_43" >
+            </class>
+        </classes>
+    </test>
+
     <test name="TC_98">
         <parameter name="testDescription" value="Confirm phone number on default account, to restore it from previous tests" />
         <classes>
             <class name="se.sunet.eduid.TC_31" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_42">
+        <parameter name="testDescription" value="Log in, with eppn, and check account data and labels" />
+        <classes>
+            <class name="se.sunet.eduid.TC_42" >
             </class>
         </classes>
     </test>
@@ -353,4 +369,30 @@
             </class>
         </classes>
     </test>
+
+    <test name="TC_44">
+        <parameter name="url" value="https://sp.swamid.se/Shibboleth.sso/DS/swamid-test?target=https://sp.swamid.se/secure/" />
+        <parameter name="testDescription" value="Verify that login to eduID can be done from Swamid Testing on a verified account" />
+        <classes>
+            <class name="se.sunet.eduid.TC_44" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_45">
+        <parameter name="testDescription" value="Verify that login to eduID can be done from Swamid Testing on a non-verified account" />
+        <classes>
+            <class name="se.sunet.eduid.TC_45" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_46">
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings" />
+        <classes>
+            <class name="se.sunet.eduid.TC_46" >
+            </class>
+        </classes>
+    </test>
+
 </suite>

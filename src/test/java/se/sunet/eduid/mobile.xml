@@ -1,0 +1,269 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="dev">
+    <parameter name="url" value="https://dev.eduid.se" />
+    <parameter name="browser" value="chrome" />
+    <parameter name="headless" value="false" />
+    <parameter name="language" value="sv" />
+
+    <listeners>
+        <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
+    </listeners>
+
+
+    <!--
+
+    eduidtest.se1@gmail.com
+    test1eduid!
+
+
+Test?=59(GG1234%€#\
+default pw
+lq2k dvzo 917s
+mknhKYFl94fJaWaiVk2oG9Tl
+
+ovemknhKYFl94fJaWaiVk2oG9Tl@idsec.se
+
+https://dashboard.dev.eduid.se/services/security/reset-password/email/mknhKYFl94fJaWaiVk2oG9Tl
+
+https://signup.dev.eduid.se/register/code/mknhKYFl94fJaWaiVk2oG9Tl
+
+        <parameter name="newPassword" value="Test?=59(GG1234%€#\"/>
+        <parameter name="useRecommendedPw" value="false" />
+
+        <parameter name="passWord" value="lq2k dvzo 917s" />
+                <parameter name="buttonValueConfirm" value="true" />
+
+                            <class name="se.sunet.eduid.resetPassword.PasswordResetExtraSecuritySecurity>
+                                        <class name="se.sunet.eduid.resetPassword.EmailLink" >
+
+TODO tc with - in name, and åäö in name.
+Virtual auth for enhanced security (webauthn),
+- https://stackoverflow.com/questions/63477115/selenium-tests-authenticate-with-webauthn
+- grupper
+- INVITES - provisionering
+- test grundläggande ideer anpassat på eduID
+- engelska språk vald och tryck på hjälp - hjälptexten ska då vara på engelska
+- Bättre felmeddelande när man avbryter vid extra security key  -  advanced settings
+
+30, 41
+
+-->
+
+
+    <test name="Galaxy Fold">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Galaxy Fold"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Surface Duo">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Surface Duo"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="iPhone 5">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="iPhone 5"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="iPhone 5/SE">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="iPhone 5/SE"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="iPhone 6">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="iPhone 6"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="iPhone 7 Plus">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="iPhone 7 Plus"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="iPhone X">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="iPhone X"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="iPad">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="iPad"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="iPad Pro">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="iPad Pro"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Pixel 2 XL">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Pixel 2 XL"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Pixel 2">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Pixel 2"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Galaxy S5">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Galaxy S5"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="iPhone 4">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="iPhone 4"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="iPad Mini">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="iPad Mini"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Nokia N9">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Nokia N9"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Nexus 10">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Nexus 10"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Nexus 7">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Nexus 7"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Nexus 6P">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Nexus 6P"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Nexus 5">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Nexus 5"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Nexus 5X">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Nexus 5X"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Nexus 4">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Nexus 4"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Galaxy Note 3">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Galaxy Note 3"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Galaxy Note II">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Galaxy Note II"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Galaxy S III">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Galaxy S III"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+</suite>

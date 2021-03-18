@@ -1,5 +1,6 @@
 package se.sunet.eduid.resetPassword;
 
+import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.WebDriverManager;
 
@@ -51,7 +52,7 @@ public class ConfirmPhoneNumber {
         }
         //If OTP should not be ordered, close the pop-up
         else {
-            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[2]/span").click();
+            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button").click();
             common.timeoutMilliSeconds(500);
         }
     }
@@ -84,6 +85,7 @@ public class ConfirmPhoneNumber {
             WebDriverManager.getWebDriver().navigate().back();
 
             //Press the Confirm phone number link - again
+            common.explicitWaitClickableElement("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span");
             common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span").click();
 
             common.switchToPopUpWindow();
@@ -96,12 +98,10 @@ public class ConfirmPhoneNumber {
             else {
                 //Type a too long code, press OK
                 common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").sendKeys(common.getMagicCode());
-                common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").click();
 
-                //Check information text in pop-up
-                common.explicitWaitVisibilityElement("//*[@id=\"phoneConfirmDialogControl\"]/small/span");
-                common.verifyStringByXpath("//*[@id=\"phoneConfirmDialogControl\"]/small/span",
-                        "Koden måste vara 10-12 tecken lång, endast bokstäver och nummer tillåtna");
+                //Verify that the ok button is not enabled when typed code is not 10 characters long
+                Assert.assertTrue(!common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").isEnabled(),
+                        "The button should not be enabled, until 10 character code is entered");
 
                 //Clear the text field and send another incorrect code
                 common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").clear();
@@ -115,7 +115,7 @@ public class ConfirmPhoneNumber {
             if(common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
                 common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Telefonnummer har bekräftats");
             else
-                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Telefonummret du angav kan inte hittas");
+                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Telefonumret du angav kan inte hittas");
                 //common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Den " +
                 //        "bekräftelsekod du angett stämmer inte. Var god försök igen");
 

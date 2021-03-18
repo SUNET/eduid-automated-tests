@@ -25,7 +25,8 @@ public class Login {
 
     private void verifyPageTitle() {
         common.explicitWaitPageTitle("eduID-inloggning");
-        common.verifyPageTitle("eduID-inloggning");
+        //TODO temp comment for test of FTs "other" idp site
+        //common.verifyPageTitle("eduID-inloggning");
     }
 
     public void enterUsernamePassword(){
@@ -36,17 +37,18 @@ public class Login {
         common.findWebElementById("password").clear();
         if(common.getIncorrectPassword())
             common.findWebElementById("password").sendKeys("notTheCorrectPassword");
-        else
+        else {
             common.findWebElementById("password").sendKeys(common.getPassword());
-
-        Common.log.info("Log in with password: " +common.getPassword());
+            Common.log.info("Log in with password: " +common.getPassword());
+        }
     }
 
     public void signIn(){
         common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[1]/button").click();
 
         if(common.getIncorrectPassword()) {
-            common.verifyStringByXpath("//*[@id=\"alert_msg\"]", "Ogiltigt användarnamn eller lösenord (1 försök)");
+            //common.verifyStringByXpath("//*[@id=\"alert_msg\"]", "Ogiltigt användarnamn eller lösenord (1 försök)");
+            common.verifyXpathContainsString("//*[@id=\"alert_msg\"]", "användarnamn eller lösenord");
         }
         else {
             //common.timeoutSeconds(1);
@@ -70,6 +72,6 @@ public class Login {
         common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[2]/a").click();
 
         //Wait for next page
-        common.explicitWaitPageTitle("Reset password - Email");
+        common.explicitWaitPageTitle("Återställ lösenord - E-post");
     }
 }

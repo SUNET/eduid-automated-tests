@@ -71,7 +71,17 @@ public class TC_38 {
 
     //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"login"} )
-    void dashboard() { dashBoard.runDashBoard(); }
+    void dashboard() {
+        //Set some user data that will be verified in dashboard
+        common.setDisplayName("inget namn sparat");
+        common.setGivenName("inget");
+        common.setSurName("namn");
+        common.setPersonalNumber("lägg till personnummer");
+        common.setPhoneNumber("inget telefonnummer sparat");
+        common.setEmail(common.getUsername());
+
+        dashBoard.runDashBoard();
+    }
 
     @Test( dependsOnMethods = {"dashboard"} )
     void delete() {

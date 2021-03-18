@@ -17,13 +17,13 @@ public class VerifyPhoneNumber {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Reset password - Verify phone number");
+        common.verifyPageTitle("Återställ lösenord - Bekräfta telefonnummer");
     }
 
     private void verifyLabels(){
-        common.verifyStringByXpath("//div/div[2]/h2", "Verify phone number");
-        common.verifyStringByXpath("//div/div[2]/p", "Enter the code you received via SMS");
-        common.verifyStringByXpath("//div/div[3]/form/div[3]/a", "Resend code or try another way");
+        common.verifyStringByXpath("//div/div[2]/h2", "Bekräfta telefonnummer");
+        common.verifyStringByXpath("//div/div[2]/p", "Ange bekräftelsekoden som har skickats med SMS");
+        common.verifyStringByXpath("//div/div[3]/form/div[3]/a", "Skicka en ny kod eller byt säkerhetsmetod");
     }
 
     private void continueOrResendOTP(){

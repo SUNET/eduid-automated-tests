@@ -14,8 +14,8 @@ public class DeleteAccount {
 
     public void runDeleteAccount(){
         //TODO temp fix to get swedish language
-        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
-            common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
+        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
+            common.findWebElementByLinkText("Svenska").click();
 
         verifyLabelsSwedish();
         verifyLabelsEnglish();
@@ -35,6 +35,7 @@ public class DeleteAccount {
             common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span").click();
 
             //Enter userName and password since we need to login again before account is deleted
+            common.timeoutSeconds(1);
             Login login = new Login(common);
             login.enterUsernamePassword();
 
@@ -43,7 +44,7 @@ public class DeleteAccount {
         }
         //Press abort
         else {
-            common.findWebElementByXpath("//div/div[3]/button[2]/span").click();
+            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[1]/h5/div/button").click();
         }
     }
 

@@ -70,7 +70,7 @@ public class ConfirmHuman {
                 common.findWebElementById("login").click();
             }
             else {
-                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span","E-postaddressen har registrerats");
+                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span","E-postadressen har registrerats");
                 //common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "Email address successfully registered");
 
                 //Continue with magic url to get to successful registered page
@@ -78,6 +78,7 @@ public class ConfirmHuman {
 
                 //Fetch the registration code
                 common.navigateToUrl("https://signup.dev.eduid.se/services/signup/get-code/?email=" +common.getUsername());
+                Common.log.info("URL: " +"https://signup.dev.eduid.se/services/signup/get-code/?email=" +common.getUsername());
                 String registrationCode = common.findWebElementByXpath("/html/body").getText();
                 Common.log.info("Sign up code: " +registrationCode);
 

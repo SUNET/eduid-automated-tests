@@ -1,9 +1,9 @@
 package se.sunet.eduid.utils;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import net.lightbody.bmp.BrowserMobProxy;
-import net.lightbody.bmp.client.ClientUtil;
-import net.lightbody.bmp.core.har.Har;
+//import net.lightbody.bmp.BrowserMobProxy;
+//import net.lightbody.bmp.client.ClientUtil;
+//import net.lightbody.bmp.core.har.Har;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Proxy;
@@ -13,37 +13,43 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.*;
 import java.net.URL;
+import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class InitBrowser {
     private WebDriver webDriver;
     private static final Logger log = LogManager.getLogger(InitBrowser.class);
-    public BrowserMobProxy proxy;
+//    public BrowserMobProxy proxy;
     public FileOutputStream fileOutputStream;
-    private Har har;
+//    private Har har;
     private String testcase;
 
     public WebDriver initiateBrowser(String browser, String headless, String language){
-        try {
+/*        try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if(browser.equalsIgnoreCase("chrome"))
+*/        if(browser.equalsIgnoreCase("chrome"))
             initChromeDriver(headless, language);
-        else
+        else if(browser.equalsIgnoreCase("firefox"))
             initFirefoxDriver(headless, language);
+        else
+            initMobile(browser);
 
         //Time we will wait before retry functionality will step in
-        webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+//        webDriver.manage().timeouts().implicitlyWait(11, TimeUnit.SECONDS);
 
         //If page does not respond within 35sec drop the session.
-        webDriver.manage().timeouts().pageLoadTimeout(35, TimeUnit.SECONDS);
+        webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(35));
 
         return webDriver;
     }
@@ -130,7 +136,7 @@ public class InitBrowser {
             }
         }
     }
-
+/*
     public void startHarSession(String tc) throws IOException {
         testcase = tc;
         // create a new HAR
@@ -150,5 +156,47 @@ public class InitBrowser {
 
         fileOutputStream.close();
         proxy.stop();
+    }
+*/
+    private void initMobile(String phoneType){
+        //Create Chrome instance with options
+        WebDriverManager.chromedriver().setup();
+
+        //Create Chrome instance with options
+        /*
+        Map<String, Object> deviceMetrics = new HashMap<>();
+        deviceMetrics.put("width", 1078);
+        deviceMetrics.put("height", 924);
+        deviceMetrics.put("pixelRatio", 3.0);
+        Map<String, Object> mobileEmulation = new HashMap<>();
+        mobileEmulation.put("deviceMetrics", deviceMetrics);
+        mobileEmulation.put("userAgent", "Mozilla/5.0 (Linux; Android 8.0.0;" +
+                        "Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) " +
+        "Chrome/67.0.3396.99 Mobile Safari/537.36");
+        */
+
+        /*
+        //Iphone X
+        Map<String, Object> deviceMetrics = new HashMap<>();
+        deviceMetrics.put("width", 375);
+        deviceMetrics.put("height", 812);
+        deviceMetrics.put("pixelRatio", 3.0);
+        Map<String, Object> mobileEmulation = new HashMap<>();
+        mobileEmulation.put("deviceMetrics", deviceMetrics);
+        mobileEmulation.put("userAgent", "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) " +
+                "AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19");
+*/
+
+        Map<String, String> mobileEmulation = new HashMap<>();
+        mobileEmulation.put("deviceName", phoneType);
+        //Galaxy S5, Nexus 5
+        //mobileEmulation.put("orientation", "LANDSCAPE");
+        //mobileEmulation.put("deviceName", "iPhone 7");
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+        webDriver = new ChromeDriver(chromeOptions);
+
+
     }
 }

@@ -26,7 +26,7 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
         if (!iTestResult.isSuccess()) {
             int maxTry = 2;
             if (retryCount < maxTry) {
-                log.warn(testCase + " - " + testMethod + " - Test failed at attempt " +(retryCount +1) +" will try again\n" +iTestResult.getThrowable().getMessage());
+                log.info(testCase + " - " + testMethod + " - Test failed at attempt " +(retryCount +1) +" will try again\n" +iTestResult.getThrowable().getMessage());
                 screenshot();
                 try {
                     Thread.sleep(2000);
@@ -40,7 +40,7 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
                 return true;
             }
             else {
-                log.error(testCase + " - " + testMethod + " - Test failed at attempt " +(retryCount +1) +", test will be marked as failed\n" );
+                log.info(testCase + " - " + testMethod + " - Test failed at attempt " +(retryCount +1) +", test will be marked as failed\n" );
                 //windowMaximizeSize();
                 //screenshot();
                 iTestResult.setStatus(ITestResult.FAILURE);
@@ -49,7 +49,7 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
             }
         }
         else {
-            log.warn("Test succeeded at attempt " +(retryCount +1) +" continues with next test case");
+            log.info("Test succeeded at attempt " +(retryCount +1) +" continues with next test case");
             iTestResult.setStatus(ITestResult.SUCCESS);
             retryCount = 0;
         }
@@ -71,13 +71,13 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
         ts = (TakesScreenshot) webDriver;
 
         //Scroll to almost top of page and take first screenshot
-        ((JavascriptExecutor)webDriver).executeScript("window.scrollBy(0,100)");
+        ((JavascriptExecutor)webDriver).executeScript("window.scrollBy(0,200)");
 
         File screenshot1 = ts.getScreenshotAs(OutputType.FILE);
 
         try {
             // Temp test for the GUI presentation
-            org.apache.commons.io.FileUtils.copyFile(screenshot1, new File("screenshots/"+ testCase +"-" +testMethod +".png"));
+            org.apache.commons.io.FileUtils.copyFile(screenshot1, new File("screenshots/"+ testCase +"-" +testMethod +"-" +retryCount +".png"));
         } catch (IOException e) {
             log.warn("Failed taking a screenshot of failed test case: "+testCase +" " +e);
         }

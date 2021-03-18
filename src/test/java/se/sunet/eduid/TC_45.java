@@ -1,7 +1,11 @@
 package se.sunet.eduid;
 
 import org.testng.ITestContext;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import se.sunet.eduid.dashboard.AdvancedSettings;
 import se.sunet.eduid.dashboard.DashBoard;
 import se.sunet.eduid.dashboard.DeleteAccount;
 import se.sunet.eduid.generic.Login;
@@ -10,24 +14,25 @@ import se.sunet.eduid.generic.StartPage;
 import se.sunet.eduid.registration.ConfirmHuman;
 import se.sunet.eduid.registration.ConfirmedNewAccount;
 import se.sunet.eduid.registration.Register;
+import se.sunet.eduid.swamid.Swamid;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 
-public class TC_39 {
+public class TC_45 {
     private StartPage startPage;
     private Register register;
     private ConfirmHuman confirmHuman;
     private ConfirmedNewAccount confirmedNewAccount;
     private Login login;
-    private Logout logout;
     private DashBoard dashBoard;
     private DeleteAccount deleteAccount;
+    private Logout logout;
     private Common common;
+    private Swamid swamid;
+    private AdvancedSettings advancedSettings;
 
     @BeforeTest
     @Parameters( {"url", "browser", "headless", "language"})
@@ -41,9 +46,11 @@ public class TC_39 {
         confirmedNewAccount = new ConfirmedNewAccount(common);
         confirmHuman = new ConfirmHuman(common);
         login = new Login(common);
-        logout = new Logout(common);
-        deleteAccount = new DeleteAccount(common);
         dashBoard = new DashBoard(common);
+        deleteAccount = new DeleteAccount(common);
+        logout = new Logout(common);
+        swamid = new Swamid(common);
+        advancedSettings = new AdvancedSettings(common);
 
         Common.log.info("Executing: " +testContext.getName());
     }
@@ -51,7 +58,8 @@ public class TC_39 {
     @Test
     void startPage(){
         common.setRegisterAccount(true);
-        startPage.runStartPage(); }
+        startPage.runStartPage();
+    }
 
     @Test( dependsOnMethods = {"startPage"} )
     void register(){ register.runRegister(); }
@@ -60,7 +68,8 @@ public class TC_39 {
     void confirmHuman() { confirmHuman.runConfirmHuman(); }
 
     @Test( dependsOnMethods = {"confirmHuman"} )
-    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
+    void confirmedNewAccount() {
+        confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
@@ -68,29 +77,35 @@ public class TC_39 {
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-    void logout() {
-        logout.runLogout();
+    void advancedSettings() { advancedSettings.runAdvancedSettings();
+    common.setEmail(common.getUsername().toLowerCase());
     }
 
+    @Test( dependsOnMethods = {"advancedSettings"} )
+    void logout() { logout.runLogout(); }
+
     @Test( dependsOnMethods = {"logout"} )
-    void startPage2(){
-        common.setRegisterAccount(true);
-        startPage.runStartPage(); }
+    void navigateToSwamid(){
+        common.navigateToUrl("https://sp.swamid.se/Shibboleth.sso/DS/swamid-test?target=https://sp.swamid.se/secure/");
+    }
+
+    @Test( dependsOnMethods = {"navigateToSwamid"} )
+    void swamid(){
+        swamid.runSwamid(false);
+    }
+
+    @Test( dependsOnMethods = {"swamid"} )
+    void startPage2() {
+        common.navigateToUrl("https://dev.eduid.se");
+
+        startPage.runStartPage();
+        common.setRegisterAccount(false);
+    }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void register2(){
-        common.setGenerateUsername(false);
-        register.runRegister(); }
-
-    @Test( dependsOnMethods = {"register2"} )
-    void confirmHuman2() { confirmHuman.runConfirmHuman(); }
+    void login2(){ login.runLogin(); }
 
     //Delete the account, so it will be removed after 2 weeks by script
-    @Test( dependsOnMethods = {"confirmHuman2"} )
-    void login2(){
-        common.setRegisterAccount(false);
-        login.runLogin(); }
-
     @Test( dependsOnMethods = {"login2"} )
     void dashboard() {
         //Set some user data that will be verified in dashboard
@@ -101,13 +116,14 @@ public class TC_39 {
         common.setPhoneNumber("inget telefonnummer sparat");
         common.setEmail(common.getUsername());
 
-        dashBoard.pressSettings();
+        dashBoard.runDashBoard();
     }
 
     @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
         common.setDeleteButton(true);
-        deleteAccount.runDeleteAccount(); }
+        deleteAccount.runDeleteAccount();
+    }
 
     @Test( dependsOnMethods = {"delete"} )
     void startPage3(){ startPage.runStartPage(); }

@@ -21,7 +21,9 @@ public class Logout {
 
     private void pressLogOut(){
         common.findWebElementById("logout").click();
-        common.timeoutMilliSeconds(500);
+        common.timeoutMilliSeconds(1500);
+
+        common.explicitWaitPageTitle("eduID");
     }
 
     private void verifyLabels(){

@@ -1,33 +1,34 @@
 package se.sunet.eduid;
 
 import org.testng.ITestContext;
-import org.testng.annotations.*;
-import se.sunet.eduid.dashboard.DashBoard;
-import se.sunet.eduid.dashboard.DeleteAccount;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import se.sunet.eduid.dashboard.*;
 import se.sunet.eduid.generic.Login;
 import se.sunet.eduid.generic.Logout;
 import se.sunet.eduid.generic.StartPage;
 import se.sunet.eduid.registration.ConfirmHuman;
 import se.sunet.eduid.registration.ConfirmedNewAccount;
 import se.sunet.eduid.registration.Register;
+import se.sunet.eduid.swamid.Swamid;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.WebDriverManager;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 
-public class TC_39 {
+public class TC_46 {
     private StartPage startPage;
     private Register register;
     private ConfirmHuman confirmHuman;
     private ConfirmedNewAccount confirmedNewAccount;
     private Login login;
-    private Logout logout;
-    private DashBoard dashBoard;
+    private PersonalInfo personalInfo;
     private DeleteAccount deleteAccount;
     private Common common;
+    private SecurityKey securityKey;
 
     @BeforeTest
     @Parameters( {"url", "browser", "headless", "language"})
@@ -41,9 +42,9 @@ public class TC_39 {
         confirmedNewAccount = new ConfirmedNewAccount(common);
         confirmHuman = new ConfirmHuman(common);
         login = new Login(common);
-        logout = new Logout(common);
         deleteAccount = new DeleteAccount(common);
-        dashBoard = new DashBoard(common);
+        personalInfo = new PersonalInfo(common);
+        securityKey = new SecurityKey(common);
 
         Common.log.info("Executing: " +testContext.getName());
     }
@@ -51,7 +52,8 @@ public class TC_39 {
     @Test
     void startPage(){
         common.setRegisterAccount(true);
-        startPage.runStartPage(); }
+        startPage.runStartPage();
+    }
 
     @Test( dependsOnMethods = {"startPage"} )
     void register(){ register.runRegister(); }
@@ -67,52 +69,38 @@ public class TC_39 {
         common.setRegisterAccount(false);
         login.runLogin(); }
 
+    //First without any personal info saved
     @Test( dependsOnMethods = {"login"} )
-    void logout() {
-        logout.runLogout();
+    void securityKey1() {
+        common.setAddSecurityKey(false);
+        securityKey.runSecurityKey();
     }
 
-    @Test( dependsOnMethods = {"logout"} )
-    void startPage2(){
-        common.setRegisterAccount(true);
-        startPage.runStartPage(); }
+    @Test( dependsOnMethods = {"securityKey1"} )
+    void personalInfo() {
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
+        personalInfo.runPersonalInfo(); }
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void register2(){
-        common.setGenerateUsername(false);
-        register.runRegister(); }
-
-    @Test( dependsOnMethods = {"register2"} )
-    void confirmHuman2() { confirmHuman.runConfirmHuman(); }
-
-    //Delete the account, so it will be removed after 2 weeks by script
-    @Test( dependsOnMethods = {"confirmHuman2"} )
-    void login2(){
-        common.setRegisterAccount(false);
-        login.runLogin(); }
-
-    @Test( dependsOnMethods = {"login2"} )
-    void dashboard() {
-        //Set some user data that will be verified in dashboard
-        common.setDisplayName("inget namn sparat");
-        common.setGivenName("inget");
-        common.setSurName("namn");
-        common.setPersonalNumber("lägg till personnummer");
-        common.setPhoneNumber("inget telefonnummer sparat");
-        common.setEmail(common.getUsername());
-
-        dashBoard.pressSettings();
+    @Test( dependsOnMethods = {"personalInfo"} )
+    void securityKey2() {
+        common.setAddSecurityKey(true);
+        securityKey.runSecurityKey();
     }
 
-    @Test( dependsOnMethods = {"dashboard"} )
+    @Test( dependsOnMethods = {"securityKey2"} )
     void delete() {
+        common.navigateToUrl("https://dashboard.dev.eduid.se/profile/");
+        common.timeoutSeconds(2);
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
         common.setDeleteButton(true);
-        deleteAccount.runDeleteAccount(); }
+        deleteAccount.runDeleteAccount();
+        common.timeoutSeconds(2);
+    }
 
     @Test( dependsOnMethods = {"delete"} )
-    void startPage3(){ startPage.runStartPage(); }
+    void startPage2(){ startPage.runStartPage(); }
 
-    @Test( dependsOnMethods = {"startPage3"} )
+    @Test( dependsOnMethods = {"startPage2"} )
     void login3(){
         common.setIncorrectPassword(true);
         login.runLogin();

@@ -12,16 +12,17 @@ public class ConfirmedNewAccount {
     public void runConfirmedNewAccount(){
         verifyPageTitle();
         verifyLabels();
-        setUserData();
         clickGoToMyEduID();
     }
 
     private void verifyPageTitle() {
+        common.explicitWaitPageTitle("eduID");
         common.verifyPageTitle("eduID");
 
         //TODO temp fix to get swedish language
-        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
-            common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a"));
+        common.timeoutMilliSeconds(500);
+        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
+            common.findWebElementByLinkText("Svenska").click();
     }
 
     private void verifyLabels(){
@@ -61,15 +62,6 @@ public class ConfirmedNewAccount {
 
         //Switch language to Swedish
         common.findWebElementByLinkText("Svenska").click();
-    }
-
-    private void setUserData(){
-        common.setDisplayName("inget namn sparat");
-        common.setGivenName("inget");
-        common.setSurName("namn");
-        common.setPersonalNumber("lägg till personnummer");
-        common.setPhoneNumber("inget telefonnummer sparat");
-        common.setEmail(common.getUsername());
     }
 
     private void clickGoToMyEduID(){

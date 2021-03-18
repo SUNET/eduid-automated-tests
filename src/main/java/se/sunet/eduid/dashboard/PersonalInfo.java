@@ -1,11 +1,10 @@
 package se.sunet.eduid.dashboard;
 
-import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
-import se.sunet.eduid.utils.WebDriverManager;
 
 public class PersonalInfo {
     private Common common;
+    private boolean pressAddButton = false;
 
     public PersonalInfo(Common common){
         this.common = common;
@@ -15,7 +14,9 @@ public class PersonalInfo {
         verifyPageTitle();
         verifyAndUpdatePersonalInfo();
         selectLanguage();
-        if(!common.getLanguage().equals("English"))
+        if(pressAddButton)
+            pressAddButton();
+        if(common.getLanguage().equals("Svenska"))
             verifyLabelsSwedish();
         else
             verifyLabelsEnglish();
@@ -27,8 +28,6 @@ public class PersonalInfo {
     }
 
     private void verifyAndUpdatePersonalInfo() {
-        boolean pressAddButton = false;
-
         // If given name shall be updated else verify the default value
         if(common.getGivenName().equals(common.getAttributeByXpath("//*[@id=\"given_name\"]/input")))
             common.verifyStrings(common.getGivenName(), common.getAttributeByXpath("//*[@id=\"given_name\"]/input"));
@@ -61,53 +60,37 @@ public class PersonalInfo {
 
             pressAddButton = true;
         }
-
-        // If any value updated we need to save it and verify that the info message appears
-        if(pressAddButton) {
-            //Click Add button
-            common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span").click();
-            verifyUpdatedInfoBar(common.getLanguage());
-        }
     }
 
     private void selectLanguage() {
-        if(common.getLanguage().equalsIgnoreCase("Svenska")) {
+        if(common.getLanguage().equalsIgnoreCase("Svenska") && !common.findWebElementById("Svenska").isSelected()) {
             //Select new language - Swedish
-            //common.findWebElementByXpath("//*[@id=\"language\"]/select/option[3]").click();
             common.findWebElementById("Svenska").click();
 
-            //Click Add button
-            //common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span").click();
-            common.findWebElementById("personal-data-button").click();
-
-            common.timeoutMilliSeconds(500);
-            common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "LÄGG TILL");
-
-            //Verify the saved info message - Swedish
-            verifyUpdatedInfoBar(common.getLanguage());
+            pressAddButton = true;
         }
-        else if(common.getLanguage().equalsIgnoreCase("English")){
-            //Verify the label
-            common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "LÄGG TILL");
-
+        else if(common.getLanguage().equalsIgnoreCase("English") && !common.findWebElementById("English").isSelected()){
             //Select new language - English
-            //common.findWebElementByXpath("//*[@id=\"language\"]/select/option[2]").click();
             common.findWebElementById("English").click();
 
+            pressAddButton = true;
+        }
+    }
+
+    private void pressAddButton(){
+        // If any value updated we need to save it and verify that the info message appears
+        if(pressAddButton) {
             //Click Add button
-            //common.findWebElementByXpath("//*[@id=\"personal-data-button\"]/span").click();
             common.findWebElementById("personal-data-button").click();
-
-            //Verify the label
-            //explicitWaitClickableElement("//*[@id=\"personal-data-button\"]/span");
             common.timeoutMilliSeconds(500);
-            common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "ADD");
 
-            //Verify the saved info message - English
+            if(common.getLanguage().equalsIgnoreCase("Svenska")) {
+                common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "SPARA");
+            }
+            else{
+                common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "SAVE");
+            }
             verifyUpdatedInfoBar(common.getLanguage());
-
-            //Verify labels in english
-            verifyLabelsEnglish();
         }
     }
 

@@ -15,11 +15,12 @@ public class EmailSent {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Reset password - Email");
+        common.verifyPageTitle("Återställ lösenord - E-post");
     }
 
     private void verifyLabels(){
-        common.verifyStringByXpath("//div/div[2]/h2", "Reset password");
-        common.verifyStringByXpath("//div/div[3]/p", "Reset password message sent. Check your email to continue.");
+        common.verifyStringByXpath("//div/div[2]/h2", "Återställ lösenord");
+        common.verifyStringByXpath("//div/div[3]/p", "Ett meddelande om lösenordsåterställning " +
+                "har skickats. Kolla din e-post för att fortsätta.");
     }
 }

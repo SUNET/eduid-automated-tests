@@ -1,5 +1,6 @@
 package se.sunet.eduid.dashboard;
 
+import org.openqa.selenium.NoSuchElementException;
 import se.sunet.eduid.utils.Common;
 
 public class DashBoard {
@@ -28,10 +29,18 @@ public class DashBoard {
     private void verifyPageTitle() {
         common.explicitWaitPageTitle("eduID");
         common.verifyPageTitle("eduID");
+
+        //TODO temp fix to get swedish language
+        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska")
+                && common.getLanguage().equalsIgnoreCase("Svenska"))
+            common.findWebElementByLinkText("Svenska").click();
+
+        //Timeout to save time from retry-functionality
+        common.timeoutMilliSeconds(700);
     }
 
     private void verifyUserId() {
-        common.verifyStringOnPage(common.getUsername());
+        common.verifyStringOnPage(common.getUsername().toLowerCase());
     }
 
     private void verifyDisplayName() {
@@ -55,7 +64,7 @@ public class DashBoard {
     }
 
     private void verifyEmail() {
-        common.verifyStringOnPage(common.getEmail());
+        common.verifyStringOnPage(common.getEmail().toLowerCase());
     }
 
     private void verifyLabelsSwedish() {

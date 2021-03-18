@@ -187,7 +187,6 @@ public class Help {
                 "kan du kontakta eduID-supporten via e-post till support@eduid.se.");
         common.verifyStringOnPage("Ange alltid den e-postadress som du använde när du loggade in på eduID. " +
                 "Om något har blivit fel är det alltid bra att skicka med skärmdumpar med felmeddelanden för att underlätta felsökning.");
-        common.verifyStringOnPage("Mellan 6-24 juli 2020 kan eduid-supporten endast nås via e-post.");
     }
 
     private void verifyEnglish(){
@@ -366,6 +365,5 @@ public class Help {
         common.verifyStringOnPage("Always let us know the e-mail address you used when you logged into " +
                 "eduID. If something went wrong, it is always a good idea to include screenshots with error messages to " +
                 "ease troubleshooting.");
-        common.verifyStringOnPage("Between 6-24 July 2020, the support will only be available via email.");
     }
 }

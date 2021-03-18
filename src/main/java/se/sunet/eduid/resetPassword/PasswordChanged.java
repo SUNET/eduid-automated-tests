@@ -22,8 +22,8 @@ public class PasswordChanged {
 
     private void verifyLabels(){
         //verify the labels
-        common.verifyStringByXpath("//div/div[2]/p[1]", "Password has been updated successfully.");
-        common.verifyStringByXpath("//div/div[2]/p[2]/a", "Return to login page");
+        common.verifyStringByXpath("//div/div[2]/p[1]", "Lösenordet har ändrats.");
+        common.verifyStringByXpath("//div/div[2]/p[2]/a", "Tillbaka till inloggningssidan");
     }
 
     private void clickReturnToLoginLink() {
