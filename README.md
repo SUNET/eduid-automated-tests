@@ -18,10 +18,6 @@ TC_8 - Remove the additional email address added in TC_7
 
 TC_9 - Try to add the default email address as extra email address
 
-TC_10 - Add additional email address, try to confirm with empty code
-
-TC_11 - Remove the additional email address added in TC_10
-
 TC_12 - Add additional email address, try to confirm with incorrect code
 
 TC_13 - Remove the additional email address added in TC_12
@@ -82,6 +78,14 @@ TC_40 - Register new account, add and confirm phone number. Confirm identity by 
 
 TC_41 - Register new account, add and confirm phone number. Confirm identity by mail
 
+TC_43 - On a new account, log in to support tool and verify all registered parameters"
+
 TC_98 - Confirm phone number on default account, to restore it from previous tests
 
+TC_42 - Log in, with eppn, and check account data and labels
+
 TC_99 - Check the Help pages
+
+TC_44 - Verify that login to eduID can be done from Swamid Testing on a verified account
+
+TC_45 - Verify that login to eduID can be done from Swamid Testing on a non-verified account
