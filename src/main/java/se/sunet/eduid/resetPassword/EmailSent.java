@@ -15,12 +15,13 @@ public class EmailSent {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Återställ lösenord - E-post");
+        common.verifyPageTitle("eduID login");
     }
 
     private void verifyLabels(){
-        common.verifyStringByXpath("//div/div[2]/h2", "Återställ lösenord");
-        common.verifyStringByXpath("//div/div[3]/p", "Ett meddelande om lösenordsåterställning " +
-                "har skickats. Kolla din e-post för att fortsätta.");
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/p/span", "Kontrollera din " +
+                "e-postadress " +common.getUsername() +" för att fortsätta. \n Länken är giltig i två timmar.");
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/div/p/span[1]", "Om du inte " +
+                "fick e-postmeddelandet? Kontrollera skräppost, \n eller");
     }
 }

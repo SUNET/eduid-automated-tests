@@ -10,25 +10,41 @@ public class PasswordChanged {
     }
 
     public void runPasswordChanged(){
-        //TODO add pagetitle check when its present, missing at the moment 23/4-2020
-        //verifyPageTitle();
+        verifyPageTitle();
         verifyLabels();
         clickReturnToLoginLink();
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("");
+        common.verifyPageTitle("eduID login");
     }
 
     private void verifyLabels(){
-        //verify the labels
-        common.verifyStringByXpath("//div/div[2]/p[1]", "Lösenordet har ändrats.");
-        common.verifyStringByXpath("//div/div[2]/p[2]/a", "Tillbaka till inloggningssidan");
+        //Verify status message - swedish
+        common.verifyStatusMessage("Klart");
+
+        //verify the labels - swedish
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/p/span", "Lösenordet har uppdaterats");
+        common.verifyStringByXpath("//*[@id=\"return-login\"]", "Gå till eduID");
+
+        //Switch language to english
+        common.findWebElementByLinkText("English").click();
+
+        //Verify status message - english
+        common.verifyStatusMessage("Success");
+
+        //verify the labels - english
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/p/span", "Password has been updated.");
+        common.verifyStringByXpath("//*[@id=\"return-login\"]", "Go to eduID");
+
+        //Switch language to swedish
+        common.findWebElementByLinkText("Svenska").click();
     }
 
     private void clickReturnToLoginLink() {
         //Return to landing page, click with javascript is needed here...
-        common.click(common.findWebElementByXpath("//div/div[2]/p[2]/a"));
+        common.findWebElementById("return-login").click();
+
         common.verifyPageTitle("eduID");
     }
 }

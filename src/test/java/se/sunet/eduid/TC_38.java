@@ -1,53 +1,9 @@
 package se.sunet.eduid;
 
-import org.testng.ITestContext;
-import org.testng.annotations.*;
-import se.sunet.eduid.dashboard.DashBoard;
-import se.sunet.eduid.dashboard.DeleteAccount;
-import se.sunet.eduid.generic.Login;
-import se.sunet.eduid.generic.Logout;
-import se.sunet.eduid.generic.StartPage;
-import se.sunet.eduid.registration.ConfirmHuman;
-import se.sunet.eduid.registration.ConfirmedNewAccount;
-import se.sunet.eduid.registration.Register;
-import se.sunet.eduid.utils.Common;
-import se.sunet.eduid.utils.InitBrowser;
-import se.sunet.eduid.utils.RetryAndScreenShot;
-import se.sunet.eduid.utils.WebDriverManager;
+import org.testng.annotations.Test;
+import se.sunet.eduid.utils.BeforeAndAfter;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
-
-public class TC_38 {
-    private StartPage startPage;
-    private Register register;
-    private ConfirmHuman confirmHuman;
-    private ConfirmedNewAccount confirmedNewAccount;
-    private Login login;
-    private DashBoard dashBoard;
-    private DeleteAccount deleteAccount;
-    private Common common;
-
-
-    @BeforeTest
-    @Parameters( {"url", "browser", "headless", "language"})
-    void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
-        InitBrowser initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
-
-        common = new Common(WebDriverManager.getWebDriver());
-        startPage = new StartPage(common);
-        register = new Register(common);
-        confirmedNewAccount = new ConfirmedNewAccount(common);
-        confirmHuman = new ConfirmHuman(common);
-        login = new Login(common);
-        dashBoard = new DashBoard(common);
-        deleteAccount = new DeleteAccount(common);
-
-        Common.log.info("Executing: " +testContext.getName());
-    }
-
+public class TC_38 extends BeforeAndAfter {
     @Test
     void startPage(){
         common.setRegisterAccount(true);
@@ -73,11 +29,11 @@ public class TC_38 {
     @Test( dependsOnMethods = {"login"} )
     void dashboard() {
         //Set some user data that will be verified in dashboard
-        common.setDisplayName("inget namn sparat");
-        common.setGivenName("inget");
+        common.setDisplayName("lägg till namn");
+        common.setGivenName("lägg till");
         common.setSurName("namn");
-        common.setPersonalNumber("lägg till personnummer");
-        common.setPhoneNumber("inget telefonnummer sparat");
+        common.setIdentityNumber("lägg till personnummer");
+        common.setPhoneNumber("lägg till telefonnummer");
         common.setEmail(common.getUsername());
 
         dashBoard.runDashBoard();
@@ -97,7 +53,4 @@ public class TC_38 {
         common.setIncorrectPassword(true);
         login.runLogin();
     }
-
-    @AfterTest
-    void quitBrowser(){ WebDriverManager.quitWebDriver(); }
 }

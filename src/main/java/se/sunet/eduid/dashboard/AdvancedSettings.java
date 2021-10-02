@@ -23,7 +23,7 @@ public class AdvancedSettings {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID");
+        common.verifyPageTitle("eduID dashboard");
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
@@ -51,8 +51,8 @@ public class AdvancedSettings {
         //Verify text
         common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span");
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span", "Ge ett namn till din säkerhetsnyckel");
-        common.verifyStringByXpath("//*[@id=\"describeWebauthnTokenDialogControl\"]/div/label/span", "Säkerhetsnyckel");
-        common.verifyStringByXpath("//*[@id=\"describeWebauthnTokenDialogControl\"]/div/span", "max 50 tecken");
+        common.verifyStringByXpath("//*[@id=\"describeWebauthnTokenDialogControl-wrapper\"]/div/label/span", "Säkerhetsnyckel");
+        common.verifyStringByXpath("//*[@id=\"describeWebauthnTokenDialogControl-wrapper\"]/div/span", "max 50 tecken");
 
 
 //        else{

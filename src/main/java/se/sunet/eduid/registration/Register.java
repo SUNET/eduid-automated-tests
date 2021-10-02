@@ -17,10 +17,10 @@ public class Register {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID");
+        common.verifyPageTitle("eduID signup");
 
         //TODO temp fix to get swedish language
-        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
+        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
             common.findWebElementByLinkText("Svenska").click();
     }
 
@@ -31,7 +31,7 @@ public class Register {
         common.verifyStringByXpath("//*[@id=\"content\"]/p[1]/span", "Registrera din e-postadress för att skapa ditt eduID.");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/p[2]/span", "När du har skapat ditt eduID kan du logga in och koppla det till ditt svenska personnummer.");
-        common.verifyStringByXpath("//*[@id=\"email\"]/div/label/span", "E-postadress");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label/span", "E-postadress");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/p[3]/span", "Om du redan har ett eduID kan du logga in");
 
@@ -43,7 +43,7 @@ public class Register {
         common.verifyStringByXpath("//*[@id=\"content\"]/p[1]/span", "Register your email address to create your eduID.");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/p[2]/span", "Once you have created an eduID you will be able to log in and connect it to your Swedish national identity number.");
-        common.verifyStringByXpath("//*[@id=\"email\"]/div/label/span", "Email address");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label/span", "Email address");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/p[3]/span", "If you already have eduID you can log in");
 
@@ -58,8 +58,8 @@ public class Register {
 
         Common.log.info("Register user: " +common.getUsername());
 
-        common.findWebElementByXpath("//*[@id=\"email\"]/input").clear();
-        common.findWebElementByXpath("//*[@id=\"email\"]/input").sendKeys(common.getUsername());
+        common.findWebElementById("email").clear();
+        common.findWebElementById("email").sendKeys(common.getUsername());
         common.findWebElementById("register-button").click();
     }
 
@@ -69,6 +69,8 @@ public class Register {
 
         //Press abort and switch to swedish
         common.findWebElementById("reject-tou-button").click();
+
+        common.timeoutMilliSeconds(200);
         common.findWebElementByLinkText("Svenska").click();
 
         //Click on register button again and verify terms in swedish
@@ -98,7 +100,7 @@ public class Register {
         common.verifyStringByXpath("//div/div[2]/ul/li[3]", "att användarkonton, " +
                 "lösenord och koder är personliga och får endast användas av innehavaren,");
         common.verifyStringByXpath("//div/div[2]/ul/li[4]", "att SUNET:s " +
-                "etiska regler reglerar övrig tillåten användning. SUNET fördömer som oetiskt när någon");
+                "etiska regler reglerar övrig tillåten användning. SUNET bedömer som oetiskt när någon");
         common.verifyStringByXpath("//div/div[2]/ul/ul/li[1]", "försöker " +
                 "få tillgång till nätverksresurser utan att ha rätt till det");
         common.verifyStringByXpath("//div/div[2]/ul/ul/li[2]", "försöker dölja sin användaridentitet");

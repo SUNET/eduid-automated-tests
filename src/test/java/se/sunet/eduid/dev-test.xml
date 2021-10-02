@@ -1,0 +1,183 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="dev">
+    <parameter name="url" value="https://dev.eduid.se" />
+    <parameter name="browser" value="firefox" />
+    <parameter name="headless" value="false" />
+    <parameter name="language" value="sv" />
+
+    <listeners>
+        <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
+    </listeners>
+
+
+    <!--
+
+    eduidtest.se1@gmail.com
+    test1eduid!
+
+
+Test?=59(GG1234%€#\
+default pw
+lq2k dvzo 917s
+mknhKYFl94fJaWaiVk2oG9Tl
+
+ovemknhKYFl94fJaWaiVk2oG9Tl@idsec.se
+
+https://dashboard.dev.eduid.se/services/security/reset-password/email/mknhKYFl94fJaWaiVk2oG9Tl
+
+https://signup.dev.eduid.se/register/code/mknhKYFl94fJaWaiVk2oG9Tl
+
+        <parameter name="setNewPassword" value="Test?=59(GG1234%€#\"/>
+        <parameter name="useRecommendedPw" value="false" />
+
+        <parameter name="passWord" value="lq2k dvzo 917s" />
+                <parameter name="buttonValueConfirm" value="true" />
+
+                            <class name="se.sunet.eduid.resetPassword.PasswordResetExtraSecuritySecurity>
+                                        <class name="se.sunet.eduid.resetPassword.EmailLink" >
+
+TODO tc with - in name, and åäö in name.
+TODO - integrationstest via scim api, mfa stepup - magnus
+TODO - Extrahera texter ur eduID
+TODO - TC when confirmed ID, then name etc should not be possible to change. at to register TC
+
+TODO - Försök skicka reset pw-mail inom 5min...
+
+TODO - reset pw, skriv in felaktig otp när otp är skickad
+TODO - Add two or more phone numbers, then reset pw-flow. multiple number to be selected for confirmation etc
+TODO - reset pw - click directly on "already have otp", utan att ha otp, fyll något ogiltigt...
+TODO - Security key testfallet funkar ej
+
+TODO - reset pw - abort i SetNewPassword klassen
+
+TODO - Comitta!!
+
+TODO - mfa-check.swamid.se -> säkerhetsnyckel ska vara satt mm mm
+TODO - Produktions testsvit
+
+Virtual auth for enhanced security (webauthn),
+- https://stackoverflow.com/questions/63477115/selenium-tests-authenticate-with-webauthn
+- grupper
+- INVITES - provisionering
+- test grundläggande ideer anpassat på eduID
+- engelska språk vald och tryck på hjälp - hjälptexten ska då vara på engelska
+- Bättre felmeddelande när man avbryter vid extra security key  -  advanced settings
+
+- hjälp länken fungerar inte vid 2faktorinloggning
+- test där en bekräftad identitet, sen skapa ny user som bekräftar samma identitet. logga in och kolla i första att den ej längre är bekräftad
+- samma som ovan men med telefonnummer
+
+- Extrahera textsträngar. status strängar. sv och eng
+
+TC_40 - bugg #564
+TC_43 - depends on same as above.
+39, 47, 43, 45,46
+-->
+    <!--
+        <test name="TC_40">
+            <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by phone" />
+            <classes>
+                <class name="se.sunet.eduid.TC_40" >
+                </class>
+            asses>
+        </test>
+
+        <parameter name="url" value="https://mfa-check.swamid.se" />
+
+        <test name="TC_50">
+
+        <parameter name="testDescription" value="Verify that MFA connection for Freja eID, using swamid Test, is working" />
+        <classes>
+            <class name="se.sunet.eduid.TC_50" >
+            </class>
+        </classes>
+    </test>
+    -->
+
+    <!--
+    <test name="TC_23">
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password, use default pw" />
+        <classes>
+            <class name="se.sunet.eduid.TC_23" >
+            </class>
+        </classes>
+    </test>
+-->
+
+
+    <test name="TC_46">
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings" />
+        <classes>
+            <class name="se.sunet.eduid.TC_46" >
+            </class>
+        </classes>
+    </test>
+
+
+<!--95lk 734z 39da.
+Ej bekräftat telefonnummer ger inget val om extra säkerthet vid reset-pw när kontot varit avslutat.
+
+    <test name="TC_42">
+        <parameter name="testDescription" value="Log in, with eppn, and check account data and labels" />
+        <classes>
+            <class name="se.sunet.eduid.TC_42" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_48">
+        <parameter name="testDescription" value="Check that user/pw is requested at log in same session after previous log out" />
+        <classes>
+            <class name="se.sunet.eduid.TC_48" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_99">
+        <parameter name="testDescription" value="Check the Help pages" />
+        <classes>
+            <class name="se.sunet.eduid.TC_99" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_44">
+        <parameter name="url" value="https://release-check.swamid.se" />
+        <parameter name="testDescription" value="Verify that login to eduID can be done from Swamid Testing on a verified account" />
+        <classes>
+            <class name="se.sunet.eduid.TC_44" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_45">
+        <parameter name="testDescription" value="Verify that login to eduID can be done from Swamid Testing on a non-verified account" />
+        <classes>
+            <class name="se.sunet.eduid.TC_45" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_46">
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings" />
+        <classes>
+            <class name="se.sunet.eduid.TC_46" >
+            </class>
+        </classes>
+    </test>
+-->
+
+</suite>
+
+<!--
+
+I went through all places where the magic cookie is used so you can check if something is missing in your tests
+https://eidas.dev.eduid.se/verify-nin  (verify identity using Freja eID)
+https://dashboard.dev.eduid.se/services/email/get-code?eppn=x&email=x  (verify mail address)
+https://dashboard.dev.eduid.se/services/letter-proofing/get-code  (verify identity using letter)
+lookup-mobile-proofing  (verifying identity using phone number should just work if the cookie is set, no need for any extra request (you get your names set to Magic Cookie))
+https://dashboard.dev.eduid.se/services/phone/get-code?eppn=x&phone=x  (verify phone number)
+https://dashboard.dev.eduid.se/services/security/reset-password/get-email-code?eppn=x  (reset password, step 1)
+https://dashboard.dev.eduid.se/services/security/reset-password/get-phone-code?eppn=x  (reset password extra security) (edited)
+-->

@@ -1,63 +1,13 @@
 package se.sunet.eduid;
 
-import org.testng.ITestContext;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import se.sunet.eduid.dashboard.*;
-import se.sunet.eduid.generic.Login;
-import se.sunet.eduid.generic.Logout;
-import se.sunet.eduid.generic.StartPage;
-import se.sunet.eduid.registration.ConfirmHuman;
-import se.sunet.eduid.registration.ConfirmedNewAccount;
-import se.sunet.eduid.registration.Register;
-import se.sunet.eduid.supportTool.RegisteredData;
-import se.sunet.eduid.utils.Common;
-import se.sunet.eduid.utils.InitBrowser;
+import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.WebDriverManager;
 
-import java.io.IOException;
 import java.time.LocalDate;
 
-public class TC_43 {
-    private StartPage startPage;
-    private Register register;
-    private ConfirmHuman confirmHuman;
-    private ConfirmedNewAccount confirmedNewAccount;
-    private Login login;
-    private ConfirmIdentity confirmIdentity;
-    private PhoneNumber phoneNumber;
-    private DashBoard dashBoard;
-    private DeleteAccount deleteAccount;
-    private AdvancedSettings advancedSettings;
-    private Logout logout;
-    private RegisteredData registeredData;
-    private Common common;
+public class TC_43 extends BeforeAndAfter {
     private LocalDate localDate = LocalDate.now();
-
-    @BeforeTest
-    @Parameters( {"url", "browser", "headless", "language"})
-    void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
-        InitBrowser initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
-
-        common = new Common(WebDriverManager.getWebDriver());
-        startPage = new StartPage(common);
-        register = new Register(common);
-        confirmedNewAccount = new ConfirmedNewAccount(common);
-        confirmHuman = new ConfirmHuman(common);
-        login = new Login(common);
-        confirmIdentity = new ConfirmIdentity(common);
-        phoneNumber = new PhoneNumber(common);
-        dashBoard = new DashBoard(common);
-        deleteAccount = new DeleteAccount(common);
-        logout = new Logout(common);
-        advancedSettings = new AdvancedSettings(common);
-        registeredData = new RegisteredData(common);
-
-        Common.log.info("Executing: " +testContext.getName());
-    }
 
     @Test
     void startPage(){
@@ -80,6 +30,17 @@ public class TC_43 {
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
+    void personalInfo() {
+        common.setRegisterAccount(true);
+
+        //Navigate to settings
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
+        personalInfo.runPersonalInfo();
+
+        common.setRegisterAccount(false);
+    }
+
+    @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
@@ -104,15 +65,13 @@ public class TC_43 {
     //Log in to the support tool
     @Test( dependsOnMethods = {"startPageSupport"} )
     void loginSupport(){
-        common.findWebElementById("username").sendKeys(common.getSupportUsername());
-        common.findWebElementById("password").sendKeys("d72o cqhd hnqc");
-
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[1]/button").click();
+        loginSupportTool();
     }
 
     //Search for newly created account
     @Test( dependsOnMethods = {"loginSupport"} )
     void searchAndVerifyUserData(){
+        common.timeoutSeconds(1);
         common.findWebElementByXpath("//div/form/div/p[1]/input").sendKeys(common.getEppn());
         common.findWebElementByXpath("//div/form/div/p[2]/button").click();
 
@@ -156,22 +115,26 @@ public class TC_43 {
     //Log in to the support tool
     @Test( dependsOnMethods = {"startPageSupport2"} )
     void loginSupport2(){
-        common.findWebElementById("username").sendKeys(common.getSupportUsername());
-        common.findWebElementById("password").sendKeys("d72o cqhd hnqc");
-
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[1]/button").click();
+        loginSupportTool();
     }
 
     //Search for the deleted account and check that terminated timestamp is set with todays date
     @Test( dependsOnMethods = {"loginSupport2"} )
     void searchAndVerifyUserData2(){
+        common.timeoutSeconds(1);
         common.findWebElementByXpath("//div/form/div/p[1]/input").sendKeys(common.getEppn());
         common.findWebElementByXpath("//div/form/div/p[2]/button").click();
 
-        //Verify Terminated Status contains todays timestamp
+        //Verify Terminated Status contains today's timestamp
         common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[10]/td", String.valueOf(localDate));
     }
 
-    @AfterTest
-    void quitBrowser(){ WebDriverManager.quitWebDriver(); }
+    private void loginSupportTool(){
+        common.explicitWaitClickableElementId("email");
+
+        common.findWebElementById("email").sendKeys(common.getSupportUsername());
+        common.findWebElementByXpath("//*[@id=\"current-password-wrapper\"]/div[2]/input").sendKeys("d72o cqhd hnqc");
+
+        common.findWebElementById("login-form-button").click();
+    }
 }

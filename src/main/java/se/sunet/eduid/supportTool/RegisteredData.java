@@ -32,10 +32,10 @@ public class RegisteredData {
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[3]/td", "Magic Cookie");
 
         //Display name
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[4]/td", "Cookie Magic Cookie");
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[4]/td", common.getDisplayName());
 
         //National identity numbers - Number
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[1]", common.getPersonalNumber());
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[1]", common.getIdentityNumber());
 
         //National identity numbers - Primary
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[2]", "True");
@@ -107,7 +107,7 @@ public class RegisteredData {
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[10]/td", "False");
 
         //Language preference
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[11]/td","");
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[11]/td","sv");
     }
 
     private void verifySignupDB(){
@@ -193,7 +193,7 @@ public class RegisteredData {
         //Proofing log
         common.verifyXpathContainsString("//div/div[2]/div/div[5]/div/table/tbody/tr[2]/td[1]", String.valueOf(localDate));
         common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[2]/td[2]", "lookup_mobile_proofing");
-        common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[2]/td[3]", common.getPersonalNumber());
+        common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[2]/td[3]", common.getIdentityNumber());
         common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[2]/td[4]", "TeleAdress-2014v1");
 
         common.verifyXpathContainsString("//div/div[2]/div/div[5]/div/table/tbody/tr[3]/td[1]", String.valueOf(localDate));

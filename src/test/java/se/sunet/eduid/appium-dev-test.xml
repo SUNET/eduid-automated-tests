@@ -28,7 +28,7 @@ https://dashboard.dev.eduid.se/services/security/reset-password/email/mknhKYFl94
 
 https://signup.dev.eduid.se/register/code/mknhKYFl94fJaWaiVk2oG9Tl
 
-        <parameter name="newPassword" value="Test?=59(GG1234%€#\"/>
+        <parameter name="setNewPassword" value="Test?=59(GG1234%€#\"/>
         <parameter name="useRecommendedPw" value="false" />
 
         <parameter name="passWord" value="lq2k dvzo 917s" />

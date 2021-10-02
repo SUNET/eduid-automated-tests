@@ -23,6 +23,7 @@ public class StartPage {
     }
 
     private void verifyPageTitle() {
+        common.explicitWaitPageTitle("eduID");
         common.verifyPageTitle("eduID");
     }
 
@@ -31,7 +32,7 @@ public class StartPage {
         common.findWebElementByXpath("//*[@id=\"login\"]/a").click();
 
         //Wait for next page
-        common.explicitWaitPageTitle("eduID-inloggning");
+        common.explicitWaitPageTitle("eduID login");
     }
 
     private void registerAccount(){

@@ -1,53 +1,9 @@
 package se.sunet.eduid;
 
-import org.testng.ITestContext;
-import org.testng.annotations.*;
-import se.sunet.eduid.generic.Login;
-import se.sunet.eduid.generic.Logout;
-import se.sunet.eduid.generic.StartPage;
-import se.sunet.eduid.resetPassword.*;
-import se.sunet.eduid.utils.Common;
-import se.sunet.eduid.utils.InitBrowser;
-import se.sunet.eduid.utils.WebDriverManager;
+import org.testng.annotations.Test;
+import se.sunet.eduid.utils.BeforeAndAfter;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
-
-public class TC_24 {
-    private StartPage startPage;
-    private Login login;
-    private RequestNewPassword requestNewPassword;
-    private EmailSent emailSent;
-    private EmailLink emailLink;
-    private ExtraSecurity extraSecurity;
-    private VerifyPhoneNumber verifyPhoneNumber;
-    private NewPassword newPassword;
-    private PasswordChanged passwordChanged;
-    private Logout logout;
-    private Common common;
-
-    @BeforeTest
-    @Parameters( {"url", "browser", "headless", "language"})
-    void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
-        InitBrowser initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
-
-        common = new Common(WebDriverManager.getWebDriver());
-        startPage = new StartPage(common);
-        login = new Login(common);
-        requestNewPassword = new RequestNewPassword(common);
-        emailSent = new EmailSent(common);
-        emailLink = new EmailLink(common);
-        extraSecurity = new ExtraSecurity(common);
-        verifyPhoneNumber = new VerifyPhoneNumber(common);
-        newPassword = new NewPassword(common);
-        passwordChanged = new PasswordChanged(common);
-        logout = new Logout(common);
-
-        Common.log.info("Executing: " +testContext.getName());
-    }
-
+public class TC_24 extends BeforeAndAfter {
     @Test
     void startPage(){
         startPage.runStartPage();
@@ -72,12 +28,12 @@ public class TC_24 {
     void extraSecurity() { extraSecurity.runExtraSecurity(); }
 
     @Test( dependsOnMethods = {"extraSecurity"} )
-    void verifyPhoneNumber() { verifyPhoneNumber.runVerifyPhoneNumber(); }
+    void verifyPhoneNumber() {
+        common.setResendOTP(true);
+        verifyPhoneNumber.runVerifyPhoneNumber(); }
 
     @Test( dependsOnMethods = {"verifyPhoneNumber"} )
-    void newPassword() {
-        common.setUseRecommendedPw(true);
-        newPassword.runNewPassword(); }
+    void newPassword() { setNewPassword.runNewPassword(); }
 
     @Test( dependsOnMethods = {"newPassword"} )
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
@@ -94,12 +50,38 @@ public class TC_24 {
     }
 
     @Test( dependsOnMethods = {"login2"} )
-    void logout() {
-        logout.runLogout();
+    void changeToDefaultPassword(){}
+
+    @Test( dependsOnMethods = {"changeToDefaultPassword"} )
+    void dashboard2() {
+        dashBoard.runDashBoard();
     }
 
-    @AfterTest
-    void quitBrowser(){
-        WebDriverManager.quitWebDriver();
+    @Test( dependsOnMethods = {"dashboard2"} )
+    void initPwChange2() {
+        initPwChange.runInitPwChange();
+    }
+
+    @Test( dependsOnMethods = {"initPwChange2"} )
+    void loginPwChange2(){
+        //Check first if the incorrect password flag is set, then we need to re-set it after login.
+        boolean tempIncorrectPassword = common.getIncorrectPassword();
+        common.setIncorrectPassword(false);
+
+        //Enter userName and password since we need to login again before pw change
+        login.runLogin();
+
+        common.setIncorrectPassword(tempIncorrectPassword);
+    }
+
+    @Test( dependsOnMethods = {"loginPwChange2"} )
+    void password2() {
+        common.setNewPassword("lq2k dvzo 917s");
+        password.runPassword();
+    }
+
+    @Test( dependsOnMethods = {"password2"} )
+    void logout() {
+        logout.runLogout();
     }
 }

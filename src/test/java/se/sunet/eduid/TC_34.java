@@ -1,54 +1,9 @@
 package se.sunet.eduid;
 
-import org.testng.ITestContext;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import se.sunet.eduid.generic.Login;
-import se.sunet.eduid.generic.Logout;
-import se.sunet.eduid.generic.StartPage;
-import se.sunet.eduid.resetPassword.*;
-import se.sunet.eduid.utils.Common;
-import se.sunet.eduid.utils.InitBrowser;
-import se.sunet.eduid.utils.WebDriverManager;
+import se.sunet.eduid.utils.BeforeAndAfter;
 
-import java.io.IOException;
-
-public class TC_34 {
-    private StartPage startPage;
-    private Login login;
-    private RequestNewPassword requestNewPassword;
-    private EmailSent emailSent;
-    private EmailLink emailLink;
-    private ExtraSecurity extraSecurity;
-    private VerifyPhoneNumber verifyPhoneNumber;
-    private NewPassword newPassword;
-    private PasswordChanged passwordChanged;
-    private Logout logout;
-    private Common common;
-
-    @BeforeTest
-    @Parameters( {"url", "browser", "headless", "language"})
-    void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
-        InitBrowser initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
-
-        common = new Common(WebDriverManager.getWebDriver());
-        startPage = new StartPage(common);
-        login = new Login(common);
-        requestNewPassword = new RequestNewPassword(common);
-        emailSent = new EmailSent(common);
-        emailLink = new EmailLink(common);
-        extraSecurity = new ExtraSecurity(common);
-        verifyPhoneNumber = new VerifyPhoneNumber(common);
-        newPassword = new NewPassword(common);
-        passwordChanged = new PasswordChanged(common);
-        logout = new Logout(common);
-
-        Common.log.info("Executing: " +testContext.getName());
-    }
-
+public class TC_34 extends BeforeAndAfter {
     @Test
     void startPage(){
         startPage.runStartPage();
@@ -68,21 +23,63 @@ public class TC_34 {
 
     @Test( dependsOnMethods = {"emailSent"} )
     void emailLink() { emailLink.runEmailLink(); }
-
+/*
     @Test( dependsOnMethods = {"emailLink"} )
     void extraSecurity() { extraSecurity.runExtraSecurity(); }
 
     @Test( dependsOnMethods = {"extraSecurity"} )
     void verifyPhoneNumber() { verifyPhoneNumber.runVerifyPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"verifyPhoneNumber"} )
-    void newPassword() { newPassword.runNewPassword(); }
+*/
+    @Test( dependsOnMethods = {"emailLink"} )
+    void newPassword() { setNewPassword.runNewPassword(); }
 
     @Test( dependsOnMethods = {"newPassword"} )
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
 
-    @AfterTest
-    void quitBrowser(){
-        WebDriverManager.quitWebDriver();
+    @Test( dependsOnMethods = {"passwordChanged"} )
+    void startPage2(){
+        startPage.runStartPage();
+    }
+
+    @Test( dependsOnMethods = {"startPage2"} )
+    void login2(){
+        common.setResetPassword(false);
+        login.runLogin();
+    }
+
+    @Test( dependsOnMethods = {"login2"} )
+    void changeToDefaultPassword(){}
+
+    @Test( dependsOnMethods = {"changeToDefaultPassword"} )
+    void dashboard2() {
+        dashBoard.runDashBoard();
+    }
+
+    @Test( dependsOnMethods = {"dashboard2"} )
+    void initPwChange2() {
+        initPwChange.runInitPwChange();
+    }
+
+    @Test( dependsOnMethods = {"initPwChange2"} )
+    void loginPwChange2(){
+        //Check first if the incorrect password flag is set, then we need to re-set it after login.
+        boolean tempIncorrectPassword = common.getIncorrectPassword();
+        common.setIncorrectPassword(false);
+
+        //Enter userName and password since we need to login again before pw change
+        login.runLogin();
+
+        common.setIncorrectPassword(tempIncorrectPassword);
+    }
+
+    @Test( dependsOnMethods = {"loginPwChange2"} )
+    void password2() {
+        common.setNewPassword("lq2k dvzo 917s");
+        password.runPassword();
+    }
+
+    @Test( dependsOnMethods = {"password2"} )
+    void logout() {
+        logout.runLogout();
     }
 }

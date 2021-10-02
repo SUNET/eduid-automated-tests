@@ -27,7 +27,7 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
             int maxTry = 2;
             if (retryCount < maxTry) {
                 log.info(testCase + " - " + testMethod + " - Test failed at attempt " +(retryCount +1) +" will try again\n" +iTestResult.getThrowable().getMessage());
-                screenshot();
+                screenshot(retryCount);
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -66,12 +66,15 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
         webDriver.manage().window().setSize(windowSize);
     }
 
-    public void screenshot() {
+    public void screenshot(int retryCount) {
         TakesScreenshot ts;
         ts = (TakesScreenshot) webDriver;
 
         //Scroll to almost top of page and take first screenshot
-        ((JavascriptExecutor)webDriver).executeScript("window.scrollBy(0,200)");
+        if(retryCount == 0)
+            ((JavascriptExecutor)webDriver).executeScript("window.scrollBy(0,250)");
+        else
+            ((JavascriptExecutor)webDriver).executeScript("window.scrollBy(0,900)");
 
         File screenshot1 = ts.getScreenshotAs(OutputType.FILE);
 

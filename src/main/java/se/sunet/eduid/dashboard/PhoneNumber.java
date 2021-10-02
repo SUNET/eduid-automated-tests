@@ -53,19 +53,18 @@ public class PhoneNumber {
             common.findWebElementByLinkText("Svenska").click();
 
         //Click add phone number button
-        common.findWebElementByXpath("//div/section[2]/div[2]/div/div/div[3]/div[2]/button").click();
+        common.findWebElementByXpath("//div/section[2]/div[2]/div/div/div[2]/div[2]/button").click();
 
         //Enter phone number
-        common.findWebElementByXpath("//*[@id=\"number\"]/input").clear();
-        common.findWebElementByXpath("//*[@id=\"number\"]/input").sendKeys(common.getPhoneNumber());
+        common.findWebElementById("number").clear();
+        common.findWebElementById("number").sendKeys(common.getPhoneNumber());
 
         //Click Add
         common.findWebElementById("mobile-button").click();
 
         //Check status info
         //common.timeoutMilliSeconds(500);
-        common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
-        common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Telefonnummer sparades");
+        common.verifyStatusMessage("Telefonnummer sparades");
     }
 
     public void confirmNewPhoneNumber(){
@@ -95,15 +94,17 @@ public class PhoneNumber {
         common.navigateToUrl("https://dashboard.dev.eduid.se/profile/settings/personaldata");
 
         //TODO temp fix to get swedish language
-        if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
-            common.findWebElementByLinkText("Svenska").click();
+//        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
+//            common.findWebElementByLinkText("Svenska").click();
 
         //Press confirm phone number link
-       common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span").click();
+        common.explicitWaitClickableElement("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span");
+
+        common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span").click();
 
         //Enter the code
-        common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").clear();
-        common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").sendKeys(phoneCode);
+        common.findWebElementById("phoneConfirmDialogControl").clear();
+        common.findWebElementById("phoneConfirmDialogControl").sendKeys(phoneCode);
 
         //Press OK button
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]/span").click();
@@ -115,7 +116,8 @@ public class PhoneNumber {
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
             common.findWebElementByLinkText("Svenska").click();
 
-        common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Telefonnummer har bekräftats");
+        //common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Telefonnummer har bekräftats");
+        common.verifyStatusMessage("Telefonnummer har bekräftats");
 
         //Hide the info message
         common.findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/button/span").click();

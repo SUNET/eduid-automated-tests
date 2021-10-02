@@ -39,8 +39,9 @@ public class DeleteAccount {
             Login login = new Login(common);
             login.enterUsernamePassword();
 
-            common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[1]/button").click();
+            common.findWebElementById("login-form-button").click();
 
+            common.timeoutMilliSeconds(1500);
         }
         //Press abort
         else {

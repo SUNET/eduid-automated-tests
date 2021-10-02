@@ -1,35 +1,13 @@
 package se.sunet.eduid;
 
-import org.testng.ITestContext;
-import org.testng.annotations.*;
-import se.sunet.eduid.generic.Login;
-import se.sunet.eduid.generic.StartPage;
-import se.sunet.eduid.utils.Common;
-import se.sunet.eduid.utils.InitBrowser;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.WebDriverManager;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 
-public class TC_26 {
-    private StartPage startPage;
-    private Login login;
-    private Common common;
-
-    @BeforeTest
-    @Parameters( {"url", "browser", "headless", "language"})
-    void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
-        InitBrowser initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
-
-        common = new Common(WebDriverManager.getWebDriver());
-        startPage = new StartPage(common);
-        login = new Login(common);
-
-        Common.log.info("Executing: " +testContext.getName());
-    }
-
+public class TC_26 extends BeforeAndAfter {
     @Test
     void startPage(){
         startPage.runStartPage();
@@ -37,12 +15,71 @@ public class TC_26 {
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
-        common.setIncorrectPassword(true);
+        common.setResetPassword(true);
         login.runLogin();
     }
 
-    @AfterTest
-    void quitBrowser(){
+    @Test( dependsOnMethods = {"login"} )
+    void requestNewPassword() { requestNewPassword.runRequestNewPassword(); }
+
+    @Test( dependsOnMethods = {"requestNewPassword"} )
+    void emailSent() { emailSent.runEmailSent(); }
+
+    @Test( dependsOnMethods = {"emailSent"} )
+    void emailLink() { emailLink.runEmailLink(); }
+
+    @Test( dependsOnMethods = {"emailLink"} )
+    void extraSecurity() { extraSecurity.runExtraSecurity(); }
+
+    @Test( dependsOnMethods = {"extraSecurity"} )
+    void verifyPhoneNumber() {
+        verifyPhoneNumber.verifyLabels(); }
+
+
+    @Test( dependsOnMethods = {"verifyPhoneNumber"} )
+    void stopBrowser(){
         WebDriverManager.quitWebDriver();
+    }
+
+    @Test( dependsOnMethods = {"stopBrowser"} )
+    @Parameters({"url", "browser", "headless", "language"})
+    void startBrowser(String url, String browser, String headless, String language) throws IOException {
+        initBrowser(url, browser, headless, language);
+    }
+
+    @Test( dependsOnMethods = {"startBrowser"} )
+    void startPage2(){
+        startPage.runStartPage();
+    }
+
+    @Test( dependsOnMethods = {"startPage2"} )
+    void login2(){
+        common.setResetPassword(true);
+        login.runLogin();
+    }
+
+    @Test( dependsOnMethods = {"login2"} )
+    void requestNewPassword2() {
+        common.timeoutSeconds(28);
+        requestNewPassword.runRequestNewPassword(); }
+
+    @Test( dependsOnMethods = {"requestNewPassword2"} )
+    void emailSent2() { emailSent.runEmailSent(); }
+
+    @Test( dependsOnMethods = {"emailSent2"} )
+    void emailLink2() { emailLink.runEmailLink(); }
+
+    @Test( dependsOnMethods = {"emailLink2"} )
+    void extraSecurity2() { extraSecurity.runExtraSecurity(); }
+
+    @Test( dependsOnMethods = {"extraSecurity2"} )
+    void verifyPhoneNumber2() {
+        common.verifyStatusMessage("Vi kan bara skicka en kod var 5:e minut, var god vänta innan du ber om en ny kod.");
+
+        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("English")) {
+            common.findWebElementByLinkText("English").click();
+        }
+        common.verifyStatusMessage("You have recently been sent a verification code. Please wait at least 5 minutes to request a new one.");
+
     }
 }

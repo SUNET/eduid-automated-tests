@@ -1,60 +1,9 @@
 package se.sunet.eduid;
 
-import org.testng.ITestContext;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import se.sunet.eduid.dashboard.AdvancedSettings;
-import se.sunet.eduid.dashboard.DashBoard;
-import se.sunet.eduid.dashboard.DeleteAccount;
-import se.sunet.eduid.generic.Login;
-import se.sunet.eduid.generic.Logout;
-import se.sunet.eduid.generic.StartPage;
-import se.sunet.eduid.registration.ConfirmHuman;
-import se.sunet.eduid.registration.ConfirmedNewAccount;
-import se.sunet.eduid.registration.Register;
-import se.sunet.eduid.swamid.Swamid;
-import se.sunet.eduid.utils.Common;
-import se.sunet.eduid.utils.InitBrowser;
-import se.sunet.eduid.utils.WebDriverManager;
+import se.sunet.eduid.utils.BeforeAndAfter;
 
-import java.io.IOException;
-
-public class TC_45 {
-    private StartPage startPage;
-    private Register register;
-    private ConfirmHuman confirmHuman;
-    private ConfirmedNewAccount confirmedNewAccount;
-    private Login login;
-    private DashBoard dashBoard;
-    private DeleteAccount deleteAccount;
-    private Logout logout;
-    private Common common;
-    private Swamid swamid;
-    private AdvancedSettings advancedSettings;
-
-    @BeforeTest
-    @Parameters( {"url", "browser", "headless", "language"})
-    void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
-        InitBrowser initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
-
-        common = new Common(WebDriverManager.getWebDriver());
-        startPage = new StartPage(common);
-        register = new Register(common);
-        confirmedNewAccount = new ConfirmedNewAccount(common);
-        confirmHuman = new ConfirmHuman(common);
-        login = new Login(common);
-        dashBoard = new DashBoard(common);
-        deleteAccount = new DeleteAccount(common);
-        logout = new Logout(common);
-        swamid = new Swamid(common);
-        advancedSettings = new AdvancedSettings(common);
-
-        Common.log.info("Executing: " +testContext.getName());
-    }
-
+public class TC_45 extends BeforeAndAfter {
     @Test
     void startPage(){
         common.setRegisterAccount(true);
@@ -86,34 +35,44 @@ public class TC_45 {
 
     @Test( dependsOnMethods = {"logout"} )
     void navigateToSwamid(){
-        common.navigateToUrl("https://sp.swamid.se/Shibboleth.sso/DS/swamid-test?target=https://sp.swamid.se/secure/");
+        common.navigateToUrl("https://release-check.swamid.se");
     }
 
     @Test( dependsOnMethods = {"navigateToSwamid"} )
     void swamid(){
-        swamid.runSwamid(false);
+        swamid.runSwamid();
     }
 
     @Test( dependsOnMethods = {"swamid"} )
+    void login2(){
+        login.enterUsernamePassword();
+        common.findWebElementById("login-form-button").click();
+
+        common.explicitWaitPageTitle("Release check for SWAMID");
+    }
+
+    @Test( dependsOnMethods = {"login2"} )
+    void swamidData(){ swamidData.runSwamidData(false); }
+
+    @Test( dependsOnMethods = {"swamidData"} )
     void startPage2() {
         common.navigateToUrl("https://dev.eduid.se");
 
-        startPage.runStartPage();
+        //Click on sign in link
+        common.findWebElementByXpath("//*[@id=\"login\"]/a").click();
+
         common.setRegisterAccount(false);
     }
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){ login.runLogin(); }
-
     //Delete the account, so it will be removed after 2 weeks by script
-    @Test( dependsOnMethods = {"login2"} )
+    @Test( dependsOnMethods = {"startPage2"} )
     void dashboard() {
         //Set some user data that will be verified in dashboard
-        common.setDisplayName("inget namn sparat");
-        common.setGivenName("inget");
+        common.setDisplayName("lägg till namn");
+        common.setGivenName("lägg till");
         common.setSurName("namn");
-        common.setPersonalNumber("lägg till personnummer");
-        common.setPhoneNumber("inget telefonnummer sparat");
+        common.setIdentityNumber("lägg till personnummer");
+        common.setPhoneNumber("lägg till telefonnummer");
         common.setEmail(common.getUsername());
 
         dashBoard.runDashBoard();
@@ -133,7 +92,4 @@ public class TC_45 {
         common.setIncorrectPassword(true);
         login.runLogin();
     }
-
-    @AfterTest
-    void quitBrowser(){ WebDriverManager.quitWebDriver(); }
 }

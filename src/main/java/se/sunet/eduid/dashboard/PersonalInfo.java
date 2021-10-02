@@ -4,7 +4,6 @@ import se.sunet.eduid.utils.Common;
 
 public class PersonalInfo {
     private Common common;
-    private boolean pressAddButton = false;
 
     public PersonalInfo(Common common){
         this.common = common;
@@ -12,10 +11,15 @@ public class PersonalInfo {
 
     public void runPersonalInfo(){
         verifyPageTitle();
-        verifyAndUpdatePersonalInfo();
+        //If new account
+        if(common.getRegisterAccount()) {
+            //Click add data
+            common.findWebElementById("add-personal-data").click();
+            updatePersonalInfo();
+        }
+        else
+            verifyAndUpdatePersonalInfo();
         selectLanguage();
-        if(pressAddButton)
-            pressAddButton();
         if(common.getLanguage().equals("Svenska"))
             verifyLabelsSwedish();
         else
@@ -23,84 +27,113 @@ public class PersonalInfo {
     }
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("eduID");
-        common.verifyPageTitle("eduID");
+        common.explicitWaitPageTitle("eduID dashboard");
+        common.explicitWaitVisibilityElement("//div/footer/nav/ul/li[2]");
+
+        common.verifyPageTitle("eduID dashboard");
+
+        //TODO temp fix to get swedish language - needed when new accounts created
+        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")
+                && common.getLanguage().equalsIgnoreCase("Svenska") && common.getRegisterAccount()) {
+            common.findWebElementByLinkText("Svenska").click();
+        }
     }
 
     private void verifyAndUpdatePersonalInfo() {
-        // If given name shall be updated else verify the default value
-        if(common.getGivenName().equals(common.getAttributeByXpath("//*[@id=\"given_name\"]/input")))
-            common.verifyStrings(common.getGivenName(), common.getAttributeByXpath("//*[@id=\"given_name\"]/input"));
-        else{
-            common.findWebElementByXpath("//*[@id=\"given_name\"]/input").clear();
-            common.findWebElementByXpath("//*[@id=\"given_name\"]/input").sendKeys(common.getGivenName());
-            common.verifyStrings(common.getGivenName(), common.getAttributeByXpath("//*[@id=\"given_name\"]/input"));
+        // Old account, If given name shall be updated else verify the default value
+        if(common.getGivenName().equals(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[1]/p").getText()) &&
+                common.getSurName().equals(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[2]/p").getText()) &&
+                    common.getDisplayName().equals(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[3]/p").getText())) {
 
-            pressAddButton = true;
+            //Verify current names
+            common.verifyStrings(common.getGivenName(), common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[1]/p").getText());
+            common.verifyStrings(common.getSurName(), common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[2]/p").getText());
+            common.verifyStrings(common.getDisplayName(), common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[3]/p").getText());
         }
-
-        // If sur name shall be updated else verify the default value
-        if(common.getSurName().equals(common.getAttributeByXpath("//*[@id=\"surname\"]/input")))
-            common.verifyStrings(common.getSurName(), common.getAttributeByXpath("//*[@id=\"surname\"]/input"));
         else{
-            common.findWebElementByXpath("//*[@id=\"surname\"]/input").clear();
-            common.findWebElementByXpath("//*[@id=\"surname\"]/input").sendKeys(common.getSurName());
-            common.verifyStrings(common.getSurName(), common.getAttributeByXpath("//*[@id=\"surname\"]/input"));
+            //Click on change
+            common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button/span").click();
 
-            pressAddButton = true;
-        }
-
-        // If display name shall be updated else verify the default value
-        if(common.getDisplayName().equals(common.getAttributeByXpath("//*[@id=\"display_name\"]/input")))
-            common.verifyStrings(common.getDisplayName(), common.getAttributeByXpath("//*[@id=\"display_name\"]/input"));
-        else {
-            common.findWebElementByXpath("//*[@id=\"display_name\"]/input").clear();
-            common.findWebElementByXpath("//*[@id=\"display_name\"]/input").sendKeys(common.getDisplayName());
-            common.verifyStrings(common.getDisplayName(), common.getAttributeByXpath("//*[@id=\"display_name\"]/input"));
-
-            pressAddButton = true;
+            updatePersonalInfo();
         }
     }
 
+    private void updatePersonalInfo(){
+        common.findWebElementById("given_name").clear();
+        common.findWebElementById("given_name").sendKeys(common.getGivenName());
+        common.verifyStrings(common.getGivenName(), common.getAttributeById("given_name"));
+
+        common.findWebElementById("surname").clear();
+        common.findWebElementById("surname").sendKeys(common.getSurName());
+        common.verifyStrings(common.getSurName(), common.getAttributeById("surname"));
+
+        common.findWebElementById("display_name").clear();
+        common.findWebElementById("display_name").sendKeys(common.getDisplayName());
+        common.verifyStrings(common.getDisplayName(), common.getAttributeById("display_name"));
+
+        //Display text
+        common.verifyStringOnPage("För- och efternamn kommer att ersättas med de från folkbokföringen " +
+                "om du verifierar ditt eduID med ditt personummer.");
+
+        //Display name text
+        common.verifyStringOnPage( "vissa tjänster visar detta " +
+                "i stället för förnamn och efternamn.");
+
+        //If new account
+        if(common.getRegisterAccount()) {
+            common.findWebElementById("Svenska").click();
+        }
+
+        pressAddButton();
+    }
+
     private void selectLanguage() {
-        if(common.getLanguage().equalsIgnoreCase("Svenska") && !common.findWebElementById("Svenska").isSelected()) {
+        //Change to Swedish
+        if((common.getLanguage().equalsIgnoreCase("Svenska") && !common.getLanguage().equalsIgnoreCase(
+                common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[4]/p").getText()))) {
+            //Click on change
+            common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button/span").click();
+
             //Select new language - Swedish
             common.findWebElementById("Svenska").click();
 
-            pressAddButton = true;
+            //Verify button text
+            common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "SAVE");
+
+            pressAddButton();
         }
-        else if(common.getLanguage().equalsIgnoreCase("English") && !common.findWebElementById("English").isSelected()){
+        //Change to English
+        else if(common.getLanguage().equalsIgnoreCase("English") && !common.getLanguage().equalsIgnoreCase(
+                common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[4]/p").getText())){
+            //Click on change
+            common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button/span").click();
+
             //Select new language - English
             common.findWebElementById("English").click();
 
-            pressAddButton = true;
+            //Verify button text
+            common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "SPARA");
+
+            pressAddButton();
         }
     }
 
     private void pressAddButton(){
         // If any value updated we need to save it and verify that the info message appears
-        if(pressAddButton) {
-            //Click Add button
-            common.findWebElementById("personal-data-button").click();
-            common.timeoutMilliSeconds(500);
 
-            if(common.getLanguage().equalsIgnoreCase("Svenska")) {
-                common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "SPARA");
-            }
-            else{
-                common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "SAVE");
-            }
-            verifyUpdatedInfoBar(common.getLanguage());
-        }
+        //Click Add button
+        common.explicitWaitClickableElementId("personal-data-button");
+        common.findWebElementById("personal-data-button").click();
+        common.timeoutMilliSeconds(500);
     }
 
     private void verifyLabelsSwedish() {
         //Heading
-        common.verifyStringOnPage( "Personlig information");
+        common.verifyStringOnPage( "Namn & språk");
 
         //Text
-        common.verifyStringOnPage("Den här informationen skickas till tjänsteleverantörer när du loggar " +
-                "in med eduID för att kunna anpassa dessa tjänster för dig.");
+        common.verifyStringOnPage("Den här informationen kan komma att användas för att anpassa tjänster " +
+                "som du når med ditt eduID.");
 
         //Given name
         common.verifyStringOnPage("Förnamn");
@@ -111,10 +144,6 @@ public class PersonalInfo {
         //Display name
         common.verifyStringOnPage( "Visningsnamn");
 
-        //Display name text
-        common.verifyStringOnPage( "vissa tjänster visar detta " +
-                "i stället för förnamn och efternamn.");
-
         //Language
         common.verifyStringOnPage( "Språk");
     }
@@ -124,7 +153,7 @@ public class PersonalInfo {
         common.verifyStringOnPage("Name & language");
 
         //Text
-        common.verifyStringOnPage("Your name and preferred language will be used to personalise some services that you access with eduID.");
+        common.verifyStringOnPage("This information may be used to personalise services that you access with your eduID.");
 
         //Given name
         common.verifyStringOnPage("First name");
@@ -135,20 +164,7 @@ public class PersonalInfo {
         //Display name
         common.verifyStringOnPage( "Display name");
 
-        //Display name text
-        common.verifyStringOnPage("some services will show this " +
-                "instead of your first and last name.");
-
         //Language
         common.verifyStringOnPage("Language");
-    }
-
-    private void verifyUpdatedInfoBar(String language){
-        //Verify the saved info message, using timeout to get better flow...
-        common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
-        if(!language.equals("English"))
-            common.verifyStringByXpath( "//*[@id=\"panel\"]/div[1]/div/span", "Personlig information sparad");
-        else
-            common.verifyStringByXpath( "//*[@id=\"panel\"]/div[1]/div/span", "Personal information updated");
     }
 }

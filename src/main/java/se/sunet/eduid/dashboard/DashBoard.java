@@ -1,6 +1,5 @@
 package se.sunet.eduid.dashboard;
 
-import org.openqa.selenium.NoSuchElementException;
 import se.sunet.eduid.utils.Common;
 
 public class DashBoard {
@@ -12,14 +11,17 @@ public class DashBoard {
 
     public void runDashBoard(){
         verifyPageTitle();
+        verifyNotificationDot();
         verifyUserId();
         verifyDisplayName();
         verifyGivenName();
         verifySurName();
-        verifyIdentityNumber();
+        //Ignore check of ID number when not present
+        if(!common.getIdentityNumber().equalsIgnoreCase("lägg till personnummer"))
+            verifyIdentityNumber();
         verifyPhone();
         verifyEmail();
-        if(!common.getLanguage().equals("English"))
+        if(common.getLanguage().equals("Svenska"))
             verifyLabelsSwedish();
         else
             verifyLabelsEnglish();
@@ -27,16 +29,23 @@ public class DashBoard {
     }
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("eduID");
-        common.verifyPageTitle("eduID");
-
-        //TODO temp fix to get swedish language
-        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska")
-                && common.getLanguage().equalsIgnoreCase("Svenska"))
-            common.findWebElementByLinkText("Svenska").click();
+        common.explicitWaitPageTitle("eduID dashboard");
+        common.verifyPageTitle("eduID dashboard");
 
         //Timeout to save time from retry-functionality
-        common.timeoutMilliSeconds(700);
+        common.timeoutMilliSeconds(200);
+        //TODO temp fix to get swedish language - needed when new accounts created
+       if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")
+                && common.getLanguage().equalsIgnoreCase("Svenska")) {
+            common.findWebElementByLinkText("Svenska").click();
+        }
+
+
+
+    }
+
+    private void verifyNotificationDot(){
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[2]/li/div/div/div").isDisplayed();
     }
 
     private void verifyUserId() {
@@ -56,7 +65,15 @@ public class DashBoard {
     }
 
     private void verifyIdentityNumber() {
-        common.verifyStringOnPage(common.getPersonalNumber());
+        //Check text on link for hide/show full identityNumber
+        checkShowHideText("VISA", "SHOW");
+
+        //Click on Show button to display complete personal nummber
+        common.findWebElementByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button/span").click();
+        common.verifyStringOnPage(common.getIdentityNumber());
+
+        //Check text on link for hide/show full identityNumber
+        checkShowHideText("DÖLJ", "HIDE");
     }
 
     private void verifyPhone() {
@@ -137,7 +154,14 @@ public class DashBoard {
         common.verifyStringOnPage("Svenska");
 
         //Click on Swedish
-        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
+//        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
+    }
+
+    private void checkShowHideText(String textSwedish, String textEnglish){
+        if(common.getLanguage().equalsIgnoreCase("Svenska"))
+            common.verifyStringByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button/span", textSwedish);
+        else
+            common.verifyStringByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button/span", textEnglish);
     }
 
     public void pressSettings(){

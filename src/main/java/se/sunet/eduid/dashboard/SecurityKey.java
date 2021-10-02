@@ -12,11 +12,9 @@ public class SecurityKey {
     private Common common;
     private LocalDateTime date = LocalDateTime.now();
 
-
     public SecurityKey(Common common){
         this.common = common;
     }
-
 
     public void runSecurityKey(){
         pressAdvancedSettings();
@@ -40,14 +38,22 @@ public class SecurityKey {
     }
 
     private void virtualAuthenticator(){
-        VirtualAuthenticator authenticator = null;
+        Common.log.info("1: " +WebDriverManager.getWebDriver().getCurrentUrl());
+        //VirtualAuthenticator authenticator = null;
+
+        Common.log.info("2");
         VirtualAuthenticatorOptions options = new VirtualAuthenticatorOptions();
+        Common.log.info("3");
+        //options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
         options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
                 .setHasUserVerification(true)
                 .setIsUserVerified(true);
-        authenticator =
-                ((HasVirtualAuthenticator) WebDriverManager.getWebDriver()).addVirtualAuthenticator(options);
+        Common.log.info("4");
+//        authenticator =
+//                ((HasVirtualAuthenticator) WebDriverManager.getWebDriver()).addVirtualAuthenticator(options);
 
+        VirtualAuthenticator authenticator = ((HasVirtualAuthenticator) WebDriverManager.getWebDriver()).addVirtualAuthenticator(options);
+        Common.log.info("5");
     }
 
     private void addSecurityKey(){
@@ -57,23 +63,21 @@ public class SecurityKey {
         common.switchToPopUpWindow();
 
         //Enter name of key and click OK
-        common.findWebElementByXpath("//*[@id=\"describeWebauthnTokenDialogControl\"]/input").sendKeys("test-key1");
+        common.findWebElementById("describeWebauthnTokenDialogControl").sendKeys("test-key1");
+        common.explicitWaitClickableElement("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button/span");
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button/span").click();
         common.timeoutMilliSeconds(500);
 
         //Verify that without personal info added, no extra key can be added.
-        common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
         if(!common.getAddSecurityKey()) {
-            common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span",
-                    "Du måste lägga till personlig data innan du kan lägga till en säkerhetsnyckel");
+            common.verifyStatusMessage("Du måste lägga till personlig data innan du kan lägga till en säkerhetsnyckel");
 
             //Close the status message
             common.findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/button/span").click();
         }
         //Verify that extra key can be added.
         else{
-            common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span",
-                    "Säkerhetsnyckel registrerad");
+            common.verifyStatusMessage("Säkerhetsnyckel registrerad");
             common.timeoutMilliSeconds(500);
 
             //Verify headings
@@ -89,9 +93,11 @@ public class SecurityKey {
             //Try do remove the "last" key
             common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[5]/button").click();
             common.timeoutMilliSeconds(500);
-            common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Du kan inte ta bort din enda säkerhetsnyckel");
+            common.verifyStatusMessage("Du kan inte ta bort din enda säkerhetsnyckel");
 
-            //Verify the added key, after a new login.
+            //Verify the added key, after a new login. Press Verify link. This is not a complete verification, via freja, only to freja log in page. Then stop.
+            //TODO if we can get the magic cookie to make a complete verification using freja, continue here...
+            common.addMagicCookie();
             common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button/span").click();
 
             //Enter username, password

@@ -81,6 +81,15 @@
             </class>
         </classes>
     </test>
+
+    <test name="TC_10">
+        <parameter name="testDescription" value="Try to log in with incorrect password" />
+        <classes>
+            <class name="se.sunet.eduid.TC_10" >
+            </class>
+        </classes>
+    </test>
+
 <!-- obsolete, since its now not possible to click ok-button without first typing a code
     <test name="TC_10">
         <parameter name="testDescription" value="Add additional email address, try to confirm with empty code" />
@@ -187,17 +196,18 @@
     </test>
 
     <test name="TC_23">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password, use default pw" />
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP), then change pw to default" />
         <classes>
             <class name="se.sunet.eduid.TC_23" >
             </class>
         </classes>
     </test>
 
-    <test name="TC_24">
+<!-- Obsolete from 2021-09, at password reset - its no longer possible to choose custom password
+    <test name="TC_10">
         <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set new recommended password" />
         <classes>
-            <class name="se.sunet.eduid.TC_24" >
+            <class name="se.sunet.eduid.TC_10" >
             </class>
         </classes>
     </test>
@@ -209,33 +219,36 @@
             </class>
         </classes>
     </test>
+-->
 
-    <test name="TC_26">
-        <parameter name="testDescription" value="Try to log in with incorrect password" />
+
+    <test name="TC_24">
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP), resend mobile OTP once after 5min. Set default pw" />
         <classes>
-            <class name="se.sunet.eduid.TC_26" >
+            <class name="se.sunet.eduid.TC_24" >
             </class>
         </classes>
     </test>
 
-    <test name="TC_27">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP), resend mobile OTP once. Set a new custom password, use default pw" />
+    <test name="TC_25">
+        <parameter name="testDescription" value="Try to reset password with incorrect magic code, ends with a 404-page" />
         <classes>
-            <class name="se.sunet.eduid.TC_27" >
+            <class name="se.sunet.eduid.TC_25" >
             </class>
         </classes>
     </test>
 
     <test name="TC_28">
-        <parameter name="testDescription" value="Try to reset password with incorrect magic code, ends with a 404-page" />
+        <parameter name="testDescription" value="Reset password without extra security (mobile OTP)" />
         <classes>
             <class name="se.sunet.eduid.TC_28" >
             </class>
         </classes>
     </test>
 
+
     <test name="TC_29">
-        <parameter name="testDescription" value="Reset password without extra security (mobile OTP). Abort confirmation of the phone number from dashboard" />
+        <parameter name="testDescription" value="Reset password without extra security (Phone number not confirmed). Abort confirmation of the phone number from dashboard" />
         <classes>
             <class name="se.sunet.eduid.TC_29" >
             </class>
@@ -275,9 +288,9 @@
     </test>
 
     <test name="TC_34">
-        <parameter name="testDescription" value="Restore the account by reset password with extra security (mobile OTP) and set a new custom password, use default pw" />
+        <parameter name="testDescription" value="Restore the account by reset password with extra security (mobile OTP) and set a new password" />
         <classes>
-            <class name="se.sunet.eduid.TC_34" >
+            <class name="se.sunet.eduid.TC_23" >
             </class>
         </classes>
     </test>
@@ -299,7 +312,7 @@
     </test>
 
     <test name="TC_37">
-        <parameter name="testDescription" value="Initiate Register of new account, use incorrect magic code - results in failure at confirm human" />
+        <parameter name="testDescription" value="Initiate Register of new account, verify proceed button at confirm human is not activated" />
         <classes>
             <class name="se.sunet.eduid.TC_37" >
             </class>
@@ -331,9 +344,17 @@
     </test>
 
     <test name="TC_41">
-        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by mail" />
+        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by letter" />
         <classes>
             <class name="se.sunet.eduid.TC_41" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_47">
+        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by Freja ID" />
+        <classes>
+            <class name="se.sunet.eduid.TC_47" >
             </class>
         </classes>
     </test>
@@ -346,6 +367,15 @@
         </classes>
     </test>
 
+    <test name="TC_49">
+        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by phone. Create another new
+        account, confirm phone and identity. Then log in to first account and check that phone number, email and identity is no longer confirmed" />
+        <classes>
+            <class name="se.sunet.eduid.TC_49" >
+            </class>
+        </classes>
+    </test>
+
     <test name="TC_98">
         <parameter name="testDescription" value="Confirm phone number on default account, to restore it from previous tests" />
         <classes>
@@ -354,10 +384,20 @@
         </classes>
     </test>
 
+<!-- 2021-09-02 - this is no longer possible due to enhanced sanity checks of the username field
     <test name="TC_42">
         <parameter name="testDescription" value="Log in, with eppn, and check account data and labels" />
         <classes>
             <class name="se.sunet.eduid.TC_42" >
+            </class>
+        </classes>
+    </test>
+-->
+
+    <test name="TC_48">
+        <parameter name="testDescription" value="Check that user/pw is requested at log in same session after previous log out" />
+        <classes>
+            <class name="se.sunet.eduid.TC_48" >
             </class>
         </classes>
     </test>
@@ -371,7 +411,7 @@
     </test>
 
     <test name="TC_44">
-        <parameter name="url" value="https://sp.swamid.se/Shibboleth.sso/DS/swamid-test?target=https://sp.swamid.se/secure/" />
+        <parameter name="url" value="https://release-check.swamid.se" />
         <parameter name="testDescription" value="Verify that login to eduID can be done from Swamid Testing on a verified account" />
         <classes>
             <class name="se.sunet.eduid.TC_44" >
@@ -391,6 +431,14 @@
         <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings" />
         <classes>
             <class name="se.sunet.eduid.TC_46" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_26">
+        <parameter name="testDescription" value="Reset password with extra security (mobile OTP), check that OTP can only be sent every 5min" />
+        <classes>
+            <class name="se.sunet.eduid.TC_26" >
             </class>
         </classes>
     </test>

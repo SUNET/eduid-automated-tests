@@ -24,37 +24,43 @@ public class Login {
     }
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("eduID-inloggning");
+        common.explicitWaitPageTitle("eduID login");
         //TODO temp comment for test of FTs "other" idp site
         //common.verifyPageTitle("eduID-inloggning");
+
+        //TODO temp fix to get swedish language
+        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")){
+            common.findWebElementByLinkText("Svenska").click();
+        }
+
+        common.timeoutMilliSeconds(500);
     }
 
     public void enterUsernamePassword(){
         //Enter username
-        common.findWebElementById("username").clear();
-        common.findWebElementById("username").sendKeys(common.getUsername());
+        common.findWebElementById("email").clear();
+        common.findWebElementById("email").sendKeys(common.getUsername());
+        //common.findWebElementByXpath("//div/section[2]/div[2]/div/form/div[1]/input").sendKeys(common.getUsername());
 
-        common.findWebElementById("password").clear();
-        if(common.getIncorrectPassword())
-            common.findWebElementById("password").sendKeys("notTheCorrectPassword");
-        else {
-            common.findWebElementById("password").sendKeys(common.getPassword());
-            Common.log.info("Log in with password: " +common.getPassword());
-        }
+        Common.log.info("Log in with username: " +common.getUsername());
+
+        common.findWebElementByXpath("//div/section[2]/div[2]/div/form/div[2]/div[2]/input").clear();
+
+        common.findWebElementByXpath("//*[@id=\"current-password-wrapper\"]/div[2]/input").sendKeys(common.getPassword());
+        Common.log.info("Log in with password: " +common.getPassword());
+
     }
 
     public void signIn(){
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[3]/span[1]/button").click();
+        common.findWebElementById("login-form-button").click();
 
         if(common.getIncorrectPassword()) {
-            //common.verifyStringByXpath("//*[@id=\"alert_msg\"]", "Ogiltigt användarnamn eller lösenord (1 försök)");
-            common.verifyXpathContainsString("//*[@id=\"alert_msg\"]", "användarnamn eller lösenord");
+            common.timeoutMilliSeconds(500);
+            common.verifyXpathContainsString("//div/section[2]/div[1]/div/span", "E-postadressen eller lösenordet är felaktigt.");
         }
         else {
-            //common.timeoutSeconds(1);
-            //common.verifyStringOnPage(common.getUsername().toLowerCase());
-
             //Wait for the "EduId for" label at dashboard
+            common.timeoutMilliSeconds(500);
             common.explicitWaitVisibilityElement("//section[1]/div/h1/span");
         }
     }
@@ -69,9 +75,10 @@ public class Login {
 
     private void resetPassword(){
         //Click on forgot password link
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/div/form/fieldset/div[2]/div[2]/a").click();
+        common.explicitWaitVisibilityElementId("link-forgot-password");
+        common.findWebElementById("link-forgot-password").click();
 
-        //Wait for next page
-        common.explicitWaitPageTitle("Återställ lösenord - E-post");
+        //Wait for next page, heading
+        common.explicitWaitClickableElement("//div/section[2]/div[2]/form/button/span");
     }
 }

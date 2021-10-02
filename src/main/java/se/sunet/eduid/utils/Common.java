@@ -8,9 +8,14 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import javax.swing.text.DateFormatter;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.time.Duration;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Properties;
 
 public class Common {
@@ -22,8 +27,8 @@ public class Common {
     private String addNewEmail1 = "";
     private String confirmNewEmail1 = "";
     private String newPassword = "";
-    private String username, password, givenName, surName, displayName, magicCode, email, phoneNumber, personalNumber, language, eppn,
-    confirmIdBy, supportUsername;
+    private String username, password, givenName, surName, displayName, magicCode, email, phoneNumber, identityNumber, language, eppn,
+    confirmIdBy, supportUsername, emailCode, testCase, testDescription;
     private boolean registerAccount, resetPassword, incorrectPassword, removePrimary, removeNewEmail1, resendOTP, deleteButton,
             buttonValuePopup = true, useRecommendedPw, buttonValueConfirm = true, sendMobileOneTimePassword = true,
             generateUsername = true, acceptTerms = true, sendCaptcha = true, addSecurityKey = false;
@@ -154,6 +159,11 @@ public class Common {
         return webDriver.findElement(By.xpath(elementToFind)).getAttribute("value");
     }
 
+    public String getAttributeById(String elementToFind){
+        explicitWaitVisibilityElementId(elementToFind);
+        return webDriver.findElement(By.id(elementToFind)).getAttribute("value");
+    }
+
     public void click(WebElement element){
         ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", element);
     }
@@ -168,6 +178,20 @@ public class Common {
         }
     }
 
+    public void verifyStatusMessage(String message){
+        //Verify the saved info label
+        explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
+        verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", message);
+
+        //log.info("Status message at page: " +findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/span").getText());
+    }
+
+    public void closeStatusMessage(){
+        //Close the status message
+        explicitWaitClickableElement("//div/section[2]/div[1]/div/button/span");
+        findWebElementByXpath("//div/section[2]/div[1]/div/button/span").click();
+    }
+
     public void switchToDefaultWindow(){
         webDriver.switchTo().window(firstWinHandle);
     }
@@ -180,7 +204,7 @@ public class Common {
         setUsername(properties.getProperty("username"));
         setPassword(properties.getProperty("password"));
         setMagicCode(properties.getProperty("magiccode"));
-        setPersonalNumber(properties.getProperty("personalnumber"));
+        setIdentityNumber(properties.getProperty("identitynumber"));
         setGivenName(properties.getProperty("givenname"));
         setSurName(properties.getProperty("surname"));
         setDisplayName(properties.getProperty("displayname"));
@@ -191,11 +215,23 @@ public class Common {
 
         setLanguage("Svenska");
 
-        log.info("Properties loaded!");
+        //log.info("Properties loaded!");
     }
 
     public void addMagicCookie(){
-        webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi"));
+        Date today    = new Date();
+        Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
+//        webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi"));
+        webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi",
+                ".dev.eduid.se", "/", tomorrow, true));
+    }
+
+    public void logMagicCookie(){
+        log.info("Cookie name: " + webDriver.manage().getCookieNamed("autotests").getName());
+        log.info("Cookie value: " + webDriver.manage().getCookieNamed("autotests").getValue());
+        log.info("Cookie domain: " + webDriver.manage().getCookieNamed("autotests").getDomain());
+        log.info("Cookie path: " + webDriver.manage().getCookieNamed("autotests").getPath());
+        log.info("Cookie expire: " + webDriver.manage().getCookieNamed("autotests").getExpiry());
     }
 
     public String getUsername(){ return username; }
@@ -216,8 +252,8 @@ public class Common {
     public String getMagicCode(){ return magicCode; }
     public void setMagicCode(String magicCode){ this.magicCode = magicCode; }
 
-    public String getPersonalNumber(){ return personalNumber; }
-    public void setPersonalNumber(String personalNumber){ this.personalNumber = personalNumber; }
+    public String getIdentityNumber(){ return identityNumber; }
+    public void setIdentityNumber(String identityNumber){ this.identityNumber = identityNumber; }
 
     public String getPhoneNumber(){ return phoneNumber; }
     public void setPhoneNumber(String phoneNumber){ this.phoneNumber = phoneNumber; }
@@ -267,6 +303,9 @@ public class Common {
     public void setSendMobileOneTimePassword(boolean sendMobileOneTimePassword){ this.sendMobileOneTimePassword = sendMobileOneTimePassword; }
     public boolean getSendMobileOneTimePassword(){ return sendMobileOneTimePassword; }
 
+    public String getEmailCode(){ return emailCode; }
+    public void setEmailCode(String emailCode){ this.emailCode = emailCode; }
+
     public void setDeleteButton(boolean deleteButton){ this.deleteButton = deleteButton; }
     public boolean getDeleteButton(){ return deleteButton; }
 
@@ -290,4 +329,10 @@ public class Common {
 
     public boolean getAddSecurityKey(){ return addSecurityKey; }
     public void setAddSecurityKey(boolean addSecurityKey){ this.addSecurityKey = addSecurityKey; }
+
+    public String getTestCase() { return testCase; }
+    public void setTestCase(String testCase) { this.testCase = testCase; }
+
+    public String getTestDescription() { return testDescription; }
+    public void setTestDescription(String testDescription) { this.testDescription = testDescription; }
 }

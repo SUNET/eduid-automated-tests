@@ -16,14 +16,15 @@ public class Logout {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID");
+        common.verifyPageTitle("eduID dashboard");
     }
 
     private void pressLogOut(){
+        common.explicitWaitClickableElementId("logout");
         common.findWebElementById("logout").click();
-        common.timeoutMilliSeconds(1500);
 
-        common.explicitWaitPageTitle("eduID");
+        //Wait for the start page
+        common.explicitWaitClickableElementId("login");
     }
 
     private void verifyLabels(){

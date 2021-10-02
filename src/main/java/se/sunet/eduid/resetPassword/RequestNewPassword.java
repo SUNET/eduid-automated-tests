@@ -16,7 +16,7 @@ public class RequestNewPassword {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Återställ lösenord - E-post");
+        common.verifyPageTitle("eduID login");
     }
 
     private void enterEmail(){
@@ -25,6 +25,8 @@ public class RequestNewPassword {
     }
 
     private void pressRestPassword(){
-        common.findWebElementByXpath("//div/div[3]/form/div[2]/div/button").click();
+        common.findWebElementById("reset-password-button").click();
+
+        common.verifyStatusMessage("Återställningslänken har skickats till din epost.");
     }
 }

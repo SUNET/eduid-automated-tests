@@ -19,7 +19,7 @@ public class EmailAddresses {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID");
+        common.verifyPageTitle("eduID dashboard");
     }
 
     private void removeEmail() {
@@ -29,11 +29,13 @@ public class EmailAddresses {
             common.findWebElementByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr/td[3]").click();
 
             //Verify info bar message - swedish
-            verifyUpdatedInfoBar("Du måste ha minst en e-postadress knuten till ditt konto");
+            common.verifyStatusMessage("Du måste ha minst en e-postadress knuten till ditt konto");
+            //verifyUpdatedInfoBar("Du måste ha minst en verifierad e-postadress knuten till ditt konto");
             common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
 
             //Verify info bar message - english
-            verifyUpdatedInfoBar("You must have at least one email address");
+            common.verifyStatusMessage("You must have at least one email address");
+            //verifyUpdatedInfoBar("You must have at least one email address");
             common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
         }
 
@@ -43,11 +45,13 @@ public class EmailAddresses {
 
             //Verify info bar message - swedish
             common.timeoutMilliSeconds(500);
-            verifyUpdatedInfoBar("E-postadress borttagen");
+            common.verifyStatusMessage("E-postadress borttagen");
+            //verifyUpdatedInfoBar("E-postadress borttagen");
             common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
 
             //Verify info bar message - english
-            verifyUpdatedInfoBar("Successfully removed email address");
+            common.verifyStatusMessage("Successfully removed email address");
+            //verifyUpdatedInfoBar("Successfully removed email address");
             common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
         }
     }
@@ -61,8 +65,9 @@ public class EmailAddresses {
             common.findWebElementById("add-more-button").click();
 
             //Add new email address
-            common.findWebElementByXpath("//*[@id=\"email\"]/input").clear();
-            common.findWebElementByXpath("//*[@id=\"email\"]/input").sendKeys(common.getAddNewEmail1());
+            addEmailAddress(common.getAddNewEmail1());
+            //common.findWebElementById("email").clear();
+            //common.findWebElementById("email").sendKeys(common.getAddNewEmail1());
 
             //Verify Add button label - Swedish
             common.verifyStrings("LÄGG TILL", common.findWebElementById("email-button").getText());
@@ -73,33 +78,36 @@ public class EmailAddresses {
             if (common.getAddNewEmail1().equals(common.findWebElementByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr/td[1]").getText())) {
                 //Verify info messages - swedish
                 common.timeoutMilliSeconds(500);
-                verifyUpdatedInfoBar("Formulärfel. Se nedan för specifikt felmeddelande");
-                common.verifyStringByXpath("//*[@id=\"email\"]/small/span/span", "E-postadressen är redan tagen. Var god använd en annan.");
-                common.verifyStringByXpath("//*[@id=\"email\"]/div/span/span", "en giltig e-postadress");
+                common.verifyStatusMessage("Formulärfel. Se nedan för specifikt felmeddelande");
+                //verifyUpdatedInfoBar("Formulärfel. Se nedan för specifikt felmeddelande");
+                common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/small/span/span", "E-postadressen är redan tagen. Var god använd en annan.");
+                common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/span/span", "en giltig e-postadress");
 
                 //Switch to English
                 common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
 
                 //Verify info messages - english
                 common.timeoutMilliSeconds(500);
-                verifyUpdatedInfoBar("Check the form below for errors.");
+                common.verifyStatusMessage("Check the form below for errors.");
+                //verifyUpdatedInfoBar("Check the form below for errors.");
 
                 //Need to add the address again, since error message disappear when switch between language
                 common.findWebElementByXpath("//*[@id=\"add-more-button\"]/span").click();
 
                 //Add new email address
-                common.findWebElementByXpath("//*[@id=\"email\"]/input").clear();
-                common.findWebElementByXpath("//*[@id=\"email\"]/input").sendKeys(common.getAddNewEmail1());
+                addEmailAddress(common.getAddNewEmail1());
+//                common.findWebElementById("email").clear();
+//                common.findWebElementById("email").sendKeys(common.getAddNewEmail1());
 
                 //Verify Add button label - English
                 common.verifyStrings("ADD", common.findWebElementById("email-button").getText());
-                common.verifyStringByXpath("//*[@id=\"email\"]/div/span/span", "a valid email address");
+                common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/span/span", "a valid email address");
 
                 //Click Add button
                 common.findWebElementById("email-button").click();
 
                 common.timeoutMilliSeconds(500);
-                common.verifyStringByXpath("//*[@id=\"email\"]/small/span/span", "That email address is already in use, please choose another");
+                common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/small/span/span", "That email address is already in use, please choose another");
 
                 //Switch back to Swedish
                 common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
@@ -108,20 +116,10 @@ public class EmailAddresses {
                 //Verify info messages - swedish
                 common.timeoutMilliSeconds(500);
 
-                verifyUpdatedInfoBar("E-postadressen sparad");
+                common.verifyStatusMessage("E-postadressen sparad");
+                //verifyUpdatedInfoBar("E-postadressen sparad");
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[1]", common.getAddNewEmail1());
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[2]/button/span", "BEKRÄFTA");
-
-                //Switch to English
-                common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
-
-                //Verify info messages - english
-                verifyUpdatedInfoBar("The email address was saved");
-                common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[1]", common.getAddNewEmail1());
-                common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[2]/button/span", "CONFIRM");
-
-                //Switch to Swedish
-                common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
 
                 //Wait 5 sec for the email to arrive in inbox
                 common.timeoutSeconds(5);
@@ -143,11 +141,11 @@ public class EmailAddresses {
                     common.switchToPopUpWindow();
 
                     // In pop-up enter the confirmation code
-                    common.findWebElementByXpath("//*[@id=\"emailConfirmDialogControl\"]/input").clear();
+                    common.findWebElementById("emailConfirmDialogControl").clear();
                     if (common.getConfirmNewEmail1().equals("code"))
-                        common.findWebElementByXpath("//*[@id=\"emailConfirmDialogControl\"]/input").sendKeys(confirmationCode);
+                        common.findWebElementById("emailConfirmDialogControl").sendKeys(confirmationCode);
                     if (common.getConfirmNewEmail1().equals("wrongCode"))
-                        common.findWebElementByXpath("//*[@id=\"emailConfirmDialogControl\"]/input").sendKeys("18587024-e4e3-4fdd-a8fc-77544c1c8409");
+                        common.findWebElementById("emailConfirmDialogControl").sendKeys("18587024-e4e3-4fdd-a8fc-77544c1c8409");
 
                     //verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span",
                     //       "Ett meddelande har skickats till " +email1 +" med vidare instruktioner");
@@ -168,10 +166,12 @@ public class EmailAddresses {
                 //Check labels
                 common.timeoutSeconds(1);
                 if(common.getConfirmNewEmail1().equals("wrongCode"))
-                    verifyUpdatedInfoBar("Ogiltig bekräftelsekod. Var god prova igen eller begär en ny bekräftelsekod");
+                    common.verifyStatusMessage("Ogiltig bekräftelsekod. Var god prova igen eller begär en ny bekräftelsekod");
+                    //verifyUpdatedInfoBar("Ogiltig bekräftelsekod. Var god prova igen eller begär en ny bekräftelsekod");
                 else {
                     if(common.getConfirmNewEmail1().equals("code"))
-                        verifyUpdatedInfoBar("E-postadressen bekräftad");
+                        common.verifyStatusMessage("E-postadressen bekräftad");
+                        //verifyUpdatedInfoBar("E-postadressen bekräftad");
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[1]/td[2]/label/span", "PRIMÄR");
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[2]/button/span", "GÖR PRIMÄR");
 
@@ -180,7 +180,8 @@ public class EmailAddresses {
 
                     //Verify info label
                     common.timeoutMilliSeconds(1000);
-                    verifyUpdatedInfoBar("Din primära e-postadress har ändrats");
+                    common.verifyStatusMessage("Din primära e-postadress har ändrats");
+                    //verifyUpdatedInfoBar("Din primära e-postadress har ändrats");
 
                     //Check labels
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[1]/td[2]/button/span", "GÖR PRIMÄR");
@@ -191,7 +192,8 @@ public class EmailAddresses {
 
                     //Verify info label
                     common.timeoutMilliSeconds(1000);
-                    verifyUpdatedInfoBar("Din primära e-postadress har ändrats");
+                    common.verifyStatusMessage("Din primära e-postadress har ändrats");
+                    //verifyUpdatedInfoBar("Din primära e-postadress har ändrats");
 
                     //Check labels
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[1]/td[2]/label/span", "PRIMÄR");
@@ -204,12 +206,14 @@ public class EmailAddresses {
             common.findWebElementById("add-more-button").click();
 
             //Add new email address
-            common.findWebElementByXpath("//*[@id=\"email\"]/input").clear();
-            common.findWebElementByXpath("//*[@id=\"email\"]/input").sendKeys(common.getAddNewEmail1());
+            addEmailAddress(common.getAddNewEmail1());
+//            common.findWebElementById("email").clear();
+//            common.findWebElementById("email").sendKeys(common.getAddNewEmail1());
+
 
             //Verify that correct message is displayed
-            common.verifyStringByXpath("//*[@id=\"email\"]/small/span[1]/span", "Ogiltig e-postadress");
-            common.verifyStringByXpath("//*[@id=\"email\"]/small/span[2]", "En giltig e-postadress");
+            common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/small/span/span", "Ogiltig e-postadress");
+            common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/span/span", "En giltig e-postadress");
 
             //Click on English
             common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
@@ -219,12 +223,13 @@ public class EmailAddresses {
             common.findWebElementByXpath("//*[@id=\"add-more-button\"]/span").click();
 
             //Add new email address
-            common.findWebElementByXpath("//*[@id=\"email\"]/input").clear();
-            common.findWebElementByXpath("//*[@id=\"email\"]/input").sendKeys(common.getAddNewEmail1());
+            addEmailAddress(common.getAddNewEmail1());
+//            common.findWebElementById("email").clear();
+//            common.findWebElementById("email").sendKeys(common.getAddNewEmail1());
 
             //Verify that correct message is displayed - English
-            common.verifyStringByXpath("//*[@id=\"email\"]/small/span[1]/span", "The entered value does not look like an email");
-            common.verifyStringByXpath("//*[@id=\"email\"]/small/span", "A valid email address");
+            common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/small/span/span", "The entered email is invalid");
+            common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/span/span", "A valid email address");
 
             //Switch back to Swedish
             common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
@@ -261,10 +266,15 @@ public class EmailAddresses {
         //Click on Swedish
         common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
     }
-
+/*
     private void verifyUpdatedInfoBar(String message){
         //Verify the saved info label
         common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
         common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", message);
+    }
+*/
+    private void addEmailAddress(String emailAddress){
+        common.findWebElementById("email").clear();
+        common.findWebElementById("email").sendKeys(emailAddress);
     }
 }

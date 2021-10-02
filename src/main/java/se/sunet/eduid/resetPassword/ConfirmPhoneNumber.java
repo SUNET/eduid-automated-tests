@@ -18,8 +18,8 @@ public class ConfirmPhoneNumber {
     }
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("eduID");
-        common.verifyPageTitle("eduID");
+        common.explicitWaitPageTitle("eduID dashboard");
+        common.verifyPageTitle("eduID dashboard");
     }
 
     private void getConfirmationCode(){
@@ -45,10 +45,10 @@ public class ConfirmPhoneNumber {
             //TODO maybe we should have test case when code is sent too earyl as well... later on
             boolean codeSentTooEarly = false;
             if(codeSentTooEarly)
-                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Vi kan bara " +
+                common.verifyStatusMessage("Vi kan bara " +
                         "skicka en kod var 5:e minut, var god vänta innan du ber om en ny kod.");
             else
-                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "En ny bekräftelsekod har skickats till dig");
+                common.verifyStatusMessage("En ny bekräftelsekod har skickats till dig");
         }
         //If OTP should not be ordered, close the pop-up
         else {
@@ -92,20 +92,20 @@ public class ConfirmPhoneNumber {
 
             //Enter code in pop-up window, if correct code should be sent, else send not correct code. First a too long code
             //to check the information text, then send incorrect but code within limits 10-12 digits.
-            common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").clear();
+            common.findWebElementById("phoneConfirmDialogControl").clear();
             if(common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
-                common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").sendKeys(phoneCode);
+                common.findWebElementById("phoneConfirmDialogControl").sendKeys(phoneCode);
             else {
                 //Type a too long code, press OK
-                common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").sendKeys(common.getMagicCode());
+                common.findWebElementById("phoneConfirmDialogControl").sendKeys(common.getMagicCode());
 
                 //Verify that the ok button is not enabled when typed code is not 10 characters long
                 Assert.assertTrue(!common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").isEnabled(),
                         "The button should not be enabled, until 10 character code is entered");
 
                 //Clear the text field and send another incorrect code
-                common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").clear();
-                common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]/input").sendKeys("codeBlue10");
+                common.findWebElementById("phoneConfirmDialogControl").clear();
+                common.findWebElementById("phoneConfirmDialogControl").sendKeys("codeBlue10");
             }
             //Send the code by click OK
             common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").click();
@@ -113,19 +113,16 @@ public class ConfirmPhoneNumber {
             //Verify that the confirmation info label shows
             common.explicitWaitClickableElement("//*[@id=\"panel\"]/div[1]/div/span");
             if(common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
-                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Telefonnummer har bekräftats");
+                common.verifyStatusMessage("Telefonnummer har bekräftats");
             else
-                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Telefonumret du angav kan inte hittas");
-                //common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Den " +
-                //        "bekräftelsekod du angett stämmer inte. Var god försök igen");
-
+                common.verifyStatusMessage("Telefonumret du angav kan inte hittas");
         }
     }
 
     private void verifyLabels(){
         common.explicitWaitClickableElement("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a");
         common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span", "Skriv in koden som skickats till +46");
-        common.verifyStringByXpath("//*[@id=\"phoneConfirmDialogControl\"]/div/label/span", "Bekräftelsekod");
+        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]/div[1]/form/div/div/div/label/span", "Bekräftelsekod");
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a", "Skicka bekräftelsekoden igen");
     }
 }

@@ -18,7 +18,7 @@ public class ConfirmHuman {
     //TODO all must be adapted when language switch is available....
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID");
+        common.verifyPageTitle("eduID signup");
     }
 
     private void verifyLabels() {
@@ -45,40 +45,54 @@ public class ConfirmHuman {
 
     private void clickButton(){
         if(common.getSendCaptcha()) {
-            //Add cookie for back doors
-            if(common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
+            //Add cookie for back doors and click on proceed button
+            if(common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
                 common.addMagicCookie();
+                common.timeoutMilliSeconds(400);
+                //common.logMagicCookie();
+            }
 
-           //Click on Done button
+            //Click on Done button
             common.findWebElementById("send-captcha-button").click();
+
+            //Common.log.info("Magic code: " +common.getMagicCode());
 
             //Verify that status info is displayed
             common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
 
+            //Evaluate response according to below criterias
             if(!common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")){
-                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span","Vi kunde inte " +
-                        "verifiera att du är människa. Var vänlig försök igen.");
-                //common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "There was a problem " +
-                        //"verifying that you are a human. Please try again");
+                common.verifyStatusMessage("Vi kunde inte verifiera att du är människa. Var vänlig försök igen.");
             }
             else if(!common.getGenerateUsername()){
                 //TODO bug with language
-                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "E-postadressen används redan");
-                //common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "The email address you entered is already in use");
+                common.verifyStatusMessage("E-postadressen används redan");
 
                 //Press on login button to prepare Log in and delete the account
                 common.findWebElementById("login").click();
             }
             else {
-                common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span","E-postadressen har registrerats");
-                //common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/div/span", "Email address successfully registered");
+                common.verifyStatusMessage("E-postadressen har registrerats");
+                //TODO switch to english...
+                //Verify text on page
+                common.verifyStringByXpath("//div[1]/section[2]/div[2]/h3/span", "Kontot skapades");
+                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/p/span",
+                        "Slutför skapandet av ditt eduID genom att klicka länken skickad till:");
+                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/h3", common.getUsername());
+
+                //Verify text in english
+                common.findWebElementByLinkText("English").click();
+                common.verifyStringByXpath("//div[1]/section[2]/div[2]/h3/span", "A link has been sent to your email address.");
+                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/p/span",
+                        "Complete registration by clicking the link sent to:");
+                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/h3", common.getUsername());
 
                 //Continue with magic url to get to successful registered page
                 common.timeoutSeconds(2);
 
                 //Fetch the registration code
                 common.navigateToUrl("https://signup.dev.eduid.se/services/signup/get-code/?email=" +common.getUsername());
-                Common.log.info("URL: " +"https://signup.dev.eduid.se/services/signup/get-code/?email=" +common.getUsername());
+                //Common.log.info("URL: " +"https://signup.dev.eduid.se/services/signup/get-code/?email=" +common.getUsername());
                 String registrationCode = common.findWebElementByXpath("/html/body").getText();
                 Common.log.info("Sign up code: " +registrationCode);
 

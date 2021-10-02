@@ -1,57 +1,9 @@
 package se.sunet.eduid;
 
-import org.testng.ITestContext;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import se.sunet.eduid.dashboard.ConfirmIdentity;
-import se.sunet.eduid.dashboard.DashBoard;
-import se.sunet.eduid.dashboard.DeleteAccount;
-import se.sunet.eduid.dashboard.PhoneNumber;
-import se.sunet.eduid.generic.Login;
-import se.sunet.eduid.generic.StartPage;
-import se.sunet.eduid.registration.ConfirmHuman;
-import se.sunet.eduid.registration.ConfirmedNewAccount;
-import se.sunet.eduid.registration.Register;
-import se.sunet.eduid.utils.Common;
-import se.sunet.eduid.utils.InitBrowser;
-import se.sunet.eduid.utils.WebDriverManager;
+import se.sunet.eduid.utils.BeforeAndAfter;
 
-import java.io.IOException;
-
-public class TC_41 {
-    private StartPage startPage;
-    private Register register;
-    private ConfirmHuman confirmHuman;
-    private ConfirmedNewAccount confirmedNewAccount;
-    private Login login;
-    private ConfirmIdentity confirmIdentity;
-    private PhoneNumber phoneNumber;
-    private DashBoard dashBoard;
-    private DeleteAccount deleteAccount;
-    private Common common;
-
-    @BeforeTest
-    @Parameters( {"url", "browser", "headless", "language"})
-    void initBrowser(String url, String browser, String headless, String language, final ITestContext testContext) throws IOException {
-        InitBrowser initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
-
-        common = new Common(WebDriverManager.getWebDriver());
-        startPage = new StartPage(common);
-        register = new Register(common);
-        confirmedNewAccount = new ConfirmedNewAccount(common);
-        confirmHuman = new ConfirmHuman(common);
-        login = new Login(common);
-        confirmIdentity = new ConfirmIdentity(common);
-        phoneNumber = new PhoneNumber(common);
-        dashBoard = new DashBoard(common);
-        deleteAccount = new DeleteAccount(common);
-
-        Common.log.info("Executing: " +testContext.getName());
-    }
-
+public class TC_41 extends BeforeAndAfter {
     @Test
     void startPage(){
         common.setRegisterAccount(true);
@@ -69,9 +21,24 @@ public class TC_41 {
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
         common.setRegisterAccount(false);
-        login.runLogin(); }
+        login.runLogin();
+    }
 
     @Test( dependsOnMethods = {"login"} )
+    void personalInfo() {
+        common.setRegisterAccount(true);
+
+        //Navigate to settings
+        dashBoard.pressSettings();
+        personalInfo.runPersonalInfo();
+
+        //Close information message
+        //common.findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/button/span").click();
+
+        common.setRegisterAccount(false);
+    }
+
+    @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
@@ -81,8 +48,11 @@ public class TC_41 {
         common.setConfirmIdBy("mail");
         confirmIdentity.runConfirmIdentity(); }
 
-    //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"confirmIdentity"} )
+    void confirmedIdentity() { confirmedIdentity.runConfirmIdentity(); }
+
+    //Delete the account, so it will be removed after 2 weeks by script
+    @Test( dependsOnMethods = {"confirmedIdentity"} )
     void dashboard() { dashBoard.pressSettings(); }
 
     @Test( dependsOnMethods = {"dashboard"} )
@@ -98,7 +68,4 @@ public class TC_41 {
         common.setIncorrectPassword(true);
         login.runLogin();
     }
-
-    @AfterTest
-    void quitBrowser(){ WebDriverManager.quitWebDriver(); }
 }

@@ -16,12 +16,12 @@ public class ConfirmedNewAccount {
     }
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("eduID");
-        common.verifyPageTitle("eduID");
+        common.explicitWaitPageTitle("eduID signup");
+        common.verifyPageTitle("eduID signup");
 
         //TODO temp fix to get swedish language
         common.timeoutMilliSeconds(500);
-        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
+        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
             common.findWebElementByLinkText("Svenska").click();
     }
 
