@@ -1,9 +1,10 @@
 package se.sunet.eduid.dashboard;
 
+import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 
 public class PhoneNumber {
-    private Common common;
+    private final Common common;
 
     public PhoneNumber(Common common){
         this.common = common;
@@ -55,6 +56,9 @@ public class PhoneNumber {
         //Click add phone number button
         common.findWebElementByXpath("//div/section[2]/div[2]/div/div/div[2]/div[2]/button").click();
 
+        //Check message when phone number is not valid
+        checkMessageFaultyNumber();
+
         //Enter phone number
         common.findWebElementById("number").clear();
         common.findWebElementById("number").sendKeys(common.getPhoneNumber());
@@ -63,7 +67,6 @@ public class PhoneNumber {
         common.findWebElementById("mobile-button").click();
 
         //Check status info
-        //common.timeoutMilliSeconds(500);
         common.verifyStatusMessage("Telefonnummer sparades");
     }
 
@@ -72,11 +75,15 @@ public class PhoneNumber {
         common.addMagicCookie();
 
         //Back door can not handle phone number with +, replacing it.
-        String phoneNumber;
-        if(common.getPhoneNumber().contains("+"))
-            phoneNumber = common.getPhoneNumber().replace("+", "%2b");
-        else
-            phoneNumber = common.getPhoneNumber();
+        String phoneNumber = common.getPhoneNumber();
+        Common.log.info("Adding phone number: " +phoneNumber);
+
+        if(phoneNumber.contains("+")) {
+            phoneNumber = phoneNumber.replace("+", "%2b");
+        }
+        else if(phoneNumber.startsWith("070")) {
+            phoneNumber = phoneNumber.replace("070", "%2b4670");
+        }
 
         //Fetch eppen - click on advanced settings
         common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[4]/li/span").click();
@@ -86,21 +93,20 @@ public class PhoneNumber {
 
         //Fetch the code
         common.navigateToUrl("https://dashboard.dev.eduid.se/services/phone/get-code?eppn=" +eppen +"&phone=" +phoneNumber);
+        Common.log.info("Fetching phone code: " +"https://dashboard.dev.eduid.se/services/phone/get-code?eppn=" +eppen +"&phone=" +phoneNumber);
 
         String phoneCode = common.findWebElementByXpath("/html/body").getText();
-        Common.log.info("Phone code: " +phoneCode);
+        if(phoneCode.contains("Bad Request"))
+            Assert.fail("Got Bad request instead of a phone code");
+        else
+            Common.log.info("Phone code: " +phoneCode);
 
         //Navigate back to settings page
         common.navigateToUrl("https://dashboard.dev.eduid.se/profile/settings/personaldata");
 
-        //TODO temp fix to get swedish language
-//        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
-//            common.findWebElementByLinkText("Svenska").click();
-
         //Press confirm phone number link
-        common.explicitWaitClickableElement("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span");
-
-        common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span").click();
+        common.timeoutSeconds(2);
+        common.findWebElementByXpathContainingText("Bekräfta").click();
 
         //Enter the code
         common.findWebElementById("phoneConfirmDialogControl").clear();
@@ -116,10 +122,23 @@ public class PhoneNumber {
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
             common.findWebElementByLinkText("Svenska").click();
 
-        //common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Telefonnummer har bekräftats");
+        //Verify status message
         common.verifyStatusMessage("Telefonnummer har bekräftats");
 
         //Hide the info message
         common.findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/button/span").click();
+    }
+
+    private void checkMessageFaultyNumber(){
+        //Enter a phone number on incorrect format to check message
+        common.findWebElementById("number").clear();
+        common.findWebElementById("number").sendKeys("1223456789");
+
+        //Click outside to trigger validation of phone number
+        common.findWebElementByXpath("//div/section[2]/div[2]/div/div").click();
+
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/div/div[2]/div[2]/div[2]/form/fieldset/div/small/span/span",
+                "Ogiltigt telefonnummer. Skriv ett svensk nummer eller ett internationellt nummer " +
+                        "som börjar med '+' följt av 6-20 siffror.");
     }
 }

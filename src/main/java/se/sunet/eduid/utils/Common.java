@@ -1,41 +1,41 @@
 package se.sunet.eduid.utils;
 
 //import io.appium.java_client.ios.IOSDriver;
+import com.assertthat.selenium_shutterbug.core.Capture;
+import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import javax.swing.text.DateFormatter;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.time.Duration;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Properties;
 
 public class Common {
 
-    private String errorMsg ="Verification failed! ";
+    private final String errorMsg ="Verification failed! ";
     public static final Logger log = LogManager.getLogger(Common.class);
-    private WebDriver webDriver;
+    private final WebDriver webDriver;
     private String firstWinHandle = null;
     private String addNewEmail1 = "";
     private String confirmNewEmail1 = "";
     private String newPassword = "";
     private String username, password, givenName, surName, displayName, magicCode, email, phoneNumber, identityNumber, language, eppn,
-    confirmIdBy, supportUsername, emailCode, testCase, testDescription;
+    confirmIdBy, supportUsername, emailCode, testCase, testDescription, sendMobileOneTimePassword = "yes", testSuite, mfaMethod;
     private boolean registerAccount, resetPassword, incorrectPassword, removePrimary, removeNewEmail1, resendOTP, deleteButton,
-            buttonValuePopup = true, useRecommendedPw, buttonValueConfirm = true, sendMobileOneTimePassword = true,
+            buttonValuePopup = true, useRecommendedPw, buttonValueConfirm = true,
             generateUsername = true, acceptTerms = true, sendCaptcha = true, addSecurityKey = false;
 
-    public Common(WebDriver webDriver) throws IOException {
+    public Common(WebDriver webDriver, String testSuite) throws IOException {
         this.webDriver = webDriver;
-        setProperties();
+        setProperties(testSuite);
     }
 /*
     public Common(IOSDriver<?> webDriver) throws IOException {
@@ -69,7 +69,7 @@ public class Common {
     }
 
     public void verifyXpathContainsString(String xpathToBeEval, String stringToCompareWith) {
-        Assert.assertTrue(findWebElementByXpath(xpathToBeEval).getText().contains(stringToCompareWith), errorMsg
+        Assert.assertTrue(findWebElementByXpath(xpathToBeEval).getText().toLowerCase().contains(stringToCompareWith.toLowerCase()), errorMsg
                     + findWebElementByXpath(xpathToBeEval).getText() + " Does not contain search string: " + stringToCompareWith);
     }
 
@@ -143,6 +143,8 @@ public class Common {
     }
 
     public WebElement findWebElementById(String elementToFind){
+        //At this point we do not know if element will be clicked or not
+        explicitWaitVisibilityElementId(elementToFind);
         return webDriver.findElement(By.id(elementToFind));
     }
 
@@ -151,7 +153,13 @@ public class Common {
     }
 
     public WebElement findWebElementByXpath(String elementToFind){
+        //At this point we do not know if element will be clicked or not
+        explicitWaitVisibilityElement(elementToFind);
         return webDriver.findElement(By.xpath(elementToFind));
+    }
+
+    public WebElement findWebElementByXpathContainingText(String text){
+        return webDriver.findElement(By.xpath("//*[contains(text(),'" + text + "')]"));
     }
 
     public String getAttributeByXpath(String elementToFind){
@@ -188,7 +196,7 @@ public class Common {
 
     public void closeStatusMessage(){
         //Close the status message
-        explicitWaitClickableElement("//div/section[2]/div[1]/div/button/span");
+        //explicitWaitClickableElement("//div/section[2]/div[1]/div/button/span");
         findWebElementByXpath("//div/section[2]/div[1]/div/button/span").click();
     }
 
@@ -196,9 +204,30 @@ public class Common {
         webDriver.switchTo().window(firstWinHandle);
     }
 
-    private void setProperties() throws IOException {
+    public LocalDate getDate(){
+        return LocalDate.now();
+    }
+
+    public void takeScreenshot(String name){
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        Shutterbug.shootPage(webDriver, Capture.FULL_SCROLL, 500, true).withName(name)
+                .save("screenshots/" +timestamp.toLocalDate() +"/" + testCase +"/");
+
+        /* full screen screenshots implemented in selenium only works with firefox that does not emulate mobile
+        Date today = new Date();
+        File src = ((FirefoxDriver) webDriver).getFullPageScreenshotAs(OutputType.FILE);
+        try {
+            copy(src, new File("screenshots/" + today.getTime() + getTestCase()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
+    }
+
+    private void setProperties(String testSuite) throws IOException {
         Properties properties = new Properties();
-        FileInputStream fileInput = new FileInputStream("src/main/resources/config.properties");
+        FileInputStream fileInput = new FileInputStream("src/main/resources/config_" +testSuite +".properties");
         properties.load(fileInput);
 
         setUsername(properties.getProperty("username"));
@@ -300,8 +329,8 @@ public class Common {
     public void setResendOTP(boolean resendOTP){ this.resendOTP = resendOTP; }
     public boolean getResendOTP(){ return resendOTP; }
 
-    public void setSendMobileOneTimePassword(boolean sendMobileOneTimePassword){ this.sendMobileOneTimePassword = sendMobileOneTimePassword; }
-    public boolean getSendMobileOneTimePassword(){ return sendMobileOneTimePassword; }
+    public void setSendMobileOneTimePassword(String sendMobileOneTimePassword){ this.sendMobileOneTimePassword = sendMobileOneTimePassword; }
+    public String getSendMobileOneTimePassword(){ return sendMobileOneTimePassword; }
 
     public String getEmailCode(){ return emailCode; }
     public void setEmailCode(String emailCode){ this.emailCode = emailCode; }
@@ -321,6 +350,9 @@ public class Common {
     public String getConfirmIdBy(){ return confirmIdBy; }
     public void setConfirmIdBy(String confirmIdBy){ this.confirmIdBy = confirmIdBy; }
 
+    public String getMfaMethod(){ return mfaMethod; }
+    public void setMfaMethod(String mfaMethod){ this.mfaMethod = mfaMethod; }
+
     public String getEppn(){ return eppn; }
     public void setEppn(String eppn){ this.eppn = eppn; }
 
@@ -335,4 +367,7 @@ public class Common {
 
     public String getTestDescription() { return testDescription; }
     public void setTestDescription(String testDescription) { this.testDescription = testDescription; }
+
+    public void setTestSuite(String testSuite){ this.testSuite = testSuite; }
+    public String getTestSuite(){ return testSuite; }
 }

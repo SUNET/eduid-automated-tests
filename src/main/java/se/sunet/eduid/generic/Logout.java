@@ -3,7 +3,7 @@ package se.sunet.eduid.generic;
 import se.sunet.eduid.utils.Common;
 
 public class Logout {
-    private Common common;
+    private final Common common;
 
     public Logout(Common common){
         this.common = common;

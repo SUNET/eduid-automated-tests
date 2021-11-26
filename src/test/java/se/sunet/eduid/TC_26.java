@@ -35,16 +35,18 @@ public class TC_26 extends BeforeAndAfter {
     void verifyPhoneNumber() {
         verifyPhoneNumber.verifyLabels(); }
 
-
     @Test( dependsOnMethods = {"verifyPhoneNumber"} )
     void stopBrowser(){
         WebDriverManager.quitWebDriver();
     }
 
     @Test( dependsOnMethods = {"stopBrowser"} )
-    @Parameters({"url", "browser", "headless", "language"})
-    void startBrowser(String url, String browser, String headless, String language) throws IOException {
-        initBrowser(url, browser, headless, language);
+    @Parameters({"url", "browser", "headless", "language", "testsuite"})
+    void startBrowser(String url, String browser, String headless, String language, String testsuite) throws IOException {
+        initBrowser(url, browser, headless, language,testsuite);
+
+        common.setTestSuite(testsuite);
+        common.setTestCase("TC_26");
     }
 
     @Test( dependsOnMethods = {"startBrowser"} )

@@ -2,9 +2,10 @@
 
 <suite name="dev">
     <parameter name="url" value="https://dev.eduid.se" />
-    <parameter name="browser" value="firefox" />
+    <parameter name="browser" value="chrome" />
     <parameter name="headless" value="false" />
     <parameter name="language" value="sv" />
+    <parameter name="testsuite" value="dev" />
 
     <listeners>
         <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
@@ -44,17 +45,20 @@ TODO - TC when confirmed ID, then name etc should not be possible to change. at 
 
 TODO - Försök skicka reset pw-mail inom 5min...
 
-TODO - reset pw, skriv in felaktig otp när otp är skickad
-TODO - Add two or more phone numbers, then reset pw-flow. multiple number to be selected for confirmation etc
-TODO - reset pw - click directly on "already have otp", utan att ha otp, fyll något ogiltigt...
-TODO - Security key testfallet funkar ej
+TODO - Reset pw-flow. multiple number to be selected for confirmation etc
 
+TODO - Security key mha face ID.... Transport.Internal?
+
+TODO - TC med säkerhetsnyckel uppdatera efter login...
 TODO - reset pw - abort i SetNewPassword klassen
-
+TODO - Byta namn på test fallen till kategorier och sen nummer
+TODO - Browserstack
 TODO - Comitta!!
-
+TODO - ignorera radbrytning på strängar från safari
 TODO - mfa-check.swamid.se -> säkerhetsnyckel ska vara satt mm mm
-TODO - Produktions testsvit
+TODO - Tråda
+
+use this phone number range in your tests 0701740605-0701740699
 
 Virtual auth for enhanced security (webauthn),
 - https://stackoverflow.com/questions/63477115/selenium-tests-authenticate-with-webauthn
@@ -74,6 +78,7 @@ TC_40 - bugg #564
 TC_43 - depends on same as above.
 39, 47, 43, 45,46
 -->
+
     <!--
         <test name="TC_40">
             <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by phone" />
@@ -103,17 +108,32 @@ TC_43 - depends on same as above.
             </class>
         </classes>
     </test>
--->
 
-
-    <test name="TC_46">
-        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings" />
+    -->
+    <test name="TC_1">
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings, use Freja eID for mfa login" />
         <classes>
-            <class name="se.sunet.eduid.TC_46" >
+            <class name="se.sunet.eduid.TC_1" >
+            </class>
+        </classes>
+    </test>
+<!--
+    <test name="TC_51">
+        <parameter name="testDescription" value="Add and confirm two extra phone numbers" />
+        <classes>
+            <class name="se.sunet.eduid.TC_51" >
             </class>
         </classes>
     </test>
 
+        <test name="TC_52">
+        <parameter name="testDescription" value="Reset pw, check that all confirmed numbers are possible to reset with" />
+        <classes>
+            <class name="se.sunet.eduid.TC_52" >
+            </class>
+        </classes>
+    </test>
+-->
 
 <!--95lk 734z 39da.
 Ej bekräftat telefonnummer ger inget val om extra säkerthet vid reset-pw när kontot varit avslutat.
@@ -134,39 +154,9 @@ Ej bekräftat telefonnummer ger inget val om extra säkerthet vid reset-pw när 
         </classes>
     </test>
 
-    <test name="TC_99">
-        <parameter name="testDescription" value="Check the Help pages" />
-        <classes>
-            <class name="se.sunet.eduid.TC_99" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_44">
-        <parameter name="url" value="https://release-check.swamid.se" />
-        <parameter name="testDescription" value="Verify that login to eduID can be done from Swamid Testing on a verified account" />
-        <classes>
-            <class name="se.sunet.eduid.TC_44" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_45">
-        <parameter name="testDescription" value="Verify that login to eduID can be done from Swamid Testing on a non-verified account" />
-        <classes>
-            <class name="se.sunet.eduid.TC_45" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_46">
-        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings" />
-        <classes>
-            <class name="se.sunet.eduid.TC_46" >
-            </class>
-        </classes>
-    </test>
 -->
+
+
 
 </suite>
 

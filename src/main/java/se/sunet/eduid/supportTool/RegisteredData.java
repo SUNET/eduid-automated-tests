@@ -5,8 +5,8 @@ import se.sunet.eduid.utils.Common;
 import java.time.LocalDate;
 
 public class RegisteredData {
-    private Common common;
-    private LocalDate localDate = LocalDate.now();
+    private final Common common;
+    private final LocalDate localDate = LocalDate.now();
 
     public RegisteredData(Common common){
         this.common = common;

@@ -3,7 +3,7 @@ package se.sunet.eduid.registration;
 import se.sunet.eduid.utils.Common;
 
 public class Register {
-    private Common common;
+    private final Common common;
 
     public Register(Common common){
         this.common = common;

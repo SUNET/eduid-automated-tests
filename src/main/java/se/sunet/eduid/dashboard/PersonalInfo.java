@@ -3,7 +3,7 @@ package se.sunet.eduid.dashboard;
 import se.sunet.eduid.utils.Common;
 
 public class PersonalInfo {
-    private Common common;
+    private final Common common;
 
     public PersonalInfo(Common common){
         this.common = common;
@@ -41,14 +41,14 @@ public class PersonalInfo {
 
     private void verifyAndUpdatePersonalInfo() {
         // Old account, If given name shall be updated else verify the default value
-        if(common.getGivenName().equals(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[1]/p").getText()) &&
-                common.getSurName().equals(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[2]/p").getText()) &&
-                    common.getDisplayName().equals(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[3]/p").getText())) {
+        if(common.getGivenName().equalsIgnoreCase(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[1]/p").getText()) &&
+                common.getSurName().equalsIgnoreCase(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[2]/p").getText()) &&
+                    common.getDisplayName().equalsIgnoreCase(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[3]/p").getText())) {
 
             //Verify current names
-            common.verifyStrings(common.getGivenName(), common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[1]/p").getText());
-            common.verifyStrings(common.getSurName(), common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[2]/p").getText());
-            common.verifyStrings(common.getDisplayName(), common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[3]/p").getText());
+            common.verifyXpathContainsString("//*[@id=\"text-content\"]/div/article/div/div[2]/div[1]/p", common.getGivenName());
+            common.verifyXpathContainsString("//*[@id=\"text-content\"]/div/article/div/div[2]/div[2]/p", common.getSurName());
+            common.verifyXpathContainsString("//*[@id=\"text-content\"]/div/article/div/div[2]/div[3]/p", common.getDisplayName());
         }
         else{
             //Click on change

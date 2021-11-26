@@ -3,7 +3,7 @@ package se.sunet.eduid.resetPassword;
 import se.sunet.eduid.utils.Common;
 
 public class ExtraSecurity {
-    private Common common;
+    private final Common common;
 
     public ExtraSecurity(Common common){
         this.common = common;
@@ -51,10 +51,17 @@ public class ExtraSecurity {
     }
 
     private void sendOtp(){
-        if(common.getSendMobileOneTimePassword()) {
+        //Continue with extra security
+        if(common.getSendMobileOneTimePassword().equalsIgnoreCase("yes")) {
             common.findWebElementById("extra-security-phone").click();
         }
-        else
+        //Continue without extra security
+        else if(common.getSendMobileOneTimePassword().equalsIgnoreCase("no")) {
             common.findWebElementById("continue-without-security").click();
+        }
+        //Already have OTP
+        else {
+            common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/p[2]/a/span").click();
+        }
     }
 }

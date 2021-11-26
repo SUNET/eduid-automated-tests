@@ -2,6 +2,7 @@ package se.sunet.eduid;
 
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
+import se.sunet.eduid.utils.Common;
 
 public class TC_28 extends BeforeAndAfter {
     @Test
@@ -11,6 +12,8 @@ public class TC_28 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage"} )
     void timeoutForOTP(){
+        //Sleep for OTP send interval timeout
+        Common.log.info("Waiting for OTP timeout interval...");
         common.timeoutSeconds(26);
     }
 
@@ -31,7 +34,7 @@ public class TC_28 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailLink"} )
     void extraSecurity() {
-        common.setSendMobileOneTimePassword(false);
+        common.setSendMobileOneTimePassword("no");
         extraSecurity.runExtraSecurity(); }
 
     @Test( dependsOnMethods = {"extraSecurity"} )

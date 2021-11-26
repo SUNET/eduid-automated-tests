@@ -3,6 +3,8 @@ package se.sunet.eduid;
 import java.io.IOException;
 import java.net.URL;
 
+import io.appium.java_client.remote.IOSMobileCapabilityType;
+import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -60,7 +62,7 @@ public class APP_1
         mobiledriver = new IOSDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         mobiledriver.get("https://dev.eduid.se");
 
-//        common = new Common(mobiledriver);
+        common = new Common(mobiledriver);
         dashBoard = new DashBoard(common);
         startPage = new StartPage(common);
         login = new Login(common);

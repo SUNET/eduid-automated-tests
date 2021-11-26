@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public class SwamidData {
-    private Common common;
+    private final Common common;
 
     public SwamidData(Common common){
         this.common = common;
@@ -22,7 +22,7 @@ public class SwamidData {
 
     private void verifyUserData(boolean confirmedUser){
         //First click on show attributes
-        common.explicitWaitClickableElement("//div/div[4]/div[1]/div[1]/div/a/button");
+//        common.explicitWaitClickableElement("//div/div[4]/div[1]/div[1]/div/a/button");
         common.findWebElementByXpath("//div/div[4]/div[1]/div[1]/div/a/button").click();
 
         //Extract all table rows in to a list of web elements
@@ -105,16 +105,19 @@ public class SwamidData {
         Assert.assertEquals(rows.size(), 5, "Number of rows in IDP session data table has changed, i.e eduID has " +
                 "release more attributes that it should. Should be 5, now its " + rows.size());
 
-
+        //IDP provider
         common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[2]/td",
                 "https://idp.dev.eduid.se/idp.xml");
 
+        //Authentication instant
         common.verifyStringNotEmptyByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[3]/td",
                 "//*[@id=\"attributes\"]/table[3]/tbody/tr[3]/th");
 
+        //Authentication method
         common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[4]/td",
                 "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
 
+        //Authentication class
         common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[5]/td",
                 "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
     }

@@ -5,7 +5,7 @@ import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.WebDriverManager;
 
 public class ConfirmPhoneNumber {
-    private Common common;
+    private final Common common;
 
     public ConfirmPhoneNumber(Common common){
         this.common = common;
@@ -85,7 +85,7 @@ public class ConfirmPhoneNumber {
             WebDriverManager.getWebDriver().navigate().back();
 
             //Press the Confirm phone number link - again
-            common.explicitWaitClickableElement("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span");
+//            common.explicitWaitClickableElement("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span");
             common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span").click();
 
             common.switchToPopUpWindow();
@@ -111,7 +111,6 @@ public class ConfirmPhoneNumber {
             common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").click();
 
             //Verify that the confirmation info label shows
-            common.explicitWaitClickableElement("//*[@id=\"panel\"]/div[1]/div/span");
             if(common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
                 common.verifyStatusMessage("Telefonnummer har bekräftats");
             else
@@ -121,7 +120,8 @@ public class ConfirmPhoneNumber {
 
     private void verifyLabels(){
         common.explicitWaitClickableElement("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a");
-        common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span", "Skriv in koden som skickats till +46");
+        //common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span", "Skriv in koden som skickats till +46");
+        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span", "Skriv in koden som skickats till " +common.getPhoneNumber());
         common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]/div[1]/form/div/div/div/label/span", "Bekräftelsekod");
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a", "Skicka bekräftelsekoden igen");
     }

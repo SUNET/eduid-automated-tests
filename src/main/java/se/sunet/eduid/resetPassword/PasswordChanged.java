@@ -3,7 +3,7 @@ package se.sunet.eduid.resetPassword;
 import se.sunet.eduid.utils.Common;
 
 public class PasswordChanged {
-    private Common common;
+    private final Common common;
 
     public PasswordChanged(Common common){
         this.common = common;
@@ -21,7 +21,7 @@ public class PasswordChanged {
 
     private void verifyLabels(){
         //Verify status message - swedish
-        common.verifyStatusMessage("Klart");
+        //common.verifyStatusMessage("Klart");
 
         //verify the labels - swedish
         common.verifyStringByXpath("//div/section[2]/div[2]/div/p/span", "Lösenordet har uppdaterats");
@@ -31,7 +31,7 @@ public class PasswordChanged {
         common.findWebElementByLinkText("English").click();
 
         //Verify status message - english
-        common.verifyStatusMessage("Success");
+        //common.verifyStatusMessage("Success");
 
         //verify the labels - english
         common.verifyStringByXpath("//div/section[2]/div[2]/div/p/span", "Password has been updated.");

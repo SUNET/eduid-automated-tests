@@ -3,7 +3,7 @@ package se.sunet.eduid.resetPassword;
 import se.sunet.eduid.utils.Common;
 
 public class EmailSent {
-    private Common common;
+    private final Common common;
 
     public EmailSent(Common common){
         this.common = common;

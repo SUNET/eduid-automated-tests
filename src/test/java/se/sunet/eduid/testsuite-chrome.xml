@@ -5,6 +5,7 @@
     <parameter name="browser" value="chrome" />
     <parameter name="headless" value="true" />
     <parameter name="language" value="sv" />
+    <parameter name="testsuite" value="dev" />
 
     <listeners>
         <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
@@ -90,23 +91,6 @@
         </classes>
     </test>
 
-<!-- obsolete, since its now not possible to click ok-button without first typing a code
-    <test name="TC_10">
-        <parameter name="testDescription" value="Add additional email address, try to confirm with empty code" />
-        <classes>
-            <class name="se.sunet.eduid.TC_10" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_11">
-        <parameter name="testDescription" value="Remove the additional email address added in TC_10" />
-        <classes>
-            <class name="se.sunet.eduid.TC_11" >
-            </class>
-        </classes>
-    </test>
-    -->
     <test name="TC_12">
         <parameter name="testDescription" value="Add additional email address, try to confirm with incorrect code" />
         <classes>
@@ -234,6 +218,14 @@
         <parameter name="testDescription" value="Try to reset password with incorrect magic code, ends with a 404-page" />
         <classes>
             <class name="se.sunet.eduid.TC_25" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_27">
+        <parameter name="testDescription" value="Initiate reset password, enter incorrect otp when No otp has been sent" />
+        <classes>
+            <class name="se.sunet.eduid.TC_27" >
             </class>
         </classes>
     </test>
@@ -376,6 +368,7 @@
         </classes>
     </test>
 
+    <!--
     <test name="TC_98">
         <parameter name="testDescription" value="Confirm phone number on default account, to restore it from previous tests" />
         <classes>
@@ -383,6 +376,7 @@
             </class>
         </classes>
     </test>
+-->
 
 <!-- 2021-09-02 - this is no longer possible due to enhanced sanity checks of the username field
     <test name="TC_42">
@@ -435,10 +429,35 @@
         </classes>
     </test>
 
+    <test name="TC_53">
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings, use Freja eID for mfa login" />
+        <classes>
+            <class name="se.sunet.eduid.TC_53" >
+            </class>
+        </classes>
+    </test>
+
     <test name="TC_26">
         <parameter name="testDescription" value="Reset password with extra security (mobile OTP), check that OTP can only be sent every 5min" />
         <classes>
             <class name="se.sunet.eduid.TC_26" >
+            </class>
+        </classes>
+    </test>
+
+
+    <test name="TC_11">
+        <parameter name="testDescription" value="Initiate reset password, enter incorrect otp" />
+        <classes>
+            <class name="se.sunet.eduid.TC_11" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_51">
+        <parameter name="testDescription" value="Add and confirm two extra phone numbers" />
+        <classes>
+            <class name="se.sunet.eduid.TC_51" >
             </class>
         </classes>
     </test>

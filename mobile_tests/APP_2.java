@@ -1,28 +1,27 @@
 package se.sunet.eduid;
 
-import java.io.IOException;
-import java.net.URL;
-
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.remote.MobileCapabilityType;
 import se.sunet.eduid.dashboard.*;
 import se.sunet.eduid.generic.Login;
 import se.sunet.eduid.generic.Logout;
 import se.sunet.eduid.generic.StartPage;
 import se.sunet.eduid.utils.Common;
 
+import java.io.IOException;
+import java.net.URL;
+
 import static io.appium.java_client.remote.IOSMobileCapabilityType.USE_PREBUILT_WDA;
 
 /**
  *  IOS Browser Local Test.
  */
-public class APP_1
+public class APP_2
 {
     private IOSDriver<?> mobiledriver;
     private Common common;
@@ -36,7 +35,7 @@ public class APP_1
     private AdvancedSettings advancedSettings;
     private Logout logout;
 
-    public APP_1() {
+    public APP_2() {
     }
 
     @BeforeTest
@@ -60,7 +59,7 @@ public class APP_1
         mobiledriver = new IOSDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         mobiledriver.get("https://dev.eduid.se");
 
-//        common = new Common(mobiledriver);
+        common = new Common(mobiledriver);
         dashBoard = new DashBoard(common);
         startPage = new StartPage(common);
         login = new Login(common);

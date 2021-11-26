@@ -3,7 +3,7 @@ package se.sunet.eduid.registration;
 import se.sunet.eduid.utils.Common;
 
 public class ConfirmedNewAccount {
-    private Common common;
+    private final Common common;
 
     public ConfirmedNewAccount(Common common){
         this.common = common;

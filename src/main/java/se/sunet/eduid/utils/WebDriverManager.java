@@ -3,7 +3,7 @@ package se.sunet.eduid.utils;
 import org.openqa.selenium.WebDriver;
 
 public class WebDriverManager {
-    private static ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
+    private static final ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
 
     public static WebDriver getWebDriver() {
         if(webDriver.get() == null)

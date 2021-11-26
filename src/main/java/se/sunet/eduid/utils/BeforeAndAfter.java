@@ -1,12 +1,10 @@
 package se.sunet.eduid.utils;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.testng.*;
 import org.testng.annotations.*;
 import se.sunet.eduid.dashboard.*;
-import se.sunet.eduid.generic.Help;
-import se.sunet.eduid.generic.Login;
-import se.sunet.eduid.generic.Logout;
-import se.sunet.eduid.generic.StartPage;
+import se.sunet.eduid.generic.*;
 import se.sunet.eduid.registration.ConfirmHuman;
 import se.sunet.eduid.registration.ConfirmedNewAccount;
 import se.sunet.eduid.registration.Register;
@@ -17,6 +15,9 @@ import se.sunet.eduid.swamid.SwamidData;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+
+import com.browserstack.local.Local;
 
 public class BeforeAndAfter {
     public StartPage startPage;
@@ -51,14 +52,20 @@ public class BeforeAndAfter {
     public SwamidData swamidData;
     public SecurityKey securityKey;
     public Help help;
+    public LoginExtraSecurity loginExtraSecurity;
+
+    Local bsLocal;
 
     @BeforeTest
-    @Parameters({"url", "browser", "headless", "language"})
-    public void initBrowser(String url, String browser, String headless, String language) throws IOException {
+    @Parameters({"url", "browser", "headless", "language", "testsuite"})
+    public void initBrowser(String url, String browser, String headless, String language, String testsuite) throws IOException {
+        //Create browser stack access tunnel
+//        createBrowserStackAccessTunnel();
+
         initBrowser = new InitBrowser();
         WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
 
-        common = new Common(WebDriverManager.getWebDriver());
+        common = new Common(WebDriverManager.getWebDriver(), testsuite);
         startPage = new StartPage(common);
         login = new Login(common);
         dashBoard = new DashBoard(common);
@@ -92,26 +99,82 @@ public class BeforeAndAfter {
         swamidData = new SwamidData(common);
         securityKey = new SecurityKey(common);
         help = new Help(common);
-
-
+        loginExtraSecurity = new LoginExtraSecurity(common);
 
 //        initBrowser.startHarSession(testContext.getName());
     }
+
     @BeforeTest
     public void testCase(final ITestContext testContext){
+        common.setTestSuite(testContext.getSuite().getName());
         common.setTestCase(testContext.getName());
-        common.log.info("Start executing: " +common.getTestCase() + " - " +testContext.getCurrentXmlTest().getParameter("testDescription"));
+        Common.log.info("Start executing: " +common.getTestCase() + " - " +testContext.getCurrentXmlTest().getParameter("testDescription"));
     }
 
     @BeforeMethod
     public void testCaseAndMethod(Method method) throws IOException {
-        common.log.info(common.getTestCase() +" - "+method.getName());
+        Common.log.info(common.getTestCase() +" - "+method.getName());
     }
 
-//    @AfterTest
+    @AfterTest
     public void quitBrowser() throws IOException {
+        //Browserstack test result
+//        testResult();
+
 //        initBrowser.stopHarSession();
         WebDriverManager.quitWebDriver();
-        common.log.info("End of: " +common.getTestCase());
+        Common.log.info("End of: " +common.getTestCase());
+
+        //Delete browserstack access tunnel
+//        deleteBrowserStackAccessTunnel();
+    }
+
+
+
+    private void createBrowserStackAccessTunnel(){
+        // Creates an instance of Local
+        bsLocal = new Local();
+        Common.log.info("Create browser stack tunnel ");
+
+        // You can also set an environment variable - "BROWSERSTACK_ACCESS_KEY".
+        HashMap<String, String> bsLocalArgs = new HashMap<String, String>();
+
+        bsLocalArgs.put("key", "EvYN352mQDEnTmbBR65R");
+
+        // Starts the Local instance with the required arguments
+        try {
+            bsLocal.start(bsLocalArgs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Check if BrowserStack local instance is running
+        try {
+            System.out.println("Is browserstack up and running? " +bsLocal.isRunning());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteBrowserStackAccessTunnel(){
+        // Creates an instance of Local
+        bsLocal = new Local();
+
+        // Stop the Local instance after your test run is completed, i.e after driver.quit
+        try {
+            Common.log.info("Delete browser stack tunnel ");
+            bsLocal.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void testResult(){
+        JavascriptExecutor jse = (JavascriptExecutor)WebDriverManager.getWebDriver();
+// To mark the test as passed
+        jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\": \"passed\", \"reason\": \"<reason>\"}}");
+// To mark the test as failed
+        jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\": \"failed\", \"reason\": \"<reason>\"}}");
+
     }
 }

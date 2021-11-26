@@ -3,7 +3,7 @@ package se.sunet.eduid.generic;
 import se.sunet.eduid.utils.Common;
 
 public class Help {
-    private Common common;
+    private final Common common;
 
     public Help(Common common){
         this.common = common;
@@ -303,7 +303,7 @@ public class Help {
         common.verifyStringOnPage("How do I find an ATG agent authorised for Freja eID?");
 
         //Text 10
-        common.verifyStringOnPage("The nearest authorised AGT agents can be found in the app.");
+        common.verifyStringOnPage("The nearest authorised ATG agents can be found in the app.");
 
         //Heading 11
         common.verifyStringOnPage("What should I do if my identity verification for Freja eID fails?");

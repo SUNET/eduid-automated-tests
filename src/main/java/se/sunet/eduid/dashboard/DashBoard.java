@@ -3,7 +3,7 @@ package se.sunet.eduid.dashboard;
 import se.sunet.eduid.utils.Common;
 
 public class DashBoard {
-    private Common common;
+    private final Common common;
 
     public DashBoard(Common common){
         this.common = common;
@@ -11,7 +11,8 @@ public class DashBoard {
 
     public void runDashBoard(){
         verifyPageTitle();
-        verifyNotificationDot();
+        if(!common.getTestSuite().equalsIgnoreCase("prod"))
+            verifyNotificationDot();
         verifyUserId();
         verifyDisplayName();
         verifyGivenName();
@@ -39,9 +40,6 @@ public class DashBoard {
                 && common.getLanguage().equalsIgnoreCase("Svenska")) {
             common.findWebElementByLinkText("Svenska").click();
         }
-
-
-
     }
 
     private void verifyNotificationDot(){
@@ -52,13 +50,9 @@ public class DashBoard {
         common.verifyStringOnPage(common.getUsername().toLowerCase());
     }
 
-    private void verifyDisplayName() {
-        common.verifyStringOnPage(common.getDisplayName());
-    }
+    private void verifyDisplayName() { common.verifyStringOnPage(common.getDisplayName()); }
 
-    private void verifyGivenName() {
-        common.verifyStringOnPage(common.getGivenName());
-    }
+    private void verifyGivenName() { common.verifyStringOnPage(common.getGivenName()); }
 
     private void verifySurName() {
         common.verifyStringOnPage(common.getSurName());
@@ -152,9 +146,6 @@ public class DashBoard {
 
         //Language change
         common.verifyStringOnPage("Svenska");
-
-        //Click on Swedish
-//        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
     }
 
     private void checkShowHideText(String textSwedish, String textEnglish){

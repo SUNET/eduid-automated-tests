@@ -6,11 +6,11 @@ import java.util.Properties;
 
 public class MailReader{
 
-    private String hostName = "smtp.gmail.com";
-    private String username = "eduidtest.se1@gmail.com";
+    private final String hostName = "smtp.gmail.com";
+    private final String username = "eduidtest.se1@gmail.com";
     //String password = "test1eduid!";
     //Password below is for google app password
-    private String password = "xvdmpygsfsichkdc";
+    private final String password = "xvdmpygsfsichkdc";
     private String confirmationUrl;
     private String confirmationCode;
 

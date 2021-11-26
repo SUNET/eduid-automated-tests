@@ -54,6 +54,7 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
+        common.setPhoneNumber("+46701740606");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
@@ -144,9 +145,11 @@ public class TC_49 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"stopBrowser"} )
-    @Parameters({"url", "browser", "headless", "language"})
-    void startBrowser(String url, String browser, String headless, String language) throws IOException {
-        initBrowser(url, browser, headless, language);
+    @Parameters({"url", "browser", "headless", "language", "testsuite"})
+    void startBrowser(String url, String browser, String headless, String language, String testsuite) throws IOException {
+        initBrowser(url, browser, headless, language,testsuite);
+        common.setTestSuite(testsuite);
+        common.setTestCase("TC_49");
     }
 
     //Log in to first account, verify that phonenumber and identity needs to be confirmed
@@ -164,8 +167,6 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage4"} )
     void login4(){
-        common.log.info("Username " +username1 );
-
         common.setUsername(username1);
         common.setPassword(password1);
         login.runLogin();

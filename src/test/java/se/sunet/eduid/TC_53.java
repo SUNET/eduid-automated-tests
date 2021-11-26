@@ -3,7 +3,7 @@ package se.sunet.eduid;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
-public class TC_46 extends BeforeAndAfter {
+public class TC_53 extends BeforeAndAfter {
     @Test
     void startPage(){
         common.setRegisterAccount(true);
@@ -45,7 +45,7 @@ public class TC_46 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"personalInfo"} )
     void addSecurityKey() {
         //Set mfa method to be used to "security key" at login.
-        common.setMfaMethod("securitykey");
+        common.setMfaMethod("freja");
 
         common.setAddSecurityKey(true);
         securityKey.runSecurityKey();
@@ -53,11 +53,19 @@ public class TC_46 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void navigateToDashboard() {
-        common.navigateToUrl("https://dashboard.dev.eduid.se/profile/");
         common.timeoutSeconds(2);
+        common.navigateToUrl("https://dashboard.dev.eduid.se/profile/");
+        common.explicitWaitClickableElementId("mfa-security-key");
     }
 
     @Test( dependsOnMethods = {"navigateToDashboard"} )
+    void loginExtraSecurity2() {
+        //Set mfa method to be used to "security key" to be able to delete the account.
+        common.setMfaMethod("securitykey");
+        loginExtraSecurity.runLoginExtraSecurity();
+    }
+
+    @Test( dependsOnMethods = {"loginExtraSecurity2"} )
     void navigateToSettings() {
         //Click on settings
         common.explicitWaitClickableElement("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span");

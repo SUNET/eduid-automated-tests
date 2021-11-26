@@ -1,12 +1,12 @@
 package se.sunet.eduid.utils;
 
+import com.assertthat.selenium_shutterbug.core.Capture;
+import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
-import java.io.File;
-import java.io.IOException;
 
 public class RetryAndScreenShot implements IRetryAnalyzer {
 
@@ -67,23 +67,26 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
     }
 
     public void screenshot(int retryCount) {
-        TakesScreenshot ts;
-        ts = (TakesScreenshot) webDriver;
+//        TakesScreenshot ts;
+//        ts = (TakesScreenshot) webDriver;
 
-        //Scroll to almost top of page and take first screenshot
+/*        //Scroll to almost top of page and take first screenshot
         if(retryCount == 0)
             ((JavascriptExecutor)webDriver).executeScript("window.scrollBy(0,250)");
         else
             ((JavascriptExecutor)webDriver).executeScript("window.scrollBy(0,900)");
 
         File screenshot1 = ts.getScreenshotAs(OutputType.FILE);
+*/
+//        try {
+            Shutterbug.shootPage(webDriver, Capture.FULL_SCROLL, 500, true)
+                    .withName(testCase +"-" +testMethod +"-" +retryCount)
+                    .save("screenshots/");
 
-        try {
-            // Temp test for the GUI presentation
-            org.apache.commons.io.FileUtils.copyFile(screenshot1, new File("screenshots/"+ testCase +"-" +testMethod +"-" +retryCount +".png"));
-        } catch (IOException e) {
+            //org.apache.commons.io.FileUtils.copyFile(screenshot1, new File("screenshots/"+ testCase +"-" +testMethod +"-" +retryCount +".png"));
+/*        } catch (IOException e) {
             log.warn("Failed taking a screenshot of failed test case: "+testCase +" " +e);
         }
-        //log.error("Test case:" +testCase +" - "+testMethod +" failed, see directory: <root>/screenshots/<test case name> for screenshots");
+  */      //log.error("Test case:" +testCase +" - "+testMethod +" failed, see directory: <root>/screenshots/<test case name> for screenshots");
     }
 }

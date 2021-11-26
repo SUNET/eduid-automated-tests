@@ -3,7 +3,7 @@ package se.sunet.eduid.dashboard;
 import se.sunet.eduid.utils.Common;
 
 public class ConfirmedIdentity {
-    private Common common;
+    private final Common common;
 
     public ConfirmedIdentity(Common common){
         this.common = common;

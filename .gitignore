@@ -1,1 +1,15 @@
+target
 .DS_Store
+*~
+local.mk
+har
+logs
+screenshots
+old
+
+# Intelij
+*.iml
+.idea
+out
+config_prod.properties
+dev-test.xml

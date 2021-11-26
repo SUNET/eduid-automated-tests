@@ -62,6 +62,8 @@ public class TC_45 extends BeforeAndAfter {
         common.findWebElementByXpath("//*[@id=\"login\"]/a").click();
 
         common.setRegisterAccount(false);
+
+        common.timeoutSeconds(1);
     }
 
     //Delete the account, so it will be removed after 2 weeks by script
@@ -82,6 +84,7 @@ public class TC_45 extends BeforeAndAfter {
     void delete() {
         common.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
+        common.timeoutSeconds(2);
     }
 
     @Test( dependsOnMethods = {"delete"} )

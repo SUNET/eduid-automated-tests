@@ -1,13 +1,10 @@
 package se.sunet.eduid.dashboard;
 
-import org.openqa.selenium.virtualauthenticator.HasVirtualAuthenticator;
-import org.openqa.selenium.virtualauthenticator.VirtualAuthenticator;
-import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.WebDriverManager;
 
 public class AdvancedSettings {
-    private Common common;
+    private final Common common;
 
     public AdvancedSettings(Common common){
         this.common = common;

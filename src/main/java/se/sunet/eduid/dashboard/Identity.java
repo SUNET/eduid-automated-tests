@@ -3,7 +3,7 @@ package se.sunet.eduid.dashboard;
 import se.sunet.eduid.utils.Common;
 
 public class Identity {
-    private Common common;
+    private final Common common;
 
     public Identity(Common common){
         this.common = common;
@@ -13,7 +13,11 @@ public class Identity {
         pressIdentity();
         verifyPageTitle();
         verifyIdentity();
-        verifyLabels();
+
+        if(common.getTestSuite().equalsIgnoreCase("prod"))
+            common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4/span", "Ditt eduID är redo att användas");
+        else
+            verifyLabels();
     }
 
     private void pressIdentity(){

@@ -3,7 +3,7 @@ package se.sunet.eduid.swamid;
 import se.sunet.eduid.utils.Common;
 
 public class Swamid {
-    private Common common;
+    private final Common common;
 
     public Swamid(Common common){
         this.common = common;

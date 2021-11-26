@@ -1,0 +1,57 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="prod">
+    <parameter name="url" value="https://dev.eduid.se" />
+    <parameter name="browser" value="firefox" />
+    <parameter name="headless" value="false" />
+    <parameter name="language" value="sv" />
+    <parameter name="testsuite" value="prod" />
+
+    <listeners>
+        <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
+    </listeners>
+
+
+    <!--
+
+    eduidtest.se1@gmail.com
+    test1eduid!
+
+-->
+
+    <test name="eduid.se">
+        <parameter name="testDescription" value="Verify log in to eduid.ser" />
+        <parameter name="url" value="https://eduid.se" />
+        <classes>
+            <class name="se.sunet.eduid.TC_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="jira.sunet.se">
+        <parameter name="testDescription" value="Verify log in to jira.sunet.se" />
+        <parameter name="url" value="https://jira.sunet.se/projects/SC/queues/custom/119" />
+        <classes>
+            <class name="se.sunet.eduid.Jira_Sunet_Se" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="antagning.se">
+        <parameter name="testDescription" value="Verify log in to antagning.se" />
+        <parameter name="url" value="https://antagning.se" />
+        <classes>
+            <class name="se.sunet.eduid.Antagning_Se" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="ladok.se">
+        <parameter name="testDescription" value="Verify log in to ladok.se" />
+        <parameter name="url" value="https://www.start.ladok.se/gui/loggain" />
+        <classes>
+            <class name="se.sunet.eduid.Ladok_Se" >
+            </class>
+        </classes>
+    </test>
+</suite>

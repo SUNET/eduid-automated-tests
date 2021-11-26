@@ -7,7 +7,7 @@ import se.sunet.eduid.utils.WebDriverManager;
 import java.time.LocalDate;
 
 public class TC_43 extends BeforeAndAfter {
-    private LocalDate localDate = LocalDate.now();
+    private final LocalDate localDate = LocalDate.now();
 
     @Test
     void startPage(){
@@ -42,6 +42,7 @@ public class TC_43 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
+        common.setPhoneNumber("+46701740605");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 

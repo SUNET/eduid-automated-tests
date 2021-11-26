@@ -3,7 +3,7 @@ package se.sunet.eduid.generic;
 import se.sunet.eduid.utils.Common;
 
 public class Login {
-    private Common common;
+    private final Common common;
 
     public Login(Common common){
         this.common = common;
@@ -38,20 +38,22 @@ public class Login {
 
     public void enterUsernamePassword(){
         //Enter username
+        common.explicitWaitClickableElementId("email");
         common.findWebElementById("email").clear();
         common.findWebElementById("email").sendKeys(common.getUsername());
-        //common.findWebElementByXpath("//div/section[2]/div[2]/div/form/div[1]/input").sendKeys(common.getUsername());
 
         Common.log.info("Log in with username: " +common.getUsername());
 
         common.findWebElementByXpath("//div/section[2]/div[2]/div/form/div[2]/div[2]/input").clear();
 
         common.findWebElementByXpath("//*[@id=\"current-password-wrapper\"]/div[2]/input").sendKeys(common.getPassword());
-        Common.log.info("Log in with password: " +common.getPassword());
 
+        if(!common.getTestSuite().equalsIgnoreCase("prod"))
+            Common.log.info("Log in with password: " +common.getPassword());
     }
 
     public void signIn(){
+        //Click log in button
         common.findWebElementById("login-form-button").click();
 
         if(common.getIncorrectPassword()) {

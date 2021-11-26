@@ -6,7 +6,7 @@ import se.sunet.eduid.utils.WebDriverManager;
 import java.util.Date;
 
 public class ConfirmIdentity{
-    private Common common;
+    private final Common common;
 
     public ConfirmIdentity(Common common){
         this.common = common;
@@ -63,17 +63,22 @@ public class ConfirmIdentity{
             common.switchToPopUpWindow();
 
             //Click on accept
-            common.explicitWaitClickableElement("//div[2]/div/div[1]/div/div/div[3]/button[1]/span");
             common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span").click();
 
-            //Verify on the button that letter is sent text exists
+            //Verify on the button that letter is sent text exists, with today's date
             common.explicitWaitVisibilityElement("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[1]/span");
-            common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[1]/span",
-                    "ETT BREV SKICKADES");
-            common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[2]/span",
-                    "BREVET ÄR GILTIGT TILL");
+            common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[1]/span", "ETT BREV SKICKADES");
+            common.verifyStringOnPage(common.findWebElementByXpathContainingText(common.getDate().toString()).getText());
+
+            //Verify that letter is valid date is 2 weeks after today's date
+            common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[2]/span", "BREVET ÄR GILTIGT TILL");
+            common.verifyStringOnPage(common.findWebElementByXpathContainingText(common.getDate().plusDays(15).toString()).getText());
+
             common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[3]/span",
                     "TRYCK HÄR IGEN NÄR DU HAR FÅTT BREVET");
+
+            //Verify Statusmessage
+            common.verifyStatusMessage("Ett brev med bekräftelsekod har skickats.");
 
             //Press again on the letter button - Add a faulty code
             common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button").click();

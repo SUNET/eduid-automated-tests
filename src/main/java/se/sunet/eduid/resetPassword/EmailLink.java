@@ -1,11 +1,9 @@
 package se.sunet.eduid.resetPassword;
 
-import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
-import se.sunet.eduid.utils.WebDriverManager;
 
 public class EmailLink {
-    private Common common;
+    private final Common common;
 
     public EmailLink(Common common){
         this.common = common;

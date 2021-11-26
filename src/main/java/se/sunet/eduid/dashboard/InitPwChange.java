@@ -3,7 +3,7 @@ package se.sunet.eduid.dashboard;
 import se.sunet.eduid.utils.Common;
 
 public class InitPwChange {
-    private Common common;
+    private final Common common;
 
     public InitPwChange(Common common){
         this.common = common;

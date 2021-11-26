@@ -59,7 +59,7 @@ public class APP_2
         mobiledriver = new IOSDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         mobiledriver.get("https://dev.eduid.se");
 
-        common = new Common(mobiledriver);
+        common = new Common(mobiledriver, "dev");
         dashBoard = new DashBoard(common);
         startPage = new StartPage(common);
         login = new Login(common);

@@ -2,11 +2,9 @@ package se.sunet.eduid.dashboard;
 
 import se.sunet.eduid.generic.Login;
 import se.sunet.eduid.utils.Common;
-import se.sunet.eduid.utils.RetryAndScreenShot;
-import se.sunet.eduid.utils.WebDriverManager;
 
 public class DeleteAccount {
-    private Common common;
+    private final Common common;
 
     public DeleteAccount(Common common){
         this.common = common;

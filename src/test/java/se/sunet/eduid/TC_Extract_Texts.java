@@ -2,7 +2,6 @@ package se.sunet.eduid;
 
 import org.openqa.selenium.By;
 import org.testng.ITestContext;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -36,7 +35,7 @@ public class TC_Extract_Texts {
         initBrowser = new InitBrowser();
         WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
 
-        common = new Common(WebDriverManager.getWebDriver());
+//        common = new Common(WebDriverManager.getWebDriver());
         startPage = new StartPage(common);
         login = new Login(common);
         dashBoard = new DashBoard(common);
