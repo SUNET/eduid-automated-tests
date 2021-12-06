@@ -6,7 +6,7 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 public class TC_38 extends BeforeAndAfter {
     @Test
     void startPage(){
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
         startPage.runStartPage();
     }
 
@@ -22,26 +22,26 @@ public class TC_38 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
         login.runLogin(); }
 
     //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"login"} )
     void dashboard() {
         //Set some user data that will be verified in dashboard
-        common.setDisplayName("lägg till namn");
-        common.setGivenName("lägg till");
-        common.setSurName("namn");
-        common.setIdentityNumber("lägg till personnummer");
-        common.setPhoneNumber("lägg till telefonnummer");
-        common.setEmail(common.getUsername());
+        testData.setDisplayName("lägg till namn");
+        testData.setGivenName("lägg till");
+        testData.setSurName("namn");
+        testData.setIdentityNumber("lägg till personnummer");
+        testData.setPhoneNumber("lägg till telefonnummer");
+        testData.setEmail(testData.getUsername());
 
         dashBoard.runDashBoard();
     }
 
     @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
-        common.setDeleteButton(true);
+        testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
     }
 
@@ -50,7 +50,7 @@ public class TC_38 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        common.setIncorrectPassword(true);
+        testData.setIncorrectPassword(true);
         login.runLogin();
     }
 }

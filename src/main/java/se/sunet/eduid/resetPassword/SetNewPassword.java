@@ -2,12 +2,15 @@ package se.sunet.eduid.resetPassword;
 
 import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class SetNewPassword {
     private final Common common;
+    private final TestData testData;
 
-    public SetNewPassword(Common common){
+    public SetNewPassword(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runNewPassword(){
@@ -59,8 +62,8 @@ public class SetNewPassword {
         String newPassword = common.getAttributeById("copy-new-password");
 
         //store the new password
-        common.setPassword(newPassword);
-        Common.log.info("New password saved: " + common.getPassword());
+        testData.setPassword(newPassword);
+        Common.log.info("New password saved: " + testData.getPassword());
 
         common.findWebElementById("new-password").clear();
         common.findWebElementById("new-password").sendKeys(newPassword);
@@ -71,7 +74,7 @@ public class SetNewPassword {
         common.findWebElementById("new-password-button").click();
 
         //Wait for next page
-        if(!common.getSendMobileOneTimePassword().equalsIgnoreCase("already"))
+        if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("already"))
             common.explicitWaitClickableElementId("return-login");
 
         /* Abort...

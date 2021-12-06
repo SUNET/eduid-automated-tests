@@ -6,13 +6,13 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 public class TC_37 extends BeforeAndAfter {
     @Test
     void startPage(){
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
         startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage"} )
     void register(){
-        common.setMagicCode("notTheCorrectMagicCode");
+        testData.setMagicCode("notTheCorrectMagicCode");
         register.runRegister(); }
 
     @Test( dependsOnMethods = {"register"} )

@@ -6,20 +6,23 @@ import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
 import se.sunet.eduid.generic.Login;
 import se.sunet.eduid.generic.LoginExtraSecurity;
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 import se.sunet.eduid.utils.WebDriverManager;
 
 public class SecurityKey {
     private final Common common;
+    private final TestData testData;
 
-    public SecurityKey(Common common){
+    public SecurityKey(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runSecurityKey(){
         pressAdvancedSettings();
 
         //If we shall add extra security key
-        if(common.getAddSecurityKey())
+        if(testData.isAddSecurityKey())
             virtualAuthenticator();
 
         addSecurityKey();
@@ -57,7 +60,7 @@ public class SecurityKey {
         common.timeoutMilliSeconds(500);
 
         //Verify that without personal info added, no extra key can be added.
-        if(!common.getAddSecurityKey()) {
+        if(!testData.isAddSecurityKey()) {
             common.verifyStatusMessage("Du måste lägga till personlig data innan du kan lägga till en säkerhetsnyckel");
 
             //Close the status message
@@ -89,14 +92,14 @@ public class SecurityKey {
             common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button/span").click();
 
             //Enter username, password
-            Login login = new Login(common);
+            Login login = new Login(common, testData);
             login.enterUsernamePassword();
 
             //Click log in button
             common.findWebElementById("login-form-button").click();
 
             //Login page for extra security select one of the two mfa methods
-            LoginExtraSecurity loginExtraSecurity = new LoginExtraSecurity(common);
+            LoginExtraSecurity loginExtraSecurity = new LoginExtraSecurity(common, testData);
             loginExtraSecurity.runLoginExtraSecurity();
 
             //Verify that Freja Login page is opened after verification

@@ -19,7 +19,7 @@ public class TC_27 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"timeoutReqNewPw"} )
     void login(){
-        common.setResetPassword(true);
+        testData.setResetPassword(true);
         login.runLogin();
     }
 
@@ -35,7 +35,7 @@ public class TC_27 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailLink"} )
     void extraSecurity() {
-        common.setSendMobileOneTimePassword("already");
+        testData.setSendMobileOneTimePassword("already");
         extraSecurity.runExtraSecurity(); }
 
 

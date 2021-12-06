@@ -1,12 +1,15 @@
 package se.sunet.eduid.dashboard;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class ConfirmedIdentity {
     private final Common common;
+    private final TestData testData;
 
-    public ConfirmedIdentity(Common common){
+    public ConfirmedIdentity(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runConfirmIdentity(){
@@ -39,7 +42,7 @@ public class ConfirmedIdentity {
 
     private void textAndLabelsSwedish(){
         //Heading
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID för\n" +common.getUsername().toLowerCase());
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID för\n" +testData.getUsername().toLowerCase());
 
         //Heading
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4/span", "Ditt eduID är redo att användas");
@@ -55,7 +58,7 @@ public class ConfirmedIdentity {
         common.findWebElementByXpath("//*[@id=\"text-content\"]/div[2]/div/button/span").click();
 
         //Data
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/p", common.getIdentityNumber());
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/p", testData.getIdentityNumber());
 
         //Text
         common.verifyStringByXpath("//*[@id=\"text-content\"]/p/span", "Lägg till ett " +
@@ -64,7 +67,7 @@ public class ConfirmedIdentity {
 
     private void textAndLabelsEnglish(){
         //Heading
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID for\n" +common.getUsername().toLowerCase());
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID for\n" +testData.getUsername().toLowerCase());
 
         //Heading
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4/span", "Your eduID is ready to use");
@@ -77,7 +80,7 @@ public class ConfirmedIdentity {
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/label/span", "Id number");
 
         //Data
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/p", common.getIdentityNumber());
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/p", testData.getIdentityNumber());
 
         //Text
         common.verifyStringByXpath("//*[@id=\"text-content\"]/p/span", "Add a phone number " +

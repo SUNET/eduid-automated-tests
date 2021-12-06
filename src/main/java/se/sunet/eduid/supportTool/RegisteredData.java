@@ -1,15 +1,18 @@
 package se.sunet.eduid.supportTool;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 import java.time.LocalDate;
 
 public class RegisteredData {
     private final Common common;
     private final LocalDate localDate = LocalDate.now();
+    private final TestData testData;
 
-    public RegisteredData(Common common){
+    public RegisteredData(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runRegisteredData(){
@@ -23,7 +26,7 @@ public class RegisteredData {
 
     private void verifyCentralDB(){
         //Eppn
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[1]/td", common.getEppn());
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[1]/td", testData.getEppn());
 
         //Given name
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[2]/td", "Magic Cookie");
@@ -32,10 +35,10 @@ public class RegisteredData {
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[3]/td", "Magic Cookie");
 
         //Display name
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[4]/td", common.getDisplayName());
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[4]/td", testData.getDisplayName());
 
         //National identity numbers - Number
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[1]", common.getIdentityNumber());
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[1]", testData.getIdentityNumber());
 
         //National identity numbers - Primary
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[2]", "True");
@@ -53,7 +56,7 @@ public class RegisteredData {
         common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[6]", String.valueOf(localDate));
 
         //Mail addresses - Address
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[6]/td/dl/dd[1]", common.getUsername().toLowerCase());
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[6]/td/dl/dd[1]", testData.getUsername().toLowerCase());
 
         //Mail addresses - Primary
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[6]/td/dl/dd[2]", "True");
@@ -71,7 +74,7 @@ public class RegisteredData {
         common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[6]/td/dl/dd[6]", String.valueOf(localDate));
 
         //Phone numbers - Number
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[7]/td/dl/dd[1]", common.getPhoneNumber());
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[7]/td/dl/dd[1]", testData.getPhoneNumber());
 
         //Phone numbers - Primary
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[7]/td/dl/dd[2]", "True");
@@ -112,7 +115,7 @@ public class RegisteredData {
 
     private void verifySignupDB(){
         //Eppn
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td", common.getEppn());
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td", testData.getEppn());
 
         //Given name
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[2]/td", "");
@@ -127,7 +130,7 @@ public class RegisteredData {
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[5]/td", "");
 
         //Mail addresses - Address
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[6]/td/dl/dd[1]", common.getUsername().toLowerCase());
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[6]/td/dl/dd[1]", testData.getUsername().toLowerCase());
 
         //Mail addresses - Primary
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[6]/td/dl/dd[2]", "True");
@@ -193,17 +196,17 @@ public class RegisteredData {
         //Proofing log
         common.verifyXpathContainsString("//div/div[2]/div/div[5]/div/table/tbody/tr[2]/td[1]", String.valueOf(localDate));
         common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[2]/td[2]", "lookup_mobile_proofing");
-        common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[2]/td[3]", common.getIdentityNumber());
+        common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[2]/td[3]", testData.getIdentityNumber());
         common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[2]/td[4]", "TeleAdress-2014v1");
 
         common.verifyXpathContainsString("//div/div[2]/div/div[5]/div/table/tbody/tr[3]/td[1]", String.valueOf(localDate));
         common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[3]/td[2]", "phone");
-        common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[3]/td[3]", common.getPhoneNumber());
+        common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[3]/td[3]", testData.getPhoneNumber());
         common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[3]/td[4]", "sms-2013v1");
 
         common.verifyXpathContainsString("//div/div[2]/div/div[5]/div/table/tbody/tr[4]/td[1]", String.valueOf(localDate));
         common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[4]/td[2]", "signup");
-        common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[4]/td[3]", common.getUsername().toLowerCase());
+        common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[4]/td[3]", testData.getUsername().toLowerCase());
         common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[4]/td[4]", "e-mail-2013v1");
     }
 

@@ -40,16 +40,13 @@ https://signup.dev.eduid.se/register/code/mknhKYFl94fJaWaiVk2oG9Tl
 
 TODO tc with - in name, and åäö in name.
 TODO - integrationstest via scim api, mfa stepup - magnus
-TODO - Extrahera texter ur eduID
 TODO - TC when confirmed ID, then name etc should not be possible to change. at to register TC
 
 TODO - Försök skicka reset pw-mail inom 5min...
 
-TODO - Reset pw-flow. multiple number to be selected for confirmation etc
 
 TODO - Security key mha face ID.... Transport.Internal?
 
-TODO - TC med säkerhetsnyckel uppdatera efter login...
 TODO - reset pw - abort i SetNewPassword klassen
 TODO - Byta namn på test fallen till kategorier och sen nummer
 TODO - Browserstack
@@ -57,6 +54,7 @@ TODO - Comitta!!
 TODO - ignorera radbrytning på strängar från safari
 TODO - mfa-check.swamid.se -> säkerhetsnyckel ska vara satt mm mm
 TODO - Tråda
+TODO - oanvända metoder i Identity - kollar labels...
 
 use this phone number range in your tests 0701740605-0701740699
 
@@ -72,11 +70,6 @@ Virtual auth for enhanced security (webauthn),
 - test där en bekräftad identitet, sen skapa ny user som bekräftar samma identitet. logga in och kolla i första att den ej längre är bekräftad
 - samma som ovan men med telefonnummer
 
-- Extrahera textsträngar. status strängar. sv och eng
-
-TC_40 - bugg #564
-TC_43 - depends on same as above.
-39, 47, 43, 45,46
 -->
 
     <!--
@@ -91,7 +84,6 @@ TC_43 - depends on same as above.
         <parameter name="url" value="https://mfa-check.swamid.se" />
 
         <test name="TC_50">
-
         <parameter name="testDescription" value="Verify that MFA connection for Freja eID, using swamid Test, is working" />
         <classes>
             <class name="se.sunet.eduid.TC_50" >
@@ -110,10 +102,11 @@ TC_43 - depends on same as above.
     </test>
 
     -->
+
     <test name="TC_1">
-        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings, use Freja eID for mfa login" />
+        <parameter name="testDescription" value="Log in and check account data and labels" />
         <classes>
-            <class name="se.sunet.eduid.TC_1" >
+            <class name="se.sunet.eduid.TC_38" >
             </class>
         </classes>
     </test>

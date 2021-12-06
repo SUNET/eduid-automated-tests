@@ -16,13 +16,13 @@ public class TC_5 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login"} )
     void dashboard() {
-        common.setLanguage("English");
+        testData.setLanguage("English");
         dashBoard.runDashBoard();
    }
 
     @Test( dependsOnMethods = {"dashboard"} )
     void personalInfo() {
-        common.setLanguage("Svenska");
+        testData.setLanguage("Svenska");
         personalInfo.runPersonalInfo();
     }
 

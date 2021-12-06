@@ -1,12 +1,15 @@
 package se.sunet.eduid.registration;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class ConfirmedNewAccount {
     private final Common common;
+    private final TestData testData;
 
-    public ConfirmedNewAccount(Common common){
+    public ConfirmedNewAccount(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runConfirmedNewAccount(){
@@ -37,11 +40,11 @@ public class ConfirmedNewAccount {
         //Email
         //common.verifyStringByXpath("//*[@id=\"email-display\"]/label[1]", "Epost");
         common.verifyStringByXpath("//*[@id=\"email-display\"]/label[1]", "Email");
-        common.verifyStringByXpath("//*[@id=\"user-email\"]", common.getUsername().toLowerCase());
+        common.verifyStringByXpath("//*[@id=\"user-email\"]", testData.getUsername().toLowerCase());
 
         //Password
         common.verifyStringByXpath("//*[@id=\"email-display\"]/label[2]", "Password");
-        common.setPassword(common.findWebElementById("user-password").getText());
+        testData.setPassword(common.findWebElementById("user-password").getText());
 
         //Switch language to English
         common.findWebElementByLinkText("English").click();
@@ -55,7 +58,7 @@ public class ConfirmedNewAccount {
 
         //Email
         common.verifyStringByXpath("//*[@id=\"email-display\"]/label[1]", "Email");
-        common.verifyStringByXpath("//*[@id=\"user-email\"]", common.getUsername().toLowerCase());
+        common.verifyStringByXpath("//*[@id=\"user-email\"]", testData.getUsername().toLowerCase());
 
         //Password
         common.verifyStringByXpath("//*[@id=\"email-display\"]/label[2]", "Password");

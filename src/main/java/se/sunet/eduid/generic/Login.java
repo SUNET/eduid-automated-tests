@@ -1,21 +1,24 @@
 package se.sunet.eduid.generic;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class Login {
     private final Common common;
+    private final TestData testData;
 
-    public Login(Common common){
+    public Login(Common common, TestData testData){
+        this.testData = testData;
         this.common = common;
     }
 
     public void runLogin(){
         verifyPageTitle();
 
-        if(common.getResetPassword()) {
+        if(testData.isResetPassword()) {
             resetPassword();
         }
-        else if(common.getRegisterAccount())
+        else if(testData.isRegisterAccount())
             registerAccount();
         else {
             enterUsernamePassword();
@@ -40,29 +43,29 @@ public class Login {
         //Enter username
         common.explicitWaitClickableElementId("email");
         common.findWebElementById("email").clear();
-        common.findWebElementById("email").sendKeys(common.getUsername());
+        common.findWebElementById("email").sendKeys(testData.getUsername());
 
-        Common.log.info("Log in with username: " +common.getUsername());
+        Common.log.info("Log in with username: " +testData.getUsername());
 
         common.findWebElementByXpath("//div/section[2]/div[2]/div/form/div[2]/div[2]/input").clear();
 
-        common.findWebElementByXpath("//*[@id=\"current-password-wrapper\"]/div[2]/input").sendKeys(common.getPassword());
+        common.findWebElementByXpath("//*[@id=\"current-password-wrapper\"]/div[2]/input").sendKeys(testData.getPassword());
 
-        if(!common.getTestSuite().equalsIgnoreCase("prod"))
-            Common.log.info("Log in with password: " +common.getPassword());
+        if(!testData.getTestSuite().equalsIgnoreCase("prod"))
+            Common.log.info("Log in with password: " +testData.getPassword());
     }
 
     public void signIn(){
         //Click log in button
         common.findWebElementById("login-form-button").click();
 
-        if(common.getIncorrectPassword()) {
+        if(testData.isIncorrectPassword()) {
             common.timeoutMilliSeconds(500);
             common.verifyXpathContainsString("//div/section[2]/div[1]/div/span", "E-postadressen eller lösenordet är felaktigt.");
         }
         else {
             //Wait for the "EduId for" label at dashboard
-            common.timeoutMilliSeconds(500);
+            common.timeoutMilliSeconds(800);
             common.explicitWaitVisibilityElement("//section[1]/div/h1/span");
         }
     }

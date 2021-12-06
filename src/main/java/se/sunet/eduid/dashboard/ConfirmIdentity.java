@@ -2,14 +2,17 @@ package se.sunet.eduid.dashboard;
 
 import org.openqa.selenium.Cookie;
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 import se.sunet.eduid.utils.WebDriverManager;
 import java.util.Date;
 
 public class ConfirmIdentity{
     private final Common common;
+    private final TestData testData;
 
-    public ConfirmIdentity(Common common){
+    public ConfirmIdentity(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runConfirmIdentity(){
@@ -34,7 +37,7 @@ public class ConfirmIdentity{
     }
 
     private void enterPersonalNumber(){
-        common.findWebElementById("nin").sendKeys(common.getIdentityNumber());
+        common.findWebElementById("nin").sendKeys(testData.getIdentityNumber());
     }
 
     private void pressAddButton(){
@@ -46,7 +49,7 @@ public class ConfirmIdentity{
 
     private void selectConfirmIdentity(){
         //Select way to confirm the identity. By letter, By phone or Freja Id
-        if(common.getConfirmIdBy().equalsIgnoreCase("mail")) {
+        if(testData.getConfirmIdBy().equalsIgnoreCase("mail")) {
 
             //Click on mail option
             common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button").click();
@@ -108,7 +111,7 @@ public class ConfirmIdentity{
         }
 
         //By phone
-        else if(common.getConfirmIdBy().equalsIgnoreCase("phone")) {
+        else if(testData.getConfirmIdBy().equalsIgnoreCase("phone")) {
             //Click on phone option
             common.findWebElementByXpath("//div/section[2]/div[2]/div/div[4]/div[2]/div/div[1]/button").click();
 

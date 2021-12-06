@@ -6,7 +6,7 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 public class TC_36 extends BeforeAndAfter {
     @Test
     void startPage(){
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
         startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage"} )
@@ -14,6 +14,6 @@ public class TC_36 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"register"} )
     void confirmHuman() {
-        common.setSendCaptcha(false);
+        testData.setSendCaptcha(false);
         confirmHuman.runConfirmHuman(); }
 }

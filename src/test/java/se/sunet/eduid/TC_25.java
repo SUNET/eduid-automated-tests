@@ -16,7 +16,7 @@ public class TC_25 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"timeoutForOTP"} )
     void login(){
-        common.setResetPassword(true);
+        testData.setResetPassword(true);
         login.runLogin();
     }
 
@@ -28,6 +28,6 @@ public class TC_25 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailSent"} )
     void emailLink() {
-        common.setMagicCode("notTheCorrectMagicCode");
+        testData.setMagicCode("notTheCorrectMagicCode");
         emailLink.runEmailLink(); }
 }

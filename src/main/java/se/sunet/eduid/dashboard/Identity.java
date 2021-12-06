@@ -1,12 +1,15 @@
 package se.sunet.eduid.dashboard;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class Identity {
     private final Common common;
+    private final TestData testData;
 
-    public Identity(Common common){
+    public Identity(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runIdentity(){
@@ -14,7 +17,7 @@ public class Identity {
         verifyPageTitle();
         verifyIdentity();
 
-        if(common.getTestSuite().equalsIgnoreCase("prod"))
+        if(testData.getTestSuite().equalsIgnoreCase("prod"))
             common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4/span", "Ditt eduID är redo att användas");
         else
             verifyLabels();
@@ -35,7 +38,7 @@ public class Identity {
     private void verifyIdentity(){
         //Click on show/hide full identityNumber
         common.findWebElementByXpath("//*[@id=\"text-content\"]/div[2]/div/button[1]/span").click();
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/p", common.getIdentityNumber());
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/p", testData.getIdentityNumber());
     }
 
     private void verifyLabels() {

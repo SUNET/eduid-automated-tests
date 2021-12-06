@@ -21,7 +21,7 @@ public class TC_17 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"dashboard"} )
     void initPwChange() {
-        common.setButtonValuePopup(false);
+        testData.setButtonValuePopup(false);
         initPwChange.runInitPwChange();
     }
 

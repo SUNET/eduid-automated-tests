@@ -1,18 +1,21 @@
 package se.sunet.eduid.dashboard;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class PersonalInfo {
     private final Common common;
+    private final TestData testData;
 
-    public PersonalInfo(Common common){
+    public PersonalInfo(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runPersonalInfo(){
         verifyPageTitle();
         //If new account
-        if(common.getRegisterAccount()) {
+        if(testData.isRegisterAccount()) {
             //Click add data
             common.findWebElementById("add-personal-data").click();
             updatePersonalInfo();
@@ -20,7 +23,7 @@ public class PersonalInfo {
         else
             verifyAndUpdatePersonalInfo();
         selectLanguage();
-        if(common.getLanguage().equals("Svenska"))
+        if(testData.getLanguage().equals("Svenska"))
             verifyLabelsSwedish();
         else
             verifyLabelsEnglish();
@@ -34,21 +37,21 @@ public class PersonalInfo {
 
         //TODO temp fix to get swedish language - needed when new accounts created
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")
-                && common.getLanguage().equalsIgnoreCase("Svenska") && common.getRegisterAccount()) {
+                && testData.getLanguage().equalsIgnoreCase("Svenska") && testData.isRegisterAccount()) {
             common.findWebElementByLinkText("Svenska").click();
         }
     }
 
     private void verifyAndUpdatePersonalInfo() {
         // Old account, If given name shall be updated else verify the default value
-        if(common.getGivenName().equalsIgnoreCase(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[1]/p").getText()) &&
-                common.getSurName().equalsIgnoreCase(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[2]/p").getText()) &&
-                    common.getDisplayName().equalsIgnoreCase(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[3]/p").getText())) {
+        if(testData.getGivenName().equalsIgnoreCase(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[1]/p").getText()) &&
+                testData.getSurName().equalsIgnoreCase(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[2]/p").getText()) &&
+                    testData.getDisplayName().equalsIgnoreCase(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[3]/p").getText())) {
 
             //Verify current names
-            common.verifyXpathContainsString("//*[@id=\"text-content\"]/div/article/div/div[2]/div[1]/p", common.getGivenName());
-            common.verifyXpathContainsString("//*[@id=\"text-content\"]/div/article/div/div[2]/div[2]/p", common.getSurName());
-            common.verifyXpathContainsString("//*[@id=\"text-content\"]/div/article/div/div[2]/div[3]/p", common.getDisplayName());
+            common.verifyXpathContainsString("//*[@id=\"text-content\"]/div/article/div/div[2]/div[1]/p", testData.getGivenName());
+            common.verifyXpathContainsString("//*[@id=\"text-content\"]/div/article/div/div[2]/div[2]/p", testData.getSurName());
+            common.verifyXpathContainsString("//*[@id=\"text-content\"]/div/article/div/div[2]/div[3]/p", testData.getDisplayName());
         }
         else{
             //Click on change
@@ -60,16 +63,16 @@ public class PersonalInfo {
 
     private void updatePersonalInfo(){
         common.findWebElementById("given_name").clear();
-        common.findWebElementById("given_name").sendKeys(common.getGivenName());
-        common.verifyStrings(common.getGivenName(), common.getAttributeById("given_name"));
+        common.findWebElementById("given_name").sendKeys(testData.getGivenName());
+        common.verifyStrings(testData.getGivenName(), common.getAttributeById("given_name"));
 
         common.findWebElementById("surname").clear();
-        common.findWebElementById("surname").sendKeys(common.getSurName());
-        common.verifyStrings(common.getSurName(), common.getAttributeById("surname"));
+        common.findWebElementById("surname").sendKeys(testData.getSurName());
+        common.verifyStrings(testData.getSurName(), common.getAttributeById("surname"));
 
         common.findWebElementById("display_name").clear();
-        common.findWebElementById("display_name").sendKeys(common.getDisplayName());
-        common.verifyStrings(common.getDisplayName(), common.getAttributeById("display_name"));
+        common.findWebElementById("display_name").sendKeys(testData.getDisplayName());
+        common.verifyStrings(testData.getDisplayName(), common.getAttributeById("display_name"));
 
         //Display text
         common.verifyStringOnPage("För- och efternamn kommer att ersättas med de från folkbokföringen " +
@@ -80,7 +83,7 @@ public class PersonalInfo {
                 "i stället för förnamn och efternamn.");
 
         //If new account
-        if(common.getRegisterAccount()) {
+        if(testData.isRegisterAccount()) {
             common.findWebElementById("Svenska").click();
         }
 
@@ -89,7 +92,7 @@ public class PersonalInfo {
 
     private void selectLanguage() {
         //Change to Swedish
-        if((common.getLanguage().equalsIgnoreCase("Svenska") && !common.getLanguage().equalsIgnoreCase(
+        if((testData.getLanguage().equalsIgnoreCase("Svenska") && !testData.getLanguage().equalsIgnoreCase(
                 common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[4]/p").getText()))) {
             //Click on change
             common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button/span").click();
@@ -103,7 +106,7 @@ public class PersonalInfo {
             pressAddButton();
         }
         //Change to English
-        else if(common.getLanguage().equalsIgnoreCase("English") && !common.getLanguage().equalsIgnoreCase(
+        else if(testData.getLanguage().equalsIgnoreCase("English") && !testData.getLanguage().equalsIgnoreCase(
                 common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[4]/p").getText())){
             //Click on change
             common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button/span").click();

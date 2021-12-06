@@ -2,12 +2,15 @@ package se.sunet.eduid.dashboard;
 
 import se.sunet.eduid.generic.Login;
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class DeleteAccount {
     private final Common common;
+    private final TestData testData;
 
-    public DeleteAccount(Common common){
+    public DeleteAccount(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runDeleteAccount(){
@@ -29,12 +32,12 @@ public class DeleteAccount {
 
     private void clickDeleteInPopUp(){
         //Press delete
-        if(common.getDeleteButton()) {
+        if(testData.isDeleteButton()) {
             common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span").click();
 
             //Enter userName and password since we need to login again before account is deleted
             common.timeoutSeconds(1);
-            Login login = new Login(common);
+            Login login = new Login(common, testData);
             login.enterUsernamePassword();
 
             common.findWebElementById("login-form-button").click();

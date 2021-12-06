@@ -1,12 +1,15 @@
 package se.sunet.eduid.registration;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class ConfirmHuman {
     private final Common common;
+    private final TestData testData;
 
-    public ConfirmHuman(Common common){
+    public ConfirmHuman(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runConfirmHuman(){
@@ -44,9 +47,9 @@ public class ConfirmHuman {
     }
 
     private void clickButton(){
-        if(common.getSendCaptcha()) {
+        if(testData.isSendCaptcha()) {
             //Add cookie for back doors and click on proceed button
-            if(common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
+            if(testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
                 common.addMagicCookie();
                 common.timeoutMilliSeconds(400);
                 //common.logMagicCookie();
@@ -61,10 +64,10 @@ public class ConfirmHuman {
             common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
 
             //Evaluate response according to below criterias
-            if(!common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")){
+            if(!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")){
                 common.verifyStatusMessage("Vi kunde inte verifiera att du är människa. Var vänlig försök igen.");
             }
-            else if(!common.getGenerateUsername()){
+            else if(!testData.isGenerateUsername()){
                 //TODO bug with language
                 common.verifyStatusMessage("E-postadressen används redan");
 
@@ -78,20 +81,20 @@ public class ConfirmHuman {
                 common.verifyStringByXpath("//div[1]/section[2]/div[2]/h3/span", "Kontot skapades");
                 common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/p/span",
                         "Slutför skapandet av ditt eduID genom att klicka länken skickad till:");
-                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/h3", common.getUsername());
+                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/h3", testData.getUsername());
 
                 //Verify text in english
                 common.findWebElementByLinkText("English").click();
                 common.verifyStringByXpath("//div[1]/section[2]/div[2]/h3/span", "A link has been sent to your email address.");
                 common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/p/span",
                         "Complete registration by clicking the link sent to:");
-                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/h3", common.getUsername());
+                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/h3", testData.getUsername());
 
                 //Continue with magic url to get to successful registered page
                 common.timeoutSeconds(2);
 
                 //Fetch the registration code
-                common.navigateToUrl("https://signup.dev.eduid.se/services/signup/get-code/?email=" +common.getUsername());
+                common.navigateToUrl("https://signup.dev.eduid.se/services/signup/get-code/?email=" +testData.getUsername());
                 //Common.log.info("URL: " +"https://signup.dev.eduid.se/services/signup/get-code/?email=" +common.getUsername());
                 String registrationCode = common.findWebElementByXpath("/html/body").getText();
                 Common.log.info("Sign up code: " +registrationCode);

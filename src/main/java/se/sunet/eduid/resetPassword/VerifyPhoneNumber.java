@@ -2,21 +2,24 @@ package se.sunet.eduid.resetPassword;
 
 import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 import se.sunet.eduid.utils.WebDriverManager;
 
 public class VerifyPhoneNumber {
     private final Common common;
     private String otp;
+    private final TestData testData;
 
-    public VerifyPhoneNumber(Common common){
+    public VerifyPhoneNumber(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runVerifyPhoneNumber(){
         verifyPageTitle();
 
         //Skip verification of labels when adding a faulty otp, only check status message
-        if(!common.getSendMobileOneTimePassword().equalsIgnoreCase("already"))
+        if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("already"))
             verifyLabels();
 
         enterOtp();
@@ -51,7 +54,7 @@ public class VerifyPhoneNumber {
 
     private void enterOtp(){
         //Shall we resent the otp?
-        if(common.getResendOTP()){
+        if(testData.isResendOTP()){
             //Close status message
             common.closeStatusMessage();
 
@@ -71,7 +74,7 @@ public class VerifyPhoneNumber {
             common.timeoutSeconds(2);
         }
         //Fetch the OTP, but not if we set that we already have the otp code, then set it to "incorrect1"
-        if(common.getSendMobileOneTimePassword().equalsIgnoreCase("already")) {
+        if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("already")) {
             otp = "incorrect1";
         }
         else {
@@ -101,12 +104,12 @@ public class VerifyPhoneNumber {
 
     private void fetchOtp(){
         //Fetch the code
-        common.navigateToUrl("https://idp.dev.eduid.se/services/reset-password/get-phone-code?eppn=" +common.getEppn());
+        common.navigateToUrl("https://idp.dev.eduid.se/services/reset-password/get-phone-code?eppn=" +testData.getEppn());
         otp = common.findWebElementByXpath("/html/body").getText();
 
         Common.log.info("OTP: " +otp);
 
         //Back
-        WebDriverManager.getWebDriver().navigate().to("https://www.dev.eduid.se/reset-password/phone-code-sent/" +common.getEmailCode());
+        WebDriverManager.getWebDriver().navigate().to("https://www.dev.eduid.se/reset-password/phone-code-sent/" +testData.getEmailCode());
     }
 }

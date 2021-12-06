@@ -1,22 +1,25 @@
 package se.sunet.eduid.generic;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class StartPage {
     private final Common common;
+    private final TestData testData;
 
-    public StartPage(Common common){
+    public StartPage(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runStartPage(){
         verifyPageTitle();
 
-        if(common.getLanguage().equalsIgnoreCase("English"))
+        if(testData.getLanguage().equalsIgnoreCase("English"))
             verifyLabelsEnglish();
         else
             verifyLabelsSwedish();
-        if(common.getRegisterAccount())
+        if(testData.isRegisterAccount())
             registerAccount();
         else
             signIn();

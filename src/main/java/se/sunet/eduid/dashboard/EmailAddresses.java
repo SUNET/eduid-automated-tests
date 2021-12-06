@@ -2,12 +2,15 @@ package se.sunet.eduid.dashboard;
 
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.MailReader;
+import se.sunet.eduid.utils.TestData;
 
 public class EmailAddresses {
     private final Common common;
+    private final TestData testData;
 
-    public EmailAddresses(Common common){
+    public EmailAddresses(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runEmailAddresses(){
@@ -25,7 +28,7 @@ public class EmailAddresses {
     private void removeEmail() {
 
         // Try to removePrimary the primary email
-        if(common.getRemovePrimary()) {
+        if(testData.isRemovePrimary()) {
             common.findWebElementByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr/td[3]").click();
 
             //Verify info bar message - swedish
@@ -40,7 +43,7 @@ public class EmailAddresses {
         }
 
         // RemoveNewEmail1 the primary email
-        if(common.getRemoveNewEmail1()) {
+        if(testData.isRemoveNewEmail1()) {
             common.findWebElementByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[3]").click();
 
             //Verify info bar message - swedish
@@ -60,12 +63,12 @@ public class EmailAddresses {
         MailReader mailReader = new MailReader();
 
         // Try to remove the primary email
-        if(!common.getAddNewEmail1().equals("") && common.getAddNewEmail1().contains("@")) {
+        if(!testData.getAddNewEmail1().equals("") && testData.getAddNewEmail1().contains("@")) {
             common.explicitWaitVisibilityElementId("add-more-button");
             common.findWebElementById("add-more-button").click();
 
             //Add new email address
-            addEmailAddress(common.getAddNewEmail1());
+            addEmailAddress(testData.getAddNewEmail1());
             //common.findWebElementById("email").clear();
             //common.findWebElementById("email").sendKeys(common.getAddNewEmail1());
 
@@ -75,7 +78,7 @@ public class EmailAddresses {
             //Click Add button
             common.findWebElementById("email-button").click();
 
-            if (common.getAddNewEmail1().equals(common.findWebElementByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr/td[1]").getText())) {
+            if (testData.getAddNewEmail1().equals(common.findWebElementByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr/td[1]").getText())) {
                 //Verify info messages - swedish
                 common.timeoutMilliSeconds(500);
                 common.verifyStatusMessage("Formulärfel. Se nedan för specifikt felmeddelande");
@@ -89,15 +92,12 @@ public class EmailAddresses {
                 //Verify info messages - english
                 common.timeoutMilliSeconds(500);
                 common.verifyStatusMessage("Check the form below for errors.");
-                //verifyUpdatedInfoBar("Check the form below for errors.");
 
                 //Need to add the address again, since error message disappear when switch between language
                 common.findWebElementByXpath("//*[@id=\"add-more-button\"]/span").click();
 
                 //Add new email address
-                addEmailAddress(common.getAddNewEmail1());
-//                common.findWebElementById("email").clear();
-//                common.findWebElementById("email").sendKeys(common.getAddNewEmail1());
+                addEmailAddress(testData.getAddNewEmail1());
 
                 //Verify Add button label - English
                 common.verifyStrings("ADD", common.findWebElementById("email-button").getText());
@@ -117,18 +117,18 @@ public class EmailAddresses {
                 common.timeoutMilliSeconds(500);
 
                 common.verifyStatusMessage("E-postadressen sparad");
-                common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[1]", common.getAddNewEmail1());
+                common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[1]", testData.getAddNewEmail1());
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[2]/button/span", "BEKRÄFTA");
 
                 //Wait 5 sec for the email to arrive in inbox
                 common.timeoutSeconds(5);
 
                 // Confirm email address by code successfully, not successfully by wrongCode
-                if(common.getConfirmNewEmail1().equals("code") || common.getConfirmNewEmail1().equals("wrongCode")) {
-                    Common.log.info("Confirm email with code: " +common.getConfirmNewEmail1());
+                if(testData.getConfirmNewEmail1().equals("code") || testData.getConfirmNewEmail1().equals("wrongCode")) {
+                    Common.log.info("Confirm email with code: " +testData.getConfirmNewEmail1());
                     String confirmationCode = null;
 
-                    if(common.getConfirmNewEmail1().equals("code")) {
+                    if(testData.getConfirmNewEmail1().equals("code")) {
                         //Get the confirmationCode
                         confirmationCode = mailReader.readEmail("confirmationCode");
                         Common.log.info("Confirmation Code: " + confirmationCode);
@@ -141,11 +141,11 @@ public class EmailAddresses {
 
                     // In pop-up enter the confirmation code
                     common.findWebElementById("emailConfirmDialogControl").clear();
-                    if (common.getConfirmNewEmail1().equals("code")) {
+                    if (testData.getConfirmNewEmail1().equals("code")) {
                         common.findWebElementById("emailConfirmDialogControl").sendKeys(confirmationCode);
                         Common.log.info("Confirmation email code: " +confirmationCode);
                     }
-                    if (common.getConfirmNewEmail1().equals("wrongCode"))
+                    if (testData.getConfirmNewEmail1().equals("wrongCode"))
                         common.findWebElementById("emailConfirmDialogControl").sendKeys("18587024-e4e3-4fdd-a8fc-77544c1c8409");
 
 
@@ -158,7 +158,7 @@ public class EmailAddresses {
 
                     //Switch back to original window handle after submitting username, password
                     common.switchToDefaultWindow();
-                } else if (common.getConfirmNewEmail1().equals("url")) {
+                } else if (testData.getConfirmNewEmail1().equals("url")) {
                     //Get the confirmationUrl
                     String confirmationUrl = mailReader.readEmail("confirmationUrl");
                     Common.log.info("Confirmation Url: " + confirmationUrl);
@@ -167,11 +167,11 @@ public class EmailAddresses {
 
                 //Check labels
                 common.timeoutSeconds(1);
-                if(common.getConfirmNewEmail1().equals("wrongCode"))
+                if(testData.getConfirmNewEmail1().equals("wrongCode"))
                     common.verifyStatusMessage("Ogiltig bekräftelsekod. Var god prova igen eller begär en ny bekräftelsekod");
                     //verifyUpdatedInfoBar("Ogiltig bekräftelsekod. Var god prova igen eller begär en ny bekräftelsekod");
                 else {
-                    if(common.getConfirmNewEmail1().equals("code"))
+                    if(testData.getConfirmNewEmail1().equals("code"))
                         common.verifyStatusMessage("E-postadressen bekräftad");
                         //verifyUpdatedInfoBar("E-postadressen bekräftad");
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[1]/td[2]/label/span", "PRIMÄR");
@@ -203,12 +203,12 @@ public class EmailAddresses {
                 }
             }
         }
-        else if(!common.getAddNewEmail1().contains("") && !common.getAddNewEmail1().contains("@")){
+        else if(!testData.getAddNewEmail1().contains("") && !testData.getAddNewEmail1().contains("@")){
             common.timeoutSeconds(500);
             common.findWebElementById("add-more-button").click();
 
             //Add new email address
-            addEmailAddress(common.getAddNewEmail1());
+            addEmailAddress(testData.getAddNewEmail1());
 
             //Verify that correct message is displayed
             common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/small/span/span", "Ogiltig e-postadress");
@@ -222,7 +222,7 @@ public class EmailAddresses {
             common.findWebElementByXpath("//*[@id=\"add-more-button\"]/span").click();
 
             //Add new email address
-            addEmailAddress(common.getAddNewEmail1());
+            addEmailAddress(testData.getAddNewEmail1());
 
             //Verify that correct message is displayed - English
             common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/small/span/span", "The entered email is invalid");

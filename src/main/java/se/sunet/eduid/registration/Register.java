@@ -1,12 +1,15 @@
 package se.sunet.eduid.registration;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class Register {
     private final Common common;
+    private final TestData testData;
 
-    public Register(Common common){
+    public Register(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runRegister(){
@@ -53,13 +56,13 @@ public class Register {
 
     private void enterEmailAndPressRegister(){
         //Generate new username
-        if(common.getGenerateUsername())
+        if(testData.isGenerateUsername())
             generateUsername();
 
-        Common.log.info("Register user: " +common.getUsername());
+        Common.log.info("Register user: " +testData.getUsername());
 
         common.findWebElementById("email").clear();
-        common.findWebElementById("email").sendKeys(common.getUsername());
+        common.findWebElementById("email").sendKeys(testData.getUsername());
         common.findWebElementById("register-button").click();
     }
 
@@ -78,7 +81,7 @@ public class Register {
         verifyTermsSwedish();
 
         //Click on accept or reject
-        if(common.getAcceptTerms())
+        if(testData.isAcceptTerms())
             common.click(common.findWebElementById("accept-tou-button"));
         else {
             common.click(common.findWebElementById("reject-tou-button"));
@@ -169,6 +172,6 @@ public class Register {
                     .charAt(index));
         }
         //Add the magic to random string
-        common.setUsername(sb.toString() +"@dev.eduid.sunet.se");
+        testData.setUsername(sb.toString() +"@dev.eduid.sunet.se");
     }
 }

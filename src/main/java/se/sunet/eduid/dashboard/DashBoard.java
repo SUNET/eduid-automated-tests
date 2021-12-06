@@ -1,28 +1,31 @@
 package se.sunet.eduid.dashboard;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class DashBoard {
     private final Common common;
+    private final TestData testData;
 
-    public DashBoard(Common common){
+    public DashBoard(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runDashBoard(){
         verifyPageTitle();
-        if(!common.getTestSuite().equalsIgnoreCase("prod"))
+        if(!testData.getTestSuite().equalsIgnoreCase("prod"))
             verifyNotificationDot();
         verifyUserId();
         verifyDisplayName();
         verifyGivenName();
         verifySurName();
         //Ignore check of ID number when not present
-        if(!common.getIdentityNumber().equalsIgnoreCase("lägg till personnummer"))
+        if(!testData.getIdentityNumber().equalsIgnoreCase("lägg till personnummer"))
             verifyIdentityNumber();
         verifyPhone();
         verifyEmail();
-        if(common.getLanguage().equals("Svenska"))
+        if(testData.getLanguage().equals("Svenska"))
             verifyLabelsSwedish();
         else
             verifyLabelsEnglish();
@@ -37,7 +40,7 @@ public class DashBoard {
         common.timeoutMilliSeconds(200);
         //TODO temp fix to get swedish language - needed when new accounts created
        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")
-                && common.getLanguage().equalsIgnoreCase("Svenska")) {
+                && testData.getLanguage().equalsIgnoreCase("Svenska")) {
             common.findWebElementByLinkText("Svenska").click();
         }
     }
@@ -47,15 +50,15 @@ public class DashBoard {
     }
 
     private void verifyUserId() {
-        common.verifyStringOnPage(common.getUsername().toLowerCase());
+        common.verifyStringOnPage(testData.getUsername().toLowerCase());
     }
 
-    private void verifyDisplayName() { common.verifyStringOnPage(common.getDisplayName()); }
+    private void verifyDisplayName() { common.verifyStringOnPage(testData.getDisplayName()); }
 
-    private void verifyGivenName() { common.verifyStringOnPage(common.getGivenName()); }
+    private void verifyGivenName() { common.verifyStringOnPage(testData.getGivenName()); }
 
     private void verifySurName() {
-        common.verifyStringOnPage(common.getSurName());
+        common.verifyStringOnPage(testData.getSurName());
     }
 
     private void verifyIdentityNumber() {
@@ -64,18 +67,18 @@ public class DashBoard {
 
         //Click on Show button to display complete personal nummber
         common.findWebElementByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button/span").click();
-        common.verifyStringOnPage(common.getIdentityNumber());
+        common.verifyStringOnPage(testData.getIdentityNumber());
 
         //Check text on link for hide/show full identityNumber
         checkShowHideText("DÖLJ", "HIDE");
     }
 
     private void verifyPhone() {
-        common.verifyStringOnPage(common.getPhoneNumber());
+        common.verifyStringOnPage(testData.getPhoneNumber());
     }
 
     private void verifyEmail() {
-        common.verifyStringOnPage(common.getEmail().toLowerCase());
+        common.verifyStringOnPage(testData.getEmail().toLowerCase());
     }
 
     private void verifyLabelsSwedish() {
@@ -149,7 +152,7 @@ public class DashBoard {
     }
 
     private void checkShowHideText(String textSwedish, String textEnglish){
-        if(common.getLanguage().equalsIgnoreCase("Svenska"))
+        if(testData.getLanguage().equalsIgnoreCase("Svenska"))
             common.verifyStringByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button/span", textSwedish);
         else
             common.verifyStringByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button/span", textEnglish);
@@ -157,5 +160,8 @@ public class DashBoard {
 
     public void pressSettings(){
         common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
+
+        //wait for one "add more" button to be clickable
+        common.explicitWaitClickableElementId("add-more-button");
     }
 }

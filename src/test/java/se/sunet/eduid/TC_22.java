@@ -27,18 +27,18 @@ public class TC_22 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"initPwChange"} )
     void loginPwChange(){
         //Check first if the incorrect password flag is set, then we need to re-set it after login.
-        boolean tempIncorrectPassword = common.getIncorrectPassword();
-        common.setIncorrectPassword(false);
+        boolean tempIncorrectPassword = testData.isIncorrectPassword();
+        testData.setIncorrectPassword(false);
 
         //Enter userName and password since we need to login again before pw change
         login.runLogin();
 
-        common.setIncorrectPassword(tempIncorrectPassword);
+        testData.setIncorrectPassword(tempIncorrectPassword);
     }
 
     @Test( dependsOnMethods = {"loginPwChange"} )
     void password() {
-        common.setNewPassword("test");
+        testData.setNewPassword("test");
         password.runPassword(); }
 
     @Test( dependsOnMethods = {"password"} )

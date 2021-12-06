@@ -4,20 +4,20 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
-public class TC_28 extends BeforeAndAfter {
+public class TC_52 extends BeforeAndAfter {
     @Test
+    void timeoutForOTP(){
+        //Sleep for OTP send interval timeout
+        Common.log.info("Waiting for OTP timeout interval...");
+        common.timeoutSeconds(605);
+    }
+
+    @Test( dependsOnMethods = {"timeoutForOTP"} )
     void startPage(){
         startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage"} )
-    void timeoutForOTP(){
-        //Sleep for OTP send interval timeout
-        Common.log.info("Waiting for OTP timeout interval...");
-        common.timeoutSeconds(26);
-    }
-
-    @Test( dependsOnMethods = {"timeoutForOTP"} )
     void login(){
         testData.setResetPassword(true);
         login.runLogin();
@@ -34,10 +34,15 @@ public class TC_28 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailLink"} )
     void extraSecurity() {
-        testData.setSendMobileOneTimePassword("no");
-        extraSecurity.runExtraSecurity(); }
+        //Use the 2nd added mobile number
+        testData.setSendMobileOneTimePassword("2");
+        extraSecurity.runExtraSecurity();
+    }
 
     @Test( dependsOnMethods = {"extraSecurity"} )
+    void verifyPhoneNumber() { verifyPhoneNumber.runVerifyPhoneNumber(); }
+
+    @Test( dependsOnMethods = {"verifyPhoneNumber"} )
     void newPassword() { setNewPassword.runNewPassword(); }
 
     @Test( dependsOnMethods = {"newPassword"} )

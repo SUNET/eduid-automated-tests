@@ -9,13 +9,13 @@ public class TC_42 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
-        common.setUsername(common.getEppn());
+        testData.setUsername(testData.getEppn());
         login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login"} )
     void dashboard() {
-        common.setUsername("ove@idsec.se");
+        testData.setUsername("ove@idsec.se");
         dashBoard.runDashBoard();
     }
 

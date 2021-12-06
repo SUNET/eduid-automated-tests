@@ -19,7 +19,7 @@ public class TC_11 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
-        common.setResetPassword(true);
+        testData.setResetPassword(true);
         login.runLogin();
     }
 
@@ -34,12 +34,12 @@ public class TC_11 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailLink"} )
     void extraSecurity() {
-        common.setSendMobileOneTimePassword("yes");
+        testData.setSendMobileOneTimePassword("yes");
         extraSecurity.runExtraSecurity(); }
 
     @Test( dependsOnMethods = {"extraSecurity"} )
     void verifyPhoneNumber() {
-        common.setSendMobileOneTimePassword("already");
+        testData.setSendMobileOneTimePassword("already");
         verifyPhoneNumber.runVerifyPhoneNumber(); }
 
     @Test( dependsOnMethods = {"verifyPhoneNumber"} )

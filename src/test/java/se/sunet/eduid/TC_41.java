@@ -6,7 +6,7 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 public class TC_41 extends BeforeAndAfter {
     @Test
     void startPage(){
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
         startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage"} )
@@ -20,13 +20,13 @@ public class TC_41 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
         login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login"} )
     void personalInfo() {
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
 
         //Navigate to settings
         dashBoard.pressSettings();
@@ -35,18 +35,18 @@ public class TC_41 extends BeforeAndAfter {
         //Close information message
         //common.findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/button/span").click();
 
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
-        common.setPhoneNumber("+46701740605");
+        testData.setPhoneNumber("+46701740605");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber"} )
     void confirmIdentity(){
-        common.setConfirmIdBy("mail");
+        testData.setConfirmIdBy("mail");
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentity"} )
@@ -58,7 +58,7 @@ public class TC_41 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
-        common.setDeleteButton(true);
+        testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }
 
     @Test( dependsOnMethods = {"delete"} )
@@ -66,7 +66,7 @@ public class TC_41 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        common.setIncorrectPassword(true);
+        testData.setIncorrectPassword(true);
         login.runLogin();
     }
 }

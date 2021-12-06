@@ -1,12 +1,15 @@
 package se.sunet.eduid.resetPassword;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class RequestNewPassword {
     private final Common common;
+    private final TestData testData;
 
-    public RequestNewPassword(Common common){
+    public RequestNewPassword(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runRequestNewPassword(){
@@ -21,7 +24,7 @@ public class RequestNewPassword {
 
     private void enterEmail(){
         common.findWebElementById("email").clear();
-        common.findWebElementById("email").sendKeys(common.getUsername());
+        common.findWebElementById("email").sendKeys(testData.getUsername());
     }
 
     private void pressRestPassword(){
@@ -29,7 +32,7 @@ public class RequestNewPassword {
 
         //Verify the texts after request of new pw
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p/span", "Kontrollera din e-postadress "
-                +common.getEmail()+" för att fortsätta. \n Länken är giltig i två timmar.");
+                +testData.getEmail()+" för att fortsätta. \n Länken är giltig i två timmar.");
 
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/p/span[1]", "Om du inte " +
                 "fick e-postmeddelandet? Kontrollera skräppost, \n eller");
@@ -38,7 +41,7 @@ public class RequestNewPassword {
         //Switch to english
         common.findWebElementByLinkText("English").click();
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p/span", "Please check your email "
-                +common.getEmail() +" to continue. \n Link is valid for 2 hours.");
+                +testData.getEmail() +" to continue. \n Link is valid for 2 hours.");
 
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/p/span[1]", "If you didn’t " +
                 "receive the email? Check your junk email, \n or");

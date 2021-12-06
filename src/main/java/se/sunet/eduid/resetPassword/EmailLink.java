@@ -1,12 +1,15 @@
 package se.sunet.eduid.resetPassword;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class EmailLink {
     private final Common common;
+    private final TestData testData;
 
-    public EmailLink(Common common){
+    public EmailLink(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runEmailLink(){
@@ -14,8 +17,8 @@ public class EmailLink {
     }
 
     private void clickEmailLink(){
-        if(!common.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")){
-            common.navigateToUrl("https://idp.dev.eduid.se/services/reset-password/get-email-code?eppn=" +common.getMagicCode());
+        if(!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")){
+            common.navigateToUrl("https://idp.dev.eduid.se/services/reset-password/get-email-code?eppn=" +testData.getMagicCode());
 
             common.verifyStringOnPage("Bad Request");
         }
@@ -27,27 +30,27 @@ public class EmailLink {
 
             //Navigate to get the code
             common.timeoutSeconds(2);
-            common.navigateToUrl("https://idp.dev.eduid.se/services/reset-password/get-email-code?eppn=" +common.getEppn());
+            common.navigateToUrl("https://idp.dev.eduid.se/services/reset-password/get-email-code?eppn=" +testData.getEppn());
 
             //Common.log.info("Current url: " + WebDriverManager.getWebDriver().getCurrentUrl());
 
             //Fetch the code
-            common.setEmailCode(common.findWebElementByXpath("/html/body").getText());
+            testData.setEmailCode(common.findWebElementByXpath("/html/body").getText());
 
-            if(common.getEmailCode().contains("Bad Request")){
-                Common.log.info("Got email code: " +common.getEmailCode() +", trying to fetch it again");
+            if(testData.getEmailCode().contains("Bad Request")){
+                Common.log.info("Got email code: " +testData.getEmailCode() +", trying to fetch it again");
                 common.timeoutSeconds(2);
-                common.navigateToUrl("https://idp.dev.eduid.se/services/reset-password/get-email-code?eppn=" +common.getEppn());
+                common.navigateToUrl("https://idp.dev.eduid.se/services/reset-password/get-email-code?eppn=" +testData.getEppn());
 
                 //Fetch the code
                 common.timeoutSeconds(1);
-                common.setEmailCode(common.findWebElementByXpath("/html/body").getText());
+                testData.setEmailCode(common.findWebElementByXpath("/html/body").getText());
             }
 
-            Common.log.info("Email code: " +common.getEmailCode());
+            Common.log.info("Email code: " +testData.getEmailCode());
 
             //Simulate that clicking on link with code in email.
-            common.navigateToUrl("https://www.dev.eduid.se/reset-password/email-code/" +common.getEmailCode());
+            common.navigateToUrl("https://www.dev.eduid.se/reset-password/email-code/" +testData.getEmailCode());
 
             common.explicitWaitPageTitle("eduID login");
         }

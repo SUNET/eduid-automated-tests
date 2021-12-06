@@ -16,7 +16,7 @@ public class TC_29 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"timeoutForOTP"} )
     void login(){
-        common.setResetPassword(true);
+        testData.setResetPassword(true);
         login.runLogin();
     }
 
@@ -42,7 +42,7 @@ public class TC_29 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        common.setResetPassword(false);
+        testData.setResetPassword(false);
         login.runLogin();
     }
 
@@ -62,24 +62,24 @@ public class TC_29 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"initPwChange2"} )
     void loginPwChange2(){
         //Check first if the incorrect password flag is set, then we need to re-set it after login.
-        boolean tempIncorrectPassword = common.getIncorrectPassword();
-        common.setIncorrectPassword(false);
+        boolean tempIncorrectPassword = testData.isIncorrectPassword();
+        testData.setIncorrectPassword(false);
 
         //Enter userName and password since we need to login again before pw change
         login.runLogin();
 
-        common.setIncorrectPassword(tempIncorrectPassword);
+        testData.setIncorrectPassword(tempIncorrectPassword);
     }
 
     @Test( dependsOnMethods = {"loginPwChange2"} )
     void password2() {
-        common.setNewPassword("lq2k dvzo 917s");
+        testData.setNewPassword("lq2k dvzo 917s");
         password.runPassword();
     }
 
     @Test( dependsOnMethods = {"password2"} )
     void confirmPhoneNumber() {
-        common.setMagicCode("cancel");
+        testData.setMagicCode("cancel");
         confirmPhoneNumber.runConfirmPhoneNumber(); }
 
     @Test( dependsOnMethods = {"confirmPhoneNumber"} )

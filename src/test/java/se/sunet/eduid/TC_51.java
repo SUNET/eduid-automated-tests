@@ -23,17 +23,31 @@ public class TC_51 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber1(){
-        common.setPhoneNumber("+46701740605");
+        testData.setPhoneNumber("+46701740605");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber1"} )
     void addPhoneNumber2(){
-        common.setPhoneNumber("0701740606");
+        testData.setPhoneNumber("0701740606");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
-/*
-    @Test( dependsOnMethods = {"addPhoneNumber2"} )
+
+    @Test( dependsOnMethods = {"addPhoneNumber1"} )
+    void makeNewPhonePrimary(){
+        common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr[2]/td[2]/button").click();
+        common.verifyStatusMessage("Ditt primära telefonnummer har ändrats");
+
+        //English
+        common.findWebElementByLinkText("English").click();
+        common.verifyStatusMessage("The phone number was set as primary");
+        common.closeStatusMessage();
+
+        //Restore to default number as primary
+        common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr[1]/td[2]/button").click();
+        common.verifyStatusMessage("The phone number was set as primary");
+    }
+
+    @Test( dependsOnMethods = {"makeNewPhonePrimary"} )
     void logout() { logout.runLogout(); }
-    */
 }

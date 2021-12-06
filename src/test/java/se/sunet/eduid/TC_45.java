@@ -6,7 +6,7 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 public class TC_45 extends BeforeAndAfter {
     @Test
     void startPage(){
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
         startPage.runStartPage();
     }
 
@@ -22,12 +22,12 @@ public class TC_45 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
     void advancedSettings() { advancedSettings.runAdvancedSettings();
-    common.setEmail(common.getUsername().toLowerCase());
+        testData.setEmail(testData.getUsername().toLowerCase());
     }
 
     @Test( dependsOnMethods = {"advancedSettings"} )
@@ -61,7 +61,7 @@ public class TC_45 extends BeforeAndAfter {
         //Click on sign in link
         common.findWebElementByXpath("//*[@id=\"login\"]/a").click();
 
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
 
         common.timeoutSeconds(1);
     }
@@ -70,19 +70,19 @@ public class TC_45 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage2"} )
     void dashboard() {
         //Set some user data that will be verified in dashboard
-        common.setDisplayName("lägg till namn");
-        common.setGivenName("lägg till");
-        common.setSurName("namn");
-        common.setIdentityNumber("lägg till personnummer");
-        common.setPhoneNumber("lägg till telefonnummer");
-        common.setEmail(common.getUsername());
+        testData.setDisplayName("lägg till namn");
+        testData.setGivenName("lägg till");
+        testData.setSurName("namn");
+        testData.setIdentityNumber("lägg till personnummer");
+        testData.setPhoneNumber("lägg till telefonnummer");
+        testData.setEmail(testData.getUsername());
 
         dashBoard.runDashBoard();
     }
 
     @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
-        common.setDeleteButton(true);
+        testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
         common.timeoutSeconds(2);
     }
@@ -92,7 +92,7 @@ public class TC_45 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage3"} )
     void login3(){
-        common.setIncorrectPassword(true);
+        testData.setIncorrectPassword(true);
         login.runLogin();
     }
 }

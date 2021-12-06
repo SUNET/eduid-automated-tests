@@ -2,12 +2,15 @@ package se.sunet.eduid.dashboard;
 
 import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class PhoneNumber {
     private final Common common;
+    private final TestData testData;
 
-    public PhoneNumber(Common common){
+    public PhoneNumber(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runPhoneNumber(){
@@ -61,7 +64,7 @@ public class PhoneNumber {
 
         //Enter phone number
         common.findWebElementById("number").clear();
-        common.findWebElementById("number").sendKeys(common.getPhoneNumber());
+        common.findWebElementById("number").sendKeys(testData.getPhoneNumber());
 
         //Click Add
         common.findWebElementById("mobile-button").click();
@@ -75,7 +78,7 @@ public class PhoneNumber {
         common.addMagicCookie();
 
         //Back door can not handle phone number with +, replacing it.
-        String phoneNumber = common.getPhoneNumber();
+        String phoneNumber = testData.getPhoneNumber();
         Common.log.info("Adding phone number: " +phoneNumber);
 
         if(phoneNumber.contains("+")) {

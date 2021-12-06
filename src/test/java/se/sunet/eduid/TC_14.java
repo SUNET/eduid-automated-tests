@@ -21,7 +21,7 @@ public class TC_14 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"dashboard"} )
     void emailAddresses() {
-        common.setAddNewEmail1("notAvalidEmailAtgmail.com");
+        testData.setAddNewEmail1("notAvalidEmailAtgmail.com");
         emailAddresses.runEmailAddresses(); }
 
     @Test( dependsOnMethods = {"emailAddresses"} )

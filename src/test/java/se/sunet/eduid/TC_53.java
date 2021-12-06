@@ -6,7 +6,7 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 public class TC_53 extends BeforeAndAfter {
     @Test
     void startPage(){
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
         startPage.runStartPage();
     }
 
@@ -21,33 +21,33 @@ public class TC_53 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
         login.runLogin(); }
 
     //First without any personal info saved
     @Test( dependsOnMethods = {"login"} )
     void securityKeyWithoutPersonalInfo() {
-        common.setAddSecurityKey(false);
+        testData.setAddSecurityKey(false);
         securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"securityKeyWithoutPersonalInfo"} )
     void personalInfo() {
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
 
         //Navigate to settings
         dashBoard.pressSettings();
         personalInfo.runPersonalInfo();
 
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addSecurityKey() {
         //Set mfa method to be used to "security key" at login.
-        common.setMfaMethod("freja");
+        testData.setMfaMethod("freja");
 
-        common.setAddSecurityKey(true);
+        testData.setAddSecurityKey(true);
         securityKey.runSecurityKey();
     }
 
@@ -61,7 +61,7 @@ public class TC_53 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"navigateToDashboard"} )
     void loginExtraSecurity2() {
         //Set mfa method to be used to "security key" to be able to delete the account.
-        common.setMfaMethod("securitykey");
+        testData.setMfaMethod("securitykey");
         loginExtraSecurity.runLoginExtraSecurity();
     }
 
@@ -74,7 +74,7 @@ public class TC_53 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"navigateToSettings"} )
     void delete() {
-        common.setDeleteButton(true);
+        testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
         common.timeoutSeconds(2);
     }
@@ -90,7 +90,7 @@ public class TC_53 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login3(){
-        common.setIncorrectPassword(true);
+        testData.setIncorrectPassword(true);
         login.runLogin();
     }
 }

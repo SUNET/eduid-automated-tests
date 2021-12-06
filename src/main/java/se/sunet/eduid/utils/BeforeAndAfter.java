@@ -1,6 +1,5 @@
 package se.sunet.eduid.utils;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.testng.*;
 import org.testng.annotations.*;
 import se.sunet.eduid.dashboard.*;
@@ -15,8 +14,6 @@ import se.sunet.eduid.swamid.SwamidData;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-
 import com.browserstack.local.Local;
 
 public class BeforeAndAfter {
@@ -53,6 +50,7 @@ public class BeforeAndAfter {
     public SecurityKey securityKey;
     public Help help;
     public LoginExtraSecurity loginExtraSecurity;
+    public TestData testData = new TestData();
 
     Local bsLocal;
 
@@ -64,56 +62,52 @@ public class BeforeAndAfter {
 
         initBrowser = new InitBrowser();
         WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
-
-        common = new Common(WebDriverManager.getWebDriver(), testsuite);
-        startPage = new StartPage(common);
-        login = new Login(common);
-        dashBoard = new DashBoard(common);
-        personalInfo = new PersonalInfo(common);
-        emailAddresses = new EmailAddresses(common);
-        phoneNumber = new PhoneNumber(common);
-        initPwChange = new InitPwChange(common);
-        advancedSettings = new AdvancedSettings(common);
-        identity = new Identity(common);
-        logout = new Logout(common);
-        requestNewPassword = new RequestNewPassword(common);
-        emailSent = new EmailSent(common);
-        emailLink = new EmailLink(common);
-        extraSecurity = new ExtraSecurity(common);
-        verifyPhoneNumber = new VerifyPhoneNumber(common);
-        setNewPassword = new SetNewPassword(common);
+        common = new Common(WebDriverManager.getWebDriver(), testsuite, testData);
+        startPage = new StartPage(common, testData);
+        login = new Login(common, testData);
+        personalInfo = new PersonalInfo(common, testData);
+        emailAddresses = new EmailAddresses(common, testData);
+        phoneNumber = new PhoneNumber(common, testData);
+        advancedSettings = new AdvancedSettings(common, testData);
+        identity = new Identity(common, testData);
+        requestNewPassword = new RequestNewPassword(common, testData);
+        emailSent = new EmailSent(common, testData);
+        emailLink = new EmailLink(common, testData);
+        extraSecurity = new ExtraSecurity(common, testData);
+        verifyPhoneNumber = new VerifyPhoneNumber(common, testData);
+        setNewPassword = new SetNewPassword(common, testData);
         passwordChanged = new PasswordChanged(common);
         logout = new Logout(common);
-        dashBoard = new DashBoard(common);
-        password = new Password(common);
-        initPwChange = new InitPwChange(common);
-        confirmPhoneNumber = new ConfirmPhoneNumber(common);
-        confirmHuman = new ConfirmHuman(common);
-        register = new Register(common);
-        confirmIdentity = new ConfirmIdentity(common);
-        confirmedIdentity = new ConfirmedIdentity(common);
-        deleteAccount = new DeleteAccount(common);
-        confirmedNewAccount = new ConfirmedNewAccount(common);
-        registeredData = new RegisteredData(common);
+        dashBoard = new DashBoard(common, testData);
+        password = new Password(common, testData);
+        initPwChange = new InitPwChange(common, testData);
+        confirmPhoneNumber = new ConfirmPhoneNumber(common, testData);
+        confirmHuman = new ConfirmHuman(common, testData);
+        register = new Register(common, testData);
+        confirmIdentity = new ConfirmIdentity(common, testData);
+        confirmedIdentity = new ConfirmedIdentity(common, testData);
+        deleteAccount = new DeleteAccount(common, testData);
+        confirmedNewAccount = new ConfirmedNewAccount(common, testData);
+        registeredData = new RegisteredData(common, testData);
         swamid = new Swamid(common);
-        swamidData = new SwamidData(common);
-        securityKey = new SecurityKey(common);
+        swamidData = new SwamidData(common, testData);
+        securityKey = new SecurityKey(common, testData);
         help = new Help(common);
-        loginExtraSecurity = new LoginExtraSecurity(common);
+        loginExtraSecurity = new LoginExtraSecurity(common, testData);
 
 //        initBrowser.startHarSession(testContext.getName());
     }
 
     @BeforeTest
     public void testCase(final ITestContext testContext){
-        common.setTestSuite(testContext.getSuite().getName());
-        common.setTestCase(testContext.getName());
-        Common.log.info("Start executing: " +common.getTestCase() + " - " +testContext.getCurrentXmlTest().getParameter("testDescription"));
+        testData.setTestSuite(testContext.getSuite().getName());
+        testData.setTestCase(testContext.getName());
+        Common.log.info("Start executing: " +testData.getTestCase() + " - " +testContext.getCurrentXmlTest().getParameter("testDescription"));
     }
 
     @BeforeMethod
     public void testCaseAndMethod(Method method) throws IOException {
-        Common.log.info(common.getTestCase() +" - "+method.getName());
+        Common.log.info(testData.getTestCase() +" - "+method.getName());
     }
 
     @AfterTest
@@ -123,13 +117,14 @@ public class BeforeAndAfter {
 
 //        initBrowser.stopHarSession();
         WebDriverManager.quitWebDriver();
-        Common.log.info("End of: " +common.getTestCase());
+        Common.log.info("End of: " +testData.getTestCase());
 
         //Delete browserstack access tunnel
 //        deleteBrowserStackAccessTunnel();
     }
+}
 
-
+/* Below code when using browser stack!
 
     private void createBrowserStackAccessTunnel(){
         // Creates an instance of Local
@@ -177,4 +172,6 @@ public class BeforeAndAfter {
         jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\": \"failed\", \"reason\": \"<reason>\"}}");
 
     }
-}
+    */
+
+

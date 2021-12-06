@@ -11,7 +11,7 @@ public class TC_43 extends BeforeAndAfter {
 
     @Test
     void startPage(){
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
         startPage.runStartPage();
     }
 
@@ -26,29 +26,29 @@ public class TC_43 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
     void personalInfo() {
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
 
         //Navigate to settings
         common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
         personalInfo.runPersonalInfo();
 
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
-        common.setPhoneNumber("+46701740605");
+        testData.setPhoneNumber("+46701740605");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber"} )
     void confirmIdentity(){
-        common.setConfirmIdBy("phone");
+        testData.setConfirmIdBy("phone");
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentity"} )
@@ -73,7 +73,7 @@ public class TC_43 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"loginSupport"} )
     void searchAndVerifyUserData(){
         common.timeoutSeconds(1);
-        common.findWebElementByXpath("//div/form/div/p[1]/input").sendKeys(common.getEppn());
+        common.findWebElementByXpath("//div/form/div/p[1]/input").sendKeys(testData.getEppn());
         common.findWebElementByXpath("//div/form/div/p[2]/button").click();
 
         registeredData.runRegisteredData();
@@ -95,7 +95,7 @@ public class TC_43 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
-        common.setDeleteButton(true);
+        testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }
 
     @Test( dependsOnMethods = {"delete"} )
@@ -103,7 +103,7 @@ public class TC_43 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage3"} )
     void login3(){
-        common.setIncorrectPassword(true);
+        testData.setIncorrectPassword(true);
         login.runLogin();
     }
 
@@ -123,7 +123,7 @@ public class TC_43 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"loginSupport2"} )
     void searchAndVerifyUserData2(){
         common.timeoutSeconds(1);
-        common.findWebElementByXpath("//div/form/div/p[1]/input").sendKeys(common.getEppn());
+        common.findWebElementByXpath("//div/form/div/p[1]/input").sendKeys(testData.getEppn());
         common.findWebElementByXpath("//div/form/div/p[2]/button").click();
 
         //Verify Terminated Status contains today's timestamp
@@ -133,7 +133,7 @@ public class TC_43 extends BeforeAndAfter {
     private void loginSupportTool(){
         common.explicitWaitClickableElementId("email");
 
-        common.findWebElementById("email").sendKeys(common.getSupportUsername());
+        common.findWebElementById("email").sendKeys(testData.getSupportUsername());
         common.findWebElementByXpath("//*[@id=\"current-password-wrapper\"]/div[2]/input").sendKeys("d72o cqhd hnqc");
 
         common.findWebElementById("login-form-button").click();

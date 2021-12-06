@@ -21,7 +21,7 @@ public class TC_33 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
-        common.setDeleteButton(true);
+        testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }
 
     @Test( dependsOnMethods = {"delete"} )
@@ -31,7 +31,7 @@ public class TC_33 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        common.setIncorrectPassword(true);
+        testData.setIncorrectPassword(true);
         login.runLogin();
     }
 }

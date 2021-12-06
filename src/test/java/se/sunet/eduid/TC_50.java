@@ -6,7 +6,7 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 public class TC_50 extends BeforeAndAfter {
     @Test
     void startPage(){
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
         startPage.runStartPage();
     }
 
@@ -21,7 +21,7 @@ public class TC_50 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login1(){
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login1"} )
@@ -36,12 +36,12 @@ public class TC_50 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addPhoneNumber"} )
     void confirmIdentity(){
-        common.setConfirmIdBy("frejaID");
+        testData.setConfirmIdBy("frejaID");
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentity"} )
     void addSecurityKey() {
-        common.setAddSecurityKey(true);
+        testData.setAddSecurityKey(true);
         securityKey.runSecurityKey();
     }
 /*

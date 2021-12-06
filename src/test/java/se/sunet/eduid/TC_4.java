@@ -21,7 +21,7 @@ public class TC_4 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"dashboard"} )
     void personalInfo() {
-        common.setLanguage("English");
+        testData.setLanguage("English");
         personalInfo.runPersonalInfo();
     }
 

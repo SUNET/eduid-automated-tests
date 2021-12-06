@@ -1,12 +1,15 @@
 package se.sunet.eduid.dashboard;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class Password {
     private final Common common;
+    private final TestData testData;
 
-    public Password(Common common){
+    public Password(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runPassword(){
@@ -38,7 +41,7 @@ public class Password {
         common.verifyStringOnPage("JAG VILL INTE ANVÄNDA DET REKOMMENDERADE LÖSENORDET");
 
         //Should recommended password be used
-        if(!common.getUseRecommendedPw()) {
+        if(!testData.isUseRecommendedPw()) {
             //Select use own password
             common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button/span").click();
             verifyOwnPasswordLabels();
@@ -50,52 +53,52 @@ public class Password {
             common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").clear();
             common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
             common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
-            if (common.getIncorrectPassword()){
+            if (testData.isIncorrectPassword()){
                 common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys("notCorrectPw");
 
                 //Type new password
                 //common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
-                common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").sendKeys(common.getNewPassword());
+                common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").sendKeys(testData.getNewPassword());
 
                 //Repeat new password
                 //common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
-                common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").sendKeys(common.getNewPassword());
+                common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").sendKeys(testData.getNewPassword());
             }
             else {
-                common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys(common.getPassword());
+                common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys(testData.getPassword());
 
                 //Type new password
                 //common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
-                common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").sendKeys(common.getNewPassword());
+                common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").sendKeys(testData.getNewPassword());
 
                 //Repeat new password
                 //common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
-                common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").sendKeys(common.getNewPassword());
+                common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").sendKeys(testData.getNewPassword());
 
                 //Store the new password
-                common.setPassword(common.getNewPassword());
-                Common.log.info("Stored custom password: " +common.getPassword());
+                testData.setPassword(testData.getNewPassword());
+                Common.log.info("Stored custom password: " +testData.getPassword());
             }
         }
-        else if(common.getUseRecommendedPw()){
+        else if(testData.isUseRecommendedPw()){
             //Enter current password
             common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").clear();
-            if(common.getIncorrectPassword())
+            if(testData.isIncorrectPassword())
                 common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys("notCorrectPw");
             else {
-                common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys(common.getPassword());
+                common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys(testData.getPassword());
 
-                common.setPassword(common.findWebElementByXpath("//*[@id=\"suggested-password-field\"]/input").getAttribute("value"));
-                Common.log.info("Stored recommendedPw: " +common.getPassword());
+                testData.setPassword(common.findWebElementByXpath("//*[@id=\"suggested-password-field\"]/input").getAttribute("value"));
+                Common.log.info("Stored recommendedPw: " +testData.getPassword());
             }
         }
 
         //Save button or Abort
-        if(common.getButtonValueConfirm()) {
+        if(testData.isButtonValueConfirm()) {
             common.findWebElementById("chpass-button").click();
 
             // If not the correct password was entered at password change
-            if(common.getIncorrectPassword()) {
+            if(testData.isIncorrectPassword()) {
                 common.verifyStatusMessage("Ett fel har uppstått vid ändring av ditt lösenord. Vänligen försök " +
                         "igen eller kontakta supporten om problemet kvarstår.");
                 common.timeoutMilliSeconds(500);
@@ -103,7 +106,7 @@ public class Password {
                 common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span").click();
             }
             //If too weak password is chosen, click abort. Inside save button if-statement to test if its possible to click it
-            else if(common.getNewPassword().equalsIgnoreCase("test")) {
+            else if(testData.getNewPassword().equalsIgnoreCase("test")) {
                 common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]/span").click();
             }
             else {

@@ -1,12 +1,15 @@
 package se.sunet.eduid.generic;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class LoginExtraSecurity {
     private final Common common;
+    private final TestData testData;
 
-    public LoginExtraSecurity(Common common){
+    public LoginExtraSecurity(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runLoginExtraSecurity(){
@@ -28,7 +31,7 @@ public class LoginExtraSecurity {
 
     public void selectMfaMethod(){
         //selectMfa
-        if(common.getMfaMethod().equalsIgnoreCase("securitykey")) {
+        if(testData.getMfaMethod().equalsIgnoreCase("securitykey")) {
             common.findWebElementById("mfa-security-key").click();
             Common.log.info("Selecting security key for mfa login");
         }

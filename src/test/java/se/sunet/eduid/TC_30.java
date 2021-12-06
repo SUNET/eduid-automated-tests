@@ -17,7 +17,7 @@ public class TC_30 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login"} )
     void confirmPhoneNumber() {
-        common.setMagicCode("notTheCorrectCode");
+        testData.setMagicCode("notTheCorrectCode");
         confirmPhoneNumber.runConfirmPhoneNumber(); }
 
     @Test( dependsOnMethods = {"confirmPhoneNumber"} )

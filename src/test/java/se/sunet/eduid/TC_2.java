@@ -19,9 +19,9 @@ public class TC_2 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"dashboard"} )
     void personalInfo() {
-        common.setGivenName("palle");
-        common.setSurName("kuling");
-        common.setDisplayName("palle kuling");
+        testData.setGivenName("palle");
+        testData.setSurName("kuling");
+        testData.setDisplayName("palle kuling");
         personalInfo.runPersonalInfo();
     }
 

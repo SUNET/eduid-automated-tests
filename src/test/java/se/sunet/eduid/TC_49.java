@@ -16,7 +16,7 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"registerFirstAccount"} )
     void startPage(){
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
         startPage.runStartPage();
     }
 
@@ -33,34 +33,34 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
         login.runLogin();
 
         //Store user credentials for the first user
-        username1 = common.getUsername();
-        password1 = common.getPassword();
+        username1 = testData.getUsername();
+        password1 = testData.getPassword();
     }
 
     @Test( dependsOnMethods = {"login"} )
     void personalInfo() {
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
 
         //Navigate to settings
         dashBoard.pressSettings();
         personalInfo.runPersonalInfo();
 
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
-        common.setPhoneNumber("+46701740606");
+        testData.setPhoneNumber("+46701740606");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber"} )
     void confirmIdentity(){
-        common.setConfirmIdBy("phone");
+        testData.setConfirmIdBy("phone");
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentity"} )
@@ -77,7 +77,7 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"registerSecondAccount"} )
     void startPage2(){
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
         startPage.runStartPage();
     }
 
@@ -92,19 +92,19 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmedNewAccount2"} )
     void login2(){
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login2"} )
     void personalInfo2() {
         //Navigate to settings
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
 
         //Navigate to settings
         dashBoard.pressSettings();
         personalInfo.runPersonalInfo();
 
-        common.setRegisterAccount(false);
+        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"personalInfo2"} )
@@ -114,7 +114,7 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addPhoneNumber2"} )
     void confirmIdentity2(){
-        common.setConfirmIdBy("phone");
+        testData.setConfirmIdBy("phone");
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentity2"} )
@@ -127,7 +127,7 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
-        common.setDeleteButton(true);
+        testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }
 
     @Test( dependsOnMethods = {"delete"} )
@@ -135,7 +135,7 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage3"} )
     void login3(){
-        common.setIncorrectPassword(true);
+        testData.setIncorrectPassword(true);
         login.runLogin();
     }
 
@@ -148,8 +148,8 @@ public class TC_49 extends BeforeAndAfter {
     @Parameters({"url", "browser", "headless", "language", "testsuite"})
     void startBrowser(String url, String browser, String headless, String language, String testsuite) throws IOException {
         initBrowser(url, browser, headless, language,testsuite);
-        common.setTestSuite(testsuite);
-        common.setTestCase("TC_49");
+        testData.setTestSuite(testsuite);
+        testData.setTestCase("TC_49");
     }
 
     //Log in to first account, verify that phonenumber and identity needs to be confirmed
@@ -159,16 +159,16 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"checkFirstAccount"} )
     void startPage4(){
-        common.setIncorrectPassword(false);
-        common.setRegisterAccount(false);
+        testData.setIncorrectPassword(false);
+        testData.setRegisterAccount(false);
 
         startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage4"} )
     void login4(){
-        common.setUsername(username1);
-        common.setPassword(password1);
+        testData.setUsername(username1);
+        testData.setPassword(password1);
         login.runLogin();
     }
 

@@ -7,7 +7,7 @@ public class TC_99 extends BeforeAndAfter {
 
     @Test
     void startPage(){
-        common.setRegisterAccount(true);
+        testData.setRegisterAccount(true);
         startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage"} )

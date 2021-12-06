@@ -24,7 +24,7 @@ public class TC_1 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"phoneNumber"} )
     void initPwChange() {
-        common.setButtonValuePopup(false);
+        testData.setButtonValuePopup(false);
         initPwChange.runInitPwChange();
     }
 

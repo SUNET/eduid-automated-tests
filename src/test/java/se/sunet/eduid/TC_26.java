@@ -15,7 +15,7 @@ public class TC_26 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
-        common.setResetPassword(true);
+        testData.setResetPassword(true);
         login.runLogin();
     }
 
@@ -45,8 +45,8 @@ public class TC_26 extends BeforeAndAfter {
     void startBrowser(String url, String browser, String headless, String language, String testsuite) throws IOException {
         initBrowser(url, browser, headless, language,testsuite);
 
-        common.setTestSuite(testsuite);
-        common.setTestCase("TC_26");
+        testData.setTestSuite(testsuite);
+        testData.setTestCase("TC_26");
     }
 
     @Test( dependsOnMethods = {"startBrowser"} )
@@ -56,7 +56,7 @@ public class TC_26 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        common.setResetPassword(true);
+        testData.setResetPassword(true);
         login.runLogin();
     }
 

@@ -16,17 +16,17 @@ public class TC_3 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login"} )
     void dashboard() {
-        common.setGivenName("palle");
-        common.setSurName("kuling");
-        common.setDisplayName("palle kuling");
+        testData.setGivenName("palle");
+        testData.setSurName("kuling");
+        testData.setDisplayName("palle kuling");
         dashBoard.runDashBoard();
    }
 
     @Test( dependsOnMethods = {"dashboard"} )
     void personalInfo() {
-        common.setGivenName("ove");
-        common.setSurName("semart");
-        common.setDisplayName("ove semart");
+        testData.setGivenName("ove");
+        testData.setSurName("semart");
+        testData.setDisplayName("ove semart");
         personalInfo.runPersonalInfo();
     }
 

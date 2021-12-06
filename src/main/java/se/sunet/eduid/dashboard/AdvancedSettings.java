@@ -1,13 +1,16 @@
 package se.sunet.eduid.dashboard;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 import se.sunet.eduid.utils.WebDriverManager;
 
 public class AdvancedSettings {
     private final Common common;
+    private final TestData testData;
 
-    public AdvancedSettings(Common common){
+    public AdvancedSettings(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runAdvancedSettings(){
@@ -35,8 +38,8 @@ public class AdvancedSettings {
     }
 
     private void storeEppn(){
-        common.setEppn(common.findWebElementByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]").getText());
-        Common.log.info("Saved EPPN: " +common.getEppn());
+        testData.setEppn(common.findWebElementByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]").getText());
+        Common.log.info("Saved EPPN: " +testData.getEppn());
     }
 
     private void pressAddSecurityKey(){
