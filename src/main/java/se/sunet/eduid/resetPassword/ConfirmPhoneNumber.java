@@ -27,10 +27,10 @@ public class ConfirmPhoneNumber {
 
     private void getConfirmationCode(){
         //Press settings tab
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li").click();
 
         //Press the Confirm phone number link
-        common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span").click();
+        common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button").click();
 
         common.switchToPopUpWindow();
         verifyLabels();
@@ -65,7 +65,7 @@ public class ConfirmPhoneNumber {
         if(!testData.getMagicCode().equalsIgnoreCase("cancel")) {
 
             //Press the Confirm phone number link
-            common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span").click();
+            common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button").click();
 
             common.switchToPopUpWindow();
 
@@ -89,7 +89,7 @@ public class ConfirmPhoneNumber {
 
             //Press the Confirm phone number link - again
 //            common.explicitWaitClickableElement("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span");
-            common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span").click();
+            common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button").click();
 
             common.switchToPopUpWindow();
 
@@ -121,11 +121,11 @@ public class ConfirmPhoneNumber {
         }
     }
 
-    private void verifyLabels(){
+    private void verifyLabels(){//*[@id="phoneConfirmDialogControl-wrapper"]/div/label
         common.explicitWaitClickableElement("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a");
         //common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span", "Skriv in koden som skickats till +46");
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span", "Skriv in koden som skickats till " +testData.getPhoneNumber());
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]/div[1]/form/div/div/div/label/span", "Bekräftelsekod");
+        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5", "Skriv in koden som skickats till " +testData.getPhoneNumber());
+        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]/div[1]/form/div/div/div/label", "Bekräftelsekod");
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a", "Skicka bekräftelsekoden igen");
     }
 }

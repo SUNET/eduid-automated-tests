@@ -55,20 +55,29 @@ public class PersonalInfo {
         }
         else{
             //Click on change
-            common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button/span").click();
+            common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button").click();
 
             updatePersonalInfo();
         }
     }
 
     private void updatePersonalInfo(){
+        //Verify placeholder
+        common.verifyStrings("Förnamn", common.findWebElementByXpath("//*[@id=\"given_name\"]").getAttribute("placeholder"));
+
         common.findWebElementById("given_name").clear();
         common.findWebElementById("given_name").sendKeys(testData.getGivenName());
         common.verifyStrings(testData.getGivenName(), common.getAttributeById("given_name"));
 
+        //Verify placeholder
+        common.verifyStrings("Efternamn", common.findWebElementByXpath("//*[@id=\"surname\"]").getAttribute("placeholder"));
+
         common.findWebElementById("surname").clear();
         common.findWebElementById("surname").sendKeys(testData.getSurName());
         common.verifyStrings(testData.getSurName(), common.getAttributeById("surname"));
+
+        //Verify placeholder
+        common.verifyStrings("Valfritt alias", common.findWebElementByXpath("//*[@id=\"display_name\"]").getAttribute("placeholder"));
 
         common.findWebElementById("display_name").clear();
         common.findWebElementById("display_name").sendKeys(testData.getDisplayName());
@@ -95,13 +104,13 @@ public class PersonalInfo {
         if((testData.getLanguage().equalsIgnoreCase("Svenska") && !testData.getLanguage().equalsIgnoreCase(
                 common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[4]/p").getText()))) {
             //Click on change
-            common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button/span").click();
+            common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button").click();
 
             //Select new language - Swedish
             common.findWebElementById("Svenska").click();
 
             //Verify button text
-            common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "SAVE");
+            common.verifyStringByXpath("//*[@id=\"personal-data-button\"]", "SAVE");
 
             pressAddButton();
         }
@@ -109,13 +118,13 @@ public class PersonalInfo {
         else if(testData.getLanguage().equalsIgnoreCase("English") && !testData.getLanguage().equalsIgnoreCase(
                 common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[4]/p").getText())){
             //Click on change
-            common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button/span").click();
+            common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button").click();
 
             //Select new language - English
             common.findWebElementById("English").click();
 
             //Verify button text
-            common.verifyStringByXpath("//*[@id=\"personal-data-button\"]/span", "SPARA");
+            common.verifyStringByXpath("//*[@id=\"personal-data-button\"]", "SPARA");
 
             pressAddButton();
         }
@@ -145,7 +154,7 @@ public class PersonalInfo {
         common.verifyStringOnPage( "Efternamn");
 
         //Display name
-        common.verifyStringOnPage( "Visningsnamn");
+        common.verifyStringOnPage( "Valfritt alias");
 
         //Language
         common.verifyStringOnPage( "Språk");
@@ -165,7 +174,7 @@ public class PersonalInfo {
         common.verifyStringOnPage("Last name");
 
         //Display name
-        common.verifyStringOnPage( "Display name");
+        common.verifyStringOnPage( "Optional alias");
 
         //Language
         common.verifyStringOnPage("Language");

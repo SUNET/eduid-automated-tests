@@ -26,20 +26,20 @@ public class ConfirmHuman {
 
     private void verifyLabels() {
         //Swedish
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID är enklare och säkrare inloggning.");
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID är enklare och säkrare inloggning.");
 
         //Label1
-        common.verifyStringByXpath("//*[@id=\"content\"]/h3/span", "eduID måste " +
+        common.verifyStringByXpath("//*[@id=\"content\"]/h3", "eduID måste " +
                 "verifiera att du är en människa och inte en maskin.");
 
         //Switch language to English
         common.findWebElementByLinkText("English").click();
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID is easier and safer login.");
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID is easier and safer login.");
 
         //Label1
-        common.verifyStringByXpath("//*[@id=\"content\"]/h3/span", "Confirm that you are a human.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Confirm that you are a human.");
 
         //Switch language to Swedish
         common.findWebElementByLinkText("Svenska").click();
@@ -61,7 +61,7 @@ public class ConfirmHuman {
             //Common.log.info("Magic code: " +common.getMagicCode());
 
             //Verify that status info is displayed
-            common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
+            common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div");
 
             //Evaluate response according to below criterias
             if(!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")){
@@ -78,15 +78,15 @@ public class ConfirmHuman {
                 common.verifyStatusMessage("E-postadressen har registrerats");
                 //TODO switch to english...
                 //Verify text on page
-                common.verifyStringByXpath("//div[1]/section[2]/div[2]/h3/span", "Kontot skapades");
-                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/p/span",
+                common.verifyStringByXpath("//div[1]/section[2]/div[2]/h3", "Kontot skapades");
+                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/p",
                         "Slutför skapandet av ditt eduID genom att klicka länken skickad till:");
                 common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/h3", testData.getUsername());
 
                 //Verify text in english
                 common.findWebElementByLinkText("English").click();
-                common.verifyStringByXpath("//div[1]/section[2]/div[2]/h3/span", "A link has been sent to your email address.");
-                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/p/span",
+                common.verifyStringByXpath("//div[1]/section[2]/div[2]/h3", "A link has been sent to your email address.");
+                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/p",
                         "Complete registration by clicking the link sent to:");
                 common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/h3", testData.getUsername());
 
@@ -105,7 +105,7 @@ public class ConfirmHuman {
         }
         else {
             common.findWebElementById("cancel-captcha-button").click();
-            common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID är enklare och säkrare inloggning.");
+            common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID är enklare och säkrare inloggning.");
         }
     }
 }

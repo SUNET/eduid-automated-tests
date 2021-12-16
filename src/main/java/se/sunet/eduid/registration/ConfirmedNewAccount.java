@@ -30,11 +30,11 @@ public class ConfirmedNewAccount {
 
     private void verifyLabels(){
         //Headings
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID är enklare och säkrare inloggning.");
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID är enklare och säkrare inloggning.");
 
         //Details
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h3/span", "Registrering av ditt eduID är klar.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p/span", "Detta är dina inloggningsuppgifter för eduID.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/h3", "Registrering av ditt eduID är klar.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Detta är dina inloggningsuppgifter för eduID.");
 
         //TODO bug - email and password labels should be in swedish #245
         //Email
@@ -50,11 +50,11 @@ public class ConfirmedNewAccount {
         common.findWebElementByLinkText("English").click();
 
         //Headings
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID is easier and safer login.");
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID is easier and safer login.");
 
         //Details
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h3/span", "You have completed the registration for eduID.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p/span", "These are your login details for eduID.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/h3", "You have completed the registration for eduID.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "These are your login details for eduID.");
 
         //Email
         common.verifyStringByXpath("//*[@id=\"email-display\"]/label[1]", "Email");
@@ -68,6 +68,6 @@ public class ConfirmedNewAccount {
     }
 
     private void clickGoToMyEduID(){
-        common.findWebElementByXpath("//*[@id=\"gotit-button\"]/span").click();
+        common.findWebElementByXpath("//*[@id=\"gotit-button\"]").click();
     }
 }

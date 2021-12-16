@@ -33,11 +33,12 @@ public class DeleteAccount {
     private void clickDeleteInPopUp(){
         //Press delete
         if(testData.isDeleteButton()) {
-            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span").click();
+            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]").click();
 
             //Enter userName and password since we need to login again before account is deleted
             common.timeoutSeconds(1);
             Login login = new Login(common, testData);
+            login.verifyPageTitle();
             login.enterUsernamePassword();
 
             common.findWebElementById("login-form-button").click();
@@ -52,14 +53,14 @@ public class DeleteAccount {
 
     private void verifyLabelsSwedish() {
         //Heading
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/h4/span", "Ta bort eduID");
+        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/h4", "Ta bort eduID");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/p/span", "Om du väljer att " +
+        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/p", "Om du väljer att " +
                 "ta bort ditt eduID kommer all information du sparat rensas permanent.");
 
         //Add more phone numbers
-        common.verifyStringByXpath("//*[@id=\"delete-button\"]/span", "RADERA EDUID");
+        common.verifyStringByXpath("//*[@id=\"delete-button\"]", "RADERA EDUID");
     }
 
     private void verifyLabelsEnglish() {
@@ -67,14 +68,14 @@ public class DeleteAccount {
         common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/h4/span", "Delete eduID");
+        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/h4", "Delete eduID");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/p/span", "Click the link " +
+        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/p", "Click the link " +
                 "to permanently delete your eduID.");
 
         //Add more phone numbers
-        common.verifyStringByXpath("//*[@id=\"delete-button\"]/span", "DELETE EDUID");
+        common.verifyStringByXpath("//*[@id=\"delete-button\"]", "DELETE EDUID");
 
         //Click on Swedish
         common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
@@ -82,7 +83,7 @@ public class DeleteAccount {
 
     private void verifyPopUpLabels(){
         //Heading
-        common.explicitWaitVisibilityElement("//div/div[1]/h5/span");
+        common.explicitWaitVisibilityElement("//div/div[1]/h5");
         common.verifyStringOnPage( "Är du säker på att du vill ta bort ditt eduID?");
 
         //Text

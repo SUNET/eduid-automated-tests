@@ -63,13 +63,15 @@ public class TC_53 extends BeforeAndAfter {
         //Set mfa method to be used to "security key" to be able to delete the account.
         testData.setMfaMethod("securitykey");
         loginExtraSecurity.runLoginExtraSecurity();
+
+        common.timeoutMilliSeconds(400);
     }
 
     @Test( dependsOnMethods = {"loginExtraSecurity2"} )
     void navigateToSettings() {
         //Click on settings
-        common.explicitWaitClickableElement("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span");
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
+        common.explicitWaitClickableElement("//*[@id=\"dashboard-nav\"]/ul/a[3]/li");
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li").click();
     }
 
     @Test( dependsOnMethods = {"navigateToSettings"} )

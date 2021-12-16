@@ -178,7 +178,7 @@ public class TC_49 extends BeforeAndAfter {
         dashBoard.pressSettings();
 
         //Verify that phonenumber is not confirmed
-        String currentButtonText = common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span").getText();
+        String currentButtonText = common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button").getText();
         common.verifyStrings("BEKRÄFTA", currentButtonText);
 
     }

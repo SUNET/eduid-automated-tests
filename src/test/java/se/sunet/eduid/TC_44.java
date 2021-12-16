@@ -11,6 +11,7 @@ public class TC_44 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"swamid"} )
     void login(){
+        login.verifyPageTitle();
         login.enterUsernamePassword();
         common.findWebElementById("login-form-button").click();
 

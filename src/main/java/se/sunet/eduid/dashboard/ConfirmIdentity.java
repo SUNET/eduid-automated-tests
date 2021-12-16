@@ -33,7 +33,7 @@ public class ConfirmIdentity{
     }
 
     public void pressIdentity(){
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[2]/li/span").click();
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[2]/li").click();
     }
 
     private void enterPersonalNumber(){
@@ -41,9 +41,9 @@ public class ConfirmIdentity{
     }
 
     private void pressAddButton(){
-        common.findWebElementByXpath("//*[@id=\"nin-form\"]/button/span").click();
+        common.findWebElementByXpath("//*[@id=\"nin-form\"]/button").click();
         common.timeoutMilliSeconds(500);
-        //common.verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", "Personnummer har lagts till.");
+
         common.verifyStatusMessage("Personnummer har lagts till.");
     }
 
@@ -66,18 +66,20 @@ public class ConfirmIdentity{
             common.switchToPopUpWindow();
 
             //Click on accept
-            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span").click();
+            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]").click();
 
             //Verify on the button that letter is sent text exists, with today's date
-            common.explicitWaitVisibilityElement("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[1]/span");
-            common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[1]/span", "ETT BREV SKICKADES");
-            common.verifyStringOnPage(common.findWebElementByXpathContainingText(common.getDate().toString()).getText());
+            common.explicitWaitVisibilityElement("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[1]");
+            common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[1]",
+                    "ETT BREV SKICKADES\n" +common.getDate().toString());
+//            common.verifyStringOnPage(common.findWebElementByXpathContainingText(common.getDate().toString()).getText());
 
             //Verify that letter is valid date is 2 weeks after today's date
-            common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[2]/span", "BREVET ÄR GILTIGT TILL");
-            common.verifyStringOnPage(common.findWebElementByXpathContainingText(common.getDate().plusDays(15).toString()).getText());
+            common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[2]",
+                    "BREVET ÄR GILTIGT TILL\n" +common.getDate().plusDays(15));
+//            common.verifyStringOnPage(common.findWebElementByXpathContainingText(common.getDate().plusDays(15).toString()).getText());
 
-            common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[3]/span",
+            common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[3]",
                     "TRYCK HÄR IGEN NÄR DU HAR FÅTT BREVET");
 
             //Verify Statusmessage
@@ -89,7 +91,7 @@ public class ConfirmIdentity{
             common.findWebElementById("letterConfirmDialogControl").sendKeys("1qvw3fw2q3");
 
             //Click OK
-            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]/span").click();
+            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").click();
 
             //Verify response
             common.verifyStatusMessage("Den bekräftelsekod du angett stämmer inte. Var god försök igen");
@@ -106,7 +108,7 @@ public class ConfirmIdentity{
             common.findWebElementById("letterConfirmDialogControl").sendKeys(letterProofingCode);
 
             //Click OK
-            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]/span").click();
+            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").click();
 
         }
 
@@ -120,7 +122,7 @@ public class ConfirmIdentity{
             verifyPhoneLabels();
 
             //Press accept button
-            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span").click();
+            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]").click();
         }
         //Freja eID - first check that we comes to freja eID page. then add magic cookies to confirm the identity
         else {
@@ -173,55 +175,49 @@ public class ConfirmIdentity{
         //Swedish
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4/span", "Koppla din identitet till ditt eduID");
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p/span", "För att kunna " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Koppla din identitet till ditt eduID");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "För att kunna " +
                 "använda eduID måste du bevisa din identitet. Lägg till ditt personnummer och bekräfta det i verkliga livet.");
 
         //1. Add your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3/span", "1. Lägg till ditt personnummer");
-        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/fieldset/div/div/label/span", "Personnummer");
-        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/fieldset/div/div/span/span", "personnummer med 12 siffror");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3", "1. Lägg till ditt personnummer");
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/fieldset/div/div/label", "Personnummer");
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/fieldset/div/div/span", "personnummer med 12 siffror");
 
         //2. Verify your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/h3/span", "2. Bekräfta ditt personnummer");
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/p/span", "Välj ett sätt att bekräfta att " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/h3", "2. Bekräfta ditt personnummer");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/p", "Välj ett sätt att bekräfta att " +
                 "du har tillgång till det angivna personnumret. Om en av metoderna inte fungerar får du prova en annan.");
 
         //Button text - letter
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/span",
-                "FÖR DIG SOM HAR TILLGÅNG TILL DIN FOLKBOKFÖRINGSADDRESS");
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]",
+                "FÖR DIG SOM HAR TILLGÅNG TILL DIN FOLKBOKFÖRINGSADDRESS\nBÖRJA MED ATT LÄGGA TILL DITT PERSONNUMMER HÄR OVAN");
 
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div/span",
-                "BÖRJA MED ATT LÄGGA TILL DITT PERSONNUMMER HÄR OVAN");
-
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[2]/span", "VIA POST");
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[2]", "VIA POST");
 
         //Button text - letter - Fine text
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/p/span", "Brevet innehåller " +
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/p", "Brevet innehåller " +
                 "en bekräftelsekod som av säkerhetsskäl går ut efter två veckor.");
 
         //Button text - phone
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button/div[1]/span",
-                "FÖR DIG SOM HAR ETT SVENSKT TELEFONABONNEMANG I DITT EGET NAMN");
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button/div[1]",
+                "FÖR DIG SOM HAR ETT SVENSKT TELEFONABONNEMANG I DITT EGET NAMN\nBÖRJA MED ATT LÄGGA TILL DITT PERSONNUMMER HÄR OVAN");
 
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button/div[1]/div/span",
-                "BÖRJA MED ATT LÄGGA TILL DITT PERSONNUMMER HÄR OVAN");
-
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button/div[2]/span",
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button/div[2]",
                 "VIA TELEFON");
 
         //Button text - phone - Fine text
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/p/span", "Registret med " +
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/p", "Registret med " +
                 "telefonnummer uppdateras av mobiloperatörerna och innehåller inte nödvändigtvis alla nummer.");
 
         //Button text - Freja
-        common.verifyStringByXpath("//*[@id=\"eidas-show-modal\"]/div[1]/span",
+        common.verifyStringByXpath("//*[@id=\"eidas-show-modal\"]/div[1]",
                 "FÖR DIG SOM HAR ELLER KAN SKAPA FREJA EID GENOM ATT BESÖKA ETT OMBUD I SVERIGE");
 
-        common.verifyStringByXpath("//*[@id=\"eidas-show-modal\"]/div[2]/span", "MED DIGITALT ID-KORT");
+        common.verifyStringByXpath("//*[@id=\"eidas-show-modal\"]/div[2]", "MED DIGITALT ID-KORT");
 
         //Button text - Freja - Fine text
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[3]/p/span", "För att använda " +
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[3]/p", "För att använda " +
                 "det här alternativet måste du först skaffa ett digitalt ID-kort i Freja eID appen.");
 
         //English
@@ -230,56 +226,50 @@ public class ConfirmIdentity{
         common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4/span", "Connect your identity to your eduID");
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p/span", "To be able to use " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Connect your identity to your eduID");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "To be able to use " +
                 "eduID you have to prove your identity. Add your national id number and verify it in real life.");
 
         //1. Add your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3/span", "1. Add your id number");
-        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/fieldset/div/div/label/span", "Id number");
-        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/fieldset/div/div/span/span", "national identity number with 12 digits");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3", "1. Add your id number");
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/fieldset/div/div/label", "Id number");
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/fieldset/div/div/span", "national identity number with 12 digits");
 
         //2. Verify your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/h3/span", "2. Verify your id number");
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/p/span", "Choose a method to verify " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/h3", "2. Verify your id number");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/p", "Choose a method to verify " +
                 "that you have access to the added id number. If you are unable to use a method you need to try another.");
 
 
         //Button text - letter
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/span",
-                "FOR YOU REGISTERED AT YOUR CURRENT ADDRESS");
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]",
+                "FOR YOU REGISTERED AT YOUR CURRENT ADDRESS\nSTART BY ADDING YOUR ID NUMBER ABOVE");
 
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div/span",
-                "START BY ADDING YOUR ID NUMBER ABOVE");
-
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[2]/span", "BY POST");
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[2]", "BY POST");
 
         //Button text - letter - Fine text
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/p/span", "The letter will contain " +
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/p", "The letter will contain " +
                 "a code that for security reasons expires in two weeks.");
 
         //Button text - phone
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button/div[1]/span",
-                "FOR YOU WITH A SWEDISH PHONE NUMBER REGISTERED IN YOUR NAME");
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button/div[1]",
+                "FOR YOU WITH A SWEDISH PHONE NUMBER REGISTERED IN YOUR NAME\nSTART BY ADDING YOUR ID NUMBER ABOVE");
 
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button/div[1]/div/span",
-                "START BY ADDING YOUR ID NUMBER ABOVE");
-
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button/div[2]/span",
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button/div[2]",
                 "BY PHONE");
 
         //Button text - phone - Fine text
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/p/span", "The phone number registry " +
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/p", "The phone number registry " +
                 "is maintained by phone operators at their convenience and may not include all registered phone numbers.");
 
         //Button text - Freja
-        common.verifyStringByXpath("//*[@id=\"eidas-show-modal\"]/div[1]/span",
+        common.verifyStringByXpath("//*[@id=\"eidas-show-modal\"]/div[1]",
                 "FOR YOU ABLE TO CREATE A FREJA EID BY VISITING ONE OF THE AUTHORISED AGENTS");
 
-        common.verifyStringByXpath("//*[@id=\"eidas-show-modal\"]/div[2]/span", "WITH A DIGITAL ID-CARD");
+        common.verifyStringByXpath("//*[@id=\"eidas-show-modal\"]/div[2]", "WITH A DIGITAL ID-CARD");
 
         //Button text - Freja - Fine text
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[3]/p/span", "To use this option you " +
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[3]/p", "To use this option you " +
                 "will need to first create a digital ID-card in the Freja eID app.");
 
         //Click on Freja
@@ -287,27 +277,27 @@ public class ConfirmIdentity{
 
         //Switch to the Freja Id pop up
         common.switchToPopUpWindow();
-        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5/span");
+        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
 
         //Verify Pop-up labels
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5/span",
+        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5",
                 "Use Freja eID+ and pass a local authorised agent");
 
-        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[1]/span", "Install the app");
+        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[1]", "Install the app");
 
-        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[2]/span",
+        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[2]",
                 "Create a Freja eID Plus account (awarded the ‘Svensk e-legitimation’ quality mark)");
 
-        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[3]/span", "The app will generate a QR-code");
+        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[3]", "The app will generate a QR-code");
 
-        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[4]/span",
+        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[4]",
                 "Find a local authorised agent, show them a valid ID together with the QR-code and " +
                         "they will be able to verify your identity");
 
-        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/label/span",
+        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/label",
                 "Tip: Use the app to find your nearest agent");
 
-        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[5]/span",
+        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[5]",
                 "Freja eID is now ready to be used with your eduID");
 
         //Press cancel
@@ -323,7 +313,7 @@ public class ConfirmIdentity{
         common.switchToPopUpWindow();
 
         //Swedish
-        common.explicitWaitVisibilityElement("//div/div[1]/h5/span");
+        common.explicitWaitVisibilityElement("//div/div[1]/h5");
         common.verifyStringOnPage("Med Freja eID appen kan du skapa ett digitalt ID-kort");
         common.verifyStringOnPage("Installera appen");
         common.verifyStringOnPage("Skapa ett Freja eID Plus konto (godkänd svensk e-legitimation)");
@@ -340,7 +330,7 @@ public class ConfirmIdentity{
         common.switchToPopUpWindow();
 
         //Verify labels in pop-up
-        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5/span");
+        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
         common.verifyStringOnPage("Kolla om ditt telefonnummer är kopplat till ditt personnummer.");
         common.verifyStringOnPage("Du kan acceptera en sökning i telefonregistret för att se om ditt " +
                 "telefonnummer finns lagrat tillsammans med ditt personnummer. Om dina uppgifter inte lagts till i " +
@@ -358,9 +348,9 @@ public class ConfirmIdentity{
         //Switch to pop up and verify its text
         common.switchToPopUpWindow();
 
-        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5/span");
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5/span", "Få en bekräftelsekod via post");
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]/span", "Om du accepterar " +
+        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
+        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5", "Få en bekräftelsekod via post");
+        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]", "Om du accepterar " +
                 "att få ett brev hem måste du skriva in bekräftelsekoden här för att bevisa att personnumret är ditt. " +
                 "Av säkerhetsskäl går koden ut om två veckor.");
     }

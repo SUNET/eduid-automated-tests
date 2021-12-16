@@ -28,33 +28,33 @@ public class Register {
     }
 
     private void verifyLabels(){
-        //TODO I get swedish when running TC38 first in headless mode otherwise I get english. needs to be fixed.
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID är enklare och säkrare inloggning.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Registrera din e-postadress för att skapa ditt eduID.");
 
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID är enklare och säkrare inloggning.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]/span", "Registrera din e-postadress för att skapa ditt eduID.");
-
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]/span", "När du har skapat ditt eduID kan du logga in och koppla det till ditt svenska personnummer.");
-        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label/span", "E-postadress");
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "När du har skapat ditt eduID kan du logga in och koppla det till ditt svenska personnummer.");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/p[3]/span", "Om du redan har ett eduID kan du logga in");
 
-        common.verifyStringNotEmptyByXpath("//*[@id=\"content\"]/p[3]/a/span", "//*[@id=\"content\"]/p[3]/a/span");
+        common.verifyStringNotEmptyByXpath("//*[@id=\"content\"]/p[3]/a", "//*[@id=\"content\"]/p[3]/a");
 
         //Switch language to English
         common.findWebElementByLinkText("English").click();
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID is easier and safer login.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]/span", "Register your email address to create your eduID.");
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID is easier and safer login.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Register your email address to create your eduID.");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]/span", "Once you have created an eduID you will be able to log in and connect it to your Swedish national identity number.");
-        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label/span", "Email address");
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "Once you have created an eduID you will be able to log in and connect it to your Swedish national identity number.");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/p[3]/span", "If you already have eduID you can log in");
 
-        common.verifyStringNotEmptyByXpath("//*[@id=\"content\"]/p[3]/a/span", "//*[@id=\"content\"]/p[3]/a/span");
-
+        common.verifyStringNotEmptyByXpath("//*[@id=\"content\"]/p[3]/a", "//*[@id=\"content\"]/p[3]/a");
     }
 
     private void enterEmailAndPressRegister(){
+        //Verify placeholder
+        common.verifyStrings("name@example.com", common.findWebElementByXpath("//*[@id=\"email\"]").getAttribute("placeholder"));
+
         //Generate new username
         if(testData.isGenerateUsername())
             generateUsername();
@@ -87,14 +87,14 @@ public class Register {
             common.click(common.findWebElementById("reject-tou-button"));
             //TODO language
             //common.verifyStringByXpath("//*[@id="root"]/section[1]/div/h1/span", "Welcome to eduID");
-            common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1/span", "eduID är enklare och säkrare inloggning.");
+            common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID är enklare och säkrare inloggning.");
         }
     }
 
     private void verifyTermsSwedish(){
         //Swedish
-        common.explicitWaitVisibilityElement("//div/div[1]/h5/span");
-        common.verifyStringByXpath("//div/div[1]/h5/span", "Användarvillkor för eduID.se");
+        common.explicitWaitVisibilityElement("//div/div[1]/h5");
+        common.verifyStringByXpath("//div/div[1]/h5", "Användarvillkor för eduID.se");
         common.verifyStringByXpath("//div/div[2]/p[1]", "För eduID.se gäller generellt:");
         common.verifyStringByXpath("//div/div[2]/ul/li[1]", "att all användning av " +
                 "användarkonton ska följa Sveriges lagar och förordningar,");
@@ -121,8 +121,8 @@ public class Register {
     }
 
     private void verifyTermsEnglish(){
-        common.explicitWaitVisibilityElement("//div/div[1]/h5/span");
-        common.verifyStringByXpath("//div/div[1]/h5/span", "General rules for eduID users");
+        common.explicitWaitVisibilityElement("//div/div[1]/h5");
+        common.verifyStringByXpath("//div/div[1]/h5", "General rules for eduID users");
         common.verifyStringByXpath("//div/div[2]/p[1]", "The following generally applies:");
         common.verifyStringByXpath("//div/div[2]/ul/li[1]", "that all usage of user " +
                 "accounts follow Sweden's laws and by-laws,");

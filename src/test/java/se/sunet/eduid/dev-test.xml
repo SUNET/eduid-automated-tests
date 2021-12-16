@@ -43,8 +43,6 @@ TODO - integrationstest via scim api, mfa stepup - magnus
 TODO - TC when confirmed ID, then name etc should not be possible to change. at to register TC
 
 TODO - Försök skicka reset pw-mail inom 5min...
-
-
 TODO - Security key mha face ID.... Transport.Internal?
 
 TODO - reset pw - abort i SetNewPassword klassen
@@ -55,6 +53,17 @@ TODO - ignorera radbrytning på strängar från safari
 TODO - mfa-check.swamid.se -> säkerhetsnyckel ska vara satt mm mm
 TODO - Tråda
 TODO - oanvända metoder i Identity - kollar labels...
+TODO - Identity fine text om brev giltigt i två veckor endast för ej klickade
+TODO - Place holder check when adding name etc for a new user on both SE and ENG
+TODO - Lägga navigering i common
+TODO - Advanced settings Link account till ladok
+TODO - Test för SecurityKey och "lägg till den här enheten"
+TODO - i PAssword, bryt ut custom pw till egen klass
+TODO - Remove refresh page in phone number class - niqueId-container"]/div[2]/p[1]
+TODO - pop up säkerhetsnyckel lägg till engelska
+ToDO - placeholder vid lägga till personnummer - identitet
+TODO - Göra nytt nummer som primary, logga ut och kolla att så är fallet och sen återställa
+
 
 use this phone number range in your tests 0701740605-0701740699
 
@@ -100,33 +109,20 @@ Virtual auth for enhanced security (webauthn),
             </class>
         </classes>
     </test>
+036w 00mr 0641
+    -->
+    <test name="TC_9">
+        <parameter name="testDescription" value="Try to add the default email address as extra email address" />
+        <classes>
+            <class name="se.sunet.eduid.TC_9" >
+            </class>
+        </classes>
+    </test>
+
+
+    <!--
 
     -->
-
-    <test name="TC_1">
-        <parameter name="testDescription" value="Log in and check account data and labels" />
-        <classes>
-            <class name="se.sunet.eduid.TC_38" >
-            </class>
-        </classes>
-    </test>
-<!--
-    <test name="TC_51">
-        <parameter name="testDescription" value="Add and confirm two extra phone numbers" />
-        <classes>
-            <class name="se.sunet.eduid.TC_51" >
-            </class>
-        </classes>
-    </test>
-
-        <test name="TC_52">
-        <parameter name="testDescription" value="Reset pw, check that all confirmed numbers are possible to reset with" />
-        <classes>
-            <class name="se.sunet.eduid.TC_52" >
-            </class>
-        </classes>
-    </test>
--->
 
 <!--95lk 734z 39da.
 Ej bekräftat telefonnummer ger inget val om extra säkerthet vid reset-pw när kontot varit avslutat.

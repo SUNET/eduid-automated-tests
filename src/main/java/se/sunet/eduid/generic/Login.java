@@ -26,13 +26,14 @@ public class Login {
         }
     }
 
-    private void verifyPageTitle() {
+    public void verifyPageTitle() {
         common.explicitWaitPageTitle("eduID login");
         //TODO temp comment for test of FTs "other" idp site
         //common.verifyPageTitle("eduID-inloggning");
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")){
+            verifyPlaceholder("name@example.com", "enter password");
             common.findWebElementByLinkText("Svenska").click();
         }
 
@@ -40,6 +41,9 @@ public class Login {
     }
 
     public void enterUsernamePassword(){
+        //Verify placeholder
+        verifyPlaceholder("namn@example.com", "ange lösenord");
+
         //Enter username
         common.explicitWaitClickableElementId("email");
         common.findWebElementById("email").clear();
@@ -62,12 +66,17 @@ public class Login {
         if(testData.isIncorrectPassword()) {
             common.timeoutMilliSeconds(500);
             common.verifyXpathContainsString("//div/section[2]/div[1]/div/span", "E-postadressen eller lösenordet är felaktigt.");
+
+            common.findWebElementByLinkText("English").click();
+            common.verifyXpathContainsString("//div/section[2]/div[1]/div/span", "The email address or password was incorrect.");
+            common.findWebElementByLinkText("Svenska").click();
         }
         else {
             //Wait for the "EduId for" label at dashboard
             common.timeoutMilliSeconds(800);
-            common.explicitWaitVisibilityElement("//section[1]/div/h1/span");
+            common.explicitWaitVisibilityElement("//*[@id=\"root\"]/section[1]/div/h1");
         }
+        common.timeoutMilliSeconds(500);
     }
 
     private void registerAccount(){
@@ -83,7 +92,13 @@ public class Login {
         common.explicitWaitVisibilityElementId("link-forgot-password");
         common.findWebElementById("link-forgot-password").click();
 
-        //Wait for next page, heading
-        common.explicitWaitClickableElement("//div/section[2]/div[2]/form/button/span");
+        //Wait for next page, return to login
+        common.explicitWaitClickableElementId("return-login");
+    }
+
+    private void verifyPlaceholder(String email, String password){
+        //Verify placeholder
+        common.verifyStrings(email, common.findWebElementByXpath("//*[@id=\"email\"]").getAttribute("placeholder"));
+        common.verifyStrings(password, common.findWebElementByXpath("//*[@id=\"current-password\"]").getAttribute("placeholder"));
     }
 }

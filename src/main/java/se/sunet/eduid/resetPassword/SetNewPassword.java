@@ -28,29 +28,30 @@ public class SetNewPassword {
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")) {
             common.findWebElementByLinkText("Svenska").click();
         }
+        //Verify placeholder
+        common.verifyStrings("xxxx xxxx xxxx", common.findWebElementByXpath("//*[@id=\"new-password\"]").getAttribute("placeholder"));
 
         //verify the labels in Swedish
-        common.verifyStringByXpath("//div/section[2]/div[2]/p[1]/span", "Skapa ditt nya lösenord");
-        common.verifyStringByXpath("//div/section[2]/div[2]/p[2]/span", "Ett säkert lösenord " +
+        common.verifyStringByXpath("//div/section[2]/div[2]/p[1]", "Skapa ditt nya lösenord");
+        common.verifyStringByXpath("//div/section[2]/div[2]/p[2]", "Ett säkert lösenord " +
                 "har genererats till dig. För att komma vidare behöver du kopiera det till Repetera ditt nya lösenord " +
                 "och klicka Acceptera lösenord.");
 
-        common.verifyStringByXpath("//div/section[2]/div[2]/div/label/span", "Nytt lösenord");
-        common.verifyStringByXpath("//div/section[2]/div[2]/form/div[1]/div/label/span[1]", "Repetera ditt nya lösenord");
-
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/label", "Nytt lösenord");
+        common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repetera ditt nya lösenord\n*");
 
         //Switch to Swedish
         common.findWebElementByLinkText("English").click();
 
 
         //verify the labels
-        common.verifyStringByXpath("//div/section[2]/div[2]/p[1]/span", "Set your new password");
-        common.verifyStringByXpath("//div/section[2]/div[2]/p[2]/span", "A strong password has " +
+        common.verifyStringByXpath("//div/section[2]/div[2]/p[1]", "Set your new password");
+        common.verifyStringByXpath("//div/section[2]/div[2]/p[2]", "A strong password has " +
                 "been generated for you. To proceed you will need to copy the password in to the Repeat new password " +
                 "field and click Accept Password.");
 
-        common.verifyStringByXpath("//div/section[2]/div[2]/div/label/span", "New password");
-        common.verifyStringByXpath("//div/section[2]/div[2]/form/div[1]/div/label/span[1]", "Repeat new password");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/label", "New password");
+        common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repeat new password\n*");
 
         Assert.assertTrue(common.findWebElementById("copy-new-password").getText().isEmpty(), "New password field is empty");
 

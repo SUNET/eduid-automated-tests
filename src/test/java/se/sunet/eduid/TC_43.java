@@ -34,7 +34,7 @@ public class TC_43 extends BeforeAndAfter {
         testData.setRegisterAccount(true);
 
         //Navigate to settings
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li").click();
         personalInfo.runPersonalInfo();
 
         testData.setRegisterAccount(false);

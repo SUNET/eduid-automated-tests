@@ -28,7 +28,7 @@ public class ConfirmedIdentity {
 
 
     private void verifyTextAndLabels(){
-        common.explicitWaitVisibilityElement("//*[@id=\"text-content\"]/div[1]/h4/span");
+        common.explicitWaitVisibilityElement("//*[@id=\"text-content\"]/div[1]/h4");
 
         //Swedish labels
         textAndLabelsSwedish();
@@ -42,48 +42,51 @@ public class ConfirmedIdentity {
 
     private void textAndLabelsSwedish(){
         //Heading
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID för\n" +testData.getUsername().toLowerCase());
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID för " +testData.getUsername().toLowerCase());
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4/span", "Ditt eduID är redo att användas");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Ditt eduID är redo att användas");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p/span", "Personnumret " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "Personnumret " +
                 "nedan är nu kopplat till detta eduID. Använd ditt eduID för att logga in till olika tjänster inom högskolan.");
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/label/span", "Personnummer");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/label", "Personnummer");
 
         //Show full id-number
-        common.findWebElementByXpath("//*[@id=\"text-content\"]/div[2]/div/button/span").click();
+        common.findWebElementByXpath("//*[@id=\"text-content\"]/div[2]/div/button").click();
 
         //Data
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/p", testData.getIdentityNumber());
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/p/span", "Lägg till ett " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/p", "Lägg till ett " +
                 "telefonnummer eller en säkerhetsnyckel för att behålla din identitet om du återställer ditt lösenord.");
     }
 
     private void textAndLabelsEnglish(){
         //Heading
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID for\n" +testData.getUsername().toLowerCase());
+        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID for " +testData.getUsername().toLowerCase());
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4/span", "Your eduID is ready to use");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Your eduID is ready to use");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p/span", "The below id number " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "The below id number " +
                 "is now connected to this eduID. Use your eduID to log in to services related to higher education.");
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/label/span", "Id number");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/label", "Id number");
+
+        //Show full id-number
+        common.findWebElementByXpath("//*[@id=\"text-content\"]/div[2]/div/button").click();
 
         //Data
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/p", testData.getIdentityNumber());
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/p/span", "Add a phone number " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/p", "Add a phone number " +
                 "or a security key to your eduID to keep your identity at password reset.");
     }
 }

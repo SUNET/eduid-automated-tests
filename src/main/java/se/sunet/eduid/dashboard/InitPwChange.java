@@ -24,7 +24,7 @@ public class InitPwChange {
 
         //Accept if true else Abort
         if(testData.isButtonValuePopup()) {
-            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]/span").click();
+            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]").click();
 
             common.timeoutMilliSeconds(500);
             common.switchToDefaultWindow();

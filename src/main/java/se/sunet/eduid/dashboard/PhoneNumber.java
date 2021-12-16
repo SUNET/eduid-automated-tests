@@ -3,6 +3,7 @@ package se.sunet.eduid.dashboard;
 import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
+import se.sunet.eduid.utils.WebDriverManager;
 
 public class PhoneNumber {
     private final Common common;
@@ -50,7 +51,7 @@ public class PhoneNumber {
 
     public void addPhoneNumber(){
         //Press settings
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li").click();
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
@@ -58,6 +59,9 @@ public class PhoneNumber {
 
         //Click add phone number button
         common.findWebElementByXpath("//div/section[2]/div[2]/div/div/div[2]/div[2]/button").click();
+
+        //Verify placeholder
+        common.verifyStrings("Telefonnummer", common.findWebElementByXpath("//*[@id=\"number\"]").getAttribute("placeholder"));
 
         //Check message when phone number is not valid
         checkMessageFaultyNumber();
@@ -89,7 +93,7 @@ public class PhoneNumber {
         }
 
         //Fetch eppen - click on advanced settings
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[4]/li/span").click();
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[4]/li").click();
 
         //Store eppen
         String eppen = common.findWebElementByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]").getText();
@@ -116,7 +120,7 @@ public class PhoneNumber {
         common.findWebElementById("phoneConfirmDialogControl").sendKeys(phoneCode);
 
         //Press OK button
-        common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]/span").click();
+        common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").click();
 
         //Check status info
         common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
@@ -140,7 +144,7 @@ public class PhoneNumber {
         //Click outside to trigger validation of phone number
         common.findWebElementByXpath("//div/section[2]/div[2]/div/div").click();
 
-        common.verifyStringByXpath("//div/section[2]/div[2]/div/div/div[2]/div[2]/div[2]/form/fieldset/div/small/span/span",
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/div/div[2]/div[2]/div[2]/form/fieldset/div/small/span",
                 "Ogiltigt telefonnummer. Skriv ett svensk nummer eller ett internationellt nummer " +
                         "som börjar med '+' följt av 6-20 siffror.");
     }

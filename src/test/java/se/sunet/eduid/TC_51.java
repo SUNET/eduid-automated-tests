@@ -31,7 +31,9 @@ public class TC_51 extends BeforeAndAfter {
     void addPhoneNumber2(){
         testData.setPhoneNumber("0701740606");
         phoneNumber.addPhoneNumber();
-        phoneNumber.confirmNewPhoneNumber(); }
+        phoneNumber.confirmNewPhoneNumber();
+        common.timeoutMilliSeconds(400);
+    }
 
     @Test( dependsOnMethods = {"addPhoneNumber1"} )
     void makeNewPhonePrimary(){

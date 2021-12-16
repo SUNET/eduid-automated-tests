@@ -26,7 +26,6 @@ public class VerifyPhoneNumber {
         clickButton();
     }
 
-
     private void verifyPageTitle() {
         common.verifyPageTitle("eduID login");
     }
@@ -36,8 +35,12 @@ public class VerifyPhoneNumber {
         common.verifyStatusMessage("En engångskod har skickats till din telefon.");
 
         //Verify labels - swedish
-        common.verifyXpathContainsString("//div/section[2]/div[2]/div/p/span", "Skriv in koden som skickats till");
-        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/div/div/label/span", "Bekräftelsekod");
+        common.verifyXpathContainsString("//div/section[2]/div[2]/div/p", "Skriv in koden som skickats till");
+
+        //Verify phone number OTP has been sent to
+        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p/b", testData.getOtpPhoneNumber());
+
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/div/div/label", "Bekräftelsekod");
         common.verifyStringByXpath("//*[@id=\"resend-phone\"]", "Skicka bekräftelsekoden igen");
 
         //Switch to english
@@ -47,8 +50,9 @@ public class VerifyPhoneNumber {
         //common.verifyStatusMessage("One time verification code has been sent to your phone.");
 
         //Verify labels - swedish
-        common.verifyXpathContainsString("//div/section[2]/div[2]/div/p/span", "Enter the code sent to ");
-        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/div/div/label/span", "Confirmation code");
+        common.verifyXpathContainsString("//div/section[2]/div[2]/div/p", "Enter the code sent to ");
+        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p/b", testData.getOtpPhoneNumber());
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/div/div/label", "Confirmation code");
         common.verifyStringByXpath("//*[@id=\"resend-phone\"]", "Send a new confirmation code");
     }
 
@@ -81,7 +85,7 @@ public class VerifyPhoneNumber {
             fetchOtp();
 
             //Click on Already have otp
-            common.findWebElementByXpath("//div/section[2]/div[2]/div/p[2]/a/span").click();
+            common.findWebElementByXpath("//div/section[2]/div[2]/div/p[2]/a").click();
             common.explicitWaitClickableElementId("phone");
 
             //Switch to swedish if we need to

@@ -14,6 +14,7 @@ public class RequestNewPassword {
 
     public void runRequestNewPassword(){
         verifyPageTitle();
+        verifyLabels();
         enterEmail();
         pressRestPassword();
     }
@@ -30,21 +31,23 @@ public class RequestNewPassword {
     private void pressRestPassword(){
         common.findWebElementById("reset-password-button").click();
 
-        //Verify the texts after request of new pw
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p/span", "Kontrollera din e-postadress "
-                +testData.getEmail()+" för att fortsätta. \n Länken är giltig i två timmar.");
+        //wait the texts on next page
+        common.explicitWaitVisibilityElement("//*[@id=\"reset-pass-display\"]/p");
+    }
 
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/p/span[1]", "Om du inte " +
-                "fick e-postmeddelandet? Kontrollera skräppost, \n eller");
+    private void verifyLabels(){
+        common.verifyStringByXpath("//*[@id=\"content\"]/p", "Ange din e-postadress registrerad till ditt konto");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress\n*");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/span", "en giltig e-postadress");
 
+        //Verify placeholder
+        common.verifyStrings("namn@example.com", common.findWebElementByXpath("//*[@id=\"email\"]").getAttribute("placeholder"));
 
         //Switch to english
         common.findWebElementByLinkText("English").click();
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p/span", "Please check your email "
-                +testData.getEmail() +" to continue. \n Link is valid for 2 hours.");
-
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/p/span[1]", "If you didn’t " +
-                "receive the email? Check your junk email, \n or");
+        common.verifyStringByXpath("//*[@id=\"content\"]/p", "Enter your email address registered to your account");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address\n*");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/span", "a valid email address");
 
         //Switch to english
         common.findWebElementByLinkText("Svenska").click();

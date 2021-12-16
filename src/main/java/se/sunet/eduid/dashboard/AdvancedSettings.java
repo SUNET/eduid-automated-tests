@@ -31,10 +31,10 @@ public class AdvancedSettings {
     }
 
     private void pressAdvancedSettings(){
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[4]/li/span").click();
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[4]/li").click();
 
         //Wait for heading "Gör ditt eduID säkrare"
-        common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h4/span");
+        common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h4");
     }
 
     private void storeEppn(){
@@ -44,15 +44,14 @@ public class AdvancedSettings {
 
     private void pressAddSecurityKey(){
         //Click on add security key
-        common.findWebElementByXpath("//*[@id=\"security-webauthn-button\"]/span").click();
+        common.findWebElementByXpath("//*[@id=\"security-webauthn-button\"]").click();
 
         common.switchToPopUpWindow();
 
         //Verify text
-        common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span");
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span", "Ge ett namn till din säkerhetsnyckel");
-        common.verifyStringByXpath("//*[@id=\"describeWebauthnTokenDialogControl-wrapper\"]/div/label/span", "Säkerhetsnyckel");
-        common.verifyStringByXpath("//*[@id=\"describeWebauthnTokenDialogControl-wrapper\"]/div/span", "max 50 tecken");
+        common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5");
+        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5", "Ge ett namn till din säkerhetsnyckel");
+        common.verifyStringByXpath("//*[@id=\"describeWebauthnTokenDialogControl-wrapper\"]/div", "Säkerhetsnyckel\nmax 50 tecken");
 
 
 //        else{
@@ -63,7 +62,7 @@ public class AdvancedSettings {
 
     private void pressOrcid(){
         common.timeoutMilliSeconds(500);
-        common.findWebElementByXpath("//*[@id=\"connect-orcid-button\"]/span").click();
+        common.findWebElementByXpath("//*[@id=\"connect-orcid-button\"]").click();
 
         //Transferred to orcid after click
         common.explicitWaitPageTitle("ORCID");
@@ -90,7 +89,7 @@ public class AdvancedSettings {
         common.verifyStringOnPage("Detta är ett autogenererat unikt id för ditt eduID som du kan behöva " +
                 "ange när du ber om teknisk support.");
         common.verifyStringOnPage("eppn");
-        common.verifyStringNotEmptyByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]", "//*[@id=\"uniqueId-container\"]/div[2]/label/span");
+        common.verifyStringNotEmptyByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]", "//*[@id=\"uniqueId-container\"]/div[2]/label");
 
         //click on english
         common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
@@ -108,7 +107,7 @@ public class AdvancedSettings {
         common.verifyStringOnPage("Unique ID");
         common.verifyStringOnPage("This is an automatically generated unique identifier for your eduID.");
         common.verifyStringOnPage("eppn");
-        common.verifyStringNotEmptyByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]", "//*[@id=\"uniqueId-container\"]/div[2]/label/span");
+        common.verifyStringNotEmptyByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]", "//*[@id=\"uniqueId-container\"]/div[2]/label");
         common.verifyStringOnPage("You might be asked to share this information if you need technical support.");
 
         //click on swedish

@@ -29,10 +29,10 @@ public class SecurityKey {
     }
 
     private void pressAdvancedSettings(){
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[4]/li/span").click();
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[4]/li").click();
 
         //Wait for heading "Gör ditt eduID säkrare"
-        common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h4/span");
+        common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h4");
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
@@ -50,13 +50,17 @@ public class SecurityKey {
 
     private void addSecurityKey(){
         //Click on add security key
-        common.findWebElementByXpath("//*[@id=\"security-webauthn-button\"]/span").click();
+        common.findWebElementByXpath("//*[@id=\"security-webauthn-button\"]").click();
         common.timeoutMilliSeconds(500);
         common.switchToPopUpWindow();
 
+        //Verify placeholder
+        common.verifyStrings("Beskriv din säkerhetsnyckel", common.findWebElementByXpath(
+                "//*[@id=\"describeWebauthnTokenDialogControl\"]").getAttribute("placeholder"));
+
         //Enter name of key and click OK
         common.findWebElementById("describeWebauthnTokenDialogControl").sendKeys("test-key1");
-        common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button/span").click();
+        common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button").click();
         common.timeoutMilliSeconds(500);
 
         //Verify that without personal info added, no extra key can be added.
@@ -72,9 +76,9 @@ public class SecurityKey {
             common.timeoutMilliSeconds(500);
 
             //Verify headings
-            common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[1]/span", "Namn");
-            common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[2]/span", "Skapad den");
-            common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[3]/span", "Senast använd");
+            common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[1]", "Namn");
+            common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[2]", "Skapad den");
+            common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[3]", "Senast använd");
 
             //verify data
             common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[1]", "test-key1");
@@ -89,10 +93,11 @@ public class SecurityKey {
             //Verify the added key, after a new login. Press Verify link. This is not a complete verification, via freja, only to freja log in page. Then stop.
             //TODO if we can get the magic cookie to make a complete verification using freja, continue here...
             common.addMagicCookie();
-            common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button/span").click();
+            common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button").click();
 
             //Enter username, password
             Login login = new Login(common, testData);
+            login.verifyPageTitle();
             login.enterUsernamePassword();
 
             //Click log in button
@@ -101,6 +106,7 @@ public class SecurityKey {
             //Login page for extra security select one of the two mfa methods
             LoginExtraSecurity loginExtraSecurity = new LoginExtraSecurity(common, testData);
             loginExtraSecurity.runLoginExtraSecurity();
+            Common.log.info("Log in with extra security");
 
             //Verify that Freja Login page is opened after verification
             common.explicitWaitPageTitle("Freja eID IDP");

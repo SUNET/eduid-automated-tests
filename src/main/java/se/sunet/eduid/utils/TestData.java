@@ -15,7 +15,7 @@ public class TestData {
     private String sendMobileOneTimePassword = "yes";
     private String username, password, givenName, surName, displayName, magicCode, email,
             phoneNumber, identityNumber, language, eppn, confirmIdBy, supportUsername,
-            emailCode, testCase, testDescription, testSuite, mfaMethod;
+            emailCode, testCase, testDescription, testSuite, mfaMethod, otpPhoneNumber;
 
     private boolean buttonValuePopup = true;
     private boolean buttonValueConfirm = true;
@@ -44,7 +44,5 @@ public class TestData {
         setSupportUsername(properties.getProperty("support_username"));
 
         setLanguage("Svenska");
-
-        //log.info("Properties loaded!");
     }
 }

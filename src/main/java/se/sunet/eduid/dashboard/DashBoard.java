@@ -66,7 +66,7 @@ public class DashBoard {
         checkShowHideText("VISA", "SHOW");
 
         //Click on Show button to display complete personal nummber
-        common.findWebElementByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button/span").click();
+        common.findWebElementByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button").click();
         common.verifyStringOnPage(testData.getIdentityNumber());
 
         //Check text on link for hide/show full identityNumber
@@ -153,13 +153,13 @@ public class DashBoard {
 
     private void checkShowHideText(String textSwedish, String textEnglish){
         if(testData.getLanguage().equalsIgnoreCase("Svenska"))
-            common.verifyStringByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button/span", textSwedish);
+            common.verifyStringByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button", textSwedish);
         else
-            common.verifyStringByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button/span", textEnglish);
+            common.verifyStringByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button", textEnglish);
     }
 
     public void pressSettings(){
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li").click();
 
         //wait for one "add more" button to be clickable
         common.explicitWaitClickableElementId("add-more-button");

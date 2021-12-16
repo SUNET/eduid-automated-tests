@@ -36,30 +36,30 @@ public class LoginExtraSecurity {
             Common.log.info("Selecting security key for mfa login");
         }
         else {
-            common.findWebElementByXpath("//*[@id=\"mfa-freja\"]/span/span").click();
+            common.findWebElementByXpath("//*[@id=\"mfa-freja\"]/span").click();
             Common.log.info("Selecting Freja eID+ for mfa login");
         }
     }
 
     private void verifyTexts(){
         //Swedish
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h2/span", "Logga in: Extra nivå av säkerhet");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p/span", "Du måste välja en andra " +
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/h2", "Logga in: Extra nivå av säkerhet");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Du måste välja en andra " +
                 "metod att autentisera dig själv. Detta hjälper att garantera att bara du kan komma åt ditt eduID.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/div[1]/div/p/span", "Säkerhetsnyckel");
-        common.verifyStringByXpath("//*[@id=\"mfa-security-key\"]/span", "ANVÄND MIN SÄKERHETSNYCKEL");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/div[2]/div/p/span", "Freja eID+");
-        common.verifyStringByXpath("//*[@id=\"mfa-freja\"]/span/span", "Freja eID+");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/div[1]/div/p", "Säkerhetsnyckel");
+        common.verifyStringByXpath("//*[@id=\"mfa-security-key\"]", "ANVÄND MIN SÄKERHETSNYCKEL");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/div[2]/div/p", "Freja eID+");
+        common.verifyStringByXpath("//*[@id=\"mfa-freja\"]/span", "Freja eID+");
 
         common.findWebElementByLinkText("English").click();
 
         //English
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h2/span", "Log in: Extra level of security");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p/span", "You need to choose a " +
-                "second method to authenticate yourself. This helps guarantee that only you can access your eduID");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/div[1]/div/p/span", "Security key");
-        common.verifyStringByXpath("//*[@id=\"mfa-security-key\"]/span", "USE MY SECURITY KEY");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/div[2]/div/p/span", "Freja eID+");
-        common.verifyStringByXpath("//*[@id=\"mfa-freja\"]/span/span", "Freja eID+");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/h2", "Log in: Extra level of security");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "You need to choose a " +
+                "second method to authenticate yourself. This helps guarantee that only you can access your eduID.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/div[1]/div/p", "Security key");
+        common.verifyStringByXpath("//*[@id=\"mfa-security-key\"]", "USE MY SECURITY KEY");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/div[2]/div/p", "Freja eID+");
+        common.verifyStringByXpath("//*[@id=\"mfa-freja\"]/span", "Freja eID+");
     }
 }

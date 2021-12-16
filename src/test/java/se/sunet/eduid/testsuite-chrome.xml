@@ -368,26 +368,6 @@
         </classes>
     </test>
 
-    <!--
-    <test name="TC_98">
-        <parameter name="testDescription" value="Confirm phone number on default account, to restore it from previous tests" />
-        <classes>
-            <class name="se.sunet.eduid.TC_31" >
-            </class>
-        </classes>
-    </test>
--->
-
-<!-- 2021-09-02 - this is no longer possible due to enhanced sanity checks of the username field
-    <test name="TC_42">
-        <parameter name="testDescription" value="Log in, with eppn, and check account data and labels" />
-        <classes>
-            <class name="se.sunet.eduid.TC_42" >
-            </class>
-        </classes>
-    </test>
--->
-
     <test name="TC_48">
         <parameter name="testDescription" value="Check that user/pw is requested at log in same session after previous log out" />
         <classes>
@@ -445,7 +425,6 @@
         </classes>
     </test>
 
-
     <test name="TC_11">
         <parameter name="testDescription" value="Initiate reset password, enter incorrect otp" />
         <classes>
@@ -462,4 +441,27 @@
         </classes>
     </test>
 
+    <test name="TC_52">
+        <parameter name="testDescription" value="Reset pw when multiple numbers are available, select 2nd phone number for OTP" />
+        <classes>
+            <class name="se.sunet.eduid.TC_52" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_54">
+        <parameter name="testDescription" value="Reset pw when multiple numbers are available, select 3nd phone number for OTP" />
+        <classes>
+            <class name="se.sunet.eduid.TC_54" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_55">
+        <parameter name="testDescription" value="Remove extra phone numbers added in TC_51" />
+        <classes>
+            <class name="se.sunet.eduid.TC_55" >
+            </class>
+        </classes>
+    </test>
 </suite>

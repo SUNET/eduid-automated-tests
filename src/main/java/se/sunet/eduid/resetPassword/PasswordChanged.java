@@ -24,7 +24,7 @@ public class PasswordChanged {
         //common.verifyStatusMessage("Klart");
 
         //verify the labels - swedish
-        common.verifyStringByXpath("//div/section[2]/div[2]/div/p/span", "Lösenordet har uppdaterats");
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/p", "Lösenordet har uppdaterats");
         common.verifyStringByXpath("//*[@id=\"return-login\"]", "Gå till eduID");
 
         //Switch language to english
@@ -34,7 +34,7 @@ public class PasswordChanged {
         //common.verifyStatusMessage("Success");
 
         //verify the labels - english
-        common.verifyStringByXpath("//div/section[2]/div[2]/div/p/span", "Password has been updated.");
+        common.verifyStringByXpath("//div/section[2]/div[2]/div/p", "Password has been updated.");
         common.verifyStringByXpath("//*[@id=\"return-login\"]", "Go to eduID");
 
         //Switch language to swedish

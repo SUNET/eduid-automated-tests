@@ -226,7 +226,7 @@ public class Common {
         webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi",
                 ".dev.eduid.se", "/", tomorrow, true));
 
-        logMagicCookie();
+//        logMagicCookie();
     }
 
     public void logMagicCookie(){

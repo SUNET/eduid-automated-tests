@@ -60,8 +60,8 @@ public class TC_46 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"navigateToDashboard"} )
     void navigateToSettings() {
         //Click on settings
-        common.explicitWaitClickableElement("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span");
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
+        common.explicitWaitClickableElement("//*[@id=\"dashboard-nav\"]/ul/a[3]/li");
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li").click();
     }
 
     @Test( dependsOnMethods = {"navigateToSettings"} )
