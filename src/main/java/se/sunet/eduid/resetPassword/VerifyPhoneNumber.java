@@ -3,7 +3,6 @@ package se.sunet.eduid.resetPassword;
 import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
-import se.sunet.eduid.utils.WebDriverManager;
 
 public class VerifyPhoneNumber {
     private final Common common;
@@ -44,7 +43,7 @@ public class VerifyPhoneNumber {
         common.verifyStringByXpath("//*[@id=\"resend-phone\"]", "Skicka bekräftelsekoden igen");
 
         //Switch to english
-        common.findWebElementByLinkText("English").click();
+        common.selectEnglish();
 
         //verify status message - english
         //common.verifyStatusMessage("One time verification code has been sent to your phone.");
@@ -67,12 +66,12 @@ public class VerifyPhoneNumber {
 
             //Timeout for the resend link to be enabled, in this case we can not use the wait for visibility in findbyId
             Common.log.info("Waiting (5min) for resent OTP link to be enabled");
-            while(WebDriverManager.getWebDriver().findElement(By.id("count-down-time-phone")).isDisplayed()){
+            while(common.getWebDriver().findElement(By.id("count-down-time-phone")).isDisplayed()){
                 common.timeoutSeconds(5);
             }
 
             //Click re-send otp
-            common.findWebElementById("resend-phone").click();
+            common.click(common.findWebElementById("resend-phone"));
 
             common.verifyStatusMessage("One time verification code has been sent to your phone.");
             common.timeoutSeconds(2);
@@ -84,13 +83,14 @@ public class VerifyPhoneNumber {
         else {
             fetchOtp();
 
-            //Click on Already have otp
-            common.findWebElementByXpath("//div/section[2]/div[2]/div/p[2]/a").click();
+            //Click on Already received sms - enter code
+            common.click(common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/p[2]/a"));
+
             common.explicitWaitClickableElementId("phone");
 
             //Switch to swedish if we need to
             if (common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")) {
-                common.findWebElementByLinkText("Svenska").click();
+                common.selectSwedish();
             }
         }
         //Enter otp
@@ -100,7 +100,7 @@ public class VerifyPhoneNumber {
 
     private void clickButton(){
         common.explicitWaitClickableElementId("save-phone-button");
-        common.findWebElementById("save-phone-button").click();
+        common.click(common.findWebElementById("save-phone-button"));
 
         //Wait for next page
         common.explicitWaitClickableElementId("copy-new-password");
@@ -114,6 +114,8 @@ public class VerifyPhoneNumber {
         Common.log.info("OTP: " +otp);
 
         //Back
-        WebDriverManager.getWebDriver().navigate().to("https://www.dev.eduid.se/reset-password/phone-code-sent/" +testData.getEmailCode());
+        common.navigateToUrl("https://www.dev.eduid.se/reset-password/phone-code-sent/" +testData.getEmailCode());
+
+        common.timeoutSeconds(2);
     }
 }

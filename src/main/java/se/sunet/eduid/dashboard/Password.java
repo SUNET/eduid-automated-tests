@@ -28,7 +28,7 @@ public class Password {
         common.verifyPageTitle("eduID dashboard");
 
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")) {
-            common.findWebElementByLinkText("Svenska").click();
+            common.selectSwedish();
         }
     }
 
@@ -42,7 +42,7 @@ public class Password {
         //Should recommended password be used
         if(!testData.isUseRecommendedPw()) {
             //Select use own password
-            common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button"));
 
             //Wait for custom password page
             common.explicitWaitClickableElement("//*[@id=\"passwordsview-form\"]/div[1]/label");
@@ -51,33 +51,29 @@ public class Password {
             verifyCustomPasswordLabels();
 
             //Select use own password again since when switch between language it will come back to default change pw page
-            common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button"));
 
             //Enter current password, first clear the input fields
-            common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").clear();
-            common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
-            common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
+            common.findWebElementByXpath("//*[@id=\"old\"]/input").clear();
+            common.findWebElementByXpath("//*[@id=\"repeat\"]/input").clear();
+            common.findWebElementByXpath("//*[@id=\"custom\"]/input").clear();
             if (testData.isIncorrectPassword()){
-                common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys("notCorrectPw");
+                common.findWebElementByXpath("//*[@id=\"old\"]/input").sendKeys("notCorrectPw");
 
                 //Type new password
-                //common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
-                common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").sendKeys(testData.getNewPassword());
+                common.findWebElementByXpath("//*[@id=\"custom\"]/input").sendKeys(testData.getNewPassword());
 
                 //Repeat new password
-                //common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
-                common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").sendKeys(testData.getNewPassword());
+                common.findWebElementByXpath("//*[@id=\"repeat\"]/input").sendKeys(testData.getNewPassword());
             }
             else {
-                common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys(testData.getPassword());
+                common.findWebElementByXpath("//*[@id=\"old\"]/input").sendKeys(testData.getPassword());
 
                 //Type new password
-                //common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").clear();
-                common.findWebElementByXpath("//*[@id=\"custom-password-field\"]/input").sendKeys(testData.getNewPassword());
+                common.findWebElementByXpath("//*[@id=\"custom\"]/input").sendKeys(testData.getNewPassword());
 
                 //Repeat new password
-                //common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").clear();
-                common.findWebElementByXpath("//*[@id=\"repeat-password-field\"]/input").sendKeys(testData.getNewPassword());
+                common.findWebElementByXpath("//*[@id=\"repeat\"]/input").sendKeys(testData.getNewPassword());
 
                 //Store the new password
                 testData.setPassword(testData.getNewPassword());
@@ -86,13 +82,13 @@ public class Password {
         }
         else if(testData.isUseRecommendedPw()){
             //Enter current password
-            common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").clear();
+            common.findWebElementByXpath("//*[@id=\"old\"]/input").clear();
             if(testData.isIncorrectPassword())
-                common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys("notCorrectPw");
+                common.findWebElementByXpath("//*[@id=\"old\"]/input").sendKeys("notCorrectPw");
             else {
-                common.findWebElementByXpath("//*[@id=\"old-password-field\"]/input").sendKeys(testData.getPassword());
+                common.findWebElementByXpath("//*[@id=\"old\"]/input").sendKeys(testData.getPassword());
 
-                testData.setPassword(common.findWebElementByXpath("//*[@id=\"suggested-password-field\"]/input").getAttribute("value"));
+                testData.setPassword(common.findWebElementByXpath("//*[@id=\"suggested\"]/input").getAttribute("value"));
                 Common.log.info("Stored recommendedPw: " +testData.getPassword());
             }
         }
@@ -101,7 +97,7 @@ public class Password {
 
         //Save button or Abort
         if(testData.isButtonValueConfirm()) {
-            common.findWebElementById("chpass-button").click();
+            common.click(common.findWebElementById("chpass-button"));
 
             // If not the correct password was entered at password change
             if(testData.isIncorrectPassword()) {
@@ -109,18 +105,20 @@ public class Password {
                         "igen eller kontakta supporten om problemet kvarstår.");
                 common.timeoutMilliSeconds(500);
                 //Click abort
-                common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]").click();
+                common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]"));
             }
             //If too weak password is chosen, click abort. Inside save button if-statement to test if its possible to click it
             else if(testData.getNewPassword().equalsIgnoreCase("test")) {
-                common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]").click();
+                common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]"));
             }
             else {
-                common.verifyStatusMessage("Lösenordet har ändrats");
+                //Confirmation of password change is no longer presented
+                //common.verifyStatusMessage("Lösenordet har ändrats");
+                common.timeoutSeconds(2);
             }
         }
         else
-            common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]"));
     }
 
 
@@ -133,7 +131,7 @@ public class Password {
         common.verifyStringOnPage("Tänk på att välja ett säkert lösenord");
         common.verifyStringOnPage("Blanda stora och små bokstäver (inte bara första bokstaven)");
         common.verifyStringOnPage("Lägg till en eller flera siffror någonstans i mitten av lösenordet");
-        common.verifyStringOnPage("Använd specialtecken som@ $ + _ %");
+        common.verifyStringOnPage("Använd specialtecken som @ $ + _ %");
         common.verifyStringOnPage("Blanksteg (mellanslag) ignoreras");
 
         //Heading 2 - Swedish
@@ -146,10 +144,10 @@ public class Password {
         common.verifyStringOnPage("REKOMMENDERA ETT LÖSENORD");
 
         //Switch to English
-        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
+        common.selectEnglish();
 
         //Click on not use recommended password
-        common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"password-suggestion\"]/div/button"));
 
         //Heading - English
         common.verifyStringOnPage("Change your current password");
@@ -172,7 +170,7 @@ public class Password {
         common.verifyStringOnPage("SUGGEST A PASSWORD FOR ME");
 
         //Switch to Swedish
-        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
+        common.selectSwedish();
     }
 
     private void verifyLabelsSwedish() {
@@ -188,7 +186,7 @@ public class Password {
     }
 
     private void verifyLabelsEnglish() {
-        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
+        common.selectEnglish();
 
         //Heading
         common.verifyStringOnPage("Change password");
@@ -201,7 +199,7 @@ public class Password {
         common.verifyStringOnPage("CHANGE PASSWORD");
 
         //Click on Swedish
-        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
+        common.selectSwedish();
     }
 
     private void verifyRecommendedPwLabels(){
@@ -209,29 +207,29 @@ public class Password {
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Byt ditt lösenord");
 
         //Label 1
-        common.verifyStringByXpath("//*[@id=\"old-password-field\"]/label","Skriv ditt nuvarande lösenord");
+        common.verifyStringByXpath("//*[@id=\"old\"]/label","Skriv ditt nuvarande lösenord");
         //Label 2
-        common.verifyStringByXpath("//*[@id=\"suggested-password-field\"]/label","Rekommenderat lösenord");
+        common.verifyStringByXpath("//*[@id=\"suggested\"]/label","Rekommenderat lösenord");
 
         // Link label
         common.verifyStringByXpath("//*[@id=\"password-suggestion\"]/div/button", "JAG VILL INTE ANVÄNDA DET REKOMMENDERADE LÖSENORDET");
 
         //English
-        common.findWebElementByLinkText("English").click();
+        common.selectEnglish();
 
         //Heading
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Change your current password");
 
         //Label 1
-        common.verifyStringByXpath("//*[@id=\"old-password-field\"]/label","Current password");
+        common.verifyStringByXpath("//*[@id=\"old\"]/label","Current password");
         //Label 2
-        common.verifyStringByXpath("//*[@id=\"suggested-password-field\"]/label","Suggested password");
+        common.verifyStringByXpath("//*[@id=\"suggested\"]/label","Suggested password");
 
         // Link label
         common.verifyStringByXpath("//*[@id=\"password-suggestion\"]/div/button", "I DON'T WANT A SUGGESTED PASSWORD");
 
-        //English
-        common.findWebElementByLinkText("Svenska").click();
+        //Swedish
+        common.selectSwedish();
         common.timeoutMilliSeconds(500);
     }
 }

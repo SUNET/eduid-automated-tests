@@ -33,7 +33,7 @@ public class ConfirmHuman {
                 "verifiera att du är en människa och inte en maskin.");
 
         //Switch language to English
-        common.findWebElementByLinkText("English").click();
+        common.selectEnglish();
 
         //Heading
         common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID is easier and safer login.");
@@ -42,8 +42,7 @@ public class ConfirmHuman {
         common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Confirm that you are a human.");
 
         //Switch language to Swedish
-        common.findWebElementByLinkText("Svenska").click();
-
+        common.selectSwedish();
     }
 
     private void clickButton(){
@@ -55,8 +54,9 @@ public class ConfirmHuman {
                 //common.logMagicCookie();
             }
 
-            //Click on Done button
-            common.findWebElementById("send-captcha-button").click();
+            //Click on Send captcha button
+            common.click(common.findWebElementById("send-captcha-button"));
+            common.timeoutSeconds(2);
 
             //Common.log.info("Magic code: " +common.getMagicCode());
 
@@ -72,30 +72,28 @@ public class ConfirmHuman {
                 common.verifyStatusMessage("E-postadressen används redan");
 
                 //Press on login button to prepare Log in and delete the account
-                common.findWebElementById("login").click();
+                common.click(common.findWebElementById("login"));
             }
             else {
-                common.verifyStatusMessage("E-postadressen har registrerats");
-                //TODO switch to english...
                 //Verify text on page
-                common.verifyStringByXpath("//div[1]/section[2]/div[2]/h3", "Kontot skapades");
-                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/p",
+                common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Kontot skapades");
+                common.verifyStringByXpath("//*[@id=\"email-display\"]/p",
                         "Slutför skapandet av ditt eduID genom att klicka länken skickad till:");
-                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/h3", testData.getUsername());
+                common.verifyStringByXpath("//*[@id=\"email-display\"]/h3", testData.getUsername());
 
                 //Verify text in english
-                common.findWebElementByLinkText("English").click();
-                common.verifyStringByXpath("//div[1]/section[2]/div[2]/h3", "A link has been sent to your email address.");
-                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/p",
+                common.selectEnglish();
+                common.verifyStringByXpath("//*[@id=\"content\"]/h3", "A link has been sent to your email address.");
+                common.verifyStringByXpath("//*[@id=\"email-display\"]/p",
                         "Complete registration by clicking the link sent to:");
-                common.verifyStringByXpath("//div[1]/section[2]/div[2]/div/h3", testData.getUsername());
+                common.verifyStringByXpath("//*[@id=\"email-display\"]/h3", testData.getUsername());
 
                 //Continue with magic url to get to successful registered page
                 common.timeoutSeconds(2);
 
                 //Fetch the registration code
                 common.navigateToUrl("https://signup.dev.eduid.se/services/signup/get-code/?email=" +testData.getUsername());
-                //Common.log.info("URL: " +"https://signup.dev.eduid.se/services/signup/get-code/?email=" +common.getUsername());
+
                 String registrationCode = common.findWebElementByXpath("/html/body").getText();
                 Common.log.info("Sign up code: " +registrationCode);
 
@@ -104,7 +102,7 @@ public class ConfirmHuman {
             }
         }
         else {
-            common.findWebElementById("cancel-captcha-button").click();
+            common.click(common.findWebElementById("cancel-captcha-button"));
             common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID är enklare och säkrare inloggning.");
         }
     }

@@ -3,7 +3,6 @@ package se.sunet.eduid;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
-import se.sunet.eduid.utils.WebDriverManager;
 import java.io.IOException;
 
 public class TC_49 extends BeforeAndAfter {
@@ -141,7 +140,7 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login3"} )
     void stopBrowser(){
-        WebDriverManager.quitWebDriver();
+        common.getWebDriver().quit();
     }
 
     @Test( dependsOnMethods = {"stopBrowser"} )

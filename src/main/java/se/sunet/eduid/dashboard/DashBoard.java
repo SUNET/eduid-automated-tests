@@ -41,7 +41,7 @@ public class DashBoard {
         //TODO temp fix to get swedish language - needed when new accounts created
        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")
                 && testData.getLanguage().equalsIgnoreCase("Svenska")) {
-            common.findWebElementByLinkText("Svenska").click();
+            common.selectSwedish();
         }
     }
 
@@ -53,12 +53,14 @@ public class DashBoard {
         common.verifyStringOnPage(testData.getUsername().toLowerCase());
     }
 
-    private void verifyDisplayName() { common.verifyStringOnPage(testData.getDisplayName()); }
+    private void verifyDisplayName() {
+        common.verifyXpathContainsString("//*[@id=\"profile-grid\"]/div[1]", testData.getDisplayName()); }
 
-    private void verifyGivenName() { common.verifyStringOnPage(testData.getGivenName()); }
+    private void verifyGivenName() {
+        common.verifyXpathContainsString("//*[@id=\"profile-grid\"]/div[1]",testData.getGivenName()); }
 
     private void verifySurName() {
-        common.verifyStringOnPage(testData.getSurName());
+        common.verifyXpathContainsString("//*[@id=\"profile-grid\"]/div[1]",testData.getSurName());
     }
 
     private void verifyIdentityNumber() {
@@ -66,7 +68,7 @@ public class DashBoard {
         checkShowHideText("VISA", "SHOW");
 
         //Click on Show button to display complete personal nummber
-        common.findWebElementByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button"));
         common.verifyStringOnPage(testData.getIdentityNumber());
 
         //Check text on link for hide/show full identityNumber
@@ -159,7 +161,7 @@ public class DashBoard {
     }
 
     public void pressSettings(){
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li").click();
+        common.navigateToSettings();
 
         //wait for one "add more" button to be clickable
         common.explicitWaitClickableElementId("add-more-button");

@@ -22,7 +22,7 @@ public class ConfirmedIdentity {
 
         //TODO temp fix to get swedish language
         if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
-            common.findWebElementByLinkText("Svenska").click();
+            common.selectSwedish();
         common.timeoutMilliSeconds(500);
     }
 
@@ -34,13 +34,14 @@ public class ConfirmedIdentity {
         textAndLabelsSwedish();
 
         //Change to English
-        common.findWebElementByLinkText("English").click();
+        common.selectEnglish();
 
         //English labels
         textAndLabelsEnglish();
     }
 
     private void textAndLabelsSwedish(){
+        common.timeoutSeconds(2);
         //Heading
         common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID för " +testData.getUsername().toLowerCase());
 
@@ -49,13 +50,13 @@ public class ConfirmedIdentity {
 
         //Text
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "Personnumret " +
-                "nedan är nu kopplat till detta eduID. Använd ditt eduID för att logga in till olika tjänster inom högskolan.");
+                "nedan är nu kopplat till din eduID.");
 
         //Heading
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/label", "Personnummer");
 
         //Show full id-number
-        common.findWebElementByXpath("//*[@id=\"text-content\"]/div[2]/div/button").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"text-content\"]/div[2]/div/button"));
 
         //Data
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/p", testData.getIdentityNumber());
@@ -73,14 +74,14 @@ public class ConfirmedIdentity {
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Your eduID is ready to use");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "The below id number " +
-                "is now connected to this eduID. Use your eduID to log in to services related to higher education.");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "The Swedish national " +
+                "identity number below is now connected to your eduID.");
 
         //Heading
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/label", "Id number");
 
         //Show full id-number
-        common.findWebElementByXpath("//*[@id=\"text-content\"]/div[2]/div/button").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"text-content\"]/div[2]/div/button"));
 
         //Data
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/p", testData.getIdentityNumber());

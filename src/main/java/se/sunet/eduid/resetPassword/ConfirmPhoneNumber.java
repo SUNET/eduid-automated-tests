@@ -3,7 +3,6 @@ package se.sunet.eduid.resetPassword;
 import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
-import se.sunet.eduid.utils.WebDriverManager;
 
 public class ConfirmPhoneNumber {
     private final Common common;
@@ -27,10 +26,10 @@ public class ConfirmPhoneNumber {
 
     private void getConfirmationCode(){
         //Press settings tab
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li").click();
+        common.navigateToSettings();
 
         //Press the Confirm phone number link
-        common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button"));
 
         common.switchToPopUpWindow();
         verifyLabels();
@@ -39,7 +38,7 @@ public class ConfirmPhoneNumber {
         // it will not be sent for the cancel/incorrect code and if the magic is provided. Because the code will be sent for 1st use case where
         // incorrect code is entered for phone number confirmation. The confirmPhoneNumberCode is the same as the magic
         if(!testData.getMagicCode().equalsIgnoreCase("cancel") && testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
-            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a"));
 
             //Wait for status information to appear
             common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
@@ -55,7 +54,7 @@ public class ConfirmPhoneNumber {
         }
         //If OTP should not be ordered, close the pop-up
         else {
-            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button"));
             common.timeoutMilliSeconds(500);
         }
     }
@@ -65,7 +64,7 @@ public class ConfirmPhoneNumber {
         if(!testData.getMagicCode().equalsIgnoreCase("cancel")) {
 
             //Press the Confirm phone number link
-            common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button"));
 
             common.switchToPopUpWindow();
 
@@ -85,11 +84,12 @@ public class ConfirmPhoneNumber {
             String phoneCode = common.findWebElementByXpath("/html/body").getText();
             Common.log.info("Phone code: " +phoneCode);
 
-            WebDriverManager.getWebDriver().navigate().back();
+            common.getWebDriver().navigate().back();
+            //WebDriverManager.getWebDriver().navigate().back();
 
             //Press the Confirm phone number link - again
 //            common.explicitWaitClickableElement("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span");
-            common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button"));
 
             common.switchToPopUpWindow();
 
@@ -111,7 +111,7 @@ public class ConfirmPhoneNumber {
                 common.findWebElementById("phoneConfirmDialogControl").sendKeys("codeBlue10");
             }
             //Send the code by click OK
-            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]"));
 
             //Verify that the confirmation info label shows
             if(testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
@@ -121,7 +121,7 @@ public class ConfirmPhoneNumber {
         }
     }
 
-    private void verifyLabels(){//*[@id="phoneConfirmDialogControl-wrapper"]/div/label
+    private void verifyLabels(){
         common.explicitWaitClickableElement("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a");
         //common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span", "Skriv in koden som skickats till +46");
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5", "Skriv in koden som skickats till " +testData.getPhoneNumber());

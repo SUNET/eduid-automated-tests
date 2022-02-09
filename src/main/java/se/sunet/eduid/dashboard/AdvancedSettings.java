@@ -1,8 +1,13 @@
 package se.sunet.eduid.dashboard;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
-import se.sunet.eduid.utils.WebDriverManager;
+
+import java.util.List;
+import java.util.Random;
 
 public class AdvancedSettings {
     private final Common common;
@@ -19,6 +24,7 @@ public class AdvancedSettings {
         verifyLabels();
         storeEppn();
         pressAddSecurityKey();
+//k        pressLadok();
         pressOrcid();
     }
 
@@ -27,11 +33,11 @@ public class AdvancedSettings {
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
-            common.findWebElementByLinkText("Svenska").click();
+            common.selectSwedish();
     }
 
     private void pressAdvancedSettings(){
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[4]/li").click();
+        common.navigateToAdvancedSettings();
 
         //Wait for heading "Gör ditt eduID säkrare"
         common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h4");
@@ -44,7 +50,7 @@ public class AdvancedSettings {
 
     private void pressAddSecurityKey(){
         //Click on add security key
-        common.findWebElementByXpath("//*[@id=\"security-webauthn-button\"]").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"security-webauthn-button\"]"));
 
         common.switchToPopUpWindow();
 
@@ -56,20 +62,71 @@ public class AdvancedSettings {
 
 //        else{
             //Press close, in corner of pop-up
-            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button"));
   //      }
+    }
+
+    private void pressLadok(){
+        //Activate ladok
+        common.timeoutSeconds(2);
+        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[1]/label/div"));
+        common.timeoutSeconds(1);
+
+        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/label", "Välj lärosäte");
+        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/div/div/div[1]/div", "Tillgängliga lärosäten");
+
+        //Extract all table rows in to a list of web elements
+        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/div/div/div[1]/div"));
+
+        WebElement elementName = common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/div/div[2]");
+        List<WebElement> rows = elementName.findElements(By.xpath("*"));
+
+        //Assert that there are at least two univeritys in the drop down
+        Assert.assertTrue(rows.size() > 1, "Number of rows with available universitys are too low (are: " +rows.size() +" lower than 2)");
+
+        //click on english
+        common.selectEnglish();
+        common.timeoutSeconds(1);
+
+        //Activate ladok button
+        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[1]/label/div"));
+        common.timeoutSeconds(1);
+
+        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/label", "Select higher education institution");
+        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/div/div/div[1]/div", "Available higher education institutions");
+
+        //Extract all table rows in to a list of web elements
+        WebElement elementName2 = common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/select");
+        List<WebElement> rows2 = elementName2.findElements(By.xpath("*"));
+
+        //Assert that there are at least two univeritys in the drop down
+        Assert.assertTrue(rows2.size() > 1, "Number of rows with available universitys (are: " +rows.size() +" lower than 2)");
+
+        //Select one university from the list by random
+        Random random = new Random();
+        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/select/option[" + random.nextInt(rows2.size()+1) +"]"));
+
+        //Verify status message
+        common.verifyStatusMessage("You need a verified Swedish national identity number to link your account with Ladok.");
+
+        //click on swedish
+        common.selectSwedish();
+
+        //Verify status message
+        common.verifyStatusMessage("Du behöver verifiera ditt svenska personnummer för att länka ditt konto med Ladok.");
     }
 
     private void pressOrcid(){
         common.timeoutMilliSeconds(500);
-        common.findWebElementByXpath("//*[@id=\"connect-orcid-button\"]").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"connect-orcid-button\"]"));
 
         //Transferred to orcid after click
         common.explicitWaitPageTitle("ORCID");
         common.verifyPageTitle("ORCID");
 
         //Just go back to end test case by logout
-        WebDriverManager.getWebDriver().navigate().back();
+        //WebDriverManager.getWebDriver().navigate().back();
+        common.getWebDriver().navigate().back();
         common.timeoutMilliSeconds(200);
     }
 
@@ -85,6 +142,13 @@ public class AdvancedSettings {
                 "dig från andra forskare och en mekanism för att koppla dina forskningsresultat och aktiviteter till ditt " +
                 "ORCID iD oberoende vilken organisation du är verksam vid.");
 
+        common.verifyStringOnPage("Ladok information");
+        common.verifyStringOnPage("Data från Ladok kan ge dig tillgång till fler tjänster. Vissa " +
+                "lärosäten låter eduID hämta data från Ladok.");
+        common.verifyStringOnPage("Länka ditt konto till Ladok");
+        common.verifyStringOnPage("Att länka ditt eduID-konto med Ladok är nödvändigt om du vill komma " +
+                "åt en tjänst som kräver en European Student Identifier.");
+
         common.verifyStringOnPage("Unikt ID");
         common.verifyStringOnPage("Detta är ett autogenererat unikt id för ditt eduID som du kan behöva " +
                 "ange när du ber om teknisk support.");
@@ -92,7 +156,7 @@ public class AdvancedSettings {
         common.verifyStringNotEmptyByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]", "//*[@id=\"uniqueId-container\"]/div[2]/label");
 
         //click on english
-        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
+        common.selectEnglish();
 
         //English
         common.verifyStringOnPage("Make your eduID more secure");
@@ -104,6 +168,13 @@ public class AdvancedSettings {
         common.verifyStringOnPage("ORCID iD distinguishes you from other researchers and allows linking of " +
                 "your research outputs and activities to your identity, regardless of the organisation you are working with.");
 
+        common.verifyStringOnPage("Ladok information");
+        common.verifyStringOnPage("Data from Ladok might give you access to more services. Some higher " +
+                "education institutions allow eduID to fetch data from Ladok.");
+        common.verifyStringOnPage("Link your account to Ladok");
+        common.verifyStringOnPage("Linking your eduID account with data from Ladok is necessary if you " +
+                "want to access a service requiring a European Student Identifier.");
+
         common.verifyStringOnPage("Unique ID");
         common.verifyStringOnPage("This is an automatically generated unique identifier for your eduID.");
         common.verifyStringOnPage("eppn");
@@ -111,6 +182,6 @@ public class AdvancedSettings {
         common.verifyStringOnPage("You might be asked to share this information if you need technical support.");
 
         //click on swedish
-        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
+        common.selectSwedish();
     }
 }

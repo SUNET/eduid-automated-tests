@@ -31,7 +31,7 @@ public class EmailSent {
 
 
         //Switch to english
-        common.findWebElementByLinkText("English").click();
+        common.selectEnglish();
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p", "A link has been sent to your email "
                 +testData.getEmail() +". Link is valid for 2 hours.");
 
@@ -39,6 +39,6 @@ public class EmailSent {
                 "receive the email? Check your junk email, orresend link");
 
         //Switch to english
-        common.findWebElementByLinkText("Svenska").click();
+        common.selectSwedish();
     }
 }

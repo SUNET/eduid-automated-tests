@@ -24,7 +24,7 @@ public class Register {
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
-            common.findWebElementByLinkText("Svenska").click();
+            common.selectSwedish();
     }
 
     private void verifyLabels(){
@@ -39,7 +39,7 @@ public class Register {
         common.verifyStringNotEmptyByXpath("//*[@id=\"content\"]/p[3]/a", "//*[@id=\"content\"]/p[3]/a");
 
         //Switch language to English
-        common.findWebElementByLinkText("English").click();
+        common.selectEnglish();
         common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID is easier and safer login.");
         common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Register your email address to create your eduID.");
 
@@ -63,7 +63,7 @@ public class Register {
 
         common.findWebElementById("email").clear();
         common.findWebElementById("email").sendKeys(testData.getUsername());
-        common.findWebElementById("register-button").click();
+        common.click(common.findWebElementById("register-button"));
     }
 
     private void registerPopUp(){
@@ -71,13 +71,13 @@ public class Register {
         verifyTermsEnglish();
 
         //Press abort and switch to swedish
-        common.findWebElementById("reject-tou-button").click();
+        common.click(common.findWebElementById("reject-tou-button"));
 
         common.timeoutMilliSeconds(200);
-        common.findWebElementByLinkText("Svenska").click();
+        common.selectSwedish();
 
         //Click on register button again and verify terms in swedish
-        common.findWebElementById("register-button").click();
+        common.click(common.findWebElementById("register-button"));
         verifyTermsSwedish();
 
         //Click on accept or reject

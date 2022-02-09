@@ -13,7 +13,7 @@ public class TC_44 extends BeforeAndAfter {
     void login(){
         login.verifyPageTitle();
         login.enterUsernamePassword();
-        common.findWebElementById("login-form-button").click();
+        common.click(common.findWebElementById("login-form-button"));
 
         common.explicitWaitPageTitle("Release check for SWAMID");
     }

@@ -18,7 +18,7 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
 
     @Override
     public boolean retry(ITestResult iTestResult) {
-        webDriver = WebDriverManager.getWebDriver();
+//        webDriver = WebDriverManager.getWebDriver();
         testCase = iTestResult.getTestContext().getName();
         testMethod = iTestResult.getName();
 

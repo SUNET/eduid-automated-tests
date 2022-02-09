@@ -51,7 +51,8 @@ public class TC_27 extends BeforeAndAfter {
         common.verifyStatusMessage("Telefonkoden har gått ut. Skicka telefonkoden igen.");
 
         //Switch to english
-        common.findWebElementByLinkText("English").click();
+        common.timeoutMilliSeconds(900);
+        common.selectEnglish();
 
         common.verifyStatusMessage("Phone code has expired. Please send phone code again.");
     }

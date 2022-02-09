@@ -17,7 +17,7 @@ public class PersonalInfo {
         //If new account
         if(testData.isRegisterAccount()) {
             //Click add data
-            common.findWebElementById("add-personal-data").click();
+            common.click(common.findWebElementById("add-personal-data"));
             updatePersonalInfo();
         }
         else
@@ -38,7 +38,7 @@ public class PersonalInfo {
         //TODO temp fix to get swedish language - needed when new accounts created
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")
                 && testData.getLanguage().equalsIgnoreCase("Svenska") && testData.isRegisterAccount()) {
-            common.findWebElementByLinkText("Svenska").click();
+            common.selectSwedish();
         }
     }
 
@@ -55,7 +55,7 @@ public class PersonalInfo {
         }
         else{
             //Click on change
-            common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button"));
 
             updatePersonalInfo();
         }
@@ -93,7 +93,7 @@ public class PersonalInfo {
 
         //If new account
         if(testData.isRegisterAccount()) {
-            common.findWebElementById("Svenska").click();
+            common.click(common.findWebElementById("Svenska"));
         }
 
         pressAddButton();
@@ -104,29 +104,33 @@ public class PersonalInfo {
         if((testData.getLanguage().equalsIgnoreCase("Svenska") && !testData.getLanguage().equalsIgnoreCase(
                 common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[4]/p").getText()))) {
             //Click on change
-            common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button"));
 
             //Select new language - Swedish
-            common.findWebElementById("Svenska").click();
+            common.click(common.findWebElementById("Svenska"));
 
             //Verify button text
             common.verifyStringByXpath("//*[@id=\"personal-data-button\"]", "SAVE");
 
             pressAddButton();
+
+            common.timeoutSeconds(1);
         }
         //Change to English
         else if(testData.getLanguage().equalsIgnoreCase("English") && !testData.getLanguage().equalsIgnoreCase(
                 common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[2]/div[4]/p").getText())){
             //Click on change
-            common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button"));
 
             //Select new language - English
-            common.findWebElementById("English").click();
+            common.click(common.findWebElementById("English"));
 
             //Verify button text
             common.verifyStringByXpath("//*[@id=\"personal-data-button\"]", "SPARA");
 
             pressAddButton();
+
+            common.timeoutSeconds(1);
         }
     }
 
@@ -135,7 +139,7 @@ public class PersonalInfo {
 
         //Click Add button
         common.explicitWaitClickableElementId("personal-data-button");
-        common.findWebElementById("personal-data-button").click();
+        common.click(common.findWebElementById("personal-data-button"));
         common.timeoutMilliSeconds(500);
     }
 

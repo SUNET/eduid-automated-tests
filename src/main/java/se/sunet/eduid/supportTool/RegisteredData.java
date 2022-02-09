@@ -224,6 +224,6 @@ public class RegisteredData {
     }
 
     private void logout(){
-        common.findWebElementById("logout-button").click();
+        common.click(common.findWebElementById("logout-button"));
     }
 }

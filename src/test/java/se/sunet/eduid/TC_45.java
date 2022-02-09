@@ -47,7 +47,7 @@ public class TC_45 extends BeforeAndAfter {
     void login2(){
         login.verifyPageTitle();
         login.enterUsernamePassword();
-        common.findWebElementById("login-form-button").click();
+        common.click(common.findWebElementById("login-form-button"));
 
         common.explicitWaitPageTitle("Release check for SWAMID");
     }
@@ -60,7 +60,7 @@ public class TC_45 extends BeforeAndAfter {
         common.navigateToUrl("https://dev.eduid.se");
 
         //Click on sign in link
-        common.findWebElementByXpath("//*[@id=\"login\"]/a").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"login\"]/a"));
 
         testData.setRegisterAccount(false);
 

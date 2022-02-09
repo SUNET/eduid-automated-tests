@@ -32,7 +32,7 @@ public class StartPage {
 
     private void signIn(){
         //Click on sign in link
-        common.findWebElementByXpath("//*[@id=\"login\"]/a").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"login\"]/a"));
 
         //Wait for next page
         common.explicitWaitPageTitle("eduID login");
@@ -40,7 +40,7 @@ public class StartPage {
 
     private void registerAccount(){
         //Click on sign up button
-        common.findWebElementById("register").click();
+        common.click(common.findWebElementById("register"));
     }
 
     private void verifyLabelsSwedish(){

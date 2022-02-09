@@ -18,13 +18,13 @@ public class Identity {
         verifyIdentity();
 
         if(testData.getTestSuite().equalsIgnoreCase("prod"))
-            common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4/span", "Ditt eduID är redo att användas");
+            common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Ditt eduID är redo att användas");
         else
             verifyLabels();
     }
 
     private void pressIdentity(){
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[2]/li").click();
+        common.navigateToIdentity();
     }
 
     private void verifyPageTitle() {
@@ -32,12 +32,13 @@ public class Identity {
 
         //TODO temp fix to get swedish language
         if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
-            common.findWebElementByLinkText("Svenska").click();
+            common.selectSwedish();
     }
 
     private void verifyIdentity(){
         //Click on show/hide full identityNumber
-        common.findWebElementByXpath("//*[@id=\"text-content\"]/div[2]/div/button[1]").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"text-content\"]/div[2]/div/button[1]"));
+
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/p", testData.getIdentityNumber());
     }
 
@@ -94,7 +95,7 @@ public class Identity {
 
         //English
         //Click on english
-        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[1]/a").click();
+        common.selectEnglish();
 
         //Verify identity
         verifyIdentity();
@@ -149,7 +150,7 @@ public class Identity {
                 "will need to first create a digital ID-card in the Freja eID app.");
 
         //Click on Freja
-        common.findWebElementById("eidas-show-modal").click();
+        common.click(common.findWebElementById("eidas-show-modal"));
 
 
         //Switch to the Freja Id pop up
@@ -178,11 +179,11 @@ public class Identity {
                 "Freja eID is now ready to be used with your eduID");
 
         //Press cancel
-        common.findWebElementById("eidas-hide-modal").click();
+        common.click(common.findWebElementById("eidas-hide-modal"));
         common.timeoutMilliSeconds(500);
 
         //Click on swedish
-        common.findWebElementByXpath("//*[@id=\"language-selector\"]/p[2]/a").click();
+        common.selectSwedish();
     }
 
     private void verifyFrejaIdLabels(){

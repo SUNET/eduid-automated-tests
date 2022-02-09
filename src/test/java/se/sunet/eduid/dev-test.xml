@@ -7,9 +7,9 @@
     <parameter name="language" value="sv" />
     <parameter name="testsuite" value="dev" />
 
-    <listeners>
+<!--    <listeners>
         <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
-    </listeners>
+    </listeners>-->
 
 
     <!--
@@ -63,7 +63,14 @@ TODO - Remove refresh page in phone number class - niqueId-container"]/div[2]/p[
 TODO - pop up säkerhetsnyckel lägg till engelska
 ToDO - placeholder vid lägga till personnummer - identitet
 TODO - Göra nytt nummer som primary, logga ut och kolla att så är fallet och sen återställa
-
+TODO - I security key,  bryt ut inloggningarna längst ned i egna test steg
+TODO - Kontroll av året i copyright
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "Personnumret " +
+                "nedan är nu kopplat till din eduID.");
+TODO - kontrollera att scrollbar syns vid liten upplösning på alla sidor utom login page.
+            //Måste lägga till nin-cookie för att verifiera cookie name= nin, value = 197501100395
+            //TC verifiera persnr med freja eid...
+            //TC pw reset med freja eid..
 
 use this phone number range in your tests 0701740605-0701740699
 
@@ -82,14 +89,6 @@ Virtual auth for enhanced security (webauthn),
 -->
 
     <!--
-        <test name="TC_40">
-            <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by phone" />
-            <classes>
-                <class name="se.sunet.eduid.TC_40" >
-                </class>
-            asses>
-        </test>
-
         <parameter name="url" value="https://mfa-check.swamid.se" />
 
         <test name="TC_50">
@@ -101,49 +100,25 @@ Virtual auth for enhanced security (webauthn),
     </test>
     -->
 
-    <!--
-    <test name="TC_23">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set a new custom password, use default pw" />
-        <classes>
-            <class name="se.sunet.eduid.TC_23" >
-            </class>
-        </classes>
-    </test>
-036w 00mr 0641
-    -->
-    <test name="TC_9">
-        <parameter name="testDescription" value="Try to add the default email address as extra email address" />
-        <classes>
-            <class name="se.sunet.eduid.TC_9" >
-            </class>
-        </classes>
-    </test>
+<!--
+freja som mfa metod,
+verifiera personnummer med freja
 
 
-    <!--
-
+15, 43
+46, 54
     -->
 
 <!--95lk 734z 39da.
-Ej bekräftat telefonnummer ger inget val om extra säkerthet vid reset-pw när kontot varit avslutat.
-
-    <test name="TC_42">
-        <parameter name="testDescription" value="Log in, with eppn, and check account data and labels" />
-        <classes>
-            <class name="se.sunet.eduid.TC_42" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_48">
-        <parameter name="testDescription" value="Check that user/pw is requested at log in same session after previous log out" />
-        <classes>
-            <class name="se.sunet.eduid.TC_48" >
-            </class>
-        </classes>
-    </test>
 
 -->
+    <test name="TC_53">
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings, use Freja eID for mfa login" />
+        <classes>
+            <class name="se.sunet.eduid.TC_53" >
+            </class>
+        </classes>
+    </test>
 
 
 

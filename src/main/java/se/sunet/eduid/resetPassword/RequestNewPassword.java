@@ -29,7 +29,7 @@ public class RequestNewPassword {
     }
 
     private void pressRestPassword(){
-        common.findWebElementById("reset-password-button").click();
+        common.click(common.findWebElementById("reset-password-button"));
 
         //wait the texts on next page
         common.explicitWaitVisibilityElement("//*[@id=\"reset-pass-display\"]/p");
@@ -44,12 +44,12 @@ public class RequestNewPassword {
         common.verifyStrings("namn@example.com", common.findWebElementByXpath("//*[@id=\"email\"]").getAttribute("placeholder"));
 
         //Switch to english
-        common.findWebElementByLinkText("English").click();
+        common.selectEnglish();
         common.verifyStringByXpath("//*[@id=\"content\"]/p", "Enter your email address registered to your account");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address\n*");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/span", "a valid email address");
 
         //Switch to english
-        common.findWebElementByLinkText("Svenska").click();
+        common.selectSwedish();
     }
 }

@@ -2,7 +2,7 @@
 
 <suite name="prod">
     <parameter name="url" value="https://dev.eduid.se" />
-    <parameter name="browser" value="firefox" />
+    <parameter name="browser" value="chrome" />
     <parameter name="headless" value="false" />
     <parameter name="language" value="sv" />
     <parameter name="testsuite" value="prod" />

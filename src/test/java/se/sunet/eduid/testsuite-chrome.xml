@@ -7,9 +7,9 @@
     <parameter name="language" value="sv" />
     <parameter name="testsuite" value="dev" />
 
-    <listeners>
+<!--    <listeners>
         <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
-    </listeners>
+    </listeners>-->
 
     <test name="TC_1">
         <parameter name="testDescription" value="Log in and check account data and labels" />
@@ -203,6 +203,8 @@
             </class>
         </classes>
     </test>
+
+    OBS! - 35 -> 26 OK, 43 kan inte logga in i supportverktyget får fel usernamen password
 -->
 
 
@@ -402,9 +404,18 @@
     </test>
 
     <test name="TC_46">
-        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings" />
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings, Verify the Security key" />
         <classes>
             <class name="se.sunet.eduid.TC_46" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_56">
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings, attempt
+        to verify the Security key without the nin-cookie set. I.e. Security key verification will fail" />
+        <classes>
+            <class name="se.sunet.eduid.TC_56" >
             </class>
         </classes>
     </test>

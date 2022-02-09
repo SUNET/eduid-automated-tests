@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
-public class TC_53 extends BeforeAndAfter {
+public class TC_56 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -67,15 +67,15 @@ public class TC_53 extends BeforeAndAfter {
 
         common.explicitWaitClickableElementId("mfa-security-key");
     }
-/*
+
     @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
     void loginMfa() {
         //Set mfa method to be used to "security key" at login.
-        testData.setMfaMethod("freja");
+        testData.setMfaMethod("securitykey");
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
-        Common.log.info("Log in with Freja eID+");
+        Common.log.info("Log in with extra security");
 
         common.timeoutSeconds(2);
     }
@@ -83,7 +83,7 @@ public class TC_53 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"loginMfa"} )
     void selectUserRefIdp(){
         //Add nin cookie
-        common.addNinCookie();
+        //common.addNinCookie();
 
         //Select and submit user
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
@@ -93,15 +93,15 @@ public class TC_53 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void verifySecurityKeyStatus() {
-        common.verifyStatusMessage("Säkerhetsnyckeln verifierad");
+        common.verifyStatusMessage("Identiteten motsvarar inte den som är bekräftad för detta eduID");
 
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/label", "VERIFIERAD");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button", "VERIFIERA");
 
         common.selectEnglish();
-        common.verifyStatusMessage("U2F token verified successfully");
+        common.verifyStatusMessage("The identity does not match the one verified for this eduID");
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/label", "VERIFIED");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button", "VERIFY KEY");
         common.selectSwedish();
     }
 
@@ -131,6 +131,4 @@ public class TC_53 extends BeforeAndAfter {
         testData.setIncorrectPassword(true);
         login.runLogin();
     }
-
- */
 }

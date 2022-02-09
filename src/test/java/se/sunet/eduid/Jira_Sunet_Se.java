@@ -10,7 +10,7 @@ public class Jira_Sunet_Se extends BeforeAndAfter {
         common.findWebElementById("searchinput").sendKeys("eduid");
         common.timeoutMilliSeconds(1500);
 
-        common.findWebElementByXpathContainingText("eduID Sweden").click();
+        common.click(common.findWebElementByXpathContainingText("eduID Sweden"));
 
         //Wait for the eduID log in page to load
         common.timeoutMilliSeconds(1000);
@@ -19,11 +19,12 @@ public class Jira_Sunet_Se extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"navigateEduId"} )
     void loginToJira(){
+        login.verifyPageTitle();
         login.enterUsernamePassword();
-        common.findWebElementById("login-form-button").click();
+        common.click(common.findWebElementById("login-form-button"));
 
         // Verify that we see the DIGG OPS que
         common.explicitWaitPageTitle("Service Desk");
-        common.verifyStringByXpath("//div[1]/div[2]/div/section/div[2]/div[1]/div[2]/h2/span", "DIGG OPS - 1st line");
+        common.verifyStringOnPage( "DIGG OPS - 1st line");
     }
 }

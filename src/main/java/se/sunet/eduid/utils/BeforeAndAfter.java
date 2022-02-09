@@ -1,5 +1,9 @@
 package se.sunet.eduid.utils;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.*;
 import org.testng.annotations.*;
 import se.sunet.eduid.dashboard.*;
@@ -11,6 +15,8 @@ import se.sunet.eduid.resetPassword.*;
 import se.sunet.eduid.supportTool.RegisteredData;
 import se.sunet.eduid.swamid.Swamid;
 import se.sunet.eduid.swamid.SwamidData;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -53,6 +59,7 @@ public class BeforeAndAfter {
     public TestData testData = new TestData();
 
     Local bsLocal;
+    public WebDriver webdriver;
 
     @BeforeTest
     @Parameters({"url", "browser", "headless", "language", "testsuite"})
@@ -61,8 +68,10 @@ public class BeforeAndAfter {
 //        createBrowserStackAccessTunnel();
 
         initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language), url);
-        common = new Common(WebDriverManager.getWebDriver(), testsuite, testData);
+        webdriver = initBrowser.initiateBrowser(browser, headless, language);
+        common = new Common(webdriver, testsuite, testData);
+        webdriver.get(url);
+
         startPage = new StartPage(common, testData);
         login = new Login(common, testData);
         personalInfo = new PersonalInfo(common, testData);
@@ -103,6 +112,7 @@ public class BeforeAndAfter {
         testData.setTestSuite(testContext.getSuite().getName());
         testData.setTestCase(testContext.getName());
         Common.log.info("Start executing: " +testData.getTestCase() + " - " +testContext.getCurrentXmlTest().getParameter("testDescription"));
+
     }
 
     @BeforeMethod
@@ -110,13 +120,14 @@ public class BeforeAndAfter {
         Common.log.info(testData.getTestCase() +" - "+method.getName());
     }
 
-    @AfterTest
+//    @AfterTest
     public void quitBrowser() throws IOException {
         //Browserstack test result
 //        testResult();
 
 //        initBrowser.stopHarSession();
-        WebDriverManager.quitWebDriver();
+
+        webdriver.quit();
         Common.log.info("End of: " +testData.getTestCase());
 
         //Delete browserstack access tunnel

@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
@@ -50,12 +51,40 @@ public class Common {
         return webDriver.getTitle();
     }
 
+    public void selectEnglish(){
+        click(findWebElementByLinkText("English"));
+    }
+
+    public void selectSwedish(){
+        click(findWebElementByLinkText("Svenska"));
+    }
+
+    public void navigateToSettings(){
+        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li"));
+    }
+
+    public void navigateToIdentity(){
+        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[2]/li"));
+    }
+
+    public void navigateToAdvancedSettings(){
+        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[4]/li"));
+    }
+
+    public void navigateToDashboard(){
+        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[1]/li"));
+    }
+
     public void verifyPageTitle(String pageTitle) {
         Assert.assertEquals(getTitle(), pageTitle);
     }
 
     public void navigateToUrl(String url){
         webDriver.navigate().to(url);
+    }
+
+    public WebDriver getWebDriver(){
+        return webDriver;
     }
 
     public void verifyStringByXpath(String xpath, String stringToCompareWith) {
@@ -170,6 +199,17 @@ public class Common {
         ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", element);
     }
 
+    public void selectDropdownScript(String elementId, String visibleTextToSelect){
+        WebElement select = webDriver.findElement(By.id(elementId));
+
+        ((JavascriptExecutor)webDriver).executeScript("var select = arguments[0]; for(var i = 0; " +
+                "i < select.options.length; i++){ if(select.options[i].text == arguments[1]){ select.options[i].selected = true; } }"
+                , select, visibleTextToSelect);
+
+    }
+
+
+
     public void switchToPopUpWindow(){
         //Get windowhandle
         firstWinHandle = webDriver.getWindowHandle();
@@ -190,8 +230,7 @@ public class Common {
 
     public void closeStatusMessage(){
         //Close the status message
-        //explicitWaitClickableElement("//div/section[2]/div[1]/div/button/span");
-        findWebElementByXpath("//div/section[2]/div[1]/div/button/span").click();
+        findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/button").click();
     }
 
     public void switchToDefaultWindow(){
@@ -219,11 +258,24 @@ public class Common {
         */
     }
 
+    public Select selectDropDown(String dropDownId) {
+        return new Select(findWebElementById(dropDownId));
+    }
+
     public void addMagicCookie(){
         Date today    = new Date();
         Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
 //        webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi"));
         webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi",
+                ".dev.eduid.se", "/", tomorrow, true));
+
+//        logMagicCookie();
+    }
+    public void addNinCookie(){
+        Date today    = new Date();
+        Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
+//        webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi"));
+        webDriver.manage().addCookie(new Cookie("nin", testData.getIdentityNumber(),
                 ".dev.eduid.se", "/", tomorrow, true));
 
 //        logMagicCookie();

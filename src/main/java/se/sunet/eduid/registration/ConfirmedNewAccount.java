@@ -25,7 +25,7 @@ public class ConfirmedNewAccount {
         //TODO temp fix to get swedish language
         common.timeoutMilliSeconds(500);
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
-            common.findWebElementByLinkText("Svenska").click();
+            common.selectSwedish();
     }
 
     private void verifyLabels(){
@@ -47,7 +47,7 @@ public class ConfirmedNewAccount {
         testData.setPassword(common.findWebElementById("user-password").getText());
 
         //Switch language to English
-        common.findWebElementByLinkText("English").click();
+        common.selectEnglish();
 
         //Headings
         common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID is easier and safer login.");
@@ -64,10 +64,10 @@ public class ConfirmedNewAccount {
         common.verifyStringByXpath("//*[@id=\"email-display\"]/label[2]", "Password");
 
         //Switch language to Swedish
-        common.findWebElementByLinkText("Svenska").click();
+        common.selectSwedish();
     }
 
     private void clickGoToMyEduID(){
-        common.findWebElementByXpath("//*[@id=\"gotit-button\"]").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"gotit-button\"]"));
     }
 }

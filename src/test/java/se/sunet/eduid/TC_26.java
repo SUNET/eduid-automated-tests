@@ -3,7 +3,6 @@ package se.sunet.eduid;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
-import se.sunet.eduid.utils.WebDriverManager;
 
 import java.io.IOException;
 
@@ -37,7 +36,7 @@ public class TC_26 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"verifyPhoneNumber"} )
     void stopBrowser(){
-        WebDriverManager.quitWebDriver();
+        common.getWebDriver().quit();
     }
 
     @Test( dependsOnMethods = {"stopBrowser"} )
@@ -78,8 +77,8 @@ public class TC_26 extends BeforeAndAfter {
     void verifyPhoneNumber2() {
         common.verifyStatusMessage("Vi kan bara skicka en kod var 5:e minut, var god vänta innan du ber om en ny kod.");
 
-        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("English")) {
-            common.findWebElementByLinkText("English").click();
+        if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("English")) {
+            common.selectEnglish();
         }
         common.verifyStatusMessage("You have recently been sent a verification code. Please wait at least 5 minutes to request a new one.");
 

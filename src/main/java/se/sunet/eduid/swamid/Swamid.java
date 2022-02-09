@@ -16,11 +16,11 @@ public class Swamid {
 
     private void selectIdp(){
         //Press select IDP
-        common.findWebElementByXpath("//div/div[2]/div[2]/a/button").click();
+        common.click(common.findWebElementByXpath("//div/div[2]/div[2]/a/button"));
         common.timeoutMilliSeconds(1000);
 
         //Select swamid testing
-        common.findWebElementByXpath("//*[@id=\"selectIdP\"]/div/div[2]/a/button").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"selectIdP\"]/div/div[2]/a/button"));
 
         //wait for next page
         common.explicitWaitClickableElementId("searchinput");
@@ -30,7 +30,7 @@ public class Swamid {
         common.findWebElementById("searchinput").clear();
         common.findWebElementById("searchinput").sendKeys(searchString);
         common.timeoutMilliSeconds(1500);
-        common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/div[1]").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/div[1]"));
 
         //Wait for the eduID log in page to load
         common.timeoutMilliSeconds(1000);

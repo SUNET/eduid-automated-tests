@@ -17,7 +17,7 @@ public class Help {
     //Verify text and headings in swedish
     private void verifySwedish(){
         //Click on Help link
-        common.findWebElementByXpath("//*[@id=\"footer\"]/nav/ul/li[1]/a").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"footer\"]/nav/ul/li[1]/a"));
 
         //Wait for header "What is eduID"
         common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div/ul/li[1]/h2");
@@ -194,7 +194,7 @@ public class Help {
 
     private void verifyEnglish(){
         //Select English
-        common.findWebElementByXpath("//*[@id=\"footer\"]/nav/ul/li[2]/a").click();
+        common.selectEnglish();
 
         //Heading 1
         common.verifyStringOnPage("What is eduID?");

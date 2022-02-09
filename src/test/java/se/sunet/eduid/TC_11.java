@@ -50,7 +50,9 @@ public class TC_11 extends BeforeAndAfter {
         common.verifyStatusMessage("Felaktig telefonkod.");
 
         //Switch to english
-        common.findWebElementByLinkText("English").click();
+        common.timeoutMilliSeconds(500);
+        common.selectEnglish();
+        common.timeoutMilliSeconds(500);
 
         common.verifyStatusMessage("Incorrect phone code.");
     }

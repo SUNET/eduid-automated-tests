@@ -2,6 +2,7 @@ package se.sunet.eduid;
 
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
+import se.sunet.eduid.utils.Common;
 
 public class TC_46 extends BeforeAndAfter {
     @Test
@@ -43,25 +44,77 @@ public class TC_46 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
-    void addSecurityKey() {
-        //Set mfa method to be used to "security key" at login.
-        testData.setMfaMethod("securitykey");
+    void confirmIdentity(){
+        testData.setConfirmIdBy("mail");
+        confirmIdentity.runConfirmIdentity(); }
 
+    @Test( dependsOnMethods = {"confirmIdentity"} )
+    void confirmedIdentity() { confirmedIdentity.runConfirmIdentity(); }
+
+    @Test( dependsOnMethods = {"confirmedIdentity"} )
+    void addSecurityKey() {
         testData.setAddSecurityKey(true);
         securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
-    void navigateToDashboard() {
-        common.navigateToUrl("https://dashboard.dev.eduid.se/profile/");
+    void verifySecurityKey() {
+        common.addMagicCookie();
+        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
+    }
+
+    @Test( dependsOnMethods = {"verifySecurityKey"} )
+    void verifySecurityKeyLogin() {
+        //Enter username, password to verify security key first time
+        login.verifyPageTitle();
+        login.enterUsernamePassword();
+
+        //Click log in button
+        common.click(common.findWebElementById("login-form-button"));
+
+        common.explicitWaitClickableElementId("mfa-security-key");
+    }
+
+    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
+    void loginMfa() {
+        //Set mfa method to be used to "security key" at login.
+        testData.setMfaMethod("securitykey");
+
+        //Login page for extra security select security key mfa method
+        loginExtraSecurity.runLoginExtraSecurity();
+        Common.log.info("Log in with extra security");
+
         common.timeoutSeconds(2);
     }
 
-    @Test( dependsOnMethods = {"navigateToDashboard"} )
+    @Test( dependsOnMethods = {"loginMfa"} )
+    void selectUserRefIdp(){
+        //Add nin cookie
+        common.addNinCookie();
+
+        //Select and submit user
+        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
+
+        common.click(common.findWebElementById("submitButton"));
+    }
+
+    @Test( dependsOnMethods = {"selectUserRefIdp"} )
+    void verifySecurityKeyStatus() {
+        common.verifyStatusMessage("Säkerhetsnyckeln verifierad");
+
+        //Verify status beside the added key dates
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/label", "VERIFIERAD");
+
+        common.selectEnglish();
+        common.verifyStatusMessage("U2F token verified successfully");
+        //Verify status beside the added key dates
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/label", "VERIFIED");
+        common.selectSwedish();
+    }
+
+    @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
     void navigateToSettings() {
-        //Click on settings
-        common.explicitWaitClickableElement("//*[@id=\"dashboard-nav\"]/ul/a[3]/li");
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li").click();
+        common.navigateToSettings();
     }
 
     @Test( dependsOnMethods = {"navigateToSettings"} )

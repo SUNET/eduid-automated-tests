@@ -24,19 +24,19 @@ public class LoginExtraSecurity {
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")){
-            common.findWebElementByLinkText("Svenska").click();
+            common.selectSwedish();
         }
         common.timeoutMilliSeconds(500);
     }
 
     public void selectMfaMethod(){
-        //selectMfa
+        //selectMfa method
         if(testData.getMfaMethod().equalsIgnoreCase("securitykey")) {
-            common.findWebElementById("mfa-security-key").click();
+            common.click(common.findWebElementById("mfa-security-key"));
             Common.log.info("Selecting security key for mfa login");
         }
-        else {
-            common.findWebElementByXpath("//*[@id=\"mfa-freja\"]/span").click();
+        else if(testData.getMfaMethod().equalsIgnoreCase("freja")){
+            common.click(common.findWebElementById("mfa-freja"));
             Common.log.info("Selecting Freja eID+ for mfa login");
         }
     }
@@ -51,7 +51,7 @@ public class LoginExtraSecurity {
         common.verifyStringByXpath("//*[@id=\"content\"]/div/div/div[2]/div/p", "Freja eID+");
         common.verifyStringByXpath("//*[@id=\"mfa-freja\"]/span", "Freja eID+");
 
-        common.findWebElementByLinkText("English").click();
+        common.selectEnglish();
 
         //English
         common.verifyStringByXpath("//*[@id=\"content\"]/div/h2", "Log in: Extra level of security");

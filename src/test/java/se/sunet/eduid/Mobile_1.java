@@ -25,19 +25,19 @@ public class Mobile_1 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"dashboard"} )
     void personalInfo() {
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
+        common.navigateToSettings();
         common.takeScreenshot("personalInfo");
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void identity() {
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[2]/li/span").click();
+        common.navigateToIdentity();
         common.takeScreenshot("identity");
     }
 
     @Test( dependsOnMethods = {"identity"} )
     void advancedSettings() {
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[4]/li/span").click();
+        common.navigateToAdvancedSettings();
         common.takeScreenshot("advancedSettings");
     }
 

@@ -27,7 +27,7 @@ public class SwamidData {
     private void verifyUserData(boolean confirmedUser){
         //First click on show attributes
 //        common.explicitWaitClickableElement("//div/div[4]/div[1]/div[1]/div/a/button");
-        common.findWebElementByXpath("//div/div[4]/div[1]/div[1]/div/a/button").click();
+        common.click(common.findWebElementByXpath("//div/div[4]/div[1]/div[1]/div/a/button"));
 
         //Extract all table rows in to a list of web elements
         WebElement elementName = common.findWebElementByXpath("//div/div/table/tbody");

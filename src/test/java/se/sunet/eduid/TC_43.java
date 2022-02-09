@@ -2,7 +2,6 @@ package se.sunet.eduid;
 
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
-import se.sunet.eduid.utils.WebDriverManager;
 
 import java.time.LocalDate;
 
@@ -34,7 +33,7 @@ public class TC_43 extends BeforeAndAfter {
         testData.setRegisterAccount(true);
 
         //Navigate to settings
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li").click();
+        common.navigateToSettings();
         personalInfo.runPersonalInfo();
 
         testData.setRegisterAccount(false);
@@ -60,7 +59,7 @@ public class TC_43 extends BeforeAndAfter {
     //Navigate to the support tool
     @Test( dependsOnMethods = {"logout"} )
     void startPageSupport(){
-        WebDriverManager.getWebDriver().navigate().to("https://support.dev.eduid.se");
+        common.navigateToUrl("https://support.dev.eduid.se");
     }
 
     //Log in to the support tool
@@ -74,7 +73,7 @@ public class TC_43 extends BeforeAndAfter {
     void searchAndVerifyUserData(){
         common.timeoutSeconds(1);
         common.findWebElementByXpath("//div/form/div/p[1]/input").sendKeys(testData.getEppn());
-        common.findWebElementByXpath("//div/form/div/p[2]/button").click();
+        common.click(common.findWebElementByXpath("//div/form/div/p[2]/button"));
 
         registeredData.runRegisteredData();
     }
@@ -110,7 +109,7 @@ public class TC_43 extends BeforeAndAfter {
     //Navigate to the support tool again
     @Test( dependsOnMethods = {"login3"} )
     void startPageSupport2(){
-        WebDriverManager.getWebDriver().navigate().to("https://support.dev.eduid.se");
+        common.navigateToUrl("https://support.dev.eduid.se");
     }
 
     //Log in to the support tool
@@ -124,7 +123,7 @@ public class TC_43 extends BeforeAndAfter {
     void searchAndVerifyUserData2(){
         common.timeoutSeconds(1);
         common.findWebElementByXpath("//div/form/div/p[1]/input").sendKeys(testData.getEppn());
-        common.findWebElementByXpath("//div/form/div/p[2]/button").click();
+        common.click(common.findWebElementByXpath("//div/form/div/p[2]/button"));
 
         //Verify Terminated Status contains today's timestamp
         common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[10]/td", String.valueOf(localDate));
@@ -134,8 +133,8 @@ public class TC_43 extends BeforeAndAfter {
         common.explicitWaitClickableElementId("email");
 
         common.findWebElementById("email").sendKeys(testData.getSupportUsername());
-        common.findWebElementByXpath("//*[@id=\"current-password-wrapper\"]/div[2]/input").sendKeys("d72o cqhd hnqc");
+        common.findWebElementById("current-password").sendKeys("d72o cqhd hnqc");
 
-        common.findWebElementById("login-form-button").click();
+        common.click(common.findWebElementById("login-form-button"));
     }
 }

@@ -10,7 +10,7 @@ public class Antagning_Se extends BeforeAndAfter {
         common.explicitWaitPageTitle("Antagning.se - Anmälan till högskola och universitet");
 
         //Select log in
-        common.findWebElementByXpathContainingText("Logga in").click();
+        common.click(common.findWebElementByXpathContainingText("Logga in"));
     }
 
     @Test( dependsOnMethods = {"selectLogIn"} )
@@ -19,7 +19,7 @@ public class Antagning_Se extends BeforeAndAfter {
         common.explicitWaitVisibilityElement("//main/section/h1");
 
         //Click logga in med eduid
-        common.findWebElementByXpathContainingText("Logga in med eduID").click();
+        common.click(common.findWebElementByXpathContainingText("Logga in med eduID"));
 
         //Wait for the eduID log in page to load
         common.timeoutMilliSeconds(1000);
@@ -28,8 +28,9 @@ public class Antagning_Se extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"logInWithEduId"} )
     void loginToAntagning(){
+        login.verifyPageTitle();
         login.enterUsernamePassword();
-        common.findWebElementById("login-form-button").click();
+        common.click(common.findWebElementById("login-form-button"));
 
         // Verify that we are logged in
         common.explicitWaitClickableElement("//main/section/a");
@@ -39,9 +40,9 @@ public class Antagning_Se extends BeforeAndAfter {
     @Test( dependsOnMethods = {"loginToAntagning"} )
     void logout(){
         //click profile
-        common.findWebElementByXpath("//*[@id=\"header\"]/div/div[1]/button").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"header\"]/div/div[1]/button"));
 
         //Click log out
-        common.findWebElementByXpath("//*[@id=\"tab-mypages-logout\"]/button").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"tab-mypages-logout\"]/button"));
     }
 }

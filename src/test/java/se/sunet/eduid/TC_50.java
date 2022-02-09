@@ -26,7 +26,7 @@ public class TC_50 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login1"} )
     void personalInfo() {
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li/span").click();
+        common.navigateToSettings();
         personalInfo.runPersonalInfo(); }
 
     @Test( dependsOnMethods = {"personalInfo"} )

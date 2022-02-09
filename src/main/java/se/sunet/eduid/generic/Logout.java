@@ -21,7 +21,7 @@ public class Logout {
 
     private void pressLogOut(){
         common.explicitWaitClickableElementId("logout");
-        common.findWebElementById("logout").click();
+        common.click(common.findWebElementById("logout"));
 
         //Wait for the start page
         common.explicitWaitClickableElementId("login");

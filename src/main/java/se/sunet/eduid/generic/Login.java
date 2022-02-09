@@ -34,7 +34,7 @@ public class Login {
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")){
             verifyPlaceholder("name@example.com", "enter password");
-            common.findWebElementByLinkText("Svenska").click();
+            common.selectSwedish();
         }
 
         common.timeoutMilliSeconds(500);
@@ -51,9 +51,9 @@ public class Login {
 
         Common.log.info("Log in with username: " +testData.getUsername());
 
-        common.findWebElementByXpath("//div/section[2]/div[2]/div/form/div[2]/div[2]/input").clear();
+        common.findWebElementById("current-password").clear();
 
-        common.findWebElementByXpath("//*[@id=\"current-password-wrapper\"]/div[2]/input").sendKeys(testData.getPassword());
+        common.findWebElementById("current-password").sendKeys(testData.getPassword());
 
         if(!testData.getTestSuite().equalsIgnoreCase("prod"))
             Common.log.info("Log in with password: " +testData.getPassword());
@@ -61,15 +61,15 @@ public class Login {
 
     public void signIn(){
         //Click log in button
-        common.findWebElementById("login-form-button").click();
+        common.click(common.findWebElementById("login-form-button"));
 
         if(testData.isIncorrectPassword()) {
             common.timeoutMilliSeconds(500);
             common.verifyXpathContainsString("//div/section[2]/div[1]/div/span", "E-postadressen eller lösenordet är felaktigt.");
 
-            common.findWebElementByLinkText("English").click();
+            common.selectEnglish();
             common.verifyXpathContainsString("//div/section[2]/div[1]/div/span", "The email address or password was incorrect.");
-            common.findWebElementByLinkText("Svenska").click();
+            common.selectSwedish();
         }
         else {
             //Wait for the "EduId for" label at dashboard
@@ -81,7 +81,7 @@ public class Login {
 
     private void registerAccount(){
         //Click on sign up button
-        common.findWebElementByXpath("//*[@id=\"eduid-idp-menu\"]/div/div[1]/a").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"eduid-idp-menu\"]/div/div[1]/a"));
 
         //Wait for next page
         common.explicitWaitClickableElement("//section[1]/div/h1/span");
@@ -90,7 +90,7 @@ public class Login {
     private void resetPassword(){
         //Click on forgot password link
         common.explicitWaitVisibilityElementId("link-forgot-password");
-        common.findWebElementById("link-forgot-password").click();
+        common.click(common.findWebElementById("link-forgot-password"));
 
         //Wait for next page, return to login
         common.explicitWaitClickableElementId("return-login");

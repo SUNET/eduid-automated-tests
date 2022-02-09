@@ -22,6 +22,8 @@ public class TC_47 extends BeforeAndAfter {
     void login(){
         testData.setRegisterAccount(false);
         login.runLogin();
+
+        common.explicitWaitClickableElement("//*[@id=\"dashboard-nav\"]/ul/a[3]/li");
     }
 
     @Test( dependsOnMethods = {"login"} )
@@ -29,7 +31,7 @@ public class TC_47 extends BeforeAndAfter {
         testData.setRegisterAccount(true);
 
         //Navigate to settings
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li").click();
+        common.navigateToSettings();
         personalInfo.runPersonalInfo();
 
         testData.setRegisterAccount(false);
