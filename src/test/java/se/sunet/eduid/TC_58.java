@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
-public class TC_53 extends BeforeAndAfter {
+public class TC_58 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -37,6 +37,13 @@ public class TC_53 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
+    void storeEppn(){
+        advancedSettings.pressAdvancedSettings();
+        common.timeoutSeconds(1);
+        advancedSettings.storeEppn();
+    }
+
+    @Test( dependsOnMethods = {"storeEppn"} )
     void confirmIdentity(){
         testData.setConfirmIdBy("mail");
         confirmIdentity.runConfirmIdentity(); }
@@ -51,12 +58,12 @@ public class TC_53 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
-    void clickVerifySecurityKey() {
+    void verifySecurityKey() {
         common.addMagicCookie();
         common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
     }
 
-    @Test( dependsOnMethods = {"clickVerifySecurityKey"} )
+    @Test( dependsOnMethods = {"verifySecurityKey"} )
     void verifySecurityKeyLogin() {
         //Add nin cookie
         common.addNinCookie();
@@ -106,6 +113,59 @@ public class TC_53 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
+    void logout(){
+        logout.runLogout();
+    }
+
+    @Test( dependsOnMethods = {"logout"} )
+    void navigateToSwamid(){
+        common.navigateToUrl("https://release-check.swamid.se");
+    }
+
+    @Test( dependsOnMethods = {"navigateToSwamid"} )
+    void swamid(){
+        swamid.runSwamid();
+    }
+
+    @Test( dependsOnMethods = {"swamid"} )
+    void login2(){
+        login.verifyPageTitle();
+        login.enterUsernamePassword();
+        common.click(common.findWebElementById("login-form-button"));
+    }
+
+    @Test( dependsOnMethods = {"login2"} )
+    void loginMfaSecurityKey2() {
+        //Login page for extra security select security key mfa method
+        loginExtraSecurity.selectMfaMethod();
+        Common.log.info("Log in with Security Key");
+
+        common.timeoutSeconds(2);
+    }
+
+    @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
+    void swamidData(){
+        testData.setGivenName("Jan Ove");
+        swamidData.runSwamidData(true); }
+
+    @Test( dependsOnMethods = {"swamidData"} )
+    void navigateToEduid(){
+        common.navigateToUrl("https://dev.eduid.se");
+
+        common.click(common.findWebElementByXpath("//*[@id=\"login\"]/a"));
+        common.timeoutSeconds(3);
+    }
+
+    @Test( dependsOnMethods = {"navigateToEduid"} )
+    void loginMfaSecurityKey3() {
+        //Login page for extra security select security key mfa method
+        loginExtraSecurity.selectMfaMethod();
+        Common.log.info("Log in with Security Key");
+
+        common.timeoutSeconds(2);
+    }
+
+    @Test( dependsOnMethods = {"loginMfaSecurityKey3"} )
     void navigateToSettings() {
         common.navigateToSettings();
     }
@@ -118,23 +178,12 @@ public class TC_53 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void loginMfaFreja(){
-        //Set mfa method to be used to "freja" at login.
-        testData.setMfaMethod("freja");
-
+    void loginMfaSecurityKey4(){
         loginExtraSecurity.runLoginExtraSecurity();
         common.timeoutSeconds(1);
     }
 
-    @Test( dependsOnMethods = {"loginMfaFreja"} )
-    void selectUserRefIdp2(){
-        //Select and submit user
-//        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
-
-        common.click(common.findWebElementById("submitButton"));
-    }
-
-    @Test( dependsOnMethods = {"selectUserRefIdp2"} )
+    @Test( dependsOnMethods = {"loginMfaSecurityKey4"} )
     void startPage2(){
         common.timeoutSeconds(2);
         startPage.runStartPage();

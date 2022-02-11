@@ -49,6 +49,14 @@ public class TC_47 extends BeforeAndAfter {
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentity"} )
+    void selectUserRefIdp(){
+        //Select and submit user
+        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
+
+        common.click(common.findWebElementById("submitButton"));
+    }
+
+    @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void confirmedIdentity() { confirmedIdentity.runConfirmIdentity(); }
 
     //Delete the account, so it will be removed after 2 weeks by script

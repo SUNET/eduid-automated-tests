@@ -114,7 +114,7 @@ public class ConfirmIdentity{
         //By phone
         else if(testData.getConfirmIdBy().equalsIgnoreCase("phone")) {
             //Click on phone option
-            common.click(common.findWebElementByXpath("//div/section[2]/div[2]/div/div[4]/div[2]/div/div[1]/button"));
+            common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button"));
 
             //Verify labels in pop up
             //TODO metod verifyPhoneLables has different message when the phone number NOT has been confirmed
@@ -168,8 +168,6 @@ public class ConfirmIdentity{
 
             common.click(common.findWebElementByLinkText("ANVÄND MITT FREJA EID"));
             common.timeoutMilliSeconds(500);
-
-            common.explicitWaitPageTitle("eduID dashboard");
         }
     }
 

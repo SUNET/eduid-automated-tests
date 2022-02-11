@@ -71,10 +71,7 @@ public class PhoneNumber {
 
         //Click Add
         common.click(common.findWebElementById("mobile-button"));
-
-        //Check status info
-        common.verifyStatusMessage("Telefonnummer sparades");
-    }
+  }
 
     public void confirmNewPhoneNumber(){
         //Add cookie for back doors
@@ -120,19 +117,6 @@ public class PhoneNumber {
 
         //Press OK button
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]"));
-
-        //Check status info
-        common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
-
-        //TODO temp fix to get swedish language
-        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
-            common.selectSwedish();
-
-        //Verify status message
-        common.verifyStatusMessage("Telefonnummer har bekräftats");
-
-        //Hide the info message
-        common.closeStatusMessage();
     }
 
     private void checkMessageFaultyNumber(){

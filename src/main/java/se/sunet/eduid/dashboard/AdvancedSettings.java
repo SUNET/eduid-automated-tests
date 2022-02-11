@@ -36,14 +36,14 @@ public class AdvancedSettings {
             common.selectSwedish();
     }
 
-    private void pressAdvancedSettings(){
+    public void pressAdvancedSettings(){
         common.navigateToAdvancedSettings();
 
         //Wait for heading "Gör ditt eduID säkrare"
         common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h4");
     }
 
-    private void storeEppn(){
+    public void storeEppn(){
         testData.setEppn(common.findWebElementByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]").getText());
         Common.log.info("Saved EPPN: " +testData.getEppn());
     }

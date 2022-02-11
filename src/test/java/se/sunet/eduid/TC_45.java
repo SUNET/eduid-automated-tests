@@ -53,7 +53,9 @@ public class TC_45 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login2"} )
-    void swamidData(){ swamidData.runSwamidData(false); }
+    void swamidData(){
+        testData.setMfaMethod("");
+        swamidData.runSwamidData(false); }
 
     @Test( dependsOnMethods = {"swamidData"} )
     void startPage2() {

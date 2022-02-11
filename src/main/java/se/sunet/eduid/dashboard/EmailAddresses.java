@@ -45,17 +45,6 @@ public class EmailAddresses {
         // RemoveNewEmail1 the primary email
         if(testData.isRemoveNewEmail1()) {
             common.click(common.findWebElementByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[3]/button"));
-
-            //Verify info bar message - swedish
-            common.timeoutMilliSeconds(500);
-            common.verifyStatusMessage("E-postadress borttagen");
-
-            //Verify info bar message - english
-            common.selectEnglish();
-            common.verifyStatusMessage("Successfully removed email address");
-
-            //Switch back to swedish
-            common.selectSwedish();
         }
     }
 
@@ -118,7 +107,6 @@ public class EmailAddresses {
                 //Verify info messages - swedish
                 common.timeoutMilliSeconds(500);
 
-                common.verifyStatusMessage("E-postadressen sparad");
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[1]", testData.getAddNewEmail1());
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[2]/button", "BEKRÄFTA");
 
@@ -174,9 +162,6 @@ public class EmailAddresses {
                 if(testData.getConfirmNewEmail1().equals("wrongCode"))
                     common.verifyStatusMessage("Ogiltig bekräftelsekod. Var god prova igen eller begär en ny bekräftelsekod");
                 else {
-                    if(testData.getConfirmNewEmail1().equals("code"))
-                        common.verifyStatusMessage("E-postadressen bekräftad");
-                        //verifyUpdatedInfoBar("E-postadressen bekräftad");
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[1]/td[2]/label", "PRIMÄR");
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[2]/button", "GÖR PRIMÄR");
 
@@ -185,7 +170,6 @@ public class EmailAddresses {
 
                     //Verify info label
                     common.timeoutMilliSeconds(1000);
-                    common.verifyStatusMessage("Din primära e-postadress har ändrats");
 
                     //Check labels
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[1]/td[2]/button", "GÖR PRIMÄR");
@@ -196,7 +180,6 @@ public class EmailAddresses {
 
                     //Verify info label
                     common.timeoutMilliSeconds(1000);
-                    common.verifyStatusMessage("Din primära e-postadress har ändrats");
 
                     //Check labels
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[1]/td[2]/label", "PRIMÄR");

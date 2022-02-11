@@ -37,17 +37,12 @@ public class TC_51 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addPhoneNumber1"} )
     void makeNewPhonePrimary(){
+        common.timeoutMilliSeconds(500);
         common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr[2]/td[2]/button"));
-        common.verifyStatusMessage("Ditt primära telefonnummer har ändrats");
-
-        //English
-        common.selectEnglish();
-        common.verifyStatusMessage("The phone number was set as primary");
-        common.closeStatusMessage();
 
         //Restore to default number as primary
+        common.timeoutMilliSeconds(500);
         common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr[1]/td[2]/button"));
-        common.verifyStatusMessage("The phone number was set as primary");
     }
 
     @Test( dependsOnMethods = {"makeNewPhonePrimary"} )

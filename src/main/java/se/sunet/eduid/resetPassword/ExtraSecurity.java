@@ -35,7 +35,9 @@ public class ExtraSecurity {
         common.verifyStringOnPage("SEND SMS TO **********" + testData.getPhoneNumber().substring(10,12));
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[2]", "Already received sms? enter code");
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[3]", "Continue without extra " +
-                "security option\nYour account will require confirmation after the password has been reset. Continue reset password");
+                "security option");
+        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[4]", "Your account will " +
+                "require confirmation after the password has been reset. Continue reset password");
 
         //Switch to Swedish
         common.selectSwedish();
@@ -47,7 +49,9 @@ public class ExtraSecurity {
         common.verifyStringOnPage("SKICKA SMS TILL **********" + testData.getPhoneNumber().substring(10,12));
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[2]", "Redan fått sms? skriv in koden");
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[3]", "Fortsätt utan extra " +
-                "säkerhetsalternativ\nDitt konto kommer att behöva verifieras efter att lösenordet har återställts. Fortsätt återställa lösenordet");
+                "säkerhetsalternativ");
+        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[4]", "Ditt konto kommer " +
+                "att behöva verifieras efter att lösenordet har återställts. Fortsätt återställa lösenordet");
     }
 
     private void sendOtp(){

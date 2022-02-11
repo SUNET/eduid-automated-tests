@@ -39,18 +39,15 @@ public class ConfirmPhoneNumber {
         // incorrect code is entered for phone number confirmation. The confirmPhoneNumberCode is the same as the magic
         if(!testData.getMagicCode().equalsIgnoreCase("cancel") && testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
             common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a"));
-
-            //Wait for status information to appear
-            common.explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
+            common.timeoutSeconds(1);
 
             //Pop up will now be closed and info that code has been sent is displayed
             //TODO maybe we should have test case when code is sent too earyl as well... later on
             boolean codeSentTooEarly = false;
-            if(codeSentTooEarly)
+            if(codeSentTooEarly) {
                 common.verifyStatusMessage("Vi kan bara " +
                         "skicka en kod var 5:e minut, var god vänta innan du ber om en ny kod.");
-            else
-                common.verifyStatusMessage("En ny bekräftelsekod har skickats till dig");
+            }
         }
         //If OTP should not be ordered, close the pop-up
         else {
@@ -88,7 +85,6 @@ public class ConfirmPhoneNumber {
             //WebDriverManager.getWebDriver().navigate().back();
 
             //Press the Confirm phone number link - again
-//            common.explicitWaitClickableElement("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button/span");
             common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button"));
 
             common.switchToPopUpWindow();
@@ -114,9 +110,7 @@ public class ConfirmPhoneNumber {
             common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]"));
 
             //Verify that the confirmation info label shows
-            if(testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
-                common.verifyStatusMessage("Telefonnummer har bekräftats");
-            else
+            if(!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
                 common.verifyStatusMessage("Telefonumret du angav kan inte hittas");
         }
     }

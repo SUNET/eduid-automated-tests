@@ -63,21 +63,21 @@ public class PersonalInfo {
 
     private void updatePersonalInfo(){
         //Verify placeholder
-        common.verifyStrings("Förnamn", common.findWebElementByXpath("//*[@id=\"given_name\"]").getAttribute("placeholder"));
+        common.verifyStrings("Förnamn", common.findWebElementById("given_name").getAttribute("placeholder"));
 
         common.findWebElementById("given_name").clear();
         common.findWebElementById("given_name").sendKeys(testData.getGivenName());
         common.verifyStrings(testData.getGivenName(), common.getAttributeById("given_name"));
 
         //Verify placeholder
-        common.verifyStrings("Efternamn", common.findWebElementByXpath("//*[@id=\"surname\"]").getAttribute("placeholder"));
+        common.verifyStrings("Efternamn", common.findWebElementById("surname").getAttribute("placeholder"));
 
         common.findWebElementById("surname").clear();
         common.findWebElementById("surname").sendKeys(testData.getSurName());
         common.verifyStrings(testData.getSurName(), common.getAttributeById("surname"));
 
         //Verify placeholder
-        common.verifyStrings("Valfritt alias", common.findWebElementByXpath("//*[@id=\"display_name\"]").getAttribute("placeholder"));
+        common.verifyStrings("Valfritt alias", common.findWebElementById("display_name").getAttribute("placeholder"));
 
         common.findWebElementById("display_name").clear();
         common.findWebElementById("display_name").sendKeys(testData.getDisplayName());
