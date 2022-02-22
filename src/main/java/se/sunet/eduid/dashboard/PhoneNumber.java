@@ -111,6 +111,9 @@ public class PhoneNumber {
         common.timeoutSeconds(2);
         common.click(common.findWebElementByXpathContainingText("Bekräfta"));
 
+        //Verify placeholder
+        common.verifyStrings("Bekräftelsekod", common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]").getAttribute("placeholder"));
+
         //Enter the code
         common.findWebElementById("phoneConfirmDialogControl").clear();
         common.findWebElementById("phoneConfirmDialogControl").sendKeys(phoneCode);

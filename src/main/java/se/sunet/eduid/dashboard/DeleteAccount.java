@@ -47,7 +47,7 @@ public class DeleteAccount {
         }
         //Press abort
         else {
-            common.click(common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[1]/h5/div/button"));
+            common.closePopupDialog();
         }
     }
 
@@ -89,5 +89,29 @@ public class DeleteAccount {
         //Text
         common.verifyStringOnPage("När du tar bort ditt eduID kommer all information du sparat rensas " +
                 "permanent. Om du väljer att ta bort ditt eduID kommer du att behöva logga in igen en sista gång.");
+
+
+        common.closePopupDialog();
+
+        //Select english
+        common.selectEnglish();
+
+        common.click(common.findWebElementById("delete-button"));
+
+        //Heading
+        common.explicitWaitVisibilityElement("//div/div[1]/h5");
+        common.verifyStringOnPage( "Are you sure you want to delete your eduID?");
+
+        //Text
+        common.verifyStringOnPage("Deleting your eduID will permanently remove all your saved " +
+                "information. After clicking the button you need to use your log in details one final time");
+
+
+        common.closePopupDialog();
+
+        //Select swedish
+        common.selectSwedish();
+
+        common.click(common.findWebElementById("delete-button"));
     }
 }

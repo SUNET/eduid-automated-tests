@@ -29,7 +29,7 @@ public class Swamid {
     public void navigateEduId(String searchString){
         common.findWebElementById("searchinput").clear();
         common.findWebElementById("searchinput").sendKeys(searchString);
-        common.timeoutMilliSeconds(1500);
+        common.timeoutMilliSeconds(2500);
         common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/div[1]"));
 
         //Wait for the eduID log in page to load

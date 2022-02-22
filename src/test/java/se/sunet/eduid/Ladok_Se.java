@@ -10,10 +10,11 @@ public class Ladok_Se extends BeforeAndAfter {
         common.explicitWaitPageTitle("Ladok - start");
 
         //Select log in
-        common.click(common.findWebElementByXpath("//div/p/a"));
+        common.click(common.findWebElementById("eduIdBtn"));
+        common.timeoutMilliSeconds(1500);
     }
 
-    @Test( dependsOnMethods = {"selectLogIn"} )
+//    @Test( dependsOnMethods = {"selectLogIn"} )
     void navigateEduId(){
         common.findWebElementById("searchinput").clear();
         common.findWebElementById("searchinput").sendKeys("eduid");
@@ -26,7 +27,7 @@ public class Ladok_Se extends BeforeAndAfter {
         common.explicitWaitPageTitle("eduID login");
     }
 
-    @Test( dependsOnMethods = {"navigateEduId"} )
+    @Test( dependsOnMethods = {"selectLogIn"} )
     void loginToLadok(){
         login.verifyPageTitle();
         login.enterUsernamePassword();

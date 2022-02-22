@@ -28,6 +28,9 @@ public class StartPage {
     private void verifyPageTitle() {
         common.explicitWaitPageTitle("eduID");
         common.verifyPageTitle("eduID");
+
+        //Verify footer
+        common.verifyStringByXpath("//*[@id=\"copyright\"]", "© SUNET 2013-" +common.getDate().toString().substring(0,4));
     }
 
     private void signIn(){

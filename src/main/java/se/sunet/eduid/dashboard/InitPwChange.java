@@ -31,7 +31,7 @@ public class InitPwChange {
         }
         else {
             //Close pop-up window
-            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[1]/h5/div/button").click();
+            common.closePopupDialog();
             common.timeoutMilliSeconds(500);
             common.switchToDefaultWindow();
         }

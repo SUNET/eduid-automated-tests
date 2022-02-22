@@ -49,15 +49,8 @@ public class ConfirmIdentity{
     private void selectConfirmIdentity(){
         //Select way to confirm the identity. By letter, By phone or Freja Id
         if(testData.getConfirmIdBy().equalsIgnoreCase("mail")) {
-
-            //Click on mail option
-            common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button"));
-
             //Verify mail pop-up labels
             verifyMailLabels();
-
-            //Click first on abort
-            common.click(common.findWebElementByXpath("//h5/div/button"));
 
             //Click on mail again, switch to pop-up
             common.timeoutMilliSeconds(200);
@@ -67,20 +60,8 @@ public class ConfirmIdentity{
             //Click on accept
             common.click(common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]"));
 
-            //Verify on the button that letter is sent text exists, with today's date
-            common.explicitWaitVisibilityElement("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[1]");
-            common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[1]",
-                    "ETT BREV SKICKADES\n" +common.getDate().toString());
-
-            //Verify that letter is valid date is 2 weeks after today's date
-            common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[2]",
-                    "BREVET ÄR GILTIGT TILL\n" +common.getDate().plusDays(15));
-
-            common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[3]",
-                    "TRYCK HÄR IGEN NÄR DU HAR FÅTT BREVET");
-
-            //Verify Statusmessage
-            //common.verifyStatusMessage("Ett brev med bekräftelsekod har skickats.");
+            //Verify labels when letter is sent
+            verifyLabelsSentLetter();
 
             //Press again on the letter button - Add a faulty code
             common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button"));
@@ -113,12 +94,12 @@ public class ConfirmIdentity{
 
         //By phone
         else if(testData.getConfirmIdBy().equalsIgnoreCase("phone")) {
-            //Click on phone option
-            common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button"));
-
             //Verify labels in pop up
             //TODO metod verifyPhoneLables has different message when the phone number NOT has been confirmed
             verifyPhoneLabels();
+
+            //Click on phone option
+            common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button"));
 
             //Press accept button
             common.click(common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]"));
@@ -174,6 +155,9 @@ public class ConfirmIdentity{
     private void verifyLabels() {
         //Swedish
 
+        //Verify placeholder
+        common.verifyStrings("ååååmmddnnnn", common.findWebElementById("nin").getAttribute("placeholder"));
+
         //Heading
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Koppla din identitet till ditt eduID");
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "För att kunna " +
@@ -224,6 +208,9 @@ public class ConfirmIdentity{
 
         //Click on english
         common.selectEnglish();
+
+        //Verify placeholder
+        common.verifyStrings("yyyymmddnnnn", common.findWebElementById("nin").getAttribute("placeholder"));
 
         //Heading
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Connect your identity to your eduID");
@@ -326,6 +313,9 @@ public class ConfirmIdentity{
 
 
     private void verifyPhoneLabels(){
+        //Click on phone option
+        common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button"));
+
         //Switch to pop up
         common.switchToPopUpWindow();
 
@@ -336,6 +326,30 @@ public class ConfirmIdentity{
                 "telefonnummer finns lagrat tillsammans med ditt personnummer. Om dina uppgifter inte lagts till i " +
                 "registret av din mobiloperatör kommer vi inte kunna bevisa din identitet via telefonnummer.");
 
+        //Close pop up
+        common.closePopupDialog();
+
+        //English
+        common.selectEnglish();
+
+        //Click on phone option
+        common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div/div[1]/button"));
+
+        //Switch to pop up
+        common.switchToPopUpWindow();
+
+        //Verify labels in pop-up
+        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
+        common.verifyStringOnPage("Check if your phone number is connected to your id number.");
+        common.verifyStringOnPage("This check will be done in a registry updated by the phone operators. " +
+                "If they have not added your details, we won't be able to find you and you need to choose another way " +
+                "to verify your identity.");
+
+        //Close pop up
+        common.closePopupDialog();
+
+        //English
+        common.selectSwedish();
         /*
         common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5/span");
         common.verifyStringOnPage("Lägg till ditt telefonnummer för att fortsätta");
@@ -345,13 +359,84 @@ public class ConfirmIdentity{
     }
 
     private void verifyMailLabels(){
+        //Click on mail option
+        common.timeoutMilliSeconds(200);
+        common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button"));
+
         //Switch to pop up and verify its text
         common.switchToPopUpWindow();
-
         common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
         common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5", "Få en bekräftelsekod via post");
         common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]", "Om du accepterar " +
                 "att få ett brev hem måste du skriva in bekräftelsekoden här för att bevisa att personnumret är ditt. " +
                 "Av säkerhetsskäl går koden ut om två veckor.");
+
+        //Click first on abort
+        common.click(common.findWebElementByXpath("//h5/div/button"));
+
+        //English
+        common.selectEnglish();
+
+        //Switch to pop up and verify its text
+        //Click on mail option
+        common.timeoutMilliSeconds(200);
+        common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button"));
+
+        common.switchToPopUpWindow();
+        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
+        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5", "Use a confirmation " +
+                "code sent by post to your house");
+        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]", "The letter will contain " +
+                "a code that you enter here to verify your identity. The code sent to you will expire in 2 weeks starting " +
+                "from now");
+
+        //Click first on abort
+        common.click(common.findWebElementByXpath("//h5/div/button"));
+
+        //English
+        common.selectSwedish();
+    }
+
+    private void verifyLabelsSentLetter(){
+        //Verify on the button that letter is sent text exists, with today's date
+        common.explicitWaitVisibilityElement("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[1]");
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[1]",
+                "ETT BREV SKICKADES\n" +common.getDate().toString());
+
+        //Verify that letter is valid date is 2 weeks after today's date
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[2]",
+                "BREVET ÄR GILTIGT TILL\n" +common.getDate().plusDays(15));
+
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[3]",
+                "TRYCK HÄR IGEN NÄR DU HAR FÅTT BREVET");
+
+        //English
+        common.selectEnglish();
+
+        //Verify on the button that letter is sent text exists, with today's date
+        common.timeoutMilliSeconds(200);
+        common.explicitWaitVisibilityElement("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[1]");
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[1]",
+                "THE LETTER WAS SENT\n" +common.getDate().toString());
+
+        //Verify that letter is valid date is 2 weeks after today's date
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[2]",
+                "THE LETTER IS VALID TO\n" +common.getDate().plusDays(15));
+
+        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button/div[1]/div[3]",
+                "CLICK HERE AGAIN WHEN YOU HAVE RECEIVED THE LETTER");
+
+        //Verify the placeholder
+        common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button"));
+        common.verifyStrings("Letter confirmation code", common.findWebElementById("letterConfirmDialogControl").getAttribute("placeholder"));
+        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button"));
+
+        //English
+        common.selectSwedish();
+
+        //Verify the placeholder
+        common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button"));
+        common.verifyStrings("Bekräftelsekod", common.findWebElementById("letterConfirmDialogControl").getAttribute("placeholder"));
+        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button"));
     }
 }

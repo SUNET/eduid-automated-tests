@@ -233,6 +233,11 @@ public class Common {
         findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/button").click();
     }
 
+    public void closePopupDialog(){
+        //Close the pop up dialog
+        findWebElementByXpath("//div[2]/div/div[1]/div/div/div[1]/h5/div/button").click();
+    }
+
     public void switchToDefaultWindow(){
         webDriver.switchTo().window(firstWinHandle);
     }

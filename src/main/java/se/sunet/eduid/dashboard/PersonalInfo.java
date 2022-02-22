@@ -17,6 +17,7 @@ public class PersonalInfo {
         //If new account
         if(testData.isRegisterAccount()) {
             //Click add data
+            common.timeoutMilliSeconds(500);
             common.click(common.findWebElementById("add-personal-data"));
             updatePersonalInfo();
         }
@@ -56,7 +57,6 @@ public class PersonalInfo {
         else{
             //Click on change
             common.click(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button"));
-
             updatePersonalInfo();
         }
     }
@@ -64,20 +64,39 @@ public class PersonalInfo {
     private void updatePersonalInfo(){
         //Verify placeholder
         common.verifyStrings("Förnamn", common.findWebElementById("given_name").getAttribute("placeholder"));
+        common.verifyStrings("Efternamn", common.findWebElementById("surname").getAttribute("placeholder"));
+        common.verifyStrings("Valfritt alias", common.findWebElementById("display_name").getAttribute("placeholder"));
+
+        //English
+        common.selectEnglish();
+
+        //Click add or change link, depending on register new account or change of existing data
+        if(testData.isRegisterAccount())
+            common.click(common.findWebElementById("add-personal-data"));
+        else
+            common.click(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button"));
+
+        //Verify placeholder
+        common.verifyStrings("First name", common.findWebElementById("given_name").getAttribute("placeholder"));
+        common.verifyStrings("Last name", common.findWebElementById("surname").getAttribute("placeholder"));
+        common.verifyStrings("Optional alias", common.findWebElementById("display_name").getAttribute("placeholder"));
+
+        //Swedish
+        common.selectSwedish();
+
+        //Click add or change link, depending on register new account or change of existing data
+        if(testData.isRegisterAccount())
+            common.click(common.findWebElementById("add-personal-data"));
+        else
+            common.click(common.findWebElementByXpath("//*[@id=\"text-content\"]/div/article/div/div[1]/button"));
 
         common.findWebElementById("given_name").clear();
         common.findWebElementById("given_name").sendKeys(testData.getGivenName());
         common.verifyStrings(testData.getGivenName(), common.getAttributeById("given_name"));
 
-        //Verify placeholder
-        common.verifyStrings("Efternamn", common.findWebElementById("surname").getAttribute("placeholder"));
-
         common.findWebElementById("surname").clear();
         common.findWebElementById("surname").sendKeys(testData.getSurName());
         common.verifyStrings(testData.getSurName(), common.getAttributeById("surname"));
-
-        //Verify placeholder
-        common.verifyStrings("Valfritt alias", common.findWebElementById("display_name").getAttribute("placeholder"));
 
         common.findWebElementById("display_name").clear();
         common.findWebElementById("display_name").sendKeys(testData.getDisplayName());
