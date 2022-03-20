@@ -66,7 +66,7 @@ public class InitBrowser {
         if(System.getProperty("os.name").toLowerCase().contains("mac")) {
 
             //Create Chrome instance with options
-            WebDriverManager.chromedriver().browserVersion("97").setup();
+            WebDriverManager.chromedriver().browserVersion("99").setup();
 
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("disable-infobars");

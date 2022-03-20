@@ -39,7 +39,7 @@ public class DashBoard {
         //Timeout to save time from retry-functionality
         common.timeoutMilliSeconds(200);
         //TODO temp fix to get swedish language - needed when new accounts created
-       if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")
+       if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska")
                 && testData.getLanguage().equalsIgnoreCase("Svenska")) {
             common.selectSwedish();
         }
@@ -112,7 +112,7 @@ public class DashBoard {
         common.verifyStringOnPage("Hjälp");
 
         //Logout
-        common.verifyStringOnPage("Logga ut");
+        common.verifyStringById("logout", "LOGGA UT");
 
         //Language change
         common.verifyStringOnPage("English");
@@ -147,7 +147,7 @@ public class DashBoard {
         common.verifyStringOnPage( "Help");
 
         //Logout
-        common.verifyStringOnPage("Logout");
+        common.verifyStringById("logout", "LOG OUT");
 
         //Language change
         common.verifyStringOnPage("Svenska");

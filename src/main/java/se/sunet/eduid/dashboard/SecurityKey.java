@@ -32,7 +32,7 @@ public class SecurityKey {
         common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h4");
 
         //TODO temp fix to get swedish language
-        if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
+        if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))
             common.selectSwedish();
     }
 

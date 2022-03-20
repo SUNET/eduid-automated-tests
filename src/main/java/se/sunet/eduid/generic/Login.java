@@ -20,6 +20,8 @@ public class Login {
         }
         else if(testData.isRegisterAccount())
             registerAccount();
+        else if(testData.isOtherDevice())
+            loginOtherDevice();
         else {
             enterUsernamePassword();
             signIn();
@@ -100,5 +102,13 @@ public class Login {
         //Verify placeholder
         common.verifyStrings(email, common.findWebElementByXpath("//*[@id=\"email\"]").getAttribute("placeholder"));
         common.verifyStrings(password, common.findWebElementByXpath("//*[@id=\"current-password\"]").getAttribute("placeholder"));
+    }
+
+    private void loginOtherDevice(){
+        //Click Other Device button
+        common.click(common.findWebElementById("login-other-device-button"));
+
+        //Wait for heading on next page
+        common.explicitWaitClickableElement("//*[@id=\"content\"]/div/h3");
     }
 }

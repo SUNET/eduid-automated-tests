@@ -7,9 +7,9 @@
     <parameter name="language" value="sv" />
     <parameter name="testsuite" value="dev" />
 
-<!--    <listeners>
+  <listeners>
         <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
-    </listeners>-->
+    </listeners>
 
 
     <!--
@@ -42,7 +42,6 @@ TODO tc with - in name, and åäö in name.
 TODO - integrationstest via scim api, mfa stepup - magnus
 TODO - TC when confirmed ID, then name etc should not be possible to change. at to register TC
 
-TODO - Försök skicka reset pw-mail inom 5min...
 TODO - Security key mha face ID.... Transport.Internal?
 
 TODO - reset pw - abort i SetNewPassword klassen
@@ -50,27 +49,23 @@ TODO - Byta namn på test fallen till kategorier och sen nummer
 TODO - Browserstack
 TODO - Comitta!!
 TODO - ignorera radbrytning på strängar från safari
-TODO - mfa-check.swamid.se -> säkerhetsnyckel ska vara satt mm mm
 TODO - Tråda
 TODO - oanvända metoder i Identity - kollar labels...
-TODO - Identity fine text om brev giltigt i två veckor endast för ej klickade
-TODO - Place holder check when adding name etc for a new user on both SE and ENG
-TODO - Lägga navigering i common
-TODO - Advanced settings Link account till ladok
 TODO - Test för SecurityKey och "lägg till den här enheten"
 TODO - i PAssword, bryt ut custom pw till egen klass
-TODO - Remove refresh page in phone number class - niqueId-container"]/div[2]/p[1]
-TODO - pop up säkerhetsnyckel lägg till engelska
-ToDO - placeholder vid lägga till personnummer - identitet
 TODO - Göra nytt nummer som primary, logga ut och kolla att så är fallet och sen återställa
-TODO - I security key,  bryt ut inloggningarna längst ned i egna test steg
-TODO - Kontroll av året i copyright
+
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "Personnumret " +
                 "nedan är nu kopplat till din eduID.");
+TODO - Logga in annan enhet, cancel fungerar ej i Iphone efter timer expired. Trycker man reload av sida efter exired
+//så kommer man få en status dialog att något gått fel och att man ska refresha sidan.
 TODO - kontrollera att scrollbar syns vid liten upplösning på alla sidor utom login page.
+TODO - log in annan utrustning - testa qr koden via ett privat fönster i
             //Måste lägga till nin-cookie för att verifiera cookie name= nin, value = 197501100395
-            //TC verifiera persnr med freja eid...
+            //TC verifiera persnr med freja eid...TC?
             //TC pw reset med freja eid..
+            TODO - lägga till config.propertys för verifierad identitets förnamn
+            TODO - Sunet länken på startsidan... Läs mer om sunet
 
 use this phone number range in your tests 0701740605-0701740699
 
@@ -86,9 +81,22 @@ Virtual auth for enhanced security (webauthn),
 - test där en bekräftad identitet, sen skapa ny user som bekräftar samma identitet. logga in och kolla i första att den ej längre är bekräftad
 - samma som ovan men med telefonnummer
 
+
+Extra security pw reset - svenska kontot byt till identitet
+"A password reset " +
+                "using an extra security option will keep your identity confirmed.");
+                "Genom att " +
+                "återställa lösenordet med ett extra säkerhetsalternativ så kommer kontot att förbli verifierat.");
 -->
 
     <!--
+
+eduidtest.se1@gmail.com
+test1eduid!
+
+-->
+
+    <!--   40, 45, 58, 51, 52, 52, 55
         <parameter name="url" value="https://mfa-check.swamid.se" />
 
         <test name="TC_50">
@@ -106,21 +114,21 @@ verifiera personnummer med freja
 
 
 15, 43
-46, 54
     -->
 
 <!--95lk 734z 39da.
 
+57
+
 -->
-    <test name="TC_53">
-        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings, use Freja eID for mfa login" />
+
+    <test name="TC_59">
+        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
         <classes>
-            <class name="se.sunet.eduid.TC_53" >
+            <class name="se.sunet.eduid.TC_59" >
             </class>
         </classes>
     </test>
-
-
 
 </suite>
 

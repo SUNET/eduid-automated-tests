@@ -14,8 +14,8 @@ public class DeleteAccount {
     }
 
     public void runDeleteAccount(){
-        //TODO temp fix to get swedish language
-        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
+        //TODO temp fix to get swedish language//*[@id="language-selector"]/span
+        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))
             common.selectSwedish();
 
         verifyLabelsSwedish();
@@ -89,7 +89,6 @@ public class DeleteAccount {
         //Text
         common.verifyStringOnPage("När du tar bort ditt eduID kommer all information du sparat rensas " +
                 "permanent. Om du väljer att ta bort ditt eduID kommer du att behöva logga in igen en sista gång.");
-
 
         common.closePopupDialog();
 

@@ -91,6 +91,10 @@ public class Common {
         Assert.assertEquals(findWebElementByXpath(xpath).getText(), stringToCompareWith, errorMsg);
     }
 
+    public void verifyStringById(String id, String stringToCompareWith) {
+        Assert.assertEquals(findWebElementById(id).getText(), stringToCompareWith, errorMsg);
+    }
+
     public void verifyXpathContainsString(String xpathToBeEval, String stringToCompareWith) {
         Assert.assertTrue(findWebElementByXpath(xpathToBeEval).getText().toLowerCase().contains(stringToCompareWith.toLowerCase()), errorMsg
                     + findWebElementByXpath(xpathToBeEval).getText() + " Does not contain search string: " + stringToCompareWith);

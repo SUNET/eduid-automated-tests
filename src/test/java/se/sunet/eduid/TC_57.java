@@ -41,6 +41,7 @@ public class TC_57 extends BeforeAndAfter {
         advancedSettings.pressAdvancedSettings();
         common.timeoutSeconds(1);
         advancedSettings.storeEppn();
+        common.timeoutSeconds(1);
     }
 
     @Test( dependsOnMethods = {"storeEppn"} )

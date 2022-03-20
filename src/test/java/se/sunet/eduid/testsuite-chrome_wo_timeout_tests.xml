@@ -207,27 +207,10 @@
     OBS! - 35 -> 26 OK, 43 kan inte logga in i supportverktyget får fel usernamen password
 -->
 
-
-    <test name="TC_24">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP), resend mobile OTP once after 5min. Set default pw" />
-        <classes>
-            <class name="se.sunet.eduid.TC_24" >
-            </class>
-        </classes>
-    </test>
-
     <test name="TC_25">
         <parameter name="testDescription" value="Try to reset password with incorrect magic code, ends with a 404-page" />
         <classes>
             <class name="se.sunet.eduid.TC_25" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_27">
-        <parameter name="testDescription" value="Initiate reset password, enter incorrect otp when No otp has been sent" />
-        <classes>
-            <class name="se.sunet.eduid.TC_27" >
             </class>
         </classes>
     </test>
@@ -447,42 +430,10 @@
         </classes>
     </test>
 
-    <test name="TC_26">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP), check that OTP can only be sent every 5min" />
-        <classes>
-            <class name="se.sunet.eduid.TC_26" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_11">
-        <parameter name="testDescription" value="Initiate reset password, enter incorrect otp" />
-        <classes>
-            <class name="se.sunet.eduid.TC_11" >
-            </class>
-        </classes>
-    </test>
-
     <test name="TC_51">
         <parameter name="testDescription" value="Add and confirm two extra phone numbers" />
         <classes>
             <class name="se.sunet.eduid.TC_51" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_52">
-        <parameter name="testDescription" value="Reset pw when multiple numbers are available, select 2nd phone number for OTP" />
-        <classes>
-            <class name="se.sunet.eduid.TC_52" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_54">
-        <parameter name="testDescription" value="Reset pw when multiple numbers are available, select 3nd phone number for OTP" />
-        <classes>
-            <class name="se.sunet.eduid.TC_54" >
             </class>
         </classes>
     </test>

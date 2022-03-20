@@ -34,7 +34,7 @@ public class SetNewPassword {
         //verify the labels in Swedish
         common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Skapa ditt nya lösenord");
         common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "Ett starkt lösenord har " +
-                "genererats åt dig. För att fortsätta behöver du repetera det i rutan nedanför och klicka på Acceptera.");
+                "genererats åt dig. För att fortsätta behöver du skriva in det igen.");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/div/label", "Nytt lösenord");
         common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repetera ditt nya lösenord\n*");
@@ -46,8 +46,7 @@ public class SetNewPassword {
         //verify the labels
         common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Set your new password");
         common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "A strong password has been " +
-                "generated for you. To proceed you will need to repeat the password into the Repeat new password field " +
-                "and click Accept Password.");
+                "generated for you. To proceed you will need to repeat the password below .");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/div/label", "New password");
         common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repeat new password\n*");

@@ -77,7 +77,7 @@ public class TC_26 extends BeforeAndAfter {
     void verifyPhoneNumber2() {
         common.verifyStatusMessage("Vi kan bara skicka en kod var 5:e minut, var god vänta innan du ber om en ny kod.");
 
-        if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("English")) {
+        if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("English")) {
             common.selectEnglish();
         }
         common.verifyStatusMessage("You have recently been sent a verification code. Please wait at least 5 minutes to request a new one.");

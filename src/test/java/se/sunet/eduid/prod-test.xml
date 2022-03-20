@@ -11,14 +11,6 @@
         <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
     </listeners>
 
-
-    <!--
-
-    eduidtest.se1@gmail.com
-    test1eduid!
-
--->
-
     <test name="eduid.se">
         <parameter name="testDescription" value="Verify log in to eduid.ser" />
         <parameter name="url" value="https://eduid.se" />

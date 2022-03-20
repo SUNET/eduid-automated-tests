@@ -19,6 +19,7 @@ public class SwamidData {
     }
 
     public void runSwamidData(boolean confirmedUser){
+        common.timeoutSeconds(1);
         verifyUserData(confirmedUser);
         verifyIdpAttributes();
         verifyIdpSessionAttributes();

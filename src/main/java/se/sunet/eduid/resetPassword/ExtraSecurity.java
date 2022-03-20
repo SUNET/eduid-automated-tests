@@ -31,7 +31,7 @@ public class ExtraSecurity {
         common.timeoutSeconds(1);
         common.verifyStringByXpath("//*[@id=\"content\"]/p", "Select an extra security option");
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[1]", "A password reset " +
-                "using an extra security option will keep your account confirmed.");
+                "using an extra security option will keep your identity confirmed.");
         common.verifyStringOnPage("SEND SMS TO **********" + testData.getPhoneNumber().substring(10,12));
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[2]", "Already received sms? enter code");
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[3]", "Continue without extra " +

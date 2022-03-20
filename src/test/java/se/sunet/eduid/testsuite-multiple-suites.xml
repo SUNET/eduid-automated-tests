@@ -1,8 +1,0 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-
-<suite name="qa">
-    <suite-files>
-        <suite-file path="testsuite-chrome.xml" />
-        <suite-file path="testsuite-chrome2.xml" />
-    </suite-files>
-</suite>

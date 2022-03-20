@@ -24,7 +24,7 @@ public class TestData {
     private boolean sendCaptcha = true;
     private boolean addSecurityKey = false;
     private boolean registerAccount, resetPassword, incorrectPassword, removePrimary, removeNewEmail1,
-            resendOTP, deleteButton, useRecommendedPw;
+            resendOTP, deleteButton, useRecommendedPw, otherDevice;
 
     void setProperties(String testSuite) throws IOException {
         Properties properties = new Properties();

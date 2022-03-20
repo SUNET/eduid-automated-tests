@@ -56,6 +56,7 @@ public class BeforeAndAfter {
     public SecurityKey securityKey;
     public Help help;
     public LoginExtraSecurity loginExtraSecurity;
+    public Sunet sunet;
     public TestData testData = new TestData();
 
     Local bsLocal;
@@ -103,6 +104,7 @@ public class BeforeAndAfter {
         securityKey = new SecurityKey(common, testData);
         help = new Help(common);
         loginExtraSecurity = new LoginExtraSecurity(common, testData);
+        sunet = new Sunet(common, testData);
 
 //        initBrowser.startHarSession(testContext.getName());
     }

@@ -19,12 +19,12 @@ public class AdvancedSettings {
     }
 
     public void runAdvancedSettings(){
-        verifyPageTitle();
         pressAdvancedSettings();
+        verifyPageTitle();
         verifyLabels();
         storeEppn();
         pressAddSecurityKey();
-//k        pressLadok();
+//        pressLadok();
         pressOrcid();
     }
 
@@ -32,7 +32,7 @@ public class AdvancedSettings {
         common.verifyPageTitle("eduID dashboard");
 
         //TODO temp fix to get swedish language
-        if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
+        if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))
             common.selectSwedish();
     }
 

@@ -27,8 +27,8 @@ public class ConfirmIdentity{
         common.verifyPageTitle("eduID dashboard");
 
         //TODO temp fix to get swedish language
-        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
-            common.selectSwedish();
+//        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
+//            common.selectSwedish();
     }
 
     public void pressIdentity(){

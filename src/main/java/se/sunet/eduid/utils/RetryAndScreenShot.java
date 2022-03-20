@@ -2,6 +2,7 @@ package se.sunet.eduid.utils;
 
 import com.assertthat.selenium_shutterbug.core.Capture;
 import com.assertthat.selenium_shutterbug.core.Shutterbug;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -18,7 +19,7 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
 
     @Override
     public boolean retry(ITestResult iTestResult) {
-//        webDriver = WebDriverManager.getWebDriver();
+        webDriver = WebDriverManager.chromedriver().getWebDriver();
         testCase = iTestResult.getTestContext().getName();
         testMethod = iTestResult.getName();
 
