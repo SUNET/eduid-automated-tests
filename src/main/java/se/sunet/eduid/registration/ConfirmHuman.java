@@ -26,23 +26,20 @@ public class ConfirmHuman {
 
     private void verifyLabels() {
         //Swedish
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID är enklare och säkrare inloggning.");
-
         //Label1
-        common.verifyStringByXpath("//*[@id=\"content\"]/h3", "eduID måste " +
+        common.verifyStringByXpath("//*[@id=\"content\"]/h1", "eduID måste " +
                 "verifiera att du är en människa och inte en maskin.");
 
         //Switch language to English
         common.selectEnglish();
-
-        //Heading
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID is easier and safer login.");
+        common.timeoutMilliSeconds(500);
 
         //Label1
-        common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Confirm that you are a human.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Confirm that you are a human.");
 
         //Switch language to Swedish
         common.selectSwedish();
+        common.timeoutMilliSeconds(500);
     }
 
     private void clickButton(){
@@ -50,12 +47,13 @@ public class ConfirmHuman {
             //Add cookie for back doors and click on proceed button
             if(testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
                 common.addMagicCookie();
-                common.timeoutMilliSeconds(400);
+                common.timeoutMilliSeconds(600);
                 //common.logMagicCookie();
             }
 
             //Click on Send captcha button
-            common.click(common.findWebElementById("send-captcha-button"));
+            //common.click(common.findWebElementById("send-captcha-button"));
+            common.findWebElementById("send-captcha-button").click();
             common.timeoutSeconds(2);
 
             //Common.log.info("Magic code: " +common.getMagicCode());
@@ -76,17 +74,17 @@ public class ConfirmHuman {
             }
             else {
                 //Verify text on page
-                common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Kontot skapades");
+                common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Kontot skapades");
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/p",
                         "Slutför skapandet av ditt eduID genom att klicka länken skickad till:");
-                common.verifyStringByXpath("//*[@id=\"email-display\"]/h3", testData.getUsername());
+                common.verifyStringByXpath("//*[@id=\"email-display\"]/h4", testData.getUsername());
 
                 //Verify text in english
                 common.selectEnglish();
-                common.verifyStringByXpath("//*[@id=\"content\"]/h3", "A link has been sent to your email address.");
+                common.verifyStringByXpath("//*[@id=\"content\"]/h1", "A link has been sent to your email address.");
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/p",
                         "Complete registration by clicking the link sent to:");
-                common.verifyStringByXpath("//*[@id=\"email-display\"]/h3", testData.getUsername());
+                common.verifyStringByXpath("//*[@id=\"email-display\"]/h4", testData.getUsername());
 
                 //Continue with magic url to get to successful registered page
                 common.timeoutSeconds(2);
@@ -102,8 +100,9 @@ public class ConfirmHuman {
             }
         }
         else {
+            //Cancel confirm human will send user back to register email page
             common.click(common.findWebElementById("cancel-captcha-button"));
-            common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID är enklare och säkrare inloggning.");
+            common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Registrera din e-postadress för att skapa ditt eduID.");
         }
     }
 }

@@ -20,10 +20,11 @@ public class Login {
         }
         else if(testData.isRegisterAccount())
             registerAccount();
-        else if(testData.isOtherDevice())
-            loginOtherDevice();
+//        else if(testData.isOtherDevice())
+//            loginOtherDevice();
         else {
-            enterUsernamePassword();
+            enterUsername();
+            enterPassword();
             signIn();
         }
     }
@@ -35,14 +36,14 @@ public class Login {
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")){
-            verifyPlaceholder("name@example.com", "enter password");
+//            verifyPlaceholder("name@example.com", "enter password");
             common.selectSwedish();
         }
 
         common.timeoutMilliSeconds(500);
     }
 
-    public void enterUsernamePassword(){
+    public void enterUsername(){
         //Verify placeholder
         verifyPlaceholder("namn@example.com", "ange lösenord");
 
@@ -52,7 +53,9 @@ public class Login {
         common.findWebElementById("email").sendKeys(testData.getUsername());
 
         Common.log.info("Log in with username: " +testData.getUsername());
+    }
 
+    public void enterPassword() {
         common.findWebElementById("current-password").clear();
 
         common.findWebElementById("current-password").sendKeys(testData.getPassword());
@@ -67,16 +70,16 @@ public class Login {
 
         if(testData.isIncorrectPassword()) {
             common.timeoutMilliSeconds(500);
-            common.verifyXpathContainsString("//div/section[2]/div[1]/div/span", "E-postadressen eller lösenordet är felaktigt.");
+            common.verifyStatusMessage("E-postadressen eller lösenordet är felaktigt.");
 
             common.selectEnglish();
-            common.verifyXpathContainsString("//div/section[2]/div[1]/div/span", "The email address or password was incorrect.");
+            common.verifyStatusMessage("The email address or password was incorrect.");
             common.selectSwedish();
         }
         else {
-            //Wait for the "EduId for" label at dashboard
+            //Wait for the username label at dashboard upper right corner
             common.timeoutMilliSeconds(800);
-            common.explicitWaitVisibilityElement("//*[@id=\"root\"]/section[1]/div/h1");
+            common.explicitWaitVisibilityElement("//*[@id=\"root\"]/section[1]/header/div");
         }
         common.timeoutMilliSeconds(500);
     }
@@ -100,8 +103,8 @@ public class Login {
 
     private void verifyPlaceholder(String email, String password){
         //Verify placeholder
-        common.verifyStrings(email, common.findWebElementByXpath("//*[@id=\"email\"]").getAttribute("placeholder"));
-        common.verifyStrings(password, common.findWebElementByXpath("//*[@id=\"current-password\"]").getAttribute("placeholder"));
+        common.verifyStrings(email, common.findWebElementById("email").getAttribute("placeholder"));
+        common.verifyStrings(password, common.findWebElementById("current-password").getAttribute("placeholder"));
     }
 
     private void loginOtherDevice(){

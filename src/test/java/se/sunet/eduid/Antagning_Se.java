@@ -29,7 +29,8 @@ public class Antagning_Se extends BeforeAndAfter {
     @Test( dependsOnMethods = {"logInWithEduId"} )
     void loginToAntagning(){
         login.verifyPageTitle();
-        login.enterUsernamePassword();
+        login.enterUsername();
+        login.enterPassword();
         common.click(common.findWebElementById("login-form-button"));
 
         // Verify that we are logged in

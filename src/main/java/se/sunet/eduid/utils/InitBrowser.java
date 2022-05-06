@@ -66,12 +66,13 @@ public class InitBrowser {
         if(System.getProperty("os.name").toLowerCase().contains("mac")) {
 
             //Create Chrome instance with options
-            WebDriverManager.chromedriver().browserVersion("99").setup();
+            //WebDriverManager.chromedriver().browserVersion("99").setup();
+            WebDriverManager.chromedriver().setup();
 
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("disable-infobars");
-            chromeOptions.addArguments("--lang=" +language);
-            chromeOptions.setExperimentalOption("w3c", false);
+            //chromeOptions.addArguments("--lang=" +language);
+            //chromeOptions.setExperimentalOption("w3c", false);
 
             // If execution should be performed headless
             if (headless.equals("true")) {

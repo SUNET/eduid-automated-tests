@@ -92,7 +92,16 @@ public class TC_49 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmedNewAccount2"} )
     void login2(){
         testData.setRegisterAccount(false);
-        login.runLogin(); }
+        login.verifyPageTitle();
+
+        //Disable Remember me
+        common.findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div").click();
+        common.timeoutSeconds(1);
+
+        login.enterUsername();
+        login.enterPassword();
+        login.signIn();
+    }
 
     @Test( dependsOnMethods = {"login2"} )
     void personalInfo2() {
@@ -135,7 +144,10 @@ public class TC_49 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage3"} )
     void login3(){
         testData.setIncorrectPassword(true);
-        login.runLogin();
+        login.verifyPageTitle();
+        login.enterUsername();
+        login.enterPassword();
+        login.signIn();
     }
 
     @Test( dependsOnMethods = {"login3"} )

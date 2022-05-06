@@ -11,8 +11,8 @@ public class Help {
 
     public void runHelp(){
         clickHelp();
-        verifyEnglish();
         verifySwedish();
+        verifyEnglish();
     }
 
     //Click on help button
@@ -27,7 +27,8 @@ public class Help {
     //Verify text and headings in swedish
     private void verifySwedish(){
         //Select Swedish
-        common.selectSwedish();
+        if(common.findWebElementByXpath("//*[@id=\"footer\"]/nav/ul").getText().equalsIgnoreCase("svenska"))
+            common.selectSwedish();
 
         //Heading 1
         common.verifyStringOnPage("Vad är eduID?");
@@ -200,7 +201,7 @@ public class Help {
     }
 
     private void verifyEnglish(){
-        //Select English
+        //Select Swedish
         common.selectEnglish();
 
         //Heading 1

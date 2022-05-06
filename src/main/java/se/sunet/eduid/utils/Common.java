@@ -10,13 +10,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
+import io.github.sukgu.Shadow;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 
 public class Common {
@@ -83,6 +84,10 @@ public class Common {
         webDriver.navigate().to(url);
     }
 
+    public void navigateToUrlNewWindow(String url){
+        ((JavascriptExecutor)webDriver).executeScript("window.open('" +url +"');");
+    }
+
     public WebDriver getWebDriver(){
         return webDriver;
     }
@@ -134,6 +139,11 @@ public class Common {
         } catch (InterruptedException e) {
             log.error(e.getMessage());
         }
+    }
+
+    public WebElement clickByShadow(String cssLocator){
+        Shadow shadow = new Shadow(webDriver);
+        return shadow.findElement(cssLocator);
     }
 
     public void explicitWaitClickableElement(String xpathToElementToWaitFor) {
@@ -209,7 +219,6 @@ public class Common {
         ((JavascriptExecutor)webDriver).executeScript("var select = arguments[0]; for(var i = 0; " +
                 "i < select.options.length; i++){ if(select.options[i].text == arguments[1]){ select.options[i].selected = true; } }"
                 , select, visibleTextToSelect);
-
     }
 
 
@@ -239,7 +248,26 @@ public class Common {
 
     public void closePopupDialog(){
         //Close the pop up dialog
-        findWebElementByXpath("//div[2]/div/div[1]/div/div/div[1]/h5/div/button").click();
+        findWebElementByXpath("//div[2]/div/div[1]/div/div/div[1]/h5/button").click();
+    }
+
+    public void rememberMe(){
+        boolean enableRememberMe = testData.isRememberMe();
+        log.info("Status of Remember me: " +webDriver.findElement(By.id("remember-me")).isSelected());
+        timeoutSeconds(1);
+
+        if(enableRememberMe) {
+            //If Remember Me is disabled. Click button
+            if(!webDriver.findElement(By.id("remember-me")).isSelected())
+                findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div").click();
+        }
+        //Disable Remember Me, if enabled
+        else{
+            //If Remember Me is enabled. Click button
+            if (webDriver.findElement(By.id("remember-me")).isSelected())
+                findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div").click();
+        }
+        //log.info("Status of Remember me: " +webDriver.findElement(By.id("remember-me")).isSelected());
     }
 
     public void switchToDefaultWindow(){
@@ -278,23 +306,22 @@ public class Common {
         webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi",
                 ".dev.eduid.se", "/", tomorrow, true));
 
-//        logMagicCookie();
+//        logCookie("autotests");
     }
     public void addNinCookie(){
         Date today    = new Date();
         Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
-//        webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi"));
         webDriver.manage().addCookie(new Cookie("nin", testData.getIdentityNumber(),
                 ".dev.eduid.se", "/", tomorrow, true));
 
-//        logMagicCookie();
+        logCookie("nin");
     }
 
-    public void logMagicCookie(){
-        log.info("Cookie name: " + webDriver.manage().getCookieNamed("autotests").getName());
-        log.info("Cookie value: " + webDriver.manage().getCookieNamed("autotests").getValue());
-        log.info("Cookie domain: " + webDriver.manage().getCookieNamed("autotests").getDomain());
-        log.info("Cookie path: " + webDriver.manage().getCookieNamed("autotests").getPath());
-        log.info("Cookie expire: " + webDriver.manage().getCookieNamed("autotests").getExpiry());
+    public void logCookie(String name){
+        log.info("Cookie name: " + webDriver.manage().getCookieNamed(name).getName());
+        log.info("Cookie value: " + webDriver.manage().getCookieNamed(name).getValue());
+        log.info("Cookie domain: " + webDriver.manage().getCookieNamed(name).getDomain());
+        log.info("Cookie path: " + webDriver.manage().getCookieNamed(name).getPath());
+        log.info("Cookie expire: " + webDriver.manage().getCookieNamed(name).getExpiry());
     }
 }

@@ -51,7 +51,7 @@ public class ConfirmPhoneNumber {
         }
         //If OTP should not be ordered, close the pop-up
         else {
-            common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button"));
+            common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
             common.timeoutMilliSeconds(500);
         }
     }

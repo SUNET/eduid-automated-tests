@@ -46,7 +46,7 @@ public class TC_45 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"swamid"} )
     void login2(){
         login.verifyPageTitle();
-        login.enterUsernamePassword();
+        login.enterPassword();
         common.click(common.findWebElementById("login-form-button"));
 
         common.explicitWaitPageTitle("Release check for SWAMID");
@@ -96,6 +96,8 @@ public class TC_45 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage3"} )
     void login3(){
         testData.setIncorrectPassword(true);
-        login.runLogin();
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
     }
 }

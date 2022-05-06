@@ -45,7 +45,10 @@ public class TC_39 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmHuman2"} )
     void login2(){
         testData.setRegisterAccount(false);
-        login.runLogin(); }
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
+    }
 
     @Test( dependsOnMethods = {"login2"} )
     void dashboard() {
@@ -71,6 +74,8 @@ public class TC_39 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage3"} )
     void login3(){
         testData.setIncorrectPassword(true);
-        login.runLogin();
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
     }
 }

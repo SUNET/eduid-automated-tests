@@ -1,5 +1,7 @@
 package se.sunet.eduid.utils;
 
+import com.assertthat.selenium_shutterbug.core.Capture;
+import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -57,6 +59,7 @@ public class BeforeAndAfter {
     public Help help;
     public LoginExtraSecurity loginExtraSecurity;
     public Sunet sunet;
+    public LoginOtherDevice loginOtherDevice;
     public TestData testData = new TestData();
 
     Local bsLocal;
@@ -105,6 +108,7 @@ public class BeforeAndAfter {
         help = new Help(common);
         loginExtraSecurity = new LoginExtraSecurity(common, testData);
         sunet = new Sunet(common, testData);
+        loginOtherDevice = new LoginOtherDevice(common, testData);
 
 //        initBrowser.startHarSession(testContext.getName());
     }
@@ -134,6 +138,18 @@ public class BeforeAndAfter {
 
         //Delete browserstack access tunnel
 //        deleteBrowserStackAccessTunnel();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void captureScreenshot(ITestResult result){
+        //Take the Screenshot Only, If the Test is failed.
+        // Change the condition , If the screenshot needs to be taken for other status as well
+        if(ITestResult.FAILURE==result.getStatus()){
+            Shutterbug.shootPage(webdriver, Capture.FULL_SCROLL, 500, true)
+                    .withName(testData.getTestCase() +"-" +result.getName())
+                    .save("screenshots/");
+
+        }
     }
 }
 

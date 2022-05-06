@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -30,8 +31,13 @@ public class TC_18 extends BeforeAndAfter {
         boolean tempIncorrectPassword = testData.isIncorrectPassword();
         testData.setIncorrectPassword(false);
 
+        //Check that "Not you" button is Not present
+//        Assert.assertFalse(common.findWebElementById("wrong-person-button").isDisplayed(), "The " +
+//                "Not You button is visible, it should be hidden when change of password is done!");
+
         //Enter userName and password since we need to login again before pw change
-        login.runLogin();
+        login.enterPassword();
+        login.signIn();
 
         testData.setIncorrectPassword(tempIncorrectPassword);
     }

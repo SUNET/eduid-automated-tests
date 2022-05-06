@@ -63,7 +63,7 @@ public class TC_53 extends BeforeAndAfter {
 
         //Enter username, password to verify security key first time
         login.verifyPageTitle();
-        login.enterUsernamePassword();
+        login.enterPassword();
 
         //Click log in button
         common.click(common.findWebElementById("login-form-button"));
@@ -143,6 +143,8 @@ public class TC_53 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage2"} )
     void login3(){
         testData.setIncorrectPassword(true);
-        login.runLogin();
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
     }
 }

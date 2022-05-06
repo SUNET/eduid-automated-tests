@@ -103,7 +103,9 @@ public class TC_43 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage3"} )
     void login3(){
         testData.setIncorrectPassword(true);
-        login.runLogin();
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
     }
 
     //Navigate to the support tool again

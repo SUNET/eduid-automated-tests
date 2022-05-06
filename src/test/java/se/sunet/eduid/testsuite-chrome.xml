@@ -7,9 +7,9 @@
     <parameter name="language" value="sv" />
     <parameter name="testsuite" value="dev" />
 
-    <listeners>
+<!--    <listeners>
         <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
-    </listeners>
+    </listeners>-->
 
     <test name="TC_1">
         <parameter name="testDescription" value="Log in and check account data and labels" />
@@ -499,6 +499,146 @@
         <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
         <classes>
             <class name="se.sunet.eduid.TC_59" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_60">
+        <parameter name="testDescription" value="Log in using 'Other Device' - 'Remember me' disabled" />
+        <classes>
+            <class name="se.sunet.eduid.TC_60" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_61">
+        <parameter name="testDescription" value="Init Log in using 'Other Device' - 'Remember me' disabled, but press Cancel at QR page" />
+        <classes>
+            <class name="se.sunet.eduid.TC_61" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_62">
+        <parameter name="testDescription" value="Init Log in using 'Other Device' - 'Remember me' disabled, enter incorrect code" />
+        <classes>
+            <class name="se.sunet.eduid.TC_62" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_70">
+        <parameter name="testDescription" value="Init Log in using 'Other Device' - 'Remember me' disabled, enter incorrect code 3 times" />
+        <classes>
+            <class name="se.sunet.eduid.TC_70" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_63">
+        <parameter name="testDescription" value="Init Log in using 'Other Device' - 'Remember me' disabled, let timer timeout and then press cancel" />
+        <classes>
+            <class name="se.sunet.eduid.TC_63" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_64">
+        <parameter name="testDescription" value="Init Log in using 'Other Device' - 'Remember me' disabled, let timer timeout and then press retry" />
+        <classes>
+            <class name="se.sunet.eduid.TC_64" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_65">
+        <parameter name="testDescription" value="Init Log in using 'Other Device' - 'Remember me' disabled, let timer timeout at confirm login page" />
+        <classes>
+            <class name="se.sunet.eduid.TC_65" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_71">
+        <parameter name="testDescription" value="Log in using 'Other Device' - 'Remember me' enabled" />
+        <classes>
+            <class name="se.sunet.eduid.TC_71" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_72">
+        <parameter name="testDescription" value="Log in using 'Other Device' - 'Remember me' enabled, but press cancel
+                        after perform of log in on other device, instead of continue" />
+        <classes>
+            <class name="se.sunet.eduid.TC_72" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_73">
+        <parameter name="testDescription" value="Init Log in using 'Other Device' - 'Remember me' enabled, but press Cancel at QR page" />
+        <classes>
+            <class name="se.sunet.eduid.TC_73" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_74">
+        <parameter name="testDescription" value="Log in using 'Other Device' - 'Remember me' enabled, but press cancel at the confirm login page" />
+        <classes>
+            <class name="se.sunet.eduid.TC_74" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_75">
+        <parameter name="testDescription" value="Log in using 'Other Device' - 'Remember me' enabled, but press cancel
+                        at the log in page on other device, instead of log in with username/pw" />
+        <classes>
+            <class name="se.sunet.eduid.TC_75" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_76">
+        <parameter name="testDescription" value="Log in using 'Other Device' - 'Remember me' enabled, press done 3 times" />
+        <classes>
+            <class name="se.sunet.eduid.TC_76" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_66">
+        <parameter name="testDescription" value="Log in with remember me enabled, log out and verify that username is pre-filled for next login" />
+        <classes>
+            <class name="se.sunet.eduid.TC_66" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_67">
+        <parameter name="testDescription" value="Log in with remember me enabled, log out and verify that username is pre-filled for next login, press Not You
+                and enter username, password for another user and log in. Logout another user and verify its suggested for next log in" />
+        <classes>
+            <class name="se.sunet.eduid.TC_67" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_68">
+        <parameter name="testDescription" value="Log in with remember me disabled, log out and verify that username is not pre-filled for next login" />
+        <classes>
+            <class name="se.sunet.eduid.TC_68" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_69">
+        <parameter name="testDescription" value="Log in with remember me disabled, log out and verify that username is not
+        pre-filled for next login. Enable remember me, log in and log out. Check that username is pre-filled and remember me is enabled" />
+        <classes>
+            <class name="se.sunet.eduid.TC_69" >
             </class>
         </classes>
     </test>

@@ -11,6 +11,7 @@ public class TC_10 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
+        testData.setIncorrectPassword(true);
         testData.setPassword("notTheCorrectPassword");
         login.runLogin();
     }

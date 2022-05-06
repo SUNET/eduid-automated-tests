@@ -31,7 +31,8 @@ public class TC_21 extends BeforeAndAfter {
         testData.setIncorrectPassword(false);
 
         //Enter userName and password since we need to login again before pw change
-        login.runLogin();
+        login.enterPassword();
+        login.signIn();
 
         testData.setIncorrectPassword(tempIncorrectPassword);
     }

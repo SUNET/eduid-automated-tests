@@ -39,7 +39,7 @@ public class Identity {
         //Click on show/hide full identityNumber
         common.click(common.findWebElementByXpath("//*[@id=\"text-content\"]/div[2]/div/button[1]"));
 
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/p", testData.getIdentityNumber());
+        common.verifyStringById("nin-number", testData.getIdentityNumber());
     }
 
     private void verifyLabels() {
@@ -49,17 +49,17 @@ public class Identity {
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/button[1]", "DÖLJ");
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Koppla din identitet till ditt eduID");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3", "Koppla din identitet till ditt eduID");
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "För att kunna " +
                 "använda eduID måste du bevisa din identitet. Lägg till ditt personnummer och bekräfta det i verkliga livet.");
 
         //1. Add your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3", "1. Lägg till ditt personnummer");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/h4[1]", "1. Lägg till ditt personnummer");
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/label", "Personnummer");
 
         //2. Verify your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[3]/h3", "2. Bekräfta ditt personnummer");
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[3]/p", "Välj ett sätt att bekräfta att " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/h4[2]", "2. Bekräfta ditt personnummer");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/p", "Välj ett sätt att bekräfta att " +
                 "du har tillgång till det angivna personnumret. Om en av metoderna inte fungerar får du prova en annan.");
 
         //Button text - letter
@@ -104,17 +104,17 @@ public class Identity {
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/div/button[1]", "HIDE");
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Connect your identity to your eduID");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3", "Connect your identity to your eduID");
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "To be able to use " +
                 "eduID you have to prove your identity. Add your national id number and verify it in real life.");
 
         //1. Add your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3", "1. Add your id number");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/h4[1]", "1. Add your id number");
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/label", "Id number");
 
         //2. Verify your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[3]/h3", "2. Verify your id number");
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[3]/p", "Choose a method to verify " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/h4[2]", "2. Verify your id number");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/p", "Choose a method to verify " +
                 "that you have access to the added id number. If you are unable to use a method you need to try another.");
 
 

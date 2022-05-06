@@ -71,7 +71,7 @@ public class TC_57 extends BeforeAndAfter {
 
         //Enter username, password to verify security key first time
         login.verifyPageTitle();
-        login.enterUsernamePassword();
+        login.enterPassword();
 
         //Click log in button
         common.click(common.findWebElementById("login-form-button"));
@@ -131,12 +131,14 @@ public class TC_57 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"swamid"} )
     void login2(){
         login.verifyPageTitle();
-        login.enterUsernamePassword();
+        login.enterPassword();
         common.click(common.findWebElementById("login-form-button"));
     }
 
     @Test( dependsOnMethods = {"login2"} )
     void loginMfaFreja() {
+        common.timeoutSeconds(2);
+
         //Set mfa method to be used to "security key" at login.
         testData.setMfaMethod("freja");
 
@@ -211,6 +213,8 @@ public class TC_57 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage2"} )
     void login3(){
         testData.setIncorrectPassword(true);
-        login.runLogin();
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
     }
 }

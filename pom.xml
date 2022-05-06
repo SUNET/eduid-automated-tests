@@ -96,6 +96,14 @@
         </dependency>
         -->
 
+        <!-- https://mvnrepository.com/artifact/io.github.sukgu/automation -->
+        <!-- Used for clicking on shadow DOM elements -->
+        <dependency>
+            <groupId>io.github.sukgu</groupId>
+            <artifactId>automation</artifactId>
+            <version>0.1.4.1</version>
+        </dependency>
+
         <!-- For browser stack -->
         <dependency>
             <groupId>com.browserstack</groupId>

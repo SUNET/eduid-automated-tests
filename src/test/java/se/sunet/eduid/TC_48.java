@@ -23,7 +23,11 @@ public class TC_48 extends BeforeAndAfter {
     void startPage2() { startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){ login.runLogin(); }
+    void login2(){
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
+    }
 
     @Test( dependsOnMethods = {"login2"} )
     void dashboard2() { dashBoard.runDashBoard(); }

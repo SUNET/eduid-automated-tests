@@ -70,7 +70,7 @@ public class TC_58 extends BeforeAndAfter {
 
         //Enter username, password to verify security key first time
         login.verifyPageTitle();
-        login.enterUsernamePassword();
+        login.enterPassword();
 
         //Click log in button
         common.click(common.findWebElementById("login-form-button"));
@@ -130,7 +130,7 @@ public class TC_58 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"swamid"} )
     void login2(){
         login.verifyPageTitle();
-        login.enterUsernamePassword();
+        login.enterPassword();
         common.click(common.findWebElementById("login-form-button"));
     }
 
@@ -138,9 +138,16 @@ public class TC_58 extends BeforeAndAfter {
     void loginMfaSecurityKey2() {
         //Login page for extra security select security key mfa method
         loginExtraSecurity.selectMfaMethod();
-        Common.log.info("Log in with Security Key");
 
         common.timeoutSeconds(2);
+
+        if(!common.findWebElementByXpath("//div/div[4]/div[1]/div[1]/div/a/button").isDisplayed()) {
+            Common.log.info("Show attributes button in swamid data not present, clicking again");
+            loginExtraSecurity.selectMfaMethod();
+        }
+
+        //Wait for button show attributes in swamid data
+        common.explicitWaitClickableElement("//div/div[4]/div[1]/div[1]/div/a/button");
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
@@ -160,7 +167,6 @@ public class TC_58 extends BeforeAndAfter {
     void loginMfaSecurityKey3() {
         //Login page for extra security select security key mfa method
         loginExtraSecurity.selectMfaMethod();
-        Common.log.info("Log in with Security Key");
 
         common.timeoutSeconds(2);
     }
@@ -192,6 +198,8 @@ public class TC_58 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage2"} )
     void login3(){
         testData.setIncorrectPassword(true);
-        login.runLogin();
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
     }
 }

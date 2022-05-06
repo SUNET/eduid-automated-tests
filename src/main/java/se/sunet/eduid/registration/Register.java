@@ -1,5 +1,6 @@
 package se.sunet.eduid.registration;
 
+import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -28,32 +29,36 @@ public class Register {
     }
 
     private void verifyLabels(){
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID är enklare och säkrare inloggning.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Registrera din e-postadress för att skapa ditt eduID.");
+        //Verify placeholder
+        common.verifyStrings("namn@example.com", common.findWebElementById("email").getAttribute("placeholder"));
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "När du har skapat ditt eduID kan du logga in och koppla det till ditt svenska personnummer.");
+
+        common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Registrera din e-postadress för att skapa ditt eduID.");
+
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "När du har skapat ditt eduID kan du logga in och koppla det till ditt svenska personnummer.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[3]/span", "Om du redan har ett eduID kan du logga in");
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "Om du redan har ett eduID kan du logga in här.");
 
-        common.verifyStringNotEmptyByXpath("//*[@id=\"content\"]/p[3]/a", "//*[@id=\"content\"]/p[3]/a");
+        Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"content\"]/p[2]/a").getAttribute("href")
+                .contains("https://dashboard.dev.eduid.se/profile"), "The log in link is not correct! Expecting: https://dashboard.dev.eduid.se/profile");
 
         //Switch language to English
         common.selectEnglish();
-        common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID is easier and safer login.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Register your email address to create your eduID.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Register your email address to create your eduID.");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "Once you have created an eduID you will be able to log in and connect it to your Swedish national identity number.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Once you have created an eduID you will be able to log in and connect it to your Swedish national identity number.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[3]/span", "If you already have eduID you can log in");
+        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "If you already have eduID you can log in here.");
 
-        common.verifyStringNotEmptyByXpath("//*[@id=\"content\"]/p[3]/a", "//*[@id=\"content\"]/p[3]/a");
+        Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"content\"]/p[2]/a").getAttribute("href")
+                .contains("https://dashboard.dev.eduid.se/profile"), "The log in link is not correct! Expecting: https://dashboard.dev.eduid.se/profile");
     }
 
     private void enterEmailAndPressRegister(){
         //Verify placeholder
-        common.verifyStrings("name@example.com", common.findWebElementByXpath("//*[@id=\"email\"]").getAttribute("placeholder"));
+        common.verifyStrings("name@example.com", common.findWebElementById("email").getAttribute("placeholder"));
 
         //Generate new username
         if(testData.isGenerateUsername())
@@ -86,8 +91,7 @@ public class Register {
         else {
             common.click(common.findWebElementById("reject-tou-button"));
             //TODO language
-            //common.verifyStringByXpath("//*[@id="root"]/section[1]/div/h1/span", "Welcome to eduID");
-            common.verifyStringByXpath("//*[@id=\"root\"]/section[1]/div/h1", "eduID är enklare och säkrare inloggning.");
+            common.timeoutSeconds(1);
         }
     }
 
@@ -100,8 +104,8 @@ public class Register {
                 "användarkonton ska följa Sveriges lagar och förordningar,");
         common.verifyStringByXpath("//div/div[2]/ul/li[2]", "att man är " +
                 "sanningsenlig vid uppgivande av personlig information som namn, kontaktuppgifter el. dyl,");
-        common.verifyStringByXpath("//div/div[2]/ul/li[3]", "att användarkonton, " +
-                "lösenord och koder är personliga och får endast användas av innehavaren,");
+        common.verifyStringByXpath("//div/div[2]/ul/li[3]", "att användarkonton, lösenord, " +
+                "säkerhetsnycklar och koder är personliga och får endast användas av innehavaren,");
         common.verifyStringByXpath("//div/div[2]/ul/li[4]", "att SUNET:s " +
                 "etiska regler reglerar övrig tillåten användning. SUNET bedömer som oetiskt när någon");
         common.verifyStringByXpath("//div/div[2]/ul/ul/li[1]", "försöker " +
@@ -128,8 +132,8 @@ public class Register {
                 "accounts follow Sweden's laws and by-laws,");
         common.verifyStringByXpath("//div/div[2]/ul/li[2]", "that all personal information " +
                 "that you provide, such as name and contact information shall be truthful,");
-        common.verifyStringByXpath("//div/div[2]/ul/li[3]", "that user accounts, password " +
-                "and codes are individual and shall only be used by the intended individual,");
+        common.verifyStringByXpath("//div/div[2]/ul/li[3]", "that user accounts, password, " +
+                "security keys and codes are individual and shall only be used by the intended individual,");
         common.verifyStringByXpath("//div/div[2]/ul/li[4]", "that SUNET's ethical rules " +
                 "regulate the \"other\" usage. SUNET judges unethical behaviour to be when someone");
         common.verifyStringByXpath("//div/div[2]/ul/ul/li[1]", "attempts to gain access to " +

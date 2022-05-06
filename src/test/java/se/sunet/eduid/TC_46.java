@@ -65,9 +65,12 @@ public class TC_46 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"verifySecurityKey"} )
     void verifySecurityKeyLogin() {
+        //Add nin cookie
+        common.addNinCookie();
+
         //Enter username, password to verify security key first time
         login.verifyPageTitle();
-        login.enterUsernamePassword();
+        login.enterPassword();
 
         //Click log in button
         common.click(common.findWebElementById("login-form-button"));
@@ -89,8 +92,7 @@ public class TC_46 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"loginMfa"} )
     void selectUserRefIdp(){
-        //Add nin cookie
-        common.addNinCookie();
+        common.explicitWaitClickableElementId("submitButton");
 
         //Select and submit user
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
@@ -136,6 +138,8 @@ public class TC_46 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage2"} )
     void login3(){
         testData.setIncorrectPassword(true);
-        login.runLogin();
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
     }
 }

@@ -15,7 +15,7 @@ public class TestData {
     private String sendMobileOneTimePassword = "yes";
     private String username, password, givenName, surName, displayName, magicCode, email,
             phoneNumber, identityNumber, language, eppn, confirmIdBy, supportUsername,
-            emailCode, testCase, testDescription, testSuite, mfaMethod, otpPhoneNumber;
+            emailCode, testCase, testDescription, testSuite, mfaMethod, otpPhoneNumber, otherDeviceCode, otherDeviceSubmitCode;
 
     private boolean buttonValuePopup = true;
     private boolean buttonValueConfirm = true;
@@ -24,7 +24,7 @@ public class TestData {
     private boolean sendCaptcha = true;
     private boolean addSecurityKey = false;
     private boolean registerAccount, resetPassword, incorrectPassword, removePrimary, removeNewEmail1,
-            resendOTP, deleteButton, useRecommendedPw, otherDevice;
+            resendOTP, deleteButton, useRecommendedPw, otherDeviceFillCode, rememberMe;
 
     void setProperties(String testSuite) throws IOException {
         Properties properties = new Properties();

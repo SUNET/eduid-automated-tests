@@ -29,7 +29,7 @@ public class SecurityKey {
         common.navigateToAdvancedSettings();
 
         //Wait for heading "Gör ditt eduID säkrare"
-        common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h4");
+        common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h3");
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))
@@ -102,7 +102,7 @@ public class SecurityKey {
                 "//*[@id=\"describeWebauthnTokenDialogControl\"]").getAttribute("placeholder"));
 
         //Close pop up
-        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button"));
+        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
 
         //English
         common.selectEnglish();
@@ -118,7 +118,7 @@ public class SecurityKey {
                 "//*[@id=\"describeWebauthnTokenDialogControl\"]").getAttribute("placeholder"));
 
         //Close pop up
-        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button"));
+        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
 
         //English
         common.selectSwedish();

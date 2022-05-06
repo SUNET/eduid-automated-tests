@@ -38,8 +38,9 @@ public class DeleteAccount {
             //Enter userName and password since we need to login again before account is deleted
             common.timeoutSeconds(1);
             Login login = new Login(common, testData);
-            login.verifyPageTitle();
-            login.enterUsernamePassword();
+            //login.verifyPageTitle();
+            //login.enterUsername();
+            login.enterPassword();
 
             common.click(common.findWebElementById("login-form-button"));
 
@@ -53,7 +54,7 @@ public class DeleteAccount {
 
     private void verifyLabelsSwedish() {
         //Heading
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/h4", "Ta bort eduID");
+        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div[1]/h3", "Radera eduID");
 
         //Text
         common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/p", "Om du väljer att " +
@@ -68,7 +69,7 @@ public class DeleteAccount {
         common.selectEnglish();
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/h4", "Delete eduID");
+        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div[1]/h3", "Delete eduID");
 
         //Text
         common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/p", "Click the link " +
@@ -83,7 +84,7 @@ public class DeleteAccount {
 
     private void verifyPopUpLabels(){
         //Heading
-        common.explicitWaitVisibilityElement("//div/div[1]/h5");
+        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
         common.verifyStringOnPage( "Är du säker på att du vill ta bort ditt eduID?");
 
         //Text

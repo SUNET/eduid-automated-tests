@@ -40,11 +40,11 @@ public class AdvancedSettings {
         common.navigateToAdvancedSettings();
 
         //Wait for heading "Gör ditt eduID säkrare"
-        common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h4");
+        common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h3");
     }
 
     public void storeEppn(){
-        testData.setEppn(common.findWebElementByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]").getText());
+        testData.setEppn(common.findWebElementByXpath("//*[@id=\"uniqueId-container\"]/div[2]/div").getText());
         Common.log.info("Saved EPPN: " +testData.getEppn());
     }
 
@@ -62,7 +62,7 @@ public class AdvancedSettings {
 
 //        else{
             //Press close, in corner of pop-up
-        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button"));
+        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
   //      }
     }
 

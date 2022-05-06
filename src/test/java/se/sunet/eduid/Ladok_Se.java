@@ -30,7 +30,8 @@ public class Ladok_Se extends BeforeAndAfter {
     @Test( dependsOnMethods = {"selectLogIn"} )
     void loginToLadok(){
         login.verifyPageTitle();
-        login.enterUsernamePassword();
+        login.enterUsername();
+        login.enterPassword();
         common.click(common.findWebElementById("login-form-button"));
 
         // Verify that we see page that user is not registered in ladok

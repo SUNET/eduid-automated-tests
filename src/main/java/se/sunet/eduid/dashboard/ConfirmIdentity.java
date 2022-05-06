@@ -89,7 +89,6 @@ public class ConfirmIdentity{
 
             //Click OK
             common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]"));
-
         }
 
         //By phone
@@ -154,23 +153,24 @@ public class ConfirmIdentity{
 
     private void verifyLabels() {
         //Swedish
+        common.timeoutMilliSeconds(500);
 
         //Verify placeholder
         common.verifyStrings("ååååmmddnnnn", common.findWebElementById("nin").getAttribute("placeholder"));
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Koppla din identitet till ditt eduID");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3", "Koppla din identitet till ditt eduID");
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "För att kunna " +
                 "använda eduID måste du bevisa din identitet. Lägg till ditt personnummer och bekräfta det i verkliga livet.");
 
         //1. Add your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3", "1. Lägg till ditt personnummer");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/h4[1]", "1. Lägg till ditt personnummer");
         common.verifyStringByXpath("//*[@id=\"nin-wrapper\"]/div/label", "Personnummer");
         common.verifyStringByXpath("//*[@id=\"nin-wrapper\"]/div/span", "personnummer med 12 siffror");
 
         //2. Verify your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/h3", "2. Bekräfta ditt personnummer");
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/p", "Välj ett sätt att bekräfta att " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/h4[2]", "2. Bekräfta ditt personnummer");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/p", "Välj ett sätt att bekräfta att " +
                 "du har tillgång till det angivna personnumret. Om en av metoderna inte fungerar får du prova en annan.");
 
         //Button text - letter
@@ -213,18 +213,18 @@ public class ConfirmIdentity{
         common.verifyStrings("yyyymmddnnnn", common.findWebElementById("nin").getAttribute("placeholder"));
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Connect your identity to your eduID");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3", "Connect your identity to your eduID");
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/p", "To be able to use " +
                 "eduID you have to prove your identity. Add your national id number and verify it in real life.");
 
         //1. Add your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h3", "1. Add your id number");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/h4[1]", "1. Add your id number");
         common.verifyStringByXpath("//*[@id=\"nin-wrapper\"]/div/label", "Id number");
         common.verifyStringByXpath("//*[@id=\"nin-wrapper\"]/div/span", "national identity number with 12 digits");
 
         //2. Verify your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/h3", "2. Verify your id number");
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[2]/p", "Choose a method to verify " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/h4[2]", "2. Verify your id number");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/p", "Choose a method to verify " +
                 "that you have access to the added id number. If you are unable to use a method you need to try another.");
 
 
@@ -372,7 +372,7 @@ public class ConfirmIdentity{
                 "Av säkerhetsskäl går koden ut om två veckor.");
 
         //Click first on abort
-        common.click(common.findWebElementByXpath("//h5/div/button"));
+        common.closePopupDialog();
 
         //English
         common.selectEnglish();
@@ -391,7 +391,7 @@ public class ConfirmIdentity{
                 "from now");
 
         //Click first on abort
-        common.click(common.findWebElementByXpath("//h5/div/button"));
+        common.closePopupDialog();
 
         //English
         common.selectSwedish();
@@ -429,7 +429,7 @@ public class ConfirmIdentity{
         //Verify the placeholder
         common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button"));
         common.verifyStrings("Letter confirmation code", common.findWebElementById("letterConfirmDialogControl").getAttribute("placeholder"));
-        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button"));
+        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
 
         //English
         common.selectSwedish();
@@ -437,6 +437,6 @@ public class ConfirmIdentity{
         //Verify the placeholder
         common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div/div[1]/button"));
         common.verifyStrings("Bekräftelsekod", common.findWebElementById("letterConfirmDialogControl").getAttribute("placeholder"));
-        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/div/button"));
+        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
     }
 }

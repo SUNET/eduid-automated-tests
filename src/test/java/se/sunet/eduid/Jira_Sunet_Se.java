@@ -20,7 +20,8 @@ public class Jira_Sunet_Se extends BeforeAndAfter {
     @Test( dependsOnMethods = {"navigateEduId"} )
     void loginToJira(){
         login.verifyPageTitle();
-        login.enterUsernamePassword();
+        login.enterUsername();
+        login.enterPassword();
         common.click(common.findWebElementById("login-form-button"));
 
         // Verify that we see the DIGG OPS que

@@ -31,7 +31,8 @@ public class TC_20 extends BeforeAndAfter {
         testData.setIncorrectPassword(false);
 
         //Enter userName and password since we need to login again before pw change
-        login.runLogin();
+        login.enterPassword();
+        login.signIn();
 
         testData.setIncorrectPassword(tempIncorrectPassword);
     }
@@ -55,7 +56,8 @@ public class TC_20 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        login.runLogin();
+        login.enterPassword();
+        login.signIn();
     }
 
     @Test( dependsOnMethods = {"login2"} )
@@ -75,7 +77,8 @@ public class TC_20 extends BeforeAndAfter {
         testData.setIncorrectPassword(false);
 
         //Enter userName and password since we need to login again before pw change
-        login.runLogin();
+        login.enterPassword();
+        login.signIn();
 
         testData.setIncorrectPassword(tempIncorrectPassword);
     }

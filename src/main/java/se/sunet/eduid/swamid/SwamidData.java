@@ -101,6 +101,7 @@ public class SwamidData {
         common.verifyStringByXpath("//*[@id=\"attributes\"]/table[2]/tbody/tr[2]/td",
                 "http://www.swamid.se/policy/assurance/al1\n" +
                 "http://www.swamid.se/policy/assurance/al2\n" +
+                        "http://www.swamid.se/policy/assurance/al3\n" +
                 "http://www.swamid.se/policy/authentication/swamid-al2-mfa\n" +
                 "http://www.swamid.se/policy/authentication/swamid-al2-mfa-hi");
 

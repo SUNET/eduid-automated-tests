@@ -84,12 +84,6 @@ public class DashBoard {
     }
 
     private void verifyLabelsSwedish() {
-        //Welcome label
-        common.verifyStringOnPage( "eduID för");
-
-        //Profile not verified label
-        //common.verifyStringByXpath("//*[@id=\"profile-prompt-link\"]/h2/span", "Glöm inte att koppla din identitet till ditt eduID");
-
         //Profile
         common.verifyStringOnPage("Profil");
 
@@ -119,13 +113,7 @@ public class DashBoard {
     }
 
     private void verifyLabelsEnglish() {
-        //Welcome label
-        common.verifyStringOnPage( "eduID for");
-
-        //Profile not verified label
-        //common.verifyStringOnPage("Don't forget to connect your identity to eduID");
-
-        //Profile
+      //Profile
         common.verifyStringOnPage("Profile");
 
         //Settings

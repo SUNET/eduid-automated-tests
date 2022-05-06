@@ -57,7 +57,7 @@ public class PhoneNumber {
             common.selectSwedish();
 
         //Click add phone number button
-        common.click(common.findWebElementByXpath("//div/section[2]/div/div/div/div[2]/div[2]/button"));
+        common.click(common.findWebElementByXpath("//div/section[2]/div/div/div/article[3]/div[2]/button"));
 
         //Verify placeholder
         common.verifyStrings("Telefonnummer", common.findWebElementByXpath("//*[@id=\"number\"]").getAttribute("placeholder"));
@@ -71,6 +71,7 @@ public class PhoneNumber {
 
         //Click Add
         common.click(common.findWebElementById("mobile-button"));
+        common.timeoutMilliSeconds(500);
   }
 
     public void confirmNewPhoneNumber(){
@@ -92,7 +93,7 @@ public class PhoneNumber {
         common.navigateToAdvancedSettings();
 
         //Store eppen
-        String eppen = common.findWebElementByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]").getText();
+        String eppen = common.findWebElementByXpath("//*[@id=\"uniqueId-container\"]/div[2]/div").getText();
 
         //Fetch the code
         common.navigateToUrl("https://dashboard.dev.eduid.se/services/phone/get-code?eppn=" +eppen +"&phone=" +phoneNumber);
