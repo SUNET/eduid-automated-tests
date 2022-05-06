@@ -12,4 +12,5 @@ old
 .idea
 out
 config_prod.properties
+config_dev.properties
 dev-test.xml
