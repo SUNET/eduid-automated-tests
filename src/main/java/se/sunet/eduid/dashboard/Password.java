@@ -141,7 +141,7 @@ public class Password {
         common.verifyStringOnPage("Repetera ditt nya lösenord");
 
         //Link - Swedish
-        common.verifyStringOnPage("REKOMMENDERA ETT LÖSENORD");
+        common.verifyStringOnPage("Rekommendera ett lösenord");
 
         //Switch to English
         common.selectEnglish();
@@ -167,7 +167,7 @@ public class Password {
         common.verifyStringOnPage("Repeat new password");
 
         //Link - English
-        common.verifyStringOnPage("SUGGEST A PASSWORD FOR ME");
+        common.verifyStringOnPage("Suggest a password for me");
 
         //Switch to Swedish
         common.selectSwedish();
@@ -212,7 +212,7 @@ public class Password {
         common.verifyStringByXpath("//*[@id=\"suggested\"]/label","Rekommenderat lösenord");
 
         // Link label
-        common.verifyStringByXpath("//*[@id=\"password-suggestion\"]/div/button", "JAG VILL INTE ANVÄNDA DET REKOMMENDERADE LÖSENORDET");
+        common.verifyStringByXpath("//*[@id=\"password-suggestion\"]/div/button", "Jag vill inte använda det rekommenderade lösenordet");
 
         //English
         common.selectEnglish();
@@ -226,7 +226,7 @@ public class Password {
         common.verifyStringByXpath("//*[@id=\"suggested\"]/label","Suggested password");
 
         // Link label
-        common.verifyStringByXpath("//*[@id=\"password-suggestion\"]/div/button", "I DON'T WANT A SUGGESTED PASSWORD");
+        common.verifyStringByXpath("//*[@id=\"password-suggestion\"]/div/button", "I don't want a suggested password");
 
         //Swedish
         common.selectSwedish();

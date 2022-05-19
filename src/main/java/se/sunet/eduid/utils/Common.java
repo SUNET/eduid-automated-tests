@@ -61,19 +61,19 @@ public class Common {
     }
 
     public void navigateToSettings(){
-        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[3]/li"));
+        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/li[3]/a"));
     }
 
     public void navigateToIdentity(){
-        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[2]/li"));
+        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/li[2]/a"));
     }
 
     public void navigateToAdvancedSettings(){
-        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[4]/li"));
+        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/li[4]/a"));
     }
 
     public void navigateToDashboard(){
-        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[1]/li"));
+        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/li[1]/a"));
     }
 
     public void verifyPageTitle(String pageTitle) {

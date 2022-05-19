@@ -46,6 +46,6 @@ public class InitPwChange {
         common.verifyStringOnPage("Du kommer behöva logga in igen med ditt nuvarande lösenord för att kunna skriva in det nya.");
 
         //Buttons
-        common.verifyStringOnPage("ACCEPTERA");
+        common.verifyStringOnPage("GODKÄNN");
     }
 }

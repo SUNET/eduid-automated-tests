@@ -26,7 +26,6 @@ public class TC_62 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"runLoginOtherDevice"} )
     void verifyStatusMessage(){
-        //TODO Here we should get a proper error message, 2022-05-03 only a new QR is generated #922
-        common.verifyStatusMessage("An error occurred. Please try again later.");
+        common.verifyStringById("wrong-code-error", "Incorrect code, try again");
     }
 }

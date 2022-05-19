@@ -7,10 +7,6 @@
     <parameter name="language" value="sv" />
     <parameter name="testsuite" value="dev" />
 
-<!--    <listeners>
-        <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
-    </listeners>-->
-
     <test name="TC_1">
         <parameter name="testDescription" value="Log in and check account data and labels" />
         <classes>

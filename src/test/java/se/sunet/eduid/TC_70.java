@@ -44,11 +44,11 @@ public class TC_70 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"runLoginOtherDevice3rd"} )
     void verifyStatusMessage(){
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]", "The request is not valid anymore");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "The request is not valid anymore");
 
         common.selectSwedish();
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]", "Inloggningen är inte giltig längre");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Inloggningen är inte giltig längre");
 
         common.findWebElementById("response-code-cancel-button").click();
 

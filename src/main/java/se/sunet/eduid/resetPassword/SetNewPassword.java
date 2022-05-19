@@ -29,27 +29,33 @@ public class SetNewPassword {
             common.selectSwedish();
         }
         //Verify placeholder
-        common.verifyStrings("xxxx xxxx xxxx", common.findWebElementByXpath("//*[@id=\"new-password\"]").getAttribute("placeholder"));
+        common.verifyStrings("xxxx xxxx xxxx", common.findWebElementById("new-password").getAttribute("placeholder"));
 
         //verify the labels in Swedish
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Skapa ditt nya lösenord");
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "Ett starkt lösenord har " +
+        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/p[1]", "Skapa ditt nya lösenord");
+        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/p[2]", "Ett starkt lösenord har " +
                 "genererats åt dig. För att fortsätta behöver du skriva in det igen.");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/label", "Nytt lösenord");
+        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div/label", "Nytt lösenord");
         common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repetera ditt nya lösenord\n*");
+
+        Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"new-password-wrapper\"]/div/label/span").isDisplayed(),
+                "Red dot missing");
 
         //Switch to Swedish
         common.selectEnglish();
 
 
         //verify the labels
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Set your new password");
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "A strong password has been " +
+        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/p[1]", "Set your new password");
+        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/p[2]", "A strong password has been " +
                 "generated for you. To proceed you will need to repeat the password below .");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/label", "New password");
+        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div/label", "New password");
         common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repeat new password\n*");
+
+        Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"new-password-wrapper\"]/div/label/span").isDisplayed(),
+                "Red dot missing");
 
         Assert.assertTrue(common.findWebElementById("copy-new-password").getText().isEmpty(), "New password field is empty");
 

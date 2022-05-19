@@ -27,7 +27,7 @@ public class EmailSent {
                 "till din e-postadress " +testData.getEmail()+". Länken är giltig i två timmar.");
 
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/p", "Har du inte fått " +
-                "e-postmeddelandet? Kontrollera din skräppost, ellerskicka länken igen");
+                "e-postmeddelandet? Kontrollera din skräppost, eller skicka länken igen");
 
 
         //Switch to english
@@ -36,7 +36,7 @@ public class EmailSent {
                 +testData.getEmail() +". Link is valid for 2 hours.");
 
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/p", "If you didn't " +
-                "receive the email? Check your junk email, orresend link");
+                "receive the email? Check your junk email, or resend link");
 
         //Switch to english
         common.selectSwedish();

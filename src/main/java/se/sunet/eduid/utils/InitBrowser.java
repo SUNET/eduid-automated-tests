@@ -77,6 +77,7 @@ public class InitBrowser {
             // If execution should be performed headless
             if (headless.equals("true")) {
                 chromeOptions.addArguments("--headless");
+                chromeOptions.addArguments("--lang=" +language);
             }
 
             /* For capture of .har traffic - see TC_1 for example, also comment webdriver.getUrl in Webdrivermanager

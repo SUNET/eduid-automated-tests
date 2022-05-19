@@ -95,7 +95,7 @@ public class TC_49 extends BeforeAndAfter {
         login.verifyPageTitle();
 
         //Disable Remember me
-        common.findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div"));
         common.timeoutSeconds(1);
 
         login.enterUsername();

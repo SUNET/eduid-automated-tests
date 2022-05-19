@@ -57,21 +57,20 @@ public class PhoneNumber {
             common.selectSwedish();
 
         //Click add phone number button
-        common.click(common.findWebElementByXpath("//div/section[2]/div/div/div/article[3]/div[2]/button"));
+        common.click(common.findWebElementByXpath("//div/section[2]/div/div/div/div/article[3]/div[2]/button"));
 
         //Verify placeholder
-        common.verifyStrings("Telefonnummer", common.findWebElementByXpath("//*[@id=\"number\"]").getAttribute("placeholder"));
-
-        //Check message when phone number is not valid
-        checkMessageFaultyNumber();
+        common.verifyStrings("Telefonnummer", common.findWebElementById("number").getAttribute("placeholder"));
 
         //Enter phone number
         common.findWebElementById("number").clear();
         common.findWebElementById("number").sendKeys(testData.getPhoneNumber());
 
         //Click Add
-        common.click(common.findWebElementById("mobile-button"));
+        common.click(common.findWebElementById("add-mobile"));
         common.timeoutMilliSeconds(500);
+
+        //TODO - press cancel button. id=cancel-adding-mobile
   }
 
     public void confirmNewPhoneNumber(){
@@ -112,27 +111,71 @@ public class PhoneNumber {
         common.timeoutSeconds(2);
         common.click(common.findWebElementByXpathContainingText("Bekräfta"));
 
-        //Verify placeholder
-        common.verifyStrings("Bekräftelsekod", common.findWebElementByXpath("//*[@id=\"phoneConfirmDialogControl\"]").getAttribute("placeholder"));
+        if(!testData.getTestCase().equalsIgnoreCase("TC_51"))
+            verifyLabelsConfirmPhoneNumber();
+
+        common.click(common.findWebElementByXpathContainingText("Bekräfta"));
 
         //Enter the code
-        common.findWebElementById("phoneConfirmDialogControl").clear();
-        common.findWebElementById("phoneConfirmDialogControl").sendKeys(phoneCode);
+        common.findWebElementById("phone-confirm-modal").clear();
+        common.findWebElementById("phone-confirm-modal").sendKeys(phoneCode);
 
         //Press OK button
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]"));
     }
 
-    private void checkMessageFaultyNumber(){
-        //Enter a phone number on incorrect format to check message
-        common.findWebElementById("number").clear();
-        common.findWebElementById("number").sendKeys("1223456789");
+    private void verifyLabelsConfirmPhoneNumber(){
+        //Wait for pop-up close button
+        common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button");
 
-        //Click outside to trigger validation of phone number
-        common.click(common.findWebElementByXpath("//*[@id=\"add-more-button\"]"));
+        //Heading
+        common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
+                "Skriv in koden som skickats till +46");
 
-        common.verifyStringByXpath("//*[@id=\"number-wrapper\"]/small/span",
-                "Ogiltigt telefonnummer. Skriv ett svensk nummer eller ett internationellt nummer " +
-                        "som börjar med '+' följt av 6-20 siffror.");
+        //Label
+        common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/div/label", "Bekräftelsekod");
+
+        //Verify placeholder
+        common.verifyStrings("Bekräftelsekod", common.findWebElementById("phone-confirm-modal").getAttribute("placeholder"));
+
+        //Resend link
+        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a", "Skicka bekräftelsekoden igen");
+
+        //Close dialog
+        common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
+
+        //English
+        common.selectEnglish();
+        common.timeoutMilliSeconds(1000);
+
+        //Verify Button text
+        common.verifyStringByXpath("//div/section[2]/div/div/div/div/article[3]/div[2]/div/table/tbody/tr/td[2]/button",
+                "CONFIRM");
+
+        //Press Confirm
+        common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr/td[2]/button"));
+
+        //Wait for close pop-up button
+        common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button");
+
+        //Heading
+        common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
+                "Enter the code sent to +46");
+
+        //Label
+        common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/div/label", "Confirmation code");
+
+        //Verify placeholder
+        common.verifyStrings("Phone confirmation code", common.findWebElementById("phone-confirm-modal").getAttribute("placeholder"));
+
+        //Resend link
+        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a", "Send a new confirmation code");
+
+        //Close dialog
+        common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
+
+        //Swedish
+        common.selectSwedish();
+        common.timeoutMilliSeconds(500);
     }
 }

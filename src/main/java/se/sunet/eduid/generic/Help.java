@@ -73,26 +73,7 @@ public class Help {
         common.verifyStringOnPage("Hur hanterar eduID mina personuppgifter?");
 
         //Text 4
-        common.verifyStringOnPage("Hanteringen av personuppgifter följer minimalitetsprincipen i " +
-                "Dataskyddsförordningen (\"GDPR\", (EU) 2016/679). När du loggar in i en webbtjänst via eduID överförs " +
-                "personuppgifter till tjänsten för att identifiera dig som användare. Vilka personuppgifter tjänsten får " +
-                "tillgång till beror på en kombination av tjänstens behov, vilka personuppgifter eduID har om dig samt " +
-                "vilka uppgifter eduID är villig att lämna ut till tjänsten.");
-        common.verifyStringOnPage("Tjänster vars primära syfte är att stödja forskning och utbildning " +
-                "får tillgång till ungefär samma personuppgifter som automatiskt skickas med ett e-postbrev, dvs. namn, " +
-                "e-postadress och användaridentitet samt att användaren har ett konto hos eduID. Registrerade tjänster " +
-                "som via GÉANT Data Protection Code of Conduct följer EUs dataskyddslagstiftningen, i Sverige " +
-                "Dataskyddsförordnignen, får tillgång till samma information.");
-        common.verifyStringOnPage("De tjänster vars syfte är att för studenter hantera antagning, " +
-                "kursregistrering, tentamensanmälan, examination, verksamhetsförlagd utbildning, stipendieansökan och " +
-                "självservice för användarkonton får även tillgång till ditt personnummer när du loggar in i dem. Även " +
-                "vissa andra tjänster kan få tillgång till ditt personnummer om de särskilt kan påvisa rättslig grund " +
-                "enligt Dataskyddsförordningen kapitell II artikel 6.");
-        common.verifyStringOnPage("De tjänster som inte får personuppgifter enligt ovan får endast en " +
-                "för tjänsten avpersonifierad unik idenitfierare.");
-        common.verifyStringOnPage("I syfte att driva tjänsten på ett säkert sätt behåller vi även vissa " +
-                "loggar som visar hur systemet används. Dessa loggar delar vi aldrig med oss av till andra utom när vi " +
-                "enligt svensk lag är skyldiga att göra så.");
+        common.verifyStringOnPage("Läs mer på www.sunet.se.");
 
         //Heading 5
         common.verifyStringOnPage("Vad är SUNET?");
@@ -198,6 +179,8 @@ public class Help {
                 "kan du kontakta eduID-supporten via e-post till support@eduid.se.");
         common.verifyStringOnPage("Ange alltid den e-postadress som du använde när du loggade in på eduID. " +
                 "Om något har blivit fel är det alltid bra att skicka med skärmdumpar med felmeddelanden för att underlätta felsökning.");
+        common.verifyStringOnPage("För bästa möjliga support rekommenderar vi dig alltid att skicka e-post " +
+                "men för enklare ärenden kan du också nå oss per telefon 0455-385200.");
     }
 
     private void verifyEnglish(){
@@ -247,26 +230,7 @@ public class Help {
         common.verifyStringOnPage("What is the eduID privacy policy?");
 
         //Text 4
-        common.verifyStringOnPage("The user data procedure of eduID follows the intent of the General " +
-                "Data Protection Regulation (GDPR). The information that is sent is about you as an individual. When you " +
-                "log into a service using eduID, one or more pieces of personal information are sent to the service in " +
-                "order to identify you as a user. Which information eduID sends is depending upon the type of service " +
-                "involved, the purpose of the service and what information eduID is willing to deliver to the service.");
-        common.verifyStringOnPage("Depending on need, a service gets access to a unique identifier or " +
-                "your user name + e-mail address. This unique identifier is unique to that specific service and cannot " +
-                "be shared or traced between different services.");
-        common.verifyStringOnPage("Services that are categorised in SWAMID’s metadata with entity " +
-                "categories receive attributes in accordance with SWAMID’s recommendations, see below.");
-        common.verifyStringOnPage("Services whose primary purpose is for the benefit of research and " +
-                "education have access to approximately the same personal data which are automatically sent with an " +
-                "everyday email, that being name, email address, user identity and that the user has an account at eduID. " +
-                "Registered services that via GÉANT Data Protection Code of Conduct adhere to GDPR, get access to the same information.");
-        common.verifyStringOnPage("Services whose purpose is for students to process admissions, course " +
-                "registrations, examination sign-up, degree applications, internships, grant applications, self-service " +
-                "account administration have access to the user’s Swedish personal identity number or Swedish higher " +
-                "education interim personal identity number for foreigners. Your personal identity number might be given " +
-                "to other services, where there is a separate contract between the service and eduID. Such a contract " +
-                "shall allways be in accordance with the Swedish Personal Data Act.");
+        common.verifyStringOnPage("Read more at www.sunet.se.");
 
         //Heading 5
         common.verifyStringOnPage("What is SUNET?");
@@ -376,5 +340,7 @@ public class Help {
         common.verifyStringOnPage("Always let us know the e-mail address you used when you logged into " +
                 "eduID. If something went wrong, it is always a good idea to include screenshots with error messages to " +
                 "ease troubleshooting.");
+        common.verifyStringOnPage("In order to get best possible support, we recommend that you send " +
+                "e-mail, but for simple matters you can also find us on phone number 0455-385200.");
     }
 }

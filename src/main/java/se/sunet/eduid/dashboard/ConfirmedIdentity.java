@@ -19,39 +19,41 @@ public class ConfirmedIdentity {
 
     private void verifyPageTitle() {
         common.verifyPageTitle("eduID dashboard");
-
-        //TODO temp fix to get swedish language
-//        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/p['non-selected']/a").getText().contains("Svenska"))
-//            common.selectSwedish();
         common.timeoutMilliSeconds(500);
     }
 
 
     private void verifyTextAndLabels(){
-        common.explicitWaitVisibilityElement("//*[@id=\"text-content\"]/h3");
+        common.explicitWaitVisibilityElement("//*[@id=\"text-content\"]/div/h1");
 
         //Swedish labels
         textAndLabelsSwedish();
 
         //Change to English
         common.selectEnglish();
+        common.timeoutMilliSeconds(500);
 
         //English labels
         textAndLabelsEnglish();
     }
 
     private void textAndLabelsSwedish(){
-        common.timeoutSeconds(2);
-
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/h3", "Ditt eduID är redo att användas");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div/h1", "Koppla din identitet till ditt eduID");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/p[1]", "Personnumret " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div/div/p", "För att kunna " +
+                "använda eduID måste du bevisa din identitet. Lägg till ditt personnummer och bekräfta det i verkliga livet.");
+
+        //Heading 1
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/h4", "Ditt eduID är redo att användas");
+
+        //Text 1
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/p", "Personnumret " +
                 "nedan är nu kopplat till din eduID.");
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/label", "Personnummer");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/div/label", "Personnummer");
 
         //Show full id-number
         common.findWebElementById("show-hide-button").click();
@@ -59,21 +61,32 @@ public class ConfirmedIdentity {
         //Data
         common.verifyStringById("nin-number", testData.getIdentityNumber());
 
-        //Text
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/p[2]", "Lägg till ett " +
-                "telefonnummer eller en säkerhetsnyckel för att behålla din identitet om du återställer ditt lösenord.");
+        //Heading 2
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/h4", "Förbättra din identifiering");
+
+        //Text 2
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/p", "Lägg till ett " +
+                "telefonnummer eller en säkerhetsnyckel för att behålla din identitet om du återställer ditt lösenord " +
+                "under Inställningar.");
     }
 
     private void textAndLabelsEnglish(){
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/h3", "Your eduID is ready to use");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div/h1", "Connect your identity to your eduID");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/p[1]", "The Swedish national " +
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/div/div/p", "To be able to use eduID " +
+                "you have to prove your identity. Add your national id number and verify it in real life.");
+
+        //Heading 1
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/h4", "Your eduID is ready to use");
+
+        //Text 1
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/p", "The Swedish national " +
                 "identity number below is now connected to your eduID.");
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/label", "Id number");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/div/label", "Id number");
 
         //Show full id-number
         common.findWebElementById("show-hide-button").click();
@@ -81,8 +94,11 @@ public class ConfirmedIdentity {
         //Data
         common.verifyStringById("nin-number", testData.getIdentityNumber());
 
-        //Text
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/p[2]", "Add a phone number " +
-                "or a security key to your eduID to keep your identity at password reset.");
+        //Heading 2
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/h4", "Improve your identification");
+
+        //Text 2
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/p", "Add a phone number or " +
+                "a security key to your eduID under Settings to keep your identity at password reset.");
     }
 }

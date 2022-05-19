@@ -46,7 +46,7 @@ public class DashBoard {
     }
 
     private void verifyNotificationDot(){
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/a[2]/li/div/div/div").isDisplayed();
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/li[2]/a/div/div/div").isDisplayed();
     }
 
     private void verifyUserId() {

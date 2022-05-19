@@ -24,7 +24,7 @@ public class TC_67 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage2"} )
     void verifySigninPage() {
         //Verify label with registered display name
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/form/div[1]/h3", "Welcome back, " +testData.getDisplayName() +"!");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/form/div[1]/h3", "Välkommen tillbaka, " +testData.getDisplayName() +"!");
 
         //Verify placeholder for username
         common.verifyStrings(testData.getUsername(), common.findWebElementByXpath("//*[@id=\"email\"]/input").getAttribute("value"));
@@ -35,7 +35,7 @@ public class TC_67 extends BeforeAndAfter {
         common.findWebElementById("wrong-person-button").click();
         common.timeoutSeconds(1);
 
-        common.selectSwedish();
+//        common.selectSwedish();
     }
 
     @Test( dependsOnMethods = {"pressNotYou"} )
@@ -73,7 +73,7 @@ public class TC_67 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage3"} )
     void verifySigninPage2() {
         //Verify label with registered display name
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/form/div[1]/h3", "Welcome back, Rutger Jönåker!");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/form/div[1]/h3", "Välkommen tillbaka, Rutger Jönåker!");
 
         //Verify placeholder for username
         common.verifyStrings(testData.getUsername().toLowerCase(), common.findWebElementByXpath("//*[@id=\"email\"]/input").getAttribute("value"));

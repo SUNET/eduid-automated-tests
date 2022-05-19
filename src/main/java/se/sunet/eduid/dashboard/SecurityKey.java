@@ -36,7 +36,10 @@ public class SecurityKey {
             common.selectSwedish();
     }
 
+    //Not used any more, keeping code for example
     private void virtualAuthenticator(){
+        common.addMagicCookie();
+
         VirtualAuthenticatorOptions options = new VirtualAuthenticatorOptions();
         options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
                 .setHasUserVerification(true)
@@ -55,7 +58,7 @@ public class SecurityKey {
         common.switchToPopUpWindow();
 
         //Enter name of key and click OK
-        common.findWebElementById("describeWebauthnTokenDialogControl").sendKeys("test-key1");
+        common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input").sendKeys("test-key1");
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button"));
         common.timeoutMilliSeconds(500);
 
@@ -96,10 +99,10 @@ public class SecurityKey {
 
         //Labels and placeholder
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5", "Ge ett namn till din säkerhetsnyckel");
-        common.verifyStringByXpath("//*[@id=\"describeWebauthnTokenDialogControl-wrapper\"]/div/label", "Säkerhetsnyckel");
-        common.verifyStringByXpath("//*[@id=\"describeWebauthnTokenDialogControl-wrapper\"]/div/span", "max 50 tecken");
-        common.verifyStrings("Beskriv din säkerhetsnyckel", common.findWebElementByXpath(
-                "//*[@id=\"describeWebauthnTokenDialogControl\"]").getAttribute("placeholder"));
+        common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Säkerhetsnyckel");
+        common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 tecken");
+        common.verifyStrings("Beskriv din säkerhetsnyckel",
+                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input").getAttribute("placeholder"));
 
         //Close pop up
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
@@ -112,10 +115,10 @@ public class SecurityKey {
 
         //Labels and placeholder
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5", "Add a name for your security key");
-        common.verifyStringByXpath("//*[@id=\"describeWebauthnTokenDialogControl-wrapper\"]/div/label", "Security key");
-        common.verifyStringByXpath("//*[@id=\"describeWebauthnTokenDialogControl-wrapper\"]/div/span", "max 50 characters");
-        common.verifyStrings("Describe your security key", common.findWebElementByXpath(
-                "//*[@id=\"describeWebauthnTokenDialogControl\"]").getAttribute("placeholder"));
+        common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Security key");
+        common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 characters");
+        common.verifyStrings("Describe your security key",
+                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input").getAttribute("placeholder"));
 
         //Close pop up
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));

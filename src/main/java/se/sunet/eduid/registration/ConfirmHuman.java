@@ -74,14 +74,14 @@ public class ConfirmHuman {
             }
             else {
                 //Verify text on page
-                common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Kontot skapades");
+                common.verifyStringByXpath("//*[@id=\"panel\"]/div/h1", "Kontot skapades");
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/p",
-                        "Slutför skapandet av ditt eduID genom att klicka länken skickad till:");
+                        "Slutför skapandet av ditt eduID genom att följa länken som skickats till:");
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/h4", testData.getUsername());
 
                 //Verify text in english
                 common.selectEnglish();
-                common.verifyStringByXpath("//*[@id=\"content\"]/h1", "A link has been sent to your email address.");
+                common.verifyStringByXpath("//*[@id=\"panel\"]/div/h1", "A link has been sent to your email address.");
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/p",
                         "Complete registration by clicking the link sent to:");
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/h4", testData.getUsername());
@@ -102,7 +102,9 @@ public class ConfirmHuman {
         else {
             //Cancel confirm human will send user back to register email page
             common.click(common.findWebElementById("cancel-captcha-button"));
-            common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Registrera din e-postadress för att skapa ditt eduID.");
+
+            //Wait for Register button
+            common.explicitWaitClickableElementId("register-button");
         }
     }
 }

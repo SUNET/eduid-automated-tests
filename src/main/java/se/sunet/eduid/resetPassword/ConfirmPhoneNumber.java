@@ -4,6 +4,8 @@ import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
+import static se.sunet.eduid.utils.Common.log;
+
 public class ConfirmPhoneNumber {
     private final Common common;
     private final TestData testData;
@@ -29,7 +31,8 @@ public class ConfirmPhoneNumber {
         common.navigateToSettings();
 
         //Press the Confirm phone number link
-        common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button"));
+        pressConfirmPhoneNumber();
+        //common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button"));
 
         common.switchToPopUpWindow();
         verifyLabels();
@@ -38,7 +41,7 @@ public class ConfirmPhoneNumber {
         // it will not be sent for the cancel/incorrect code and if the magic is provided. Because the code will be sent for 1st use case where
         // incorrect code is entered for phone number confirmation. The confirmPhoneNumberCode is the same as the magic
         if(!testData.getMagicCode().equalsIgnoreCase("cancel") && testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
-            common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a"));
+            common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a"));
             common.timeoutSeconds(1);
 
             //Pop up will now be closed and info that code has been sent is displayed
@@ -61,7 +64,8 @@ public class ConfirmPhoneNumber {
         if(!testData.getMagicCode().equalsIgnoreCase("cancel")) {
 
             //Press the Confirm phone number link
-            common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button"));
+            pressConfirmPhoneNumber();
+            //common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button"));
 
             common.switchToPopUpWindow();
 
@@ -76,50 +80,70 @@ public class ConfirmPhoneNumber {
                 phoneNumber = testData.getPhoneNumber();
 
             //Fetch the code
+            common.timeoutSeconds(2);
+            log.info("Navigate to get phone code: " +"https://dashboard.dev.eduid.se/services/phone/get-code?eppn=" +testData.getEppn() +"&phone=" +phoneNumber);
             common.navigateToUrl("https://dashboard.dev.eduid.se/services/phone/get-code?eppn=" +testData.getEppn() +"&phone=" +phoneNumber);
 
             String phoneCode = common.findWebElementByXpath("/html/body").getText();
-            Common.log.info("Phone code: " +phoneCode);
+            log.info("Phone code: " +phoneCode);
 
             common.getWebDriver().navigate().back();
             //WebDriverManager.getWebDriver().navigate().back();
 
             //Press the Confirm phone number link - again
-            common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button"));
+            pressConfirmPhoneNumber();
+            //common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button"));
 
             common.switchToPopUpWindow();
 
             //Enter code in pop-up window, if correct code should be sent, else send not correct code. First a too long code
             //to check the information text, then send incorrect but code within limits 10-12 digits.
-            common.findWebElementById("phoneConfirmDialogControl").clear();
+            common.findWebElementById("phone-confirm-modal").clear();
             if(testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
-                common.findWebElementById("phoneConfirmDialogControl").sendKeys(phoneCode);
+                common.findWebElementById("phone-confirm-modal").sendKeys(phoneCode);
             else {
                 //Type a too long code, press OK
-                common.findWebElementById("phoneConfirmDialogControl").sendKeys(testData.getMagicCode());
+                common.findWebElementById("phone-confirm-modal").sendKeys(testData.getMagicCode());
 
                 //Verify that the ok button is not enabled when typed code is not 10 characters long
-                Assert.assertTrue(!common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").isEnabled(),
+                Assert.assertTrue(!common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button").isEnabled(),
                         "The button should not be enabled, until 10 character code is entered");
 
+                common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/small/span", "Ogiltig bekräftelsekod");
+
+                //Close the confirm pop-up
+                common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
+                common.timeoutMilliSeconds(500);
+
+                //Open confirm pop-up again
+                pressConfirmPhoneNumber();
+
                 //Clear the text field and send another incorrect code
-                common.findWebElementById("phoneConfirmDialogControl").clear();
-                common.findWebElementById("phoneConfirmDialogControl").sendKeys("codeBlue10");
+                common.findWebElementById("phone-confirm-modal").clear();
+                common.findWebElementById("phone-confirm-modal").sendKeys("2f4g6h7j8j");
             }
             //Send the code by click OK
-            common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]"));
+            common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button"));
 
             //Verify that the confirmation info label shows
-            if(!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
+            if(testData.getMagicCode().equalsIgnoreCase("notTheCorrectCode"))
                 common.verifyStatusMessage("Telefonumret du angav kan inte hittas");
+            else if(!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
+                common.verifyStatusMessage("Den bekräftelsekod du angett stämmer inte. Var god försök igen");
         }
     }
 
     private void verifyLabels(){
-        common.explicitWaitClickableElement("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a");
-        //common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/span", "Skriv in koden som skickats till +46");
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5", "Skriv in koden som skickats till " +testData.getPhoneNumber());
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]/div[1]/form/div/div/div/label", "Bekräftelsekod");
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div[2]/a", "Skicka bekräftelsekoden igen");
+        common.explicitWaitClickableElement("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a");
+        common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
+                "Skriv in koden som skickats till +46");
+        common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/div/label",
+                "Bekräftelsekod");
+        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a",
+                "Skicka bekräftelsekoden igen");
+    }
+
+    private void pressConfirmPhoneNumber(){
+        common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr/td[2]/button"));
     }
 }

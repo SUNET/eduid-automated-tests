@@ -29,28 +29,28 @@ public class ExtraSecurity {
 
         //verify the labels - English
         common.timeoutSeconds(1);
-        common.verifyStringByXpath("//*[@id=\"content\"]/p", "Select an extra security option");
+        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/h1", "Select an extra security option");
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[1]", "A password reset " +
-                "using an extra security option will keep your account confirmed.");
+                "using an extra security option will keep your identity confirmed.");
         common.verifyStringOnPage("SEND SMS TO **********" + testData.getPhoneNumber().substring(10,12));
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[2]", "Already received sms?enter code");
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[3]", "Continue without extra " +
+        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[2]", "Already received sms?  enter code");
+        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/h4", "Continue without extra " +
                 "security option");
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[4]", "Your account will " +
+        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[3]", "Your account will " +
                 "require confirmation after the password has been reset. Continue reset password");
 
         //Switch to Swedish
         common.selectSwedish();
 
         //verify the labels - swedish
-        common.verifyStringByXpath("//*[@id=\"content\"]/p", "Välj ett extra säkerhetsalternativ");
+        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/h1", "Välj ett extra säkerhetsalternativ");
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[1]", "Genom att " +
                 "återställa lösenordet med ett extra säkerhetsalternativ så kommer kontot att förbli verifierat.");
         common.verifyStringOnPage("SKICKA SMS TILL **********" + testData.getPhoneNumber().substring(10,12));
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[2]", "Redan fått sms? skriv in koden");
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[3]", "Fortsätt utan extra " +
+        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[2]", "Redan fått sms?  skriv in koden");
+        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/h4", "Fortsätt utan extra " +
                 "säkerhetsalternativ");
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[4]", "Ditt konto kommer " +
+        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[3]", "Ditt konto kommer " +
                 "att behöva verifieras efter att lösenordet har återställts. Fortsätt återställa lösenordet");
     }
 

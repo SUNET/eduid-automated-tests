@@ -30,40 +30,36 @@ public class ConfirmedNewAccount {
 
     private void verifyLabels(){
         //Details
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Registrering av ditt eduID är klar.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Detta är dina inloggningsuppgifter för eduID.");
+        common.verifyStringByXpath("//*[@id=\"panel\"]/form/h1", "Registrering av ditt eduID är klar.");
+        common.verifyStringByXpath("//*[@id=\"panel\"]/form/p", "Detta är dina inloggningsuppgifter för eduID.");
 
-        //TODO bug - email and password labels should be in swedish #998
         //Email
-        //common.verifyStringByXpath("//*[@id="email-display"]/fieldset[1]/label", "Epost");
-        common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "Email");
+        common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "E-postadress");
         common.verifyStringById("user-email", testData.getUsername().toLowerCase());
 
         //Button
-        common.verifyStringById("gotit-button", "KLART");
+        common.verifyStringById("gotit-button", "Gå till eduID");
 
         //Password
-        // TODO  - should be "lösenord"
-        //common.verifyStringByXpath("//*[@id=\"email-display\"]/label[2]", "Lösenord");
-        common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Password");
+        common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Lösenord");
         testData.setPassword(common.findWebElementById("user-password").getText());
 
         //Switch language to English
         common.selectEnglish();
 
         //Details
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "You have completed the registration for eduID.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "These are your login details for eduID.");
+        common.verifyStringByXpath("//*[@id=\"panel\"]/form/h1", "You have completed the registration for eduID.");
+        common.verifyStringByXpath("//*[@id=\"panel\"]/form/p", "These are your login details for eduID.");
 
         //Email
-        common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "Email");
+        common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "Email address");
         common.verifyStringById("user-email", testData.getUsername().toLowerCase());
 
         //Password
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Password");
 
         //Button
-        common.verifyStringById("gotit-button", "GO TO MY EDUID");
+        common.verifyStringById("gotit-button", "Go to my eduID");
 
 
         //Switch language to Swedish

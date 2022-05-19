@@ -34,13 +34,13 @@ public class VerifyPhoneNumber {
         common.verifyStatusMessage("En engångskod har skickats till din telefon.");
 
         //Verify labels - swedish
-        common.verifyXpathContainsString("//div/section[2]/div[2]/div/p", "Skriv in koden som skickats till");
+        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", "Skriv in koden som skickats till");
 
         //Verify phone number OTP has been sent to
         common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p/b", testData.getOtpPhoneNumber());
 
-        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/div/div/label", "Bekräftelsekod");
-        common.verifyStringByXpath("//*[@id=\"resend-phone\"]", "Skicka bekräftelsekoden igen");
+        common.verifyStringByXpath("//*[@id=\"phone-wrapper\"]/div/label", "Bekräftelsekod");
+        common.verifyStringById("resend-phone", "Skicka bekräftelsekoden igen");
 
         //Switch to english
         common.selectEnglish();
@@ -49,10 +49,10 @@ public class VerifyPhoneNumber {
         //common.verifyStatusMessage("One time verification code has been sent to your phone.");
 
         //Verify labels - swedish
-        common.verifyXpathContainsString("//div/section[2]/div[2]/div/p", "Enter the code sent to ");
+        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", "Enter the code sent to ");
         common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p/b", testData.getOtpPhoneNumber());
-        common.verifyStringByXpath("//div/section[2]/div[2]/div/form/div/div/label", "Confirmation code");
-        common.verifyStringByXpath("//*[@id=\"resend-phone\"]", "Send a new confirmation code");
+        common.verifyStringByXpath("//*[@id=\"phone-wrapper\"]/div/label", "Confirmation code");
+        common.verifyStringById("resend-phone", "Send a new confirmation code");
     }
 
     private void enterOtp(){

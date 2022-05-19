@@ -41,7 +41,7 @@ public class RequestNewPassword {
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/span", "en giltig e-postadress");
 
         //Verify placeholder
-        common.verifyStrings("namn@example.com", common.findWebElementByXpath("//*[@id=\"email\"]").getAttribute("placeholder"));
+        common.verifyStrings("namn@example.com", common.findWebElementById("email").getAttribute("placeholder"));
 
         //Switch to english
         common.selectEnglish();

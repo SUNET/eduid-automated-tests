@@ -60,10 +60,11 @@ public class TC_71 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"closeTab"} )
     void pressContinue(){
+        common.timeoutMilliSeconds(1500);
+
         //No code submitted in this case, just pressing continue button
         testData.setOtherDeviceSubmitCode("true");
         loginOtherDevice.submitCode();
-
     }
 
     @Test( dependsOnMethods = {"pressContinue"} )

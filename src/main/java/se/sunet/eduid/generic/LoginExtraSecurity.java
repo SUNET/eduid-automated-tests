@@ -48,7 +48,7 @@ public class LoginExtraSecurity {
         common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Logga in: Extra nivå av säkerhet");
 //        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[1]/p", "Använd eduID för att komma " +
 //                "åt SWAMID Entity Category Release Check");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[1]", "Du måste välja en andra " +
+        common.verifyStringOnPage("Du måste välja en andra " +
                 "metod att autentisera dig själv. Detta hjälper att garantera att bara du kan komma åt ditt eduID.");
         common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/div[1]/div/p", "Säkerhetsnyckel");
         common.verifyStringById("mfa-security-key", "ANVÄND MIN SÄKERHETSNYCKEL");
@@ -63,7 +63,7 @@ public class LoginExtraSecurity {
         common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Log in: Extra level of security");
 //        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[1]/p", "Use eduID to access " +
 //                "SWAMID Entity Category Release Check");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[1]", "You need to choose a " +
+        common.verifyStringOnPage("You need to choose a " +
                 "second method to authenticate yourself. This helps guarantee that only you can access your eduID.");
         common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/div[1]/div/p", "Security key");
         common.verifyStringById("mfa-security-key", "USE MY SECURITY KEY");

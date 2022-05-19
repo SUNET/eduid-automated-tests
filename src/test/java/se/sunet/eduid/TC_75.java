@@ -55,10 +55,13 @@ public class TC_75 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login2"} )
     void verifyStatusMessage(){
-        common.verifyStatusMessage("Tillfälligt fel, var god försök igen senare.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Logga in på en annan enhet");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Avbrutet. Du kan stänga det här fönstret.");
 
         common.selectEnglish();
-        common.verifyStatusMessage("An error occurred. Please try again later.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Log in on another device");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Request cancelled. You should close this browser window.");
+
     }
 
     @Test( dependsOnMethods = {"verifyStatusMessage"} )
@@ -69,7 +72,7 @@ public class TC_75 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"closeTab"} )
     void pressCancel(){
-        common.timeoutMilliSeconds(500);
+        common.timeoutMilliSeconds(1000);
 
         //Press cancel button
         testData.setOtherDeviceSubmitCode("false");

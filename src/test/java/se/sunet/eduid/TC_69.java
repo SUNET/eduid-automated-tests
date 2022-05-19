@@ -15,16 +15,19 @@ public class TC_69 extends BeforeAndAfter {
         common.timeoutSeconds(1);
 
         //Verify remember me labels
+        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/label", "Kom ihåg mig på den här enheten");
+        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/p", "Genom att tillåta eduID att " +
+                "komma ihåg dig på den här enheten, kommer inloggningen göras enklare och säkrare");
+
+        //Swedish
+        common.selectEnglish();
+        //Verify remember me labels
         common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/label", "Remember me on this device");
         common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/p", "Allowing eduID to remember " +
                 "you on this device makes logging in easier and more secure");
 
-        //Swedish
         common.selectSwedish();
-        //Verify remember me labels
-        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/label", "Kom ihåg mig på den här enheten");
-        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/p", "Genom att tillåta eduID att " +
-                "komma ihåg dig på den här enheten, kommer inloggningen göras enklare och säkrare");
+
 
         login.runLogin();
     }
@@ -71,7 +74,7 @@ public class TC_69 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage4"} )
     void verifySigninPage() {
         //Verify label with registered display name
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/form/div[1]/h3", "Welcome back, " +testData.getDisplayName() +"!");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/form/div[1]/h3", "Välkommen tillbaka, " +testData.getDisplayName() +"!");
 
         //Verify placeholder for username
         common.verifyStrings(testData.getUsername(), common.findWebElementByXpath("//*[@id=\"email\"]/input").getAttribute("value"));

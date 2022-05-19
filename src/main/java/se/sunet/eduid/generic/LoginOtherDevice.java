@@ -1,5 +1,6 @@
 package se.sunet.eduid.generic;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -69,28 +70,29 @@ public class LoginOtherDevice {
 
     public void enterCode(String code1, String code2, String code3, String code4, String code5, String code6) {
         //Enter faulty code
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/ol/li[3]/div/div[1]/form/div[1]/input[1]")
+        common.findWebElementByXpath("//*[@id=\"response-code-form\"]/div[1]/input[1]")
                 .sendKeys(code1);
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/ol/li[3]/div/div[1]/form/div[1]/input[2]")
+        common.findWebElementByXpath("//*[@id=\"response-code-form\"]/div[1]/input[2]")
                 .sendKeys(code2);
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/ol/li[3]/div/div[1]/form/div[1]/input[3]")
+        common.findWebElementByXpath("//*[@id=\"response-code-form\"]/div[1]/input[3]")
                 .sendKeys(code3);
 
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/ol/li[3]/div/div[1]/form/div[1]/input[4]")
+        common.findWebElementByXpath("//*[@id=\"response-code-form\"]/div[1]/input[4]")
                 .sendKeys(code4);
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/ol/li[3]/div/div[1]/form/div[1]/input[5]")
+        common.findWebElementByXpath("//*[@id=\"response-code-form\"]/div[1]/input[5]")
                 .sendKeys(code5);
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/ol/li[3]/div/div[1]/form/div[1]/input[6]")
+        common.findWebElementByXpath("//*[@id=\"response-code-form\"]/div[1]/input[6]")
                 .sendKeys(code6);
     }
 
     public void submitCode(){
         if(testData.getOtherDeviceSubmitCode().equalsIgnoreCase("true")) {
-            if(testData.isRememberMe())
-                common.findWebElementById("response-code-continue-button").click();
+            if(testData.isRememberMe()) {
+                common.click(common.findWebElementById("response-code-continue-button"));
+            }
             //Submit code
-            else
-                common.click(common.findWebElementById("response-code-submit-button"));
+//            else
+//                common.click(common.findWebElementById("response-code-submit-button"));
         }
         else if(testData.getOtherDeviceSubmitCode().equalsIgnoreCase("false")){
             //Press cancel
@@ -110,7 +112,7 @@ public class LoginOtherDevice {
         else {
             common.verifyXpathContainsString("//*[@id=\"content\"]/div/ol/li[1]",
                     "Notera att du använder den här enheten för att logga in på enheten nedan");
-            common.verifyStringOnPage("IP address");
+            common.verifyStringOnPage("IP adress");
             common.verifyStringOnPage("Beskrivning");
         }
         common.verifyXpathContainsString("//*[@id=\"content\"]/div/ol/li[2]", "Logga in den här enheten");

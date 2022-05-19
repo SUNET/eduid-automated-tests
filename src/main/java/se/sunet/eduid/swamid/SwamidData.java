@@ -42,7 +42,12 @@ public class SwamidData {
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[3]/td", testData.getDisplayName());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[4]/td", "Sweden");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[5]/td", testData.getDisplayName());
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[6]/td", "http://www.swamid.se/policy/assurance/al1");
+            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[6]/td",
+                    "http://www.swamid.se/policy/assurance/al1\n" +
+                            "https://refeds.org/assurance\n" +
+                            "https://refeds.org/assurance/ID/unique\n" +
+                            "https://refeds.org/assurance/ID/eppn-unique-no-reassign\n" +
+                            "https://refeds.org/assurance/IAP/low");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[7]/td", testData.getEppn() +"@dev.eduid.se");
             common.verifyXpathContainsString("//*[@id=\"attributes\"]/table[1]/tbody/tr[8]/td",
                     "https://idp.dev.eduid.se/idp.xml!https://release-check.swamid.se/shibboleth!793b01eb3e93dfb410f8a4e7a7e4478a87a1e2feb01b2a6ba73b65945eafe266");
@@ -60,7 +65,12 @@ public class SwamidData {
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[4]/td", "Sweden");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[5]/td", testData.getDisplayName());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[6]/td",
-                    "http://www.swamid.se/policy/assurance/al1\nhttp://www.swamid.se/policy/assurance/al2");
+                    "http://www.swamid.se/policy/assurance/al1\nhttp://www.swamid.se/policy/assurance/al2\n" +
+                            "https://refeds.org/assurance\n" +
+                            "https://refeds.org/assurance/ID/unique\n" +
+                            "https://refeds.org/assurance/ID/eppn-unique-no-reassign\n" +
+                            "https://refeds.org/assurance/IAP/low\n" +
+                            "https://refeds.org/assurance/IAP/medium");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[7]/td", testData.getEppn() +"@dev.eduid.se");
             common.verifyXpathContainsString("//*[@id=\"attributes\"]/table[1]/tbody/tr[8]/td",
                     "https://idp.dev.eduid.se/idp.xml!https://release-check.swamid.se/shibboleth!");
@@ -80,7 +90,11 @@ public class SwamidData {
             common.verifyStringByXpath("//*[@id=\"attributes\"]/h3[2]", "Result for (https://idp.dev.eduid.se/idp.xml)");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[2]/td", "se");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[3]/td", "Sweden");
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[4]/td", "http://www.swamid.se/policy/assurance/al1");
+            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[4]/td", "http://www.swamid.se/policy/assurance/al1\n" +
+                    "https://refeds.org/assurance\n" +
+                    "https://refeds.org/assurance/ID/unique\n" +
+                    "https://refeds.org/assurance/ID/eppn-unique-no-reassign\n" +
+                    "https://refeds.org/assurance/IAP/low");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[5]/td", testData.getEppn() +"@dev.eduid.se");
             common.verifyXpathContainsString("//*[@id=\"attributes\"]/table[1]/tbody/tr[6]/td",
                     "https://idp.dev.eduid.se/idp.xml!https://release-check.swamid.se/shibboleth!");
@@ -110,8 +124,7 @@ public class SwamidData {
                 "http://www.geant.net/uri/dataprotection-code-of-conduct/v1");
 
         common.verifyStringByXpath("//*[@id=\"attributes\"]/table[2]/tbody/tr[4]/td/a",
-                "https://error.swamid.se/?errorurl_code=ERRORURL_CODE&errorurl_ts=ERRORURL_TS" +
-                        "&errorurl_rp=ERRORURL_RP&errorurl_tid=ERRORURL_TID&errorurl_ctx=ERRORURL_CTX&entityid=https://idp.dev.eduid.se/idp.xml");
+                "https://dev.eduid.se/errors?code=ERRORURL_CODE&ts=ERRORURL_TS&rp=ERRORURL_RP&tid=ERRORURL_TID&ctx=ERRORURL_CTX");
 
         common.verifyStringByXpath("//*[@id=\"attributes\"]/table[2]/tbody/tr[5]/td", "");
         common.verifyStringByXpath("//*[@id=\"attributes\"]/table[2]/tbody/tr[6]/td", "");

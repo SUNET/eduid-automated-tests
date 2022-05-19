@@ -15,16 +15,18 @@ public class TC_68 extends BeforeAndAfter {
         common.timeoutSeconds(1);
 
         //Verify remember me labels
+        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/label", "Kom ihåg mig på den här enheten");
+        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/p", "Genom att tillåta eduID att " +
+                "komma ihåg dig på den här enheten, kommer inloggningen göras enklare och säkrare");
+
+        //Swedish
+        common.selectEnglish();
+        //Verify remember me labels
         common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/label", "Remember me on this device");
         common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/p", "Allowing eduID to remember " +
                 "you on this device makes logging in easier and more secure");
 
-        //Swedish
         common.selectSwedish();
-        //Verify remember me labels
-        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/label", "Kom ihåg mig på den här enheten");
-        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/p", "Genom att tillåta eduID att " +
-                "komma ihåg dig på den här enheten, kommer inloggningen göras enklare och säkrare");
 
         login.runLogin();
     }
