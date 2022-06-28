@@ -6,6 +6,7 @@ har
 logs
 screenshots
 old
+reports
 
 # Intelij
 *.iml
