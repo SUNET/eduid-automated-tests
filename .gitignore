@@ -15,4 +15,4 @@ out
 config_prod.properties
 config_dev.properties
 config_mobile.properties
-dev-test.xml
+*dev-test.xml
