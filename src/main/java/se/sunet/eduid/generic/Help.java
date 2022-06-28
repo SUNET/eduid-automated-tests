@@ -21,7 +21,7 @@ public class Help {
         common.click(common.findWebElementByXpath("//*[@id=\"footer\"]/nav/ul/li[1]/a"));
 
         //Wait for header "What is eduID"
-        common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div/ul/li[1]/h2");
+        common.explicitWaitVisibilityElement("//section[2]/div/ul/li[1]/h4");
     }
 
     //Verify text and headings in swedish
@@ -64,10 +64,10 @@ public class Help {
                 "på eduID. Ditt konto använder du bara för att skapa och komma åt andra konton, exempelvis på antagning.se " +
                 "eller dina studentkonton.");
         common.verifyStringOnPage("Logga in med eduID gör du när du:\n" +
-                "♦ Vill tacka ja till din plats på högskolan\n" +
-                "♦ Ordnar med studentkonto för mail och intranät\n" +
-                "♦ Byter lärosäte\n" +
-                "♦ Tappar ett lösenord");
+                "Vill tacka ja till din plats på högskolan\n" +
+                "Ordnar med studentkonto för mail och intranät\n" +
+                "Byter lärosäte\n" +
+                "Tappar ett lösenord");
 
         //Heading 4
         common.verifyStringOnPage("Hur hanterar eduID mina personuppgifter?");
@@ -104,9 +104,9 @@ public class Help {
         //Text 8
         common.verifyStringOnPage("Freja eID är ett kostnadsfritt digitalt ID-kort.");
         common.verifyStringOnPage("Så här skaffar du Freja eID:\n" +
-                "♦ Installera Freja eID appen på din mobila enhet (iOS eller Android)\n" +
-                "♦ Skapa ett Freja eID Plus konto\n" +
-                "♦ Ta med giltig legitimation till närmsta ATG ombud som kan påbörja en process som godkänner din identitet");
+                "Installera Freja eID appen på din mobila enhet (iOS eller Android)\n" +
+                "Skapa ett Freja eID Plus konto\n" +
+                "Ta med giltig legitimation till närmsta ATG ombud som kan påbörja en process som godkänner din identitet");
 
         //Heading 9
         common.verifyStringOnPage("Varför måste jag besöka ett ATG ombud för att skapa Freja eID?");
@@ -187,6 +187,9 @@ public class Help {
         //Select Swedish
         common.selectEnglish();
 
+        //Click on Help link
+        common.click(common.findWebElementByXpath("//*[@id=\"footer\"]/nav/ul/li[1]/a"));
+
         //Heading 1
         common.verifyStringOnPage("What is eduID?");
 
@@ -221,10 +224,10 @@ public class Help {
                 "in to eduID. You will only be using your account to create and access other accounts, such as " +
                 "universityadmissions.se or your student account.");
         common.verifyStringOnPage("Log in at eduid.se when you:\n" +
-                "♦ Accept your place at university\n" +
-                "♦ Organise your student account for email and intranet\n" +
-                "♦ Change university\n" +
-                "♦ Lose a password");
+                "Accept your place at university\n" +
+                "Organise your student account for email and intranet\n" +
+                "Change university\n" +
+                "Lose a password");
 
         //Heading 4
         common.verifyStringOnPage("What is the eduID privacy policy?");
@@ -262,9 +265,9 @@ public class Help {
         //Text 8
         common.verifyStringOnPage("Freja eID is a digital ID-card free of charge.");
         common.verifyStringOnPage("This is how you create Freja eID:\n" +
-                "♦ Install the Freja eID app on your mobile device (iOS or Android)\n" +
-                "♦ Create a Freja eID Plus account\n" +
-                "♦ Bring a valid ID to the nearest ATG agent authorised to verify your identity");
+                "Install the Freja eID app on your mobile device (iOS or Android)\n" +
+                "Create a Freja eID Plus account\n" +
+                "Bring a valid ID to the nearest ATG agent authorised to verify your identity");
 
         //Heading 9
         common.verifyStringOnPage("Why do I need to visit an authorised ATG agent to create Freja eID?");

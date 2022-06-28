@@ -60,8 +60,8 @@ public class DeleteAccount {
         common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/p", "Om du väljer att " +
                 "ta bort ditt eduID kommer all information du sparat rensas permanent.");
 
-        //Add more phone numbers
-        common.verifyStringByXpath("//*[@id=\"delete-button\"]", "RADERA EDUID");
+        //Delete eduid link
+        common.verifyStringByXpath("//*[@id=\"delete-button\"]", "radera eduid");
     }
 
     private void verifyLabelsEnglish() {
@@ -75,8 +75,8 @@ public class DeleteAccount {
         common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/p", "Click the link " +
                 "to permanently delete your eduID.");
 
-        //Add more phone numbers
-        common.verifyStringByXpath("//*[@id=\"delete-button\"]", "DELETE EDUID");
+        //Delete eduid link
+        common.verifyStringByXpath("//*[@id=\"delete-button\"]", "delete eduid");
 
         //Click on Swedish
         common.selectSwedish();

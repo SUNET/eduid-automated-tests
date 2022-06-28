@@ -127,6 +127,15 @@
             <version>1.5</version>
         </dependency>
 
+
+        <!-- accessibility tests with axe -->
+        <!-- https://mvnrepository.com/artifact/com.deque/axe-selenium -->
+        <dependency>
+            <groupId>com.deque.html.axe-core</groupId>
+            <artifactId>selenium</artifactId>
+            <version>4.2.2</version>
+        </dependency>
+
     </dependencies>
 
     <properties>

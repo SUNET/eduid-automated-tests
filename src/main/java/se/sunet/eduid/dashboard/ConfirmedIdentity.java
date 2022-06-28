@@ -53,21 +53,20 @@ public class ConfirmedIdentity {
                 "nedan är nu kopplat till din eduID.");
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/div/label", "Personnummer");
+        //common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/div/label", "Personnummer");
 
         //Show full id-number
-        common.findWebElementById("show-hide-button").click();
+        //common.findWebElementById("show-hide-button").click();
 
         //Data
-        common.verifyStringById("nin-number", testData.getIdentityNumber());
+//        common.verifyStringById("nin-number", testData.getIdentityNumber());
 
         //Heading 2
         common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/h4", "Förbättra din identifiering");
 
         //Text 2
         common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/p", "Lägg till ett " +
-                "telefonnummer eller en säkerhetsnyckel för att behålla din identitet om du återställer ditt lösenord " +
-                "under Inställningar.");
+                "telefonnummer eller en säkerhetsnyckel för att behålla din identitet om du återställer ditt lösenord.");
     }
 
     private void textAndLabelsEnglish(){
@@ -86,19 +85,19 @@ public class ConfirmedIdentity {
                 "identity number below is now connected to your eduID.");
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/div/label", "Id number");
+//        common.verifyStringOnPage("Id number");
 
         //Show full id-number
-        common.findWebElementById("show-hide-button").click();
+//        common.findWebElementById("show-hide-button").click();
 
         //Data
-        common.verifyStringById("nin-number", testData.getIdentityNumber());
+//        common.verifyStringById("nin-number", testData.getIdentityNumber());
 
         //Heading 2
         common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/h4", "Improve your identification");
 
         //Text 2
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/p", "Add a phone number or " +
-                "a security key to your eduID under Settings to keep your identity at password reset.");
+        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/p", "Add a phone number " +
+                "or a security key to your eduID to keep your identity at password reset.");
     }
 }

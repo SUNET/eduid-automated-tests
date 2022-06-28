@@ -103,8 +103,8 @@ public class ConfirmHuman {
             //Cancel confirm human will send user back to register email page
             common.click(common.findWebElementById("cancel-captcha-button"));
 
-            //Wait for Register button
-            common.explicitWaitClickableElementId("register-button");
+            //Wait for text header
+            common.verifyStringOnPage("Registrera din e-postadress för att skapa ditt eduID.");
         }
     }
 }

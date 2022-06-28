@@ -24,16 +24,16 @@ public class Logout {
         common.click(common.findWebElementById("logout"));
 
         //Wait for the start page
-        common.explicitWaitClickableElementId("login");
+        common.explicitWaitClickableElement("//section[2]/div/div/a");
     }
 
     private void verifyLabels(){
-        common.verifyStringByXpath("//section[1]/div/h1", "eduID är enklare och säkrare inloggning.");
+        common.verifyStringOnPage("eduID är enklare och säkrare inloggning.");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/p[1]", "Skapa ett eduID och koppla det " +
+        common.verifyStringOnPage("Skapa ett eduID och koppla det " +
                 "till ditt svenska personnummer för att kunna komma åt flera olika tjänster och organisationer inom högskolan.");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/p[2]", "eduID gör det enklare för dig " +
+        common.verifyStringOnPage("eduID gör det enklare för dig " +
                 "eftersom du bara behöver komma ihåg ett lösenord och säkrare för skolorna eftersom det är kopplat till en riktig individ.");
     }
 }

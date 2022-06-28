@@ -62,7 +62,7 @@ public class TC_45 extends BeforeAndAfter {
         common.navigateToUrl("https://dev.eduid.se");
 
         //Click on sign in link
-        common.click(common.findWebElementByXpath("//*[@id=\"login\"]/a"));
+        common.click(common.findWebElementByXpath("//section[2]/div/p[3]/a"));
 
         testData.setRegisterAccount(false);
 

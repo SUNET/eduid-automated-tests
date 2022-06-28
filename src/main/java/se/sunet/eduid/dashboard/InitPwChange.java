@@ -40,6 +40,7 @@ public class InitPwChange {
 
     private void verifyPopupLabels(){
         //Heading
+        common.timeoutMilliSeconds(500);
         common.verifyStringOnPage("Av säkerhetsskäl...");
 
         //Text

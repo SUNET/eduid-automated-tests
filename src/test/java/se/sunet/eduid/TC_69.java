@@ -10,8 +10,8 @@ public class TC_69 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
         //Disable Remember me
-        common.timeoutSeconds(1);
-        common.findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div").click();
+        common.timeoutSeconds(3);
+        common.click(common.findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div"));
         common.timeoutSeconds(1);
 
         //Verify remember me labels

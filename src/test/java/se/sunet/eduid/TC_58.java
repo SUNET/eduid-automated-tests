@@ -159,7 +159,7 @@ public class TC_58 extends BeforeAndAfter {
     void navigateToEduid(){
         common.navigateToUrl("https://dev.eduid.se");
 
-        common.click(common.findWebElementByXpath("//*[@id=\"login\"]/a"));
+        common.click(common.findWebElementByXpath("//section[2]/div/p[3]/a"));
         common.timeoutSeconds(3);
     }
 

@@ -24,7 +24,7 @@ public class TC_67 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage2"} )
     void verifySigninPage() {
         //Verify label with registered display name
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/form/div[1]/h3", "Välkommen tillbaka, " +testData.getDisplayName() +"!");
+        common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName() +"!");
 
         //Verify placeholder for username
         common.verifyStrings(testData.getUsername(), common.findWebElementByXpath("//*[@id=\"email\"]/input").getAttribute("value"));

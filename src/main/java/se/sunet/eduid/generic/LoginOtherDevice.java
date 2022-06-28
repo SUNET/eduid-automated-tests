@@ -96,8 +96,11 @@ public class LoginOtherDevice {
         }
         else if(testData.getOtherDeviceSubmitCode().equalsIgnoreCase("false")){
             //Press cancel
-            if(testData.isRememberMe())
+            if(testData.isRememberMe()) {
+                common.timeoutSeconds(2);
+                common.logPageBody();
                 common.click(common.findWebElementById("response-code-cancel-button"));
+            }
             else
                 common.click(common.findWebElementById("response-code-abort-button"));
         }

@@ -81,6 +81,9 @@ public class Register {
         common.timeoutMilliSeconds(200);
         common.selectSwedish();
 
+        common.findWebElementById("email").sendKeys(testData.getUsername());
+        common.click(common.findWebElementById("register-button"));
+
         //Click on register button again and verify terms in swedish
         common.click(common.findWebElementById("register-button"));
         verifyTermsSwedish();
@@ -99,54 +102,46 @@ public class Register {
         //Swedish
         common.explicitWaitVisibilityElement("//div/div[1]/h5");
         common.verifyStringByXpath("//div/div[1]/h5", "Användarvillkor för eduID.se");
-        common.verifyStringByXpath("//div/div[2]/p[1]", "För eduID.se gäller generellt");
-        common.verifyStringByXpath("//div/div[2]/ul/li[1]", "att all användning av " +
+        common.verifyStringOnPage("För eduID.se gäller generellt");
+        common.verifyStringOnPage("att all användning av " +
                 "användarkonton ska följa Sveriges lagar och förordningar,");
-        common.verifyStringByXpath("//div/div[2]/ul/li[2]", "att man är " +
+        common.verifyStringOnPage("att man är " +
                 "sanningsenlig vid uppgivande av personlig information som namn, kontaktuppgifter el. dyl,");
-        common.verifyStringByXpath("//div/div[2]/ul/li[3]", "att användarkonton, lösenord, " +
+        common.verifyStringOnPage("att användarkonton, lösenord, " +
                 "säkerhetsnycklar och koder är personliga och får endast användas av innehavaren,");
-        common.verifyStringByXpath("//div/div[2]/ul/li[4]", "att SUNET:s " +
-                "etiska regler reglerar övrig tillåten användning.");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/p", "SUNET bedömer som oetiskt när någon:");
-        common.verifyStringByXpath("//div/div[2]/ul[2]//li[1]", "försöker " +
+        common.verifyStringOnPage("att SUNET:s etiska regler reglerar övrig tillåten användning.");
+        common.verifyStringOnPage("SUNET bedömer som oetiskt när någon:");
+        common.verifyStringOnPage("försöker " +
                 "få tillgång till nätverksresurser utan att ha rätt till det");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/li[2]", "försöker dölja sin användaridentitet");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/li[3]", "försöker " +
-                "störa eller avbryta den avsedda användningen av nätverken");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/li[4]", "uppenbart " +
-                "slösar med tillgängliga resurser (personal, maskinvara eller programvara)");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/li[5]", "försöker störa eller avbryta " +
+        common.verifyStringOnPage("försöker dölja sin användaridentitet");
+        common.verifyStringOnPage("försöker störa eller avbryta den avsedda användningen av nätverken");
+        common.verifyStringOnPage("uppenbart slösar med tillgängliga resurser (personal, maskinvara eller programvara)");
+        common.verifyStringOnPage("försöker störa eller avbryta " +
                 "den avsedda användningen av nätverken");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/li[6]", "gör intrång i andras privatliv");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/li[7]", "försöker förolämpa eller förnedra andra");
+        common.verifyStringOnPage("gör intrång i andras privatliv");
+        common.verifyStringOnPage("försöker förolämpa eller förnedra andra");
     }
 
     private void verifyTermsEnglish(){
         common.explicitWaitVisibilityElement("//div/div[1]/h5");
         common.verifyStringByXpath("//div/div[1]/h5", "General rules for eduID users");
-        common.verifyStringByXpath("//div/div[2]/p[1]", "The following generally applies:");
-        common.verifyStringByXpath("//div/div[2]/ul/li[1]", "that all usage of user accounts " +
+        common.verifyStringOnPage("The following generally applies:");
+        common.verifyStringOnPage("that all usage of user accounts " +
                 "follow the laws and by-laws of Sweden,");
-        common.verifyStringByXpath("//div/div[2]/ul/li[2]", "that all personal information " +
+        common.verifyStringOnPage("that all personal information " +
                 "that you provide, such as name and contact information shall be truthful,");
-        common.verifyStringByXpath("//div/div[2]/ul/li[3]", "that user accounts, password, " +
+        common.verifyStringOnPage("that user accounts, password, " +
                 "security keys and codes are individual and shall only be used by the intended individual,");
-        common.verifyStringByXpath("//div/div[2]/ul/li[4]", "that SUNET's ethical rules " +
-                "regulate the “other” usage.");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/p", "SUNET judges unethical behaviour to be when someone:");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/li[1]", "attempts to gain access to " +
+        common.verifyStringOnPage("that SUNET's ethical rules regulate the “other” usage.");
+        common.verifyStringOnPage("SUNET judges unethical behaviour to be when someone:");
+        common.verifyStringOnPage("attempts to gain access to " +
                 "network resources that they do not have the right to");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/li[2]", "attempts to conceal their " +
-                "user identity");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/li[3]", "attempts to interfere or " +
-                "disrupt the intended usage of the network");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/li[4]", "clearly wastes available " +
-                "resources (personnel, hardware or software)");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/li[5]", "attempts to disrupt or " +
-                "destroy computer-based information");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/li[6]", "infringes on the privacy of others");
-        common.verifyStringByXpath("//div/div[2]/ul[2]/li[7]", "attempts to insult or offend others");
+        common.verifyStringOnPage("attempts to conceal their user identity");
+        common.verifyStringOnPage("attempts to interfere or disrupt the intended usage of the network");
+        common.verifyStringOnPage("clearly wastes available resources (personnel, hardware or software)");
+        common.verifyStringOnPage("attempts to disrupt or destroy computer-based information");
+        common.verifyStringOnPage("infringes on the privacy of others");
+        common.verifyStringOnPage("attempts to insult or offend others");
     }
 
 

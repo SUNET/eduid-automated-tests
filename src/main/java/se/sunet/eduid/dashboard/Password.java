@@ -34,7 +34,7 @@ public class Password {
 
     private void changePassword(){
         //Wait for abort button to be clickable
-        common.explicitWaitClickableElement("//*[@id=\"chpass-form\"]/button[2]");
+        common.explicitWaitClickableElement("//*[@id=\"chpass-form\"]/button[1]");
 
         //Verify recommend password labels
         verifyRecommendedPwLabels();
@@ -98,6 +98,7 @@ public class Password {
         //Save button or Abort
         if(testData.isButtonValueConfirm()) {
             common.click(common.findWebElementById("chpass-button"));
+            common.timeoutMilliSeconds(500);
 
             // If not the correct password was entered at password change
             if(testData.isIncorrectPassword()) {
@@ -105,11 +106,11 @@ public class Password {
                         "igen eller kontakta supporten om problemet kvarstår.");
                 common.timeoutMilliSeconds(500);
                 //Click abort
-                common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]"));
+                common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[1]"));
             }
             //If too weak password is chosen, click abort. Inside save button if-statement to test if its possible to click it
             else if(testData.getNewPassword().equalsIgnoreCase("test")) {
-                common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]"));
+                common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[1]"));
             }
             else {
                 //Confirmation of password change is no longer presented
@@ -118,7 +119,7 @@ public class Password {
             }
         }
         else
-            common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[2]"));
+            common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[1]"));
     }
 
 
@@ -181,8 +182,8 @@ public class Password {
         common.verifyStringOnPage("Du kan antingen " +
                 "använda ett rekommenderat lösenord som vi skapar åt dig eller ett du väljer helt själv.");
 
-        //Add more phone numbers
-        common.verifyStringOnPage("BYT LÖSENORD");
+        //Change password link
+        common.verifyStringOnPage("byt lösenord");
     }
 
     private void verifyLabelsEnglish() {
@@ -195,8 +196,8 @@ public class Password {
         common.verifyStringOnPage("Click the link " +
                 "to change your eduID password.");
 
-        //Add more phone numbers
-        common.verifyStringOnPage("CHANGE PASSWORD");
+        //Change password link
+        common.verifyStringOnPage("change password");
 
         //Click on Swedish
         common.selectSwedish();

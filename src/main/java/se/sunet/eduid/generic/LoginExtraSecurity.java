@@ -50,9 +50,9 @@ public class LoginExtraSecurity {
 //                "åt SWAMID Entity Category Release Check");
         common.verifyStringOnPage("Du måste välja en andra " +
                 "metod att autentisera dig själv. Detta hjälper att garantera att bara du kan komma åt ditt eduID.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/div[1]/div/p", "Säkerhetsnyckel");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/div[1]/div/p", "T.ex. USB säkerhetsnyckel, Touch ID eller Face ID.");
         common.verifyStringById("mfa-security-key", "ANVÄND MIN SÄKERHETSNYCKEL");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/div[2]/div/p", "Freja eID+");
+        common.verifyStringOnPage("Freja eID+");
         common.verifyStringByXpath("//*[@id=\"mfa-freja\"]/span", "Freja eID+");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/label", "Kom ihåg mig på den här enheten");
@@ -65,9 +65,9 @@ public class LoginExtraSecurity {
 //                "SWAMID Entity Category Release Check");
         common.verifyStringOnPage("You need to choose a " +
                 "second method to authenticate yourself. This helps guarantee that only you can access your eduID.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/div[1]/div/p", "Security key");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/div[1]/div/p", "E.g. USB Security Key, Touch ID or Face ID.");
         common.verifyStringById("mfa-security-key", "USE MY SECURITY KEY");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/div[2]/div/p", "Freja eID+");
+        common.verifyStringOnPage("Freja eID+");
         common.verifyStringByXpath("//*[@id=\"mfa-freja\"]/span", "Freja eID+");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/label", "Remember me on this device");

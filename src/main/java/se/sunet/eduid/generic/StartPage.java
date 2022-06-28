@@ -35,7 +35,7 @@ public class StartPage {
 
     private void signIn(){
         //Click on sign in link
-        common.click(common.findWebElementByXpath("//*[@id=\"login\"]/a"));
+        common.click(common.findWebElementByXpath("//section[2]/div/p[3]/a"));
 
         //Wait for next page
         common.explicitWaitPageTitle("eduID login");
@@ -43,24 +43,24 @@ public class StartPage {
 
     private void registerAccount(){
         //Click on sign up button
-        common.click(common.findWebElementById("register"));
+        common.click(common.findWebElementByXpath("//section[2]/div/div/a"));
     }
 
     private void verifyLabelsSwedish(){
-        common.verifyStringByXpath("//section[1]/div/h1", "eduID är enklare och säkrare inloggning.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/p[1]", "Skapa ett eduID och " +
+        common.verifyStringOnPage("eduID är enklare och säkrare inloggning.");
+        common.verifyStringOnPage("Skapa ett eduID och " +
                 "koppla det till ditt svenska personnummer för att kunna komma åt flera olika tjänster och organisationer inom högskolan.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/p[2]", "eduID gör det enklare för dig eftersom du bara behöver komma ihåg " +
+        common.verifyStringOnPage("eduID gör det enklare för dig eftersom du bara behöver komma ihåg " +
                 "ett lösenord och säkrare för skolorna eftersom det är kopplat till en riktig individ.");
-        common.verifyStringByXpath("//*[@id=\"login\"]", "Om du redan har ett eduID kan du logga in här");
+        common.verifyStringOnPage("Om du redan har ett eduID kan du logga in här");
     }
 
     private void verifyLabelsEnglish(){
-        common.verifyStringByXpath("//section[1]/div/h1", "eduID is easier and safer login.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/p[1]", "Create an eduID and connect it to your Swedish national identity " +
+        common.verifyStringOnPage("eduID is easier and safer login.");
+        common.verifyStringOnPage("Create an eduID and connect it to your Swedish national identity " +
                 "number to gain access to services and organisation related to higher education.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div/p[2]", "eduID is easier for you because you only have to remember one " +
+        common.verifyStringOnPage("eduID is easier for you because you only have to remember one " +
                 "password and safer for the Universities becasue it is connecetd to a real individual.");
-        common.verifyStringByXpath("//*[@id=\"login\"]", "If you already have eduID you can log in here.");
+        common.verifyStringOnPage("If you already have eduID you can log in here.");
     }
 }

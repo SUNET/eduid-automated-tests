@@ -200,7 +200,6 @@
         </classes>
     </test>
 
-    OBS! - 35 -> 26 OK, 43 kan inte logga in i supportverktyget får fel usernamen password
 -->
 
     <test name="TC_25">
@@ -565,5 +564,6 @@
             </class>
         </classes>
     </test>
+
 
 </suite>

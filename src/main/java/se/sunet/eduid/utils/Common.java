@@ -259,13 +259,13 @@ public class Common {
         if(enableRememberMe) {
             //If Remember Me is disabled. Click button
             if(!webDriver.findElement(By.id("remember-me")).isSelected())
-                findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div").click();
+                click(findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div"));
         }
         //Disable Remember Me, if enabled
         else{
             //If Remember Me is enabled. Click button
             if (webDriver.findElement(By.id("remember-me")).isSelected())
-                findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div").click();
+                click(findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div"));
         }
         //log.info("Status of Remember me: " +webDriver.findElement(By.id("remember-me")).isSelected());
     }
