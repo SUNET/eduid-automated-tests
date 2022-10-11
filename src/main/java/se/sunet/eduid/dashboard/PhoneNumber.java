@@ -23,8 +23,7 @@ public class PhoneNumber {
         common.verifyStringOnPage("Telefonnummer");
 
         //Text
-        common.verifyStringOnPage( "Du kan koppla ett " +
-                "eller flera av dina mobiltelefonnummer till ditt eduID-konto och därefter välja vilket av dem som ska vara primär.");
+        common.verifyStringOnPage( "Du kan koppla ett eller flera mobiltelefonnummer till ditt eduID.");
 
         //Add more phone numbers
         common.verifyStringOnPage( "+ lägg till fler");
@@ -38,8 +37,7 @@ public class PhoneNumber {
         common.verifyStringOnPage("Mobile phone numbers");
 
         //Text
-        common.verifyStringOnPage("You can connect " +
-                "one or more mobile phone numbers to your eduID, but one has to be set as the primary one.");
+        common.verifyStringOnPage("You can connect one or more mobile phone numbers to your eduID.");
 
         //Add more phone numbers
         common.verifyStringOnPage("+ add more");
@@ -57,10 +55,10 @@ public class PhoneNumber {
             common.selectSwedish();
 
         //Click add phone number button
-        common.click(common.findWebElementByXpath("//div/section[2]/div/div/div/div/article[3]/div[2]/button"));
+        common.click(common.findWebElementByXpath("//div/section[2]/div/div/div/article[3]/div[2]/button"));
 
         //Verify placeholder
-        common.verifyStrings("Telefonnummer", common.findWebElementById("number").getAttribute("placeholder"));
+        common.verifyPlaceholder("Telefonnummer","number");
 
         //Enter phone number
         common.findWebElementById("number").clear();
@@ -126,30 +124,30 @@ public class PhoneNumber {
 
     private void verifyLabelsConfirmPhoneNumber(){
         //Wait for pop-up close button
+        common.timeoutMilliSeconds(500);
         common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button");
 
         //Heading
         common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
-                "Skriv in koden som skickats till +46");
+                "Skriv in verifieringskoden som skickats till +46");
 
         //Label
         common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/div/label", "Bekräftelsekod");
 
         //Verify placeholder
-        common.verifyStrings("Bekräftelsekod", common.findWebElementById("phone-confirm-modal").getAttribute("placeholder"));
+        common.verifyPlaceholder("Verifieringskod", "phone-confirm-modal");
 
         //Resend link
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a", "Skicka bekräftelsekoden igen");
+        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a", "Skicka verifieringskoden igen");
 
         //Close dialog
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
 
         //English
         common.selectEnglish();
-        common.timeoutMilliSeconds(1000);
 
         //Verify Button text
-        common.verifyStringByXpath("//div/section[2]/div/div/div/div/article[3]/div[2]/div/table/tbody/tr/td[2]/button",
+        common.verifyStringByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr/td[2]/button",
                 "CONFIRM");
 
         //Press Confirm
@@ -166,7 +164,7 @@ public class PhoneNumber {
         common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/div/label", "Confirmation code");
 
         //Verify placeholder
-        common.verifyStrings("Phone confirmation code", common.findWebElementById("phone-confirm-modal").getAttribute("placeholder"));
+        common.verifyPlaceholder("Phone confirmation code", "phone-confirm-modal");
 
         //Resend link
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a", "Send a new confirmation code");
@@ -176,6 +174,5 @@ public class PhoneNumber {
 
         //Swedish
         common.selectSwedish();
-        common.timeoutMilliSeconds(500);
     }
 }

@@ -25,6 +25,7 @@ public class TestData {
     private boolean addSecurityKey = false;
     private boolean registerAccount, resetPassword, incorrectPassword, removePrimary, removeNewEmail1,
             resendOTP, deleteButton, useRecommendedPw, otherDeviceFillCode, rememberMe;
+    private int counter = 0;
 
     void setProperties(String testSuite) throws IOException {
         Properties properties = new Properties();

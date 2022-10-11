@@ -1,8 +1,15 @@
 package se.sunet.eduid.resetPassword;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
+import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.InitBrowser;
 import se.sunet.eduid.utils.TestData;
+
+import java.io.IOException;
 
 public class VerifyPhoneNumber {
     private final Common common;
@@ -31,28 +38,34 @@ public class VerifyPhoneNumber {
 
     public void verifyLabels(){
         //verify status message - swedish
-        common.verifyStatusMessage("En engångskod har skickats till din telefon.");
+        common.verifyStatusMessage("En verifieringskod har skickats till din telefon.");
 
         //Verify labels - swedish
-        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", "Skriv in koden som skickats till");
+        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", "Skriv in verifieringskoden som skickats till ");
 
         //Verify phone number OTP has been sent to
-        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p/b", testData.getOtpPhoneNumber());
+        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", testData.getOtpPhoneNumber());
 
         common.verifyStringByXpath("//*[@id=\"phone-wrapper\"]/div/label", "Bekräftelsekod");
-        common.verifyStringById("resend-phone", "Skicka bekräftelsekoden igen");
+        common.verifyStringById("resend-phone", "Skicka verifieringskoden igen");
+
+        //Verify Placholder
+        common.verifyPlaceholder("Verifieringskod", "phone");
 
         //Switch to english
         common.selectEnglish();
 
         //verify status message - english
-        //common.verifyStatusMessage("One time verification code has been sent to your phone.");
+        common.verifyStatusMessage("A verification code has been sent to your phone.");
 
         //Verify labels - swedish
         common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", "Enter the code sent to ");
-        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p/b", testData.getOtpPhoneNumber());
+        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", testData.getOtpPhoneNumber());
         common.verifyStringByXpath("//*[@id=\"phone-wrapper\"]/div/label", "Confirmation code");
         common.verifyStringById("resend-phone", "Send a new confirmation code");
+
+        //Verify Placholder
+        common.verifyPlaceholder("Phone confirmation code", "phone");
     }
 
     private void enterOtp(){
@@ -81,12 +94,8 @@ public class VerifyPhoneNumber {
             otp = "incorrect1";
         }
         else {
+            //Get the otp
             fetchOtp();
-
-            //Click on Already received sms - enter code
-            common.click(common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/p[2]/a"));
-
-            common.explicitWaitClickableElementId("phone");
 
             //Switch to swedish if we need to
             if (common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")) {
@@ -106,16 +115,26 @@ public class VerifyPhoneNumber {
         common.explicitWaitClickableElementId("copy-new-password");
     }
 
-    private void fetchOtp(){
-        //Fetch the code
+    private void fetchOtp() {
+        //Store current window handle
+        common.switchToPopUpWindow();
+
+        // Opens a new window and switches to new window, to continue with same session
+        common.getWebDriver().switchTo().newWindow(WindowType.TAB);
+
+        //Navigate to page with otp
         common.navigateToUrl("https://idp.dev.eduid.se/services/reset-password/get-phone-code?eppn=" +testData.getEppn());
         otp = common.findWebElementByXpath("/html/body").getText();
 
         Common.log.info("OTP: " +otp);
+        common.timeoutMilliSeconds(500);
 
-        //Back
-        common.navigateToUrl("https://www.dev.eduid.se/reset-password/phone-code-sent/" +testData.getEmailCode());
+        //Close the tab or window
+        common.getWebDriver().close();
+        common.timeoutMilliSeconds(500);
 
-        common.timeoutSeconds(2);
+        //Switch back to the old tab
+        common.switchToDefaultWindow();
+        common.timeoutMilliSeconds(500);
     }
 }

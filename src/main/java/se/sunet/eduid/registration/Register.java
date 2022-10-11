@@ -30,13 +30,12 @@ public class Register {
 
     private void verifyLabels(){
         //Verify placeholder
-        common.verifyStrings("namn@example.com", common.findWebElementById("email").getAttribute("placeholder"));
-
+        common.verifyPlaceholder("namn@example.com", "email");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Registrera din e-postadress för att skapa ditt eduID.");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "När du har skapat ditt eduID kan du logga in och koppla det till ditt svenska personnummer.");
-        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress\n*");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "Om du redan har ett eduID kan du logga in här.");
 
@@ -48,7 +47,7 @@ public class Register {
         common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Register your email address to create your eduID.");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Once you have created an eduID you will be able to log in and connect it to your Swedish national identity number.");
-        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address\n*");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "If you already have eduID you can log in here.");
 
@@ -58,13 +57,16 @@ public class Register {
 
     private void enterEmailAndPressRegister(){
         //Verify placeholder
-        common.verifyStrings("name@example.com", common.findWebElementById("email").getAttribute("placeholder"));
+        common.verifyPlaceholder("name@example.com", "email");
 
         //Generate new username
         if(testData.isGenerateUsername())
             generateUsername();
 
         Common.log.info("Register user: " +testData.getUsername());
+
+        //Also set the email address for future usage
+        testData.setEmail(testData.getUsername().toLowerCase());
 
         common.findWebElementById("email").clear();
         common.findWebElementById("email").sendKeys(testData.getUsername());
@@ -78,7 +80,6 @@ public class Register {
         //Press abort and switch to swedish
         common.click(common.findWebElementById("register-modal-close-button"));
 
-        common.timeoutMilliSeconds(200);
         common.selectSwedish();
 
         common.findWebElementById("email").sendKeys(testData.getUsername());

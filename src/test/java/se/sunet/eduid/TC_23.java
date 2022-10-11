@@ -21,6 +21,9 @@ public class TC_23 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"requestNewPassword"} )
     void emailSent() { emailSent.runEmailSent(); }
 
+/*    @Test( dependsOnMethods = {"emailSent"} )
+    void requestResetPasswordEmail() { requestResetPwEmail.runRequestResetPwEmail(); }*/
+
     @Test( dependsOnMethods = {"emailSent"} )
     void emailLink() { emailLink.runEmailLink(); }
 

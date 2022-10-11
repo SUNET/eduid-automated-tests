@@ -64,6 +64,24 @@ Nest Hub Max
         </classes>
     </test>
 
+    <test name="iPhone XR">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="iPhone XR"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="iPhone 12 Pro">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="iPhone 12 Pro"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
     <test name="iPad">
         <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
         <parameter name="browser" value="iPad"/>
@@ -213,6 +231,42 @@ Nest Hub Max
     <test name="Galaxy S5">
         <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
         <parameter name="browser" value="Galaxy S5"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Galaxy S8">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Galaxy S8"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Galaxy S9+">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Galaxy S9+"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Samsung Galaxy S8+">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Samsung Galaxy S8+"/>
+        <classes>
+            <class name="se.sunet.eduid.Mobile_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="Samsung Galaxy S20 Ultra">
+        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="browser" value="Samsung Galaxy S20 Ultra"/>
         <classes>
             <class name="se.sunet.eduid.Mobile_1" >
             </class>

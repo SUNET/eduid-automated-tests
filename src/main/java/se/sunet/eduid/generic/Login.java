@@ -36,7 +36,8 @@ public class Login {
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")){
-//            verifyPlaceholder("name@example.com", "enter password");
+            common.verifyPlaceholder("name@example.com", "email");
+            common.verifyPlaceholder("enter password", "current-password");
             common.selectSwedish();
         }
 
@@ -45,7 +46,8 @@ public class Login {
 
     public void enterUsername(){
         //Verify placeholder
-        verifyPlaceholder("namn@example.com", "ange lösenord");
+        common.verifyPlaceholder("namn@example.com", "email");
+        common.verifyPlaceholder("ange lösenord", "current-password");
 
         //Enter username
         common.explicitWaitClickableElementId("email");
@@ -98,13 +100,7 @@ public class Login {
         common.click(common.findWebElementById("link-forgot-password"));
 
         //Wait for next page, return to login
-        common.explicitWaitClickableElementId("return-login");
-    }
-
-    private void verifyPlaceholder(String email, String password){
-        //Verify placeholder
-        common.verifyStrings(email, common.findWebElementById("email").getAttribute("placeholder"));
-        common.verifyStrings(password, common.findWebElementById("current-password").getAttribute("placeholder"));
+        common.explicitWaitClickableElementId("go-back-button");
     }
 
     private void loginOtherDevice(){

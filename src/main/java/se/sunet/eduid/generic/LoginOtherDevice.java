@@ -98,7 +98,7 @@ public class LoginOtherDevice {
             //Press cancel
             if(testData.isRememberMe()) {
                 common.timeoutSeconds(2);
-                common.logPageBody();
+ //               common.logPageBody();
                 common.click(common.findWebElementById("response-code-cancel-button"));
             }
             else

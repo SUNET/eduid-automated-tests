@@ -63,7 +63,7 @@ public class SwamidData {
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[2]/td", "se");
             common.verifyXpathContainsString("//*[@id=\"attributes\"]/table[1]/tbody/tr[3]/td", testData.getGivenName() + " " +testData.getSurName());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[4]/td", "Sweden");
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[5]/td", testData.getDisplayName());
+            common.verifyStrings(common.findWebElementByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[5]/td").getText().toLowerCase(), testData.getDisplayName());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[6]/td",
                     "http://www.swamid.se/policy/assurance/al1\nhttp://www.swamid.se/policy/assurance/al2\n" +
                             "https://refeds.org/assurance\n" +

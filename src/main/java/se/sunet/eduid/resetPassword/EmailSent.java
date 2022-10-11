@@ -22,23 +22,34 @@ public class EmailSent {
     }
 
     private void verifyLabels(){
+        common.timeoutSeconds(1);
+
         //Verify the texts after request of new pw
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p", "En länk har skickats " +
-                "till din e-postadress " +testData.getEmail()+". Länken är giltig i två timmar.");
+        common.verifyStringOnPage("Ett e-postmeddelande med instruktioner har skickats till");
+        common.verifyStringOnPage(testData.getEmail() +".");
+        common.verifyStringOnPage("Länken i e-postmeddelandet är giltig i två timmar.");
 
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/p", "Har du inte fått " +
-                "e-postmeddelandet? Kontrollera din skräppost, eller skicka länken igen");
+        common.verifyStringOnPage("Om du inte fick e-postmeddelandet, kontrollera din skräppost eller " +
+                "skicka e-postmeddelandet igen.");
 
+        //Button text
+        common.verifyStringById("go-back-button", "TILLBAKA");
+        common.verifyStringById("send-email-button", "SKICKA E-POST IGEN");
 
         //Switch to english
         common.selectEnglish();
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p", "A link has been sent to your email "
-                +testData.getEmail() +". Link is valid for 2 hours.");
+        common.verifyStringOnPage("An e-mail with instructions has been sent to");
+        common.verifyStringOnPage(testData.getEmail() +".");
+        common.verifyStringOnPage("The link in the e-mail is valid for two hours.");
 
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/p", "If you didn't " +
-                "receive the email? Check your junk email, or resend link");
+        common.verifyStringOnPage("If you didn’t receive the email, check your junk email, or resend the email.");
 
-        //Switch to english
+        //Button text
+        common.verifyStringById("go-back-button", "GO BACK");
+        common.verifyStringById("send-email-button", "RESEND E-MAIL");
+
+
+        //Switch to swedish
         common.selectSwedish();
     }
 }

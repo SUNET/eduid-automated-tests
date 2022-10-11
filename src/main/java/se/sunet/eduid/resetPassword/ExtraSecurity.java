@@ -29,35 +29,33 @@ public class ExtraSecurity {
 
         //verify the labels - English
         common.timeoutSeconds(1);
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/h1", "Select an extra security option");
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[1]", "A password reset " +
-                "using an extra security option will keep your identity confirmed.");
+        common.verifyStringOnPage("Select an extra security option");
+        common.verifyStringOnPage("A password reset using an extra security option will keep your identity confirmed.");
         common.verifyStringOnPage("SEND SMS TO **********" + testData.getPhoneNumber().substring(10,12));
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[2]", "Already received sms?  enter code");
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/h4", "Continue without extra " +
-                "security option");
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[3]", "Your account will " +
-                "require confirmation after the password has been reset. Continue reset password");
+        common.verifyStringOnPage("Already received sms?  enter code");
+        common.verifyStringOnPage("Continue without extra security option");
+        common.verifyStringOnPage("Your account will require confirmation after the password has been " +
+                "reset. Continue reset password");
 
         //Switch to Swedish
         common.selectSwedish();
 
         //verify the labels - swedish
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/h1", "Välj ett extra säkerhetsalternativ");
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[1]", "Genom att " +
-                "återställa lösenordet med ett extra säkerhetsalternativ så kommer kontot att förbli verifierat.");
+        common.verifyStringOnPage("Välj ett extra säkerhetsalternativ");
+        common.verifyStringOnPage("Genom att återställa lösenordet med ett extra säkerhetsalternativ " +
+                "så kommer kontot att förbli verifierat.");
         common.verifyStringOnPage("SKICKA SMS TILL **********" + testData.getPhoneNumber().substring(10,12));
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[2]", "Redan fått sms?  skriv in koden");
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/h4", "Fortsätt utan extra " +
-                "säkerhetsalternativ");
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p[3]", "Ditt konto kommer " +
-                "att behöva verifieras efter att lösenordet har återställts. Fortsätt återställa lösenordet");
+        common.verifyStringOnPage("Redan fått sms?  skriv in koden");
+        common.verifyStringOnPage("Fortsätt utan extra säkerhetsalternativ");
+        common.verifyStringOnPage("Ditt konto kommer att behöva verifieras efter att lösenordet har " +
+                "återställts. Fortsätt återställa lösenordet");
     }
 
     private void sendOtp(){
         //Continue with extra security
         if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("yes")) {
-            String otpText = common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/div[1]/button").getText();
+            //String otpText = common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/div[1]/button").getText();
+            String otpText = common.findWebElementById("extra-security-phone").getText();
             testData.setOtpPhoneNumber(otpText.substring(otpText.length()-2));
             common.click(common.findWebElementById("extra-security-phone"));
         }
@@ -72,11 +70,20 @@ public class ExtraSecurity {
             testData.setOtpPhoneNumber(otpText.substring(otpText.length()-2));
             common.click(common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/div[2]/button"));
         }
-        else if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("3")) {//*[@id="reset-pass-display"]/p[2]
+        else if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("3")) {
             Common.log.info("Selected 3rd option: " +common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/div[3]/button").getText());
             String otpText = common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/div[3]/button").getText();
             testData.setOtpPhoneNumber(otpText.substring(otpText.length()-2));
             common.click(common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/div[3]/button"));
+        }
+        //IF Freja eID should be used
+        else if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja")) {
+            //Verify button text
+            common.verifyStringById("extra-security-freja", "ANVÄND MITT FREJA EID+");
+            Common.log.info("Selecting Freja eID+ for password reset");
+
+            //Click Freja button
+            common.click(common.findWebElementById("extra-security-freja"));
         }
         //Already have OTP
         else {

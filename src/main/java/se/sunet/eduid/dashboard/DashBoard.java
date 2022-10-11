@@ -33,8 +33,8 @@ public class DashBoard {
     }
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("eduID dashboard");
-        common.verifyPageTitle("eduID dashboard");
+        common.explicitWaitPageTitle("eduID");
+        common.verifyPageTitle("eduID");
 
         //Timeout to save time from retry-functionality
         common.timeoutMilliSeconds(200);
@@ -46,7 +46,7 @@ public class DashBoard {
     }
 
     private void verifyNotificationDot(){
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/li[2]/a/div/div/div").isDisplayed();
+        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/li[2]/a/div/div").isDisplayed();
     }
 
     private void verifyUserId() {
@@ -152,6 +152,6 @@ public class DashBoard {
         common.navigateToSettings();
 
         //wait for one "add more" button to be clickable
-        common.explicitWaitClickableElementId("add-more-button");
+        common.explicitWaitClickableElementId("emails-add-more-button");
     }
 }

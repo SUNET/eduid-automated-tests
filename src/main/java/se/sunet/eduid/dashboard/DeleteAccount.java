@@ -4,6 +4,8 @@ import se.sunet.eduid.generic.Login;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
+import static se.sunet.eduid.utils.Common.log;
+
 public class DeleteAccount {
     private final Common common;
     private final TestData testData;
@@ -33,13 +35,12 @@ public class DeleteAccount {
     private void clickDeleteInPopUp(){
         //Press delete
         if(testData.isDeleteButton()) {
-            common.click(common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button"));
+            common.timeoutSeconds(2);
+            common.click(common.findWebElementById("delete-account-modal-accept-button"));
 
             //Enter userName and password since we need to login again before account is deleted
             common.timeoutSeconds(1);
             Login login = new Login(common, testData);
-            //login.verifyPageTitle();
-            //login.enterUsername();
             login.enterPassword();
 
             common.click(common.findWebElementById("login-form-button"));
@@ -84,6 +85,8 @@ public class DeleteAccount {
 
     private void verifyPopUpLabels(){
         //Heading
+        common.timeoutSeconds(2);
+
         common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
         common.verifyStringOnPage( "Är du säker på att du vill ta bort ditt eduID?");
 
@@ -96,6 +99,7 @@ public class DeleteAccount {
         //Select english
         common.selectEnglish();
 
+        common.timeoutSeconds(2);
         common.click(common.findWebElementById("delete-button"));
 
         //Heading
@@ -106,12 +110,12 @@ public class DeleteAccount {
         common.verifyStringOnPage("Deleting your eduID will permanently remove all your saved " +
                 "information. After clicking the button you need to use your log in details one final time");
 
-
         common.closePopupDialog();
 
         //Select swedish
         common.selectSwedish();
 
+        common.timeoutSeconds(2);
         common.click(common.findWebElementById("delete-button"));
     }
 }

@@ -18,7 +18,7 @@ public class ConfirmedIdentity {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID dashboard");
+        common.verifyPageTitle("eduID");
         common.timeoutMilliSeconds(500);
     }
 
@@ -27,11 +27,11 @@ public class ConfirmedIdentity {
         common.explicitWaitVisibilityElement("//*[@id=\"text-content\"]/div/h1");
 
         //Swedish labels
+        common.timeoutMilliSeconds(500);
         textAndLabelsSwedish();
 
         //Change to English
         common.selectEnglish();
-        common.timeoutMilliSeconds(500);
 
         //English labels
         textAndLabelsEnglish();

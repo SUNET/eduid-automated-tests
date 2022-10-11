@@ -102,8 +102,8 @@ public class Password {
 
             // If not the correct password was entered at password change
             if(testData.isIncorrectPassword()) {
-                common.verifyStatusMessage("Ett fel har uppstått vid ändring av ditt lösenord. Vänligen försök " +
-                        "igen eller kontakta supporten om problemet kvarstår.");
+                common.verifyStatusMessage("Det gick inte att verifiera ditt gamla lösenord. Vänligen försök igen " +
+                        "eller kontakta supporten om problemet kvarstår.");
                 common.timeoutMilliSeconds(500);
                 //Click abort
                 common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[1]"));
@@ -231,6 +231,5 @@ public class Password {
 
         //Swedish
         common.selectSwedish();
-        common.timeoutMilliSeconds(500);
     }
 }

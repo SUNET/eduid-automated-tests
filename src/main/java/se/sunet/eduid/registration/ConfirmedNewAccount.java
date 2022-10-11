@@ -30,26 +30,26 @@ public class ConfirmedNewAccount {
 
     private void verifyLabels(){
         //Details
-        common.verifyStringByXpath("//*[@id=\"panel\"]/form/h1", "Registrering av ditt eduID är klar.");
-        common.verifyStringByXpath("//*[@id=\"panel\"]/form/p", "Detta är dina inloggningsuppgifter för eduID.");
+        common.verifyStringOnPage("Registrering av ditt eduID är klar.");
+        common.verifyStringOnPage("Detta är dina inloggningsuppgifter för eduID.");
 
         //Email
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "E-postadress");
         common.verifyStringById("user-email", testData.getUsername().toLowerCase());
 
         //Button
-        common.verifyStringById("gotit-button", "Gå till eduID");
+        common.verifyStringById("finished-button", "Gå till eduID");
 
         //Password
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Lösenord");
         testData.setPassword(common.findWebElementById("user-password").getText());
 
-        //Switch language to English
+/*        //Switch language to English
         common.selectEnglish();
 
         //Details
-        common.verifyStringByXpath("//*[@id=\"panel\"]/form/h1", "You have completed the registration for eduID.");
-        common.verifyStringByXpath("//*[@id=\"panel\"]/form/p", "These are your login details for eduID.");
+        common.verifyStringOnPage("You have completed the registration for eduID.");
+        common.verifyStringOnPage("These are your login details for eduID.");
 
         //Email
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "Email address");
@@ -59,14 +59,14 @@ public class ConfirmedNewAccount {
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Password");
 
         //Button
-        common.verifyStringById("gotit-button", "Go to my eduID");
+        common.verifyStringById("finished-button", "Go to my eduID");
 
 
         //Switch language to Swedish
-        common.selectSwedish();
+        common.selectSwedish();*/
     }
 
     private void clickGoToMyEduID(){
-        common.click(common.findWebElementByXpath("//*[@id=\"gotit-button\"]"));
+        common.click(common.findWebElementById("finished-button"));
     }
 }

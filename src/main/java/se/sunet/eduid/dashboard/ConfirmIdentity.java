@@ -24,7 +24,7 @@ public class ConfirmIdentity{
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID dashboard");
+        common.verifyPageTitle("eduID");
     }
 
     public void pressIdentity(){
@@ -37,7 +37,9 @@ public class ConfirmIdentity{
 
     private void pressAddButton(){
         common.findWebElementById("add-nin-button").click();
-        common.timeoutMilliSeconds(500);
+
+        //Wait for the nin to be added and show/hide button is visible
+        common.explicitWaitClickableElementId("show-hide-button");
     }
 
     private void selectConfirmIdentity(){
@@ -52,18 +54,19 @@ public class ConfirmIdentity{
             common.switchToPopUpWindow();
 
             //Click on accept
-            common.click(common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]"));
+            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]").click();
 
             //Verify labels when letter is sent
             verifyLabelsSentLetter();
 
             //Press again on the letter button - Add a faulty code
+            common.timeoutMilliSeconds(500);
             common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button"));
             common.timeoutMilliSeconds(500);
             common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input").sendKeys("1qvw3fw2q3");
 
             //Click OK
-            common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]"));
+            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").click();
 
             //Verify response
             common.timeoutSeconds(1);
@@ -82,7 +85,9 @@ public class ConfirmIdentity{
             common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input").sendKeys(letterProofingCode);
 
             //Click OK
-            common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]"));
+            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").click();
+
+            common.timeoutMilliSeconds(800);
         }
 
         //By phone
@@ -96,6 +101,8 @@ public class ConfirmIdentity{
 
             //Press accept button
             common.click(common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]"));
+
+            common.timeoutMilliSeconds(800);
         }
         //Freja eID - first check that we comes to freja eID page. then add magic cookies to confirm the identity
         else {
@@ -148,10 +155,10 @@ public class ConfirmIdentity{
 
     private void verifyLabels() {
         //Swedish
-        common.timeoutMilliSeconds(500);
+        common.timeoutMilliSeconds(1500);
 
         //Verify placeholder
-        common.verifyStrings("ååååmmddnnnn", common.findWebElementById("nin").getAttribute("placeholder"));
+        common.verifyPlaceholder("ååååmmddnnnn", "nin");
 
         //Heading
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div/h1", "Koppla din identitet till ditt eduID");
@@ -201,7 +208,7 @@ public class ConfirmIdentity{
         common.selectEnglish();
 
         //Verify placeholder
-        common.verifyStrings("yyyymmddnnnn", common.findWebElementById("nin").getAttribute("placeholder"));
+        common.verifyPlaceholder("yyyymmddnnnn", "nin");
 
         //Heading
         common.verifyStringByXpath("//*[@id=\"text-content\"]/div/h1", "Connect your identity to your eduID");
@@ -274,7 +281,6 @@ public class ConfirmIdentity{
 
         //Press cancel
         common.click(common.findWebElementById("eidas-info-modal-close-button"));
-        common.timeoutMilliSeconds(500);
 
         //Click on swedish
         common.selectSwedish();
@@ -299,6 +305,7 @@ public class ConfirmIdentity{
 
     private void verifyPhoneLabels(){
         //Click on phone option
+        common.timeoutMilliSeconds(500);
         common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div[1]/button"));
 
         //Switch to pop up
@@ -345,8 +352,10 @@ public class ConfirmIdentity{
 
     private void verifyMailLabels(){
         //Click on mail option
-        common.timeoutMilliSeconds(200);
+        common.timeoutMilliSeconds(500);
         common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button"));
+
+        common.timeoutMilliSeconds(800);
 
         //Switch to pop up and verify its text
         common.switchToPopUpWindow();
@@ -362,9 +371,7 @@ public class ConfirmIdentity{
         //English
         common.selectEnglish();
 
-        //Switch to pop up and verify its text
         //Click on mail option
-        common.timeoutMilliSeconds(200);
         common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button"));
 
         common.switchToPopUpWindow();
@@ -396,11 +403,9 @@ public class ConfirmIdentity{
                 "TRYCK HÄR IGEN NÄR DU HAR FÅTT BREVET");
 
         //English
-        common.timeoutMilliSeconds(800);
         common.selectEnglish();
 
         //Verify on the button that letter is sent text exists, with today's date
-        common.timeoutMilliSeconds(500);
         common.explicitWaitVisibilityElement("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button/div[1]/div[1]");
         common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button/div[1]/div[1]",
                 "THE LETTER WAS SENT\n" +common.getDate().toString());

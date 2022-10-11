@@ -32,14 +32,12 @@ public class ConfirmHuman {
 
         //Switch language to English
         common.selectEnglish();
-        common.timeoutMilliSeconds(500);
 
         //Label1
         common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Confirm that you are a human.");
 
         //Switch language to Swedish
         common.selectSwedish();
-        common.timeoutMilliSeconds(500);
     }
 
     private void clickButton(){
@@ -52,7 +50,6 @@ public class ConfirmHuman {
             }
 
             //Click on Send captcha button
-            //common.click(common.findWebElementById("send-captcha-button"));
             common.findWebElementById("send-captcha-button").click();
             common.timeoutSeconds(2);
 
@@ -74,14 +71,14 @@ public class ConfirmHuman {
             }
             else {
                 //Verify text on page
-                common.verifyStringByXpath("//*[@id=\"panel\"]/div/h1", "Kontot skapades");
+                common.verifyStringOnPage("Kontot skapades");
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/p",
                         "Slutför skapandet av ditt eduID genom att följa länken som skickats till:");
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/h4", testData.getUsername());
 
                 //Verify text in english
                 common.selectEnglish();
-                common.verifyStringByXpath("//*[@id=\"panel\"]/div/h1", "A link has been sent to your email address.");
+                common.verifyStringOnPage("A link has been sent to your email address.");
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/p",
                         "Complete registration by clicking the link sent to:");
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/h4", testData.getUsername());

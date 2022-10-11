@@ -86,7 +86,6 @@ public class AdvancedSettings {
 
         //click on english
         common.selectEnglish();
-        common.timeoutSeconds(1);
 
         //Activate ladok button
         common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[1]/label/div"));

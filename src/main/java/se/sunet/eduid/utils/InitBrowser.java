@@ -31,17 +31,17 @@ public class InitBrowser {
 
 //    public static final String USERNAME = System.getenv("BROWSERSTACK_USERNAME");
 //    public static final String AUTOMATE_KEY = System.getenv("BROWSERSTACK_ACCESS_KEY");
-    public static final String USERNAME = "ovesemart_PnpdD2";
-    public static final String AUTOMATE_KEY = "EvYN352mQDEnTmbBR65R";
-    public static final String URL = "https://" + USERNAME + ":" + AUTOMATE_KEY + "@hub-cloud.browserstack.com/wd/hub";
+//    public static final String USERNAME = "ovesemart_PnpdD2";
+//    public static final String AUTOMATE_KEY = "EvYN352mQDEnTmbBR65R";
+//    public static final String URL = "https://" + USERNAME + ":" + AUTOMATE_KEY + "@hub-cloud.browserstack.com/wd/hub";
 
     public WebDriver initiateBrowser(String browser, String headless, String language){
         if(browser.equalsIgnoreCase("chrome"))
             initChromeDriver(headless, language);
         else if(browser.equalsIgnoreCase("firefox"))
             initFirefoxDriver(headless, language);
-        else if(browser.equalsIgnoreCase("browserstack"))
-            initBrowserStack();
+//        else if(browser.equalsIgnoreCase("browserstack"))
+//            initBrowserStack();
         else if(browser.equalsIgnoreCase("safari"))
             initSafariDriver(headless, language);
         else
@@ -211,40 +211,40 @@ public class InitBrowser {
 
     }
 
-    private void initBrowserStack() {
+/*    private void initBrowserStack() {
         Common.log.info("init browser stack with user/passwd: " +USERNAME +" : " +AUTOMATE_KEY);
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
         //True when browser, false on mobile?
         capabilities.setCapability("browserstack.local", "true");
 
-        /* Chrome latest
+        *//* Chrome latest
         capabilities.setCapability("browserName", "Chrome");
         capabilities.setCapability("browserVersion", "latest");
         capabilities.setCapability("browserstack.debug", "true");  // for enabling visual logs
-        */
+        *//*
         capabilities.setCapability("browser", "safari");
         capabilities.setCapability("browser_version", "latest");
         capabilities.setCapability("os", "OS X");
         capabilities.setCapability("os_version", "Catalina");
-/*
+*//*
         capabilities.setCapability("browser", "ie");
         capabilities.setCapability("browser_version", "11.0");
         capabilities.setCapability("os", "Windows");
         capabilities.setCapability("os_version", "8.1");
-*/
-        /* Mobile IOS
+*//*
+        *//* Mobile IOS
         capabilities.setCapability("os_version", "12");
         capabilities.setCapability("device", "iPhone 8 Plus");
         capabilities.setCapability("real_mobile", "true");
-        */
+        *//*
 
-        /* Mobile Samsung
+        *//* Mobile Samsung
         capabilities.setCapability("device", "Samsung Galaxy S10e");
         capabilities.setCapability("os_version", "9.0");
         capabilities.setCapability("browserName", "android");
         capabilities.setCapability("realMobile", "true");
-*/
+*//*
 //        HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
         //browserstackOptions.put("os", "Windows");
         //browserstackOptions.put("osVersion", "10");
@@ -256,5 +256,5 @@ public class InitBrowser {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

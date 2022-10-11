@@ -16,7 +16,7 @@ public class RequestNewPassword {
         verifyPageTitle();
         verifyLabels();
         enterEmail();
-        pressRestPassword();
+        pressResetPassword();
     }
 
     private void verifyPageTitle() {
@@ -28,28 +28,44 @@ public class RequestNewPassword {
         common.findWebElementById("email").sendKeys(testData.getUsername());
     }
 
-    private void pressRestPassword(){
+    private void pressResetPassword(){
         common.click(common.findWebElementById("reset-password-button"));
 
-        //wait the texts on next page
-        common.explicitWaitVisibilityElement("//*[@id=\"reset-pass-display\"]/p");
+        //wait for the Send-again button on next page
+        common.explicitWaitClickableElementId("go-back-button");
     }
 
     private void verifyLabels(){
-        common.verifyStringByXpath("//*[@id=\"content\"]/p", "Ange din e-postadress registrerad till ditt konto");
+        //Heading
+        common.verifyStringOnPage("Återställ lösenord");
+
+        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p", "Ange din e-postadress registrerad till ditt konto.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress\n*");
-        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/span", "en giltig e-postadress");
 
         //Verify placeholder
-        common.verifyStrings("namn@example.com", common.findWebElementById("email").getAttribute("placeholder"));
+        common.verifyPlaceholder("namn@example.com", "email");
+
+        //Buttons
+        common.verifyStringById("reset-password-button", "SKICKA E-POST");
+        common.verifyStringById("go-back-button", "TILLBAKA");
 
         //Switch to english
         common.selectEnglish();
-        common.verifyStringByXpath("//*[@id=\"content\"]/p", "Enter your email address registered to your account");
-        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address\n*");
-        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/span", "a valid email address");
 
-        //Switch to english
+        //Heading
+        common.verifyStringOnPage("Reset password");
+
+        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p", "Enter the email address registered to your eduID account.");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address\n*");
+
+        //Verify placeholder
+        common.verifyPlaceholder("name@example.com", "email");
+
+        //Buttons
+        common.verifyStringById("reset-password-button", "SEND EMAIL");
+        common.verifyStringById("go-back-button", "GO BACK");
+
+        //Switch to swedish
         common.selectSwedish();
     }
 }

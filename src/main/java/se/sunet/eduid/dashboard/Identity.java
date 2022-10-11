@@ -170,7 +170,6 @@ public class Identity {
 
         //Press cancel
         common.click(common.findWebElementById("eidas-info-modal-close-button"));
-        common.timeoutMilliSeconds(500);
 
         //Click on swedish
         common.selectSwedish();

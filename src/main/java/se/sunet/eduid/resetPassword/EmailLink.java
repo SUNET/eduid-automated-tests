@@ -52,6 +52,9 @@ public class EmailLink {
             //Simulate that clicking on link with code in email.
             common.navigateToUrl("https://www.dev.eduid.se/reset-password/email-code/" +testData.getEmailCode());
 
+            common.timeoutMilliSeconds(300);
+            Common.log.info("Current url: " +common.getWebDriver().getCurrentUrl());
+
             common.explicitWaitPageTitle("eduID login");
         }
         common.timeoutSeconds(3);

@@ -56,7 +56,7 @@ public class TC_69 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage3"} )
     void login3(){
         //Enable Remember me
-        common.findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div"));
         common.timeoutSeconds(1);
 
         login.runLogin();
@@ -73,8 +73,9 @@ public class TC_69 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage4"} )
     void verifySigninPage() {
+        common.timeoutMilliSeconds(500);
         //Verify label with registered display name
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/form/div[1]/h3", "Välkommen tillbaka, " +testData.getDisplayName() +"!");
+        common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName() +"!");
 
         //Verify placeholder for username
         common.verifyStrings(testData.getUsername(), common.findWebElementByXpath("//*[@id=\"email\"]/input").getAttribute("value"));

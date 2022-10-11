@@ -2,6 +2,7 @@ package se.sunet.eduid.utils;
 
 import com.assertthat.selenium_shutterbug.core.Capture;
 import com.assertthat.selenium_shutterbug.core.Shutterbug;
+import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -23,6 +24,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import com.browserstack.local.Local;
+import se.sunet.eduid.wcag.AccessibilityBase;
 
 public class BeforeAndAfter {
     public StartPage startPage;
@@ -60,6 +62,8 @@ public class BeforeAndAfter {
     public LoginExtraSecurity loginExtraSecurity;
     public Sunet sunet;
     public LoginOtherDevice loginOtherDevice;
+    public AccessibilityBase accessibilityBase;
+    public RequestResetPwEmail requestResetPwEmail;
     public TestData testData = new TestData();
 
     Local bsLocal;
@@ -109,6 +113,8 @@ public class BeforeAndAfter {
         loginExtraSecurity = new LoginExtraSecurity(common, testData);
         sunet = new Sunet(common, testData);
         loginOtherDevice = new LoginOtherDevice(common, testData);
+        accessibilityBase = new AccessibilityBase(common, testData);
+        requestResetPwEmail = new RequestResetPwEmail(common, testData);
 
 //        initBrowser.startHarSession(testContext.getName());
     }
@@ -118,7 +124,6 @@ public class BeforeAndAfter {
         testData.setTestSuite(testContext.getSuite().getName());
         testData.setTestCase(testContext.getName());
         Common.log.info("Start executing: " +testData.getTestCase() + " - " +testContext.getCurrentXmlTest().getParameter("testDescription"));
-
     }
 
     @BeforeMethod
@@ -126,7 +131,7 @@ public class BeforeAndAfter {
         Common.log.info(testData.getTestCase() +" - "+method.getName());
     }
 
-    @AfterTest
+//    @AfterTest
     public void quitBrowser() throws IOException {
         //Browserstack test result
 //        testResult();

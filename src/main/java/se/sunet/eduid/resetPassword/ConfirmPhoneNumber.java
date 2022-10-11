@@ -32,7 +32,6 @@ public class ConfirmPhoneNumber {
 
         //Press the Confirm phone number link
         pressConfirmPhoneNumber();
-        //common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button"));
 
         common.switchToPopUpWindow();
         verifyLabels();
@@ -41,16 +40,21 @@ public class ConfirmPhoneNumber {
         // it will not be sent for the cancel/incorrect code and if the magic is provided. Because the code will be sent for 1st use case where
         // incorrect code is entered for phone number confirmation. The confirmPhoneNumberCode is the same as the magic
         if(!testData.getMagicCode().equalsIgnoreCase("cancel") && testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
+            log.info("Requesting an otp phone code");
+            common.timeoutMilliSeconds(500);
             common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a"));
-            common.timeoutSeconds(1);
+            common.timeoutMilliSeconds(500);
 
             //Pop up will now be closed and info that code has been sent is displayed
-            //TODO maybe we should have test case when code is sent too earyl as well... later on
+            //TODO maybe we should have test case when code is sent too early as well... later on
             boolean codeSentTooEarly = false;
             if(codeSentTooEarly) {
                 common.verifyStatusMessage("Vi kan bara " +
                         "skicka en kod var 5:e minut, var god vänta innan du ber om en ny kod.");
             }
+
+            //Close pop-up again
+            common.closePopupDialog();
         }
         //If OTP should not be ordered, close the pop-up
         else {
@@ -65,7 +69,6 @@ public class ConfirmPhoneNumber {
 
             //Press the Confirm phone number link
             pressConfirmPhoneNumber();
-            //common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button"));
 
             common.switchToPopUpWindow();
 
@@ -88,11 +91,9 @@ public class ConfirmPhoneNumber {
             log.info("Phone code: " +phoneCode);
 
             common.getWebDriver().navigate().back();
-            //WebDriverManager.getWebDriver().navigate().back();
 
             //Press the Confirm phone number link - again
             pressConfirmPhoneNumber();
-            //common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button"));
 
             common.switchToPopUpWindow();
 
@@ -136,11 +137,11 @@ public class ConfirmPhoneNumber {
     private void verifyLabels(){
         common.explicitWaitClickableElement("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a");
         common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
-                "Skriv in koden som skickats till +46");
+                "Skriv in verifieringskoden som skickats till +46");
         common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/div/label",
                 "Bekräftelsekod");
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a",
-                "Skicka bekräftelsekoden igen");
+                "Skicka verifieringskoden igen");
     }
 
     private void pressConfirmPhoneNumber(){

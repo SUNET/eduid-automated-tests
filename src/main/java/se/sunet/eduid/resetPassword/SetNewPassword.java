@@ -32,8 +32,8 @@ public class SetNewPassword {
         common.verifyStrings("xxxx xxxx xxxx", common.findWebElementById("new-password").getAttribute("placeholder"));
 
         //verify the labels in Swedish
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/p[1]", "Skapa ditt nya lösenord");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/p[2]", "Ett starkt lösenord har " +
+        common.verifyStringOnPage("Skapa ditt nya lösenord");
+        common.verifyStringOnPage("Ett starkt lösenord har " +
                 "genererats åt dig. För att fortsätta behöver du skriva in det igen.");
 
         common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div/label", "Nytt lösenord");
@@ -47,8 +47,8 @@ public class SetNewPassword {
 
 
         //verify the labels
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/p[1]", "Set your new password");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/p[2]", "A strong password has been " +
+        common.verifyStringOnPage("Set your new password");
+        common.verifyStringOnPage("A strong password has been " +
                 "generated for you. To proceed you will need to repeat the password below .");
 
         common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div/label", "New password");

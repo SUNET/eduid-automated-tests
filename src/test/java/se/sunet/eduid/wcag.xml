@@ -1,0 +1,69 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="wcag">
+    <parameter name="url" value="https://dev.eduid.se" />
+    <parameter name="browser" value="chrome" />
+    <parameter name="headless" value="false" />
+    <parameter name="language" value="sv" />
+    <parameter name="testsuite" value="dev" />
+
+<!--    <listeners>
+        <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
+    </listeners>-->
+
+    <test name="EduID_StartPage">
+        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+        <classes>
+            <class name="se.sunet.eduid.WCAG_1" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="EduID_LoginPage">
+        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+        <classes>
+            <class name="se.sunet.eduid.WCAG_2" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="EduID_Dashboard">
+        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+        <classes>
+            <class name="se.sunet.eduid.WCAG_3" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="EduID_Settings">
+        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+        <classes>
+            <class name="se.sunet.eduid.WCAG_4" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="EduID_Identity">
+        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+        <classes>
+            <class name="se.sunet.eduid.WCAG_5" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="WCAG_AdvancedSettings">
+        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+        <classes>
+            <class name="se.sunet.eduid.WCAG_6" >
+            </class>
+        </classes>
+    </test>
+
+<!--    <test name="WCAG_Delete">
+        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+        <classes>
+            <class name="se.sunet.eduid.WCAG_7" >
+            </class>
+        </classes>
+    </test>-->
+</suite>

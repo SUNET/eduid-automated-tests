@@ -53,11 +53,15 @@ public class Common {
     }
 
     public void selectEnglish(){
+        timeoutMilliSeconds(500);
         click(findWebElementByLinkText("English"));
+        timeoutMilliSeconds(500);
     }
 
     public void selectSwedish(){
+        timeoutMilliSeconds(500);
         click(findWebElementByLinkText("Svenska"));
+        timeoutMilliSeconds(500);
     }
 
     public void navigateToSettings(){
@@ -211,6 +215,7 @@ public class Common {
 
     public void click(WebElement element){
         ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", element);
+        timeoutMilliSeconds(200);
     }
 
     public void selectDropdownScript(String elementId, String visibleTextToSelect){
@@ -221,16 +226,9 @@ public class Common {
                 , select, visibleTextToSelect);
     }
 
-
-
-    public void switchToPopUpWindow(){
-        //Get windowhandle
-        firstWinHandle = webDriver.getWindowHandle();
-
-        //Switch to the new pop-up window
-        for (String winHandle : webDriver.getWindowHandles()) {
-            webDriver.switchTo().window(winHandle);
-        }
+    public void verifyPlaceholder(String placeholderText, String placeholderElementId){
+        //Verify placeholder
+        verifyStrings(placeholderText, findWebElementById(placeholderElementId).getAttribute("placeholder"));
     }
 
     public void verifyStatusMessage(String message){
@@ -268,6 +266,16 @@ public class Common {
                 click(findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div"));
         }
         //log.info("Status of Remember me: " +webDriver.findElement(By.id("remember-me")).isSelected());
+    }
+
+    public void switchToPopUpWindow(){
+        //Get windowhandle
+        firstWinHandle = webDriver.getWindowHandle();
+
+        //Switch to the new pop-up window
+        for (String winHandle : webDriver.getWindowHandles()) {
+            webDriver.switchTo().window(winHandle);
+        }
     }
 
     public void switchToDefaultWindow(){
