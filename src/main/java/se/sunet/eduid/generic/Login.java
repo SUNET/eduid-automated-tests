@@ -20,8 +20,6 @@ public class Login {
         }
         else if(testData.isRegisterAccount())
             registerAccount();
-//        else if(testData.isOtherDevice())
-//            loginOtherDevice();
         else {
             enterUsername();
             enterPassword();
@@ -30,12 +28,11 @@ public class Login {
     }
 
     public void verifyPageTitle() {
-        common.explicitWaitPageTitle("eduID login");
-        //TODO temp comment for test of FTs "other" idp site
-        //common.verifyPageTitle("eduID-inloggning");
+        common.explicitWaitPageTitle("Logga in | eduID");
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")){
+            common.explicitWaitPageTitle("Log in | eduID");
             common.verifyPlaceholder("name@example.com", "email");
             common.verifyPlaceholder("enter password", "current-password");
             common.selectSwedish();

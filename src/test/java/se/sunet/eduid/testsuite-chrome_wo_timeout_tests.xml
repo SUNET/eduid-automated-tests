@@ -192,14 +192,6 @@
         </classes>
     </test>
 
-    <test name="TC_25">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP). Set a new custom password, use default pw" />
-        <classes>
-            <class name="se.sunet.eduid.TC_25" >
-            </class>
-        </classes>
-    </test>
-
 -->
 
     <test name="TC_25">
@@ -561,6 +553,15 @@
         pre-filled for next login. Enable remember me, log in and log out. Check that username is pre-filled and remember me is enabled" />
         <classes>
             <class name="se.sunet.eduid.TC_69" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_78">
+        <parameter name="testDescription" value="Register new account, add and confirm phone number.
+                Confirm identity by eIDAS and Freja eID" />
+        <classes>
+            <class name="se.sunet.eduid.TC_78" >
             </class>
         </classes>
     </test>

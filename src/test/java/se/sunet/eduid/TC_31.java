@@ -3,7 +3,7 @@ package se.sunet.eduid;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
-public class TC_31 extends BeforeAndAfter {
+public class  TC_31 extends BeforeAndAfter {
     @Test
     void startPage(){
         startPage.runStartPage();

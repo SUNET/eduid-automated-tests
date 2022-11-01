@@ -18,12 +18,9 @@ import se.sunet.eduid.resetPassword.*;
 import se.sunet.eduid.supportTool.RegisteredData;
 import se.sunet.eduid.swamid.Swamid;
 import se.sunet.eduid.swamid.SwamidData;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 import java.io.IOException;
 import java.lang.reflect.Method;
-import com.browserstack.local.Local;
+//import com.browserstack.local.Local;
 import se.sunet.eduid.wcag.AccessibilityBase;
 
 public class BeforeAndAfter {
@@ -66,7 +63,7 @@ public class BeforeAndAfter {
     public RequestResetPwEmail requestResetPwEmail;
     public TestData testData = new TestData();
 
-    Local bsLocal;
+//    Local bsLocal;
     public WebDriver webdriver;
 
     @BeforeTest
@@ -101,7 +98,7 @@ public class BeforeAndAfter {
         confirmPhoneNumber = new ConfirmPhoneNumber(common, testData);
         confirmHuman = new ConfirmHuman(common, testData);
         register = new Register(common, testData);
-        confirmIdentity = new ConfirmIdentity(common, testData);
+        confirmIdentity = new ConfirmIdentity(common, testData, identity);
         confirmedIdentity = new ConfirmedIdentity(common, testData);
         deleteAccount = new DeleteAccount(common, testData);
         confirmedNewAccount = new ConfirmedNewAccount(common, testData);
@@ -131,7 +128,7 @@ public class BeforeAndAfter {
         Common.log.info(testData.getTestCase() +" - "+method.getName());
     }
 
-//    @AfterTest
+    @AfterTest
     public void quitBrowser() throws IOException {
         //Browserstack test result
 //        testResult();

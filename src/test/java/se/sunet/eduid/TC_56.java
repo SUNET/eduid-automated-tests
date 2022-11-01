@@ -32,17 +32,25 @@ public class TC_56 extends BeforeAndAfter {
         //Navigate to settings
         dashBoard.pressSettings();
         personalInfo.runPersonalInfo();
-
-        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
-    void confirmIdentity(){
+    void addPhoneNumber(){
+        testData.setPhoneNumber("+46701740606");
+        phoneNumber.addPhoneNumber();
+        phoneNumber.confirmNewPhoneNumber(); }
+
+    @Test( dependsOnMethods = {"addPhoneNumber"} )
+    void confirmIdentityMail(){
         testData.setConfirmIdBy("mail");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentity"} )
-    void confirmedIdentity() { confirmedIdentity.runConfirmIdentity(); }
+    @Test( dependsOnMethods = {"confirmIdentityMail"} )
+    void confirmedIdentity() {
+        confirmedIdentity.runConfirmIdentity();
+
+        testData.setRegisterAccount(false);
+    }
 
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void addSecurityKey() {
@@ -52,13 +60,13 @@ public class TC_56 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKey() {
-        common.addMagicCookie();
+       //Click on Verify for the added security key
         common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
     }
 
     @Test( dependsOnMethods = {"verifySecurityKey"} )
     void verifySecurityKeyLogin() {
-        //Enter username, password to verify security key first time
+       //Enter username, password to verify security key first time
         login.verifyPageTitle();
         login.enterPassword();
 
@@ -93,13 +101,13 @@ public class TC_56 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void verifySecurityKeyStatus() {
-        common.verifyStatusMessage("Identiteten motsvarar inte den som är bekräftad för detta eduID");
+        common.verifyStatusMessage("Ett okänt fel inträffade. Var god försök igen och kontakta supporten om felet kvarstår.");
 
         //Verify status beside the added key dates
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button", "VERIFIERA");
 
         common.selectEnglish();
-        common.verifyStatusMessage("The identity does not match the one verified for this eduID");
+        common.verifyStatusMessage("There was an unexpected problem servicing your request, please try again or contact the site administrators");
         //Verify status beside the added key dates
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button", "VERIFY KEY");
         common.selectSwedish();

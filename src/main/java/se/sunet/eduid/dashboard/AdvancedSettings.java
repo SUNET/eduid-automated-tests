@@ -1,7 +1,9 @@
 package se.sunet.eduid.dashboard;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
@@ -24,12 +26,12 @@ public class AdvancedSettings {
         verifyLabels();
         storeEppn();
         pressAddSecurityKey();
-//        pressLadok();
+        pressLadok();
         pressOrcid();
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID dashboard");
+        common.verifyPageTitle("Avancerade Inställningar | eduID");
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))
@@ -40,7 +42,7 @@ public class AdvancedSettings {
         common.navigateToAdvancedSettings();
 
         //Wait for heading "Gör ditt eduID säkrare"
-        common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h3");
+        common.explicitWaitVisibilityElement("//*[@id=\"register-security-key-container\"]/div[1]/h3");
     }
 
     public void storeEppn(){
@@ -78,7 +80,7 @@ public class AdvancedSettings {
         //Extract all table rows in to a list of web elements
         common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/div/div/div[1]/div"));
 
-        WebElement elementName = common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/div/div[2]");
+        WebElement elementName = common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/div/div/div[2]");
         List<WebElement> rows = elementName.findElements(By.xpath("*"));
 
         //Assert that there are at least two univeritys in the drop down
@@ -89,21 +91,22 @@ public class AdvancedSettings {
 
         //Activate ladok button
         common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[1]/label/div"));
-        common.timeoutSeconds(1);
+        common.timeoutMilliSeconds(200);
 
         common.verifyStringByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/label", "Select higher education institution");
         common.verifyStringByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/div/div/div[1]/div", "Available higher education institutions");
 
-        //Extract all table rows in to a list of web elements
-        WebElement elementName2 = common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/select");
-        List<WebElement> rows2 = elementName2.findElements(By.xpath("*"));
+        //Scroll down to bottom of pagem, otherwise we get click exception when drop down not in page
+        common.scrollToPageBottom();
 
-        //Assert that there are at least two univeritys in the drop down
-        Assert.assertTrue(rows2.size() > 1, "Number of rows with available universitys (are: " +rows.size() +" lower than 2)");
+        //Expand options
+        common.findWebElementByXpathContainingText("Available higher education institutions").click();
+        common.timeoutMilliSeconds(500);
 
-        //Select one university from the list by random
-        Random random = new Random();
-        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/select/option[" + random.nextInt(rows2.size()+1) +"]"));
+        //Select one of them
+        common.findWebElementByXpathContainingText("Linnaeus").click();
+
+        //TODO with a verified account, you will get another message
 
         //Verify status message
         common.verifyStatusMessage("You need a verified Swedish national identity number to link your account with Ladok.");
@@ -124,9 +127,8 @@ public class AdvancedSettings {
         common.verifyPageTitle("ORCID");
 
         //Just go back to end test case by logout
-        //WebDriverManager.getWebDriver().navigate().back();
         common.getWebDriver().navigate().back();
-        common.timeoutMilliSeconds(200);
+        common.explicitWaitPageTitle("Avancerade Inställningar | eduID");
     }
 
     private void verifyLabels(){
@@ -156,6 +158,8 @@ public class AdvancedSettings {
 
         //click on english
         common.selectEnglish();
+
+        common.verifyPageTitle("Advanced Settings | eduID");
 
         //English
         common.verifyStringOnPage("Make your eduID more secure");

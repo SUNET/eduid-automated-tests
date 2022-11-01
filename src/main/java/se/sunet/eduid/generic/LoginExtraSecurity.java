@@ -20,7 +20,7 @@ public class LoginExtraSecurity {
     }
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("eduID login");
+        common.explicitWaitPageTitle("Logga in | eduID");
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")){
@@ -46,8 +46,6 @@ public class LoginExtraSecurity {
     private void verifyTexts(){
         //Swedish
         common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Logga in: Extra nivå av säkerhet");
-//        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[1]/p", "Använd eduID för att komma " +
-//                "åt SWAMID Entity Category Release Check");
         common.verifyStringOnPage("Du måste välja en andra " +
                 "metod att autentisera dig själv. Detta hjälper att garantera att bara du kan komma åt ditt eduID.");
         common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/div[1]/div/p", "T.ex. USB säkerhetsnyckel, Touch ID eller Face ID.");
@@ -61,8 +59,6 @@ public class LoginExtraSecurity {
 
         //English
         common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Log in: Extra level of security");
-//        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[1]/p", "Use eduID to access " +
-//                "SWAMID Entity Category Release Check");
         common.verifyStringOnPage("You need to choose a " +
                 "second method to authenticate yourself. This helps guarantee that only you can access your eduID.");
         common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/div[1]/div/p", "E.g. USB Security Key, Touch ID or Face ID.");

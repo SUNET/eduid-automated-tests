@@ -10,7 +10,7 @@ public class Logout {
     }
 
     public void runLogout(){
-       verifyPageTitle();
+//       verifyPageTitle();
        pressLogOut();
        verifyLabels();
     }

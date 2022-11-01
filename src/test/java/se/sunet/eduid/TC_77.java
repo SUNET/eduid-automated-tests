@@ -34,8 +34,6 @@ public class TC_77 extends BeforeAndAfter {
         //Navigate to settings
         common.navigateToSettings();
         personalInfo.runPersonalInfo();
-
-        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
@@ -51,20 +49,16 @@ public class TC_77 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"storeEppn"} )
-    void confirmIdentity(){
-        testData.setConfirmIdBy("frejaID");
+    void confirmIdentityFreja(){
+        testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentity"} )
-    void selectUserRefIdp(){
-        //Select and submit user
-        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
+    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
+    void confirmedIdentity() {
+        confirmedIdentity.runConfirmIdentity();
 
-        common.click(common.findWebElementById("submitButton"));
+        testData.setRegisterAccount(false);
     }
-
-    @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void confirmedIdentity() { confirmedIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void logout() {

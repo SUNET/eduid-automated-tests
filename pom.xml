@@ -7,6 +7,17 @@
     <groupId>se.sunet.eduid</groupId>
     <artifactId>eduid-test</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>8</java.version>
+        <selenium.version>4.4.0</selenium.version>
+        <testng.version>7.4.0</testng.version>
+        <webdrivermanager.version>5.3.0</webdrivermanager.version>
+        <log4j>2.19.0</log4j>
+        <lombook>1.18.24</lombook>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -14,8 +25,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -25,27 +36,27 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.17.2</version>
+            <version>${log4j}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.17.2</version>
+            <version>${log4j}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.1.1</version>
+            <version>${selenium.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.5</version>
+            <version>${testng.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.0.3</version>
+            <version>${webdrivermanager.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
@@ -53,18 +64,11 @@
             <version>1.4.7</version>
         </dependency>
         <dependency>
-            <groupId>io.appium</groupId>
-            <artifactId>java-client</artifactId>
-            <version>7.2.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
+            <version>${lombook}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
@@ -111,26 +115,18 @@
         </dependency>
 
         <!-- For browser stack -->
-        <dependency>
+
+<!--        <dependency>
             <groupId>com.browserstack</groupId>
             <artifactId>browserstack-local-java</artifactId>
             <version>1.0.3</version>
-        </dependency>
+        </dependency>-->
 
         <!-- Full page screenshots-->
-        <!--
-        <dependency>
-            <groupId>ru.yandex.qatools.ashot</groupId>
-            <artifactId>ashot</artifactId>
-            <version>1.5.4</version>
-        </dependency>
-        -->
-
-        <!-- https://mvnrepository.com/artifact/com.assertthat/selenium-shutterbug -->
         <dependency>
             <groupId>com.assertthat</groupId>
             <artifactId>selenium-shutterbug</artifactId>
-            <version>1.5</version>
+            <version>1.6</version>
         </dependency>
 
 
@@ -139,15 +135,8 @@
         <dependency>
             <groupId>com.deque.html.axe-core</groupId>
             <artifactId>selenium</artifactId>
-            <version>4.2.2</version>
+            <version>4.4.1</version>
         </dependency>
 
     </dependencies>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <name>testTarget</name>
-        <value>https://idp.dev.eduid.se</value>
-    </properties>
-
 </project>

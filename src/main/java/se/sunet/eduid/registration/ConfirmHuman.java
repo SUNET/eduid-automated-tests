@@ -21,7 +21,7 @@ public class ConfirmHuman {
     //TODO all must be adapted when language switch is available....
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID signup");
+        common.verifyPageTitle("Registrera | eduID");
     }
 
     private void verifyLabels() {
@@ -32,6 +32,8 @@ public class ConfirmHuman {
 
         //Switch language to English
         common.selectEnglish();
+
+        common.verifyPageTitle("Register | eduID");
 
         //Label1
         common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Confirm that you are a human.");
@@ -94,6 +96,9 @@ public class ConfirmHuman {
 
                 //Simulate that clicking on link with code in email.
                 common.navigateToUrl("https://signup.dev.eduid.se/register/code/" +registrationCode);
+
+                //Wait for Go To eduID link on next page
+                common.explicitWaitClickableElementId("finished-button");
             }
         }
         else {

@@ -34,6 +34,6 @@ public class Swamid {
 
         //Wait for the eduID log in page to load
         common.timeoutMilliSeconds(1000);
-        common.explicitWaitPageTitle("eduID login");
+        common.explicitWaitPageTitle("Logga in | eduID");
     }
 }

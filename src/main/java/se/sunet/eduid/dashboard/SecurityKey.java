@@ -29,7 +29,7 @@ public class SecurityKey {
         common.navigateToAdvancedSettings();
 
         //Wait for heading "Gör ditt eduID säkrare"
-        common.explicitWaitVisibilityElement("//*[@id=\"register-securitykey-container\"]/div[1]/h3");
+        common.explicitWaitVisibilityElement("//*[@id=\"register-security-key-container\"]/div[1]/h3");
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))
@@ -38,7 +38,9 @@ public class SecurityKey {
 
     //Not used any more, keeping code for example
     private void virtualAuthenticator(){
-        common.addMagicCookie();
+        //Add cookie for back doors
+        if(!common.isCookieSet("autotests"))
+            common.addMagicCookie();
 
         VirtualAuthenticatorOptions options = new VirtualAuthenticatorOptions();
         options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
@@ -64,7 +66,7 @@ public class SecurityKey {
 
         //Verify that without personal info added, no extra key can be added.
         if(!testData.isAddSecurityKey()) {
-            common.verifyStatusMessage("Du måste lägga till personlig data innan du kan lägga till en säkerhetsnyckel");
+            common.verifyStatusMessage("Du behöver lägga till ditt namn i Inställningar innan du kan lägga till en säkerhetsnyckel");
 
             //Close the status message
             common.closeStatusMessage();

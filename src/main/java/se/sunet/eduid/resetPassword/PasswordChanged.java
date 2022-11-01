@@ -16,7 +16,7 @@ public class PasswordChanged {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID login");
+        common.verifyPageTitle("Återställ Lösenord | eduID");;
     }
 
     private void verifyLabels(){
@@ -28,6 +28,7 @@ public class PasswordChanged {
         common.selectEnglish();
 
         //verify the labels - english
+        common.verifyPageTitle("Reset Password | eduID");
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p", "Password has been updated.");
         common.verifyStringByXpath("//*[@id=\"return-login\"]", "Go to eduID");
 

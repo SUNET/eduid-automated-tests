@@ -47,8 +47,6 @@ public class TC_49 extends BeforeAndAfter {
         //Navigate to settings
         dashBoard.pressSettings();
         personalInfo.runPersonalInfo();
-
-        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
@@ -58,12 +56,16 @@ public class TC_49 extends BeforeAndAfter {
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber"} )
-    void confirmIdentity(){
+    void confirmIdentityPhone(){
         testData.setConfirmIdBy("phone");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentity"} )
-    void confirmedIdentity() { confirmedIdentity.runConfirmIdentity(); }
+    @Test( dependsOnMethods = {"confirmIdentityPhone"} )
+    void confirmedIdentity() {
+        confirmedIdentity.runConfirmIdentity();
+
+        testData.setRegisterAccount(false);
+    }
 
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void logout() { logout.runLogout(); }
@@ -111,8 +113,6 @@ public class TC_49 extends BeforeAndAfter {
         //Navigate to settings
         dashBoard.pressSettings();
         personalInfo.runPersonalInfo();
-
-        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"personalInfo2"} )
@@ -121,13 +121,16 @@ public class TC_49 extends BeforeAndAfter {
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber2"} )
-    void confirmIdentity2(){
+    void confirmIdentityPhone2(){
         testData.setConfirmIdBy("phone");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentity2"} )
-    void confirmedIdentity2() { confirmedIdentity.runConfirmIdentity(); }
+    @Test( dependsOnMethods = {"confirmIdentityPhone2"} )
+    void confirmedIdentity2() {
+        confirmedIdentity.runConfirmIdentity();
 
+        testData.setRegisterAccount(false);
+    }
 
     //Delete the second account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"confirmedIdentity2"} )
@@ -197,7 +200,7 @@ public class TC_49 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"verifyPhoneNotConfirmed"} )
     void verifyIdentityNotConfirmed(){
         //Navigate to Identity
-        confirmIdentity.pressIdentity();
+        common.navigateToIdentity();
 
         //verify that Identity is not confirmed
         common.verifyStringOnPage("Koppla din identitet till ditt eduID");

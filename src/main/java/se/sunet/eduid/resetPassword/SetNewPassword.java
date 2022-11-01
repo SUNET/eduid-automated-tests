@@ -21,7 +21,7 @@ public class SetNewPassword {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID login");
+        common.verifyPageTitle("Återställ Lösenord | eduID");
     }
 
     private void verifyLabels(){
@@ -45,6 +45,7 @@ public class SetNewPassword {
         //Switch to Swedish
         common.selectEnglish();
 
+        common.verifyPageTitle("Reset Password | eduID");
 
         //verify the labels
         common.verifyStringOnPage("Set your new password");

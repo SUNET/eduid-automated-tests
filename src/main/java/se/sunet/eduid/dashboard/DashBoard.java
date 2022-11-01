@@ -33,13 +33,12 @@ public class DashBoard {
     }
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("eduID");
-        common.verifyPageTitle("eduID");
-
         //Timeout to save time from retry-functionality
-        common.timeoutMilliSeconds(200);
+        common.explicitWaitClickableElement("//*[@id=\"language-selector\"]/span/a");
+        //common.timeoutMilliSeconds(200);
+
         //TODO temp fix to get swedish language - needed when new accounts created
-       if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska")
+        if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska")
                 && testData.getLanguage().equalsIgnoreCase("Svenska")) {
             common.selectSwedish();
         }
@@ -84,6 +83,8 @@ public class DashBoard {
     }
 
     private void verifyLabelsSwedish() {
+        common.verifyPageTitle("Profil | eduID");
+
         //Profile
         common.verifyStringOnPage("Profil");
 
@@ -113,7 +114,10 @@ public class DashBoard {
     }
 
     private void verifyLabelsEnglish() {
-      //Profile
+        //Title
+        common.verifyPageTitle("Profile | eduID");
+
+        //Profile
         common.verifyStringOnPage("Profile");
 
         //Settings

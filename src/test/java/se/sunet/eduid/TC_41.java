@@ -31,11 +31,6 @@ public class TC_41 extends BeforeAndAfter {
         //Navigate to settings
         dashBoard.pressSettings();
         personalInfo.runPersonalInfo();
-
-        //Close information message
-        //common.findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/button/span").click();
-
-        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
@@ -45,12 +40,16 @@ public class TC_41 extends BeforeAndAfter {
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber"} )
-    void confirmIdentity(){
+    void confirmIdentityMail(){
         testData.setConfirmIdBy("mail");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentity"} )
-    void confirmedIdentity() { confirmedIdentity.runConfirmIdentity(); }
+    @Test( dependsOnMethods = {"confirmIdentityMail"} )
+    void confirmedIdentity() {
+        confirmedIdentity.runConfirmIdentity();
+
+        testData.setRegisterAccount(false);
+    }
 
     //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"confirmedIdentity"} )

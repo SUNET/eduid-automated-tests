@@ -73,7 +73,8 @@ public class PhoneNumber {
 
     public void confirmNewPhoneNumber(){
         //Add cookie for back doors
-        common.addMagicCookie();
+        if(!common.isCookieSet("autotests"))
+            common.addMagicCookie();
 
         //Back door can not handle phone number with +, replacing it.
         String phoneNumber = testData.getPhoneNumber();
@@ -124,21 +125,20 @@ public class PhoneNumber {
 
     private void verifyLabelsConfirmPhoneNumber(){
         //Wait for pop-up close button
-        common.timeoutMilliSeconds(500);
-        common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button");
+        common.timeoutMilliSeconds(1000);
 
         //Heading
         common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
-                "Skriv in verifieringskoden som skickats till +46");
+                "Skriv in koden som skickats till +46");
 
         //Label
-        common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/div/label", "Bekräftelsekod");
+        common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/div/label", "Kod");
 
         //Verify placeholder
-        common.verifyPlaceholder("Verifieringskod", "phone-confirm-modal");
+        common.verifyPlaceholder("Kod", "phone-confirm-modal");
 
         //Resend link
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a", "Skicka verifieringskoden igen");
+        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a", "Skicka ny kod igen");
 
         //Close dialog
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
@@ -161,13 +161,13 @@ public class PhoneNumber {
                 "Enter the code sent to +46");
 
         //Label
-        common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/div/label", "Confirmation code");
+        common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/div/label", "Code");
 
         //Verify placeholder
-        common.verifyPlaceholder("Phone confirmation code", "phone-confirm-modal");
+        common.verifyPlaceholder("Code", "phone-confirm-modal");
 
         //Resend link
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a", "Send a new confirmation code");
+        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a", "Send a new code");
 
         //Close dialog
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();

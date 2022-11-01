@@ -21,7 +21,7 @@ public class Register {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID signup");
+        common.verifyPageTitle("Registrera | eduID");
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
@@ -44,6 +44,8 @@ public class Register {
 
         //Switch language to English
         common.selectEnglish();
+        common.verifyPageTitle("Register | eduID");
+
         common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Register your email address to create your eduID.");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Once you have created an eduID you will be able to log in and connect it to your Swedish national identity number.");

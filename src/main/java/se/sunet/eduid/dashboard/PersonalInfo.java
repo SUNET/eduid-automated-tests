@@ -1,5 +1,6 @@
 package se.sunet.eduid.dashboard;
 
+import org.openqa.selenium.JavascriptExecutor;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -93,14 +94,27 @@ public class PersonalInfo {
         else
             common.click(common.findWebElementByXpath("//*[@id=\"text-content\"]/article/div/div[1]/button"));
 
-        common.findWebElementById("given_name").clear();
+        //Note! for some unknown reason I need to clear and fill in givenname twice
+        common.timeoutMilliSeconds(500);
+        common.clearTextField(common.findWebElementById("given_name"));
         common.findWebElementById("given_name").sendKeys(testData.getGivenName());
+
+        common.timeoutMilliSeconds(500);
+        common.clearTextField(common.findWebElementById("given_name"));
+        common.findWebElementById("given_name").sendKeys(testData.getGivenName());
+
         common.verifyStrings(testData.getGivenName(), common.getAttributeById("given_name"));
 
 
-        common.findWebElementById("surname").clear();
-        common.findWebElementById("surname").clear();
+        //Note! for some unknown reason I need to clear and fill in surname twice
+        common.timeoutMilliSeconds(500);
+        common.clearTextField(common.findWebElementById("surname"));
         common.findWebElementById("surname").sendKeys(testData.getSurName());
+
+        common.timeoutMilliSeconds(500);
+        common.clearTextField(common.findWebElementById("surname"));
+        common.findWebElementById("surname").sendKeys(testData.getSurName());
+
         common.verifyStrings(testData.getSurName(), common.getAttributeById("surname"));
 
         //Display text

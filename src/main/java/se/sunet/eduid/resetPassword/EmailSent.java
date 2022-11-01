@@ -18,7 +18,7 @@ public class EmailSent {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID login");
+        common.verifyPageTitle("Återställ Lösenord | eduID");
     }
 
     private void verifyLabels(){
@@ -38,6 +38,8 @@ public class EmailSent {
 
         //Switch to english
         common.selectEnglish();
+
+        common.verifyPageTitle("Reset Password | eduID");
         common.verifyStringOnPage("An e-mail with instructions has been sent to");
         common.verifyStringOnPage(testData.getEmail() +".");
         common.verifyStringOnPage("The link in the e-mail is valid for two hours.");

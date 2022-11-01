@@ -18,7 +18,7 @@ public class ConfirmedIdentity {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID");
+        common.verifyPageTitle("Identitet | eduID");
         common.timeoutMilliSeconds(500);
     }
 
@@ -39,65 +39,63 @@ public class ConfirmedIdentity {
 
     private void textAndLabelsSwedish(){
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div/h1", "Koppla din identitet till ditt eduID");
-
-        //Text
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div/div/p", "För att kunna " +
-                "använda eduID måste du bevisa din identitet. Lägg till ditt personnummer och bekräfta det i verkliga livet.");
+        common.verifyStringOnPage("Koppla din identitet till ditt eduID");
 
         //Heading 1
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/h4", "Ditt eduID är redo att användas");
+        common.verifyStringOnPage("Ditt eduID är redo att användas");
 
         //Text 1
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/p", "Personnumret " +
-                "nedan är nu kopplat till din eduID.");
+        common.verifyStringOnPage("Följande identiteter är nu kopplade till ditt eduID");
 
         //Heading
-        //common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/div/label", "Personnummer");
+        common.verifyStringOnPage("Svenskt personnummer");
 
-        //Show full id-number
-        //common.findWebElementById("show-hide-button").click();
+        //Heading -eIDAS
+        if(testData.getConfirmIdBy().equalsIgnoreCase("eidas")) {
+            common.verifyStringOnPage("Europeisk eIDAS-identitet");
+            common.verifyStringOnPage("XA 1939-11-13");
+        }
+        //Heading -non eIDAS
+        else {
+            common.verifyStringOnPage("Personnummer");
 
-        //Data
-//        common.verifyStringById("nin-number", testData.getIdentityNumber());
+            //Show full id-number
+            common.findWebElementById("show-hide-button").click();
 
-        //Heading 2
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/h4", "Förbättra din identifiering");
-
-        //Text 2
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/p", "Lägg till ett " +
-                "telefonnummer eller en säkerhetsnyckel för att behålla din identitet om du återställer ditt lösenord.");
+            //Data
+            common.verifyStringById("nin-number", testData.getIdentityNumber());
+        }
     }
 
     private void textAndLabelsEnglish(){
-        //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div/h1", "Connect your identity to your eduID");
+        common.verifyPageTitle("Identity | eduID");
 
-        //Text
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div/div/p", "To be able to use eduID " +
-                "you have to prove your identity. Add your national id number and verify it in real life.");
+        //Heading
+        common.verifyStringOnPage("Connect your identity to your eduID");
 
         //Heading 1
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/h4", "Your eduID is ready to use");
+        common.verifyStringOnPage("Your eduID is ready to use");
 
         //Text 1
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/p", "The Swedish national " +
-                "identity number below is now connected to your eduID.");
+        common.verifyStringOnPage("The identities below are now connected to your eduID");
 
-        //Heading
-//        common.verifyStringOnPage("Id number");
+        //Heading -eIDAS
+        if(testData.getConfirmIdBy().equalsIgnoreCase("eidas")) {
+            common.verifyStringOnPage("European eIDAS identity");
+            common.verifyStringOnPage("XA 1939-11-13");
+        }
+        //Heading -non eIDAS
+        else {
+            common.verifyStringOnPage("Swedish national identity number");
 
-        //Show full id-number
-//        common.findWebElementById("show-hide-button").click();
+            //Heading
+            common.verifyStringOnPage("Id number");
 
-        //Data
-//        common.verifyStringById("nin-number", testData.getIdentityNumber());
+            //Show full id-number
+            common.findWebElementById("show-hide-button").click();
 
-        //Heading 2
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/h4", "Improve your identification");
-
-        //Text 2
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/p", "Add a phone number " +
-                "or a security key to your eduID to keep your identity at password reset.");
+            //Data
+            common.verifyStringById("nin-number", testData.getIdentityNumber());
+        }
     }
 }

@@ -24,6 +24,7 @@ public class TC_67 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage2"} )
     void verifySigninPage() {
         //Verify label with registered display name
+        common.explicitWaitClickableElementId("login-form-button");
         common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName() +"!");
 
         //Verify placeholder for username
@@ -34,8 +35,6 @@ public class TC_67 extends BeforeAndAfter {
     void pressNotYou() {
         common.findWebElementById("wrong-person-button").click();
         common.timeoutSeconds(1);
-
-//        common.selectSwedish();
     }
 
     @Test( dependsOnMethods = {"pressNotYou"} )

@@ -68,26 +68,8 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
     }
 
     public void screenshot(int retryCount) {
-//        TakesScreenshot ts;
-//        ts = (TakesScreenshot) webDriver;
-
-/*        //Scroll to almost top of page and take first screenshot
-        if(retryCount == 0)
-            ((JavascriptExecutor)webDriver).executeScript("window.scrollBy(0,250)");
-        else
-            ((JavascriptExecutor)webDriver).executeScript("window.scrollBy(0,900)");
-
-        File screenshot1 = ts.getScreenshotAs(OutputType.FILE);
-*/
-//        try {
-            Shutterbug.shootPage(webDriver, Capture.FULL_SCROLL, 500, true)
-                    .withName(testCase +"-" +testMethod +"-" +retryCount)
-                    .save("screenshots/");
-
-            //org.apache.commons.io.FileUtils.copyFile(screenshot1, new File("screenshots/"+ testCase +"-" +testMethod +"-" +retryCount +".png"));
-/*        } catch (IOException e) {
-            log.warn("Failed taking a screenshot of failed test case: "+testCase +" " +e);
-        }
-  */      //log.error("Test case:" +testCase +" - "+testMethod +" failed, see directory: <root>/screenshots/<test case name> for screenshots");
+        Shutterbug.shootPage(webDriver, Capture.FULL_SCROLL, 500, true)
+                .withName(testCase +"-" +testMethod +"-" +retryCount)
+                .save("screenshots/");
     }
 }

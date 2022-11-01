@@ -1,6 +1,5 @@
 package se.sunet.eduid;
 
-import org.springframework.context.annotation.ScopeMetadata;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 

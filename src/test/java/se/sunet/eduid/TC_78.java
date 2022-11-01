@@ -2,6 +2,7 @@ package se.sunet.eduid;
 
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
+import se.sunet.eduid.utils.Common;
 
 public class TC_78 extends BeforeAndAfter {
     @Test
@@ -22,8 +23,6 @@ public class TC_78 extends BeforeAndAfter {
     void login(){
         testData.setRegisterAccount(false);
         login.runLogin();
-
-        common.explicitWaitClickableElement("//*[@id=\"dashboard-nav\"]/ul/li[3]/a");
     }
 
     @Test( dependsOnMethods = {"login"} )
@@ -31,10 +30,8 @@ public class TC_78 extends BeforeAndAfter {
         testData.setRegisterAccount(true);
 
         //Navigate to settings
-        common.navigateToSettings();
+        dashBoard.pressSettings();
         personalInfo.runPersonalInfo();
-
-        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
@@ -44,91 +41,51 @@ public class TC_78 extends BeforeAndAfter {
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber"} )
-    void storeEppn(){
-       common.navigateToAdvancedSettings();
-       advancedSettings.storeEppn();
-    }
-
-    @Test( dependsOnMethods = {"storeEppn"} )
-    void confirmIdentity(){
-        testData.setConfirmIdBy("frejaID");
+    void confirmIdentityEidas(){
+        testData.setConfirmIdBy("eidas");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentity"} )
-    void selectUserRefIdp(){
-        //Select and submit user
-        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
+    @Test( dependsOnMethods = {"confirmIdentityEidas"} )
+    void confirmedIdentityEidas() {
+        confirmedIdentity.runConfirmIdentity();
 
-        common.click(common.findWebElementById("submitButton"));
+        testData.setRegisterAccount(false);
     }
 
-    @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void confirmedIdentity() { confirmedIdentity.runConfirmIdentity(); }
+    @Test( dependsOnMethods = {"confirmedIdentityEidas"} )
+    void confirmIdentityFreja(){
+        Common.log.info("Verify identity by Freja eID");
 
-    @Test( dependsOnMethods = {"confirmedIdentity"} )
-    void logout() {
-        logout.runLogout();
+        //Expand Swedish options
+        common.click(common.findWebElementById("accordion__heading-swedish"));
+
+        //Add nin-cookie to get successfull response from idp
+        common.addNinCookie();
+
+        //Expand Freja menu, since collapsed when change of language
+        common.scrollToPageBottom();
+        common.timeoutMilliSeconds(500);
+        common.findWebElementById("accordion__heading-se-freja").click();
+
+        //Select Freja eID
+        common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button").click();
+
+        //Click Use Freja eID in pop-up dialog
+        common.findWebElementById("eidas-info-modal-accept-button").click();
+
+        //Select and submit user at reference IDP
+        confirmIdentity.selectAndSubmitUserRefIdp();
+
     }
 
-    @Test( dependsOnMethods = {"logout"} )
-    void startPage2(){
-        startPage.runStartPage();
+    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
+    void confirmedIdentityFreja() {
+        testData.setConfirmIdBy("freja");
+        confirmedIdentity.runConfirmIdentity();
     }
-
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        testData.setResetPassword(true);
-        login.runLogin();
-    }
-
-    @Test( dependsOnMethods = {"login2"} )
-    void requestResetPwEmail() { requestResetPwEmail.runRequestResetPwEmail(); }
-
-    @Test( dependsOnMethods = {"requestResetPwEmail"} )
-    void emailSent() { emailSent.runEmailSent(); }
-
-    @Test( dependsOnMethods = {"emailSent"} )
-    void emailLink() { emailLink.runEmailLink(); }
-    /*
-    @Test( dependsOnMethods = {"emailLink"} )
-    void extraSecurity() {
-        common.logCookie("autotests");
-        common.logCookie("nin");
-
-        //Select Freja eID with option "freja"
-        testData.setSendMobileOneTimePassword("freja");
-        extraSecurity.runExtraSecurity(); }
-
-    @Test( dependsOnMethods = {"extraSecurity"} )
-    void selectUserRefIdp2(){
-        //Select and submit user
-        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
-
-//        common.click(common.findWebElementById("submitButton"));
-    }
-
-    @Test( dependsOnMethods = {"selectUserRefIdp2"} )
-    void verifyPhoneNumber() { verifyPhoneNumber.runVerifyPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"verifyPhoneNumber"} )
-    void newPassword() { setNewPassword.runNewPassword(); }
-
-    @Test( dependsOnMethods = {"newPassword"} )
-    void passwordChanged() { passwordChanged.runPasswordChanged(); }
-
-    @Test( dependsOnMethods = {"passwordChanged"} )
-    void startPage3(){
-        startPage.runStartPage();
-    }
-
-    @Test( dependsOnMethods = {"startPage3"} )
-    void login3(){
-        testData.setResetPassword(false);
-        login.runLogin();
-    }*/
 
     //Delete the account, so it will be removed after 2 weeks by script
-/*    @Test( dependsOnMethods = {"confirmedIdentity"} )
+    @Test( dependsOnMethods = {"confirmedIdentityFreja"} )
     void dashboard() { dashBoard.pressSettings(); }
 
     @Test( dependsOnMethods = {"dashboard"} )
@@ -145,5 +102,5 @@ public class TC_78 extends BeforeAndAfter {
         login.verifyPageTitle();
         login.enterPassword();
         login.signIn();
-    }*/
+    }
 }

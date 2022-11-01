@@ -20,7 +20,7 @@ public class RequestNewPassword {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID login");
+        common.verifyPageTitle("Återställ Lösenord | eduID");
     }
 
     private void enterEmail(){
@@ -51,6 +51,8 @@ public class RequestNewPassword {
 
         //Switch to english
         common.selectEnglish();
+
+        common.verifyPageTitle("Reset Password | eduID");
 
         //Heading
         common.verifyStringOnPage("Reset password");

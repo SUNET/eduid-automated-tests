@@ -19,7 +19,7 @@ public class ExtraSecurity {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID login");
+        common.verifyPageTitle("Återställ Lösenord | eduID");;
     }
 
     private void verifyLabels(){
@@ -29,6 +29,8 @@ public class ExtraSecurity {
 
         //verify the labels - English
         common.timeoutSeconds(1);
+        common.verifyPageTitle("Reset Password | eduID");
+
         common.verifyStringOnPage("Select an extra security option");
         common.verifyStringOnPage("A password reset using an extra security option will keep your identity confirmed.");
         common.verifyStringOnPage("SEND SMS TO **********" + testData.getPhoneNumber().substring(10,12));

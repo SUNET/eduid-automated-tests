@@ -38,7 +38,7 @@ public class StartPage {
         common.click(common.findWebElementByXpath("//section[2]/div/p[3]/a"));
 
         //Wait for next page
-        common.explicitWaitPageTitle("eduID login");
+        common.explicitWaitPageTitle("Logga in | eduID");
     }
 
     private void registerAccount(){

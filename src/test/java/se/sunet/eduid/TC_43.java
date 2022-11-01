@@ -35,8 +35,6 @@ public class TC_43 extends BeforeAndAfter {
         //Navigate to settings
         common.navigateToSettings();
         personalInfo.runPersonalInfo();
-
-        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
@@ -46,11 +44,14 @@ public class TC_43 extends BeforeAndAfter {
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber"} )
-    void confirmIdentity(){
+    void confirmIdentityPhone(){
         testData.setConfirmIdBy("phone");
-        confirmIdentity.runConfirmIdentity(); }
+        confirmIdentity.runConfirmIdentity();
 
-    @Test( dependsOnMethods = {"confirmIdentity"} )
+        testData.setRegisterAccount(false);
+    }
+
+    @Test( dependsOnMethods = {"confirmIdentityPhone"} )
     void advancedSettings(){ advancedSettings.runAdvancedSettings(); }
 
     @Test( dependsOnMethods = {"advancedSettings"} )

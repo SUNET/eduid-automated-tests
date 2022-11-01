@@ -33,39 +33,41 @@ public class VerifyPhoneNumber {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID login");
+        common.verifyPageTitle("Återställ Lösenord | eduID");
     }
 
     public void verifyLabels(){
         //verify status message - swedish
-        common.verifyStatusMessage("En verifieringskod har skickats till din telefon.");
+        common.verifyStatusMessage("En kod har skickats till din telefon.");
 
         //Verify labels - swedish
-        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", "Skriv in verifieringskoden som skickats till ");
+        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", "Skriv in koden som skickats till ");
 
         //Verify phone number OTP has been sent to
         common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", testData.getOtpPhoneNumber());
 
-        common.verifyStringByXpath("//*[@id=\"phone-wrapper\"]/div/label", "Bekräftelsekod");
-        common.verifyStringById("resend-phone", "Skicka verifieringskoden igen");
+        common.verifyStringByXpath("//*[@id=\"phone-wrapper\"]/div/label", "Kod");
+        common.verifyStringById("resend-phone", "Skicka ny kod igen");
 
         //Verify Placholder
-        common.verifyPlaceholder("Verifieringskod", "phone");
+        common.verifyPlaceholder("Kod", "phone");
 
         //Switch to english
         common.selectEnglish();
 
+        common.verifyPageTitle("Reset Password | eduID");
+
         //verify status message - english
-        common.verifyStatusMessage("A verification code has been sent to your phone.");
+        common.verifyStatusMessage("A code has been sent to your phone.");
 
         //Verify labels - swedish
         common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", "Enter the code sent to ");
         common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", testData.getOtpPhoneNumber());
-        common.verifyStringByXpath("//*[@id=\"phone-wrapper\"]/div/label", "Confirmation code");
-        common.verifyStringById("resend-phone", "Send a new confirmation code");
+        common.verifyStringByXpath("//*[@id=\"phone-wrapper\"]/div/label", "Code");
+        common.verifyStringById("resend-phone", "Send a new code");
 
         //Verify Placholder
-        common.verifyPlaceholder("Phone confirmation code", "phone");
+        common.verifyPlaceholder("Code", "phone");
     }
 
     private void enterOtp(){

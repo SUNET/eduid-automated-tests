@@ -22,7 +22,7 @@ public class EmailAddresses {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID dashboard");
+        common.verifyPageTitle("Inställningar | eduID");
     }
 
     private void removeEmail() {
@@ -148,7 +148,7 @@ public class EmailAddresses {
                 //Check labels
                 common.timeoutSeconds(1);
                 if(testData.getConfirmNewEmail1().equals("wrongCode"))
-                    common.verifyStatusMessage("Ogiltig bekräftelsekod. Var god prova igen eller begär en ny bekräftelsekod");
+                    common.verifyStatusMessage("Ogiltig kod eller en kod som har gått ut. Var god prova igen eller begär en ny kod");
                 else {
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[1]/td[2]/label", "PRIMÄR");
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[2]/button", "GÖR PRIMÄR");
@@ -246,13 +246,13 @@ public class EmailAddresses {
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
                 "Klicka på länken eller skriv in koden som skickats till "
                         +testData.getAddNewEmail1() +" här");
-        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-wrapper\"]/div/label", "Bekräftelsekod");
+        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-wrapper\"]/div/label", "Kod");
         common.verifyStringByXpath("//*[@id=\"email-confirm-modal-wrapper\"]/div/span",
                 "koden är formaterad som fem grupper med tecken och nummer, åtskilda av bindestreck");
         common.verifyPlaceholder("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", "email-confirm-modal");
 
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a",
-                "Skicka verifieringskoden igen");
+                "Skicka ny kod igen");
 
         //Close confirmation pop-up
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
@@ -269,13 +269,13 @@ public class EmailAddresses {
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
                 "Click the link or enter the code sent to "
                         +testData.getAddNewEmail1() +" here");
-        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-wrapper\"]/div/label", "Confirmation code");
+        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-wrapper\"]/div/label", "Code");
         common.verifyStringByXpath("//*[@id=\"email-confirm-modal-wrapper\"]/div/span",
                 "the code is formatted as five groups of characters and numbers, separated by hyphens");
         common.verifyPlaceholder("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", "email-confirm-modal");
 
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a",
-                "Send a new confirmation code");
+                "Send a new code");
 
         //Close confirmation pop-up
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();

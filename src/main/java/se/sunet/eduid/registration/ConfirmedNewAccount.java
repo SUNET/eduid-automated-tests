@@ -19,8 +19,8 @@ public class ConfirmedNewAccount {
     }
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("eduID signup");
-        common.verifyPageTitle("eduID signup");
+        common.explicitWaitPageTitle("Registrera | eduID");
+        common.verifyPageTitle("Registrera | eduID");
 
         //TODO temp fix to get swedish language
         common.timeoutMilliSeconds(500);
@@ -44,8 +44,10 @@ public class ConfirmedNewAccount {
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Lösenord");
         testData.setPassword(common.findWebElementById("user-password").getText());
 
-/*        //Switch language to English
+        //Switch language to English
         common.selectEnglish();
+
+        common.verifyPageTitle("Register | eduID");
 
         //Details
         common.verifyStringOnPage("You have completed the registration for eduID.");
@@ -63,7 +65,7 @@ public class ConfirmedNewAccount {
 
 
         //Switch language to Swedish
-        common.selectSwedish();*/
+        common.selectSwedish();
     }
 
     private void clickGoToMyEduID(){

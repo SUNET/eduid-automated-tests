@@ -35,11 +35,11 @@ public class TC_50 extends BeforeAndAfter {
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber"} )
-    void confirmIdentity(){
-        testData.setConfirmIdBy("frejaID");
+    void confirmIdentityFreja(){
+        testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentity"} )
+    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void addSecurityKey() {
         testData.setAddSecurityKey(true);
         securityKey.runSecurityKey();

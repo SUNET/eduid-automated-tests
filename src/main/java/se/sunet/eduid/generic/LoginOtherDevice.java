@@ -47,15 +47,16 @@ public class LoginOtherDevice {
                     "\"fortsätt\" här när du har loggat in på den andra enheten");
         }
         else{
-            common.verifyXpathContainsString("//*[@id=\"content\"]/div/ol/li[3]", "Skriv " +
-                    "in den sexsiffriga svarskoden som visas i den andra enheten i fältet nedan");
+            common.verifyXpathContainsString("//*[@id=\"content\"]/div/ol/li[3]",
+                    "Skriv in den sexsiffriga koden som visas i den andra enheten i fältet nedan");
         }
 
 
         //English
         common.selectEnglish();
         common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Log in using another device");
-        common.verifyXpathContainsString("//*[@id=\"content\"]/div/ol/li[1]", "Scan this QR-code with your other device");
+        common.verifyXpathContainsString("//*[@id=\"content\"]/div/ol/li[1]",
+                "Scan this QR-code with your other device");
         common.verifyStringByXpath("//*[@id=\"content\"]/div/ol/li[2]", "Log in on the other device");
 
         if(testData.isRememberMe()) {

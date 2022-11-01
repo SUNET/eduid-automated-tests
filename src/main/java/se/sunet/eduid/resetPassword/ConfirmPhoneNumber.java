@@ -16,20 +16,18 @@ public class ConfirmPhoneNumber {
     }
 
     public void runConfirmPhoneNumber(){
+        common.navigateToSettings();
         verifyPageTitle();
         getConfirmationCode();
         confirmPhoneNumber();
     }
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("eduID dashboard");
-        common.verifyPageTitle("eduID dashboard");
+        common.explicitWaitPageTitle("Inställningar | eduID");
+        common.verifyPageTitle("Inställningar | eduID");
     }
 
     private void getConfirmationCode(){
-        //Press settings tab
-        common.navigateToSettings();
-
         //Press the Confirm phone number link
         pressConfirmPhoneNumber();
 
@@ -110,7 +108,7 @@ public class ConfirmPhoneNumber {
                 Assert.assertTrue(!common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button").isEnabled(),
                         "The button should not be enabled, until 10 character code is entered");
 
-                common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/small/span", "Ogiltig bekräftelsekod");
+                common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/small/span", "Ogiltig kod");
 
                 //Close the confirm pop-up
                 common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
@@ -130,18 +128,19 @@ public class ConfirmPhoneNumber {
             if(testData.getMagicCode().equalsIgnoreCase("notTheCorrectCode"))
                 common.verifyStatusMessage("Telefonumret du angav kan inte hittas");
             else if(!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl"))
-                common.verifyStatusMessage("Den bekräftelsekod du angett stämmer inte. Var god försök igen");
+                common.verifyStatusMessage("Den kod du angett stämmer inte. Var god försök igen");
         }
     }
 
     private void verifyLabels(){
         common.explicitWaitClickableElement("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a");
         common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
-                "Skriv in verifieringskoden som skickats till +46");
+                "Skriv in koden som skickats till +46");
         common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/div/label",
-                "Bekräftelsekod");
+                "Kod");
+        common.verifyPlaceholder("Kod", "phone-confirm-modal");
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a",
-                "Skicka verifieringskoden igen");
+                "Skicka ny kod igen");
     }
 
     private void pressConfirmPhoneNumber(){

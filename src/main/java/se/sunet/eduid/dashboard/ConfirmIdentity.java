@@ -8,69 +8,76 @@ import java.util.Date;
 public class ConfirmIdentity{
     private final Common common;
     private final TestData testData;
+    private final Identity identity;
 
-    public ConfirmIdentity(Common common, TestData testData){
+    public ConfirmIdentity(Common common, TestData testData, Identity identity){
         this.common = common;
         this.testData = testData;
+        this.identity = identity;
     }
 
     public void runConfirmIdentity(){
+        common.navigateToIdentity();
         verifyPageTitle();
-        pressIdentity();
-        verifyLabels();
+        identity.expandIdentityOptions();
         enterPersonalNumber();
         pressAddButton();
+        verifyLabels();
         selectConfirmIdentity();
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID");
-    }
-
-    public void pressIdentity(){
-        common.navigateToIdentity();
+        common.verifyPageTitle("Identitet | eduID");
     }
 
     private void enterPersonalNumber(){
+        //Verify placeholder
+        common.verifyPlaceholder("ååååmmddnnnn", "nin");
+
         common.findWebElementById("nin").sendKeys(testData.getIdentityNumber());
     }
 
     private void pressAddButton(){
-        common.findWebElementById("add-nin-button").click();
+        common.click(common.findWebElementById("add-nin-button"));
 
         //Wait for the nin to be added and show/hide button is visible
         common.explicitWaitClickableElementId("show-hide-button");
     }
 
-    private void selectConfirmIdentity(){
+    public void selectConfirmIdentity(){
+        //common.addNinCookie();
+        common.timeoutSeconds(1);
+
+        //First need to collapse to default
+        common.findWebElementById("accordion__heading-swedish").click();
+        identity.expandIdentityOptions();
+
         //Select way to confirm the identity. By letter, By phone or Freja Id
         if(testData.getConfirmIdBy().equalsIgnoreCase("mail")) {
-            //Verify mail pop-up labels
-            verifyMailLabels();
+            Common.log.info("Verify identity by Letter");
 
-            //Click on letter again, switch to pop-up
-            common.timeoutMilliSeconds(200);
-            common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button"));
+            //Click on proceed with letter, switch to pop-up
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
             common.switchToPopUpWindow();
 
             //Click on accept
-            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]").click();
+            common.click(common.findWebElementById("letter-confirm-modal-accept-button"));
 
             //Verify labels when letter is sent
             verifyLabelsSentLetter();
 
             //Press again on the letter button - Add a faulty code
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
             common.timeoutMilliSeconds(500);
-            common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button"));
-            common.timeoutMilliSeconds(500);
-            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input").sendKeys("1qvw3fw2q3");
+            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input")
+                    .sendKeys("1qvw3fw2q3");
 
             //Click OK
-            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").click();
+            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button").click();
 
             //Verify response
             common.timeoutSeconds(1);
-            common.verifyStatusMessage("Den bekräftelsekod du angett stämmer inte. Var god försök igen");
+            common.verifyStatusMessage("Den kod du angett stämmer inte. Var god försök igen");
 
             //Fetch the code
             common.navigateToUrl("https://dashboard.dev.eduid.se/services/letter-proofing/get-code");
@@ -80,350 +87,143 @@ public class ConfirmIdentity{
             common.getWebDriver().navigate().back();
             common.timeoutSeconds(1);
 
+            //Expand Letter menu, since collapsed when change of langyage
+            common.scrollToPageBottom();
+            common.findWebElementById("accordion__heading-se-letter").click();
+
             //Press again on the letter button - Add the correct code
-            common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button"));
-            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input").sendKeys(letterProofingCode);
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
+            common.timeoutMilliSeconds(500);
+            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input")
+                    .sendKeys(letterProofingCode);
 
             //Click OK
-            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]").click();
+            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button").click();
 
             common.timeoutMilliSeconds(800);
         }
 
         //By phone
         else if(testData.getConfirmIdBy().equalsIgnoreCase("phone")) {
-            //Verify labels in pop up
-            //TODO metod verifyPhoneLables has different message when the phone number NOT has been confirmed
-            verifyPhoneLabels();
+            Common.log.info("Verify identity by phone");
 
             //Click on phone option
-            common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div[1]/button"));
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-phone\"]/div/button"));
 
             //Press accept button
             common.click(common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[3]/button[1]"));
 
             common.timeoutMilliSeconds(800);
         }
-        //Freja eID - first check that we comes to freja eID page. then add magic cookies to confirm the identity
-        else {
-            //TODO Verifiera freja id med nin cookie satt
-            //Select Freja eID
-            common.click(common.findWebElementByXpath("//*[@id=\"eidas-show-modal\"]"));
-
-            //Verify the labels
-            verifyFrejaIdLabels();
-
-            //Remove the magic cookie
-            common.getWebDriver().manage().deleteCookieNamed("autotests");
-            //WebDriverManager.getWebDriver().manage().deleteCookieNamed("autotests");
-
-            common.timeoutMilliSeconds(500);
-            common.verifyStringById("eidas-info-modal-accept-button", "ANVÄND MITT FREJA EID+");
-            common.findWebElementById("eidas-info-modal-accept-button").click();
-
-            //Verify Freja eID page title
-            common.explicitWaitPageTitle("Freja eID IDP");
-            common.verifyPageTitle("Freja eID IDP");
-
-            //Navigate back to eduID
-            common.getWebDriver().navigate().back();
-
-            //Press use Freja eID, after adding the nin cookie
-            Date today    = new Date();
-            Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
-
-            Cookie cookie = new Cookie.Builder("nin", "197501100395")
-                    .domain(".dev.eduid.se")
-                    .expiresOn(tomorrow)
-                    .build();
-
-            //WebDriverManager.getWebDriver().manage().addCookie(cookie);
-            common.getWebDriver().manage().addCookie(cookie);
-
-            //Add magic cookie
-            common.addMagicCookie();
-            common.timeoutMilliSeconds(500);
+        //Freja eID
+        else if(testData.getConfirmIdBy().equalsIgnoreCase("freja")) {
+            Common.log.info("Verify identity by Freja eID");
 
             //Select Freja eID
-            common.click(common.findWebElementByXpath("//*[@id=\"eidas-show-modal\"]"));
-            common.timeoutMilliSeconds(500);
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button"));
 
+            //Click Use Freja eID in pop-up dialog
             common.findWebElementById("eidas-info-modal-accept-button").click();
+
+            //Select and submit user at reference IDP
+            selectAndSubmitUserRefIdp();
+
+            //Verify status
+            common.verifyStatusMessage("Ett okänt fel inträffade. Var god försök igen och kontakta supporten om felet kvarstår.");
+
+            common.selectEnglish();
+
+            //Verify status
+            common.verifyStatusMessage("There was an unexpected problem servicing your request, please try again or contact the site administrators");
+            common.closeStatusMessage();
+
+            common.selectSwedish();
+
+            //Add nin-cookie to get successfull response from idp
+            common.addNinCookie();
+
+            //Expand Freja menu, since collapsed when change of language
+            common.scrollToPageBottom();
             common.timeoutMilliSeconds(500);
+            common.findWebElementById("accordion__heading-se-freja").click();
+
+            //Select Freja eID
+            common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button").click();
+
+            //Click Use Freja eID in pop-up dialog
+            common.findWebElementById("eidas-info-modal-accept-button").click();
+
+            //Select and submit user at reference IDP
+            selectAndSubmitUserRefIdp();
         }
+
+        //eIDAS
+        else if(testData.getConfirmIdBy().equalsIgnoreCase("eidas")) {
+            Common.log.info("Verify identity by eIDAS");
+
+            //Select eIDAS
+            common.scrollToPageBottom();
+            common.findWebElementByXpath("//*[@id=\"accordion__panel-eu\"]/button").click();
+            common.explicitWaitClickableElementId("countryFlag_XA");
+
+            //Select country XA in sandbox
+            common.findWebElementById("countryFlag_XA").click();
+            common.explicitWaitClickableElementId("idpSubmitbutton");
+
+            //Submit IDP identity
+            common.findWebElementById("idpSubmitbutton").click();
+            common.explicitWaitClickableElementId("buttonNext");
+
+            //Submit Consent
+            common.findWebElementById("buttonNext").click();
+
+            common.timeoutSeconds(2);
+        }
+
     }
 
     private void verifyLabels() {
-        //Swedish
-        common.timeoutMilliSeconds(1500);
-
-        //Verify placeholder
-        common.verifyPlaceholder("ååååmmddnnnn", "nin");
-
-        //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div/h1", "Koppla din identitet till ditt eduID");
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div/div/p", "För att kunna " +
-                "använda eduID måste du bevisa din identitet. Lägg till ditt personnummer och bekräfta det i verkliga livet.");
-
-        //1. Add your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/h4", "Lägg till ditt personnummer");
-        common.verifyStringByXpath("//*[@id=\"nin-wrapper\"]/div/label", "Personnummer");
-        common.verifyStringByXpath("//*[@id=\"nin-wrapper\"]/div/span", "personnummer med 12 siffror");
-
-        //2. Verify your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/h4", "Bekräfta ditt personnummer");
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/p", "Välj ett sätt att bekräfta att " +
-                "du har tillgång till det angivna personnumret. Om en av metoderna inte fungerar får du prova en annan.");
-
-        //Button text - letter
-        common.verifyStringOnPage("FÖR DIG SOM HAR EN SVENSK FOLKBOKFÖRINGSADRESS\nBÖRJA MED ATT LÄGGA TILL DITT PERSONNUMMER HÄR OVAN");
-
-        common.verifyStringOnPage("VIA POST");
-
-        //Button text - letter - Fine text
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/p", "Brevet innehåller " +
-                "en bekräftelsekod som av säkerhetsskäl går ut efter två veckor.");
-
-        //Button text - phone
-        common.verifyStringOnPage("FÖR DIG SOM HAR ETT SVENSKT TELEFONABONNEMANG I DITT EGET NAMN\nBÖRJA MED ATT LÄGGA TILL DITT PERSONNUMMER HÄR OVAN");
-
-        common.verifyStringOnPage("VIA TELEFON");
-
-        //Button text - phone - Fine text
-        common.verifyStringOnPage("Registret med " +
-                "telefonnummer uppdateras av mobiloperatörerna och innehåller inte nödvändigtvis alla nummer.");
-
-        //Button text - Freja
-        common.verifyStringOnPage("FÖR DIG SOM HAR ELLER KAN SKAPA FREJA EID+ GENOM ATT BESÖKA ETT OMBUD I SVERIGE");
-
-        common.verifyStringOnPage("MED DIGITALT ID-KORT");
-
-        //Button text - Freja - Fine text
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[3]/p", "För att använda det " +
-                "här alternativet behöver du först skapa ett digitalt ID-kort i Freja eID+ appen.");
-
-        //English
-
-        //Click on english
-        common.selectEnglish();
-
-        //Verify placeholder
-        common.verifyPlaceholder("yyyymmddnnnn", "nin");
-
-        //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div/h1", "Connect your identity to your eduID");
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div/div/p", "To be able to use " +
-                "eduID you have to prove your identity. Add your national id number and verify it in real life.");
-
-        //1. Add your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[1]/h4", "Add your id number");
-        common.verifyStringByXpath("//*[@id=\"nin-wrapper\"]/div/label", "Id number");
-        common.verifyStringByXpath("//*[@id=\"nin-wrapper\"]/div/span", "national identity number with 12 digits");
-
-        //2. Verify your id number
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/h4", "Verify your id number");
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/ol/li[2]/p", "Choose a method to verify " +
-                "that you have access to the added id number. If you are unable to use a method you need to try another.");
-
-
-        //Button text - letter
-        common.verifyStringOnPage("FOR YOU OFFICIALLY REGISTERED AT AN ADDRESS IN SWEDEN\nSTART BY ADDING YOUR ID NUMBER ABOVE");
-
-        common.verifyStringOnPage("BY POST");
-
-        //Button text - letter - Fine text
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/p", "The letter will contain " +
-                "a code that for security reasons expires in two weeks.");
-
-        //Button text - phone
-        common.verifyStringOnPage("FOR YOU WITH A SWEDISH PHONE NUMBER REGISTERED IN YOUR NAME\nSTART BY ADDING YOUR ID NUMBER ABOVE");
-
-        common.verifyStringOnPage("BY PHONE");
-
-        //Button text - phone - Fine text
-        common.verifyStringOnPage("The phone number registry " +
-                "is maintained by phone operators at their convenience and may not include all registered phone numbers.");
-
-        //Button text - Freja
-        common.verifyStringOnPage("FOR YOU ABLE TO CREATE A FREJA EID+ BY VISITING ONE OF THE AUTHORISED AGENTS");
-
-        common.verifyStringOnPage("WITH A DIGITAL ID-CARD");
-
-        //Button text - Freja - Fine text
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[3]/p", "To use this option " +
-                "you first need to create a digital ID-card in the Freja eID+ app.");
-
-        //Click on Freja
-        common.click(common.findWebElementById("eidas-show-modal"));
-
-        //Switch to the Freja Id pop up
-        common.switchToPopUpWindow();
-        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
-
-        //Verify Pop-up labels
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5",
-                "Use Freja eID+ and visit a local authorised agent");
-
-        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[1]", "Install the app");
-
-        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[2]",
-                "Create a Freja eID+ account (awarded the \"Svensk e-legitimation\" quality mark)");
-
-        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[3]",
-                "The app will generate a QR-code");
-
-        common.verifyStringOnPage("Find a local authorised agent, show them a valid ID together with the QR-code and " +
-                        "they will be able to verify your identity");
-
-        common.verifyStringOnPage("Tip: Use the app to find your nearest agent");
-
-        common.verifyStringOnPage("Freja eID+ is now ready to be used with your eduID");
-
-        //Press cancel
-        common.click(common.findWebElementById("eidas-info-modal-close-button"));
-
-        //Click on swedish
-        common.selectSwedish();
-    }
-
-    private void verifyFrejaIdLabels(){
-        //Switch to the Freja Id pop up
-        common.switchToPopUpWindow();
-
-        //Swedish
-        common.explicitWaitVisibilityElement("//div/div[1]/h5");
-        common.verifyStringOnPage("Med Freja eID-appen kan du skapa ett digitalt ID-kort");
-        common.verifyStringOnPage("Installera appen");
-        common.verifyStringOnPage("Skapa ett Freja eID+ konto (godkänd svensk e-legitimation)");
-        common.verifyStringOnPage("Appen genererar en QR-kod");
-        common.verifyStringOnPage("Gå till närmsta ombud, visa giltigt ID tillsammans med QR-koden i " +
-                "din telefon och låt dem bevisa din identitet");
-        common.verifyStringOnPage("Tips: Du kan hitta närmsta ombud i appen");
-        common.verifyStringOnPage("Freja eID+ är redo att användas med ditt eduID");
-    }
-
-
-    private void verifyPhoneLabels(){
-        //Click on phone option
-        common.timeoutMilliSeconds(500);
-        common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div[1]/button"));
-
-        //Switch to pop up
-        common.switchToPopUpWindow();
-
-        //Verify labels in pop-up
-        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
-        common.verifyStringOnPage("Kolla om ditt telefonnummer är kopplat till ditt personnummer.");
-        common.verifyStringOnPage("Du kan acceptera en sökning i telefonregistret för att se om ditt " +
-                "telefonnummer finns lagrat tillsammans med ditt personnummer. Om dina uppgifter inte lagts till i " +
-                "registret av din mobiloperatör kommer vi inte kunna bevisa din identitet via telefonnummer.");
-
-        //Close pop up
-        common.closePopupDialog();
-
-        //English
-        common.selectEnglish();
-
-        //Click on phone option
-        common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[2]/div[1]/button"));
-
-        //Switch to pop up
-        common.switchToPopUpWindow();
-
-        //Verify labels in pop-up
-        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
-        common.verifyStringOnPage("Check if your phone number is connected to your id number.");
-        common.verifyStringOnPage("This check will be done in a registry updated by the phone operators. " +
-                "If they have not added your details, we won't be able to find you and you need to choose another way " +
-                "to verify your identity.");
-
-        //Close pop up
-        common.closePopupDialog();
-
-        //English
-        common.selectSwedish();
-        /*
-        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5/span");
-        common.verifyStringOnPage("Lägg till ditt telefonnummer för att fortsätta");
-        common.verifyStringOnPage("Lägg till ditt telefonnummer i Inställningar. Glöm inte att också " +
-                "bekräfta att det är ditt! Du kan bara bevisa din identitet med ett bekräftat telefonnummer!");
-                */
-    }
-
-    private void verifyMailLabels(){
-        //Click on mail option
-        common.timeoutMilliSeconds(500);
-        common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button"));
-
-        common.timeoutMilliSeconds(800);
-
-        //Switch to pop up and verify its text
-        common.switchToPopUpWindow();
-        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5", "Få en bekräftelsekod via post");
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]", "Om du accepterar " +
-                "att få ett brev hem måste du skriva in bekräftelsekoden här för att bevisa att personnumret är ditt. " +
-                "Av säkerhetsskäl går koden ut om två veckor.");
-
-        //Click first on abort
-        common.closePopupDialog();
-
-        //English
-        common.selectEnglish();
-
-        //Click on mail option
-        common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button"));
-
-        common.switchToPopUpWindow();
-        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5", "Use a confirmation " +
-                "code sent by post to your house");
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]", "The letter will contain " +
-                "a code that you enter here to verify your identity. The code sent to you will expire in 2 weeks starting " +
-                "from now");
-
-        //Click first on abort
-        common.closePopupDialog();
-
-        //English
-        common.selectSwedish();
+        identity.verifyLabelsSwedish();
+        identity.verifyLabelsEnglish();
     }
 
     private void verifyLabelsSentLetter(){
+        Common.log.info("Verify Letter sent labels");
+
         //Verify on the button that letter is sent text exists, with today's date
-        common.explicitWaitVisibilityElement("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button/div[1]/div[1]");
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button/div[1]/div[1]",
-                "ETT BREV SKICKADES\n" +common.getDate().toString());
+        common.timeoutMilliSeconds(500);
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[2]", "Ett brev skickades " +common.getDate().toString());
 
         //Verify that letter is valid date is 2 weeks after today's date
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button/div[1]/div[2]",
-                "BREVET ÄR GILTIGT TILL\n" +common.getDate().plusDays(15));
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[3]","Brevet är giltigt till " +common.getDate().plusDays(15));
 
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button/div[1]/div[3]",
-                "TRYCK HÄR IGEN NÄR DU HAR FÅTT BREVET");
+        common.verifyStringOnPage("När du har mottagit brevet, fortsätt genom att klicka på knappen nedan");
 
         //English
         common.selectEnglish();
 
+        //Expand Letter menu
+        common.click(common.findWebElementById("accordion__heading-se-letter"));
+
         //Verify on the button that letter is sent text exists, with today's date
-        common.explicitWaitVisibilityElement("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button/div[1]/div[1]");
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button/div[1]/div[1]",
-                "THE LETTER WAS SENT\n" +common.getDate().toString());
+        common.timeoutMilliSeconds(200);
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[2]", "The letter was sent " +common.getDate().toString());
 
         //Verify that letter is valid date is 2 weeks after today's date
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button/div[1]/div[2]",
-                "THE LETTER IS VALID TO\n" +common.getDate().plusDays(15));
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[3]","The letter is valid to " +common.getDate().plusDays(15));
 
-        common.verifyStringByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button/div[1]/div[3]",
-                "CLICK HERE AGAIN WHEN YOU HAVE RECEIVED THE LETTER");
+        common.verifyStringOnPage("When you have received the letter, proceed by clicking the button below.");
 
-        //Verify the placeholder
-        common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button"));
+        //Verify text in confirmation pop up
+        common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
         common.timeoutSeconds(1);
         common.switchToPopUpWindow();
         common.verifyStringOnPage("Add the code you have received by post");
-        common.verifyStringOnPage("Confirmation code");
-        common.verifyStrings("Letter confirmation code", common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input").getAttribute("placeholder"));
+        common.verifyStringOnPage("Code");
+        common.verifyStrings("Code",
+                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input")
+                        .getAttribute("placeholder"));
+        common.verifyStringOnPage("*Field cannot be empty");
 
         //Close
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
@@ -431,14 +231,29 @@ public class ConfirmIdentity{
         //English
         common.selectSwedish();
 
-        //Verify the placeholder
-        common.click(common.findWebElementByXpath("//*[@id=\"nins-btn-grid\"]/div[1]/div[1]/button"));
+        //Expand Letter menu
+        common.click(common.findWebElementById("accordion__heading-se-letter"));
+        common.timeoutMilliSeconds(200);
+
+        //Verify text in confirmation pop up
+        common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
         common.timeoutSeconds(1);
         common.verifyStringOnPage("Skriv in koden du fått hemskickad");
-        common.verifyStringOnPage("Bekräftelsekod");
-        common.verifyStrings("Bekräftelsekod", common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input").getAttribute("placeholder"));
+        common.verifyStringOnPage("Kod");
+        common.verifyStrings("Kod",
+                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input")
+                        .getAttribute("placeholder"));
+        common.verifyStringOnPage("*Fältet kan inte vara tomt");
 
         //Close
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
+    }
+
+
+    public void selectAndSubmitUserRefIdp(){
+        common.explicitWaitClickableElementId("selectSimulatedUser");
+        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
+
+        common.click(common.findWebElementById("submitButton"));
     }
 }

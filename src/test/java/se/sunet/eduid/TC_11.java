@@ -47,7 +47,7 @@ public class TC_11 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"newPassword"} )
     void verifyStatusMessage() {
-        common.verifyStatusMessage("Felaktig telefonkod.");
+        common.verifyStatusMessage("Felaktig kod.");
 
         //Switch to english
         common.timeoutMilliSeconds(500);

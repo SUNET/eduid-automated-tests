@@ -50,7 +50,7 @@ public class SwamidData {
                             "https://refeds.org/assurance/IAP/low");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[7]/td", testData.getEppn() +"@dev.eduid.se");
             common.verifyXpathContainsString("//*[@id=\"attributes\"]/table[1]/tbody/tr[8]/td",
-                    "https://idp.dev.eduid.se/idp.xml!https://release-check.swamid.se/shibboleth!793b01eb3e93dfb410f8a4e7a7e4478a87a1e2feb01b2a6ba73b65945eafe266");
+                    "https://idp.dev.eduid.se/idp.xml!https://release-check.swamid.se/shibboleth!80166bca9f011d56f5a2c511398109cde176a951f6e56ccdce8a1f9f91145e89");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[9]/td", (testData.getEppn() +"@dev.eduid.se").replace("-", ""));
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[10]/td", testData.getGivenName());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[11]/td", testData.getEmail());

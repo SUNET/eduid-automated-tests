@@ -55,7 +55,7 @@ public class EmailLink {
             common.timeoutMilliSeconds(300);
             Common.log.info("Current url: " +common.getWebDriver().getCurrentUrl());
 
-            common.explicitWaitPageTitle("eduID login");
+            common.explicitWaitPageTitle("Återställ Lösenord | eduID");
         }
         common.timeoutSeconds(3);
     }

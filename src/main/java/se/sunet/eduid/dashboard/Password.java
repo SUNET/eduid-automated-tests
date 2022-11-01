@@ -24,8 +24,8 @@ public class Password {
     private void verifyPageTitle() {
         common.timeoutMilliSeconds(400);
 
-        common.explicitWaitPageTitle("eduID dashboard");
-        common.verifyPageTitle("eduID dashboard");
+        common.explicitWaitPageTitle("Byt Lösenord | eduID");
+        common.verifyPageTitle("Byt Lösenord | eduID");
 
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")) {
             common.selectSwedish();

@@ -32,8 +32,6 @@ public class TC_57 extends BeforeAndAfter {
         //Navigate to settings
         dashBoard.pressSettings();
         personalInfo.runPersonalInfo();
-
-        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
@@ -45,12 +43,22 @@ public class TC_57 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"storeEppn"} )
-    void confirmIdentity(){
+    void addPhoneNumber(){
+        testData.setPhoneNumber("+46701740606");
+        phoneNumber.addPhoneNumber();
+        phoneNumber.confirmNewPhoneNumber(); }
+
+    @Test( dependsOnMethods = {"addPhoneNumber"} )
+    void confirmIdentityMail(){
         testData.setConfirmIdBy("mail");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentity"} )
-    void confirmedIdentity() { confirmedIdentity.runConfirmIdentity(); }
+    @Test( dependsOnMethods = {"confirmIdentityMail"} )
+    void confirmedIdentity() {
+        confirmedIdentity.runConfirmIdentity();
+
+        testData.setRegisterAccount(false);
+    }
 
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void addSecurityKey() {
@@ -60,7 +68,7 @@ public class TC_57 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKey() {
-        common.addMagicCookie();
+        //Click on Verify for the added security key
         common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
     }
 
@@ -101,13 +109,11 @@ public class TC_57 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void verifySecurityKeyStatus() {
-        common.verifyStatusMessage("Säkerhetsnyckeln verifierad");
-
         //Verify status beside the added key dates
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/label", "VERIFIERAD");
 
         common.selectEnglish();
-        common.verifyStatusMessage("U2F token verified successfully");
+
         //Verify status beside the added key dates
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/label", "VERIFIED");
         common.selectSwedish();
@@ -130,6 +136,9 @@ public class TC_57 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"swamid"} )
     void login2(){
+        //Add magic cookie
+        common.addMagicCookie();
+
         login.verifyPageTitle();
         login.enterPassword();
         common.click(common.findWebElementById("login-form-button"));
