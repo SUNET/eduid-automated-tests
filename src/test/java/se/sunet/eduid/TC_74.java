@@ -3,6 +3,7 @@ package se.sunet.eduid;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
+import se.sunet.eduid.utils.Common;
 
 public class TC_74 extends BeforeAndAfter {
     @Test
@@ -23,10 +24,6 @@ public class TC_74 extends BeforeAndAfter {
         testData.setRememberMe(true);
 
         loginOtherDevice.runLoginOtherDevice();
-
-        //Check timer is present
-        Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"content\"]/div/ol/li[3]/div/div[2]/span[2]").isDisplayed(),
-                "Timer is missing");
     }
 
     @Test( dependsOnMethods = {"runLoginOtherDevice"} )

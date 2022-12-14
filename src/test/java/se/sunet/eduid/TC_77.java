@@ -1,144 +1,58 @@
 package se.sunet.eduid;
 
 import org.testng.annotations.Test;
-import se.sunet.eduid.dashboard.AdvancedSettings;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
 public class TC_77 extends BeforeAndAfter {
     @Test
-    void startPage(){
-        testData.setRegisterAccount(true);
-        startPage.runStartPage(); }
+    void startPage() { startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage"} )
-    void register(){ register.runRegister(); }
-
-    @Test( dependsOnMethods = {"register"} )
-    void confirmHuman() { confirmHuman.runConfirmHuman(); }
-
-    @Test( dependsOnMethods = {"confirmHuman"} )
-    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
-
-    @Test( dependsOnMethods = {"confirmedNewAccount"} )
-    void login(){
-        testData.setRegisterAccount(false);
-        login.runLogin();
-
-        common.explicitWaitClickableElement("//*[@id=\"dashboard-nav\"]/ul/li[3]/a");
-    }
+    void login(){ login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
-
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
-    void addPhoneNumber(){
-        testData.setPhoneNumber("+46701740605");
-        phoneNumber.addPhoneNumber();
-        phoneNumber.confirmNewPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"addPhoneNumber"} )
-    void storeEppn(){
-       common.navigateToAdvancedSettings();
-       advancedSettings.storeEppn();
-    }
-
-    @Test( dependsOnMethods = {"storeEppn"} )
-    void confirmIdentityFreja(){
-        testData.setConfirmIdBy("freja");
-        confirmIdentity.runConfirmIdentity(); }
-
-    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
-    void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
-
-        testData.setRegisterAccount(false);
-    }
-
-    @Test( dependsOnMethods = {"confirmedIdentity"} )
-    void logout() {
-        logout.runLogout();
-    }
+    void logout() { logout.runLogout(); }
 
     @Test( dependsOnMethods = {"logout"} )
-    void startPage2(){
-        startPage.runStartPage();
-    }
+    void startPage2() { startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        testData.setResetPassword(true);
-        login.runLogin();
+    void runLoginOtherDevice1st() {
+        //Set remember me function
+        testData.setRememberMe(true);
+
+        testData.setOtherDeviceSubmitCode("true");
+
+        loginOtherDevice.runLoginOtherDevice();
     }
 
-    @Test( dependsOnMethods = {"login2"} )
-    void requestResetPwEmail() { requestResetPwEmail.runRequestResetPwEmail(); }
+    @Test( dependsOnMethods = {"runLoginOtherDevice1st"} )
+    void runLoginOtherDevice2nd() {
+        common.timeoutSeconds(1);
 
-    @Test( dependsOnMethods = {"requestResetPwEmail"} )
-    void emailSent() { emailSent.runEmailSent(); }
-
-    @Test( dependsOnMethods = {"emailSent"} )
-    void emailLink() { emailLink.runEmailLink(); }
-
-    @Test( dependsOnMethods = {"emailLink"} )
-    void extraSecurity() {
-        common.logCookie("autotests");
-        common.logCookie("nin");
-
-        //Select Freja eID with option "freja"
-        testData.setSendMobileOneTimePassword("freja");
-        extraSecurity.runExtraSecurity(); }
-
-    @Test( dependsOnMethods = {"extraSecurity"} )
-    void selectUserRefIdp2(){
-        //Select and submit user
-        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
-
-//        common.click(common.findWebElementById("submitButton"));
-    }
-    /*
-    @Test( dependsOnMethods = {"selectUserRefIdp2"} )
-    void verifyPhoneNumber() { verifyPhoneNumber.runVerifyPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"verifyPhoneNumber"} )
-    void newPassword() { setNewPassword.runNewPassword(); }
-
-    @Test( dependsOnMethods = {"newPassword"} )
-    void passwordChanged() { passwordChanged.runPasswordChanged(); }
-
-    @Test( dependsOnMethods = {"passwordChanged"} )
-    void startPage3(){
-        startPage.runStartPage();
+        loginOtherDevice.submitCode();
     }
 
-    @Test( dependsOnMethods = {"startPage3"} )
-    void login3(){
-        testData.setResetPassword(false);
-        login.runLogin();
-    }*/
+    @Test( dependsOnMethods = {"runLoginOtherDevice2nd"} )
+    void runLoginOtherDevice3rd() {
+        common.timeoutSeconds(1);
 
-    //Delete the account, so it will be removed after 2 weeks by script
-/*    @Test( dependsOnMethods = {"confirmedIdentity"} )
-    void dashboard() { dashBoard.pressSettings(); }
+        loginOtherDevice.submitCode();
 
-    @Test( dependsOnMethods = {"dashboard"} )
-    void delete() {
-        testData.setDeleteButton(true);
-        deleteAccount.runDeleteAccount(); }
+        common.explicitWaitClickableElementId("response-code-cancel-button");
+    }
 
-    @Test( dependsOnMethods = {"delete"} )
-    void startPage2(){ startPage.runStartPage(); }
+    @Test( dependsOnMethods = {"runLoginOtherDevice3rd"} )
+    void verifyStatusMessage(){
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "The request is not valid anymore");
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
-    }*/
+        common.selectSwedish();
+
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Inloggningen är inte giltig längre");
+
+        common.findWebElementById("response-code-cancel-button").click();
+
+        //Wait for the Log in page
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Logga in");
+    }
 }

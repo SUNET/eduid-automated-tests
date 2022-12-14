@@ -97,7 +97,8 @@ public class VerifyPhoneNumber {
         }
         else {
             //Get the otp
-            fetchOtp();
+            otp = common.getCodeInNewTab("https://idp.dev.eduid.se/services/reset-password/get-phone-code?eppn=" +testData.getEppn());
+            //fetchOtp();
 
             //Switch to swedish if we need to
             if (common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")) {
@@ -117,7 +118,7 @@ public class VerifyPhoneNumber {
         common.explicitWaitClickableElementId("copy-new-password");
     }
 
-    private void fetchOtp() {
+  /*  private void fetchOtp() {
         //Store current window handle
         common.switchToPopUpWindow();
 
@@ -138,5 +139,5 @@ public class VerifyPhoneNumber {
         //Switch back to the old tab
         common.switchToDefaultWindow();
         common.timeoutMilliSeconds(500);
-    }
+    }*/
 }

@@ -26,11 +26,16 @@ public class TC_45 extends BeforeAndAfter {
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-    void advancedSettings() { advancedSettings.runAdvancedSettings();
+    void storeEppn(){
+        advancedSettings.pressAdvancedSettings();
+        common.timeoutSeconds(1);
+        advancedSettings.storeEppn();
+        common.timeoutSeconds(1);
+
         testData.setEmail(testData.getUsername().toLowerCase());
     }
 
-    @Test( dependsOnMethods = {"advancedSettings"} )
+    @Test( dependsOnMethods = {"storeEppn"} )
     void logout() { logout.runLogout(); }
 
     @Test( dependsOnMethods = {"logout"} )

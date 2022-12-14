@@ -128,7 +128,7 @@ public class BeforeAndAfter {
         Common.log.info(testData.getTestCase() +" - "+method.getName());
     }
 
-    @AfterTest
+//    @AfterTest
     public void quitBrowser() throws IOException {
         //Browserstack test result
 //        testResult();

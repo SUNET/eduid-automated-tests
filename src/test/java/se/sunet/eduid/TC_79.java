@@ -3,7 +3,7 @@ package se.sunet.eduid;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
-public class TC_41 extends BeforeAndAfter {
+public class TC_79 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -22,6 +22,8 @@ public class TC_41 extends BeforeAndAfter {
     void login(){
         testData.setRegisterAccount(false);
         login.runLogin();
+
+        common.explicitWaitClickableElement("//*[@id=\"dashboard-nav\"]/ul/li[3]/a");
     }
 
     @Test( dependsOnMethods = {"login"} )
@@ -29,7 +31,7 @@ public class TC_41 extends BeforeAndAfter {
         testData.setRegisterAccount(true);
 
         //Navigate to settings
-        dashBoard.pressSettings();
+        common.navigateToSettings();
         personalInfo.runPersonalInfo();
     }
 
@@ -39,19 +41,18 @@ public class TC_41 extends BeforeAndAfter {
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber"} )
-    void confirmIdentityMail(){
-        testData.setConfirmIdBy("mail");
+    void confirmIdentitySvipe(){
+        testData.setConfirmIdBy("svipe");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentityMail"} )
-    void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
+    @Test( dependsOnMethods = {"confirmIdentitySvipe"} )
+    void navigateBackToEduId() {
+        common.getWebDriver().navigate().back();
 
-        testData.setRegisterAccount(false);
     }
 
     //Delete the account, so it will be removed after 2 weeks by script
-    @Test( dependsOnMethods = {"confirmedIdentity"} )
+    @Test( dependsOnMethods = {"navigateBackToEduId"} )
     void dashboard() { dashBoard.pressSettings(); }
 
     @Test( dependsOnMethods = {"dashboard"} )
@@ -60,7 +61,10 @@ public class TC_41 extends BeforeAndAfter {
         deleteAccount.runDeleteAccount(); }
 
     @Test( dependsOnMethods = {"delete"} )
-    void startPage2(){ startPage.runStartPage(); }
+    void startPage2(){
+        testData.setRegisterAccount(false);
+        startPage.runStartPage();
+    }
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){

@@ -2,6 +2,7 @@ package se.sunet.eduid.dashboard;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
@@ -62,10 +63,9 @@ public class AdvancedSettings {
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Säkerhetsnyckel");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 tecken");
 
-//        else{
-            //Press close, in corner of pop-up
+
+        //Press close, in corner of pop-up
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
-  //      }
     }
 
     private void pressLadok(){
@@ -101,21 +101,40 @@ public class AdvancedSettings {
 
         //Expand options
         common.findWebElementByXpathContainingText("Available higher education institutions").click();
+        try {
+
+            common.findWebElementByXpathContainingText("Linnaeus").click();
+        }catch (NoSuchElementException ex){
+            Common.log.info("Failed to click on drop down first time, trying again.");
+            common.scrollToPageBottom();
+            common.findWebElementByXpathContainingText("Available higher education institutions").click();
+            common.timeoutMilliSeconds(500);
+            common.findWebElementByXpathContainingText("Linnaeus").click();
+        }
         common.timeoutMilliSeconds(500);
 
-        //Select one of them
-        common.findWebElementByXpathContainingText("Linnaeus").click();
+        //When Identity is confirmed
+        if(testData.isIdentityConfirmed()){
+            //Verify status message
+            common.verifyStatusMessage("No information for you found in Ladok with that higher education institution.");
 
-        //TODO with a verified account, you will get another message
+            //click on swedish
+            common.selectSwedish();
 
-        //Verify status message
-        common.verifyStatusMessage("You need a verified Swedish national identity number to link your account with Ladok.");
+            //Verify status message
+            common.verifyStatusMessage("Ingen information om dig hittades i Ladok för detta lärosäte.");
+        }
+        //When Identity is not confirmed
+        else {
+            //Verify status message
+            common.verifyStatusMessage("You need a verified Swedish national identity number to link your account with Ladok.");
 
-        //click on swedish
-        common.selectSwedish();
+            //click on swedish
+            common.selectSwedish();
 
-        //Verify status message
-        common.verifyStatusMessage("Du behöver verifiera ditt svenska personnummer för att länka ditt konto med Ladok.");
+            //Verify status message
+            common.verifyStatusMessage("Du behöver verifiera ditt svenska personnummer för att länka ditt konto med Ladok.");
+        }
     }
 
     private void pressOrcid(){
@@ -124,7 +143,6 @@ public class AdvancedSettings {
 
         //Transferred to orcid after click
         common.explicitWaitPageTitle("ORCID");
-        common.verifyPageTitle("ORCID");
 
         //Just go back to end test case by logout
         common.getWebDriver().navigate().back();

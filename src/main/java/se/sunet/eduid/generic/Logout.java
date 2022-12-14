@@ -23,7 +23,7 @@ public class Logout {
         common.explicitWaitClickableElementId("logout");
         common.click(common.findWebElementById("logout"));
 
-        //Wait for the start page
+        //Wait for the start page - sign up button
         common.explicitWaitClickableElement("//section[2]/div/div/a");
     }
 

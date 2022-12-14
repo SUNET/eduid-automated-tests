@@ -65,6 +65,7 @@ public class ConfirmedIdentity {
             //Data
             common.verifyStringById("nin-number", testData.getIdentityNumber());
         }
+        testData.setIdentityConfirmed(true);
     }
 
     private void textAndLabelsEnglish(){

@@ -35,16 +35,19 @@ public class RegisteredData {
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[3]/td", "Magic Cookie");
 
         //Display name
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[4]/td", testData.getDisplayName());
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[4]/td", "Cookie Magic Cookie");
+
+        //Type - nin
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[1]", "nin");
 
         //National identity numbers - Number
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[1]", testData.getIdentityNumber());
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[2]", testData.getIdentityNumber());
 
         //National identity numbers - Primary
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[2]", "True");
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[3]", "True");
 
         //National identity numbers - Verified
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[3]", "True");
+//        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[4]", "True");
 
         //National identity numbers - Added timestamp
         common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[5]/td/dl/dd[4]", String.valueOf(localDate));
@@ -65,7 +68,7 @@ public class RegisteredData {
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[6]/td/dl/dd[3]", "True");
 
         //Mail addresses - Added using
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[6]/td/dl/dd[4]", "signup");
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[6]/td/dl/dd[4]", "signup2");
 
         //Mail addresses - Added timestamp
         common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[6]/td/dl/dd[5]", String.valueOf(localDate));
@@ -92,7 +95,7 @@ public class RegisteredData {
         common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[8]/td/dl/dd[2]", String.valueOf(localDate));
 
         //Credentials - Added using
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[8]/td/dl/dd[3]", "signup");
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[8]/td/dl/dd[3]", "signup2");
 
         //Credentials - Added timestamp
         common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[8]/td/dl/dd[4]", String.valueOf(localDate));
@@ -101,7 +104,7 @@ public class RegisteredData {
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[9]/td/dl/dd[1]", "2016-v1");
 
         //Accepted terms of use - Added using
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[9]/td/dl/dd[2]", "signup");
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[9]/td/dl/dd[2]", "signup2");
 
         //Accepted terms of use - Added timestamp
         common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[9]/td/dl/dd[3]", String.valueOf(localDate));
@@ -139,7 +142,7 @@ public class RegisteredData {
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[6]/td/dl/dd[3]", "True");
 
         //Mail addresses - Added using
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[6]/td/dl/dd[4]", "signup");
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[6]/td/dl/dd[4]", "signup2");
 
         //Mail addresses - Added timestamp
         common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[6]/td/dl/dd[5]", String.valueOf(localDate));
@@ -157,7 +160,7 @@ public class RegisteredData {
         //common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[8]/td/dl/dd[2]", String.valueOf(localDate));
 
         //Credentials - Added using
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[8]/td/dl/dd[3]", "signup");
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[8]/td/dl/dd[3]", "signup2");
 
         //Credentials - Added timestamp
         common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[8]/td/dl/dd[4]", String.valueOf(localDate));
@@ -166,7 +169,7 @@ public class RegisteredData {
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[9]/td/dl/dd[1]", "2016-v1");
 
         //Accepted terms of use - Added using
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[9]/td/dl/dd[2]", "signup");
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[9]/td/dl/dd[2]", "signup2");
 
         //Accepted terms of use - Added timestamp
         common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[9]/td/dl/dd[3]", String.valueOf(localDate));
@@ -175,7 +178,7 @@ public class RegisteredData {
         common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[10]/td", "False");
 
         //Language preference
-        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[11]/td","sv");
+        common.verifyStringByXpath("//div/div[2]/div/div[1]/div[2]/table/tbody/tr[11]/td","");
     }
 
     private void verifyOngoingProofings(){
@@ -205,7 +208,7 @@ public class RegisteredData {
         common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[3]/td[4]", "sms-2013v1");
 
         common.verifyXpathContainsString("//div/div[2]/div/div[5]/div/table/tbody/tr[4]/td[1]", String.valueOf(localDate));
-        common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[4]/td[2]", "signup");
+        common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[4]/td[2]", "signup2");
         common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[4]/td[3]", testData.getUsername().toLowerCase());
         common.verifyStringByXpath("//div/div[2]/div/div[5]/div/table/tbody/tr[4]/td[4]", "e-mail-2013v1");
     }

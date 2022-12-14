@@ -21,6 +21,7 @@ public class SetNewPassword {
     }
 
     private void verifyPageTitle() {
+        common.explicitWaitPageTitle("Återställ Lösenord | eduID");
         common.verifyPageTitle("Återställ Lösenord | eduID");
     }
 
@@ -36,7 +37,7 @@ public class SetNewPassword {
         common.verifyStringOnPage("Ett starkt lösenord har " +
                 "genererats åt dig. För att fortsätta behöver du skriva in det igen.");
 
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div/label", "Nytt lösenord");
+        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/label", "Nytt lösenord");
         common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repetera ditt nya lösenord\n*");
 
         Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"new-password-wrapper\"]/div/label/span").isDisplayed(),
@@ -52,7 +53,7 @@ public class SetNewPassword {
         common.verifyStringOnPage("A strong password has been " +
                 "generated for you. To proceed you will need to repeat the password below .");
 
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div/label", "New password");
+        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/label", "New password");
         common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repeat new password\n*");
 
         Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"new-password-wrapper\"]/div/label/span").isDisplayed(),

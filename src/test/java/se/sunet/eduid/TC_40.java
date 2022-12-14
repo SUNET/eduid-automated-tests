@@ -34,11 +34,13 @@ public class TC_40 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
-        testData.setPhoneNumber("+46701740605");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber"} )
+    void advancedSettings() { advancedSettings.runAdvancedSettings(); }
+
+    @Test( dependsOnMethods = {"advancedSettings"} )
     void confirmIdentityPhone(){
         testData.setConfirmIdBy("phone");
         confirmIdentity.runConfirmIdentity(); }
@@ -71,7 +73,7 @@ public class TC_40 extends BeforeAndAfter {
 
         testData.setIncorrectPassword(false);
     }
-/*
+
 
     //Reset password and verify that the Identity is no longer verified
     @Test( dependsOnMethods = {"login2"} )
@@ -81,21 +83,30 @@ public class TC_40 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login3"} )
-    void requestNewPassword() { requestNewPassword.runRequestNewPassword(); }
+    void requestNewPassword() {
+        requestResetPwEmail.runRequestResetPwEmail();
+    }
 
     @Test( dependsOnMethods = {"requestNewPassword"} )
     void emailSent() { emailSent.runEmailSent(); }
 
     @Test( dependsOnMethods = {"emailSent"} )
-    void emailLink() { emailLink.runEmailLink(); }
+    void emailLink() { emailLink.runEmailLink();
+        common.addNinCookie();
+    }
 
     @Test( dependsOnMethods = {"emailLink"} )
-    void extraSecurity() { extraSecurity.runExtraSecurity(); }
+    void extraSecurity() {
+        testData.setSendMobileOneTimePassword("freja");
+        extraSecurity.runExtraSecurity();
+    }
 
     @Test( dependsOnMethods = {"extraSecurity"} )
-    void verifyPhoneNumber() { verifyPhoneNumber.runVerifyPhoneNumber(); }
+    void selectIdRefIdp() {
+        confirmIdentity.selectAndSubmitUserRefIdp();
+    }
 
-    @Test( dependsOnMethods = {"verifyPhoneNumber"} )
+    @Test( dependsOnMethods = {"selectIdRefIdp"} )
     void newPassword() { setNewPassword.runNewPassword(); }
 
     @Test( dependsOnMethods = {"newPassword"} )
@@ -109,14 +120,30 @@ public class TC_40 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage3"} )
     void login4(){
         testData.setResetPassword(false);
-        login.runLogin();
+        login.enterPassword();
+        login.signIn();
     }
 
     @Test( dependsOnMethods = {"login4"} )
-    void identity() { identity.runIdentity(); }
+    void identity() {
+        //Verify that identity is still confirmed
+        common.navigateToIdentity();
+
+        common.verifyStringOnPage("Ditt eduID är redo att användas");
+        common.verifyStringOnPage("Följande identiteter är nu kopplade till ditt eduID");
+        common.verifyStringOnPage("Svenskt personnummer");
+    }
+
+    @Test( dependsOnMethods = {"identity"} )
+    void verifyConfirmedPhone() {
+        //Verify that phone number is still confirmed
+        common.navigateToSettings();
+
+        common.verifyStringByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr/td[2]", "PRIMÄR");
+    }
 
     //Delete account when confirmed that identity is no longer verified
-    @Test( dependsOnMethods = {"identity"} )
+    @Test( dependsOnMethods = {"verifyConfirmedPhone"} )
     void delete2() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }
@@ -130,5 +157,5 @@ public class TC_40 extends BeforeAndAfter {
         login.verifyPageTitle();
         login.enterPassword();
         login.signIn();
-    }*/
+    }
 }

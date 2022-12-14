@@ -26,6 +26,7 @@ public class TC_66 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage2"} )
     void verifySigninPage() {
         //Verify label with registered display name
+        common.explicitWaitClickableElementId("login-form-button");
         common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName() +"!");
 
         //Verify placeholder for username

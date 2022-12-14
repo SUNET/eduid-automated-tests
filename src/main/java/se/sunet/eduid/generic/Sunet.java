@@ -22,9 +22,11 @@ public class Sunet {
     }
 
     private void verifyPageBody(){
-        common.verifyStringByXpath("//*[@id=\"primary-content\"]/div/div/main/article/div/p[1]", "eduID är en digital identitet för organisationer inom utbildning och forskning. Med eduID kan studenter och anställda vid anslutna lärosäten snabbt skaffa ett lokalt IT-konto och därigenom komma åt sina lokala IT-resurser. En eduID-identitet kan användas före, under och efter studietiden.");
+        common.verifyStringByXpath("//*[@id=\"primary-content\"]/div/div/main/article/div/p[1]",
+                "eduID är en digital identitet för organisationer inom utbildning och forskning. Med eduID kan studenter och anställda vid anslutna lärosäten snabbt skaffa ett lokalt IT-konto och därigenom komma åt sina lokala IT-resurser. En eduID-identitet kan användas före, under och efter studietiden.");
 
-        common.verifyStringByXpath("//*[@id=\"primary-content\"]/div/div/main/article/div/p[2]", "Skapa en eduID-identitet via eduid.se och anpassa den till den säkerhetsnivå som krävs av tjänsten där identiteten ska användas. Det finns flera nivåer och kombinationer för olika behov, från låg säkerhetsnivå där bekräftelse av e-postadress räcker, till mycket hög säkerhetsnivå via e-legitimation med genomförd legitimationskontroll.");
+        common.verifyStringByXpath("//*[@id=\"primary-content\"]/div/div/main/article/div/p[2]",
+                "Skapa en eduID-identitet via eduid.se och anpassa den till den säkerhetsnivå som krävs av tjänsten där identiteten ska användas. Det finns flera nivåer och kombinationer för olika behov, från låg säkerhetsnivå där bekräftelse av e-postadress räcker, till mycket hög säkerhetsnivå via e-legitimation med genomförd legitimationskontroll.");
 
         //TODO continue ...common.verifyStringByXpath("");
     }

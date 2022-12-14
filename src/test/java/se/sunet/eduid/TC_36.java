@@ -14,6 +14,6 @@ public class TC_36 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"register"} )
     void confirmHuman() {
-        testData.setSendCaptcha(false);
+        testData.setVerifyEmail(false);
         confirmHuman.runConfirmHuman(); }
 }

@@ -19,7 +19,7 @@ public class RequestResetPwEmail {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID login");
+        common.verifyPageTitle("Återställ Lösenord | eduID");
     }
 
     private void clickSendEmail(){
@@ -44,6 +44,9 @@ public class RequestResetPwEmail {
 
         //Switch to english
         common.selectEnglish();
+
+        //Page title
+        common.verifyPageTitle("Reset Password | eduID");
 
         //Heading
         common.verifyStringOnPage("Reset password");

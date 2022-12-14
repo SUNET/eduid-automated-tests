@@ -212,7 +212,8 @@
 
 
     <test name="TC_29">
-        <parameter name="testDescription" value="Reset password without extra security (Phone number not confirmed). Abort confirmation of the phone number from dashboard" />
+        <parameter name="testDescription" value="Reset password without extra security (Phone number not confirmed).
+        Abort confirmation of the phone number from dashboard" />
         <classes>
             <class name="se.sunet.eduid.TC_29" >
             </class>
@@ -220,7 +221,8 @@
     </test>
 
     <test name="TC_30">
-        <parameter name="testDescription" value="After reset password without extra security (mobile OTP). Enter incorrect code for confirmation of the phone number from dashboard" />
+        <parameter name="testDescription" value="After reset password without extra security (mobile OTP). Enter
+        incorrect code for confirmation of the phone number from dashboard" />
         <classes>
             <class name="se.sunet.eduid.TC_30" >
             </class>
@@ -228,7 +230,8 @@
     </test>
 
     <test name="TC_31">
-        <parameter name="testDescription" value="After reset password without extra security (mobile OTP). Confirm the phone number from dashboard" />
+        <parameter name="testDescription" value="After reset password without extra security (mobile OTP). Confirm
+        the phone number from dashboard" />
         <classes>
             <class name="se.sunet.eduid.TC_31" >
             </class>
@@ -260,7 +263,8 @@
     </test>
 
     <test name="TC_35">
-        <parameter name="testDescription" value="Initiate Register of new account, abort at terms" />
+        <parameter name="testDescription" value="Initiate Register of new account, abort at terms. Then trigger multiple
+        account register reject function by attempt to register more/same accounts in the same session" />
         <classes>
             <class name="se.sunet.eduid.TC_35" >
             </class>
@@ -268,7 +272,7 @@
     </test>
 
     <test name="TC_36">
-        <parameter name="testDescription" value="Initiate Register of new account, abort at captcha" />
+        <parameter name="testDescription" value="Initiate Register of new account, abort at confirm email" />
         <classes>
             <class name="se.sunet.eduid.TC_36" >
             </class>
@@ -324,7 +328,7 @@
     </test>
 
     <test name="TC_43">
-        <parameter name="testDescription" value="On a new account, log in to support tool and verify all registered parameters" />
+        <parameter name="testDescription" value="On a new account with verified identity, log in to support tool and verify all registered parameters" />
         <classes>
             <class name="se.sunet.eduid.TC_43" >
             </class>
@@ -473,6 +477,14 @@
         </classes>
     </test>
 
+    <test name="TC_77">
+        <parameter name="testDescription" value="Init Log in using 'Other Device' - 'Remember me' enabled, submit without enter code 3 times" />
+        <classes>
+            <class name="se.sunet.eduid.TC_77" >
+            </class>
+        </classes>
+    </test>
+
     <test name="TC_71">
         <parameter name="testDescription" value="Log in using 'Other Device' - 'Remember me' enabled" />
         <classes>
@@ -562,6 +574,15 @@
                 Confirm identity by eIDAS and Freja eID" />
         <classes>
             <class name="se.sunet.eduid.TC_78" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_79">
+        <parameter name="testDescription" value="Register new account, add and confirm phone number.
+                Attempt to confirm identity by SVIPE ID (no complete confirmation will be done)" />
+        <classes>
+            <class name="se.sunet.eduid.TC_79" >
             </class>
         </classes>
     </test>

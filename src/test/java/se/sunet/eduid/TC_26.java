@@ -80,7 +80,7 @@ public class TC_26 extends BeforeAndAfter {
         if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("English")) {
             common.selectEnglish();
         }
-        common.verifyStatusMessage("You have recently been sent a verification code. Please wait at least 5 minutes to request a new one.");
+        common.verifyStatusMessage("You have recently been sent a code. Please wait at least 5 minutes to request a new one.");
 
     }
 }

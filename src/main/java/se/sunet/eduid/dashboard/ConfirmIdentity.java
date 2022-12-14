@@ -139,7 +139,7 @@ public class ConfirmIdentity{
 
             common.selectSwedish();
 
-            //Add nin-cookie to get successfull response from idp
+            //Add nin-cookie to get successful response from idp
             common.addNinCookie();
 
             //Expand Freja menu, since collapsed when change of language
@@ -178,6 +178,18 @@ public class ConfirmIdentity{
             common.findWebElementById("buttonNext").click();
 
             common.timeoutSeconds(2);
+        }
+
+        //SVIPE
+        else if(testData.getConfirmIdBy().equalsIgnoreCase("svipe")) {
+            Common.log.info("Verify identity by SVIPE ID");
+
+            //Click proceed button
+            common.scrollToPageBottom();
+            common.findWebElementByXpath("//*[@id=\"accordion__panel-world\"]/button").click();
+
+            //Wait and see that we come to Sipe id page
+            common.explicitWaitPageTitle("Svipe iD Login");
         }
 
     }

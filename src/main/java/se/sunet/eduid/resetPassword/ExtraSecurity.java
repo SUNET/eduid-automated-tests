@@ -34,10 +34,11 @@ public class ExtraSecurity {
         common.verifyStringOnPage("Select an extra security option");
         common.verifyStringOnPage("A password reset using an extra security option will keep your identity confirmed.");
         common.verifyStringOnPage("SEND SMS TO **********" + testData.getPhoneNumber().substring(10,12));
-        common.verifyStringOnPage("Already received sms?  enter code");
+        if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja"))
+            common.verifyStringOnPage("Already received the code?  enter code");
         common.verifyStringOnPage("Continue without extra security option");
-        common.verifyStringOnPage("Your account will require confirmation after the password has been " +
-                "reset. Continue reset password");
+        common.verifyStringOnPage("Your identity will require confirmation after the password has been " +
+                "reset. Continue resetting password");
 
         //Switch to Swedish
         common.selectSwedish();
@@ -45,11 +46,12 @@ public class ExtraSecurity {
         //verify the labels - swedish
         common.verifyStringOnPage("Välj ett extra säkerhetsalternativ");
         common.verifyStringOnPage("Genom att återställa lösenordet med ett extra säkerhetsalternativ " +
-                "så kommer kontot att förbli verifierat.");
+                "kommer kontot att förbli verifierat.");
         common.verifyStringOnPage("SKICKA SMS TILL **********" + testData.getPhoneNumber().substring(10,12));
-        common.verifyStringOnPage("Redan fått sms?  skriv in koden");
+        if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja"))
+            common.verifyStringOnPage("Redan fått en kod?  skriv in koden");
         common.verifyStringOnPage("Fortsätt utan extra säkerhetsalternativ");
-        common.verifyStringOnPage("Ditt konto kommer att behöva verifieras efter att lösenordet har " +
+        common.verifyStringOnPage("Din identitet kommer att behöva verifieras efter att lösenordet har " +
                 "återställts. Fortsätt återställa lösenordet");
     }
 
@@ -60,10 +62,12 @@ public class ExtraSecurity {
             String otpText = common.findWebElementById("extra-security-phone").getText();
             testData.setOtpPhoneNumber(otpText.substring(otpText.length()-2));
             common.click(common.findWebElementById("extra-security-phone"));
+            Common.log.info("Selecting Phone for password reset");
         }
         //Continue without extra security
         else if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("no")) {
             common.click(common.findWebElementById("continue-without-security"));
+            Common.log.info("Selecting 'no extra security' for password reset");
         }
         //If multiple phone numbers are added select the in order that should be used
         else if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("2")) {
@@ -90,6 +94,8 @@ public class ExtraSecurity {
         //Already have OTP
         else {
             common.click(common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/p[2]/a"));
+
+            Common.log.info("Already have OTP for password reset");
         }
     }
 }

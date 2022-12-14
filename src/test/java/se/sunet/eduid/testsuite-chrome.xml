@@ -290,7 +290,8 @@
     </test>
 
     <test name="TC_35">
-        <parameter name="testDescription" value="Initiate Register of new account, abort at terms" />
+        <parameter name="testDescription" value="Initiate Register of new account, abort at terms. Then trigger multiple
+        account register reject function by attempt to register more/same accounts in the same session" />
         <classes>
             <class name="se.sunet.eduid.TC_35" >
             </class>

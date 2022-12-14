@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="dev" parallel="tests" thread-count="8">
+<suite name="dev" parallel="tests" thread-count="20">
     <parameter name="url" value="https://dev.eduid.se" />
     <parameter name="browser" value="chrome" />
     <parameter name="headless" value="true" />
@@ -8,7 +8,8 @@
     <parameter name="testsuite" value="dev" />
 
     <test name="TC_35">
-        <parameter name="testDescription" value="Initiate Register of new account, abort at terms" />
+        <parameter name="testDescription" value="Initiate Register of new account, abort at terms. Then trigger multiple
+        account register reject function by attempt to register more/same accounts in the same session" />
         <classes>
             <class name="se.sunet.eduid.TC_35" >
             </class>
@@ -16,7 +17,7 @@
     </test>
 
     <test name="TC_36">
-        <parameter name="testDescription" value="Initiate Register of new account, abort at captcha" />
+        <parameter name="testDescription" value="Initiate Register of new account, abort at confirm email" />
         <classes>
             <class name="se.sunet.eduid.TC_36" >
             </class>
@@ -47,6 +48,7 @@
         </classes>
     </test>
 
+<!--
     <test name="TC_40">
         <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by phone" />
         <classes>
@@ -54,6 +56,7 @@
             </class>
         </classes>
     </test>
+-->
 
     <test name="TC_41">
         <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by letter" />
@@ -80,7 +83,6 @@
             </class>
         </classes>
     </test>
-
 
     <test name="TC_99">
         <parameter name="testDescription" value="Check the Help pages" />
@@ -168,5 +170,13 @@
         </classes>
     </test>
 
+    <test name="TC_79">
+        <parameter name="testDescription" value="Register new account, add and confirm phone number.
+                Attempt to confirm identity by SVIPE ID (no complete confirmation will be done)" />
+        <classes>
+            <class name="se.sunet.eduid.TC_79" >
+            </class>
+        </classes>
+    </test>
 
 </suite>

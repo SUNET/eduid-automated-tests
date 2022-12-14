@@ -39,7 +39,7 @@ public class TC_43 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
-        testData.setPhoneNumber("+46701740605");
+ //       testData.setPhoneNumber("+46701740605");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
@@ -52,9 +52,21 @@ public class TC_43 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"confirmIdentityPhone"} )
-    void advancedSettings(){ advancedSettings.runAdvancedSettings(); }
+    void confirmedIdentity() {
+        confirmedIdentity.runConfirmIdentity();
 
-    @Test( dependsOnMethods = {"advancedSettings"} )
+        testData.setRegisterAccount(false);
+        common.selectSwedish();
+    }
+
+    @Test( dependsOnMethods = {"confirmedIdentity"} )
+    void storeEppn(){
+        advancedSettings.pressAdvancedSettings();
+        common.timeoutSeconds(1);
+        advancedSettings.storeEppn();
+    }
+
+    @Test( dependsOnMethods = {"storeEppn"} )
     void logout(){ logout.runLogout(); }
 
     //Navigate to the support tool
@@ -87,6 +99,9 @@ public class TC_43 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
+        //Click on not you, otherwise last username is pre-filled
+        common.findWebElementById("wrong-person-button").click();
+
         login.runLogin();
     }
 
@@ -135,8 +150,14 @@ public class TC_43 extends BeforeAndAfter {
     private void loginSupportTool(){
         common.explicitWaitClickableElementId("email");
 
+        //Click on not you, otherwise last username is pre-filled
+        common.findWebElementById("wrong-person-button").click();
+
+        //Enter support username and password
         common.findWebElementById("email").sendKeys(testData.getSupportUsername());
-        common.findWebElementById("current-password").sendKeys("d72o cqhd hnqc");
+        common.findWebElementById("current-password").sendKeys("v8ic uz53 wd85");
+
+        //eppn: dalum-zifuj
 
         common.click(common.findWebElementById("login-form-button"));
     }

@@ -45,10 +45,10 @@ public class LoginExtraSecurity {
 
     private void verifyTexts(){
         //Swedish
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Logga in: Extra nivå av säkerhet");
-        common.verifyStringOnPage("Du måste välja en andra " +
-                "metod att autentisera dig själv. Detta hjälper att garantera att bara du kan komma åt ditt eduID.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/div[1]/div/p", "T.ex. USB säkerhetsnyckel, Touch ID eller Face ID.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Logga in: Extra säkerhet");
+        common.verifyStringOnPage("Du måste välja en ytterligare metod att autentisera dig själv med. " +
+                "Detta säkerställer att bara du kan komma åt ditt eduID.");
+        common.verifyStringOnPage("T.ex. USB säkerhetsnyckel, Touch ID eller Face ID.");
         common.verifyStringById("mfa-security-key", "ANVÄND MIN SÄKERHETSNYCKEL");
         common.verifyStringOnPage("Freja eID+");
         common.verifyStringByXpath("//*[@id=\"mfa-freja\"]/span", "Freja eID+");
@@ -58,10 +58,10 @@ public class LoginExtraSecurity {
         common.selectEnglish();
 
         //English
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Log in: Extra level of security");
-        common.verifyStringOnPage("You need to choose a " +
-                "second method to authenticate yourself. This helps guarantee that only you can access your eduID.");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/div[1]/div/p", "E.g. USB Security Key, Touch ID or Face ID.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Log in: Extra security");
+        common.verifyStringOnPage("You need to choose a second method to authenticate yourself. " +
+                "This ensures that only you can access your eduID.");
+        common.verifyStringOnPage("E.g. USB Security Key, Touch ID or Face ID.");
         common.verifyStringById("mfa-security-key", "USE MY SECURITY KEY");
         common.verifyStringOnPage("Freja eID+");
         common.verifyStringByXpath("//*[@id=\"mfa-freja\"]/span", "Freja eID+");

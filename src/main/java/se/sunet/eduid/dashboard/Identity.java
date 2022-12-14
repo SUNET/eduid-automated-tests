@@ -133,6 +133,19 @@ public class Identity {
         //Button text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-eu\"]/button", "FORTSÄTT");
 
+        //---- SVIPE ----
+        //Heading
+        common.verifyStringOnPage("Alla andra länder");
+        common.verifyStringOnPage("Med Svipe ID kryptografisk identitetsverifiering");
+
+        //Fine text
+        common.verifyStringOnPage("Om du har ett Svipe ID kan du koppla det till ditt eduID.");
+        common.verifyStringOnPage("Knappen nedan tar dig till en extern identifieringssida, där du " +
+                "genom att identifiera dig med Svipe ID verifierar din identitet mot eduID.");
+
+        //Button text
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-world\"]/button", "FORTSÄTT");
+
         Common.log.info("Verify Identity labels in Swedish - done");
     }
 
@@ -195,6 +208,7 @@ public class Identity {
         common.verifyStringOnPage("Verify your id number");
         common.verifyStringOnPage("Choose a suitable method to verify that you have access to the added id number.");
 
+
         //---- Letter ----
         //Button text - letter
         common.verifyStringOnPage("For you officially registered at an address in Sweden");
@@ -242,6 +256,7 @@ public class Identity {
         //Verify Freja pop-up labels
         verifyFrejaIdLabelsEnglish();
 
+
         //---- eIDAS ----
         //Heading
         common.verifyStringOnPage("EU citizen");
@@ -256,6 +271,19 @@ public class Identity {
         //Button text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-eu\"]/button", "PROCEED");
 
+
+        //---- SVIPE ----
+        //Heading
+        common.verifyStringOnPage("All other countries");
+        common.verifyStringOnPage("With Svipe ID cryptographic identity verification");
+
+        //Fine text
+        common.verifyStringOnPage("If you have a Svipe ID you can connect it to your eduID.");
+        common.verifyStringOnPage("The button below will take you to an external identification site, " +
+                "where you by identifying yourself with Svipe ID will verify your identity towards eduID.");
+
+        //Button text
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-world\"]/button", "PROCEED");
         common.timeoutSeconds(1);
 
         //Click on swedish
@@ -379,6 +407,9 @@ public class Identity {
         common.scrollToPageBottom();
         common.timeoutMilliSeconds(100);
         common.click(common.findWebElementById("accordion__heading-eu"));
+        common.scrollToPageBottom();
+        common.timeoutMilliSeconds(100);
+        common.click(common.findWebElementById("accordion__heading-world"));
         common.timeoutMilliSeconds(100);
     }
 }

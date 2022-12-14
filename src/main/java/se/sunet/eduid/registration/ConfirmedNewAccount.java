@@ -44,7 +44,7 @@ public class ConfirmedNewAccount {
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Lösenord");
         testData.setPassword(common.findWebElementById("user-password").getText());
 
-        //Switch language to English
+/*        //Switch language to English
         common.selectEnglish();
 
         common.verifyPageTitle("Register | eduID");
@@ -65,7 +65,7 @@ public class ConfirmedNewAccount {
 
 
         //Switch language to Swedish
-        common.selectSwedish();
+        common.selectSwedish();*/
     }
 
     private void clickGoToMyEduID(){

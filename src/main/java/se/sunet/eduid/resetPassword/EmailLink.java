@@ -32,7 +32,7 @@ public class EmailLink {
             common.timeoutSeconds(2);
             common.navigateToUrl("https://idp.dev.eduid.se/services/reset-password/get-email-code?eppn=" +testData.getEppn());
 
-            //Common.log.info("Current url: " + WebDriverManager.getWebDriver().getCurrentUrl());
+            Common.log.info("Get reset email code: https://idp.dev.eduid.se/services/reset-password/get-email-code?eppn=" +testData.getEppn());
 
             //Fetch the code
             testData.setEmailCode(common.findWebElementByXpath("/html/body").getText());

@@ -51,7 +51,6 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
-        testData.setPhoneNumber("+46701740606");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
@@ -83,7 +82,12 @@ public class TC_49 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void register2(){ register.runRegister(); }
+    void register2(){
+        //Special in order not to generate a new identity number
+        testData.setRegisterAccount(false);
+        register.runRegister();
+        testData.setRegisterAccount(true);
+    }
 
     @Test( dependsOnMethods = {"register2"} )
     void confirmHuman2() { confirmHuman.runConfirmHuman(); }
@@ -117,7 +121,10 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo2"} )
     void addPhoneNumber2(){
+        //Setting register to false in order to use the previous phone number
+        testData.setRegisterAccount(false);
         phoneNumber.addPhoneNumber();
+        testData.setRegisterAccount(true);
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber2"} )
@@ -166,7 +173,7 @@ public class TC_49 extends BeforeAndAfter {
         testData.setTestCase("TC_49");
     }
 
-    //Log in to first account, verify that phonenumber and identity needs to be confirmed
+    //Log in to first account, verify that phone number and identity needs to be confirmed
     @Test( dependsOnMethods = {"startBrowser"} )
     void checkFirstAccount(){
     }
@@ -191,7 +198,7 @@ public class TC_49 extends BeforeAndAfter {
         //Navigate to settings
         dashBoard.pressSettings();
 
-        //Verify that phonenumber is not confirmed
+        //Verify that phone number is not confirmed
         String currentButtonText = common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button").getText();
         common.verifyStrings("BEKRÄFTA", currentButtonText);
 
@@ -206,5 +213,25 @@ public class TC_49 extends BeforeAndAfter {
         common.verifyStringOnPage("Koppla din identitet till ditt eduID");
         common.verifyStringOnPage("Lägg till ditt personnummer");
         common.verifyStringOnPage("Bekräfta ditt personnummer");
+    }
+
+    //Delete the first account, so it will be removed after 2 weeks by script
+    @Test( dependsOnMethods = {"verifyIdentityNotConfirmed"} )
+    void dashboard2() { dashBoard.pressSettings(); }
+
+    @Test( dependsOnMethods = {"dashboard2"} )
+    void delete2() {
+        testData.setDeleteButton(true);
+        deleteAccount.runDeleteAccount(); }
+
+    @Test( dependsOnMethods = {"delete2"} )
+    void startPage5(){ startPage.runStartPage(); }
+
+    @Test( dependsOnMethods = {"startPage5"} )
+    void login5(){
+        testData.setIncorrectPassword(true);
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
     }
 }

@@ -13,12 +13,13 @@ import org.testng.Assert;
 import io.github.sukgu.Shadow;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.*;
 import java.util.NoSuchElementException;
-import java.util.Properties;
 
 public class Common {
 
@@ -234,8 +235,8 @@ public class Common {
 
     public void verifyStatusMessage(String message) {
         //Verify the saved info label
-        explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span");
-        verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span", message);
+        explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span/output");
+        verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span/output", message);
 
         //log.info("Status message at page: " +findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/span").getText());
     }
@@ -327,25 +328,29 @@ public class Common {
     }
 
     public void addMagicCookie(){
-        Date today    = new Date();
-        Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
-        webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi",
-                ".dev.eduid.se", "/", tomorrow, true, true, "None"));
+        if(!isCookieSet("autotests")) {
+            Date today = new Date();
+            Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
+            webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi",
+                    ".dev.eduid.se", "/", tomorrow, true, true, "None"));
 
-        logCookie("autotests");
+            logCookie("autotests");
+        }
     }
     public void addNinCookie(){
-        Date today    = new Date();
-        Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
-        webDriver.manage().addCookie(new Cookie("nin", testData.getIdentityNumber(),
-                ".dev.eduid.se", "/", tomorrow, true, true, "None"));
+        if(!isCookieSet("nin")) {
+            Date today = new Date();
+            Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
+            webDriver.manage().addCookie(new Cookie("nin", testData.getIdentityNumber(),
+                    ".dev.eduid.se", "/", tomorrow, true, true, "None"));
 
-        logCookie("nin");
+            logCookie("nin");
+        }
     }
 
     public boolean isCookieSet(String cookieName){
         try {
-            log.info("Cookie found with name: " + webDriver.manage().getCookieNamed(cookieName).getName());
+            log.info("Cookie set with name: " + webDriver.manage().getCookieNamed(cookieName).getName());
         }catch (NullPointerException ex){
             log.info("No cookie found with name:" +cookieName);
             return false;
@@ -354,11 +359,53 @@ public class Common {
     }
 
     public void logCookie(String name){
+        log.info("Cookie added:");
         log.info("Cookie name: " + webDriver.manage().getCookieNamed(name).getName());
         log.info("Cookie value: " + webDriver.manage().getCookieNamed(name).getValue());
         log.info("Cookie domain: " + webDriver.manage().getCookieNamed(name).getDomain());
         log.info("Cookie path: " + webDriver.manage().getCookieNamed(name).getPath());
         log.info("Cookie expire: " + webDriver.manage().getCookieNamed(name).getExpiry());
         log.info("Cookie samesite: " + webDriver.manage().getCookieNamed(name).getSameSite());
+    }
+
+    public void setPhoneNumber(){
+        //Select random phone number from file
+        List<String> lines;
+        Random random = new Random();
+        try {
+            lines = Files.readAllLines(Paths.get("src/main/resources/phone_numbers.txt"));
+
+            testData.setPhoneNumber(lines.get(random.nextInt(lines.size())));
+            Common.log.info("Phone number set to: " +testData.getPhoneNumber());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getCodeInNewTab(String fromURL) {
+        //Store current window handle
+        switchToPopUpWindow();
+
+        // Opens a new window and switches to new window, to continue with same session
+        Common.log.info("Open new browser tab");
+        getWebDriver().switchTo().newWindow(WindowType.TAB);
+
+        //Navigate to page with otp
+        navigateToUrl(fromURL);
+        String code = findWebElementByXpath("/html/body").getText();
+
+        Common.log.info("Fetched code: " +code);
+        timeoutMilliSeconds(500);
+
+        //Close the tab or window
+        Common.log.info("Closing new browser tab");
+        getWebDriver().close();
+        timeoutMilliSeconds(500);
+
+        //Switch back to the old tab
+        switchToDefaultWindow();
+        timeoutMilliSeconds(500);
+
+        return code;
     }
 }

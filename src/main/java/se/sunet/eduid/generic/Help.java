@@ -31,6 +31,8 @@ public class Help {
             common.selectSwedish();
 
         //Heading 1
+        common.verifyStringOnPage("FAQ");
+        common.verifyStringOnPage("EDUID");
         common.verifyStringOnPage("Vad är eduID?");
 
         //Text 1
@@ -69,21 +71,6 @@ public class Help {
                 "Byter lärosäte\n" +
                 "Tappar ett lösenord");
 
-        //Heading 4
-        common.verifyStringOnPage("Hur hanterar eduID mina personuppgifter?");
-
-        //Text 4
-        common.verifyStringOnPage("Läs mer på www.sunet.se.");
-
-        //Heading 5
-        common.verifyStringOnPage("Vad är SUNET?");
-
-        //Text 5
-        common.verifyStringOnPage("SUNET är den organisation som är ansvarig för det svenska " +
-                "universitets- och datanätverket och även flertal tjänster som används av universitet och högskolor i Sverige.");
-        common.verifyStringOnPage("SUNET arbetar sedan länge med identitetshantering, och för att " +
-                "underlätta för alla parter i högskolevärlden har SUNET tagit fram eduID. Mer information om SUNET finns på www.sunet.se.");
-
         //Heading 6
         common.verifyStringOnPage("Hur byter jag standardspråk i eduID?");
 
@@ -98,50 +85,96 @@ public class Help {
         //Text 7
         common.verifyStringOnPage("Du kan logga in med alla e-postadresser som du angett och bekräftat i eduID.");
 
+        //Identitet
+        common.verifyStringOnPage("IDENTITET");
+        common.verifyStringOnPage("Vilka är de utvalda sätten att bekräfta ett personnummer för eduID?");
+        common.verifyStringOnPage("Just nu kan man bekräfta sitt personnummer via:");
+        common.verifyStringOnPage("Post: Användaren får ett brev med en kod skickat till den " +
+                "folkbokföringsadress som är registrerad hos Skatteverket");
+        common.verifyStringOnPage("Mobil: Användaren får ett sms med en kod skickat till det telefonnummer " +
+                "som är registrerat i mobiloperatörernas egna register");
+        common.verifyStringOnPage("Freja eID+ (digitalt ID-kort): Användaren blir hänvisad till Freja " +
+                "eIDs hemsida för att använda sig av deras tjänst. Om du inte redan har Freja eID+ kräver denna metod " +
+                "skapande av ett separat Freja eID+ innan du kan bekräfta ditt eduID.");
+        common.verifyStringOnPage("Om du är EU-medborgare utan ett svenskt personnummer kan du istället " +
+                "använda dig av eIDAS för att bekräfta din identitet.");
+
+
         //Heading 8
-        common.verifyStringOnPage("Vad är Freja eID?");
+        common.verifyStringOnPage("FREJA EID+");
+        common.verifyStringOnPage("Vad är Freja eID+?");
 
         //Text 8
-        common.verifyStringOnPage("Freja eID är ett kostnadsfritt digitalt ID-kort.");
-        common.verifyStringOnPage("Så här skaffar du Freja eID:\n" +
+        common.verifyStringOnPage("Så här skaffar du Freja eID+:" +
+                "\n" +
                 "Installera Freja eID appen på din mobila enhet (iOS eller Android)\n" +
-                "Skapa ett Freja eID Plus konto\n" +
+                "Skapa ett Freja eID+ konto\n" +
                 "Ta med giltig legitimation till närmsta ATG ombud som kan påbörja en process som godkänner din identitet");
 
         //Heading 9
-        common.verifyStringOnPage("Varför måste jag besöka ett ATG ombud för att skapa Freja eID?");
+        common.verifyStringOnPage("Varför måste jag besöka ett ATG ombud för att skapa Freja eID+?");
 
         //Text 9
         common.verifyStringOnPage("ATG ombudet kan påbörja en kontroll av din legitimation genom att " +
                 "scanna den QR-kod som Freja eID appen genererat och följa instruktionerna på sin skärm. Du kommer bli " +
-                "informerad när legitimationskontollen är slutförd och ditt Freja eID är klart att användas.");
+                "informerad när legitimationskontollen är slutförd och ditt Freja eID+ är klart att användas.");
 
         //Heading 10
-        common.verifyStringOnPage("Hur hittar jag ett ATG ombud som kan göra en legitimationskontroll för Freja eID?");
+        common.verifyStringOnPage("Hur hittar jag ett ATG ombud som kan göra en legitimationskontroll för Freja eID+?");
 
         //Text 10
         common.verifyStringOnPage("Ditt närmsta ATG ombud kan hittas i appen.");
 
         //Heading 11
-        common.verifyStringOnPage("Vad ska jag göra om legitimationskontrollen för Freja eID misslyckades?");
+        common.verifyStringOnPage("Vad ska jag göra om legitimationskontrollen för Freja eID+ misslyckades?");
 
         //Text 11
         common.verifyStringOnPage("Avinstallera appen, gör om registreringen, samt kontrollera noga att " +
                 "du angivit rätt datum då ID-handlingen upphör att gälla samt att du fyllt i rätt referensnummer och personnummer.");
 
         //Heading 12
-        common.verifyStringOnPage("Hur använder jag Freja eID med eduID?");
+        common.verifyStringOnPage("Hur använder jag Freja eID+ med eduID?");
 
         //Text 12
-        common.verifyStringOnPage("Logga in på eduID och klicka på 'Använd mitt Freja eID'.");
+        common.verifyStringOnPage("Logga in på eduID och klicka på 'Använd mitt Freja eID+'.");
 
         //Heading 13
-        common.verifyStringOnPage("Hur lång tid tar legitimationskontrollen för Freja eID?");
+        common.verifyStringOnPage("Hur lång tid tar legitimationskontrollen för Freja eID+?");
 
         //Text 13
         common.verifyStringOnPage("Det kan ta upp till 3 timmar att för din legetimation att bli godkänd.");
 
+
+        common.verifyStringOnPage("EIDAS");
+        common.verifyStringOnPage("Vad är eIDAS?");
+        common.verifyStringOnPage("eIDAS är en federation av anslutna EU-länder som utfärdar en elektronisk " +
+                "identifiering för att erbjuda inloggning till alla offentliga verksamheters system för medborgare inom EU, " +
+                "med hjälp av sitt lands e-legitimation.");
+        common.verifyStringOnPage("Hur används eIDAS:");
+        common.verifyStringOnPage("Om du har ett elektroniskt ID från ett anslutet land har du möjlighet " +
+                "att authenticera dig via eIDAS.");
+        common.verifyStringOnPage("För att bekräfta din identitet i eduID, logga in och välj identifieringsmetod " +
+                "för 'EU-medborgare' under fliken 'Identitet'.");
+        common.verifyStringOnPage("Om du har ett svenskt personnummer använder du den metoden istället, " +
+                "bl.a. för att underlätta kommunikationen med svenska institutioner.");
+        common.verifyStringOnPage("Om du verifierar dig initialt med eIDAS och senare får svenskt personnummer " +
+                "kan du lägga till det och verifiera dig igen med hjälp av det under fliken 'Identitet'.");
+        common.verifyStringOnPage("");
+        common.verifyStringOnPage("");
+
+        //Heading 5
+        common.verifyStringOnPage("SUNET");
+        common.verifyStringOnPage("Vad är SUNET?");
+
+        //Text 5
+        common.verifyStringOnPage("SUNET är den organisation som är ansvarig för det svenska " +
+                "universitets- och datanätverket och även flertal tjänster som används av universitet och högskolor i Sverige.");
+        common.verifyStringOnPage("SUNET arbetar sedan länge med identitetshantering, och för att " +
+                "underlätta för alla parter i högskolevärlden har SUNET tagit fram eduID. Mer information om SUNET finns på www.sunet.se.");
+
+
         //Heading 14
+        common.verifyStringOnPage("ORCID");
         common.verifyStringOnPage("Vad är ORCID?");
 
         //Text 14
@@ -171,16 +204,25 @@ public class Help {
         //Text 17
         common.verifyStringOnPage("Om du inte längre vill att eduID ska känna till ditt ORCID iD kan du enkelt ta bort det genom att klicka på krysset.");
 
+        //Heading 4
+        common.verifyStringOnPage("PERSONUPPGIFTER");
+        common.verifyStringOnPage("Hur hanterar eduID mina personuppgifter?");
+
+        //Text 4
+        common.verifyStringOnPage("Läs mer på www.sunet.se.");
+
         //Heading 18
-        common.verifyStringOnPage("Kontakt");
+        common.verifyStringOnPage("KONTAKT");
 
         //Text 18
+        common.verifyStringOnPage("eduID support");
         common.verifyStringOnPage("Om du inte kan hitta svar på dina frågor om eduID på vår hjälpsida " +
                 "kan du kontakta eduID-supporten via e-post till support@eduid.se.");
         common.verifyStringOnPage("Ange alltid den e-postadress som du använde när du loggade in på eduID. " +
                 "Om något har blivit fel är det alltid bra att skicka med skärmdumpar med felmeddelanden för att underlätta felsökning.");
-        common.verifyStringOnPage("För bästa möjliga support rekommenderar vi dig alltid att skicka e-post " +
+        common.verifyStringOnPage("För bästa möjliga support rekommenderar vi dig alltid att skicka e-post, " +
                 "men för enklare ärenden kan du också nå oss per telefon 0455-385200.");
+        common.verifyStringOnPage("Öppettider:");
     }
 
     private void verifyEnglish(){
@@ -191,6 +233,8 @@ public class Help {
         common.click(common.findWebElementByXpath("//*[@id=\"footer\"]/nav/ul/li[1]/a"));
 
         //Heading 1
+        common.verifyStringOnPage("FAQ");
+        common.verifyStringOnPage("EDUID");
         common.verifyStringOnPage("What is eduID?");
 
         //Text 1
@@ -229,22 +273,6 @@ public class Help {
                 "Change university\n" +
                 "Lose a password");
 
-        //Heading 4
-        common.verifyStringOnPage("What is the eduID privacy policy?");
-
-        //Text 4
-        common.verifyStringOnPage("Read more at www.sunet.se.");
-
-        //Heading 5
-        common.verifyStringOnPage("What is SUNET?");
-
-        //Text 5
-        common.verifyStringOnPage("SUNET is the organisation responsible for Swedish universities and " +
-                "data networks, as well as many services that are used by universities in Sweden.");
-        common.verifyStringOnPage("SUNET has been working with the issue of identity management for a " +
-                "long time and developed eduID to make things easier for all parties in the higher education community. " +
-                "More information about SUNET is available at www.sunet.se.");
-
         //Heading 6
         common.verifyStringOnPage("How do I change the default language in eduID?");
 
@@ -259,32 +287,50 @@ public class Help {
         //Text 7
         common.verifyStringOnPage("You can log in with all the email addresses you have entered and confirmed in eduID.");
 
+
+        //Identitet
+        common.verifyStringOnPage("IDENTITY");
+        common.verifyStringOnPage("What are the selected methods of verifying an id number for eduID?");
+        common.verifyStringOnPage("At this moment, verifying an id number can be done via:");
+        common.verifyStringOnPage("Post: The user receives a letter with a code sent to their home address " +
+                "as registered at Skatteverket (the Swedish Tax Agency)");
+        common.verifyStringOnPage("Mobile: The user receives a message sent to the phone number that is " +
+                "registered in the Swedish telephone register");
+        common.verifyStringOnPage("Freja eID+ (digital ID-card): The user will be directed to the Freja " +
+                "eID website to use their service. If you don't have Freja eID+ you have to create it separately before " +
+                "you can complete verification of your eduID");
+        common.verifyStringOnPage("If you are a EU citizen without a Swedish personal identity number " +
+                "you could use eIDAS to verify your identity.");
+
+
         //Heading 8
-        common.verifyStringOnPage("What is Freja eID?");
+        common.verifyStringOnPage("FREJA EID+");
+        common.verifyStringOnPage("What is Freja eID+?");
 
         //Text 8
-        common.verifyStringOnPage("Freja eID is a digital ID-card free of charge.");
-        common.verifyStringOnPage("This is how you create Freja eID:\n" +
+        common.verifyStringOnPage("Freja eID+ is a digital ID-card free of charge.");
+        common.verifyStringOnPage("This is how you create Freja eID+:" +
+                "\n" +
                 "Install the Freja eID app on your mobile device (iOS or Android)\n" +
-                "Create a Freja eID Plus account\n" +
+                "Create a Freja eID+ account\n" +
                 "Bring a valid ID to the nearest ATG agent authorised to verify your identity");
 
         //Heading 9
-        common.verifyStringOnPage("Why do I need to visit an authorised ATG agent to create Freja eID?");
+        common.verifyStringOnPage("Why do I need to visit an authorised ATG agent to create Freja eID+?");
 
         //Text 9
         common.verifyStringOnPage("On site, the agent can start the verification process by scanning a " +
                 "QR code in your app and follow the instructions in their terminal. You will be informed when you have " +
-                "passed the ID verification and will be able use your Freja eID with your eduID.");
+                "passed the ID verification and will be able use your Freja eID+ with your eduID.");
 
         //Heading 10
-        common.verifyStringOnPage("How do I find an ATG agent authorised for Freja eID?");
+        common.verifyStringOnPage("How do I find an ATG agent authorised for Freja eID+?");
 
         //Text 10
         common.verifyStringOnPage("The nearest authorised ATG agents can be found in the app.");
 
         //Heading 11
-        common.verifyStringOnPage("What should I do if my identity verification for Freja eID fails?");
+        common.verifyStringOnPage("What should I do if my identity verification for Freja eID+ fails?");
 
         //Text 11
         common.verifyStringOnPage("Reinstall the app, redo the registration and make sure that you have " +
@@ -292,18 +338,45 @@ public class Help {
                 "form of ID and personal identity number (personnummer).");
 
         //Heading 12
-        common.verifyStringOnPage("How do I use my Freja eID with my eduID?");
+        common.verifyStringOnPage("How do I use my Freja eID+ with my eduID?");
 
         //Text 12
-        common.verifyStringOnPage("Log in to eduID and click 'Use my Freja eID' button.");
+        common.verifyStringOnPage("Log in to eduID and click 'Use my Freja eID+' button.");
 
         //Heading 13
-        common.verifyStringOnPage("How long does it take for a Freja eID to be processed?");
+        common.verifyStringOnPage("How long does it take for a Freja eID+ to be processed?");
 
         //Text 13
-        common.verifyStringOnPage("It can take up to three hours for your Freja eID to be fully activated.");
+        common.verifyStringOnPage("It can take up to three hours for your Freja eID+ to be fully activated.");
+
+
+        common.verifyStringOnPage("EIDAS");
+        common.verifyStringOnPage("What is eIDAS?");
+        common.verifyStringOnPage("eIDAS is a federation of EU countries providing electronic identification " +
+                "to allow access to public authority systems for EU citizens, using their country's electronic ID.");
+        common.verifyStringOnPage("How to use eIDAS:");
+        common.verifyStringOnPage("If you have an electronic ID from a connected country you have the " +
+                "possibility to authenticate yourself via eIDAS.");
+        common.verifyStringOnPage("To verify your identity in eduID, log in and choose the verification " +
+                "method for 'EU-citizens' under the 'Identity' tab.");
+        common.verifyStringOnPage("If you have a Swedish personal identity number use that method instead " +
+                "e.g. to simplify communication with Swedish authorities.");
+        common.verifyStringOnPage("If you initially verify your identity with eIDAS and later receive a " +
+                "Swedish personal identity number you can add it and verify yourself again using it under the 'Identity' tab.");
+
+        //Heading 5
+        common.verifyStringOnPage("SUNET");
+        common.verifyStringOnPage("What is SUNET?");
+
+        //Text 5
+        common.verifyStringOnPage("SUNET is the organisation responsible for Swedish universities and " +
+                "data networks, as well as many services that are used by universities in Sweden.");
+        common.verifyStringOnPage("SUNET has been working with the issue of identity management for a " +
+                "long time and developed eduID to make things easier for all parties in the higher education community. " +
+                "More information about SUNET is available at www.sunet.se.");
 
         //Heading 14
+        common.verifyStringOnPage("ORCID");
         common.verifyStringOnPage("What is ORCID?");
 
         //Text 14
@@ -334,8 +407,15 @@ public class Help {
         common.verifyStringOnPage("If you do not longer want eduID to know your ORCID iD you can easily " +
                 "remove it by clicking the remove button in your eduID.");
 
+        //Heading 4
+        common.verifyStringOnPage("PRIVACY POLICY");
+        common.verifyStringOnPage("What is the eduID privacy policy?");
+
+        //Text 4
+        common.verifyStringOnPage("Read more at www.sunet.se.");
+
         //Heading 18
-        common.verifyStringOnPage("Contact");
+        common.verifyStringOnPage("CONTACT");
 
         //Text 18
         common.verifyStringOnPage("If you can't find the answers to your questions about eduID on our " +
@@ -344,6 +424,7 @@ public class Help {
                 "eduID. If something went wrong, it is always a good idea to include screenshots with error messages to " +
                 "ease troubleshooting.");
         common.verifyStringOnPage("In order to get best possible support, we recommend that you send " +
-                "e-mail, but for simple matters you can also find us on phone number 0455-385200.");
+                "e-mail, but for simple matters you can also reach us on phone number 0455-385200.");
+        common.verifyStringOnPage("Opening hours:");
     }
 }

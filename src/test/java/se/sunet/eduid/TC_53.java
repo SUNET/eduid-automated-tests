@@ -36,7 +36,7 @@ public class TC_53 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
-        testData.setPhoneNumber("+46701740606");
+ //       testData.setPhoneNumber("+46701740606");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
@@ -135,14 +135,14 @@ public class TC_53 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"loginMfaFreja"} )
     void selectUserRefIdp2(){
         //Select and submit user
-//        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
+       common.click(common.findWebElementById("submitButton"));
 
-        common.click(common.findWebElementById("submitButton"));
+        //Wait for register button at start page
+        common.explicitWaitClickableElement("//section[2]/div/div/a");
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp2"} )
     void startPage2(){
-        common.timeoutSeconds(2);
         startPage.runStartPage();
     }
 

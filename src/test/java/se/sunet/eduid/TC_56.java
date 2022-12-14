@@ -36,7 +36,7 @@ public class TC_56 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
-        testData.setPhoneNumber("+46701740606");
+ //       testData.setPhoneNumber("+46701740606");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
@@ -90,9 +90,6 @@ public class TC_56 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"loginMfa"} )
     void selectUserRefIdp(){
-        //Add nin cookie
-        //common.addNinCookie();
-
         //Select and submit user
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 

@@ -46,22 +46,27 @@ public class PhoneNumber {
         common.selectSwedish();
     }
 
-    public void addPhoneNumber(){
+    public void addPhoneNumber() {
         //Press settings
         common.navigateToSettings();
 
         //TODO temp fix to get swedish language
-        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
+        if (common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
             common.selectSwedish();
 
         //Click add phone number button
         common.click(common.findWebElementByXpath("//div/section[2]/div/div/div/article[3]/div[2]/button"));
 
         //Verify placeholder
-        common.verifyPlaceholder("Telefonnummer","number");
+        common.verifyPlaceholder("Telefonnummer", "number");
 
-        //Enter phone number
+        //Enter phone number, if not set in test case, pick on from phone number list
         common.findWebElementById("number").clear();
+
+        if(testData.isRegisterAccount()){
+            //Fetch new number from phone_number.txt
+            common.setPhoneNumber();
+        }
         common.findWebElementById("number").sendKeys(testData.getPhoneNumber());
 
         //Click Add

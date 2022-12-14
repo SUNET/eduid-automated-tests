@@ -21,10 +21,10 @@ public class TestData {
     private boolean buttonValueConfirm = true;
     private boolean generateUsername = true;
     private boolean acceptTerms = true;
-    private boolean sendCaptcha = true;
+    private boolean verifyEmail = true;
     private boolean addSecurityKey = false;
     private boolean registerAccount, resetPassword, incorrectPassword, removePrimary, removeNewEmail1,
-            resendOTP, deleteButton, useRecommendedPw, otherDeviceFillCode, rememberMe;
+            resendOTP, deleteButton, useRecommendedPw, otherDeviceFillCode, rememberMe, identityConfirmed;
     private int counter = 0;
 
     void setProperties(String testSuite) throws IOException {

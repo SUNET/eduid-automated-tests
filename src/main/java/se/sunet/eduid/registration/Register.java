@@ -3,6 +3,11 @@ package se.sunet.eduid.registration;
 import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Random;
 
 public class Register {
     private final Common common;
@@ -17,6 +22,13 @@ public class Register {
         verifyPageTitle();
         verifyLabels();
         enterEmailAndPressRegister();
+
+        common.addMagicCookie();
+        common.findWebElementById("value").sendKeys("123456");
+
+        common.scrollToPageBottom();
+        common.findWebElementById("captcha-continue-button").click();
+
         registerPopUp();
     }
 
@@ -34,13 +46,15 @@ public class Register {
 
         common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Registrera din e-postadress för att skapa ditt eduID.");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "När du har skapat ditt eduID kan du logga in och koppla det till ditt svenska personnummer.");
+        common.verifyStringOnPage("När du har skapat ditt eduID kan du logga in och koppla det till ditt svenska personnummer.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress\n*");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "Om du redan har ett eduID kan du logga in här.");
+/*
+        common.verifyStringOnPage("Om du redan har ett eduID kan du logga in här.");
 
         Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"content\"]/p[2]/a").getAttribute("href")
                 .contains("https://dashboard.dev.eduid.se/profile"), "The log in link is not correct! Expecting: https://dashboard.dev.eduid.se/profile");
+*/
 
         //Switch language to English
         common.selectEnglish();
@@ -48,22 +62,28 @@ public class Register {
 
         common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Register your email address to create your eduID.");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[1]", "Once you have created an eduID you will be able to log in and connect it to your Swedish national identity number.");
+        common.verifyStringOnPage("Once you have created an eduID you will be able to log in and connect it to your Swedish national identity number.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address\n*");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/p[2]", "If you already have eduID you can log in here.");
+/*
+        common.verifyStringOnPage("If you already have eduID you can log in here.");
 
         Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"content\"]/p[2]/a").getAttribute("href")
                 .contains("https://dashboard.dev.eduid.se/profile"), "The log in link is not correct! Expecting: https://dashboard.dev.eduid.se/profile");
+*/
     }
 
-    private void enterEmailAndPressRegister(){
+    public void enterEmailAndPressRegister(){
         //Verify placeholder
         common.verifyPlaceholder("name@example.com", "email");
 
         //Generate new username
         if(testData.isGenerateUsername())
             generateUsername();
+
+        //Generate new identity number
+        if(testData.isRegisterAccount())
+            setIdentityNumber();
 
         Common.log.info("Register user: " +testData.getUsername());
 
@@ -80,7 +100,7 @@ public class Register {
         verifyTermsEnglish();
 
         //Press abort and switch to swedish
-        common.click(common.findWebElementById("register-modal-close-button"));
+        common.click(common.findWebElementById("cancel-button"));
 
         common.selectSwedish();
 
@@ -88,14 +108,14 @@ public class Register {
         common.click(common.findWebElementById("register-button"));
 
         //Click on register button again and verify terms in swedish
-        common.click(common.findWebElementById("register-button"));
+        //common.click(common.findWebElementById("register-button"));
         verifyTermsSwedish();
 
         //Click on accept or reject
         if(testData.isAcceptTerms())
-            common.click(common.findWebElementById("register-modal-accept-button"));
+            common.click(common.findWebElementById("accept-button"));
         else {
-            common.click(common.findWebElementById("register-modal-close-button"));
+            common.click(common.findWebElementById("cancel-button"));
             //TODO language
             common.timeoutSeconds(1);
         }
@@ -103,8 +123,9 @@ public class Register {
 
     private void verifyTermsSwedish(){
         //Swedish
-        common.explicitWaitVisibilityElement("//div/div[1]/h5");
-        common.verifyStringByXpath("//div/div[1]/h5", "Användarvillkor för eduID.se");
+        Common.log.info("Verify terms - swedish");
+        common.verifyStringOnPage("Användarvillkor");
+        common.verifyStringOnPage("För att skapa ditt eduID måste du acceptera användarvillkoren för eduID.");
         common.verifyStringOnPage("För eduID.se gäller generellt");
         common.verifyStringOnPage("att all användning av " +
                 "användarkonton ska följa Sveriges lagar och förordningar,");
@@ -123,11 +144,14 @@ public class Register {
                 "den avsedda användningen av nätverken");
         common.verifyStringOnPage("gör intrång i andras privatliv");
         common.verifyStringOnPage("försöker förolämpa eller förnedra andra");
+        common.verifyStringOnPage("Den som överträder, eller misstänks överträda, ovanstående regler " +
+                "kan stängas av från eduID.se. Dessutom kan rättsliga åtgärder komma att vidtas.");
     }
 
     private void verifyTermsEnglish(){
-        common.explicitWaitVisibilityElement("//div/div[1]/h5");
-        common.verifyStringByXpath("//div/div[1]/h5", "General rules for eduID users");
+        Common.log.info("Verify terms - english");
+        common.verifyStringOnPage("Terms of use");
+        common.verifyStringOnPage("To create your eduID you need to accept the eduID terms of use.");
         common.verifyStringOnPage("The following generally applies:");
         common.verifyStringOnPage("that all usage of user accounts " +
                 "follow the laws and by-laws of Sweden,");
@@ -145,6 +169,8 @@ public class Register {
         common.verifyStringOnPage("attempts to disrupt or destroy computer-based information");
         common.verifyStringOnPage("infringes on the privacy of others");
         common.verifyStringOnPage("attempts to insult or offend others");
+        common.verifyStringOnPage("Any person found violating or suspected of violating these rules can " +
+                "be disabled from eduID.se for investigation. Furthermore, legal action may be taken.");
     }
 
 
@@ -171,5 +197,19 @@ public class Register {
         }
         //Add the magic to random string
         testData.setUsername(sb.toString() +"@dev.eduid.sunet.se");
+    }
+
+    private void setIdentityNumber(){
+        //Select random identity number from file
+        List<String> lines;
+        Random random = new Random();
+        try {
+            lines = Files.readAllLines(Paths.get("src/main/resources/identity_numbers.txt"));
+
+            testData.setIdentityNumber(lines.get(random.nextInt(lines.size())));
+            Common.log.info("Identitynumber set to: " +testData.getIdentityNumber());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

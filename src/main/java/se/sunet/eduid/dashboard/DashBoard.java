@@ -35,7 +35,7 @@ public class DashBoard {
     private void verifyPageTitle() {
         //Timeout to save time from retry-functionality
         common.explicitWaitClickableElement("//*[@id=\"language-selector\"]/span/a");
-        //common.timeoutMilliSeconds(200);
+        common.timeoutMilliSeconds(500);
 
         //TODO temp fix to get swedish language - needed when new accounts created
         if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska")

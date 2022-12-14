@@ -23,13 +23,14 @@ public class TC_51 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber1(){
-        testData.setPhoneNumber("+46701740605");
+        //To generate a phone number set register account to true
+        testData.setRegisterAccount(true);
+
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber1"} )
     void addPhoneNumber2(){
-        testData.setPhoneNumber("0701740606");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber();
         common.timeoutMilliSeconds(400);
