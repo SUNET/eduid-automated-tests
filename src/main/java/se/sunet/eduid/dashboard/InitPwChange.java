@@ -13,6 +13,7 @@ public class InitPwChange {
     }
 
     public void runInitPwChange(){
+        common.navigateToSettings();
 
         //Press change password
         common.click(common.findWebElementById("security-change-button"));

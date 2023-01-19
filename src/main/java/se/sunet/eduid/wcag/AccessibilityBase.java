@@ -33,8 +33,8 @@ public class AccessibilityBase{
         this.testData = testData;
     }
     private static List<String> tags = Arrays.asList("wcag2a", "wcag2aa", "wcag21aa");
-    private static String reportPath = "/Users/ovesemart/Documents/JavaProjekt/GitHub/eduid-automated-tests/reports/";
     LocalDateTime timestamp = LocalDateTime.now();
+    private static String reportPath = "/Users/ovesemart/Documents/JavaProjekt/GitHub/eduid-automated-tests/reports/";
 
     public void checkAccessibilityViolations() throws IOException
     {
@@ -89,7 +89,7 @@ public class AccessibilityBase{
 
 
     public void parseResultFile() throws ParseException, IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("reports/WCAG_" +testData.getCounter() +".html"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("reports/" +timestamp.toLocalDate() + "/WCAG_" +testData.getCounter() +".html"));
         JSONObject storedExecution = new JSONObject((Map) readJsonFromFile("pelle"));
 
         JSONArray violations = new JSONArray(storedExecution.get("violations").toString());
@@ -152,9 +152,7 @@ public class AccessibilityBase{
     }
 
     public void takeScreenshot() throws IOException {
-        LocalDateTime timestamp = LocalDateTime.now();
-
          Shutterbug.shootPage(common.getWebDriver(), Capture.FULL_SCROLL, 500, true).withName(testData.getTestCase())
-                .save("reports/");
+                .save("reports/" +timestamp.toLocalDate() +"/");
     }
 }

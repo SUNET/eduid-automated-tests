@@ -16,6 +16,8 @@ public class DeleteAccount {
     }
 
     public void runDeleteAccount(){
+        common.navigateToSettings();
+
         //TODO temp fix to get swedish language//*[@id="language-selector"]/span
         if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))
             common.selectSwedish();

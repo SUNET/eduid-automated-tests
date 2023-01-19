@@ -97,6 +97,7 @@ public class Register {
 
     private void registerPopUp(){
         //First verify terms in english
+        common.timeoutMilliSeconds(500);
         verifyTermsEnglish();
 
         //Press abort and switch to swedish

@@ -24,7 +24,7 @@ public class ConfirmedIdentity {
 
 
     private void verifyTextAndLabels(){
-        common.explicitWaitVisibilityElement("//*[@id=\"text-content\"]/div/h1");
+        common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div/h1");
 
         //Swedish labels
         common.timeoutMilliSeconds(500);

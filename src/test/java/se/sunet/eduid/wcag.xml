@@ -7,12 +7,8 @@
     <parameter name="language" value="sv" />
     <parameter name="testsuite" value="dev" />
 
-<!--    <listeners>
-        <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
-    </listeners>-->
-
     <test name="EduID_StartPage">
-        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+        <parameter name="testDescription" value="Verify WCAG at Start page" />
         <classes>
             <class name="se.sunet.eduid.WCAG_1" >
             </class>
@@ -20,7 +16,7 @@
     </test>
 
     <test name="EduID_LoginPage">
-        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+        <parameter name="testDescription" value="Verify WCAG at Login page" />
         <classes>
             <class name="se.sunet.eduid.WCAG_2" >
             </class>
@@ -28,7 +24,7 @@
     </test>
 
     <test name="EduID_Dashboard">
-        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+        <parameter name="testDescription" value="Verify WCAG at Dashboard page" />
         <classes>
             <class name="se.sunet.eduid.WCAG_3" >
             </class>
@@ -36,7 +32,7 @@
     </test>
 
     <test name="EduID_Settings">
-        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+        <parameter name="testDescription" value="Verify WCAG at Settings page" />
         <classes>
             <class name="se.sunet.eduid.WCAG_4" >
             </class>
@@ -44,15 +40,15 @@
     </test>
 
     <test name="EduID_Identity">
-        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+        <parameter name="testDescription" value="Verify WCAG at Identity page" />
         <classes>
             <class name="se.sunet.eduid.WCAG_5" >
             </class>
         </classes>
     </test>
 
-    <test name="WCAG_AdvancedSettings">
-        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+    <test name="EduID_AdvancedSettings">
+        <parameter name="testDescription" value="Verify WCAG at Advanced settings page" />
         <classes>
             <class name="se.sunet.eduid.WCAG_6" >
             </class>

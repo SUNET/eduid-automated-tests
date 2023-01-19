@@ -78,7 +78,8 @@ public class Login {
         else {
             //Wait for the username label at dashboard upper right corner
             common.timeoutMilliSeconds(800);
-            common.explicitWaitVisibilityElement("//*[@id=\"root\"]/section[1]/header/div");
+            common.explicitWaitClickableElementId("header-nav");
+            //common.explicitWaitVisibilityElement("//*[@id=\"root\"]/section[1]/header/div");
         }
         common.timeoutMilliSeconds(500);
     }

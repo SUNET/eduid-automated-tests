@@ -67,19 +67,35 @@ public class Common {
     }
 
     public void navigateToSettings() {
-        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/li[3]/a"));
+        //Expand navigation menu
+        click(findWebElementByXpath("//*[@id=\"header-nav\"]/button/span"));
+
+        //Click on Settings
+        click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[3]"));
     }
 
     public void navigateToIdentity() {
-        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/li[2]/a"));
+        //Expand navigation menu
+        click(findWebElementByXpath("//*[@id=\"header-nav\"]/button/span"));
+
+        //Click on Identity
+        click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[2]"));
     }
 
     public void navigateToAdvancedSettings() {
-        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/li[4]/a"));
+        //Expand navigation menu
+        click(findWebElementByXpath("//*[@id=\"header-nav\"]/button/span"));
+
+        //Click on Advanced Settings
+        click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[4]"));
     }
 
     public void navigateToDashboard() {
-        click(findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/li[1]/a"));
+        //Expand navigation menu
+        click(findWebElementByXpath("//*[@id=\"header-nav\"]/button/span"));
+
+        //Click on Start
+        click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[1]"));
     }
 
     public void verifyPageTitle(String pageTitle) {

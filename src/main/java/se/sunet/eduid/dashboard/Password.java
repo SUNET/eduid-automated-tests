@@ -30,7 +30,7 @@ public class Password {
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")) {
             common.selectSwedish();
         }
-    }
+    }//utdrag hur dödsfallsregistret
 
     private void changePassword(){
         //Wait for abort button to be clickable
@@ -205,7 +205,7 @@ public class Password {
 
     private void verifyRecommendedPwLabels(){
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Byt ditt lösenord");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/h4", "Byt ditt lösenord");
 
         //Label 1
         common.verifyStringByXpath("//*[@id=\"old\"]/label","Skriv ditt nuvarande lösenord");
@@ -219,7 +219,7 @@ public class Password {
         common.selectEnglish();
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Change your current password");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/h4", "Change your current password");
 
         //Label 1
         common.verifyStringByXpath("//*[@id=\"old\"]/label","Current password");

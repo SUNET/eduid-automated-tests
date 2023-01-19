@@ -124,7 +124,7 @@ public class BeforeAndAfter {
     }
 
     @BeforeMethod
-    public void testCaseAndMethod(Method method) throws IOException {
+    public void testCaseAndMethod(Method method){
         Common.log.info(testData.getTestCase() +" - "+method.getName());
     }
 
@@ -204,5 +204,3 @@ public class BeforeAndAfter {
 
     }
     */
-
-

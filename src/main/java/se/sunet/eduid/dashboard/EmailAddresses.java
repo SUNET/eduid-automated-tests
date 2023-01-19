@@ -14,6 +14,7 @@ public class EmailAddresses {
     }
 
     public void runEmailAddresses(){
+        common.navigateToSettings();
         verifyPageTitle();
         removeEmail();
         addNewEmail();

@@ -151,6 +151,9 @@ public class AdvancedSettings {
 
     private void verifyLabels(){
         //Swedish
+        //Verify site location menu, beside Start link
+        common.verifyStrings("Avancerade inställningar", common.findWebElementByXpath("//*[@id=\"content\"]/div[1]").getText());
+
         common.verifyStringOnPage("Gör ditt eduID säkrare");
         common.verifyStringOnPage("Lägg till ett extra sätt, utöver email och lösenord, för att kunna " +
                 "identifiera dig så du är säker på att bara du har tillgång till ditt eduID.");
@@ -180,6 +183,9 @@ public class AdvancedSettings {
         common.verifyPageTitle("Advanced Settings | eduID");
 
         //English
+        //Verify site location menu, beside Start link
+        common.verifyStrings("Advanced settings", common.findWebElementByXpath("//*[@id=\"content\"]/div[1]").getText());
+
         common.verifyStringOnPage("Make your eduID more secure");
         common.verifyStringOnPage("Add a security key as a second layer of identification, beyond email " +
                 "and password, to prove you are the owner of your eduID.");

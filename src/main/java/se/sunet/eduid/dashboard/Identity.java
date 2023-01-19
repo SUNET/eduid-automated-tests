@@ -43,6 +43,9 @@ public class Identity {
     public void verifyLabelsSwedish() {
         Common.log.info("Verify Identity labels in Swedish");
 
+        //Verify site location menu, beside Start link
+        common.verifyStrings("Identitet", common.findWebElementByXpath("//*[@id=\"content\"]/div[1]").getText());
+
         //Heading
         common.verifyStringOnPage("Koppla din identitet till ditt eduID");
         common.verifyStringOnPage("För att använda vissa tjänster behöver din identitet verifieras. " +
@@ -179,6 +182,9 @@ public class Identity {
 
         //Click on english
         common.selectEnglish();
+
+        //Verify site location menu, beside Start link
+        common.verifyStrings("Identity", common.findWebElementByXpath("//*[@id=\"content\"]/div[1]").getText());
 
         //Heading
         common.verifyStringOnPage("Connect your identity to your eduID");

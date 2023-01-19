@@ -55,7 +55,7 @@ public class PhoneNumber {
             common.selectSwedish();
 
         //Click add phone number button
-        common.click(common.findWebElementByXpath("//div/section[2]/div/div/div/article[3]/div[2]/button"));
+        common.click(common.findWebElementById("phone-number-add-more-button"));
 
         //Verify placeholder
         common.verifyPlaceholder("Telefonnummer", "number");
