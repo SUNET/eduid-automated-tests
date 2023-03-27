@@ -17,7 +17,7 @@ public class TC_51 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"login"} )
     void personalInfo() {
         //Navigate to settings
-        dashBoard.pressSettings();
+        common.navigateToSettings();
         personalInfo.runPersonalInfo();
     }
 
@@ -39,11 +39,12 @@ public class TC_51 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"addPhoneNumber1"} )
     void makeNewPhonePrimary(){
         common.timeoutMilliSeconds(500);
-        common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr[2]/td[2]/button"));
+        //Click on the second line to make it primary phone number
+        common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr[3]/td[2]/button"));
 
         //Restore to default number as primary
-        common.timeoutMilliSeconds(500);
-        common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr[1]/td[2]/button"));
+        common.timeoutMilliSeconds(800);
+        common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr[2]/td[2]/button"));
     }
 
     @Test( dependsOnMethods = {"makeNewPhonePrimary"} )

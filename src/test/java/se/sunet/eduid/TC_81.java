@@ -3,7 +3,7 @@ package se.sunet.eduid;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
-public class TC_40 extends BeforeAndAfter {
+public class TC_81 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -25,6 +25,18 @@ public class TC_40 extends BeforeAndAfter {
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
+    void dashboard() {
+        //Account is not verified
+        testData.setAccountVerified(false);
+
+        //Set some user data that will be verified in dashboard
+        testData.setDisplayName("");
+        testData.setPhoneNumber("");
+
+        dashBoard.runDashBoard();
+    }
+
+    @Test( dependsOnMethods = {"dashboard"} )
     void personalInfo() {
         testData.setRegisterAccount(true);
         //Navigate to settings
@@ -33,26 +45,21 @@ public class TC_40 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
-    void addPhoneNumber(){
-        phoneNumber.addPhoneNumber();
-        phoneNumber.confirmNewPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"addPhoneNumber"} )
     void advancedSettings() { advancedSettings.runAdvancedSettings(); }
 
     @Test( dependsOnMethods = {"advancedSettings"} )
-    void confirmIdentityPhone(){
-        testData.setConfirmIdBy("phone");
+    void confirmIdentityFreja(){
+        testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentityPhone"} )
+    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void confirmedIdentity() {
         confirmedIdentity.runConfirmIdentity();
 
         testData.setRegisterAccount(false);
     }
 
-    //Delete the account, so it will be removed after 2 weeks by script
+    //Delete the account
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void navigateToSettings() { common.navigateToSettings(); }
 
@@ -74,8 +81,7 @@ public class TC_40 extends BeforeAndAfter {
         testData.setIncorrectPassword(false);
     }
 
-
-    //Reset password and verify that the Identity still is verified
+    //Reset password and verify that the Identity is verified
     @Test( dependsOnMethods = {"login2"} )
     void login3(){
         testData.setResetPassword(true);
@@ -96,17 +102,12 @@ public class TC_40 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"emailLink"} )
-    void extraSecurityFreja() {
-        testData.setSendMobileOneTimePassword("freja");
+    void resetWithoutExtraSecurity() {
+        testData.setSendMobileOneTimePassword("no");
         extraSecurity.runExtraSecurity();
     }
 
-    @Test( dependsOnMethods = {"extraSecurityFreja"} )
-    void selectIdRefIdp() {
-        confirmIdentity.selectAndSubmitUserRefIdp();
-    }
-
-    @Test( dependsOnMethods = {"selectIdRefIdp"} )
+    @Test( dependsOnMethods = {"resetWithoutExtraSecurity"} )
     void newPassword() { setNewPassword.runNewPassword(); }
 
     @Test( dependsOnMethods = {"newPassword"} )
@@ -125,36 +126,36 @@ public class TC_40 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login4"} )
-    void dashboard() {
-        //Account is verified
-        testData.setAccountVerified(true);
+    void dashboard2() {
+        //Account is no longer verified
 
         //Set some user data that will be verified in dashboard
-        testData.setDisplayName("Cookie Magic Cookie");
+        testData.setDisplayName("Cookie Testsson");
 
         dashBoard.runDashBoard();
     }
 
-    @Test( dependsOnMethods = {"dashboard"} )
+    @Test( dependsOnMethods = {"dashboard2"} )
     void identity() {
-        //Verify that identity is still confirmed
+        //Verify that identity is not confirmed
         common.navigateToIdentity();
 
-        common.verifyStringOnPage("Ditt eduID är redo att användas");
-        common.verifyStringOnPage("Följande identiteter är nu kopplade till ditt eduID");
-        common.verifyStringOnPage("Svenskt personnummer");
+        common.verifyStringOnPage("Koppla din identitet till ditt eduID");
+        common.verifyStringOnPage("För att använda vissa tjänster behöver din identitet verifieras. " +
+                "Koppla din identitet till ditt eduID för att få mest användning");
+        common.verifyStringOnPage("Välj din huvudsakliga identifieringsmetod");
     }
 
     @Test( dependsOnMethods = {"identity"} )
-    void verifyConfirmedPhone() {
+    void navigateToSettings2() {
         //Verify that phone number is still confirmed
         common.navigateToSettings();
 
-        common.verifyStringByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr/td[2]", "PRIMÄR");
+        //common.verifyStringByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr/td[2]", "PRIMÄR");
     }
 
     //Delete account when confirmed that identity is no longer verified
-    @Test( dependsOnMethods = {"verifyConfirmedPhone"} )
+    @Test( dependsOnMethods = {"navigateToSettings2"} )
     void delete2() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }

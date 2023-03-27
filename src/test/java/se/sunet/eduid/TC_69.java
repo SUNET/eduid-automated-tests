@@ -72,16 +72,16 @@ public class TC_69 extends BeforeAndAfter {
     void startPage4() { startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage4"} )
-    void verifySigninPage() {
+    void verifySignInPage() {
         common.timeoutMilliSeconds(500);
         //Verify label with registered display name
         common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName() +"!");
 
         //Verify placeholder for username
-        common.verifyStrings(testData.getUsername(), common.findWebElementByXpath("//*[@id=\"email\"]/input").getAttribute("value"));
+        common.verifyStrings(testData.getUsername(), common.findWebElementById("email").getAttribute("value"));
     }
 
-    @Test( dependsOnMethods = {"verifySigninPage"} )
+    @Test( dependsOnMethods = {"verifySignInPage"} )
     void enterPassword() { login.enterPassword(); }
 
     @Test( dependsOnMethods = {"enterPassword"} )

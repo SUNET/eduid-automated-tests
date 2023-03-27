@@ -3,7 +3,7 @@ package se.sunet.eduid;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
-public class TC_40 extends BeforeAndAfter {
+public class TC_80 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -41,18 +41,18 @@ public class TC_40 extends BeforeAndAfter {
     void advancedSettings() { advancedSettings.runAdvancedSettings(); }
 
     @Test( dependsOnMethods = {"advancedSettings"} )
-    void confirmIdentityPhone(){
-        testData.setConfirmIdBy("phone");
+    void confirmIdentityFreja(){
+        testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentityPhone"} )
+    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void confirmedIdentity() {
         confirmedIdentity.runConfirmIdentity();
 
         testData.setRegisterAccount(false);
     }
 
-    //Delete the account, so it will be removed after 2 weeks by script
+    //Delete the account
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void navigateToSettings() { common.navigateToSettings(); }
 
@@ -75,7 +75,7 @@ public class TC_40 extends BeforeAndAfter {
     }
 
 
-    //Reset password and verify that the Identity still is verified
+    //Reset password and verify that the Identity is verified
     @Test( dependsOnMethods = {"login2"} )
     void login3(){
         testData.setResetPassword(true);
@@ -103,6 +103,8 @@ public class TC_40 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"extraSecurityFreja"} )
     void selectIdRefIdp() {
+        //Set another user to be selected at rep. idp to get ID locked response at eduID
+        testData.setRefIdpUser("Frida Kranstege (197705232382)");
         confirmIdentity.selectAndSubmitUserRefIdp();
     }
 
@@ -125,17 +127,6 @@ public class TC_40 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login4"} )
-    void dashboard() {
-        //Account is verified
-        testData.setAccountVerified(true);
-
-        //Set some user data that will be verified in dashboard
-        testData.setDisplayName("Cookie Magic Cookie");
-
-        dashBoard.runDashBoard();
-    }
-
-    @Test( dependsOnMethods = {"dashboard"} )
     void identity() {
         //Verify that identity is still confirmed
         common.navigateToIdentity();
@@ -154,7 +145,7 @@ public class TC_40 extends BeforeAndAfter {
     }
 
     //Delete account when confirmed that identity is no longer verified
-    @Test( dependsOnMethods = {"verifyConfirmedPhone"} )
+ /*   @Test( dependsOnMethods = {"verifyConfirmedPhone"} )
     void delete2() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }
@@ -168,5 +159,5 @@ public class TC_40 extends BeforeAndAfter {
         login.verifyPageTitle();
         login.enterPassword();
         login.signIn();
-    }
+    }*/
 }

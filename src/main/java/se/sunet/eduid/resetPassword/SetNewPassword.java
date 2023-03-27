@@ -38,10 +38,7 @@ public class SetNewPassword {
                 "genererats åt dig. För att fortsätta behöver du skriva in det igen.");
 
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/label", "Nytt lösenord");
-        common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repetera ditt nya lösenord\n*");
-
-        Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"new-password-wrapper\"]/div/label/span").isDisplayed(),
-                "Red dot missing");
+        common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repetera ditt nya lösenord");
 
         //Switch to Swedish
         common.selectEnglish();
@@ -54,10 +51,7 @@ public class SetNewPassword {
                 "generated for you. To proceed you will need to repeat the password below .");
 
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/label", "New password");
-        common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repeat new password\n*");
-
-        Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"new-password-wrapper\"]/div/label/span").isDisplayed(),
-                "Red dot missing");
+        common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repeat new password");
 
         Assert.assertTrue(common.findWebElementById("copy-new-password").getText().isEmpty(), "New password field is empty");
 

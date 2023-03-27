@@ -33,7 +33,8 @@ public class ExtraSecurity {
 
         common.verifyStringOnPage("Select an extra security option");
         common.verifyStringOnPage("A password reset using an extra security option will keep your identity confirmed.");
-        common.verifyStringOnPage("SEND SMS TO **********" + testData.getPhoneNumber().substring(10,12));
+        if(!testData.getPhoneNumber().isEmpty())
+            common.verifyStringOnPage("SEND SMS TO **********" + testData.getPhoneNumber().substring(10,12));
         if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja"))
             common.verifyStringOnPage("Already received the code?  enter code");
         common.verifyStringOnPage("Continue without extra security option");
@@ -47,7 +48,8 @@ public class ExtraSecurity {
         common.verifyStringOnPage("Välj ett extra säkerhetsalternativ");
         common.verifyStringOnPage("Genom att återställa lösenordet med ett extra säkerhetsalternativ " +
                 "kommer kontot att förbli verifierat.");
-        common.verifyStringOnPage("SKICKA SMS TILL **********" + testData.getPhoneNumber().substring(10,12));
+        if(!testData.getPhoneNumber().isEmpty())
+            common.verifyStringOnPage("SKICKA SMS TILL **********" + testData.getPhoneNumber().substring(10,12));
         if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja"))
             common.verifyStringOnPage("Redan fått en kod?  skriv in koden");
         common.verifyStringOnPage("Fortsätt utan extra säkerhetsalternativ");

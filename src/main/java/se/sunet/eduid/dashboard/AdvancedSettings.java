@@ -43,11 +43,11 @@ public class AdvancedSettings {
         common.navigateToAdvancedSettings();
 
         //Wait for heading "Gör ditt eduID säkrare"
-        common.explicitWaitVisibilityElement("//*[@id=\"register-security-key-container\"]/div[1]/h3");
+        common.explicitWaitVisibilityElement("//*[@id=\"content\"]/section/h1");
     }
 
     public void storeEppn(){
-        testData.setEppn(common.findWebElementByXpath("//*[@id=\"uniqueId-container\"]/div[2]/div").getText());
+        testData.setEppn(common.findWebElementById("user-eppn").getText());
         Common.log.info("Saved EPPN: " +testData.getEppn());
     }
 
@@ -71,16 +71,16 @@ public class AdvancedSettings {
     private void pressLadok(){
         //Activate ladok
         common.timeoutSeconds(2);
-        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[1]/label/div"));
+        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset/form/label/div"));
         common.timeoutSeconds(1);
 
-        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/label", "Välj lärosäte");
-        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/div/div/div[1]/div", "Tillgängliga lärosäten");
+        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/label", "Välj lärosäte");
+        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[1]/div", "Tillgängliga lärosäten");
 
         //Extract all table rows in to a list of web elements
-        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/div/div/div[1]/div"));
+        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[1]/div"));
 
-        WebElement elementName = common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/div/div/div[2]");
+        WebElement elementName = common.findWebElementByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[2]");
         List<WebElement> rows = elementName.findElements(By.xpath("*"));
 
         //Assert that there are at least two univeritys in the drop down
@@ -90,11 +90,11 @@ public class AdvancedSettings {
         common.selectEnglish();
 
         //Activate ladok button
-        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset[1]/label/div"));
+        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset/form/label/div"));
         common.timeoutMilliSeconds(200);
 
-        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/label", "Select higher education institution");
-        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/fieldset[3]/form/div/div/div[1]/div", "Available higher education institutions");
+        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/label", "Select higher education institution");
+        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[1]/div", "Available higher education institutions");
 
         //Scroll down to bottom of pagem, otherwise we get click exception when drop down not in page
         common.scrollToPageBottom();
@@ -152,7 +152,10 @@ public class AdvancedSettings {
     private void verifyLabels(){
         //Swedish
         //Verify site location menu, beside Start link
-        common.verifyStrings("Avancerade inställningar", common.findWebElementByXpath("//*[@id=\"content\"]/div[1]").getText());
+        common.verifySiteLocation("Avancerade inställningar");
+
+        common.verifyStringOnPage("Förbättra ditt eduID");
+        common.verifyStringOnPage("Öka säkerheten för ditt eduID eller anslut det till andra tjänster.");
 
         common.verifyStringOnPage("Gör ditt eduID säkrare");
         common.verifyStringOnPage("Lägg till ett extra sätt, utöver email och lösenord, för att kunna " +
@@ -175,7 +178,7 @@ public class AdvancedSettings {
         common.verifyStringOnPage("Detta är ett autogenererat unikt id för ditt eduID som du kan behöva " +
                 "ange när du ber om teknisk support.");
         common.verifyStringOnPage("eppn");
-        common.verifyStringNotEmptyByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]", "//*[@id=\"uniqueId-container\"]/div[2]/label");
+        common.verifyStringNotEmptyByXpath("//*[@id=\"user-eppn\"]", "//*[@id=\"uniqueId-container\"]/div/span/strong");
 
         //click on english
         common.selectEnglish();
@@ -184,7 +187,10 @@ public class AdvancedSettings {
 
         //English
         //Verify site location menu, beside Start link
-        common.verifyStrings("Advanced settings", common.findWebElementByXpath("//*[@id=\"content\"]/div[1]").getText());
+        common.verifySiteLocation("Advanced settings");
+
+        common.verifyStringOnPage("Enhance your eduID");
+        common.verifyStringOnPage("Increase the security of your eduID or connect it to other services.");
 
         common.verifyStringOnPage("Make your eduID more secure");
         common.verifyStringOnPage("Add a security key as a second layer of identification, beyond email " +
@@ -205,7 +211,7 @@ public class AdvancedSettings {
         common.verifyStringOnPage("Unique ID");
         common.verifyStringOnPage("This is an automatically generated unique identifier for your eduID.");
         common.verifyStringOnPage("eppn");
-        common.verifyStringNotEmptyByXpath("//*[@id=\"uniqueId-container\"]/div[2]/p[1]", "//*[@id=\"uniqueId-container\"]/div[2]/label");
+        common.verifyStringNotEmptyByXpath("//*[@id=\"user-eppn\"]", "//*[@id=\"uniqueId-container\"]/div/span/strong");
         common.verifyStringOnPage("You might be asked to share this information if you need technical support.");
 
         //click on swedish

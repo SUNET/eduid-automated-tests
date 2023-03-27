@@ -45,16 +45,16 @@ public class PersonalInfo {
 
     private void verifyAndUpdatePersonalInfo() {
         // Old account, If given name shall be updated else verify the default value
-        if(testData.getGivenName().equalsIgnoreCase(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div/div[2]/div[1]/div").getText()) &&
-                testData.getSurName().equalsIgnoreCase(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div/div[2]/div[2]/div").getText())) {
+        if(testData.getGivenName().equalsIgnoreCase(common.findWebElementById("first name").getText()) &&
+                testData.getSurName().equalsIgnoreCase(common.findWebElementById("last name").getText())) {
 
             //Verify current names
-            common.verifyXpathContainsString("//*[@id=\"content\"]/article[1]/div/div[2]/div[1]/div", testData.getGivenName());
-            common.verifyXpathContainsString("//*[@id=\"content\"]/article[1]/div/div[2]/div[2]/div", testData.getSurName());
+            common.verifyStringById("first name", testData.getGivenName());
+            common.verifyStringById("last name", testData.getSurName());
         }
         else{
             //Click on change
-            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article/div/div[1]/button"));
+            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button"));
             updatePersonalInfo();
         }
     }
@@ -75,7 +75,7 @@ public class PersonalInfo {
         if(testData.isRegisterAccount())
             common.click(common.findWebElementById("add-personal-data"));
         else
-            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article/div/div[1]/button"));
+            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button"));
 
         //Verify placeholder
         common.verifyPlaceholder("First name", "given_name");
@@ -92,7 +92,7 @@ public class PersonalInfo {
         if(testData.isRegisterAccount())
             common.click(common.findWebElementById("add-personal-data"));
         else
-            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article/div/div[1]/button"));
+            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button"));
 
         //Note! for some unknown reason I need to clear and fill in givenname twice
         common.timeoutMilliSeconds(500);
@@ -132,16 +132,16 @@ public class PersonalInfo {
     private void selectLanguage() {
         //Change to Swedish
         if((testData.getLanguage().equalsIgnoreCase("Svenska") && !testData.getLanguage().equalsIgnoreCase(
-                common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div/div[2]/div[3]/div").getText()))) {
+                common.findWebElementById("language").getText()))) {
             //Click on change
-            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div/div[1]/button"));
+            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button"));
+
+            //Verify button text, before change
+            common.verifyStringById("personal-data-button", "SAVE");
 
             //Select new language - Swedish
-            common.click(common.findWebElementByXpath("//*[@id=\"personaldata-view-form\"]/fieldset[2]/div/label[2]/input"));
-            //common.click(common.findWebElementById("Svenska"));
-
-            //Verify button text
-            common.verifyStringById("personal-data-button", "SAVE");
+            //common.click(common.findWebElementByXpath("//*[@id=\"personaldata-view-form\"]/fieldset[2]/div/label[2]/input"));
+            common.click(common.findWebElementById("Svenska"));
 
             pressSaveButton();
 
@@ -149,16 +149,16 @@ public class PersonalInfo {
         }
         //Change to English
         else if(testData.getLanguage().equalsIgnoreCase("English") && !testData.getLanguage().equalsIgnoreCase(
-                common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div/div[2]/div[3]/div").getText())){
+                common.findWebElementById("language").getText())){
             //Click on change
-            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div/div[1]/button"));
+            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button"));
+
+            //Verify button text, before change
+            common.verifyStringById("personal-data-button", "SPARA");
 
             //Select new language - English
-            common.click(common.findWebElementByXpath("//*[@id=\"personaldata-view-form\"]/fieldset[2]/div/label[1]/input"));
-            //common.click(common.findWebElementById("English"));
-
-            //Verify button text
-            common.verifyStringById("personal-data-button", "SPARA");
+            //common.click(common.findWebElementByXpath("//*[@id=\"personaldata-view-form\"]/fieldset[2]/div/label[1]/input"));
+            common.click(common.findWebElementById("English"));
 
             pressSaveButton();
 
@@ -180,7 +180,7 @@ public class PersonalInfo {
         common.verifyPageTitle("Inställningar | eduID");
 
         //Verify site location menu, beside Start link
-        common.verifyStrings("Inställningar", common.findWebElementByXpath("//*[@id=\"content\"]/div[1]").getText());
+        common.verifySiteLocation("Inställningar");
 
         //Heading
         common.verifyStringOnPage( "Namn & språk");
@@ -204,7 +204,7 @@ public class PersonalInfo {
         common.verifyPageTitle("Settings | eduID");
 
         //Verify site location menu, beside Start link
-        common.verifyStrings("Settings", common.findWebElementByXpath("//*[@id=\"content\"]/div[1]").getText());
+        common.verifySiteLocation("Settings");
 
         //Heading
         common.verifyStringOnPage("Name & language");

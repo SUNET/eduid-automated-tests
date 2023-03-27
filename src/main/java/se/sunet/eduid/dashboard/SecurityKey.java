@@ -29,7 +29,7 @@ public class SecurityKey {
         common.navigateToAdvancedSettings();
 
         //Wait for heading "Gör ditt eduID säkrare"
-        common.explicitWaitVisibilityElement("//*[@id=\"register-security-key-container\"]/div[1]/h3");
+        common.explicitWaitVisibilityElement("//*[@id=\"register-security-key-container\"]/h2");
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))

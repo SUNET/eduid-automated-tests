@@ -43,9 +43,9 @@ public class EmailAddresses {
             common.selectSwedish();
         }
 
-        // RemoveNewEmail1 the primary email
+        // RemoveNewEmail1, in this case the second email address in the list
         if(testData.isRemoveNewEmail1()) {
-            common.click(common.findWebElementByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[2]/td[3]/button"));
+            common.click(common.findWebElementByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[3]/td[3]/button"));
         }
     }
 
@@ -99,8 +99,8 @@ public class EmailAddresses {
             }
             else {
                 //Verify info messages - swedish
-                common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[1]", testData.getAddNewEmail1());
-                common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[2]/button", "BEKRÄFTA");
+                common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[3]/td[1]", testData.getAddNewEmail1());
+                common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[3]/td[2]/button", "BEKRÄFTA");
 
                 //Wait 5 sec for the email to arrive in inbox
                 common.timeoutSeconds(5);
@@ -151,28 +151,28 @@ public class EmailAddresses {
                 if(testData.getConfirmNewEmail1().equals("wrongCode"))
                     common.verifyStatusMessage("Ogiltig kod eller en kod som har gått ut. Var god prova igen eller begär en ny kod");
                 else {
-                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[1]/td[2]/label", "PRIMÄR");
-                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[2]/button", "GÖR PRIMÄR");
+                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[2]/td[2]/span/strong", "PRIMÄR");
+                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[3]/td[2]/button", "GÖR PRIMÄR");
 
                     //Make email 1 primary
-                    common.click(common.findWebElementByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[2]/button"));
+                    common.click(common.findWebElementByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[3]/td[2]/button"));
 
                     //Verify info label
                     common.timeoutMilliSeconds(1000);
 
                     //Check labels
-                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[1]/td[2]/button", "GÖR PRIMÄR");
-                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[2]/label", "PRIMÄR");
+                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[2]/td[2]/button", "GÖR PRIMÄR");
+                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[3]/td[2]/span/strong", "PRIMÄR");
 
                     //Switch back to default primary email
-                    common.click(common.findWebElementByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[1]/td[2]/button"));
+                    common.click(common.findWebElementByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[2]/td[2]/button"));
 
                     //Verify info label
                     common.timeoutMilliSeconds(1000);
 
                     //Check labels
-                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[1]/td[2]/label", "PRIMÄR");
-                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[2]/button", "GÖR PRIMÄR");
+                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[2]/td[2]/span/strong", "PRIMÄR");
+                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[3]/td[2]/button", "GÖR PRIMÄR");
                 }
             }
         }
@@ -288,6 +288,6 @@ public class EmailAddresses {
 
     private void pressConfirmEmail(){
         //Click on confirm link
-        common.click(common.findWebElementByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[2]/td[2]/button"));
+        common.click(common.findWebElementByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[3]/td[2]/button"));
     }
 }

@@ -45,7 +45,7 @@ public class LoginExtraSecurity {
 
     private void verifyTexts(){
         //Swedish
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Logga in: Extra säkerhet");
+        common.verifyStringOnPage("Logga in: Extra säkerhet");
         common.verifyStringOnPage("Du måste välja en ytterligare metod att autentisera dig själv med. " +
                 "Detta säkerställer att bara du kan komma åt ditt eduID.");
         common.verifyStringOnPage("T.ex. USB säkerhetsnyckel, Touch ID eller Face ID.");
@@ -58,7 +58,7 @@ public class LoginExtraSecurity {
         common.selectEnglish();
 
         //English
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Log in: Extra security");
+        common.verifyStringOnPage("Log in: Extra security");
         common.verifyStringOnPage("You need to choose a second method to authenticate yourself. " +
                 "This ensures that only you can access your eduID.");
         common.verifyStringOnPage("E.g. USB Security Key, Touch ID or Face ID.");

@@ -23,13 +23,7 @@ public class TC_34 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailSent"} )
     void emailLink() { emailLink.runEmailLink(); }
-/*
-    @Test( dependsOnMethods = {"emailLink"} )
-    void extraSecurity() { extraSecurity.runExtraSecurity(); }
 
-    @Test( dependsOnMethods = {"extraSecurity"} )
-    void verifyPhoneNumber() { verifyPhoneNumber.runVerifyPhoneNumber(); }
-*/
     @Test( dependsOnMethods = {"emailLink"} )
     void newPassword() { setNewPassword.runNewPassword(); }
 

@@ -45,7 +45,7 @@ public class TC_49 extends BeforeAndAfter {
         testData.setRegisterAccount(true);
 
         //Navigate to settings
-        dashBoard.pressSettings();
+        common.navigateToSettings();
         personalInfo.runPersonalInfo();
     }
 
@@ -115,7 +115,7 @@ public class TC_49 extends BeforeAndAfter {
         testData.setRegisterAccount(true);
 
         //Navigate to settings
-        dashBoard.pressSettings();
+        common.navigateToSettings();
         personalInfo.runPersonalInfo();
     }
 
@@ -141,9 +141,9 @@ public class TC_49 extends BeforeAndAfter {
 
     //Delete the second account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"confirmedIdentity2"} )
-    void dashboard() { dashBoard.pressSettings(); }
+    void navigateToSettings() { common.navigateToSettings(); }
 
-    @Test( dependsOnMethods = {"dashboard"} )
+    @Test( dependsOnMethods = {"navigateToSettings"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }
@@ -194,9 +194,19 @@ public class TC_49 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login4"} )
+    void dashboard() {
+        //Account is no longer verified
+
+        //Set some user data that will be verified in dashboard
+        testData.setDisplayName("Cookie Magic Cookie");
+
+        dashBoard.runDashBoard();
+    }
+
+    @Test( dependsOnMethods = {"dashboard"} )
     void verifyPhoneNotConfirmed(){
         //Navigate to settings
-        dashBoard.pressSettings();
+        common.navigateToSettings();
 
         //Verify that phone number is not confirmed
         String currentButtonText = common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button").getText();
@@ -217,9 +227,9 @@ public class TC_49 extends BeforeAndAfter {
 
     //Delete the first account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"verifyIdentityNotConfirmed"} )
-    void dashboard2() { dashBoard.pressSettings(); }
+    void navigateToSettings2() { common.navigateToSettings(); }
 
-    @Test( dependsOnMethods = {"dashboard2"} )
+    @Test( dependsOnMethods = {"navigateToSettings2"} )
     void delete2() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }

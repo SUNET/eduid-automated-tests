@@ -77,13 +77,11 @@ public class TC_45 extends BeforeAndAfter {
     //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"startPage2"} )
     void dashboard() {
+        //Account is not verified
+        testData.setAccountVerified(false);
+
         //Set some user data that will be verified in dashboard
-        testData.setDisplayName("lägg till namn");
-        testData.setGivenName("lägg till");
-        testData.setSurName("namn");
-        testData.setIdentityNumber("lägg till personnummer");
-        testData.setPhoneNumber("lägg till telefonnummer");
-        testData.setEmail(testData.getUsername());
+        testData.setDisplayName("");
 
         dashBoard.runDashBoard();
     }

@@ -12,7 +12,7 @@ public class TC_98 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login"} )
     void confirmPhoneNumber() {
-        dashBoard.pressSettings();
+        common.navigateToSettings();
         confirmPhoneNumber.runConfirmPhoneNumber();
     }
 }

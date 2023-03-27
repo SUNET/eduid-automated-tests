@@ -57,14 +57,14 @@ public class DeleteAccount {
 
     private void verifyLabelsSwedish() {
         //Heading
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div[1]/h3", "Radera eduID");
+        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/h2", "Radera eduID");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/p", "Om du väljer att " +
+        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/p", "Om du väljer att " +
                 "ta bort ditt eduID kommer all information du sparat rensas permanent.");
 
         //Delete eduid link
-        common.verifyStringByXpath("//*[@id=\"delete-button\"]", "radera eduid");
+        common.verifyStringById("delete-button", "radera eduid");
     }
 
     private void verifyLabelsEnglish() {
@@ -72,14 +72,14 @@ public class DeleteAccount {
         common.selectEnglish();
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div[1]/h3", "Delete eduID");
+        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/h2", "Delete eduID");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/div/p", "Click the link " +
+        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/p", "Click the link " +
                 "to permanently delete your eduID.");
 
         //Delete eduid link
-        common.verifyStringByXpath("//*[@id=\"delete-button\"]", "delete eduid");
+        common.verifyStringById("delete-button", "delete eduid");
 
         //Click on Swedish
         common.selectSwedish();

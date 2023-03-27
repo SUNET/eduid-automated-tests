@@ -22,9 +22,9 @@ public class ConfirmedIdentity {
         common.timeoutMilliSeconds(500);
     }
 
-
     private void verifyTextAndLabels(){
-        common.explicitWaitVisibilityElement("//*[@id=\"content\"]/div/h1");
+        //Wait for heading: Following identietes are now...
+        common.explicitWaitVisibilityElement("//*[@id=\"content\"]/article/h2");
 
         //Swedish labels
         common.timeoutMilliSeconds(500);

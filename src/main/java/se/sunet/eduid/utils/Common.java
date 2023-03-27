@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import io.github.sukgu.Shadow;
-import java.io.FileInputStream;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -19,7 +19,6 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.NoSuchElementException;
 
 public class Common {
 
@@ -250,16 +249,19 @@ public class Common {
     }
 
     public void verifyStatusMessage(String message) {
-        //Verify the saved info label
+        //Verify the status message
         explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span/output");
         verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span/output", message);
-
-        //log.info("Status message at page: " +findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/span").getText());
     }
 
     public void closeStatusMessage() {
         //Close the status message
         findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/button").click();
+    }
+
+    public void verifySiteLocation(String location) {
+        //Verify site location text
+        verifyStringByXpath("//*[@id=\"content\"]/nav/a[2]", location);
     }
 
     public void closePopupDialog() {
@@ -322,7 +324,7 @@ public class Common {
         return LocalDate.now();
     }
 
-    public void takeScreenshot(String name){
+    public void takeFullPageScreenshot(String name){
         LocalDateTime timestamp = LocalDateTime.now();
 
         Shutterbug.shootPage(webDriver, Capture.FULL_SCROLL, 500, true).withName(name)

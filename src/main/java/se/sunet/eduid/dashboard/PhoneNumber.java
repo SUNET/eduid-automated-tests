@@ -96,7 +96,7 @@ public class PhoneNumber {
         common.navigateToAdvancedSettings();
 
         //Store eppen
-        String eppen = common.findWebElementByXpath("//*[@id=\"uniqueId-container\"]/div[2]/div").getText();
+        String eppen = common.findWebElementById("user-eppn").getText();
 
         //Fetch the code
         common.navigateToUrl("https://dashboard.dev.eduid.se/services/phone/get-code?eppn=" +eppen +"&phone=" +phoneNumber);

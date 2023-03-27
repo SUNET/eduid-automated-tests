@@ -37,13 +37,12 @@ public class TC_46 extends BeforeAndAfter {
         testData.setRegisterAccount(true);
 
         //Navigate to settings
-        dashBoard.pressSettings();
+        common.navigateToSettings();
         personalInfo.runPersonalInfo();
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
- //       testData.setPhoneNumber("+46701740606");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 

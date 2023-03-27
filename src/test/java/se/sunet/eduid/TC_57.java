@@ -30,7 +30,7 @@ public class TC_57 extends BeforeAndAfter {
         testData.setRegisterAccount(true);
 
         //Navigate to settings
-        dashBoard.pressSettings();
+        common.navigateToSettings();
         personalInfo.runPersonalInfo();
     }
 

@@ -106,9 +106,9 @@ public class TC_43 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login2"} )
-    void dashboard() { dashBoard.pressSettings(); }
+    void navigateToSettings() { common.navigateToSettings(); }
 
-    @Test( dependsOnMethods = {"dashboard"} )
+    @Test( dependsOnMethods = {"navigateToSettings"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }

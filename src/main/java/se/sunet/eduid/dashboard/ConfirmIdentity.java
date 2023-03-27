@@ -1,9 +1,7 @@
 package se.sunet.eduid.dashboard;
 
-import org.openqa.selenium.Cookie;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
-import java.util.Date;
 
 public class ConfirmIdentity{
     private final Common common;
@@ -129,12 +127,12 @@ public class ConfirmIdentity{
             selectAndSubmitUserRefIdp();
 
             //Verify status
-            common.verifyStatusMessage("Ett okänt fel inträffade. Var god försök igen och kontakta supporten om felet kvarstår.");
+            common.verifyStatusMessage("Felaktigt format av identitetsnumret. Var god försök igen.");
 
             common.selectEnglish();
 
             //Verify status
-            common.verifyStatusMessage("There was an unexpected problem servicing your request, please try again or contact the site administrators");
+            common.verifyStatusMessage("Incorrect format of the identity number. Please try again.");
             common.closeStatusMessage();
 
             common.selectSwedish();
@@ -143,8 +141,8 @@ public class ConfirmIdentity{
             common.addNinCookie();
 
             //Expand Freja menu, since collapsed when change of language
-            common.scrollToPageBottom();
             common.timeoutMilliSeconds(500);
+
             common.findWebElementById("accordion__heading-se-freja").click();
 
             //Select Freja eID
@@ -264,7 +262,8 @@ public class ConfirmIdentity{
 
     public void selectAndSubmitUserRefIdp(){
         common.explicitWaitClickableElementId("selectSimulatedUser");
-        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
+        //common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
+        common.selectDropdownScript("selectSimulatedUser", testData.getRefIdpUser());
 
         common.click(common.findWebElementById("submitButton"));
     }

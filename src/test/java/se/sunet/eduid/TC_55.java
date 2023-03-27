@@ -15,15 +15,16 @@ public class TC_55 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login"} )
-    void navigateToSettings() { dashBoard.pressSettings(); }
+    void navigateToSettings() { common.navigateToSettings(); }
 
     @Test( dependsOnMethods = {"navigateToSettings"} )
     void removeExtraPhonenumbers() {
+        //Click on X on the second line twice to remove both extra added phone numbers in TC_51
         common.timeoutMilliSeconds(700);
-        common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr[2]/td[3]/button"));
+        common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr[3]/td[3]/button"));
 
         common.timeoutMilliSeconds(700);
-        common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr[2]/td[3]/button"));
+        common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr[3]/td[3]/button"));
         common.timeoutMilliSeconds(700);
     }
 

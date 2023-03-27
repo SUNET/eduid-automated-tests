@@ -25,20 +25,19 @@ public class TC_38 extends BeforeAndAfter {
         testData.setRegisterAccount(false);
         login.runLogin(); }
 
-    //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"login"} )
     void dashboard() {
+        //Account is verified
+        testData.setAccountVerified(false);
+
         //Set some user data that will be verified in dashboard
-        testData.setDisplayName("lägg till namn");
-        testData.setGivenName("lägg till");
-        testData.setSurName("namn");
-        testData.setIdentityNumber("lägg till personnummer");
-        testData.setPhoneNumber("lägg till telefonnummer");
+        testData.setDisplayName("");
         testData.setEmail(testData.getUsername());
 
         dashBoard.runDashBoard();
     }
 
+    //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
         testData.setDeleteButton(true);

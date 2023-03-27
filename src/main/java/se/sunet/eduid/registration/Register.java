@@ -44,10 +44,10 @@ public class Register {
         //Verify placeholder
         common.verifyPlaceholder("namn@example.com", "email");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Registrera din e-postadress för att skapa ditt eduID.");
+        common.verifyStringOnPage("Registrera din e-postadress för att skapa ditt eduID.");
 
         common.verifyStringOnPage("När du har skapat ditt eduID kan du logga in och koppla det till ditt svenska personnummer.");
-        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress\n*");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress");
 
 /*
         common.verifyStringOnPage("Om du redan har ett eduID kan du logga in här.");
@@ -60,10 +60,10 @@ public class Register {
         common.selectEnglish();
         common.verifyPageTitle("Register | eduID");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Register your email address to create your eduID.");
+        common.verifyStringOnPage("Register your email address to create your eduID.");
 
         common.verifyStringOnPage("Once you have created an eduID you will be able to log in and connect it to your Swedish national identity number.");
-        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address\n*");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address");
 
 /*
         common.verifyStringOnPage("If you already have eduID you can log in here.");
@@ -81,9 +81,11 @@ public class Register {
         if(testData.isGenerateUsername())
             generateUsername();
 
-        //Generate new identity number
-        if(testData.isRegisterAccount())
+        //Generate new identity number if not specified in test case
+        if(testData.isRegisterAccount() && testData.getIdentityNumber().isEmpty())
             setIdentityNumber();
+        else
+            Common.log.info("Identity number set to: " +testData.getIdentityNumber());
 
         Common.log.info("Register user: " +testData.getUsername());
 

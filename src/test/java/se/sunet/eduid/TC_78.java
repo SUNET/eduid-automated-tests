@@ -30,13 +30,12 @@ public class TC_78 extends BeforeAndAfter {
         testData.setRegisterAccount(true);
 
         //Navigate to settings
-        dashBoard.pressSettings();
+        common.navigateToSettings();
         personalInfo.runPersonalInfo();
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
-//        testData.setPhoneNumber("+46701740605");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
@@ -55,6 +54,8 @@ public class TC_78 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmedIdentityEidas"} )
     void confirmIdentityFreja(){
         Common.log.info("Verify identity by Freja eID");
+        //Note! This is a special method since both Freja and eIDAS will be used. If only
+        // one method to confirm identity, use standard above.
 
         //Expand Swedish options
         common.click(common.findWebElementById("accordion__heading-swedish"));
@@ -75,7 +76,6 @@ public class TC_78 extends BeforeAndAfter {
 
         //Select and submit user at reference IDP
         confirmIdentity.selectAndSubmitUserRefIdp();
-
     }
 
     @Test( dependsOnMethods = {"confirmIdentityFreja"} )
@@ -86,9 +86,9 @@ public class TC_78 extends BeforeAndAfter {
 
     //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"confirmedIdentityFreja"} )
-    void dashboard() { dashBoard.pressSettings(); }
+    void navigateToSettings() { common.navigateToSettings(); }
 
-    @Test( dependsOnMethods = {"dashboard"} )
+    @Test( dependsOnMethods = {"navigateToSettings"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }

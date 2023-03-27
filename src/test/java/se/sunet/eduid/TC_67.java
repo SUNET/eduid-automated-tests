@@ -22,16 +22,16 @@ public class TC_67 extends BeforeAndAfter {
     void startPage2() { startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void verifySigninPage() {
+    void verifySignInPage() {
         //Verify label with registered display name
         common.explicitWaitClickableElementId("login-form-button");
         common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName() +"!");
 
         //Verify placeholder for username
-        common.verifyStrings(testData.getUsername(), common.findWebElementByXpath("//*[@id=\"email\"]/input").getAttribute("value"));
+        common.verifyStrings(testData.getUsername(), common.findWebElementById("email").getAttribute("value"));
     }
 
-    @Test( dependsOnMethods = {"verifySigninPage"} )
+    @Test( dependsOnMethods = {"verifySignInPage"} )
     void pressNotYou() {
         common.findWebElementById("wrong-person-button").click();
         common.timeoutSeconds(1);
@@ -55,11 +55,9 @@ public class TC_67 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"pressLogin"} )
     void dashboard2() {
-        testData.setGivenName("Magic Cookie");
-        testData.setSurName("Magic Cookie");
-        testData.setDisplayName("Magic Cookie Magic Cookie");
-        testData.setPhoneNumber("+46701740605");
-        testData.setEmail("yUHivJGG@dev.eduid.sunet.se");
+        testData.setDisplayName("Rutger Jönåker");
+//        testData.setPhoneNumber("+46701740605");
+//        testData.setEmail("yUHivJGG@dev.eduid.sunet.se");
         dashBoard.runDashBoard();
     }
 
@@ -70,12 +68,12 @@ public class TC_67 extends BeforeAndAfter {
     void startPage3() { startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage3"} )
-    void verifySigninPage2() {
+    void verifySignInPage2() {
         //Verify label with registered display name
         common.timeoutMilliSeconds(500);
         common.verifyStringOnPage("Välkommen tillbaka, Rutger Jönåker!");
 
         //Verify placeholder for username
-        common.verifyStrings(testData.getUsername().toLowerCase(), common.findWebElementByXpath("//*[@id=\"email\"]/input").getAttribute("value"));
+        common.verifyStrings(testData.getUsername().toLowerCase(), common.findWebElementById("email").getAttribute("value"));
     }
 }

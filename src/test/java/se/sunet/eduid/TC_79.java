@@ -40,7 +40,7 @@ public class TC_79 extends BeforeAndAfter {
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
-    @Test( dependsOnMethods = {"addPhoneNumber"} )
+    @Test( dependsOnMethods = {"personalInfo"} )
     void confirmIdentitySvipe(){
         testData.setConfirmIdBy("svipe");
         confirmIdentity.runConfirmIdentity(); }
@@ -48,14 +48,13 @@ public class TC_79 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmIdentitySvipe"} )
     void navigateBackToEduId() {
         common.getWebDriver().navigate().back();
-
     }
 
     //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"navigateBackToEduId"} )
-    void dashboard() { dashBoard.pressSettings(); }
+    void navigateToSettings() { common.navigateToSettings(); }
 
-    @Test( dependsOnMethods = {"dashboard"} )
+    @Test( dependsOnMethods = {"navigateToSettings"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }

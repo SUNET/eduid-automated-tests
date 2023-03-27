@@ -44,15 +44,16 @@ public class TC_70 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"runLoginOtherDevice3rd"} )
     void verifyStatusMessage(){
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "The request is not valid anymore");
+        common.verifyStringOnPage("The request is not valid anymore");
 
         common.selectSwedish();
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Inloggningen är inte giltig längre");
+        common.verifyStringOnPage("Inloggningen är inte giltig längre");
 
+        //Click Abort button
         common.findWebElementById("response-code-cancel-button").click();
 
         //Wait for the Log in page
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Logga in");
+        common.explicitWaitClickableElementId("login-form-button");
     }
 }

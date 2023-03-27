@@ -66,13 +66,11 @@ public class InitBrowser {
         if(System.getProperty("os.name").toLowerCase().contains("mac")) {
 
             //Create Chrome instance with options
-            //WebDriverManager.chromedriver().browserVersion("99").setup();
             WebDriverManager.chromedriver().setup();
 
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("disable-infobars");
-            //chromeOptions.addArguments("--lang=" +language);
-            //chromeOptions.setExperimentalOption("w3c", false);
+            chromeOptions.addArguments("--remote-allow-origins=*");
 
             // If execution should be performed headless
             if (headless.equals("true")) {
@@ -94,7 +92,8 @@ public class InitBrowser {
             chromeOptions.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
             chromeOptions.addArguments("--ignore-certificate-errors");
                */
-
+            chromeOptions.addArguments("start-maximized");
+            chromeOptions.addArguments("window-size=1920,1080");
             webDriver = new ChromeDriver(chromeOptions);
 
             /* For capture of .har traffic - see TC_1 for example, also comment webdriver.getUrl in Webdrivermanager
@@ -169,40 +168,15 @@ public class InitBrowser {
     }
 */
     private void initMobile(String phoneType){
-        //Create Chrome instance with options
+        //Create Chrome instance with option
         WebDriverManager.chromedriver().setup();
-
-        //Create Chrome instance with options
-        /*
-        Map<String, Object> deviceMetrics = new HashMap<>();
-        deviceMetrics.put("width", 1078);
-        deviceMetrics.put("height", 924);
-        deviceMetrics.put("pixelRatio", 3.0);
-        Map<String, Object> mobileEmulation = new HashMap<>();
-        mobileEmulation.put("deviceMetrics", deviceMetrics);
-        mobileEmulation.put("userAgent", "Mozilla/5.0 (Linux; Android 8.0.0;" +
-                        "Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) " +
-        "Chrome/67.0.3396.99 Mobile Safari/537.36");
-        */
-
-        /*
-        //Iphone X
-        Map<String, Object> deviceMetrics = new HashMap<>();
-        deviceMetrics.put("width", 375);
-        deviceMetrics.put("height", 812);
-        deviceMetrics.put("pixelRatio", 3.0);
-        Map<String, Object> mobileEmulation = new HashMap<>();
-        mobileEmulation.put("deviceMetrics", deviceMetrics);
-        mobileEmulation.put("userAgent", "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) " +
-                "AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19");
-*/
 
         Map<String, String> mobileEmulation = new HashMap<>();
         //mobileEmulation.put("orientation", "LANDSCAPE");
         mobileEmulation.put("deviceName", phoneType);
         //Galaxy S5, Nexus 5
 //        mobileEmulation.put("orientation", "landscape");
-        //mobileEmulation.put("deviceName", "iPhone 7");
+
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);

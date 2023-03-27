@@ -30,7 +30,7 @@ public class Swamid {
         common.findWebElementById("searchinput").clear();
         common.findWebElementById("searchinput").sendKeys(searchString);
         common.timeoutMilliSeconds(3500);
-        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/div[1]"));
+        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/div[3]"));
 
         //Wait for the eduID log in page to load
         common.timeoutMilliSeconds(1000);

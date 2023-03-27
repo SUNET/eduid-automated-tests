@@ -44,7 +44,7 @@ public class Identity {
         Common.log.info("Verify Identity labels in Swedish");
 
         //Verify site location menu, beside Start link
-        common.verifyStrings("Identitet", common.findWebElementByXpath("//*[@id=\"content\"]/div[1]").getText());
+        common.verifySiteLocation("Identitet");
 
         //Heading
         common.verifyStringOnPage("Koppla din identitet till ditt eduID");
@@ -103,7 +103,8 @@ public class Identity {
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-phone\"]/div/button", "FORTSÄTT");
 
         //Verify phone pop-up labels
-        verifyPhoneLabelsSwedish();
+        if(!testData.getPhoneNumber().isEmpty())
+            verifyPhoneLabelsSwedish();
 
 
         //---- Freja eID ----
@@ -184,7 +185,7 @@ public class Identity {
         common.selectEnglish();
 
         //Verify site location menu, beside Start link
-        common.verifyStrings("Identity", common.findWebElementByXpath("//*[@id=\"content\"]/div[1]").getText());
+        common.verifySiteLocation("Identity");
 
         //Heading
         common.verifyStringOnPage("Connect your identity to your eduID");
@@ -244,7 +245,8 @@ public class Identity {
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-phone\"]/div/button", "PROCEED");
 
         //Verify phone pop-up labels
-        verifyPhoneLabelsEnglish();
+        if(!testData.getPhoneNumber().isEmpty())
+            verifyPhoneLabelsEnglish();
 
         //---- Freja ----
         //Button text - Freja
@@ -333,7 +335,8 @@ public class Identity {
         //Switch to pop up
         common.switchToPopUpWindow();
 
-        //Verify labels in pop-up
+        //Verify labels in pop-up - if this fails, problem might be that phone number is not confirmed and button click
+        //above fails due to inactive button.
         common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
         common.verifyStringOnPage("Kolla om ditt telefonnummer är kopplat till ditt personnummer.");
         common.verifyStringOnPage("Den här kontrollen görs mot ett register som innehåller uppgifter " +
@@ -400,21 +403,25 @@ public class Identity {
 
         //Expand buttons, all text is visible
         common.findWebElementById("accordion__heading-swedish").click();
-        common.timeoutMilliSeconds(100);
         common.scrollToPageBottom();
         common.timeoutMilliSeconds(100);
 
         common.click(common.findWebElementById("accordion__heading-se-freja"));
         common.timeoutMilliSeconds(100);
+
         common.click(common.findWebElementById("accordion__heading-se-letter"));
         common.timeoutMilliSeconds(100);
+
         common.click(common.findWebElementById("accordion__heading-se-phone"));
         common.timeoutMilliSeconds(100);
+
         common.scrollToPageBottom();
         common.timeoutMilliSeconds(100);
+
         common.click(common.findWebElementById("accordion__heading-eu"));
         common.scrollToPageBottom();
         common.timeoutMilliSeconds(100);
+
         common.click(common.findWebElementById("accordion__heading-world"));
         common.timeoutMilliSeconds(100);
     }

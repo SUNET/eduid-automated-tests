@@ -24,16 +24,16 @@ public class TC_66 extends BeforeAndAfter {
     void startPage2() { startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void verifySigninPage() {
+    void verifySignInPage() {
         //Verify label with registered display name
         common.explicitWaitClickableElementId("login-form-button");
         common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName() +"!");
 
         //Verify placeholder for username
-        common.verifyStrings(testData.getUsername(), common.findWebElementByXpath("//*[@id=\"email\"]/input").getAttribute("value"));
+        common.verifyStrings(testData.getUsername(), common.findWebElementById("email").getAttribute("value"));
     }
 
-    @Test( dependsOnMethods = {"verifySigninPage"} )
+    @Test( dependsOnMethods = {"verifySignInPage"} )
     void enterPassword() { login.enterPassword(); }
 
     @Test( dependsOnMethods = {"enterPassword"} )

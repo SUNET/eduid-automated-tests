@@ -26,7 +26,7 @@ public class RequestResetPwEmail {
         common.click(common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/div/button[2]"));
 
         //wait for the Send-again button on next page
-        common.timeoutSeconds(2);
+        common.timeoutSeconds(4);
         common.verifyStringOnPage("Ett e-postmeddelande med instruktioner har skickats till");
     }
 

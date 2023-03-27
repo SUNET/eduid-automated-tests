@@ -24,6 +24,13 @@ public class WCAG_5 extends BeforeAndAfter
 
         common.timeoutSeconds(1);
         common.navigateToIdentity();
+
+        //Collapse swedish menu first
+        common.findWebElementById("accordion__heading-swedish").click();
+
+        //Expand all menus
+        identity.expandIdentityOptions();
+
         common.timeoutSeconds(1);
         accessibilityBase.checkAccessibilityViolations();
     }

@@ -37,7 +37,6 @@ public class TC_47 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
- //       testData.setPhoneNumber("+46701740605");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
@@ -55,9 +54,9 @@ public class TC_47 extends BeforeAndAfter {
 
     //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"confirmedIdentity"} )
-    void dashboard() { dashBoard.pressSettings(); }
+    void navigateToSettings() { common.navigateToSettings(); }
 
-    @Test( dependsOnMethods = {"dashboard"} )
+    @Test( dependsOnMethods = {"navigateToSettings"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }

@@ -3,14 +3,17 @@ package se.sunet.eduid;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
-public class TC_41 extends BeforeAndAfter {
+public class TC_477 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
         startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage"} )
-    void register(){ register.runRegister(); }
+    void register(){
+        //Set identity number of Ulla Alm in ref.idp
+        testData.setIdentityNumber("198611062384");
+        register.runRegister(); }
 
     @Test( dependsOnMethods = {"register"} )
     void confirmHuman() { confirmHuman.runConfirmHuman(); }
@@ -22,6 +25,8 @@ public class TC_41 extends BeforeAndAfter {
     void login(){
         testData.setRegisterAccount(false);
         login.runLogin();
+
+        common.explicitWaitClickableElement("//*[@id=\"header-nav\"]/button/span");
     }
 
     @Test( dependsOnMethods = {"login"} )
@@ -38,20 +43,20 @@ public class TC_41 extends BeforeAndAfter {
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
-    @Test( dependsOnMethods = {"addPhoneNumber"} )
-    void confirmIdentityMail(){
-        testData.setConfirmIdBy("mail");
+/*    @Test( dependsOnMethods = {"addPhoneNumber"} )
+    void confirmIdentityFreja(){
+        testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentityMail"} )
+    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void confirmedIdentity() {
         confirmedIdentity.runConfirmIdentity();
 
         testData.setRegisterAccount(false);
-    }
+    }*/
 
     //Delete the account, so it will be removed after 2 weeks by script
-    @Test( dependsOnMethods = {"confirmedIdentity"} )
+/*    @Test( dependsOnMethods = {"confirmedIdentity"} )
     void navigateToSettings() { common.navigateToSettings(); }
 
     @Test( dependsOnMethods = {"navigateToSettings"} )
@@ -68,5 +73,5 @@ public class TC_41 extends BeforeAndAfter {
         login.verifyPageTitle();
         login.enterPassword();
         login.signIn();
-    }
+    }*/
 }

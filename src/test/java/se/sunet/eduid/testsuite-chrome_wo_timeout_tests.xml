@@ -304,7 +304,8 @@
     </test>
 
     <test name="TC_40">
-        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by phone" />
+        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by phone. After delete
+        account, restore account by reset password using Freja eID and check that identity and phone number still is confirmed." />
         <classes>
             <class name="se.sunet.eduid.TC_40" >
             </class>
@@ -571,7 +572,7 @@
 
     <test name="TC_78">
         <parameter name="testDescription" value="Register new account, add and confirm phone number.
-                Confirm identity by eIDAS and Freja eID" />
+                Confirm identity by both eIDAS and Freja eID" />
         <classes>
             <class name="se.sunet.eduid.TC_78" >
             </class>
@@ -587,5 +588,14 @@
         </classes>
     </test>
 
+    <test name="TC_81">
+        <parameter name="testDescription" value="Register account, confirm identity by Freja eID. Reset pw and choose
+        no extra security. Then verify on dashboard that identity is no longer verified and that add of phone number is
+        recommended among recommended actions" />
+        <classes>
+            <class name="se.sunet.eduid.TC_81" >
+            </class>
+        </classes>
+    </test>
 
 </suite>

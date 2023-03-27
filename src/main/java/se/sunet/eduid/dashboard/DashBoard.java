@@ -15,29 +15,16 @@ public class DashBoard {
     public void runDashBoard(){
         common.navigateToDashboard();
         verifyPageTitle();
-/*        if(!testData.getTestSuite().equalsIgnoreCase("prod"))
-            verifyNotificationDot();
+
         verifyUserId();
-        verifyDisplayName();
-        verifyGivenName();
-        verifySurName();
 
- */
-        //Ignore check of ID number when not present
-/*        if(!testData.getIdentityNumber().equalsIgnoreCase("lägg till personnummer"))
-            verifyIdentityNumber();
-        verifyPhone();
-        verifyEmail();*/
-//        if(testData.getLanguage().equals("Svenska"))
-//            verifyLabelsSwedish();
-
- /*
-        else
+        if(testData.getTestCase().equalsIgnoreCase("TC_5"))
             verifyLabelsEnglish();
+        else{
+            verifyLabelsSwedish();
+            verifyLabelsEnglish();
+        }
 
-        pressSettings();
-
-  */
     }
 
     private void verifyPageTitle() {
@@ -52,174 +39,345 @@ public class DashBoard {
         }
     }
 
-    private void verifyNotificationDot(){
-        common.findWebElementByXpath("//*[@id=\"dashboard-nav\"]/ul/li[2]/a/div/div").isDisplayed();
-    }
-
     private void verifyUserId() {
-        common.verifyStringOnPage(testData.getUsername().toLowerCase());
-    }
-
-    private void verifyDisplayName() {
-        common.verifyXpathContainsString("//*[@id=\"profile-grid\"]/div[1]", testData.getDisplayName()); }
-
-    private void verifyGivenName() {
-        common.verifyXpathContainsString("//*[@id=\"profile-grid\"]/div[1]",testData.getGivenName()); }
-
-    private void verifySurName() {
-        common.verifyXpathContainsString("//*[@id=\"profile-grid\"]/div[1]",testData.getSurName());
-    }
-
-    private void verifyIdentityNumber() {
-        //Check text on link for hide/show full identityNumber
-        checkShowHideText("VISA", "SHOW");
-
-        //Click on Show button to display complete personal nummber
-        common.click(common.findWebElementByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button"));
-        common.verifyStringOnPage(testData.getIdentityNumber());
-
-        //Check text on link for hide/show full identityNumber
-        checkShowHideText("DÖLJ", "HIDE");
-    }
-
-    private void verifyPhone() {
-        common.verifyStringOnPage(testData.getPhoneNumber());
-    }
-
-    private void verifyEmail() {
-        common.verifyStringOnPage(testData.getEmail().toLowerCase());
+        common.verifyStringByXpath("//*[@id=\"header-nav\"]/button/span", testData.getUsername().toLowerCase());
     }
 
     private void verifyLabelsSwedish() {
         common.verifyPageTitle("Start | eduID");
 
+        //Verify navigation label
+        common.verifyStringByXpath("//*[@id=\"content\"]/nav/a[1]", "Start");
+
         //Verify welcome heading
-        common.verifyStringOnPage("Välkommen, " +testData.getDisplayName() +"!");
+        if(testData.getDisplayName().isEmpty())
+            common.verifyStringOnPage("Välkommen, " +testData.getEmail().toLowerCase() +"!");
+        else
+            common.verifyStringOnPage("Välkommen, " +testData.getDisplayName() +"!");
 
         //Verify heading sub-text
         common.verifyStringOnPage("Få ut det mesta av eduID genom att granska din information.");
 
         //Non-verified account text
-        common.verifyStringOnPage("Nuvarande framsteg i din identitets verifiering");
+        if(!testData.isAccountVerified() && testData.getDisplayName().isEmpty()) {
+            Common.log.info("Verifying dashboard labels in swedish, Account is not verified");
 
-        //Verify icons - eduID created
-        common.timeoutSeconds(3);
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[1]/strong", "Skapa eduID");
-        //common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[1]/svg").getAttribute("data-icon").equalsIgnoreCase("circle-check");
-        //Common.log.info("PELLE_:: " +common.getAttributeByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[1]/svg"));
+            common.verifyStringOnPage("Nuvarande framsteg i din identitets verifiering");
+            common.verifyStringOnPage("Din identitet är inte verifierad.");
+            common.verifyStringOnPage("Vänligen se rekommenderade åtgärder nedan.");
 
-        //Verify icons - eduID identity verified
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[2]/strong", "Verifiera din identitet");
-        //common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[2]/svg").getAttribute("data-icon").equalsIgnoreCase("circle-exclamation");
+            //Heading recommended actions
+            common.verifyStringOnPage("Rekommenderade åtgärder för dig");
+            common.verifyStringOnPage("För att få ut det mesta av eduID rekommenderar vi att du följer nedanstående rekommendationer.");
 
-        //Verify icons - eduID created
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[3]/strong", "För att slutföra det sista steget behöver du verifiera ett svenskt personnummer");
-        //common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[3]/svg").getAttribute("data-icon").equalsIgnoreCase("circle-exclamation");
+            //Recommended actions - Name
+            recommendedActionName(testData.getLanguage());
 
-        //Heading recommended actions
-        common.verifyStringOnPage("Rekommenderade åtgärder för dig");
-        common.verifyStringOnPage("För att få ut det mesta av eduID rekommenderar vi att du följer nedanstående rekommendationer.");
+            //Recommended actions - Add Number
+            recommendedActionAddNumber(testData.getLanguage());
 
+            //Recommended actions - Identity
+            recommendedActionIdentity(testData.getLanguage());
 
-        //Recommended actions - Identity
-        common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-raa-5\"]/span[2]/h6"));
-        common.timeoutMilliSeconds(100);
-        common.verifyStringByXpath("//*[@id=\"accordion__heading-raa-5\"]/span[2]/h6", "Verifiera din identitet");
-        common.verifyStringOnPage("Din identitet är inte verifierad. Vänligen verifiera din identitet för att få tillgång till fler tjänster.");
-        common.verifyStringOnPage("Gå till Identitet");
-        common.findWebElementByXpath("//*[@id=\"accordion__panel-raa-33\"]/a").click();
-        common.explicitWaitPageTitle("Identitet | eduID");
-        common.getWebDriver().navigate().back();
+            //Recommended actions - Security key
+            recommendedActionSecurityKey(testData.getLanguage());
+        }
 
-        //Recommended actions - Security key
-        common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-raa-15\"]/span[2]/h6"));
-        common.timeoutMilliSeconds(100);
-        common.verifyStringByXpath("//*[@id=\"accordion__heading-raa-15\"]/span[2]/h6", "Lägg till din säkerhetsnyckel");
-        common.verifyStringOnPage("Lägg till en säkerhetsnyckel för att aktivera säker återställning av lösenord");
-        common.verifyStringOnPage("Gå till Avancerade inställningar");
-        common.findWebElementByXpath("//*[@id=\"accordion__panel-raa-55\"]/a").click();
-        common.explicitWaitPageTitle("Identitet | eduID");
-        common.getWebDriver().navigate().back();
+        //Verified account text
+        else if(testData.isAccountVerified()){
+            Common.log.info("Verifying dashboard labels in swedish, Account is verified");
 
-        //FAQ
-        common.verifyStringOnPage("Hjälp");
+            common.verifyStringOnPage("Nuvarande framsteg i din identitets verifiering");
+            common.verifyStringOnPage("Din identitet är verifierad.");
+            common.verifyStringOnPage("Ditt eduID är redo att användas.");
 
-        //Language change
-        common.verifyStringOnPage("English");
+            //Heading recommended actions
+            common.verifyStringOnPage("Rekommenderade åtgärder för dig");
+            common.verifyStringOnPage("För att få ut det mesta av eduID rekommenderar vi att du följer nedanstående rekommendationer.");
+
+            //Recommended actions - Security key
+            recommendedActionSecurityKey(testData.getLanguage());
+        }
+
+        //Account has been verified earlier but after reset pw its not verified anymore
+        else{
+            Common.log.info("Verifying dashboard labels in swedish, Account has been verified");
+
+            common.verifyStringOnPage("Nuvarande framsteg i din identitets verifiering");
+            common.verifyStringOnPage("Din identitet är inte längre verifierad efter lösenords återställningen.");
+            common.verifyStringOnPage("Vänligen se rekommenderade åtgärder nedan.");
+
+            //Heading recommended actions
+            common.verifyStringOnPage("Rekommenderade åtgärder för dig");
+            common.verifyStringOnPage("För att få ut det mesta av eduID rekommenderar vi att du följer nedanstående rekommendationer.");
+
+            //Recommended actions - Confirm or Add Number depending on whats already registered
+            if(testData.getPhoneNumber().isEmpty())
+                recommendedActionAddNumber(testData.getLanguage());
+            else if(!testData.isRegisterAccount())
+                Common.log.info("Do nothing....?!?!?");
+            else
+                recommendedActionConfirmNumber(testData.getLanguage());
+
+            //Recommended actions - Identity
+            recommendedActionIdentity(testData.getLanguage());
+
+            //Recommended actions - Security key
+            recommendedActionSecurityKey(testData.getLanguage());
+        }
     }
 
     private void verifyLabelsEnglish() {
+        //Select English
+        if(!testData.getTestCase().equalsIgnoreCase("TC_5"))
+            common.selectEnglish();
+
         common.verifyPageTitle("Start | eduID");
 
         //Verify site location menu
-        common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/a", "Start");
+        common.verifyStringByXpath("//*[@id=\"content\"]/nav/a[1]", "Start");
 
         //Verify welcome heading
-        common.verifyStringOnPage("Welcome, " +testData.getDisplayName() +"!");
+        if(testData.getDisplayName().isEmpty())
+            common.verifyStringOnPage("Welcome, " +testData.getEmail().toLowerCase() +"!");
+        else
+            common.verifyStringOnPage("Welcome, " +testData.getDisplayName() +"!");
 
         //Verify heading sub-text
         common.verifyStringOnPage("Make the most out of eduID by reviewing your information.");
 
-        //Non-verified account text
-        common.verifyStringOnPage("Your identity verification progress");
+        //Non-verified accounts
+        if(!testData.isAccountVerified() && testData.getDisplayName().isEmpty()) {
+            Common.log.info("Verifying dashboard labels in english, Account is not verified");
 
-        //Verify icons - eduID created
-        common.timeoutSeconds(3);
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[1]/strong", "Create eduID");
-        //common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[1]/svg").getAttribute("data-icon").equalsIgnoreCase("circle-check");
-        //Common.log.info("PELLE_:: " +common.getAttributeByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[1]/svg"));
+            //Non-verified account text
+            common.verifyStringOnPage("Your identity verification progress");
 
-        //Verify icons - eduID identity verified
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[2]/strong", "Verify your identity");
-        //common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[2]/svg").getAttribute("data-icon").equalsIgnoreCase("circle-exclamation");
+            //Heading recommended actions
+            common.verifyStringOnPage("Recommended actions for you");
+            common.verifyStringOnPage("To get the most out of eduID we recommend that you follow the below recommendations.");
 
-        //Verify icons - eduID created
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[3]/strong", "To complete the last step, you need to verify a Swedish national ID number");
-        //common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[3]/span[3]/svg").getAttribute("data-icon").equalsIgnoreCase("circle-exclamation");
+            //Recommended actions - Name
+            recommendedActionName("English");
 
-        //Heading recommended actions
-        common.verifyStringOnPage("Recommended actions for you");
-        common.verifyStringOnPage("To get the most out of eduID we recommend that you follow the below recommendations.");
+            //Recommended actions - Add Number
+            recommendedActionAddNumber("English");
 
+            //Recommended actions - Identity
+            recommendedActionIdentity("English");
 
-        //Recommended actions - Identity            "//input[contains(@id, '-fromDate')]"
-        common.click(common.findWebElementByXpath("//[contains(@id, 'accordion__heading-raa-5\"]/span[2]/h6"));
-        common.timeoutMilliSeconds(100);
-        common.verifyStringByXpath("//*[@id=\"accordion__heading-raa-5\"]/span[2]/h6", "Verify your identity");
-        common.verifyStringOnPage("Your identity is not verified. Please verify your identity to get access to more services.");
-        common.verifyStringOnPage("Go to Identity");
-        common.findWebElementByXpath("//*[@id=\"accordion__panel-raa-33\"]/a").click();
-        common.explicitWaitPageTitle("Identity | eduID");
-        common.getWebDriver().navigate().back();
+            //Recommended actions - Security key
+            recommendedActionSecurityKey("English");
+        }
+        //Verified account text
+        else if(testData.isAccountVerified()){
+            Common.log.info("Verifying dashboard labels in english, Account is verified");
 
+            common.verifyStringOnPage("Your identity verification progress");
+            common.verifyStringOnPage("Your identity is verified.");
+            common.verifyStringOnPage("Your eduID is ready to use.");
+
+            //Heading recommended actions
+            common.verifyStringOnPage("Recommended actions for you");
+            common.verifyStringOnPage("To get the most out of eduID we recommend that you follow the below recommendations.");
+
+            //Recommended actions - Security key
+            recommendedActionSecurityKey("English");
+        }
+
+        //Account has been verified earlier but after reset pw its not verified anymore
+        else{
+            Common.log.info("Verifying dashboard labels in english, Account has been verified");
+
+            common.verifyStringOnPage("Your identity verification progress");
+            common.verifyStringOnPage("Your identity is no longer verified after password reset.");
+
+            //Heading recommended actions
+            common.verifyStringOnPage("Recommended actions for you");
+            common.verifyStringOnPage("To get the most out of eduID we recommend that you follow the below recommendations.");
+
+            //Recommended actions - Confirm or Add Number depending on whats already registered
+            if(testData.getPhoneNumber().isEmpty())
+                recommendedActionAddNumber("English");
+            //TODO - fix me below...
+            else if(!testData.isRegisterAccount())
+                Common.log.info("Do nothing....?!?!?");
+            else
+                recommendedActionConfirmNumber("English");
+
+            //Recommended actions - Identity
+            recommendedActionIdentity("English");
+
+            //Recommended actions - Security key
+            recommendedActionSecurityKey("English");
+        }
+
+        //Select swedish
+        if(!testData.getTestCase().equalsIgnoreCase("TC_5"))
+            common.selectSwedish();
+    }
+
+    private void recommendedActionIdentity(String language){
+        //Recommended actions - Identity
+        if(language.equalsIgnoreCase("Svenska")) {
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-verify-identity\"]/div/h3"));
+            common.timeoutMilliSeconds(100);
+            common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-verify-identity\"]/div/h3", "Verifiera din identitet");
+            common.verifyStringOnPage("Din identitet är inte verifierad. Vänligen verifiera din identitet för att få tillgång till fler tjänster.");
+            common.verifyStringOnPage("Gå till Identitet");
+            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-verify-identity\"]/a").click();
+            common.explicitWaitPageTitle("Identitet | eduID");
+
+            common.getWebDriver().navigate().back();
+            common.explicitWaitPageTitle("Start | eduID");
+        }
+        else{
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-verify-identity\"]/div/h3"));
+            common.timeoutMilliSeconds(100);
+            common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-verify-identity\"]/div/h3", "Verify your identity");
+            common.verifyStringOnPage("Your identity is not verified. Please verify your identity to get access to more services.");
+            common.verifyStringOnPage("Go to Identity");
+            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-verify-identity\"]/a").click();
+            common.explicitWaitPageTitle("Identity | eduID");
+
+            common.getWebDriver().navigate().back();
+            common.explicitWaitPageTitle("Start | eduID");
+        }
+    }
+
+    private void recommendedActionSecurityKey(String language){
         //Recommended actions - Security key
-        common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-raa-15\"]/span[2]/h6"));
-        common.timeoutMilliSeconds(100);
-        common.verifyStringByXpath("//*[@id=\"accordion__heading-raa-15\"]/span[2]/h6", "Add your security key");
-        common.verifyStringOnPage("Add your security key to enable safe reset of password");
-        common.verifyStringOnPage("Go to Advanced settings");
-        common.findWebElementByXpath("//*[@id=\"accordion__panel-raa-55\"]/a").click();
-        common.explicitWaitPageTitle("Advanced Settings | eduID");
-        common.getWebDriver().navigate().back();
+        if(language.equalsIgnoreCase("Svenska")) {
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-security-key\"]/div/h3"));
+            common.timeoutMilliSeconds(100);
+            common.scrollToPageBottom();
+            common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-security-key\"]/div/h3",
+                    "Lägg till din säkerhetsnyckel");
+            common.verifyStringOnPage("Lägg till en säkerhetsnyckel för att aktivera säker återställning av lösenord");
+            common.verifyStringOnPage("Gå till Avancerade inställningar");
+            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-security-key\"]/a").click();
+            common.explicitWaitPageTitle("Avancerade Inställningar | eduID");
 
-        //FAQ
-        common.verifyStringOnPage("Hjälp");
+            common.getWebDriver().navigate().back();
+            common.explicitWaitPageTitle("Start | eduID");
 
-        //Language change
-        common.verifyStringOnPage("English");
+            //FAQ
+            common.verifyStringOnPage("Hjälp");
+
+            //Language change
+            common.verifyStringOnPage("English");
+        }
+        else{
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-security-key\"]/div/h3"));
+            common.timeoutMilliSeconds(100);
+            common.scrollToPageBottom();
+            common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-security-key\"]/div/h3",
+                    "Add your security key");
+            common.verifyStringOnPage("Add your security key to enable safe reset of password");
+            common.verifyStringOnPage("Go to Advanced settings");
+            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-security-key\"]/a").click();
+            common.explicitWaitPageTitle("Advanced Settings | eduID");
+
+            common.getWebDriver().navigate().back();
+            common.explicitWaitPageTitle("Start | eduID");
+
+            //FAQ
+            common.verifyStringOnPage("Help");
+
+            //Language change
+            common.verifyStringOnPage("Svenska");
+        }
     }
 
-    private void checkShowHideText(String textSwedish, String textEnglish){
-        if(testData.getLanguage().equalsIgnoreCase("Svenska"))
-            common.verifyStringByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button", textSwedish);
-        else
-            common.verifyStringByXpath("//*[@id=\"profile-grid\"]/div[2]/div/button", textEnglish);
+    private void recommendedActionName(String language){
+        //Recommended actions - Add name
+        if(language.equalsIgnoreCase("Svenska")) {
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-add-name\"]/div/h3"));
+            common.timeoutMilliSeconds(100);
+            common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-add-name\"]/div/h3",
+                    "Lägg till ditt namn");
+            common.verifyStringOnPage("Namn kan användas för att anpassa tjänster som du kommer åt med ditt eduID.");
+            common.verifyStringOnPage("Gå till Inställningar");
+            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-add-name\"]/a").click();
+            common.explicitWaitPageTitle("Inställningar | eduID");
+
+            common.getWebDriver().navigate().back();
+            common.explicitWaitPageTitle("Start | eduID");
+        }
+        else{
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-add-name\"]/div/h3"));
+            common.timeoutMilliSeconds(100);
+            common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-add-name\"]/div/h3",
+                    "Add your name");
+            common.verifyStringOnPage("Name can be used to personalise services that you access with your eduID.");
+            common.verifyStringOnPage("Go to Settings");
+            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-add-name\"]/a").click();
+            common.explicitWaitPageTitle("Settings | eduID");
+
+            common.getWebDriver().navigate().back();
+            common.explicitWaitPageTitle("Start | eduID");
+        }
     }
 
-    public void pressSettings(){
-        common.navigateToSettings();
+    private void recommendedActionAddNumber(String language){
+        //Recommended actions - Add phone number
+        if(language.equalsIgnoreCase("Svenska")) {
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3"));
+            common.timeoutMilliSeconds(100);
+            common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3",
+                    "Lägg till ditt telefonnummer");
+            common.verifyStringOnPage("Lägg till ditt telefonnummer för att möjliggöra säker återställning " +
+                    "av lösenord och fortsatt verifiering av din identitet.");
+            common.verifyStringOnPage("Gå till Inställningar");
+            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-phone\"]/a").click();
+            common.explicitWaitPageTitle("Inställningar | eduID");
 
-        //wait for one "add more" button to be clickable
-        common.explicitWaitClickableElementId("emails-add-more-button");
+            common.getWebDriver().navigate().back();
+            common.explicitWaitPageTitle("Start | eduID");
+        }
+        else{
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3"));
+            common.timeoutMilliSeconds(100);
+            common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3",
+                    "Add your phone number");
+            common.verifyStringOnPage("Add your phone number to enable safe reset of password and verification of identity.");
+            common.verifyStringOnPage("Go to Settings");
+            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-phone\"]/a").click();
+            common.explicitWaitPageTitle("Settings | eduID");
+
+            common.getWebDriver().navigate().back();
+            common.explicitWaitPageTitle("Start | eduID");
+        }
+    }
+
+    private void recommendedActionConfirmNumber(String language){
+        //Recommended actions - Add phone number
+        if(language.equalsIgnoreCase("Svenska")) {
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3"));
+            common.timeoutMilliSeconds(100);
+            common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3",
+                    "Bekräfta ditt telefonnummer");
+            common.verifyStringOnPage("Bekräfta ditt telefonnummer för att möjliggöra säker återställning " +
+                    "av lösenord och verifiering av identitet.");
+            common.verifyStringOnPage("Gå till Inställningar");
+            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-phone\"]/a").click();
+            common.explicitWaitPageTitle("Inställningar | eduID");
+
+            common.getWebDriver().navigate().back();
+            common.explicitWaitPageTitle("Start | eduID");
+        }
+        else{
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3"));
+            common.timeoutMilliSeconds(100);
+            common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3",
+                    "Confirm your phone number");
+            common.verifyStringOnPage("Confirm your phone number to enable safe reset of password and verification of identity.");
+            common.verifyStringOnPage("Go to Settings");
+            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-phone\"]/a").click();
+            common.explicitWaitPageTitle("Settings | eduID");
+
+            common.getWebDriver().navigate().back();
+            common.explicitWaitPageTitle("Start | eduID");
+        }
     }
 }

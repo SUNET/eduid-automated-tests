@@ -30,7 +30,7 @@ public class TC_56 extends BeforeAndAfter {
         testData.setRegisterAccount(true);
 
         //Navigate to settings
-        dashBoard.pressSettings();
+        common.navigateToSettings();
         personalInfo.runPersonalInfo();
     }
 
@@ -98,13 +98,13 @@ public class TC_56 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void verifySecurityKeyStatus() {
-        common.verifyStatusMessage("Ett okänt fel inträffade. Var god försök igen och kontakta supporten om felet kvarstår.");
+        common.verifyStatusMessage("Felaktigt format av identitetsnumret. Var god försök igen.");
 
         //Verify status beside the added key dates
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button", "VERIFIERA");
 
         common.selectEnglish();
-        common.verifyStatusMessage("There was an unexpected problem servicing your request, please try again or contact the site administrators");
+        common.verifyStatusMessage("Incorrect format of the identity number. Please try again.");
         //Verify status beside the added key dates
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button", "VERIFY KEY");
         common.selectSwedish();

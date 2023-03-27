@@ -128,7 +128,7 @@ public class BeforeAndAfter {
         Common.log.info(testData.getTestCase() +" - "+method.getName());
     }
 
-//    @AfterTest
+    @AfterTest
     public void quitBrowser() throws IOException {
         //Browserstack test result
 //        testResult();
@@ -144,7 +144,6 @@ public class BeforeAndAfter {
 
     @AfterMethod(alwaysRun = true)
     public void captureScreenshot(ITestResult result){
-        //Take the Screenshot Only, If the Test is failed.
         // Change the condition , If the screenshot needs to be taken for other status as well
         if(ITestResult.FAILURE==result.getStatus()){
             Shutterbug.shootPage(webdriver, Capture.FULL_SCROLL, 500, true)

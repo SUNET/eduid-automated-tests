@@ -28,7 +28,7 @@ public class RequestNewPassword {
         common.findWebElementById("email").sendKeys(testData.getUsername());
     }
 
-    private void pressResetPassword(){
+    public void pressResetPassword(){
         common.click(common.findWebElementById("reset-password-button"));
 
         //wait for the Send-again button on next page
@@ -40,7 +40,7 @@ public class RequestNewPassword {
         common.verifyStringOnPage("Återställ lösenord");
 
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p", "Ange din e-postadress registrerad till ditt konto.");
-        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress\n*");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress");
 
         //Verify placeholder
         common.verifyPlaceholder("namn@example.com", "email");
@@ -58,7 +58,7 @@ public class RequestNewPassword {
         common.verifyStringOnPage("Reset password");
 
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p", "Enter the email address registered to your eduID account.");
-        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address\n*");
+        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address");
 
         //Verify placeholder
         common.verifyPlaceholder("name@example.com", "email");

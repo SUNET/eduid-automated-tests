@@ -79,7 +79,6 @@ public class Login {
             //Wait for the username label at dashboard upper right corner
             common.timeoutMilliSeconds(800);
             common.explicitWaitClickableElementId("header-nav");
-            //common.explicitWaitVisibilityElement("//*[@id=\"root\"]/section[1]/header/div");
         }
         common.timeoutMilliSeconds(500);
     }
@@ -99,13 +98,5 @@ public class Login {
 
         //Wait for next page, return to login
         common.explicitWaitClickableElementId("go-back-button");
-    }
-
-    private void loginOtherDevice(){
-        //Click Other Device button
-        common.click(common.findWebElementById("login-other-device-button"));
-
-        //Wait for heading on next page
-        common.explicitWaitClickableElement("//*[@id=\"content\"]/div/h3");
     }
 }
