@@ -2,16 +2,12 @@ package se.sunet.eduid.utils;
 
 import com.assertthat.selenium_shutterbug.core.Capture;
 import com.assertthat.selenium_shutterbug.core.Shutterbug;
-import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.*;
 import org.testng.annotations.*;
 import se.sunet.eduid.dashboard.*;
 import se.sunet.eduid.generic.*;
-import se.sunet.eduid.registration.ConfirmHuman;
+import se.sunet.eduid.registration.ConfirmEmailAddress;
 import se.sunet.eduid.registration.ConfirmedNewAccount;
 import se.sunet.eduid.registration.Register;
 import se.sunet.eduid.resetPassword.*;
@@ -45,7 +41,7 @@ public class BeforeAndAfter {
     public PasswordChanged passwordChanged;
     public Password password;
     public ConfirmPhoneNumber confirmPhoneNumber;
-    public ConfirmHuman confirmHuman;
+    public ConfirmEmailAddress confirmEmailAddress;
     public Register register;
     public ConfirmIdentity confirmIdentity;
     public ConfirmedIdentity confirmedIdentity;
@@ -96,7 +92,7 @@ public class BeforeAndAfter {
         password = new Password(common, testData);
         initPwChange = new InitPwChange(common, testData);
         confirmPhoneNumber = new ConfirmPhoneNumber(common, testData);
-        confirmHuman = new ConfirmHuman(common, testData);
+        confirmEmailAddress = new ConfirmEmailAddress(common, testData);
         register = new Register(common, testData);
         confirmIdentity = new ConfirmIdentity(common, testData, identity);
         confirmedIdentity = new ConfirmedIdentity(common, testData);

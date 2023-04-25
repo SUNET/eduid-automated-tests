@@ -31,7 +31,8 @@ public class ConfirmedNewAccount {
     private void verifyLabels(){
         //Details
         common.verifyStringOnPage("Registrering av ditt eduID är klar.");
-        common.verifyStringOnPage("Detta är dina inloggningsuppgifter för eduID.");
+        common.verifyStringOnPage("Detta är dina inloggningsuppgifter. Ett lösenord har genererats. " +
+                "Spara lösenordet. Du kan efter du loggat in välja att byta lösenord.");
 
         //Email
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "E-postadress");
@@ -44,14 +45,15 @@ public class ConfirmedNewAccount {
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Lösenord");
         testData.setPassword(common.findWebElementById("user-password").getText());
 
-/*        //Switch language to English
+        //Switch language to English
         common.selectEnglish();
 
         common.verifyPageTitle("Register | eduID");
 
         //Details
         common.verifyStringOnPage("You have completed the registration for eduID.");
-        common.verifyStringOnPage("These are your login details for eduID.");
+        common.verifyStringOnPage("These are your login details for eduID. A password has been " +
+                "generated for you. Save the password. Once you've logged in you can change your password.");
 
         //Email
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "Email address");
@@ -61,11 +63,11 @@ public class ConfirmedNewAccount {
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Password");
 
         //Button
-        common.verifyStringById("finished-button", "Go to my eduID");
+        common.verifyStringById("finished-button", "Go to eduID");
 
 
         //Switch language to Swedish
-        common.selectSwedish();*/
+        common.selectSwedish();
     }
 
     private void clickGoToMyEduID(){

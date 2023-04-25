@@ -183,17 +183,6 @@
         </classes>
     </test>
 
-<!-- Obsolete from 2021-09, at password reset - its no longer possible to choose custom password
-    <test name="TC_10">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP) and set new recommended password" />
-        <classes>
-            <class name="se.sunet.eduid.TC_10" >
-            </class>
-        </classes>
-    </test>
-
--->
-
     <test name="TC_25">
         <parameter name="testDescription" value="Try to reset password with incorrect magic code, ends with a 404-page" />
         <classes>
@@ -280,7 +269,8 @@
     </test>
 
     <test name="TC_37">
-        <parameter name="testDescription" value="Initiate Register of new account, verify proceed button at confirm human is not activated" />
+        <parameter name="testDescription" value="Initiate Register of new account, verify proceed button at confirm
+            human is not activated and that incorrect email verification code gives error message" />
         <classes>
             <class name="se.sunet.eduid.TC_37" >
             </class>
@@ -594,6 +584,33 @@
         recommended among recommended actions" />
         <classes>
             <class name="se.sunet.eduid.TC_81" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_82" >
+        <parameter name="testDescription" value="Initiate Register of new account, verify that incorrect email
+            verification code entered three times aborts email verification process with error message" />
+        <classes>
+            <class name="se.sunet.eduid.TC_82" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_83" >
+        <parameter name="testDescription" value="Initiate Register of new account, verify that old captcha is working
+            but human can not be confirmed" />
+        <classes>
+            <class name="se.sunet.eduid.TC_83" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_84" >
+        <parameter name="testDescription" value="Initiate Register of new account, verify that old captcha is working
+            and human can be confirmed" />
+        <classes>
+            <class name="se.sunet.eduid.TC_84" >
             </class>
         </classes>
     </test>

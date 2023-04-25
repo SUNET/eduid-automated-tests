@@ -13,9 +13,9 @@ public class TC_39 extends BeforeAndAfter {
     void register(){ register.runRegister(); }
 
     @Test( dependsOnMethods = {"register"} )
-    void confirmHuman() { confirmHuman.runConfirmHuman(); }
+    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
-    @Test( dependsOnMethods = {"confirmHuman"} )
+    @Test( dependsOnMethods = {"confirmEmailAddress"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -39,10 +39,10 @@ public class TC_39 extends BeforeAndAfter {
         register.runRegister(); }
 
     @Test( dependsOnMethods = {"register2"} )
-    void confirmHuman2() { confirmHuman.runConfirmHuman(); }
+    void confirmEmailAddress2() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     //Delete the account, so it will be removed after 2 weeks by script
-    @Test( dependsOnMethods = {"confirmHuman2"} )
+    @Test( dependsOnMethods = {"confirmEmailAddress2"} )
     void login2(){
         testData.setRegisterAccount(false);
         login.verifyPageTitle();

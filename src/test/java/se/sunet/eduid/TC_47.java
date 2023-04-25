@@ -10,12 +10,14 @@ public class TC_47 extends BeforeAndAfter {
         startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage"} )
-    void register(){ register.runRegister(); }
+    void register(){
+        testData.setIdentityNumber("");
+        register.runRegister(); }
 
     @Test( dependsOnMethods = {"register"} )
-    void confirmHuman() { confirmHuman.runConfirmHuman(); }
+    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
-    @Test( dependsOnMethods = {"confirmHuman"} )
+    @Test( dependsOnMethods = {"confirmEmailAddress"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )

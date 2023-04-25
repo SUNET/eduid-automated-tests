@@ -55,6 +55,14 @@
         </classes>
     </test>
 
+    <test name="EduID_Help">
+        <parameter name="testDescription" value="Verify WCAG at Help page" />
+        <classes>
+            <class name="se.sunet.eduid.WCAG_7" >
+            </class>
+        </classes>
+    </test>
+
 <!--    <test name="WCAG_Delete">
         <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
         <classes>

@@ -14,22 +14,10 @@ public class WCAG_7 extends BeforeAndAfter
     }
 
     @Test( dependsOnMethods = {"startPage"} )
-    void loginPage() throws IOException {
-
-    }
-
-    @Test( dependsOnMethods = {"loginPage"} )
-    void dashBoard() throws IOException {
-        login.runLogin();
-
-        common.timeoutSeconds(1);
-        common.navigateToSettings();
-        common.timeoutSeconds(1);
-
-        common.click(common.findWebElementById("delete-button"));
-        common.timeoutSeconds(1);
-
-        testData.setRememberMe(true);
+    void helpPage() throws IOException {
+        //Press help
+        common.findWebElementByXpath("//*[@id=\"footer\"]/nav/ul/li[1]/a").click();
+        common.timeoutSeconds(2);
         accessibilityBase.checkAccessibilityViolations();
     }
 }

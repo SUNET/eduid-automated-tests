@@ -17,7 +17,7 @@ public class TestData {
     private String username, password, givenName, surName, displayName, magicCode, email,
             phoneNumber, identityNumber, language, eppn, confirmIdBy, supportUsername,
             emailCode, testCase, testDescription, testSuite, mfaMethod, otpPhoneNumber, otherDeviceCode,
-            otherDeviceSubmitCode;
+            otherDeviceSubmitCode, emailVerificationCode;
 
     private boolean buttonValuePopup = true;
     private boolean buttonValueConfirm = true;

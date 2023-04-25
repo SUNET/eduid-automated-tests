@@ -13,7 +13,7 @@ public class TC_36 extends BeforeAndAfter {
     void register(){ register.runRegister(); }
 
     @Test( dependsOnMethods = {"register"} )
-    void confirmHuman() {
+    void confirmEmailAddress() {
         testData.setVerifyEmail(false);
-        confirmHuman.runConfirmHuman(); }
+        confirmEmailAddress.runConfirmEmailAddress(); }
 }

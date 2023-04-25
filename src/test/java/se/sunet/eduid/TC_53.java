@@ -15,9 +15,9 @@ public class TC_53 extends BeforeAndAfter {
     void register(){ register.runRegister(); }
 
     @Test( dependsOnMethods = {"register"} )
-    void confirmHuman() { confirmHuman.runConfirmHuman(); }
+    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
-    @Test( dependsOnMethods = {"confirmHuman"} )
+    @Test( dependsOnMethods = {"confirmEmailAddress"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )

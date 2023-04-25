@@ -25,9 +25,9 @@ public class TC_49 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"register"} )
-    void confirmHuman() { confirmHuman.runConfirmHuman(); }
+    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
-    @Test( dependsOnMethods = {"confirmHuman"} )
+    @Test( dependsOnMethods = {"confirmEmailAddress"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -90,9 +90,9 @@ public class TC_49 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"register2"} )
-    void confirmHuman2() { confirmHuman.runConfirmHuman(); }
+    void confirmEmailAddress2() { confirmEmailAddress.runConfirmEmailAddress(); }
 
-    @Test( dependsOnMethods = {"confirmHuman2"} )
+    @Test( dependsOnMethods = {"confirmEmailAddress2"} )
     void confirmedNewAccount2() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount2"} )

@@ -1,6 +1,5 @@
 package se.sunet.eduid.registration;
 
-import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 import java.io.IOException;
@@ -23,10 +22,14 @@ public class Register {
         verifyLabels();
         enterEmailAndPressRegister();
 
+        verifyLabelsAtConfirmEmailAddress();
+
         common.addMagicCookie();
         common.findWebElementById("value").sendKeys("123456");
 
         common.scrollToPageBottom();
+
+        //Fill in a dummy value and continue
         common.findWebElementById("captcha-continue-button").click();
 
         registerPopUp();
@@ -34,10 +37,6 @@ public class Register {
 
     private void verifyPageTitle() {
         common.verifyPageTitle("Registrera | eduID");
-
-        //TODO temp fix to get swedish language
-        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
-            common.selectSwedish();
     }
 
     private void verifyLabels(){
@@ -46,15 +45,9 @@ public class Register {
 
         common.verifyStringOnPage("Registrera din e-postadress för att skapa ditt eduID.");
 
-        common.verifyStringOnPage("När du har skapat ditt eduID kan du logga in och koppla det till ditt svenska personnummer.");
+        common.verifyStringOnPage("När du har skapat ditt eduID kan du logga in och koppla det till " +
+                "ditt svenska personnummer.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress");
-
-/*
-        common.verifyStringOnPage("Om du redan har ett eduID kan du logga in här.");
-
-        Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"content\"]/p[2]/a").getAttribute("href")
-                .contains("https://dashboard.dev.eduid.se/profile"), "The log in link is not correct! Expecting: https://dashboard.dev.eduid.se/profile");
-*/
 
         //Switch language to English
         common.selectEnglish();
@@ -62,20 +55,18 @@ public class Register {
 
         common.verifyStringOnPage("Register your email address to create your eduID.");
 
-        common.verifyStringOnPage("Once you have created an eduID you will be able to log in and connect it to your Swedish national identity number.");
+        common.verifyStringOnPage("Once you have created an eduID you will be able to log in and " +
+                "connect it to your Swedish national identity number.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address");
 
-/*
-        common.verifyStringOnPage("If you already have eduID you can log in here.");
+        //Verify placeholder
+        common.verifyPlaceholder("name@example.com", "email");
 
-        Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"content\"]/p[2]/a").getAttribute("href")
-                .contains("https://dashboard.dev.eduid.se/profile"), "The log in link is not correct! Expecting: https://dashboard.dev.eduid.se/profile");
-*/
     }
 
     public void enterEmailAndPressRegister(){
         //Verify placeholder
-        common.verifyPlaceholder("name@example.com", "email");
+ //       common.verifyPlaceholder("name@example.com", "email");
 
         //Generate new username
         if(testData.isGenerateUsername())
@@ -111,7 +102,6 @@ public class Register {
         common.click(common.findWebElementById("register-button"));
 
         //Click on register button again and verify terms in swedish
-        //common.click(common.findWebElementById("register-button"));
         verifyTermsSwedish();
 
         //Click on accept or reject
@@ -119,7 +109,7 @@ public class Register {
             common.click(common.findWebElementById("accept-button"));
         else {
             common.click(common.findWebElementById("cancel-button"));
-            //TODO language
+
             common.timeoutSeconds(1);
         }
     }
@@ -214,5 +204,20 @@ public class Register {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void verifyLabelsAtConfirmEmailAddress() {
+        //Label1
+        common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Confirm that you are a human.");
+
+        //Switch language to Swedish
+        common.selectSwedish();
+
+        //Label1
+        common.verifyStringByXpath("//*[@id=\"content\"]/h1", "eduID måste " +
+                "verifiera att du är en människa och inte en maskin.");
+
+        //Switch language to English
+        common.selectEnglish();
     }
 }
