@@ -103,18 +103,19 @@ public class TC_57 extends BeforeAndAfter {
         //Select and submit user
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
-        common.click(common.findWebElementById("submitButton"));
+        common.findWebElementById("submitButton").click();
+        common.timeoutSeconds(3);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void verifySecurityKeyStatus() {
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/label", "VERIFIERAD");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
 
         common.selectEnglish();
 
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/label", "VERIFIED");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIED");
         common.selectSwedish();
     }
 
@@ -159,7 +160,8 @@ public class TC_57 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"loginMfaFreja"} )
     void selectUserRefIdp2(){
-        common.click(common.findWebElementById("submitButton"));
+        common.findWebElementById("submitButton").click();
+        common.timeoutSeconds(3);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp2"} )
@@ -185,7 +187,8 @@ public class TC_57 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"loginMfaFreja2"} )
     void selectUserRefIdp3(){
-        common.click(common.findWebElementById("submitButton"));
+        common.findWebElementById("submitButton").click();
+        common.timeoutSeconds(3);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp3"} )
@@ -208,10 +211,12 @@ public class TC_57 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"loginMfaFreja3"} )
     void selectUserRefIdp4(){
-       common.click(common.findWebElementById("submitButton"));
+        common.explicitWaitClickableElementId("submitButton");
+        common.findWebElementById("submitButton").click();
+        common.timeoutSeconds(3);
 
-       //Wait for register button at start page
-       common.explicitWaitClickableElement("//section[2]/div/div/a");
+        //Wait for register button at start page
+        common.explicitWaitClickableElement("//section[2]/div/div/a");
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp4"} )

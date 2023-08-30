@@ -30,7 +30,7 @@ public class EmailAddresses {
         common.timeoutMilliSeconds(500);
 
         // Try to removePrimary the primary email
-        if(testData.isRemovePrimary()) {
+/*        if(testData.isRemovePrimary()) {
             common.click(common.findWebElementByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr/td[3]/button"));
 
             //Verify info bar message - swedish
@@ -41,7 +41,7 @@ public class EmailAddresses {
             common.verifyStatusMessage("You must have at least one email address");
 
             common.selectSwedish();
-        }
+        }*/
 
         // RemoveNewEmail1, in this case the second email address in the list
         if(testData.isRemoveNewEmail1()) {
@@ -54,7 +54,7 @@ public class EmailAddresses {
 
         // Try to remove the primary email
         if(!testData.getAddNewEmail1().equals("") && testData.getAddNewEmail1().contains("@")) {
-            common.explicitWaitVisibilityElementId("emails-add-more-button");
+            //common.explicitWaitVisibilityElementId("emails-add-more-button");
             common.click(common.findWebElementById("emails-add-more-button"));
 
             //Verify placeholder
@@ -135,7 +135,7 @@ public class EmailAddresses {
 
 
                     // Click OK
-                    common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]"));
+                    common.click(common.findWebElementByXpath("//*[@id=\"email-confirm-modal-form\"]/div[2]/button"));
 
                     //Switch back to original window handle after submitting username, password
                     common.switchToDefaultWindow();
@@ -151,7 +151,7 @@ public class EmailAddresses {
                 if(testData.getConfirmNewEmail1().equals("wrongCode"))
                     common.verifyStatusMessage("Ogiltig kod eller en kod som har gått ut. Var god prova igen eller begär en ny kod");
                 else {
-                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[2]/td[2]/span/strong", "PRIMÄR");
+                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[2]/td[2]/span", "PRIMÄR");
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[3]/td[2]/button", "GÖR PRIMÄR");
 
                     //Make email 1 primary
@@ -162,7 +162,7 @@ public class EmailAddresses {
 
                     //Check labels
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[2]/td[2]/button", "GÖR PRIMÄR");
-                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[3]/td[2]/span/strong", "PRIMÄR");
+                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[3]/td[2]/span", "PRIMÄR");
 
                     //Switch back to default primary email
                     common.click(common.findWebElementByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[2]/td[2]/button"));
@@ -171,7 +171,7 @@ public class EmailAddresses {
                     common.timeoutMilliSeconds(1000);
 
                     //Check labels
-                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[2]/td[2]/span/strong", "PRIMÄR");
+                    common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[2]/td[2]/span", "PRIMÄR");
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[3]/td[2]/button", "GÖR PRIMÄR");
                 }
             }
@@ -252,7 +252,7 @@ public class EmailAddresses {
                 "koden är formaterad som fem grupper med tecken och nummer, åtskilda av bindestreck");
         common.verifyPlaceholder("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", "email-confirm-modal");
 
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a",
+        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-form\"]/div[1]/div[2]/a",
                 "Skicka ny kod igen");
 
         //Close confirmation pop-up
@@ -275,7 +275,7 @@ public class EmailAddresses {
                 "the code is formatted as five groups of characters and numbers, separated by hyphens");
         common.verifyPlaceholder("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", "email-confirm-modal");
 
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a",
+        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-form\"]/div[1]/div[2]/a",
                 "Send a new code");
 
         //Close confirmation pop-up

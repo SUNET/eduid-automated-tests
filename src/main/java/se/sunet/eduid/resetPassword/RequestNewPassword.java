@@ -32,6 +32,7 @@ public class RequestNewPassword {
         common.click(common.findWebElementById("reset-password-button"));
 
         //wait for the Send-again button on next page
+        common.timeoutSeconds(1);
         common.explicitWaitClickableElementId("go-back-button");
     }
 

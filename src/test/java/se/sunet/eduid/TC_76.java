@@ -62,7 +62,7 @@ public class TC_76 extends BeforeAndAfter {
         loginOtherDevice.submitCode();
 
         //wait for the Log in page to be loaded
-        common.explicitWaitClickableElementId("login-other-device-button");
+        //common.explicitWaitClickableElementId("login-other-device-button");
         common.verifyStringById("login-other-device-button", "OTHER DEVICE");
     }
 }

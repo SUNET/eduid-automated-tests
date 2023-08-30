@@ -1,11 +1,20 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="dev" parallel="tests" thread-count="20">
+<suite name="dev" parallel="tests" thread-count="10">
     <parameter name="url" value="https://dev.eduid.se" />
     <parameter name="browser" value="chrome" />
     <parameter name="headless" value="true" />
     <parameter name="language" value="sv" />
     <parameter name="testsuite" value="dev" />
+
+    <test name="TC_57">
+        <parameter name="testDescription" value="Register account, Verify that login to eduID can be done from Swamid Testing
+        on a verified account using Freja eID+ as mfa method" />
+        <classes>
+            <class name="se.sunet.eduid.TC_57" >
+            </class>
+        </classes>
+    </test>
 
     <test name="TC_35">
         <parameter name="testDescription" value="Initiate Register of new account, abort at terms. Then trigger multiple
@@ -48,15 +57,14 @@
         </classes>
     </test>
 
-<!--
     <test name="TC_40">
-        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by phone" />
+        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by phone. After delete
+        account, restore account by reset password using Freja eID and check that identity and phone number still is confirmed." />
         <classes>
             <class name="se.sunet.eduid.TC_40" >
             </class>
         </classes>
     </test>
--->
 
     <test name="TC_41">
         <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by letter" />
@@ -109,15 +117,6 @@
         </classes>
     </test>
 
-    <test name="TC_57">
-        <parameter name="testDescription" value="Register account, Verify that login to eduID can be done from Swamid Testing
-        on a verified account using Freja eID+ as mfa method" />
-        <classes>
-            <class name="se.sunet.eduid.TC_57" >
-            </class>
-        </classes>
-    </test>
-
     <test name="TC_58">
         <parameter name="testDescription" value="Register account, Verify that login to eduID can be done from Swamid Testing
         on a verified account using Security Key as mfa method" />
@@ -131,15 +130,6 @@
         <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings, Verify the Security key" />
         <classes>
             <class name="se.sunet.eduid.TC_46" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_56">
-        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings, attempt
-        to verify the Security key without the nin-cookie set. I.e. Security key verification will fail" />
-        <classes>
-            <class name="se.sunet.eduid.TC_56" >
             </class>
         </classes>
     </test>
@@ -170,6 +160,16 @@
         </classes>
     </test>
 
+    <test name="TC_81">
+        <parameter name="testDescription" value="Register account, confirm identity by Freja eID. Reset pw and choose
+        no extra security. Then verify on dashboard that identity is no longer verified and that add of phone number is
+        recommended among recommended actions" />
+        <classes>
+            <class name="se.sunet.eduid.TC_81" >
+            </class>
+        </classes>
+    </test>
+
     <test name="TC_79">
         <parameter name="testDescription" value="Register new account, add and confirm phone number.
                 Attempt to confirm identity by SVIPE ID (no complete confirmation will be done)" />
@@ -179,4 +179,39 @@
         </classes>
     </test>
 
+    <test name="TC_82" >
+        <parameter name="testDescription" value="Initiate Register of new account, verify that incorrect email
+            verification code entered three times aborts email verification process with error message" />
+        <classes>
+            <class name="se.sunet.eduid.TC_82" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_83" >
+        <parameter name="testDescription" value="Initiate Register of new account, verify that old captcha is working
+            but human can not be confirmed" />
+        <classes>
+            <class name="se.sunet.eduid.TC_83" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_84" >
+        <parameter name="testDescription" value="Initiate Register of new account, verify that old captcha is working
+            and human can be confirmed" />
+        <classes>
+            <class name="se.sunet.eduid.TC_84" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_56">
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings, attempt
+        to verify the Security key without the nin-cookie set. I.e. Security key verification will fail" />
+        <classes>
+            <class name="se.sunet.eduid.TC_56" >
+            </class>
+        </classes>
+    </test>
 </suite>

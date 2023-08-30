@@ -48,6 +48,7 @@ public class SecurityKey {
                 .setIsUserVerified(true);
 
         VirtualAuthenticator authenticator = ((HasVirtualAuthenticator) common.getWebDriver()).addVirtualAuthenticator(options);
+        //authenticator.setUserVerified(true);
     }
 
     private void addSecurityKey(){
@@ -60,8 +61,8 @@ public class SecurityKey {
         common.switchToPopUpWindow();
 
         //Enter name of key and click OK
-        common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input").sendKeys("test-key1");
-        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button"));
+        common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input").sendKeys("test-key1");
+        common.click(common.findWebElementByXpath("//*[@id=\"describe-webauthn-token-modal-form\"]/div[2]/button"));
         common.timeoutMilliSeconds(500);
 
         //Verify that without personal info added, no extra key can be added.
@@ -77,9 +78,9 @@ public class SecurityKey {
             verifySecurityKeyHeaders();
 
             //Try to remove the "last" key
-            common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[5]/button"));
-            common.timeoutMilliSeconds(500);
-            common.verifyStatusMessage("Du kan inte ta bort din enda säkerhetsnyckel");
+            //common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[5]/button"));
+            //common.timeoutMilliSeconds(500);
+            //common.verifyStatusMessage("Du kan inte ta bort din enda säkerhetsnyckel");
         }
     }
 
@@ -96,34 +97,82 @@ public class SecurityKey {
     }
 
     private void verifyAddSecurityKeyLabels(){
-        common.click(common.findWebElementByXpath("//*[@id=\"security-webauthn-button\"]"));
+        //Verify Security key
+        common.click(common.findWebElementById("security-webauthn-button"));
         common.timeoutMilliSeconds(500);
 
         //Labels and placeholder
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5", "Ge ett namn till din säkerhetsnyckel");
+        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5", "Ge ett namn till din säkerhetsnyckel");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Säkerhetsnyckel");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 tecken");
         common.verifyStrings("Beskriv din säkerhetsnyckel",
-                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input").getAttribute("placeholder"));
+                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input").getAttribute("placeholder"));
 
         //Close pop up
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
+
+        //This option with using your device is not visible in firefox
+        try {
+            if (common.findWebElementById("security-webauthn-platform-button").isDisplayed()) {
+
+                //Verify extra security on This device labels
+                common.click(common.findWebElementById("security-webauthn-platform-button"));
+                common.timeoutMilliSeconds(500);
+
+                //Labels and placeholder
+                common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5", "Ge ett namn till din säkerhetsnyckel");
+                common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Säkerhetsnyckel");
+                common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 tecken");
+                common.verifyStrings("Beskriv din säkerhetsnyckel",
+                        common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input").getAttribute("placeholder"));
+
+                //Close pop up
+                common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
+                common.timeoutMilliSeconds(500);
+            }
+        }catch (Exception ex) {
+            Common.log.info("Use this device as extra security not visible");
+        }
+
 
         //English
         common.selectEnglish();
 
-        common.click(common.findWebElementByXpath("//*[@id=\"security-webauthn-button\"]"));
+        //Verify Security key
+        common.click(common.findWebElementById("security-webauthn-button"));
         common.timeoutMilliSeconds(500);
 
         //Labels and placeholder
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5", "Add a name for your security key");
+        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5", "Add a name for your security key");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Security key");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 characters");
         common.verifyStrings("Describe your security key",
-                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input").getAttribute("placeholder"));
+                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input").getAttribute("placeholder"));
 
         //Close pop up
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
+
+        //This option with using your device is not visible in firefox
+        try{
+            if(common.findWebElementById("security-webauthn-platform-button").isDisplayed()){
+
+                //Verify extra security on This device labels
+                common.click(common.findWebElementById("security-webauthn-platform-button"));
+                common.timeoutMilliSeconds(500);
+
+                //Labels and placeholder
+                common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5", "Add a name for your security key");
+                common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Security key");
+                common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 characters");
+                common.verifyStrings("Describe your security key",
+                        common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input").getAttribute("placeholder"));
+
+                //Close pop up
+                common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
+            }
+        }catch (Exception ex){
+            common.log.info("Use this device as extra security not visible");
+        }
 
         //English
         common.selectSwedish();

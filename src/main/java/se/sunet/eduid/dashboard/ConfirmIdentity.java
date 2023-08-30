@@ -67,11 +67,11 @@ public class ConfirmIdentity{
             //Press again on the letter button - Add a faulty code
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
             common.timeoutMilliSeconds(500);
-            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input")
+            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input")
                     .sendKeys("1qvw3fw2q3");
 
             //Click OK
-            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button").click();
+            common.findWebElementByXpath("//*[@id=\"letter-confirm-modal-form\"]/div[2]/button").click();
 
             //Verify response
             common.timeoutSeconds(1);
@@ -92,11 +92,11 @@ public class ConfirmIdentity{
             //Press again on the letter button - Add the correct code
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
             common.timeoutMilliSeconds(500);
-            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input")
+            common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input")
                     .sendKeys(letterProofingCode);
 
             //Click OK
-            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button").click();
+            common.findWebElementByXpath("//*[@id=\"letter-confirm-modal-form\"]/div[2]/button").click();
 
             common.timeoutMilliSeconds(800);
         }
@@ -162,15 +162,15 @@ public class ConfirmIdentity{
             //Select eIDAS
             common.scrollToPageBottom();
             common.findWebElementByXpath("//*[@id=\"accordion__panel-eu\"]/button").click();
-            common.explicitWaitClickableElementId("countryFlag_XA");
+            //common.explicitWaitClickableElementId("countryFlag_XA");
 
             //Select country XA in sandbox
             common.findWebElementById("countryFlag_XA").click();
-            common.explicitWaitClickableElementId("idpSubmitbutton");
+            //common.explicitWaitClickableElementId("idpSubmitbutton");
 
             //Submit IDP identity
             common.findWebElementById("idpSubmitbutton").click();
-            common.explicitWaitClickableElementId("buttonNext");
+            //common.explicitWaitClickableElementId("buttonNext");
 
             //Submit Consent
             common.findWebElementById("buttonNext").click();
@@ -189,7 +189,6 @@ public class ConfirmIdentity{
             //Wait and see that we come to Sipe id page
             common.explicitWaitPageTitle("Svipe iD Login");
         }
-
     }
 
     private void verifyLabels() {
@@ -231,7 +230,7 @@ public class ConfirmIdentity{
         common.verifyStringOnPage("Add the code you have received by post");
         common.verifyStringOnPage("Code");
         common.verifyStrings("Code",
-                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input")
+                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input")
                         .getAttribute("placeholder"));
         common.verifyStringOnPage("*Field cannot be empty");
 
@@ -251,7 +250,7 @@ public class ConfirmIdentity{
         common.verifyStringOnPage("Skriv in koden du fått hemskickad");
         common.verifyStringOnPage("Kod");
         common.verifyStrings("Kod",
-                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/div[2]/form/div/div/input")
+                common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input")
                         .getAttribute("placeholder"));
         common.verifyStringOnPage("*Fältet kan inte vara tomt");
 

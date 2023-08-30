@@ -43,7 +43,7 @@ public class TC_63 extends BeforeAndAfter {
         common.click(common.findWebElementById("response-code-cancel-button"));
 
         //wait for Proceed button at next page
-        common.explicitWaitClickableElementId("login-other-device-button");
+        //common.explicitWaitClickableElementId("login-other-device-button");
         common.verifyStringById("login-other-device-button", "OTHER DEVICE");
     }
 }

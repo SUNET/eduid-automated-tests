@@ -23,7 +23,7 @@ public class Logout {
         //Expand navigation menu
         common.click(common.findWebElementByXpath("//*[@id=\"header-nav\"]/button/span"));
 
-        common.explicitWaitClickableElementId("logout");
+        //common.explicitWaitClickableElementId("logout");
         common.click(common.findWebElementById("logout"));
 
         //Wait for the start page - sign up button
@@ -33,8 +33,8 @@ public class Logout {
     private void verifyLabels(){
         common.verifyStringOnPage("eduID är enklare och säkrare inloggning.");
 
-        common.verifyStringOnPage("Skapa ett eduID och koppla det till ditt svenska personnummer " +
-                "för att kunna komma åt flera olika tjänster och organisationer inom högskolan.");
+        common.verifyStringOnPage("Skapa ett eduID och koppla det till din identitet för att kunna " +
+                "komma åt flera olika tjänster och organisationer inom högskolan.");
 
         common.verifyStringOnPage("eduID gör det enklare för dig eftersom du bara behöver komma ihåg " +
                 "ett lösenord och säkrare för skolorna eftersom det är kopplat till en riktig individ.");

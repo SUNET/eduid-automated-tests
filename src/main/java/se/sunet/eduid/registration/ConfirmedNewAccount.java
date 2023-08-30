@@ -19,7 +19,7 @@ public class ConfirmedNewAccount {
     }
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("Registrera | eduID");
+        //common.explicitWaitPageTitle("Registrera | eduID");
         common.verifyPageTitle("Registrera | eduID");
 
         //TODO temp fix to get swedish language

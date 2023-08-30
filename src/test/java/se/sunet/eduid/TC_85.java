@@ -1,11 +1,14 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.virtualauthenticator.HasVirtualAuthenticator;
+import org.openqa.selenium.virtualauthenticator.VirtualAuthenticator;
+import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
-public class TC_53 extends BeforeAndAfter {
-    @Test
+public class TC_85 extends BeforeAndAfter {
+ /*   @Test
     void startPage(){
         testData.setRegisterAccount(true);
         startPage.runStartPage();
@@ -20,15 +23,24 @@ public class TC_53 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
-    @Test( dependsOnMethods = {"confirmedNewAccount"} )
+    @Test( dependsOnMethods = {"confirmedNewAccount"} )*/
+ @Test
+ void startPage(){
+     startPage.runStartPage();
+ }
+
+    @Test( dependsOnMethods = {"startPage"} )
     void login(){
+        testData.setPassword("ycb1 al8x ucrc");
+        testData.setUsername("dKdmCkae@dev.eduid.sunet.se");
+        testData.setPhoneNumber("0701740614");
         testData.setRegisterAccount(false);
         login.runLogin(); }
 
 
     @Test( dependsOnMethods = {"login"} )
     void personalInfo() {
-        testData.setRegisterAccount(true);
+//        testData.setRegisterAccount(true);
 
         //Navigate to settings
         common.navigateToSettings();
@@ -37,7 +49,7 @@ public class TC_53 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
-        phoneNumber.addPhoneNumber();
+//        phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber"} )
@@ -113,46 +125,76 @@ public class TC_53 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
-    void navigateToSettings() {
-        common.navigateToSettings();
+    void logInSomething(){
+        common.navigateToUrl("https://ds.fidus.skolverket.se/ds/?entityID=https%3A%2F%2Fidpproxy.dev.eduid.se%2Fsp&return=https%3A%2F%2Fidpproxy.dev.eduid.se%2FSaml2SP%2Fdisco");
+
+        common.explicitWaitVisibilityElementId("searchinput");
+        common.findWebElementById("searchinput").sendKeys("eduid staging");
+        //testData.setRegisterAccount(true);
+        //startPage.runStartPage();
+        common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/a/li/div/div[1]").click();
+
+        common.timeoutSeconds(5);
     }
 
-    @Test( dependsOnMethods = {"navigateToSettings"} )
-    void delete() {
-        testData.setDeleteButton(true);
-        deleteAccount.runDeleteAccount();
+    @Test( dependsOnMethods = {"logInSomething"} )
+    void login2(){
+        //testData.setUsername("sPPQxsHz@dev.eduid.sunet.se");
+        //testData.setPassword("gnhr jgdp zi2t");
+
+        login.enterUsername();
+        login.enterPassword();
+
+        //Click log in button
+        common.click(common.findWebElementById("login-form-button"));
+    }
+
+    @Test( dependsOnMethods = {"login2"} )
+    void loginMfaSecurityKey2() {
+        //Set mfa method to be used to "security key" at login.
+        testData.setMfaMethod("securitykey");
+
+        common.timeoutSeconds(5);
+
+        //Add cookie for back doors
+        if(!common.isCookieSet("autotests"))
+            common.addMagicCookie();
+
+        //Add nin cookie
+        common.addNinCookie();
+/*        VirtualAuthenticatorOptions options = new VirtualAuthenticatorOptions();
+        options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
+                .setHasUserVerification(true)
+                .setIsUserVerified(true);
+
+        VirtualAuthenticator authenticator = ((HasVirtualAuthenticator) common.getWebDriver()).addVirtualAuthenticator(options);
+
+        authenticator.setUserVerified(true);*/
+        //Login page for extra security select security key mfa method
+        loginExtraSecurity.runLoginExtraSecurity();
+        Common.log.info("Log in with Security key");
+
         common.timeoutSeconds(2);
     }
 
-    @Test( dependsOnMethods = {"delete"} )
-    void loginMfaFreja(){
-        //Set mfa method to be used to "freja" at login.
-        testData.setMfaMethod("freja");
-
-        loginExtraSecurity.runLoginExtraSecurity();
-        common.timeoutSeconds(1);
-    }
-
-    @Test( dependsOnMethods = {"loginMfaFreja"} )
+//    @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
     void selectUserRefIdp2(){
         //Select and submit user
+        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
+
         common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(3);
-
-        //Wait for register button at start page
-        common.explicitWaitClickableElement("//section[2]/div/div/a");
     }
 
-    @Test( dependsOnMethods = {"selectUserRefIdp2"} )
-    void startPage2(){
-        startPage.runStartPage();
+//    @Test( dependsOnMethods = {"selectUserRefIdp"} )
+    void verifySecurityKeyStatus2() {
+        //Verify status beside the added key dates
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
+
+        common.selectEnglish();
+
+        //Verify status beside the added key dates
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIED");
+        common.selectSwedish();
     }
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login3(){
-        testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
-    }
 }

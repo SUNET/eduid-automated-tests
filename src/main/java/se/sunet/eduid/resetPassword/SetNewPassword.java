@@ -34,8 +34,9 @@ public class SetNewPassword {
 
         //verify the labels in Swedish
         common.verifyStringOnPage("Skapa ditt nya lösenord");
-        common.verifyStringOnPage("Ett starkt lösenord har " +
-                "genererats åt dig. För att fortsätta behöver du skriva in det igen.");
+        common.verifyStringOnPage("Ett starkt lösenord har genererats åt dig. För att fortsätta måste " +
+                "du kopiera lösenordet till fältet Repetera ditt nya lösenord och klicka på Acceptera lösenord och " +
+                "spara det för framtida bruk.");
 
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/label", "Nytt lösenord");
         common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repetera ditt nya lösenord");
@@ -47,8 +48,9 @@ public class SetNewPassword {
 
         //verify the labels
         common.verifyStringOnPage("Set your new password");
-        common.verifyStringOnPage("A strong password has been " +
-                "generated for you. To proceed you will need to repeat the password below .");
+        common.verifyStringOnPage("A strong password has been generated for you. To proceed you will " +
+                "need to copy the password in to the Repeat new password field and click Accept Password and save it " +
+                "for future use.");
 
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/label", "New password");
         common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repeat new password");

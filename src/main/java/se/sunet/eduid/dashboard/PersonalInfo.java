@@ -33,14 +33,14 @@ public class PersonalInfo {
     }
 
     private void verifyPageTitle() {
-        //wait for language at footer to be visible
-        common.explicitWaitVisibilityElement("//div/footer/nav/ul/li[2]");
+        //wait for delete button to be clickable
+        //common.explicitWaitClickableElementId("delete-button");
 
         //TODO temp fix to get swedish language - needed when new accounts created
-        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")
+/*        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")
                 && testData.getLanguage().equalsIgnoreCase("Svenska") && testData.isRegisterAccount()) {
             common.selectSwedish();
-        }
+        }*/
     }
 
     private void verifyAndUpdatePersonalInfo() {

@@ -28,7 +28,8 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
             int maxTry = 2;
             if (retryCount < maxTry) {
                 log.info(testCase + " - " + testMethod + " - Test failed at attempt " +(retryCount +1) +" will try again\n" +iTestResult.getThrowable().getMessage());
-                screenshot(retryCount);
+                 //Comment screenshot method below, since screenshot will be taken from BeforeAndAfter
+                //                screenshot(retryCount);
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -72,4 +73,6 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
                 .withName(testCase +"-" +testMethod +"-" +retryCount)
                 .save("screenshots/");
     }
+//            failedTests.add(testData.getTestCase() +" - "+method.getName());
+
 }

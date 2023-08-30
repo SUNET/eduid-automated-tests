@@ -93,7 +93,8 @@ public class TC_56 extends BeforeAndAfter {
         //Select and submit user
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
-        common.click(common.findWebElementById("submitButton"));
+        common.findWebElementById("submitButton").click();
+        common.timeoutSeconds(3);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
@@ -106,7 +107,7 @@ public class TC_56 extends BeforeAndAfter {
         common.selectEnglish();
         common.verifyStatusMessage("Incorrect format of the identity number. Please try again.");
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button", "VERIFY KEY");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button", "VERIFY");
         common.selectSwedish();
     }
 

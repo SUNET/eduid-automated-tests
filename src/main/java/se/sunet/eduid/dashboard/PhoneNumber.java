@@ -1,6 +1,5 @@
 package se.sunet.eduid.dashboard;
 
-import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -51,10 +50,11 @@ public class PhoneNumber {
         common.navigateToSettings();
 
         //TODO temp fix to get swedish language
-        if (common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
-            common.selectSwedish();
+/*        if (common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
+            common.selectSwedish();*/
 
         //Click add phone number button
+        common.scrollToPageBottom();
         common.click(common.findWebElementById("phone-number-add-more-button"));
 
         //Verify placeholder
@@ -74,7 +74,8 @@ public class PhoneNumber {
         common.timeoutMilliSeconds(500);
 
         //TODO - press cancel button. id=cancel-adding-mobile
-  }
+    }
+
 
     public void confirmNewPhoneNumber(){
         //Add cookie for back doors
@@ -92,21 +93,22 @@ public class PhoneNumber {
             phoneNumber = phoneNumber.replace("070", "%2b4670");
         }
 
+        Common.log.info("Verify captcha");
+        verifyCaptcha();
+
         //Fetch eppen - click on advanced settings
         common.navigateToAdvancedSettings();
 
         //Store eppen
+        //common.timeoutSeconds(2);
+        common.scrollToPageBottom();
         String eppen = common.findWebElementById("user-eppn").getText();
 
         //Fetch the code
-        common.navigateToUrl("https://dashboard.dev.eduid.se/services/phone/get-code?eppn=" +eppen +"&phone=" +phoneNumber);
-        Common.log.info("Fetching phone code: " +"https://dashboard.dev.eduid.se/services/phone/get-code?eppn=" +eppen +"&phone=" +phoneNumber);
-
-        String phoneCode = common.findWebElementByXpath("/html/body").getText();
-        if(phoneCode.contains("Bad Request"))
-            Assert.fail("Got Bad request instead of a phone code");
-        else
-            Common.log.info("Phone code: " +phoneCode);
+        String phoneCode = common.getCodeInNewTab("https://dashboard.dev.eduid.se/services/phone/get-code?eppn="
+                +eppen +"&phone=" +phoneNumber);
+        Common.log.info("Fetching phone code: " +"https://dashboard.dev.eduid.se/services/phone/get-code?eppn="
+                +eppen +"&phone=" +phoneNumber);
 
         //Navigate back to settings page
         common.navigateToUrl("https://dashboard.dev.eduid.se/profile/settings/personaldata");
@@ -115,17 +117,24 @@ public class PhoneNumber {
         common.timeoutSeconds(2);
         common.click(common.findWebElementByXpathContainingText("Bekräfta"));
 
+        //Solve captcha
+        common.enterCaptcha("123456");
+        common.timeoutSeconds(2);
+
         if(!testData.getTestCase().equalsIgnoreCase("TC_51"))
             verifyLabelsConfirmPhoneNumber();
 
         common.click(common.findWebElementByXpathContainingText("Bekräfta"));
+
+        //Solve captcha
+        common.enterCaptcha("123456");
 
         //Enter the code
         common.findWebElementById("phone-confirm-modal").clear();
         common.findWebElementById("phone-confirm-modal").sendKeys(phoneCode);
 
         //Press OK button
-        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[3]/button[1]"));
+        common.click(common.findWebElementByXpath("//*[@id=\"phone-confirm-modal-form\"]/div[2]/button"));
     }
 
     private void verifyLabelsConfirmPhoneNumber(){
@@ -143,7 +152,7 @@ public class PhoneNumber {
         common.verifyPlaceholder("Kod", "phone-confirm-modal");
 
         //Resend link
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a", "Skicka ny kod igen");
+        common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-form\"]/div[1]/div[2]/a", "Skicka ny kod igen");
 
         //Close dialog
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
@@ -157,6 +166,10 @@ public class PhoneNumber {
 
         //Press Confirm
         common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr/td[2]/button"));
+
+        //Solve captcha
+        common.enterCaptcha("123456");
+        common.timeoutSeconds(2);
 
         //Wait for close pop-up button
         common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button");
@@ -172,12 +185,83 @@ public class PhoneNumber {
         common.verifyPlaceholder("Code", "phone-confirm-modal");
 
         //Resend link
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[2]/div/a", "Send a new code");
+        common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-form\"]/div[1]/div[2]/a", "Send a new code");
 
         //Close dialog
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
 
         //Swedish
         common.selectSwedish();
+    }
+
+    private void verifyCaptcha(){
+        //Press confirm beside phoneNumber to open captcha
+        common.click(common.findWebElementByXpathContainingText("Bekräfta"));
+
+        //Wait for generate new captcha button
+        common.switchToPopUpWindow();
+        common.explicitWaitClickableElement("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button");
+
+        //Verify labels - Swedish
+        //For unknown reason, textfield has to be cleared twice.
+        common.clearTextField(common.findWebElementById("phone-captcha-modal"));
+        common.timeoutMilliSeconds(500);
+
+        common.clearTextField(common.findWebElementById("phone-captcha-modal"));
+        common.timeoutMilliSeconds(500);
+
+        common.verifyStringOnPage("*Fältet kan inte vara tomt");
+        common.findWebElementById("phone-captcha-modal").sendKeys("1");
+        common.verifyStringOnPage("För att begära kod, fyll i nedan captcha.");
+        common.verifyStringOnPage("Ange koden från bilden");
+        common.verifyStringOnPage("Generera en ny bild");
+        common.verifyStringByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button", "FORTSÄTT");
+
+        //Close captcha
+        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5/button"));
+
+        //Change to english
+        common.selectEnglish();
+
+        //Press confirm beside phoneNumber to open captcha
+        common.timeoutMilliSeconds(800);
+        common.click(common.findWebElementByXpathContainingText("confirm"));
+
+        //Wait for generate new captcha button
+        common.switchToPopUpWindow();
+        common.explicitWaitClickableElement("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button");
+
+        //Verify labels - English
+        common.verifyStringOnPage("*Field cannot be empty");
+        common.findWebElementById("phone-captcha-modal").sendKeys("1");
+        common.verifyStringOnPage("To receive code, complete below captcha.");
+        common.verifyStringOnPage("Enter the code from the image");
+        common.verifyStringOnPage("Generate a new image");
+        common.verifyStringByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button", "CONTINUE");
+
+        //Generate new captcha code
+        common.findWebElementByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button").click();
+
+        //Enter code
+        common.findWebElementById("phone-captcha-modal").clear();
+        common.findWebElementById("phone-captcha-modal").sendKeys("12345");
+
+        //Press continue
+        common.findWebElementByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button").click();
+
+        //Check status message
+        common.verifyStatusMessage("Captcha failed. Please try again.");
+
+        //Change back to swedish
+        common.selectSwedish();
+
+        //Check status message
+        common.verifyStatusMessage("Captcha inte slutförd. Vänligen försök igen");
+        common.closeStatusMessage();
+
+        //Press confirm beside phoneNumber to open captcha
+        common.click(common.findWebElementByXpathContainingText("Bekräfta"));
+
+        common.enterCaptcha("123456");
     }
 }

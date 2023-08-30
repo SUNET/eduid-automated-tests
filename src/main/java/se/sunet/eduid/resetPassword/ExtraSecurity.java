@@ -35,7 +35,8 @@ public class ExtraSecurity {
         common.verifyStringOnPage("A password reset using an extra security option will keep your identity confirmed.");
         if(!testData.getPhoneNumber().isEmpty())
             common.verifyStringOnPage("SEND SMS TO **********" + testData.getPhoneNumber().substring(10,12));
-        if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja"))
+        if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja") &!
+                testData.getSendMobileOneTimePassword().equalsIgnoreCase("no"))
             common.verifyStringOnPage("Already received the code?  enter code");
         common.verifyStringOnPage("Continue without extra security option");
         common.verifyStringOnPage("Your identity will require confirmation after the password has been " +
@@ -50,7 +51,8 @@ public class ExtraSecurity {
                 "kommer kontot att förbli verifierat.");
         if(!testData.getPhoneNumber().isEmpty())
             common.verifyStringOnPage("SKICKA SMS TILL **********" + testData.getPhoneNumber().substring(10,12));
-        if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja"))
+        if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja") &!
+                testData.getSendMobileOneTimePassword().equalsIgnoreCase("no"))
             common.verifyStringOnPage("Redan fått en kod?  skriv in koden");
         common.verifyStringOnPage("Fortsätt utan extra säkerhetsalternativ");
         common.verifyStringOnPage("Din identitet kommer att behöva verifieras efter att lösenordet har " +
@@ -91,7 +93,7 @@ public class ExtraSecurity {
             Common.log.info("Selecting Freja eID+ for password reset");
 
             //Click Freja button
-            common.click(common.findWebElementById("extra-security-freja"));
+            common.findWebElementById("extra-security-freja").click();
         }
         //Already have OTP
         else {

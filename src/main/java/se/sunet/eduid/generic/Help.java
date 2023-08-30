@@ -34,8 +34,6 @@ public class Help {
         common.verifyStringOnPage("FAQ");
         common.verifyStringOnPage("EDUID");
         common.verifyStringOnPage("Vad är eduID?");
-
-        //Text 1
         common.verifyStringOnPage("eduID är en federerad identitet – en användaridentitet som kan " +
                 "användas inom flera olika organisationer eftersom man har enats kring hur identiteter ska hanteras. " +
                 "Grundidén är att en given användare som autentiserat sig hos en organisation per automatik kan bli " +
@@ -47,8 +45,6 @@ public class Help {
 
         //Heading 2
         common.verifyStringOnPage("Varför finns eduID?");
-
-        //Text 2
         common.verifyStringOnPage("För studenters del leder eduID på sikt till ett färre antal konton " +
                 "en student behöver hålla reda på under sin studietid. För många organisationer är identitetshantering " +
                 "en komplex fråga, och det finns ett behov att arbeta med bekräftade användare.");
@@ -60,8 +56,6 @@ public class Help {
 
         //Heading 3
         common.verifyStringOnPage("Hur använder jag eduID?");
-
-        //Text 3
         common.verifyStringOnPage("När du väl skapat ditt konto kommer du nästan aldrig behöva logga in " +
                 "på eduID. Ditt konto använder du bara för att skapa och komma åt andra konton, exempelvis på antagning.se " +
                 "eller dina studentkonton.");
@@ -73,16 +67,12 @@ public class Help {
 
         //Heading 6
         common.verifyStringOnPage("Hur byter jag standardspråk i eduID?");
-
-        //Text 6
         common.verifyStringOnPage("För att byta standardspråk kan du logga in på eduID och välja önskat " +
                 "språk under fliken för personlig information. Det språk som kommer användas som standard i eduID är " +
                 "baserat på den språkinställning som din webbläsare använder.");
 
         //Heading 7
         common.verifyStringOnPage("Vilket e-postkonto ska jag använda för att logga in?");
-
-        //Text 7
         common.verifyStringOnPage("Du kan logga in med alla e-postadresser som du angett och bekräftat i eduID.");
 
         //Identitet
@@ -95,16 +85,16 @@ public class Help {
                 "som är registrerat i mobiloperatörernas egna register");
         common.verifyStringOnPage("Freja eID+ (digitalt ID-kort): Användaren blir hänvisad till Freja " +
                 "eIDs hemsida för att använda sig av deras tjänst. Om du inte redan har Freja eID+ kräver denna metod " +
-                "skapande av ett separat Freja eID+ innan du kan bekräfta ditt eduID.");
+                "skapande av ett separat Freja eID+ innan du kan bekräfta ditt eduID. Läs mer om Freja eID+.");
         common.verifyStringOnPage("Om du är EU-medborgare utan ett svenskt personnummer kan du istället " +
-                "använda dig av eIDAS för att bekräfta din identitet.");
+                "använda dig av eIDAS för att bekräfta din identitet. Läs mer om eIDAS.");
+        common.verifyStringOnPage("Om du inte är EU-medborgare samt utan ett svenskt personnummer kan " +
+                "du istället använda dig av Svipe iD för att bekräfta din identitet. Läs mer om Svipe iD.");
 
 
         //Heading 8
         common.verifyStringOnPage("FREJA EID+");
         common.verifyStringOnPage("Vad är Freja eID+?");
-
-        //Text 8
         common.verifyStringOnPage("Så här skaffar du Freja eID+:" +
                 "\n" +
                 "Installera Freja eID appen på din mobila enhet (iOS eller Android)\n" +
@@ -113,35 +103,25 @@ public class Help {
 
         //Heading 9
         common.verifyStringOnPage("Varför måste jag besöka ett ATG ombud för att skapa Freja eID+?");
-
-        //Text 9
         common.verifyStringOnPage("ATG ombudet kan påbörja en kontroll av din legitimation genom att " +
                 "scanna den QR-kod som Freja eID appen genererat och följa instruktionerna på sin skärm. Du kommer bli " +
                 "informerad när legitimationskontollen är slutförd och ditt Freja eID+ är klart att användas.");
 
         //Heading 10
         common.verifyStringOnPage("Hur hittar jag ett ATG ombud som kan göra en legitimationskontroll för Freja eID+?");
-
-        //Text 10
         common.verifyStringOnPage("Ditt närmsta ATG ombud kan hittas i appen.");
 
         //Heading 11
         common.verifyStringOnPage("Vad ska jag göra om legitimationskontrollen för Freja eID+ misslyckades?");
-
-        //Text 11
         common.verifyStringOnPage("Avinstallera appen, gör om registreringen, samt kontrollera noga att " +
                 "du angivit rätt datum då ID-handlingen upphör att gälla samt att du fyllt i rätt referensnummer och personnummer.");
 
         //Heading 12
         common.verifyStringOnPage("Hur använder jag Freja eID+ med eduID?");
-
-        //Text 12
         common.verifyStringOnPage("Logga in på eduID och klicka på 'Använd mitt Freja eID+'.");
 
         //Heading 13
         common.verifyStringOnPage("Hur lång tid tar legitimationskontrollen för Freja eID+?");
-
-        //Text 13
         common.verifyStringOnPage("Det kan ta upp till 3 timmar att för din legetimation att bli godkänd.");
 
 
@@ -162,11 +142,28 @@ public class Help {
         common.verifyStringOnPage("");
         common.verifyStringOnPage("");
 
+        //SVIPE
+        common.verifyStringOnPage("SVIPE");
+        common.verifyStringOnPage("Om Svipe");
+        common.verifyStringOnPage("Svipe ID är en identitetsverifiering på distans med hjälp av ett " +
+                "pass eller ett ID-kort.");
+        common.verifyStringOnPage("För att bekräfta ditt eduID-konto med ett pass eller ID-kort behöver " +
+                "använda appen Svipe, ett konto i appen Svipe, och du behöver ha laddat in ditt ID-dokument i appen.");
+        common.verifyStringOnPage("Informationen som Svipe sparar om dig kan läsas i deras " +
+                "dataskyddspolicy, men i korthet kan sägas att appen läser in informationen från ditt pass eller " +
+                "ID-dokument, men informationen sparas bara lokalt i din enhet och företaget Svipe har inte tillgång " +
+                "till informationen som finns lagrad på din enhet.");
+        common.verifyStringOnPage("Att bekräfta din identitet med hjälp av Svipe ID");
+        common.verifyStringOnPage("Du skaffar appen Svipe genom App Store för iOS eller Google Play " +
+                "för Android. För att skaffa ett konto öppnar du appen och följer guiden.");
+        common.verifyStringOnPage("När du har ett konto och har läst in ditt ID-dokument kan du " +
+                "använda Svipe-appen för att bekräfta ditt konto i eduID genom att logga in på ditt eduID-konto och " +
+                "välja att bekräfta ditt konto med Svipe-appen.");
+
+
         //Heading 5
         common.verifyStringOnPage("SUNET");
         common.verifyStringOnPage("Vad är SUNET?");
-
-        //Text 5
         common.verifyStringOnPage("SUNET är den organisation som är ansvarig för det svenska " +
                 "universitets- och datanätverket och även flertal tjänster som används av universitet och högskolor i Sverige.");
         common.verifyStringOnPage("SUNET arbetar sedan länge med identitetshantering, och för att " +
@@ -176,8 +173,6 @@ public class Help {
         //Heading 14
         common.verifyStringOnPage("ORCID");
         common.verifyStringOnPage("Vad är ORCID?");
-
-        //Text 14
         common.verifyStringOnPage("ORCID är integrerat i många system som används av förläggare, " +
                 "forskningsfinansiärer, universitet, högskolor, andra forskningsorganisationer och andra forskningsrelaterade " +
                 "tjänster. ORCID är en oberoende ideell organisation som tillhandahåller en bestående identifierare, ett " +
@@ -194,27 +189,19 @@ public class Help {
 
         //Heading 16
         common.verifyStringOnPage("Vad gör jag om jag inte har ORCID?");
-
-        //Text 16
         common.verifyStringOnPage("Du kan skaffa ORCID hos orcid.org.");
 
         //Heading 17
         common.verifyStringOnPage("Hur tar bort ORCID från eduID?");
-
-        //Text 17
         common.verifyStringOnPage("Om du inte längre vill att eduID ska känna till ditt ORCID iD kan du enkelt ta bort det genom att klicka på krysset.");
 
         //Heading 4
         common.verifyStringOnPage("PERSONUPPGIFTER");
         common.verifyStringOnPage("Hur hanterar eduID mina personuppgifter?");
-
-        //Text 4
         common.verifyStringOnPage("Läs mer på www.sunet.se.");
 
         //Heading 18
         common.verifyStringOnPage("KONTAKT");
-
-        //Text 18
         common.verifyStringOnPage("eduID support");
         common.verifyStringOnPage("Om du inte kan hitta svar på dina frågor om eduID på vår hjälpsida " +
                 "kan du kontakta eduID-supporten via e-post till support@eduid.se.");
@@ -249,8 +236,6 @@ public class Help {
 
         //Heading 2
         common.verifyStringOnPage("Why have eduID?");
-
-        //Text 2
         common.verifyStringOnPage("From the student's perspective, in the long-term eduID means fewer " +
                 "accounts to keep track of during studies. For many organisations, identity management is a complex issue " +
                 "and it is necessary to work with confirmed users.");
@@ -262,8 +247,6 @@ public class Help {
 
         //Heading 3
         common.verifyStringOnPage("How do I use eduID?");
-
-        //Text 3
         common.verifyStringOnPage("Once you have created your account, you will hardly ever need to log " +
                 "in to eduID. You will only be using your account to create and access other accounts, such as " +
                 "universityadmissions.se or your student account.");
@@ -275,16 +258,10 @@ public class Help {
 
         //Heading 6
         common.verifyStringOnPage("How do I change the default language in eduID?");
-
-        //Text 6
         common.verifyStringOnPage("To change the default language you can log into eduID and select the " +
                 "language you want under the personal information tab. The default language in eduID is based on the " +
                 "language setting that your browser uses.");
-
-        //Heading 7
         common.verifyStringOnPage("Which email account should I use to log in?");
-
-        //Text 7
         common.verifyStringOnPage("You can log in with all the email addresses you have entered and confirmed in eduID.");
 
 
@@ -296,11 +273,13 @@ public class Help {
                 "as registered at Skatteverket (the Swedish Tax Agency)");
         common.verifyStringOnPage("Mobile: The user receives a message sent to the phone number that is " +
                 "registered in the Swedish telephone register");
-        common.verifyStringOnPage("Freja eID+ (digital ID-card): The user will be directed to the Freja " +
-                "eID website to use their service. If you don't have Freja eID+ you have to create it separately before " +
-                "you can complete verification of your eduID");
-        common.verifyStringOnPage("If you are a EU citizen without a Swedish personal identity number " +
-                "you could use eIDAS to verify your identity.");
+        common.verifyStringOnPage("Freja eID+ (digital ID-card): The user will be directed to the " +
+                "Freja eID website to use their service. If you don't have Freja eID+ you have to create it separately " +
+                "before you can complete verification of your eduID. Read more about Freja eID+.");
+        common.verifyStringOnPage("If you are an EU citizen without a Swedish personal identity number " +
+                "you could use eIDAS to verify your identity. Read more about eIDAS.");
+        common.verifyStringOnPage("If you are not an EU citizen and without a Swedish personal " +
+                "identity number you could use Svipe iD to verify your identity. Read more about Svipe iD.");
 
 
         //Heading 8
@@ -363,6 +342,25 @@ public class Help {
                 "e.g. to simplify communication with Swedish authorities.");
         common.verifyStringOnPage("If you initially verify your identity with eIDAS and later receive a " +
                 "Swedish personal identity number you can add it and verify yourself again using it under the 'Identity' tab.");
+
+        //SVIPE
+        common.verifyStringOnPage("SVIPE");
+        common.verifyStringOnPage("About Svipe ID");
+        common.verifyStringOnPage("Svipe ID is an identity verification you can use remotely using " +
+                "your passport or ID-card.");
+        common.verifyStringOnPage("To verify your eduID-account using a passport or other ID-card " +
+                "you will use the app Svipe, you also require an account with Svipe, and you will have had to load " +
+                "the information from your ID-document into the Svipe-app.");
+        common.verifyStringOnPage("You can stay informed about the information that Svipe saves about " +
+                "you and your ID-document by reading their data privacy policy. In short, the information uploaded to " +
+                "the app from your ID-document is saved locally on your device, and the company Svipe does not have access to it.");
+        common.verifyStringOnPage("Verifying your identity using Svipe ID");
+        common.verifyStringOnPage("You get the Svipe-app through App store for IOS, or Google Play for " +
+                "Android. To create an account with Svipe you open the app and follow the step-by-step guide.");
+        common.verifyStringOnPage("Once you have an account and you've uploaded your ID-document you " +
+                "are able to use the Svipe-app to verify your eduID-account by visiting eduid.se - signing in - and " +
+                "choosing to verify using the Svipe-app.");
+
 
         //Heading 5
         common.verifyStringOnPage("SUNET");

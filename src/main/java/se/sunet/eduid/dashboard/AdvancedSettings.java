@@ -144,7 +144,16 @@ public class AdvancedSettings {
         //Transferred to orcid after click
         common.explicitWaitPageTitle("ORCID");
 
+        //Accept cookies
+        try {
+            common.findWebElementById("onetrust-accept-btn-handler").click();
+        }catch (Exception ex){
+            Common.log.info("No cookied dialog present");
+        }
+
         //Just go back to end test case by logout
+        common.getWebDriver().navigate().back();
+        common.timeoutSeconds(10);
         common.getWebDriver().navigate().back();
         common.explicitWaitPageTitle("Avancerade Inställningar | eduID");
     }
@@ -157,16 +166,26 @@ public class AdvancedSettings {
         common.verifyStringOnPage("Förbättra ditt eduID");
         common.verifyStringOnPage("Öka säkerheten för ditt eduID eller anslut det till andra tjänster.");
 
+        //Security key
         common.verifyStringOnPage("Gör ditt eduID säkrare");
         common.verifyStringOnPage("Lägg till ett extra sätt, utöver email och lösenord, för att kunna " +
                 "identifiera dig så du är säker på att bara du har tillgång till ditt eduID.");
+        common.verifyStringOnPage("Välj extra identifieringsmetod:");
+        common.verifyStringById("security-webauthn-button", "SÄKERHETSNYCKEL");
+        common.verifyStringOnPage("T.ex. USB säkerhetsnyckel.");
+        if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
+            common.verifyStringById("security-webauthn-platform-button", "DEN HÄR ENHETEN");
+            common.verifyStringOnPage("T.ex. Touch/ Face ID på den här enheten.");
+        }
 
+        //OrcID
         common.verifyStringOnPage("Länka till ditt ORCID konto");
         common.verifyStringOnPage("Om du är forskare med ett ORCID iD kan du dela det med ditt eduID.");
         common.verifyStringOnPage("ORCID ger en beständig identifierare, ett ORCID iD, som unikt särskiljer " +
                 "dig från andra forskare och en mekanism för att koppla dina forskningsresultat och aktiviteter till ditt " +
                 "ORCID iD oberoende vilken organisation du är verksam vid.");
 
+        //Ladok
         common.verifyStringOnPage("Ladok information");
         common.verifyStringOnPage("Data från Ladok kan ge dig tillgång till fler tjänster. Vissa " +
                 "lärosäten låter eduID hämta data från Ladok.");
@@ -192,15 +211,25 @@ public class AdvancedSettings {
         common.verifyStringOnPage("Enhance your eduID");
         common.verifyStringOnPage("Increase the security of your eduID or connect it to other services.");
 
+        //Security key
         common.verifyStringOnPage("Make your eduID more secure");
         common.verifyStringOnPage("Add a security key as a second layer of identification, beyond email " +
                 "and password, to prove you are the owner of your eduID.");
+        common.verifyStringOnPage("Choose extra identification method:");
+        common.verifyStringById("security-webauthn-button", "SECURITY KEY");
+        common.verifyStringOnPage("E.g USB Security Key.");
+        if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
+            common.verifyStringById("security-webauthn-platform-button", "THIS DEVICE");
+            common.verifyStringOnPage("E.g. Touch/ Face ID on this device.");
+        }
 
+        //OrcID
         common.verifyStringOnPage("ORCID account");
         common.verifyStringOnPage("If you are a researcher with an ORCID iD you can share it with your eduID.");
         common.verifyStringOnPage("ORCID iD distinguishes you from other researchers and allows linking of " +
                 "your research outputs and activities to your identity, regardless of the organisation you are working with.");
 
+        //Ladok
         common.verifyStringOnPage("Ladok information");
         common.verifyStringOnPage("Data from Ladok might give you access to more services. Some higher " +
                 "education institutions allow eduID to fetch data from Ladok.");

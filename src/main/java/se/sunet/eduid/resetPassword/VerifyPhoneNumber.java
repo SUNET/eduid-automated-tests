@@ -111,7 +111,7 @@ public class VerifyPhoneNumber {
     }
 
     private void clickButton(){
-        common.explicitWaitClickableElementId("save-phone-button");
+        //common.explicitWaitClickableElementId("save-phone-button");
         common.click(common.findWebElementById("save-phone-button"));
 
         //Wait for next page

@@ -13,6 +13,7 @@ import org.testng.Assert;
 import io.github.sukgu.Shadow;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -54,12 +55,14 @@ public class Common {
     }
 
     public void selectEnglish() {
+        scrollToPageBottom();
         timeoutMilliSeconds(500);
         click(findWebElementByLinkText("English"));
         timeoutMilliSeconds(500);
     }
 
     public void selectSwedish() {
+        scrollToPageBottom();
         timeoutMilliSeconds(500);
         click(findWebElementByLinkText("Svenska"));
         timeoutMilliSeconds(500);
@@ -201,8 +204,13 @@ public class Common {
     }
 
     public WebElement findWebElementById(String elementToFind) {
-        //At this point we do not know if element will be clicked or not
-        explicitWaitVisibilityElementId(elementToFind);
+ //       try{
+            //At this point we do not know if element will be clicked or not
+            explicitWaitVisibilityElementId(elementToFind);
+//        }catch (Exception ex){
+//            log.error(testData.getTestCase() + " - " +testData.getTestMethod() +" - Failed to find element: " +elementToFind);
+//            ex.printStackTrace();
+//        }
         return webDriver.findElement(By.id(elementToFind));
     }
 
@@ -211,8 +219,13 @@ public class Common {
     }
 
     public WebElement findWebElementByXpath(String elementToFind) {
-        //At this point we do not know if element will be clicked or not
-        explicitWaitVisibilityElement(elementToFind);
+//        try {
+            //At this point we do not know if element will be clicked or not
+            explicitWaitVisibilityElement(elementToFind);
+//        }catch (Exception ex){
+//            log.error(testData.getTestCase() + " - " +testData.getTestMethod() +" - Failed to find element: " +elementToFind);
+//            ex.printStackTrace();
+//        }
         return webDriver.findElement(By.xpath(elementToFind));
     }
 
@@ -236,6 +249,8 @@ public class Common {
     }
 
     public void selectDropdownScript(String elementId, String visibleTextToSelect) {
+        timeoutSeconds(4);
+
         WebElement select = webDriver.findElement(By.id(elementId));
 
         ((JavascriptExecutor) webDriver).executeScript("var select = arguments[0]; for(var i = 0; " +
@@ -425,5 +440,29 @@ public class Common {
         timeoutMilliSeconds(500);
 
         return code;
+    }
+
+    public void enterCaptcha(String reqCaptchaCode){
+        timeoutSeconds(2);
+
+        String captchaCode = "";
+        captchaCode = reqCaptchaCode;
+        //Wait for generate new captcha button
+        switchToPopUpWindow();
+        explicitWaitClickableElement("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button");
+
+        //For unknown reason, textfield has to be cleared twice.
+        clearTextField(findWebElementById("phone-captcha-modal"));
+        timeoutMilliSeconds(500);
+        findWebElementById("phone-captcha-modal").sendKeys(captchaCode);
+
+        clearTextField(findWebElementById("phone-captcha-modal"));
+        timeoutMilliSeconds(500);
+        findWebElementById("phone-captcha-modal").sendKeys(captchaCode);
+
+        //Press continue
+        findWebElementByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button").click();
+
+        timeoutSeconds(2);
     }
 }

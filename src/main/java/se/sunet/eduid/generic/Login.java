@@ -47,7 +47,7 @@ public class Login {
         common.verifyPlaceholder("ange lösenord", "current-password");
 
         //Enter username
-        common.explicitWaitClickableElementId("email");
+        //common.explicitWaitClickableElementId("email");
         common.findWebElementById("email").clear();
         common.findWebElementById("email").sendKeys(testData.getUsername());
 
@@ -55,6 +55,7 @@ public class Login {
     }
 
     public void enterPassword() {
+        common.timeoutSeconds(2);
         common.findWebElementById("current-password").clear();
 
         common.findWebElementById("current-password").sendKeys(testData.getPassword());
@@ -65,7 +66,8 @@ public class Login {
 
     public void signIn(){
         //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
+        //common.click(common.findWebElementById("login-form-button"));
+        common.findWebElementById("login-form-button").click();
 
         if(testData.isIncorrectPassword()) {
             common.timeoutMilliSeconds(500);
@@ -77,7 +79,7 @@ public class Login {
         }
         else {
             //Wait for the username label at dashboard upper right corner
-            common.timeoutMilliSeconds(800);
+            common.timeoutSeconds(4);
             common.explicitWaitClickableElementId("header-nav");
         }
         common.timeoutMilliSeconds(500);
@@ -93,7 +95,7 @@ public class Login {
 
     private void resetPassword(){
         //Click on forgot password link
-        common.explicitWaitVisibilityElementId("link-forgot-password");
+        //common.explicitWaitVisibilityElementId("link-forgot-password");
         common.click(common.findWebElementById("link-forgot-password"));
 
         //Wait for next page, return to login

@@ -16,6 +16,8 @@ import se.sunet.eduid.swamid.Swamid;
 import se.sunet.eduid.swamid.SwamidData;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 //import com.browserstack.local.Local;
 import se.sunet.eduid.wcag.AccessibilityBase;
 
@@ -58,6 +60,7 @@ public class BeforeAndAfter {
     public AccessibilityBase accessibilityBase;
     public RequestResetPwEmail requestResetPwEmail;
     public TestData testData = new TestData();
+    List<String> failedTests;
 
 //    Local bsLocal;
     public WebDriver webdriver;
@@ -72,6 +75,8 @@ public class BeforeAndAfter {
         webdriver = initBrowser.initiateBrowser(browser, headless, language);
         common = new Common(webdriver, testsuite, testData);
         webdriver.get(url);
+        testData.setBrowser(browser);
+        testData.setHeadlessExecution(headless);
 
         startPage = new StartPage(common, testData);
         login = new Login(common, testData);
@@ -121,7 +126,8 @@ public class BeforeAndAfter {
 
     @BeforeMethod
     public void testCaseAndMethod(Method method){
-        Common.log.info(testData.getTestCase() +" - "+method.getName());
+        testData.setTestMethod(method.getName());
+        Common.log.info(testData.getTestCase() +" - "+testData.getTestMethod());
     }
 
     @AfterTest
@@ -130,6 +136,7 @@ public class BeforeAndAfter {
 //        testResult();
 
 //        initBrowser.stopHarSession();
+
 
         webdriver.quit();
         Common.log.info("End of: " +testData.getTestCase());
@@ -146,6 +153,20 @@ public class BeforeAndAfter {
                     .withName(testData.getTestCase() +"-" +result.getName())
                     .save("screenshots/");
 
+//            failedTests.add(testData.getTestCase() +" - "+method.getName());
+        }
+    }
+
+//    @BeforeSuite
+    public void beforeSuite(){
+        failedTests = new ArrayList<>();
+    }
+
+//    @AfterSuite
+    public void printFailedTests(){
+        Common.log.info("Failing testcases: " +failedTests.size());
+        for (String failedTest : failedTests) {
+            Common.log.info(failedTest);
         }
     }
 }

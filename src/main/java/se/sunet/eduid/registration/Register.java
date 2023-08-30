@@ -36,7 +36,7 @@ public class Register {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Registrera | eduID");
+        common.explicitWaitPageTitle("Registrera | eduID");
     }
 
     private void verifyLabels(){

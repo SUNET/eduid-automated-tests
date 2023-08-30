@@ -18,6 +18,9 @@ public class ConfirmedIdentity {
     }
 
     private void verifyPageTitle() {
+        //Wait for heading to be loaded
+        common.explicitWaitVisibilityElement("//*[@id=\"content\"]/section/h1");
+
         common.verifyPageTitle("Identitet | eduID");
         common.timeoutMilliSeconds(500);
     }

@@ -104,19 +104,20 @@ public class TC_46 extends BeforeAndAfter {
         //Select and submit user
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
-        common.click(common.findWebElementById("submitButton"));
+        common.findWebElementById("submitButton").click();
+        common.timeoutSeconds(3);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void verifySecurityKeyStatus() {
 
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/label", "VERIFIERAD");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
 
         common.selectEnglish();
 
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/label", "VERIFIED");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIED");
         common.selectSwedish();
     }
 
