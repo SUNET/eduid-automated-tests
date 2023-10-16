@@ -36,7 +36,6 @@ public class TC_56 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
- //       testData.setPhoneNumber("+46701740606");
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
@@ -99,13 +98,10 @@ public class TC_56 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void verifySecurityKeyStatus() {
-        common.verifyStatusMessage("Felaktigt format av identitetsnumret. Var god försök igen.");
-
         //Verify status beside the added key dates
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button", "VERIFIERA");
 
         common.selectEnglish();
-        common.verifyStatusMessage("Incorrect format of the identity number. Please try again.");
         //Verify status beside the added key dates
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button", "VERIFY");
         common.selectSwedish();

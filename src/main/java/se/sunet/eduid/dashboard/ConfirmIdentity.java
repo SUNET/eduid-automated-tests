@@ -43,7 +43,6 @@ public class ConfirmIdentity{
     }
 
     public void selectConfirmIdentity(){
-        //common.addNinCookie();
         common.timeoutSeconds(1);
 
         //First need to collapse to default
@@ -66,7 +65,6 @@ public class ConfirmIdentity{
 
             //Press again on the letter button - Add a faulty code
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
-            common.timeoutMilliSeconds(500);
             common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input")
                     .sendKeys("1qvw3fw2q3");
 
@@ -74,7 +72,6 @@ public class ConfirmIdentity{
             common.findWebElementByXpath("//*[@id=\"letter-confirm-modal-form\"]/div[2]/button").click();
 
             //Verify response
-            common.timeoutSeconds(1);
             common.verifyStatusMessage("Den kod du angett stämmer inte. Var god försök igen");
 
             //Fetch the code
@@ -86,12 +83,10 @@ public class ConfirmIdentity{
             common.timeoutSeconds(1);
 
             //Expand Letter menu, since collapsed when change of langyage
-            common.scrollToPageBottom();
-            common.findWebElementById("accordion__heading-se-letter").click();
+            common.click(common.findWebElementById("accordion__heading-se-letter"));
 
             //Press again on the letter button - Add the correct code
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
-            common.timeoutMilliSeconds(500);
             common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input")
                     .sendKeys(letterProofingCode);
 
@@ -126,27 +121,16 @@ public class ConfirmIdentity{
             //Select and submit user at reference IDP
             selectAndSubmitUserRefIdp();
 
-            //Verify status
-            common.verifyStatusMessage("Felaktigt format av identitetsnumret. Var god försök igen.");
-
-            common.selectEnglish();
-
-            //Verify status
-            common.verifyStatusMessage("Incorrect format of the identity number. Please try again.");
-            common.closeStatusMessage();
-
-            common.selectSwedish();
-
             //Add nin-cookie to get successful response from idp
             common.addNinCookie();
 
             //Expand Freja menu, since collapsed when change of language
             common.timeoutMilliSeconds(500);
 
-            common.findWebElementById("accordion__heading-se-freja").click();
+            common.click(common.findWebElementById("accordion__heading-se-freja"));
 
             //Select Freja eID
-            common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button"));
 
             //Click Use Freja eID in pop-up dialog
             common.findWebElementById("eidas-info-modal-accept-button").click();
@@ -160,17 +144,13 @@ public class ConfirmIdentity{
             Common.log.info("Verify identity by eIDAS");
 
             //Select eIDAS
-            common.scrollToPageBottom();
-            common.findWebElementByXpath("//*[@id=\"accordion__panel-eu\"]/button").click();
-            //common.explicitWaitClickableElementId("countryFlag_XA");
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-eu\"]/button"));
 
             //Select country XA in sandbox
             common.findWebElementById("countryFlag_XA").click();
-            //common.explicitWaitClickableElementId("idpSubmitbutton");
 
             //Submit IDP identity
             common.findWebElementById("idpSubmitbutton").click();
-            //common.explicitWaitClickableElementId("buttonNext");
 
             //Submit Consent
             common.findWebElementById("buttonNext").click();
@@ -183,11 +163,10 @@ public class ConfirmIdentity{
             Common.log.info("Verify identity by SVIPE ID");
 
             //Click proceed button
-            common.scrollToPageBottom();
-            common.findWebElementByXpath("//*[@id=\"accordion__panel-world\"]/button").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-world\"]/button"));
 
             //Wait and see that we come to Sipe id page
-            common.explicitWaitPageTitle("Svipe iD Login");
+            common.explicitWaitPageTitle("Svipe Login");
         }
     }
 
@@ -209,6 +188,7 @@ public class ConfirmIdentity{
         common.verifyStringOnPage("När du har mottagit brevet, fortsätt genom att klicka på knappen nedan");
 
         //English
+        common.timeoutMilliSeconds(300);
         common.selectEnglish();
 
         //Expand Letter menu
@@ -238,6 +218,7 @@ public class ConfirmIdentity{
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
 
         //English
+        common.timeoutMilliSeconds(300);
         common.selectSwedish();
 
         //Expand Letter menu
@@ -261,7 +242,6 @@ public class ConfirmIdentity{
 
     public void selectAndSubmitUserRefIdp(){
         common.explicitWaitClickableElementId("selectSimulatedUser");
-        //common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
         common.selectDropdownScript("selectSimulatedUser", testData.getRefIdpUser());
 
         common.click(common.findWebElementById("submitButton"));

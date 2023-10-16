@@ -3,7 +3,7 @@
 <suite name="dev">
     <parameter name="url" value="https://dev.eduid.se" />
     <parameter name="browser" value="chrome" />
-    <parameter name="headless" value="false" />
+    <parameter name="headless" value="true" />
     <parameter name="language" value="sv" />
     <parameter name="testsuite" value="dev" />
 
@@ -482,7 +482,6 @@
             </class>
         </classes>
     </test>
-
 
     <test name="TC_49">
         <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by phone. Create another new

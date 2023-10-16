@@ -27,7 +27,7 @@ public class RequestResetPwEmail {
 
         //wait for the Send-again button on next page
         common.timeoutSeconds(4);
-        common.verifyStringOnPage("Ett e-postmeddelande med instruktioner har skickats till");
+        common.verifyStringOnPage("Om du har ett eduID-konto, har ett meddelande med instruktioner skickats till");
     }
 
     private void verifyLabels(){
@@ -51,11 +51,11 @@ public class RequestResetPwEmail {
         //Heading
         common.verifyStringOnPage("Reset password");
 
-        common.verifyStringOnPage("To start the account recovery process, press the button below to send an e-mail to");
+        common.verifyStringOnPage("To start the account recovery process, press the button below to send an email to");
         common.verifyStringOnPage(testData.getUsername().toLowerCase());
 
         //Buttons
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/button[2]", "SEND E-MAIL");
+        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/button[2]", "SEND EMAIL");
         common.verifyStringById("go-back-button", "GO BACK");
 
         //Switch to swedish

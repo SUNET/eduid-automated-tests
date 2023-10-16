@@ -44,10 +44,9 @@ public class Login {
     public void enterUsername(){
         //Verify placeholder
         common.verifyPlaceholder("namn@example.com", "email");
-        common.verifyPlaceholder("ange lösenord", "current-password");
+        common.verifyPlaceholder("ange lösenord", "currentPassword");
 
         //Enter username
-        //common.explicitWaitClickableElementId("email");
         common.findWebElementById("email").clear();
         common.findWebElementById("email").sendKeys(testData.getUsername());
 
@@ -56,9 +55,9 @@ public class Login {
 
     public void enterPassword() {
         common.timeoutSeconds(2);
-        common.findWebElementById("current-password").clear();
+        common.findWebElementById("currentPassword").clear();
 
-        common.findWebElementById("current-password").sendKeys(testData.getPassword());
+        common.findWebElementById("currentPassword").sendKeys(testData.getPassword());
 
         if(!testData.getTestSuite().equalsIgnoreCase("prod"))
             Common.log.info("Log in with password: " +testData.getPassword());
@@ -66,7 +65,6 @@ public class Login {
 
     public void signIn(){
         //Click log in button
-        //common.click(common.findWebElementById("login-form-button"));
         common.findWebElementById("login-form-button").click();
 
         if(testData.isIncorrectPassword()) {
@@ -95,7 +93,6 @@ public class Login {
 
     private void resetPassword(){
         //Click on forgot password link
-        //common.explicitWaitVisibilityElementId("link-forgot-password");
         common.click(common.findWebElementById("link-forgot-password"));
 
         //Wait for next page, return to login

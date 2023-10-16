@@ -142,19 +142,25 @@ public class AdvancedSettings {
         common.click(common.findWebElementByXpath("//*[@id=\"connect-orcid-button\"]"));
 
         //Transferred to orcid after click
-        common.explicitWaitPageTitle("ORCID");
+        common.timeoutSeconds(5);
+        common.verifyPageTitle("Sign in - ORCID");
+        //common.explicitWaitPageTitle("ORCID");
 
         //Accept cookies
+/*
         try {
+            common.timeoutSeconds(4);
             common.findWebElementById("onetrust-accept-btn-handler").click();
         }catch (Exception ex){
             Common.log.info("No cookied dialog present");
         }
+*/
 
         //Just go back to end test case by logout
         common.getWebDriver().navigate().back();
-        common.timeoutSeconds(10);
+        common.timeoutSeconds(2);
         common.getWebDriver().navigate().back();
+        common.timeoutSeconds(5);
         common.explicitWaitPageTitle("Avancerade Inställningar | eduID");
     }
 
@@ -168,14 +174,14 @@ public class AdvancedSettings {
 
         //Security key
         common.verifyStringOnPage("Gör ditt eduID säkrare");
-        common.verifyStringOnPage("Lägg till ett extra sätt, utöver email och lösenord, för att kunna " +
-                "identifiera dig så du är säker på att bara du har tillgång till ditt eduID.");
-        common.verifyStringOnPage("Välj extra identifieringsmetod:");
+        common.verifyStringOnPage("Om möjligt lägg till ett ytterligare sätt, utöver email och lösenord, " +
+                "för att kunna identifiera dig så att du är säker på att bara du har tillgång till ditt eduID.");
+        common.verifyStringOnPage("Välj ytterligare identifieringsmetod:");
         common.verifyStringById("security-webauthn-button", "SÄKERHETSNYCKEL");
-        common.verifyStringOnPage("T.ex. USB säkerhetsnyckel.");
+        common.verifyStringOnPage("T.ex. USB säkerhetsnyckel som du använder.");
         if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
             common.verifyStringById("security-webauthn-platform-button", "DEN HÄR ENHETEN");
-            common.verifyStringOnPage("T.ex. Touch/ Face ID på den här enheten.");
+            common.verifyStringOnPage("T.ex. Touch/ Face ID som stöds på den här enheten.");
         }
 
         //OrcID
@@ -193,10 +199,10 @@ public class AdvancedSettings {
         common.verifyStringOnPage("Att länka ditt eduID-konto med Ladok är nödvändigt om du vill komma " +
                 "åt en tjänst som kräver en European Student Identifier.");
 
-        common.verifyStringOnPage("Unikt ID");
-        common.verifyStringOnPage("Detta är ett autogenererat unikt id för ditt eduID som du kan behöva " +
-                "ange när du ber om teknisk support.");
-        common.verifyStringOnPage("eppn");
+        common.verifyStringOnPage("EPPN - Unikt ID");
+        common.verifyStringOnPage("Eppn är ett unikt ID för ditt eduID som du kan behöva ange när du " +
+                "ber om teknisk support eller för att identifiera ditt konto.");
+        common.verifyStringOnPage("EPPN:");
         common.verifyStringNotEmptyByXpath("//*[@id=\"user-eppn\"]", "//*[@id=\"uniqueId-container\"]/div/span/strong");
 
         //click on english
@@ -213,14 +219,14 @@ public class AdvancedSettings {
 
         //Security key
         common.verifyStringOnPage("Make your eduID more secure");
-        common.verifyStringOnPage("Add a security key as a second layer of identification, beyond email " +
-                "and password, to prove you are the owner of your eduID.");
-        common.verifyStringOnPage("Choose extra identification method:");
+        common.verifyStringOnPage("If possible, it is advisable to add a security key as a second layer " +
+                "of identification, beyond email and password, to prove you are the owner of your eduID.");
+        common.verifyStringOnPage("Choose additional identification method:");
         common.verifyStringById("security-webauthn-button", "SECURITY KEY");
-        common.verifyStringOnPage("E.g USB Security Key.");
+        common.verifyStringOnPage("E.g a USB Security Key you are using.");
         if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
             common.verifyStringById("security-webauthn-platform-button", "THIS DEVICE");
-            common.verifyStringOnPage("E.g. Touch/ Face ID on this device.");
+            common.verifyStringOnPage("E.g. Touch/ Face ID supported on this device.");
         }
 
         //OrcID
@@ -237,11 +243,11 @@ public class AdvancedSettings {
         common.verifyStringOnPage("Linking your eduID account with data from Ladok is necessary if you " +
                 "want to access a service requiring a European Student Identifier.");
 
-        common.verifyStringOnPage("Unique ID");
-        common.verifyStringOnPage("This is an automatically generated unique identifier for your eduID.");
-        common.verifyStringOnPage("eppn");
+        common.verifyStringOnPage("EPPN - Unique ID");
+        common.verifyStringOnPage("Eppn is a unique ID for your eduID that you may need to provide " +
+                "when requesting technical support or to identify your account.");
+        common.verifyStringOnPage("EPPN:");
         common.verifyStringNotEmptyByXpath("//*[@id=\"user-eppn\"]", "//*[@id=\"uniqueId-container\"]/div/span/strong");
-        common.verifyStringOnPage("You might be asked to share this information if you need technical support.");
 
         //click on swedish
         common.selectSwedish();

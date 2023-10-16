@@ -70,18 +70,18 @@ public class LoginOtherDevice {
 
     public void enterCode(String code1, String code2, String code3, String code4, String code5, String code6) {
         //Enter faulty code
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/ol/li[3]/div/form/div/input[1]")
+        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[1]")
                 .sendKeys(code1);
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/ol/li[3]/div/form/div/input[2]")
+        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[2]")
                 .sendKeys(code2);
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/ol/li[3]/div/form/div/input[3]")
+        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[3]")
                 .sendKeys(code3);
 
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/ol/li[3]/div/form/div/input[4]")
+        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[4]")
                 .sendKeys(code4);
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/ol/li[3]/div/form/div/input[5]")
+        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[5]")
                 .sendKeys(code5);
-        common.findWebElementByXpath("//*[@id=\"content\"]/div/ol/li[3]/div/form/div/input[6]")
+        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[6]")
                 .sendKeys(code6);
     }
 

@@ -89,8 +89,8 @@ public class ExtraSecurity {
         //IF Freja eID should be used
         else if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja")) {
             //Verify button text
-            common.verifyStringById("extra-security-freja", "ANVÄND MITT FREJA EID+");
-            Common.log.info("Selecting Freja eID+ for password reset");
+            common.verifyStringById("extra-security-freja", "ANVÄND MITT FREJA+");
+            Common.log.info("Selecting Freja+ for password reset");
 
             //Click Freja button
             common.findWebElementById("extra-security-freja").click();

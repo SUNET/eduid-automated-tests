@@ -30,7 +30,7 @@ public class SetNewPassword {
             common.selectSwedish();
         }
         //Verify placeholder
-        common.verifyStrings("xxxx xxxx xxxx", common.findWebElementById("new-password").getAttribute("placeholder"));
+        common.verifyStrings("xxxx xxxx xxxx", common.findWebElementById("newPassword").getAttribute("placeholder"));
 
         //verify the labels in Swedish
         common.verifyStringOnPage("Skapa ditt nya lösenord");
@@ -39,7 +39,7 @@ public class SetNewPassword {
                 "spara det för framtida bruk.");
 
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/label", "Nytt lösenord");
-        common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repetera ditt nya lösenord");
+        common.verifyStringByXpath("//*[@id=\"newPassword-wrapper\"]/div/label", "Repetera ditt nya lösenord");
 
         //Switch to Swedish
         common.selectEnglish();
@@ -53,7 +53,7 @@ public class SetNewPassword {
                 "for future use.");
 
         common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/label", "New password");
-        common.verifyStringByXpath("//*[@id=\"new-password-wrapper\"]/div/label", "Repeat new password");
+        common.verifyStringByXpath("//*[@id=\"newPassword-wrapper\"]/div/label", "Repeat new password");
 
         Assert.assertTrue(common.findWebElementById("copy-new-password").getText().isEmpty(), "New password field is empty");
 
@@ -68,8 +68,8 @@ public class SetNewPassword {
         testData.setPassword(newPassword);
         Common.log.info("New password saved: " + testData.getPassword());
 
-        common.findWebElementById("new-password").clear();
-        common.findWebElementById("new-password").sendKeys(newPassword);
+        common.findWebElementById("newPassword").clear();
+        common.findWebElementById("newPassword").sendKeys(newPassword);
     }
 
     private void clickButton(){

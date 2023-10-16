@@ -92,8 +92,8 @@ public class InitBrowser {
             chromeOptions.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
             chromeOptions.addArguments("--ignore-certificate-errors");
                */
-            chromeOptions.addArguments("start-maximized");
-            chromeOptions.addArguments("window-size=1920,1080");
+//            chromeOptions.addArguments("start-maximized");
+//            chromeOptions.addArguments("window-size=1920,1080");
             webDriver = new ChromeDriver(chromeOptions);
 
             /* For capture of .har traffic - see TC_1 for example, also comment webdriver.getUrl in Webdrivermanager

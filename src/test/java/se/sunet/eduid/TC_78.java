@@ -64,12 +64,10 @@ public class TC_78 extends BeforeAndAfter {
         common.addNinCookie();
 
         //Expand Freja menu, since collapsed when change of language
-        common.scrollToPageBottom();
-        common.timeoutMilliSeconds(500);
-        common.findWebElementById("accordion__heading-se-freja").click();
+        common.click(common.findWebElementById("accordion__heading-se-freja"));
 
         //Select Freja eID
-        common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button").click();
+        common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button"));
 
         //Click Use Freja eID in pop-up dialog
         common.findWebElementById("eidas-info-modal-accept-button").click();

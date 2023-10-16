@@ -102,9 +102,10 @@ public class ConfirmEmailAddress {
         common.explicitWaitClickableElementId("response-code-abort-button");
 
         common.verifyStringOnPage("Verifiering av e-postadress");
-        common.verifyStringOnPage("Ange den sexsiffriga koden som skickades till");
+        common.verifyStringOnPage("Ange den sexsiffriga koden som skickats till");
         common.verifyStringOnPage(testData.getUsername().toLowerCase());
-        common.verifyStringOnPage("för att verifiera din e-postadress");
+        common.verifyStringOnPage("för att verifiera din e-postadress. Du kan också kopiera och klistra " +
+                        "in koden från e-posten i inmatningsfältet.");
 
         common.verifyStringOnPage("Koden går ut om");
         common.verifyStringById("response-code-abort-button", "AVBRYT");
@@ -115,7 +116,8 @@ public class ConfirmEmailAddress {
         common.verifyStringOnPage("Verification of email address");
         common.verifyStringOnPage("Enter the six digit code sent to");
         common.verifyStringOnPage(testData.getUsername().toLowerCase());
-        common.verifyStringOnPage("to verify your email address");
+        common.verifyStringOnPage("to verify your email address. You can also copy and paste the code " +
+                "from the email into the input field.");
 
         common.verifyStringOnPage("The code expires in");
         common.verifyStringById("response-code-abort-button", "CANCEL");
@@ -126,11 +128,11 @@ public class ConfirmEmailAddress {
 
     private void typeEmailVerificationCode(){
         String emailVerificationCode = testData.getEmailVerificationCode();
-        common.findWebElementByXpath("//*[@id=\"content\"]/div[3]/form/div/input[1]").sendKeys(emailVerificationCode.substring(0, 1));
-        common.findWebElementByXpath("//*[@id=\"content\"]/div[3]/form/div/input[2]").sendKeys(emailVerificationCode.substring(1, 2));
-        common.findWebElementByXpath("//*[@id=\"content\"]/div[3]/form/div/input[3]").sendKeys(emailVerificationCode.substring(2, 3));
-        common.findWebElementByXpath("//*[@id=\"content\"]/div[3]/form/div/input[4]").sendKeys(emailVerificationCode.substring(3, 4));
-        common.findWebElementByXpath("//*[@id=\"content\"]/div[3]/form/div/input[5]").sendKeys(emailVerificationCode.substring(4, 5));
-        common.findWebElementByXpath("//*[@id=\"content\"]/div[3]/form/div/input[6]").sendKeys(emailVerificationCode.substring(5, 6));
+        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[1]").sendKeys(emailVerificationCode.substring(0, 1));
+        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[2]").sendKeys(emailVerificationCode.substring(1, 2));
+        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[3]").sendKeys(emailVerificationCode.substring(2, 3));
+        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[4]").sendKeys(emailVerificationCode.substring(3, 4));
+        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[5]").sendKeys(emailVerificationCode.substring(4, 5));
+        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[6]").sendKeys(emailVerificationCode.substring(5, 6));
     }
 }

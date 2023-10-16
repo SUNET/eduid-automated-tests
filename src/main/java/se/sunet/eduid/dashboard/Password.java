@@ -133,7 +133,7 @@ public class Password {
         common.verifyStringOnPage("Tänk på att välja ett säkert lösenord");
         common.verifyStringOnPage("Blanda stora och små bokstäver (inte bara första bokstaven)");
         common.verifyStringOnPage("Lägg till en eller flera siffror någonstans i mitten av lösenordet");
-        common.verifyStringOnPage("Använd specialtecken som @ $ + _ %");
+        common.verifyStringOnPage("Använd specialtecken som @ $ \\ + _ %");
         common.verifyStringOnPage("Blanksteg (mellanslag) ignoreras");
 
         //Heading 2 - Swedish
@@ -159,7 +159,7 @@ public class Password {
         common.verifyStringOnPage("Tip: Choose a strong password");
         common.verifyStringOnPage("Use upper- and lowercase characters, but not at the beginning or end");
         common.verifyStringOnPage("Add digits somewhere, but not at the beginning or end");
-        common.verifyStringOnPage("Add special characters, such as @ $ + _ %");
+        common.verifyStringOnPage("Add special characters, such as @ $ \\ + _ %");
         common.verifyStringOnPage("Spaces are ignored");
 
         //Heading 2 - English

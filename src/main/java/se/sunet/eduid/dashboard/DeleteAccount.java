@@ -87,7 +87,7 @@ public class DeleteAccount {
 
     private void verifyPopUpLabels(){
         //Heading
-        common.timeoutSeconds(2);
+        common.timeoutMilliSeconds(500);
 
         common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
         common.verifyStringOnPage( "Är du säker på att du vill ta bort ditt eduID?");
@@ -99,9 +99,10 @@ public class DeleteAccount {
         common.closePopupDialog();
 
         //Select english
+        common.timeoutMilliSeconds(200);
         common.selectEnglish();
 
-        common.timeoutSeconds(2);
+        common.timeoutMilliSeconds(200);
         common.click(common.findWebElementById("delete-button"));
 
         //Heading
@@ -115,9 +116,10 @@ public class DeleteAccount {
         common.closePopupDialog();
 
         //Select swedish
+        common.timeoutMilliSeconds(200);
         common.selectSwedish();
 
-        common.timeoutSeconds(2);
+        common.timeoutMilliSeconds(200);
         common.click(common.findWebElementById("delete-button"));
     }
 }

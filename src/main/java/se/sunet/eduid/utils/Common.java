@@ -55,17 +55,11 @@ public class Common {
     }
 
     public void selectEnglish() {
-        scrollToPageBottom();
-        timeoutMilliSeconds(500);
-        click(findWebElementByLinkText("English"));
-        timeoutMilliSeconds(500);
+        click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a"));
     }
 
     public void selectSwedish() {
-        scrollToPageBottom();
-        timeoutMilliSeconds(500);
-        click(findWebElementByLinkText("Svenska"));
-        timeoutMilliSeconds(500);
+        click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a"));
     }
 
     public void navigateToSettings() {
@@ -139,6 +133,11 @@ public class Common {
                 + stringToBeEval + " Does not contain: " + stringToCompareWith);
     }
 
+    public void verifyPageBodyContainsString(String pageBody, String stringToBeEval) {
+        Assert.assertTrue(pageBody.contains(stringToBeEval), errorMsg
+                + pageBody + " Does not contain: " + stringToBeEval);
+    }
+
     public void verifyStringNotEmptyByXpath(String xpath, String parameterNameXpath) {
         parameterNameXpath = findWebElementByXpath(parameterNameXpath).getText();
         Assert.assertFalse((findWebElementByXpath(xpath).getText()).isEmpty(), errorMsg + parameterNameXpath + " Parameter is empty or missing!");
@@ -150,6 +149,10 @@ public class Common {
             log.warn(errorMsg + stringToBeVerified + " - is missing on web page!");
             Assert.fail(errorMsg + stringToBeVerified + " - is missing on web page!");
         }
+    }
+
+    public String getPageBody(){
+        return webDriver.findElement(By.tagName("body")).getText();
     }
 
     public void logPageBody() {
@@ -204,13 +207,7 @@ public class Common {
     }
 
     public WebElement findWebElementById(String elementToFind) {
- //       try{
-            //At this point we do not know if element will be clicked or not
-            explicitWaitVisibilityElementId(elementToFind);
-//        }catch (Exception ex){
-//            log.error(testData.getTestCase() + " - " +testData.getTestMethod() +" - Failed to find element: " +elementToFind);
-//            ex.printStackTrace();
-//        }
+        explicitWaitVisibilityElementId(elementToFind);
         return webDriver.findElement(By.id(elementToFind));
     }
 
@@ -219,13 +216,7 @@ public class Common {
     }
 
     public WebElement findWebElementByXpath(String elementToFind) {
-//        try {
-            //At this point we do not know if element will be clicked or not
-            explicitWaitVisibilityElement(elementToFind);
-//        }catch (Exception ex){
-//            log.error(testData.getTestCase() + " - " +testData.getTestMethod() +" - Failed to find element: " +elementToFind);
-//            ex.printStackTrace();
-//        }
+        explicitWaitVisibilityElement(elementToFind);
         return webDriver.findElement(By.xpath(elementToFind));
     }
 
@@ -443,26 +434,23 @@ public class Common {
     }
 
     public void enterCaptcha(String reqCaptchaCode){
-        timeoutSeconds(2);
-
-        String captchaCode = "";
+       String captchaCode = "";
         captchaCode = reqCaptchaCode;
+
         //Wait for generate new captcha button
         switchToPopUpWindow();
         explicitWaitClickableElement("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button");
 
         //For unknown reason, textfield has to be cleared twice.
         clearTextField(findWebElementById("phone-captcha-modal"));
-        timeoutMilliSeconds(500);
+        timeoutMilliSeconds(100);
         findWebElementById("phone-captcha-modal").sendKeys(captchaCode);
 
         clearTextField(findWebElementById("phone-captcha-modal"));
-        timeoutMilliSeconds(500);
+        timeoutMilliSeconds(100);
         findWebElementById("phone-captcha-modal").sendKeys(captchaCode);
 
         //Press continue
         findWebElementByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button").click();
-
-        timeoutSeconds(2);
     }
 }

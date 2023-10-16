@@ -130,7 +130,7 @@ public class TC_81 extends BeforeAndAfter {
         //Account is no longer verified
 
         //Set some user data that will be verified in dashboard
-        testData.setDisplayName("Cookie Testsson");
+        testData.setDisplayName("Ulla Alm");
 
         dashBoard.runDashBoard();
     }

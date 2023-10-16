@@ -27,10 +27,8 @@ public class Register {
         common.addMagicCookie();
         common.findWebElementById("value").sendKeys("123456");
 
-        common.scrollToPageBottom();
-
         //Fill in a dummy value and continue
-        common.findWebElementById("captcha-continue-button").click();
+        common.click(common.findWebElementById("captcha-continue-button"));
 
         registerPopUp();
     }
@@ -46,7 +44,7 @@ public class Register {
         common.verifyStringOnPage("Registrera din e-postadress för att skapa ditt eduID.");
 
         common.verifyStringOnPage("När du har skapat ditt eduID kan du logga in och koppla det till " +
-                "ditt svenska personnummer.");
+                "din identitet.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress");
 
         //Switch language to English
@@ -56,7 +54,7 @@ public class Register {
         common.verifyStringOnPage("Register your email address to create your eduID.");
 
         common.verifyStringOnPage("Once you have created an eduID you will be able to log in and " +
-                "connect it to your Swedish national identity number.");
+                "connect it to your identity.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address");
 
         //Verify placeholder
@@ -65,9 +63,6 @@ public class Register {
     }
 
     public void enterEmailAndPressRegister(){
-        //Verify placeholder
- //       common.verifyPlaceholder("name@example.com", "email");
-
         //Generate new username
         if(testData.isGenerateUsername())
             generateUsername();

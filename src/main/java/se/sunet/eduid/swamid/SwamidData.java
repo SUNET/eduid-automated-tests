@@ -50,7 +50,7 @@ public class SwamidData {
                             "https://refeds.org/assurance/IAP/low");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[7]/td", testData.getEppn() +"@dev.eduid.se");
             common.verifyXpathContainsString("//*[@id=\"attributes\"]/table[1]/tbody/tr[8]/td",
-                    "https://idp.dev.eduid.se/idp.xml!https://release-check.swamid.se/shibboleth!80166bca9f011d56f5a2c511398109cde176a951f6e56ccdce8a1f9f91145e89");
+                    "https://idp.dev.eduid.se/idp.xml!https://release-check.swamid.se/shibboleth!806a9fa5a0680952cbe90239e3b92740df7b7dfec627a7c2a5d0d9aea6427c84");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[9]/td", testData.getGivenName());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[10]/td", testData.getEmail());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[11]/td", testData.getEmail());
@@ -74,7 +74,6 @@ public class SwamidData {
                     "http://www.swamid.se/policy/assurance/al1\n" +
                             "http://www.swamid.se/policy/assurance/al2\n" +
                             "http://www.swamid.se/policy/assurance/al3\n" +
-                            "http://www.swamid.se/policy/authentication/swamid-al2-mfa-hi\n" +
                             "https://refeds.org/assurance\n" +
                             "https://refeds.org/assurance/ID/unique\n" +
                             "https://refeds.org/assurance/ID/eppn-unique-no-reassign\n" +

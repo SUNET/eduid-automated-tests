@@ -129,7 +129,8 @@ public class ConfirmPhoneNumber {
                 Assert.assertTrue(!common.findWebElementByXpath("//*[@id=\"phone-confirm-modal-form\"]/div[2]/button").isEnabled(),
                         "The button should not be enabled, until 10 character code is entered");
 
-                common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/small/span", "Ogiltig kod");
+                common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/small/span",
+                        "Den kod du angett stämmer inte. Var god försök igen");
 
                 //Close the confirm pop-up
                 common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();

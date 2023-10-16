@@ -49,12 +49,7 @@ public class PhoneNumber {
         //Press settings
         common.navigateToSettings();
 
-        //TODO temp fix to get swedish language
-/*        if (common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
-            common.selectSwedish();*/
-
         //Click add phone number button
-        common.scrollToPageBottom();
         common.click(common.findWebElementById("phone-number-add-more-button"));
 
         //Verify placeholder
@@ -100,8 +95,6 @@ public class PhoneNumber {
         common.navigateToAdvancedSettings();
 
         //Store eppen
-        //common.timeoutSeconds(2);
-        common.scrollToPageBottom();
         String eppen = common.findWebElementById("user-eppn").getText();
 
         //Fetch the code
@@ -114,12 +107,11 @@ public class PhoneNumber {
         common.navigateToUrl("https://dashboard.dev.eduid.se/profile/settings/personaldata");
 
         //Press confirm phone number link
-        common.timeoutSeconds(2);
+        common.timeoutSeconds(1);
         common.click(common.findWebElementByXpathContainingText("Bekräfta"));
 
         //Solve captcha
         common.enterCaptcha("123456");
-        common.timeoutSeconds(2);
 
         if(!testData.getTestCase().equalsIgnoreCase("TC_51"))
             verifyLabelsConfirmPhoneNumber();
@@ -158,6 +150,7 @@ public class PhoneNumber {
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
 
         //English
+        common.timeoutMilliSeconds(300);
         common.selectEnglish();
 
         //Verify Button text
@@ -169,7 +162,7 @@ public class PhoneNumber {
 
         //Solve captcha
         common.enterCaptcha("123456");
-        common.timeoutSeconds(2);
+//        common.timeoutSeconds(1);
 
         //Wait for close pop-up button
         common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button");
@@ -191,6 +184,7 @@ public class PhoneNumber {
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
 
         //Swedish
+        common.timeoutMilliSeconds(300);
         common.selectSwedish();
     }
 
@@ -221,6 +215,7 @@ public class PhoneNumber {
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5/button"));
 
         //Change to english
+        common.timeoutMilliSeconds(500);
         common.selectEnglish();
 
         //Press confirm beside phoneNumber to open captcha
@@ -253,6 +248,7 @@ public class PhoneNumber {
         common.verifyStatusMessage("Captcha failed. Please try again.");
 
         //Change back to swedish
+        common.timeoutMilliSeconds(200);
         common.selectSwedish();
 
         //Check status message

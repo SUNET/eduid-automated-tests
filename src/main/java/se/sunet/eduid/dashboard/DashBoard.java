@@ -225,7 +225,7 @@ public class DashBoard {
             common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-verify-identity\"]/div/h3", "Verifiera din identitet");
             common.verifyStringOnPage("Din identitet är inte verifierad. Vänligen verifiera din identitet för att få tillgång till fler tjänster.");
             common.verifyStringOnPage("Gå till Identitet");
-            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-verify-identity\"]/a").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-verify-identity\"]/a"));
             common.explicitWaitPageTitle("Identitet | eduID");
 
             common.getWebDriver().navigate().back();
@@ -237,7 +237,7 @@ public class DashBoard {
             common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-verify-identity\"]/div/h3", "Verify your identity");
             common.verifyStringOnPage("Your identity is not verified. Please verify your identity to get access to more services.");
             common.verifyStringOnPage("Go to Identity");
-            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-verify-identity\"]/a").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-verify-identity\"]/a"));
             common.explicitWaitPageTitle("Identity | eduID");
 
             common.getWebDriver().navigate().back();
@@ -246,16 +246,15 @@ public class DashBoard {
     }
 
     private void recommendedActionSecurityKey(String language){
-        //Recommended actions - Security key
+       //Recommended actions - Security key
         if(language.equalsIgnoreCase("Svenska")) {
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-security-key\"]/div/h3"));
             common.timeoutMilliSeconds(100);
-            common.scrollToPageBottom();
             common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-security-key\"]/div/h3",
                     "Lägg till din säkerhetsnyckel");
             common.verifyStringOnPage("Lägg till en säkerhetsnyckel för att aktivera säker återställning av lösenord");
             common.verifyStringOnPage("Gå till Avancerade inställningar");
-            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-security-key\"]/a").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-security-key\"]/a"));
             common.explicitWaitPageTitle("Avancerade Inställningar | eduID");
 
             common.getWebDriver().navigate().back();
@@ -270,12 +269,11 @@ public class DashBoard {
         else{
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-security-key\"]/div/h3"));
             common.timeoutMilliSeconds(100);
-            common.scrollToPageBottom();
             common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-security-key\"]/div/h3",
                     "Add your security key");
             common.verifyStringOnPage("Add your security key to enable safe reset of password");
             common.verifyStringOnPage("Go to Advanced settings");
-            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-security-key\"]/a").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-security-key\"]/a"));
             common.explicitWaitPageTitle("Advanced Settings | eduID");
 
             common.getWebDriver().navigate().back();
@@ -298,7 +296,7 @@ public class DashBoard {
                     "Lägg till ditt namn");
             common.verifyStringOnPage("Namn kan användas för att anpassa tjänster som du kommer åt med ditt eduID.");
             common.verifyStringOnPage("Gå till Inställningar");
-            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-add-name\"]/a").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-add-name\"]/a"));
             common.explicitWaitPageTitle("Inställningar | eduID");
 
             common.getWebDriver().navigate().back();
@@ -311,7 +309,7 @@ public class DashBoard {
                     "Add your name");
             common.verifyStringOnPage("Name can be used to personalise services that you access with your eduID.");
             common.verifyStringOnPage("Go to Settings");
-            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-add-name\"]/a").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-add-name\"]/a"));
             common.explicitWaitPageTitle("Settings | eduID");
 
             common.getWebDriver().navigate().back();
@@ -329,7 +327,7 @@ public class DashBoard {
             common.verifyStringOnPage("Lägg till ditt telefonnummer för att möjliggöra säker återställning " +
                     "av lösenord och fortsatt verifiering av din identitet.");
             common.verifyStringOnPage("Gå till Inställningar");
-            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-phone\"]/a").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-phone\"]/a"));
             common.explicitWaitPageTitle("Inställningar | eduID");
 
             common.getWebDriver().navigate().back();
@@ -342,7 +340,7 @@ public class DashBoard {
                     "Add your phone number");
             common.verifyStringOnPage("Add your phone number to enable safe reset of password and verification of identity.");
             common.verifyStringOnPage("Go to Settings");
-            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-phone\"]/a").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-phone\"]/a"));
             common.explicitWaitPageTitle("Settings | eduID");
 
             common.getWebDriver().navigate().back();
@@ -360,7 +358,7 @@ public class DashBoard {
             common.verifyStringOnPage("Bekräfta ditt telefonnummer för att möjliggöra säker återställning " +
                     "av lösenord och verifiering av identitet.");
             common.verifyStringOnPage("Gå till Inställningar");
-            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-phone\"]/a").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-phone\"]/a"));
             common.explicitWaitPageTitle("Inställningar | eduID");
 
             common.getWebDriver().navigate().back();
@@ -373,7 +371,7 @@ public class DashBoard {
                     "Confirm your phone number");
             common.verifyStringOnPage("Confirm your phone number to enable safe reset of password and verification of identity.");
             common.verifyStringOnPage("Go to Settings");
-            common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-phone\"]/a").click();
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-phone\"]/a"));
             common.explicitWaitPageTitle("Settings | eduID");
 
             common.getWebDriver().navigate().back();

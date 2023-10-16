@@ -121,7 +121,8 @@ public class BeforeAndAfter {
     public void testCase(final ITestContext testContext){
         testData.setTestSuite(testContext.getSuite().getName());
         testData.setTestCase(testContext.getName());
-        Common.log.info("Start executing: " +testData.getTestCase() + " - " +testContext.getCurrentXmlTest().getParameter("testDescription"));
+        Common.log.info("\n\nStart executing: " +testData.getTestCase() + " - "
+                +testContext.getCurrentXmlTest().getParameter("testDescription"));
     }
 
     @BeforeMethod

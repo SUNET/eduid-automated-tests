@@ -80,6 +80,7 @@ public class EmailAddresses {
                 common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/small/span", "E-postadressen finns redan i listan.");
 
                 //Switch to English
+                common.timeoutMilliSeconds(200);
                 common.selectEnglish();
 
                 //Need to add the address again, since error message disappear when switch between language
@@ -95,6 +96,7 @@ public class EmailAddresses {
                 common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/small/span", "The email is already in the list.");
 
                 //Switch back to Swedish
+                common.timeoutMilliSeconds(200);
                 common.selectSwedish();
             }
             else {
@@ -188,6 +190,7 @@ public class EmailAddresses {
             common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/span", "En giltig e-postadress");
 
             //Click on English
+            common.timeoutMilliSeconds(200);
             common.selectEnglish();
 
             //Need to add the address again, since error message disappear when switch between language
@@ -201,6 +204,7 @@ public class EmailAddresses {
             common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/span", "A valid email address");
 
             //Switch back to Swedish
+            common.timeoutMilliSeconds(200);
             common.selectSwedish();
         }
     }
@@ -218,6 +222,7 @@ public class EmailAddresses {
 
     private void verifyLabelsEnglish() {
         //Click on English
+        common.timeoutMilliSeconds(200);
         common.selectEnglish();
 
         //Heading
@@ -230,6 +235,7 @@ public class EmailAddresses {
         common.verifyStringOnPage("+ add more");
 
         //Click on Swedish
+        common.timeoutMilliSeconds(200);
         common.selectSwedish();
     }
 
@@ -258,6 +264,7 @@ public class EmailAddresses {
         //Close confirmation pop-up
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
 
+        common.timeoutMilliSeconds(200);
         common.selectEnglish();
 
         //Click on confirm link
@@ -281,6 +288,7 @@ public class EmailAddresses {
         //Close confirmation pop-up
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
 
+        common.timeoutMilliSeconds(200);
         common.selectSwedish();
 
         pressConfirmEmail();

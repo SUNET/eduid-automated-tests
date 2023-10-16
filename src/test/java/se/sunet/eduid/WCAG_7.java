@@ -10,7 +10,6 @@ public class WCAG_7 extends BeforeAndAfter
     @Test
     public void startPage() throws IOException {
         testData.setCounter(7);
-        startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage"} )
