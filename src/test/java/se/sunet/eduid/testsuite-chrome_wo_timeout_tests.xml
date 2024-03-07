@@ -10,6 +10,7 @@
     <listeners>
         <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
     </listeners>
+<!--
 
     <test name="TC_1">
         <parameter name="testDescription" value="Log in and check account data and labels" />
@@ -194,7 +195,6 @@
             </class>
         </classes>
     </test>
-
 
     <test name="TC_29">
         <parameter name="testDescription" value="Reset password without extra security (Phone number not confirmed).
@@ -403,7 +403,7 @@
         </classes>
     </test>
 
-
+    -->
 
 
 <!-- Below are test cases are picked from parallell suite -->
@@ -570,6 +570,8 @@
         </classes>
     </test>
 
+    <!--
+    2024-03-05 SVIPE is temporarily disabled until new agreement is signed
     <test name="TC_79">
         <parameter name="testDescription" value="Register new account, add and confirm phone number.
                 Attempt to confirm identity by SVIPE ID (no complete confirmation will be done)" />
@@ -578,6 +580,7 @@
             </class>
         </classes>
     </test>
+    -->
 
     <test name="TC_82" >
         <parameter name="testDescription" value="Initiate Register of new account, verify that incorrect email

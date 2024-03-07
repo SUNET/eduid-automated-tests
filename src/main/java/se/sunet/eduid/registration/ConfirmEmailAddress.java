@@ -28,11 +28,11 @@ public class ConfirmEmailAddress {
             //Evaluate response according to below criterias
             if(!testData.isGenerateUsername()) {
                 //Verify status message in swedish
-                common.verifyStatusMessage("E-postadressen används redan.");
+                common.verifyStatusMessage("E-postadressen är redan registrerad.");
 
                 //Verify status message in english
                 common.selectEnglish();
-                common.verifyStatusMessage("The email address is already in use.");
+                common.verifyStatusMessage("The email address is already registered.");
 
                 //Press on login button to prepare Log in and delete the account
                 common.click(common.findWebElementById("login"));

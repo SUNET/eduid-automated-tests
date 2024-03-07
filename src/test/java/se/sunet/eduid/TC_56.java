@@ -98,12 +98,19 @@ public class TC_56 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void verifySecurityKeyStatus() {
+        //Verify the status message
+        common.verifyStatusMessage("Felaktigt format av identitetsnumret. Var god försök igen.");
+
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button", "VERIFIERA");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button[1]", "FREJA+");
 
         common.selectEnglish();
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button", "VERIFY");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button[2]", "BANKID");
+
+        //Verify the status message
+        common.verifyStatusMessage("Incorrect format of the identity number. Please try again.");
+
         common.selectSwedish();
     }
 

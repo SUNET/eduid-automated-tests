@@ -28,7 +28,7 @@ public class TC_67 extends BeforeAndAfter {
         common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName() +"!");
 
         //Verify placeholder for username
-        common.verifyStrings(testData.getUsername(), common.findWebElementById("email").getAttribute("value"));
+        common.verifyStrings(testData.getUsername(), common.findWebElementById("username").getAttribute("value"));
     }
 
     @Test( dependsOnMethods = {"verifySignInPage"} )
@@ -74,6 +74,6 @@ public class TC_67 extends BeforeAndAfter {
         common.verifyStringOnPage("Välkommen tillbaka, Rutger Jönåker!");
 
         //Verify placeholder for username
-        common.verifyStrings(testData.getUsername().toLowerCase(), common.findWebElementById("email").getAttribute("value"));
+        common.verifyStrings(testData.getUsername().toLowerCase(), common.findWebElementById("username").getAttribute("value"));
     }
 }

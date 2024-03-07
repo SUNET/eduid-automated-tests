@@ -9,6 +9,7 @@ import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -127,24 +128,30 @@ public class AdvancedSettings {
         //When Identity is not confirmed
         else {
             //Verify status message
-            common.verifyStatusMessage("You need a verified Swedish national identity number to link your account with Ladok.");
+            common.verifyStatusMessage("You need a verified Swedish national identity number to link your account with ESI.");
 
             //click on swedish
             common.selectSwedish();
 
             //Verify status message
-            common.verifyStatusMessage("Du behöver verifiera ditt svenska personnummer för att länka ditt konto med Ladok.");
+            common.verifyStatusMessage("Du behöver verifiera ditt svenska personnummer för att länka ditt konto med ditt ESI.");
         }
     }
 
     private void pressOrcid(){
-        common.timeoutMilliSeconds(500);
-        common.click(common.findWebElementByXpath("//*[@id=\"connect-orcid-button\"]"));
+        common.timeoutMilliSeconds(2500);
+        common.click(common.findWebElementById("connect-orcid-button"));
 
         //Transferred to orcid after click
-        common.timeoutSeconds(5);
-        common.verifyPageTitle("Sign in - ORCID");
-        //common.explicitWaitPageTitle("ORCID");
+        common.timeoutSeconds(8);
+
+        String title = common.getWebDriver().getTitle();
+        if (title.equalsIgnoreCase("ORCID") || title.equalsIgnoreCase("Sign in - ORCID"))
+            Common.log.info("ORCID page present");
+        else {
+            Common.log.info("ORCID NOT page present");
+            Assert.fail("ORCID NOT page present");
+        }
 
         //Accept cookies
 /*
@@ -174,8 +181,9 @@ public class AdvancedSettings {
 
         //Security key
         common.verifyStringOnPage("Gör ditt eduID säkrare");
-        common.verifyStringOnPage("Om möjligt lägg till ett ytterligare sätt, utöver email och lösenord, " +
+        common.verifyStringOnPage("Om möjligt lägg till ett ytterligare sätt, utöver användarnamn och lösenord, " +
                 "för att kunna identifiera dig så att du är säker på att bara du har tillgång till ditt eduID.");
+        common.verifyStringOnPage("Du kan läsa mer om säkerhetsnycklar i hjälpavsnittet: Utökad säkerhet med ditt eduID.");
         common.verifyStringOnPage("Välj ytterligare identifieringsmetod:");
         common.verifyStringById("security-webauthn-button", "SÄKERHETSNYCKEL");
         common.verifyStringOnPage("T.ex. USB säkerhetsnyckel som du använder.");
@@ -191,13 +199,13 @@ public class AdvancedSettings {
                 "dig från andra forskare och en mekanism för att koppla dina forskningsresultat och aktiviteter till ditt " +
                 "ORCID iD oberoende vilken organisation du är verksam vid.");
 
-        //Ladok
-        common.verifyStringOnPage("Ladok information");
-        common.verifyStringOnPage("Data från Ladok kan ge dig tillgång till fler tjänster. Vissa " +
-                "lärosäten låter eduID hämta data från Ladok.");
-        common.verifyStringOnPage("Länka ditt konto till Ladok");
-        common.verifyStringOnPage("Att länka ditt eduID-konto med Ladok är nödvändigt om du vill komma " +
-                "åt en tjänst som kräver en European Student Identifier.");
+        //ESI information
+        common.verifyStringOnPage("ESI information");
+        common.verifyStringOnPage("Vissa lärosäten har anslutit sig till att låta eduID hämta ut ditt " +
+                "ESI - European Student Identifier från Ladok för att kunna få tillgång till vissa tjänster.");
+        common.verifyStringOnPage("Länka ditt ESI till ditt eduID-konto");
+        common.verifyStringOnPage("Finns ditt lärosäte inte i listan ska du inte använda eduID för att " +
+                "logga in i tjänster som kräver ESI. Kontakta då istället ditt lärosäte för mer information.");
 
         common.verifyStringOnPage("EPPN - Unikt ID");
         common.verifyStringOnPage("Eppn är ett unikt ID för ditt eduID som du kan behöva ange när du " +
@@ -220,7 +228,8 @@ public class AdvancedSettings {
         //Security key
         common.verifyStringOnPage("Make your eduID more secure");
         common.verifyStringOnPage("If possible, it is advisable to add a security key as a second layer " +
-                "of identification, beyond email and password, to prove you are the owner of your eduID.");
+                "of identification, beyond username and password, to prove you are the owner of your eduID.");
+        common.verifyStringOnPage("You can read more about security keys in the Help section: Improving the security level of eduID.");
         common.verifyStringOnPage("Choose additional identification method:");
         common.verifyStringById("security-webauthn-button", "SECURITY KEY");
         common.verifyStringOnPage("E.g a USB Security Key you are using.");
@@ -235,13 +244,13 @@ public class AdvancedSettings {
         common.verifyStringOnPage("ORCID iD distinguishes you from other researchers and allows linking of " +
                 "your research outputs and activities to your identity, regardless of the organisation you are working with.");
 
-        //Ladok
-        common.verifyStringOnPage("Ladok information");
-        common.verifyStringOnPage("Data from Ladok might give you access to more services. Some higher " +
-                "education institutions allow eduID to fetch data from Ladok.");
-        common.verifyStringOnPage("Link your account to Ladok");
-        common.verifyStringOnPage("Linking your eduID account with data from Ladok is necessary if you " +
-                "want to access a service requiring a European Student Identifier.");
+        //ESI information
+        common.verifyStringOnPage("ESI information");
+        common.verifyStringOnPage("Some higher education institutions allow eduID to fetch your " +
+                "ESI - European Student identifier from Ladok, which might give you access to certain services.");
+        common.verifyStringOnPage("Link your ESI with your eduID account");
+        common.verifyStringOnPage("If your institution is not in the list you cannot use your eduID " +
+                "to access services requiring ESI, contact your institution for more information.");
 
         common.verifyStringOnPage("EPPN - Unique ID");
         common.verifyStringOnPage("Eppn is a unique ID for your eduID that you may need to provide " +

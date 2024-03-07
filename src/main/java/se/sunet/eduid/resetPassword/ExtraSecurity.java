@@ -35,9 +35,19 @@ public class ExtraSecurity {
         common.verifyStringOnPage("A password reset using an extra security option will keep your identity confirmed.");
         if(!testData.getPhoneNumber().isEmpty())
             common.verifyStringOnPage("SEND SMS TO **********" + testData.getPhoneNumber().substring(10,12));
+
         if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja") &!
-                testData.getSendMobileOneTimePassword().equalsIgnoreCase("no"))
+                testData.getSendMobileOneTimePassword().equalsIgnoreCase("no")) {
+
             common.verifyStringOnPage("Already received the code?  enter code");
+
+        }
+        if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja ") ||
+                testData.getSendMobileOneTimePassword().equalsIgnoreCase("bankid ")){
+            common.verifyStringOnPage("USE MY FREJA+");
+            common.verifyStringOnPage("USE MY BANKID");
+        }
+
         common.verifyStringOnPage("Continue without extra security option");
         common.verifyStringOnPage("Your identity will require confirmation after the password has been " +
                 "reset. Continue resetting password");
@@ -51,9 +61,19 @@ public class ExtraSecurity {
                 "kommer kontot att förbli verifierat.");
         if(!testData.getPhoneNumber().isEmpty())
             common.verifyStringOnPage("SKICKA SMS TILL **********" + testData.getPhoneNumber().substring(10,12));
+
         if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja") &!
-                testData.getSendMobileOneTimePassword().equalsIgnoreCase("no"))
+                testData.getSendMobileOneTimePassword().equalsIgnoreCase("no")) {
+
             common.verifyStringOnPage("Redan fått en kod?  skriv in koden");
+        }
+
+        if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja ") ||
+                testData.getSendMobileOneTimePassword().equalsIgnoreCase("bankid ")){
+            common.verifyStringOnPage("ANVÄND MITT FREJA+");
+            common.verifyStringOnPage("ANVÄND MITT BANKID");
+        }
+
         common.verifyStringOnPage("Fortsätt utan extra säkerhetsalternativ");
         common.verifyStringOnPage("Din identitet kommer att behöva verifieras efter att lösenordet har " +
                 "återställts. Fortsätt återställa lösenordet");
@@ -94,6 +114,15 @@ public class ExtraSecurity {
 
             //Click Freja button
             common.findWebElementById("extra-security-freja").click();
+        }
+        //IF BankID should be used
+        else if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("bankid")) {
+            //Verify button text
+            common.verifyStringById("extra-security-bankid", "ANVÄND MITT BANKID");
+            Common.log.info("Selecting BankID for password reset");
+
+            //Click BankID button
+            common.findWebElementById("extra-security-bankid").click();
         }
         //Already have OTP
         else {

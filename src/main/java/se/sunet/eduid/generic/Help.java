@@ -163,7 +163,7 @@ public class Help {
         common.verifyStringOnPage("ditt namn för att kunna lägga till en säkerhetsnyckel eller hantera vissa tjänster från ett icke verifierat konto,\n" +
                 "ditt telefonnummer för att lättare kunna återställa ditt konto om det skulle behövas,\n" +
                 "en säkerhetsnyckel om du har möjlighet för ytterligare säkerhet,\n" +
-                "ansluta ditt eduID till Ladok och/eller befintligt ORCID iD om det stöds av din institution,\n" +
+                "ansluta ditt eduID till ESI och/eller befintligt ORCID iD om det stöds av din institution,\n" +
                 "verifiera din identitet för att förstärka ditt eduID tillräckligt för många externa tjänsters behov.");
 
         //Text
@@ -215,16 +215,16 @@ public class Help {
                 "in. Det kallas multifaktorautentisering (MFA), och i eduIDs fall tvåfaktorsautentisering (2FA).");
 
         //Text
-        common.verifyStringOnPage("Exempelvis en fysiskt USB-nyckel eller biometrisk information som " +
-                "fingeravtryck eller ansiktsigenkänning som stöds av enheten du loggar in med, är vad vi hänvisar till " +
-                "som 'Säkerhetsnyckel'.");
+        common.verifyStringOnPage("Exempelvis en fysiskt USB-säkerhetsnyckel (viss ändamålsenlig typ " +
+                "av USB-nyckel) eller biometrisk information som fingeravtryck eller ansiktsigenkänning som stöds av " +
+                "enheten du loggar in med, är vad vi hänvisar till som 'Säkerhetsnyckel'.");
 
         //Heading
         common.verifyStringOnPage("Hur kan jag lägga till 2FA för mitt eduID?");
 
         //Text
         common.verifyStringOnPage("När du är inloggad kan du lägga till och bekräfta säkerhetsnycklar " +
-                "som du har möjlighet att använda, bland Inställningar i eduID och följa instruktionerna.");
+                "som du har möjlighet att använda, bland 'Avancerade inställningar' i eduID och följa instruktionerna.");
 
         //Text
         common.verifyStringOnPage("Obs: när du har lagt till en säkerhetsnyckel till ditt eduID behöver " +
@@ -256,20 +256,27 @@ public class Help {
                 "efterfrågad tillitsnivå, nationalitet och boplats.");
 
         //Text
-        common.verifyStringOnPage("Om du har ett svenskt personnummer, kan det verifieras med:");
+        common.verifyStringOnPage("Om du har svenskt personnummer eller samordningsnummer, kan det verifieras med:");
 
         //Text
-        common.verifyStringOnPage("ost: användaren får ett brev med en kod skickat till den " +
-                "folkbokföringsadress som är registrerad hos Skatteverket och instruktioner om att slutföra verifieringen i eduid.se,");
+        common.verifyStringOnPage("post - med svenskt personnummer: användaren får ett brev med en kod " +
+                "skickat till den folkbokföringsadress som är registrerad hos Skatteverket och instruktioner om att " +
+                "slutföra verifieringen i eduid.se,");
 
         //Text
-        common.verifyStringOnPage("mobil: användaren får ett sms skickat till det telefonnummer som är " +
-                "registrerat i mobiloperatörernas egna register, med instruktioner om att slutföra verifieringen i eduid.se,");
+        common.verifyStringOnPage("mobil - med svenskt personnummer: användaren får ett sms skickat till " +
+                "det telefonnummer som är registrerat i mobiloperatörernas egna register, med instruktioner om att " +
+                "slutföra verifieringen i eduid.se,");
 
         //Text
-        common.verifyStringOnPage("Freja+ (digitalt ID-kort): användaren blir hänvisad till Freja eIDs " +
-                "hemsida för att använda sig av deras tjänst. Om du inte redan har Freja+ behöver du skapa det innan " +
-                "du kan verifiera ditt eduID. Läs mer om Freja+ nedan.");
+        common.verifyStringOnPage("Freja+ (digitalt ID-kort) - med svenskt personnummer eller " +
+                "samordningsnummer: användaren blir hänvisad till Freja eIDs hemsida för att använda sig av deras tjänst. " +
+                "Om du inte redan har Freja+ behöver du skapa det innan du kan verifiera ditt eduID. Läs mer om Freja+ nedan.");
+
+        //Text
+        common.verifyStringOnPage("BankID (elektroniskt identifieringssystem) - med svenskt " +
+                "personnummer: användaren blir ombedd att identifiera sig med hjälp av sitt BankID i BankID-tjänsten. " +
+                "Om du inte redan har ett BankID behöver du skapa det innan du kan verifiera ditt eduID. Läs mer om BankID nedan.");
 
         //Text
         common.verifyStringOnPage("Om du är EU-medborgare och inte har ett svenskt personnummer, kan du " +
@@ -287,7 +294,7 @@ public class Help {
 
         //Text
         common.verifyStringOnPage("Freja+ (ett verifierat Freja eID) är ett kostnadsfritt digitalt " +
-                "ID-kort tillgängligt för personer med svenskt personnummer.");
+                "ID-kort tillgängligt för personer med svenskt personnummer eller samordningsnummer.");
 
         //Text
         common.verifyStringOnPage("Hur du kan använda Freja+ med eduID:");
@@ -302,7 +309,7 @@ public class Help {
                 "ID-kort) till ett auktoriserat ATG-ombud för att verifiera din identitet,");
 
         //Text
-        common.verifyStringOnPage("logga in i eduID och välj metoden 'Med digitalt id-kort' i " +
+        common.verifyStringOnPage("logga in i eduID och välj metoden 'Med Freja+ digitalt id-kort' i " +
                 "identitetshanteringen och följ instruktionerna.");
 
         //Heading
@@ -318,8 +325,32 @@ public class Help {
         common.verifyStringOnPage("Vad kan jag göra om legitimationskontrollen för Freja+ misslyckades?");
 
         //Text
-        common.verifyStringOnPage("Avinstallera appen, gör om registreringen och kontrollera noga att du " +
-                "angivit rätt datum då ID-handlingen upphör att gälla samt att du fyllt i rätt referensnummer och personnummer.");
+        common.verifyStringOnPage("Avinstallera appen, gör om registreringen och kontrollera noga att " +
+                "du angivit rätt datum då ID-handlingen upphör att gälla samt att du fyllt i rätt referensnummer och " +
+                "personnummer eller samordningsnummer.");
+
+        //Heading
+        common.verifyStringOnPage("Om BankID");
+
+        //Heading
+        common.verifyStringOnPage("Vad är BankID?");
+
+        //Text
+        common.verifyStringOnPage("BankID är en e-legitimation som är tillgänglig för innehavare av " +
+                "ett svenskt personnummer, svensk godkänd ID-handling (inkl. pass, körkort och ID-kort) och kund hos " +
+                "en av de anslutna bankerna.");
+
+        //Text
+        common.verifyStringOnPage("Hur du kan använda BankID med eduID:");
+
+        //Text
+        common.verifyStringOnPage("BankID erhålls från din personliga bank och installeras på din " +
+                "enhet som en app eller fil. Tillvägagångssättet varierar, så besök din banks hemsida och följ " +
+                "instruktionerna. Du kan läsa mer om att skaffa BankID på the BankID website");
+
+        //Text
+        common.verifyStringOnPage("logga in i eduID och välj metoden 'Med elektroniskt BankID' i " +
+                "identitetshanteringen och följ instruktionerna.");
 
         //Heading
         common.verifyStringOnPage("Om eIDAS");
@@ -384,7 +415,7 @@ public class Help {
 
     private void orcidEduIdSwe(){
         //Heading
-        common.verifyStringOnPage("Länkning till Orcid / Ladok");
+        common.verifyStringOnPage("Länkning till Orcid / ESI");
 
         //Heading
         common.verifyStringOnPage("Vad är ORCID?");
@@ -411,6 +442,15 @@ public class Help {
         //Text
         common.verifyStringOnPage("Om du inte längre vill att eduID ska känna till ditt ORCID iD kan du " +
                 "enkelt ta bort det genom att klicka på krysset.");
+
+        //ESI
+        common.verifyStringOnPage("Vad är Ladok och ESI?");
+        common.verifyStringOnPage("Ladok är ett system för studieadministration vid svenska universitet " +
+                "och högskolor för antagning och betygssättning. Vissa lärosäten har valt att ge eduID åtkomst till " +
+                "ESI-attributet (European Student Identifier) från Ladok, som t.ex. används vid ansökning till Erasmus utbytesprogram.");
+        common.verifyStringOnPage("Hur du kan länka ditt ESI med eduID:");
+        common.verifyStringOnPage("bland dina inställningar i eduID, aktivera ESI-kontrollen,\n" +
+                "välj din institution från listan - om den finns tillgänglig.");
     }
 
     private void privacyEduIdSwe(){
@@ -429,13 +469,14 @@ public class Help {
 
         //Text
         common.verifyStringOnPage("lagrar information som du har angivit samt uppdateringar från betrodda register,\n" +
-                "överför information enligt minimiseringsprincipen - aldrig mer än vad som behövs,\n" +
+                "överför information enligt minimeringsprincipen - aldrig mer än vad som behövs,\n" +
                 "använder informationen för att identifiera individen för tjänster som du väljer att använda,\n" +
                 "skyddar och lagrar informationen säkert,\n" +
                 "utvecklar med öppen källkod som finns på GitHub,\n" +
                 "möjliggör borttagning av ett eduID och dess kopplingar direkt i tjänsten,\n" +
-                "lagrar användarloggar i 6 månader,\n" +
-                "tar bort inaktiva konton efter 2 år.");
+                "lagrar användarloggar i sex månader,\n" +
+                "tar bort inaktiva konton efter två år,\n" +
+                "sparar endast nödvändiga funktionella kakor.");
 
         //Heading
         common.verifyStringOnPage("Vad är eduIDs Tillgänglighetsrapport?");
@@ -573,7 +614,7 @@ public class Help {
         common.verifyStringOnPage("your full name to be able to add a security key or access some services from an unverified account,\n" +
                 "your phone number for easier retrieval of your account should it be needed,\n" +
                 "a security key if you are able to for added security,\n" +
-                "connecting your eduID to Ladok if enabled by your institution, or sharing it with your existing ORCID iD,\n" +
+                "connecting your eduID to ESI if enabled by your institution, or sharing it with your existing ORCID iD,\n" +
                 "verifying your identity to strengthen your eduID sufficiently for many external services.");
 
         //Text
@@ -626,15 +667,17 @@ public class Help {
 
         //Text
         common.verifyStringOnPage("Examples can be a physical device in your possession such as a USB " +
-                "token, or biometric information such as fingerprint or face-recognition supported on the device you " +
-                "are using, and we refer to any of these techniques as a 'Security key'.");
+                "token (types of USB-keys for this purpose), or biometric information such as fingerprint or " +
+                "face-recognition supported on the device you are using, and we refer to any of these techniques as a " +
+                "'Security key'.");
 
         //Heading
         common.verifyStringOnPage("How can I add 2FA to eduID?");
 
         //Text
-        common.verifyStringOnPage("When logged in you can add and confirm security keys of your choice " +
-                "(provided you have access to any of these methods) in the Settings area of eduID and follow the instructions.");
+        common.verifyStringOnPage("When logged in you can add and confirm security keys of your " +
+                "choice (provided you have access to any of these methods) in the 'Advanced Settings' area of eduID " +
+                "and follow the instructions.");
 
         //Text
         common.verifyStringOnPage("Note: once you have added a security key to your eduID it must be used to log in.");
@@ -665,21 +708,30 @@ public class Help {
                 "such as assurance level requirements, nationality and residence.");
 
         //Text
-        common.verifyStringOnPage("If you have a Swedish personal identity number, verifying it can be done via:");
+        common.verifyStringOnPage("If you have a Swedish personal identity number or coordination " +
+                "number, verifying it can be done via:");
 
         //Text
-        common.verifyStringOnPage("post: the user receives a letter with a code sent to their home " +
-                "address as registered at Skatteverket (the Swedish Tax Agency), and instructions on how to complete " +
-                "the verification on eduid.se,");
+        common.verifyStringOnPage("post - for Swedish personal identity number holders: the user " +
+                "receives a letter with a code sent to their home address as registered at Skatteverket " +
+                "(the Swedish Tax Agency), and instructions on how to complete the verification on eduid.se,");
 
         //Text
-        common.verifyStringOnPage("mobile: the user receives a message sent to the phone number that is " +
-                "registered in the Swedish telephone register, and instructions on how to complete the verification on eduid.se,");
+        common.verifyStringOnPage("mobile - for Swedish personal identity number holders: the user " +
+                "receives a message sent to the phone number that is registered in the Swedish telephone register, and " +
+                "instructions on how to complete the verification on eduid.se,");
 
         //Text
-        common.verifyStringOnPage("Freja+ (digital ID-card): the user will be directed to the Freja eID " +
-                "website to use their service. If you don't have Freja+ you have to create it separately before you can " +
-                "complete verification of your eduID. Read more about Freja+ below.");
+        common.verifyStringOnPage("Freja+ (digital ID-card) - for Swedish personal identity or " +
+                "coordination number holders: the user will be directed to the Freja eID website to use their service. " +
+                "If you don't have Freja+ you have to create it separately before you can complete verification of your " +
+                "eduID. Read more about Freja+ below.");
+
+        //Text
+        common.verifyStringOnPage("BankID (electronic identification system) - for Swedish personal " +
+                "identity number holders: the user will be asked to verify themself using their BankID service. If you " +
+                "don't have BankID you have to create it separately before you can complete verification of your eduID. " +
+                "Read more about BankID below.");
 
         //Text
         common.verifyStringOnPage("If you are an EU citizen and without a Swedish personal identity " +
@@ -697,7 +749,7 @@ public class Help {
 
         //Text
         common.verifyStringOnPage("Freja+ is a digital ID-card (a verified Freja eID) in app format, " +
-                "free of charge, available to holders of a Swedish personal identification number.");
+                "free of charge, available to holders of a Swedish personal identification number or coordination number.");
 
         //Text
         common.verifyStringOnPage("How to use Freja+ with eduID:");
@@ -712,8 +764,8 @@ public class Help {
                 "ID card) to the nearest ATG agent authorised to verify your identity,");
 
         //Text
-        common.verifyStringOnPage("log in to eduID and choose the 'Digital ID-card' option in the " +
-        "Identity area and follow the instructions.");
+        common.verifyStringOnPage("log in to eduID and choose the 'Freja+ digital ID-card' option in " +
+                "the Identity area and follow the instructions.");
 
         //Heading
         common.verifyStringOnPage("Do I need to visit an authorised ATG agent to create Freja+?");
@@ -730,8 +782,31 @@ public class Help {
 
         //Text
         common.verifyStringOnPage("Reinstall the Freja application, redo the registration and make sure " +
-                "that you have entered the correct expiration date as well as written down the correct reference number " +
-                "of the chosen form of ID and personal identity number (personnummer).");
+                "that you have entered the correct expiration date as well as the correct reference number of the " +
+                "chosen form of ID and personal identity number or coordination number.");
+
+        //Heading
+        common.verifyStringOnPage("About BankID");
+
+        //Heading
+        common.verifyStringOnPage("What is BankID?");
+
+        //Text
+        common.verifyStringOnPage("BankID is a widely used electronic verification system, available " +
+                "to holders of a Swedish personal identification number, an approved Swedish ID document (e.g. passport, " +
+                "drivers license or ID card) and connected to a bank in Sweden.");
+
+        //Text
+        common.verifyStringOnPage("How to use BankID with eduID:");
+
+        //Text
+        common.verifyStringOnPage("the BankID is obtained from your personal bank and installed on your " +
+                "device as an app or file. The process varies, so visit your bank's website and follow the instructions. " +
+                "You can read more about obtaining a BankID on the BankID website");
+
+        //Text
+        common.verifyStringOnPage("log in to eduID and choose the 'Electronic BankID' option in the " +
+                "Identity area and follow the instructions.");
 
         //Heading
         common.verifyStringOnPage("About eIDAS");
@@ -795,7 +870,7 @@ public class Help {
 
     private void orcidEduIdEng(){
         //Heading
-        common.verifyStringOnPage("Connecting account with Orcid / Ladok");
+        common.verifyStringOnPage("Connecting account with Orcid / ESI");
 
         //Heading
         common.verifyStringOnPage("What is ORCID?");
@@ -821,6 +896,16 @@ public class Help {
         //Text
         common.verifyStringOnPage("If you no longer want eduID to know your ORCID iD you can remove it " +
                 "by clicking the Remove button in your eduID.");
+
+
+        //ESI
+        common.verifyStringOnPage("What is Ladok and ESI?");
+        common.verifyStringOnPage("Ladok is a student administration system used in all Swedish higher " +
+                "education institutions for registration and grading. Some schools have chosen to release the ESI " +
+                "(European Student Identifier) attribute to eduID, used for instance when applying to an Erasmus exchange student program.");
+        common.verifyStringOnPage("How to link ESI with eduID:");
+        common.verifyStringOnPage("in the Settings area of eduID, toggle the ESI control,\n" +
+                "choose your institution from the drop down list - if it is available.");
     }
 
     private void privacyEduIdEng(){
@@ -845,8 +930,9 @@ public class Help {
                 "protects and stores the information securely,\n" +
                 "develops using open source code accessible at GitHub,\n" +
                 "enables removal of eduID and connections directly in the service,\n" +
-                "stores log files recording use for 6 months,\n" +
-                "retains inactive accounts for a maximum of 2 years.");
+                "stores log files recording use for six months,\n" +
+                "retains inactive accounts for a maximum of two years,\n" +
+                "only uses necessary functional cookies.");
 
         //Heading
         common.verifyStringOnPage("What is eduIDs Accessibility report?");
@@ -908,6 +994,7 @@ public class Help {
         common.click(common.findWebElementById("accordion__heading-help-svipe"));
         common.click(common.findWebElementById("accordion__heading-help-eidas"));
         common.click(common.findWebElementById("accordion__heading-help-freja"));
+        common.click(common.findWebElementById("accordion__heading-help-bankid"));
         common.click(common.findWebElementById("accordion__heading-help-security-key"));
         common.click(common.findWebElementById("accordion__heading-help-using-eduid"));
         common.click(common.findWebElementById("accordion__heading-help-about-eduid"));

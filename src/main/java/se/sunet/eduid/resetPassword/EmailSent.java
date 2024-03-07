@@ -25,12 +25,12 @@ public class EmailSent {
         common.timeoutSeconds(1);
 
         //Verify the texts after request of new pw
-        common.verifyStringOnPage("Om du har ett eduID-konto, har ett meddelande med instruktioner skickats till");
+        common.verifyStringOnPage("Om du har ett eduID-konto, har ett meddelande med instruktioner skickats till ");
         common.verifyStringOnPage(testData.getEmail() +".");
         common.verifyStringOnPage("Länken i e-postmeddelandet är giltig i två timmar.");
 
-        common.verifyStringOnPage("Om du inte fick e-postmeddelandet, kontrollera din skräppost eller " +
-                "skicka e-postmeddelandet igen.");
+        common.verifyStringOnPage("Om du inte fick e-postmeddelandet, kontrollera din skräppost innan " +
+                "du skickar e-postmeddelandet igen efter fem minuter, enligt timern intill Skicka E-post igen knappen.");
 
         //Button text
         common.verifyStringById("go-back-button", "TILLBAKA");
@@ -44,7 +44,8 @@ public class EmailSent {
         common.verifyStringOnPage(testData.getEmail() +".");
         common.verifyStringOnPage("The link in the email is valid for two hours.");
 
-        common.verifyStringOnPage("If you didn’t receive the email, check your junk email, or resend the email.");
+        common.verifyStringOnPage("If you didn’t receive the email, check your junk email before " +
+                "resending it after five minutes, according to the timer next to the Resend button.");
 
         //Button text
         common.verifyStringById("go-back-button", "GO BACK");

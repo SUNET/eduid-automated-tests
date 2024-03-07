@@ -33,8 +33,8 @@ public class Login {
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")){
             common.explicitWaitPageTitle("Log in | eduID");
-            common.verifyPlaceholder("name@example.com", "email");
-            common.verifyPlaceholder("enter password", "current-password");
+            common.verifyPlaceholder("email or username", "email");
+            common.verifyPlaceholder("enter password", "currentPassword");
             common.selectSwedish();
         }
 
@@ -43,12 +43,12 @@ public class Login {
 
     public void enterUsername(){
         //Verify placeholder
-        common.verifyPlaceholder("namn@example.com", "email");
+        common.verifyPlaceholder("e-post eller användarnamn", "username");
         common.verifyPlaceholder("ange lösenord", "currentPassword");
 
         //Enter username
-        common.findWebElementById("email").clear();
-        common.findWebElementById("email").sendKeys(testData.getUsername());
+        common.findWebElementById("username").clear();
+        common.findWebElementById("username").sendKeys(testData.getUsername());
 
         Common.log.info("Log in with username: " +testData.getUsername());
     }

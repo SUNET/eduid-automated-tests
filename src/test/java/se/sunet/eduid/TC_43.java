@@ -154,7 +154,7 @@ public class TC_43 extends BeforeAndAfter {
         common.findWebElementById("wrong-person-button").click();
 
         //Enter support username and password
-        common.findWebElementById("email").sendKeys(testData.getSupportUsername());
+        common.findWebElementById("username").sendKeys(testData.getSupportUsername());
         common.findWebElementById("current-password").sendKeys("v8ic uz53 wd85");
 
         //eppn: dalum-zifuj

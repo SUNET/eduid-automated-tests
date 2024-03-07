@@ -62,7 +62,7 @@ public class DashBoard {
         if(!testData.isAccountVerified() && testData.getDisplayName().isEmpty()) {
             Common.log.info("Verifying dashboard labels in swedish, Account is not verified");
 
-            common.verifyStringOnPage("Nuvarande framsteg i din identitets verifiering");
+            common.verifyStringOnPage("Status för verifiering av din identitet");
             common.verifyStringOnPage("Din identitet är inte verifierad.");
             common.verifyStringOnPage("Vänligen se rekommenderade åtgärder nedan.");
 
@@ -87,7 +87,7 @@ public class DashBoard {
         else if(testData.isAccountVerified()){
             Common.log.info("Verifying dashboard labels in swedish, Account is verified");
 
-            common.verifyStringOnPage("Nuvarande framsteg i din identitets verifiering");
+            common.verifyStringOnPage("Status för verifiering av din identitet");
             common.verifyStringOnPage("Din identitet är verifierad.");
             common.verifyStringOnPage("Ditt eduID är redo att användas.");
 
@@ -103,7 +103,7 @@ public class DashBoard {
         else{
             Common.log.info("Verifying dashboard labels in swedish, Account has been verified");
 
-            common.verifyStringOnPage("Nuvarande framsteg i din identitets verifiering");
+            common.verifyStringOnPage("Status för verifiering av din identitet");
             common.verifyStringOnPage("Din identitet är inte längre verifierad efter lösenords återställningen.");
             common.verifyStringOnPage("Vänligen se rekommenderade åtgärder nedan.");
 
@@ -151,7 +151,7 @@ public class DashBoard {
             Common.log.info("Verifying dashboard labels in english, Account is not verified");
 
             //Non-verified account text
-            common.verifyStringOnPage("Your identity verification progress");
+            common.verifyStringOnPage("Your identity verification status");
 
             //Heading recommended actions
             common.verifyStringOnPage("Recommended actions for you");
@@ -173,7 +173,7 @@ public class DashBoard {
         else if(testData.isAccountVerified()){
             Common.log.info("Verifying dashboard labels in english, Account is verified");
 
-            common.verifyStringOnPage("Your identity verification progress");
+            common.verifyStringOnPage("Your identity verification status");
             common.verifyStringOnPage("Your identity is verified.");
             common.verifyStringOnPage("Your eduID is ready to use.");
 
@@ -189,7 +189,7 @@ public class DashBoard {
         else{
             Common.log.info("Verifying dashboard labels in english, Account has been verified");
 
-            common.verifyStringOnPage("Your identity verification progress");
+            common.verifyStringOnPage("Your identity verification status");
             common.verifyStringOnPage("Your identity is no longer verified after password reset.");
 
             //Heading recommended actions

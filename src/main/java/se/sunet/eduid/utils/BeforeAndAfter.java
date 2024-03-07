@@ -68,8 +68,6 @@ public class BeforeAndAfter {
     @BeforeTest
     @Parameters({"url", "browser", "headless", "language", "testsuite"})
     public void initBrowser(String url, String browser, String headless, String language, String testsuite) throws IOException {
-        //Create browser stack access tunnel
-//        createBrowserStackAccessTunnel();
 
         initBrowser = new InitBrowser();
         webdriver = initBrowser.initiateBrowser(browser, headless, language);
@@ -133,17 +131,8 @@ public class BeforeAndAfter {
 
     @AfterTest
     public void quitBrowser() throws IOException {
-        //Browserstack test result
-//        testResult();
-
-//        initBrowser.stopHarSession();
-
-
         webdriver.quit();
         Common.log.info("End of: " +testData.getTestCase());
-
-        //Delete browserstack access tunnel
-//        deleteBrowserStackAccessTunnel();
     }
 
     @AfterMethod(alwaysRun = true)
@@ -171,53 +160,3 @@ public class BeforeAndAfter {
         }
     }
 }
-
-/* Below code when using browser stack!
-
-    private void createBrowserStackAccessTunnel(){
-        // Creates an instance of Local
-        bsLocal = new Local();
-        Common.log.info("Create browser stack tunnel ");
-
-        // You can also set an environment variable - "BROWSERSTACK_ACCESS_KEY".
-        HashMap<String, String> bsLocalArgs = new HashMap<String, String>();
-
-        bsLocalArgs.put("key", "EvYN352mQDEnTmbBR65R");
-
-        // Starts the Local instance with the required arguments
-        try {
-            bsLocal.start(bsLocalArgs);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Check if BrowserStack local instance is running
-        try {
-            System.out.println("Is browserstack up and running? " +bsLocal.isRunning());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void deleteBrowserStackAccessTunnel(){
-        // Creates an instance of Local
-        bsLocal = new Local();
-
-        // Stop the Local instance after your test run is completed, i.e after driver.quit
-        try {
-            Common.log.info("Delete browser stack tunnel ");
-            bsLocal.stop();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void testResult(){
-        JavascriptExecutor jse = (JavascriptExecutor)WebDriverManager.getWebDriver();
-// To mark the test as passed
-        jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\": \"passed\", \"reason\": \"<reason>\"}}");
-// To mark the test as failed
-        jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\": \"failed\", \"reason\": \"<reason>\"}}");
-
-    }
-    */

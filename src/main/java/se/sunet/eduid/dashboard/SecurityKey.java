@@ -48,7 +48,7 @@ public class SecurityKey {
                 .setIsUserVerified(true);
 
         VirtualAuthenticator authenticator = ((HasVirtualAuthenticator) common.getWebDriver()).addVirtualAuthenticator(options);
-        //authenticator.setUserVerified(true);
+        authenticator.setUserVerified(true);
     }
 
     private void addSecurityKey(){
@@ -56,7 +56,7 @@ public class SecurityKey {
         verifyAddSecurityKeyLabels();
 
         //Add a security key
-        common.click(common.findWebElementByXpath("//*[@id=\"security-webauthn-button\"]"));
+        common.click(common.findWebElementById("security-webauthn-button"));
         common.timeoutMilliSeconds(500);
         common.switchToPopUpWindow();
 
@@ -136,6 +136,7 @@ public class SecurityKey {
 
 
         //English
+        common.timeoutMilliSeconds(500);
         common.selectEnglish();
 
         //Verify Security key
@@ -175,6 +176,7 @@ public class SecurityKey {
         }
 
         //English
+        common.timeoutMilliSeconds(2500);
         common.selectSwedish();
     }
 }

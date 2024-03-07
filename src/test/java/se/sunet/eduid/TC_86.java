@@ -1,0 +1,312 @@
+package se.sunet.eduid;
+
+import org.testng.annotations.Test;
+import se.sunet.eduid.utils.BeforeAndAfter;
+
+public class TC_86 extends BeforeAndAfter {
+    @Test
+    void startPage(){
+        testData.setRegisterAccount(true);
+        startPage.runStartPage();
+    }
+
+    @Test( dependsOnMethods = {"startPage"} )
+    void register(){ register.runRegister(); }
+
+    @Test( dependsOnMethods = {"register"} )
+    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
+
+    @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
+
+    @Test( dependsOnMethods = {"confirmedNewAccount"} )
+    void login(){
+        testData.setRegisterAccount(false);
+        login.runLogin(); }
+
+    @Test( dependsOnMethods = {"login"} )
+    void personalInfo() {
+        testData.setRegisterAccount(true);
+        //Navigate to settings
+        common.navigateToSettings();
+        personalInfo.runPersonalInfo();
+    }
+
+    @Test( dependsOnMethods = {"personalInfo"} )
+    void addPhoneNumber(){
+        phoneNumber.addPhoneNumber();
+        phoneNumber.confirmNewPhoneNumber(); }
+
+    @Test( dependsOnMethods = {"addPhoneNumber"} )
+    void advancedSettings() { advancedSettings.runAdvancedSettings(); }
+
+    @Test( dependsOnMethods = {"advancedSettings"} )
+    void confirmIdentityPhone(){
+        testData.setConfirmIdBy("phone");
+        confirmIdentity.runConfirmIdentity(); }
+
+    @Test( dependsOnMethods = {"confirmIdentityPhone"} )
+    void confirmedIdentity() {
+        confirmedIdentity.runConfirmIdentity();
+
+        testData.setRegisterAccount(false);
+    }
+
+    //Delete the account, so it will be removed after 2 weeks by script
+    @Test( dependsOnMethods = {"confirmedIdentity"} )
+    void navigateToSettings() { common.navigateToSettings(); }
+
+    @Test( dependsOnMethods = {"navigateToSettings"} )
+    void delete() {
+        testData.setDeleteButton(true);
+        deleteAccount.runDeleteAccount(); }
+
+    @Test( dependsOnMethods = {"delete"} )
+    void startPage2(){ startPage.runStartPage(); }
+
+    @Test( dependsOnMethods = {"startPage2"} )
+    void login2(){
+        testData.setIncorrectPassword(true);
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
+
+        testData.setIncorrectPassword(false);
+    }
+
+
+    //Init reset password and verify that the Identity still is verified
+    @Test( dependsOnMethods = {"login2"} )
+    void login3(){
+        testData.setResetPassword(true);
+        login.runLogin();
+    }
+
+    @Test( dependsOnMethods = {"login3"} )
+    void requestNewPassword() {
+        requestResetPwEmail.runRequestResetPwEmail();
+    }
+
+    @Test( dependsOnMethods = {"requestNewPassword"} )
+    void emailSent() { emailSent.runEmailSent(); }
+
+    @Test( dependsOnMethods = {"emailSent"} )
+    void emailLink() { emailLink.runEmailLink();
+        common.addNinCookie();
+    }
+
+    @Test( dependsOnMethods = {"emailLink"} )
+    void extraSecurityBankId() {
+        testData.setSendMobileOneTimePassword("bankid");
+        extraSecurity.runExtraSecurity();
+    }
+
+    @Test( dependsOnMethods = {"extraSecurityBankId"} )
+    void verifyBankId() {
+        common.explicitWaitPageTitle("BankID");
+
+        //Verify texts
+        common.verifyStringOnPage("eduID BankID-SP i staging har begärt att du legitimerar dig.");
+        common.verifyStringOnPage("Vill du använda BankID på den här enheten eller på en annan enhet?");
+
+        //Verify button texts
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[1]", "BankID på den här enheten");
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]", "Mobilt BankID på annan enhet");
+
+        //Cancel button
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[2]/button", "Avbryt");
+
+        //English link
+        common.verifyStringByXpath("//*[@id=\"app\"]/div/button", "English");
+
+        //Select english
+        common.findWebElementByXpath("//*[@id=\"app\"]/div/button").click();
+
+        //Verify texts
+        common.verifyStringOnPage("eduID BankID SP in staging has requested that you authenticate.");
+        common.verifyStringOnPage("Do you want to use your BankID on this device or on another device?");
+
+        //Verify button texts
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[1]", "BankID on this device");
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]", "Mobile BankID on other device");
+
+        //Cancel button
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[2]/button", "Cancel");
+
+        //English link
+        common.verifyStringByXpath("//*[@id=\"app\"]/div/button", "Svenska");
+
+        //Select swedish
+        common.findWebElementByXpath("//*[@id=\"app\"]/div/button").click();
+
+        //Select BankID on other device
+        common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]").click();
+
+        //Verify pop-up texts - swedish
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/dialog/ol/li[1]", "Starta BankID-appen");
+        common.verifyStringByXpath(
+                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[2]", "Tryck på QR-kodsknappen i BankID-appen");
+        common.verifyStringByXpath(
+                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[3]", "Ge BankID-appen tillåtelse att använda kameran");
+        common.verifyStringByXpath(
+                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[4]", "Rikta kameran mot QR-koden som visas här");
+        common.verifyStringByXpath(
+                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[5]", "Följ instruktionerna i appen");
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/dialog/button", "Stäng");
+
+        //Close pop-up
+        common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/dialog/button").click();
+
+        //Select english
+        common.findWebElementByXpath("//*[@id=\"app\"]/div/button").click();
+
+        //Select BankID on other device
+        common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]").click();
+
+        //Verify pop-up texts - english
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/dialog/ol/li[1]", "Start the BankID app");
+        common.verifyStringByXpath(
+                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[2]", "Press the QR code button in the BankID app");
+        common.verifyStringByXpath(
+                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[3]", "Allow the BankID app to use your camera");
+        common.verifyStringByXpath(
+                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[4]", "Point the camera at the QR code displayed here");
+        common.verifyStringByXpath(
+                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[5]", "Follow the instructions in the app");
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/dialog/button", "Close");
+
+        //Close pop-up
+        common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/dialog/button").click();
+
+        //Select BankID on this device
+        common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[1]").click();
+
+        //Verify text and labels
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/p", "Trying to start your BankID app.");
+        common.verifyStringByXpath(
+                "//*[@id=\"app\"]/main/div[1]/a", "Click here if the BankID app did not start automatically within 5 seconds.");
+
+        common.switchToPopUpWindow();
+        //common.
+
+        //Select swedish
+        common.findWebElementByXpath("//*[@id=\"app\"]/div/button").click();
+
+        //Verify text and labels
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/p", "Försöker starta BankID-appen.");
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/a", "Klicka här om BankID-appen inte startar inom 5 sekunder.");
+
+        //Press cancel
+        common.findWebElementByXpath("//*[@id=\"app\"]/main/div[2]/button").click();
+
+        common.timeoutSeconds(5);
+    }
+
+    @Test( dependsOnMethods = {"verifyBankId"} )
+    void verifySamlFailPage() {
+        common.verifyStringOnPage("Åtkomstfel\n" +
+                "Ett fel uppstod under åtkomst till tjänsten.\n" +
+                "\n" +
+                "Eventuellt behöver du bekräfta din identitet i eduID Dashboard innan du försöker igen.");
+
+        //Select to navigate to dashboard
+        common.findWebElementById("dashboard-button").click();
+        common.timeoutSeconds(5);
+    }
+
+    //Reset password and verify that the Identity still is verified
+    @Test( dependsOnMethods = {"verifySamlFailPage"} )
+    void login6(){
+        testData.setResetPassword(true);
+        login.runLogin();
+    }
+
+    @Test( dependsOnMethods = {"login6"} )
+    void requestNewPassword2() {
+        requestResetPwEmail.runRequestResetPwEmail();
+    }
+
+    @Test( dependsOnMethods = {"requestNewPassword2"} )
+    void emailSent2() { emailSent.runEmailSent(); }
+
+    @Test( dependsOnMethods = {"emailSent2"} )
+    void emailLink2() { emailLink.runEmailLink();
+        common.addNinCookie();
+    }
+
+    @Test( dependsOnMethods = {"emailLink2"} )
+    void extraSecurityFreja() {
+        testData.setSendMobileOneTimePassword("mail");
+        extraSecurity.runExtraSecurity();
+    }
+
+    @Test( dependsOnMethods = {"extraSecurityFreja"} )
+    void selectIdRefIdp() {
+        confirmIdentity.selectAndSubmitUserRefIdp();
+    }
+
+    @Test( dependsOnMethods = {"selectIdRefIdp"} )
+    void newPassword() { setNewPassword.runNewPassword(); }
+
+
+    @Test( dependsOnMethods = {"newPassword"} )
+    void passwordChanged() { passwordChanged.runPasswordChanged(); }
+
+    @Test( dependsOnMethods = {"passwordChanged"} )
+    void startPage3(){
+        startPage.runStartPage();
+    }
+
+    @Test( dependsOnMethods = {"startPage3"} )
+    void login4(){
+        testData.setResetPassword(false);
+        login.enterPassword();
+        login.signIn();
+    }
+
+    @Test( dependsOnMethods = {"login4"} )
+    void dashboard() {
+        //Account is verified
+        testData.setAccountVerified(true);
+
+        //Set some user data that will be verified in dashboard
+        testData.setDisplayName("Cookie Magic Cookie");
+
+        dashBoard.runDashBoard();
+    }
+
+    @Test( dependsOnMethods = {"dashboard"} )
+    void identity() {
+        //Verify that identity is still confirmed
+        common.navigateToIdentity();
+
+        common.verifyStringOnPage("Ditt eduID är redo att användas");
+        common.verifyStringOnPage("Följande identiteter är nu kopplade till ditt eduID");
+        common.verifyStringOnPage("Svenskt personnummer");
+    }
+
+    @Test( dependsOnMethods = {"identity"} )
+    void verifyConfirmedPhone() {
+        //Verify that phone number is still confirmed
+        common.navigateToSettings();
+
+        common.verifyStringByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr/td[2]", "PRIMÄR");
+    }
+
+    //Delete account when confirmed that identity is no longer verified
+    @Test( dependsOnMethods = {"verifyConfirmedPhone"} )
+    void delete2() {
+        testData.setDeleteButton(true);
+        deleteAccount.runDeleteAccount(); }
+
+    @Test( dependsOnMethods = {"delete2"} )
+    void startPage4(){ startPage.runStartPage(); }
+
+    @Test( dependsOnMethods = {"startPage4"} )
+    void login5(){
+        testData.setIncorrectPassword(true);
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
+    }
+}

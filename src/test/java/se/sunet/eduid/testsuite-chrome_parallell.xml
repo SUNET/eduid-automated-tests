@@ -170,6 +170,8 @@
         </classes>
     </test>
 
+    <!--
+    2024-03-05 SVIPE is temporarily disabled until new agreement is signed
     <test name="TC_79">
         <parameter name="testDescription" value="Register new account, add and confirm phone number.
                 Attempt to confirm identity by SVIPE ID (no complete confirmation will be done)" />
@@ -178,6 +180,7 @@
             </class>
         </classes>
     </test>
+    -->
 
     <test name="TC_82" >
         <parameter name="testDescription" value="Initiate Register of new account, verify that incorrect email

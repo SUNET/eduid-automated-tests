@@ -165,6 +165,8 @@ public class ConfirmPhoneNumber {
             else
                 common.verifyStringByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr[2]/td[2]/span", "PRIMÄR");
         }
+        else
+            common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5/button").click();
     }
 
     private void verifyLabels(){
