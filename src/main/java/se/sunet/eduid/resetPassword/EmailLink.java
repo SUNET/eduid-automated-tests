@@ -1,5 +1,6 @@
 package se.sunet.eduid.resetPassword;
 
+import se.sunet.eduid.registration.ConfirmEmailAddress;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -49,12 +50,23 @@ public class EmailLink {
 
             Common.log.info("Email code: " +testData.getEmailCode());
 
-            //Simulate that clicking on link with code in email.
-            common.navigateToUrl("https://www.dev.eduid.se/reset-password/email-code/" +testData.getEmailCode());
+            if(testData.getHeadlessExecution().equalsIgnoreCase("true")){
+                //Simulate that clicking on link with code in email. There is no link in email anymore but problems with
+                // headless execution. //TODO fix this to use else code below instead
+                common.navigateToUrl("https://www.dev.eduid.se/reset-password/email-code/" +testData.getEmailCode());
+            }
+            else{
+                //Navigate back
+                common.getWebDriver().navigate().back();
+                common.timeoutMilliSeconds(500);
 
-            common.timeoutMilliSeconds(300);
-            Common.log.info("Current url: " +common.getWebDriver().getCurrentUrl());
+                //Fill in the code and press OK
+                Common.log.info("Fill in code and press ok");
+                ConfirmEmailAddress confirmEmailAddress = new ConfirmEmailAddress(common, testData);
+                confirmEmailAddress.typeEmailVerificationCode(testData.getEmailCode());
 
+                common.findWebElementById("response-code-ok-button").click();
+            }
             common.explicitWaitPageTitle("Återställ Lösenord | eduID");
         }
         common.timeoutSeconds(3);

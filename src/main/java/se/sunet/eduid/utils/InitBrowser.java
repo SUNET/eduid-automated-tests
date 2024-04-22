@@ -66,6 +66,7 @@ public class InitBrowser {
         if(System.getProperty("os.name").toLowerCase().contains("mac")) {
 
             //Create Chrome instance with options
+            WebDriverManager.chromedriver().clearDriverCache().setup();
             WebDriverManager.chromedriver().setup();
 
             ChromeOptions chromeOptions = new ChromeOptions();

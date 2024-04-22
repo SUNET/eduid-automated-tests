@@ -14,7 +14,7 @@ public class PersonalInfo {
 
     public void runPersonalInfo(){
         common.navigateToSettings();
-        verifyPageTitle();
+
         //If new account
         if(testData.isRegisterAccount()) {
             //Click add data
@@ -32,25 +32,19 @@ public class PersonalInfo {
             verifyLabelsEnglish();
     }
 
-    private void verifyPageTitle() {
-        //wait for delete button to be clickable
-        //common.explicitWaitClickableElementId("delete-button");
-
-        //TODO temp fix to get swedish language - needed when new accounts created
-/*        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")
-                && testData.getLanguage().equalsIgnoreCase("Svenska") && testData.isRegisterAccount()) {
-            common.selectSwedish();
-        }*/
-    }
-
     private void verifyAndUpdatePersonalInfo() {
         // Old account, If given name shall be updated else verify the default value
         if(testData.getGivenName().equalsIgnoreCase(common.findWebElementById("first name").getText()) &&
-                testData.getSurName().equalsIgnoreCase(common.findWebElementById("last name").getText())) {
+                testData.getSurName().equalsIgnoreCase(common.findWebElementById("last name").getText())
+        || testData.isIdentityConfirmed()) {
 
             //Verify current names
             common.verifyStringById("first name", testData.getGivenName());
             common.verifyStringById("last name", testData.getSurName());
+
+            if(testData.isIdentityConfirmed()) {
+                common.verifyStringById("display name", testData.getDisplayName());
+            }
         }
         else{
             //Click on change
@@ -123,7 +117,7 @@ public class PersonalInfo {
 
         //If new account, select Swedish
         if(testData.isRegisterAccount()) {
-            common.click(common.findWebElementByXpath("//*[@id=\"personaldata-view-form\"]/fieldset[2]/div/label[2]/input"));
+            common.click(common.findWebElementById("Svenska"));
         }
 
         pressSaveButton();
@@ -195,6 +189,11 @@ public class PersonalInfo {
         //Sur name
         common.verifyStringOnPage( "Efternamn");
 
+        //Display name
+        if(testData.isIdentityConfirmed()) {
+            common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/div[2]/div[3]/span/strong", "Visningsnamn");
+        }
+
         //Language
         common.verifyStringOnPage( "Språk");
     }
@@ -217,6 +216,11 @@ public class PersonalInfo {
 
         //Sur name
         common.verifyStringOnPage("Last name");
+
+        //Display name
+        if(testData.isIdentityConfirmed()) {
+            common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/div[2]/div[3]/span/strong", "Display name");
+        }
 
         //Language
         common.verifyStringOnPage("Language");

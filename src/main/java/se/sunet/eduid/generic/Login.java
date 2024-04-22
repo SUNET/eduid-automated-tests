@@ -29,16 +29,17 @@ public class Login {
 
     public void verifyPageTitle() {
         common.explicitWaitPageTitle("Logga in | eduID");
+//        common.verifyPageTitle("Logga in | eduID");
 
         //TODO temp fix to get swedish language
-        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")){
+/*        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")){
             common.explicitWaitPageTitle("Log in | eduID");
             common.verifyPlaceholder("email or username", "email");
             common.verifyPlaceholder("enter password", "currentPassword");
             common.selectSwedish();
-        }
+        }*/
 
-        common.timeoutMilliSeconds(500);
+        //common.timeoutMilliSeconds(500);
     }
 
     public void enterUsername(){
@@ -54,7 +55,7 @@ public class Login {
     }
 
     public void enterPassword() {
-        common.timeoutSeconds(2);
+        common.timeoutMilliSeconds(500);
         common.findWebElementById("currentPassword").clear();
 
         common.findWebElementById("currentPassword").sendKeys(testData.getPassword());
@@ -77,10 +78,9 @@ public class Login {
         }
         else {
             //Wait for the username label at dashboard upper right corner
-            common.timeoutSeconds(4);
+//            common.timeoutSeconds(2);
             common.explicitWaitClickableElementId("header-nav");
         }
-        common.timeoutMilliSeconds(500);
     }
 
     private void registerAccount(){

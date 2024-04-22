@@ -33,11 +33,11 @@ public class TC_28 extends BeforeAndAfter {
     void emailLink() { emailLink.runEmailLink(); }
 
     @Test( dependsOnMethods = {"emailLink"} )
-    void extraSecurity() {
+    void NoExtraSecurity() {
         testData.setSendMobileOneTimePassword("no");
         extraSecurity.runExtraSecurity(); }
 
-    @Test( dependsOnMethods = {"extraSecurity"} )
+    @Test( dependsOnMethods = {"NoExtraSecurity"} )
     void newPassword() { setNewPassword.runNewPassword(); }
 
     @Test( dependsOnMethods = {"newPassword"} )

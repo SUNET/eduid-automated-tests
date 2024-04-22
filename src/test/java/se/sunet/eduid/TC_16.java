@@ -2,30 +2,58 @@ package se.sunet.eduid;
 
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
+import se.sunet.eduid.utils.Common;
 
 public class TC_16 extends BeforeAndAfter {
     @Test
+    void timeoutForOTP(){
+        //Sleep for OTP send interval timeout
+        Common.log.info("Waiting for OTP timeout interval...");
+        common.timeoutSeconds(305);
+    }
+
+    @Test( dependsOnMethods = {"timeoutForOTP"} )
     void startPage(){
         startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
+        testData.setResetPassword(true);
         login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login"} )
-    void dashboard() {
-        dashBoard.runDashBoard();
-   }
+    void requestNewPassword() { requestNewPassword.runRequestNewPassword(); }
 
-    @Test( dependsOnMethods = {"dashboard"} )
-    void emailAddresses() {
-        testData.setRemoveNewEmail1(true);
-        emailAddresses.runEmailAddresses(); }
+    @Test( dependsOnMethods = {"requestNewPassword"} )
+    void emailSent() { emailSent.runEmailSent(); }
 
-    @Test( dependsOnMethods = {"emailAddresses"} )
-    void logout() {
-        logout.runLogout();
+    @Test( dependsOnMethods = {"emailSent"} )
+    void emailLink() { emailLink.runEmailLink(); }
+
+    @Test( dependsOnMethods = {"emailLink"} )
+    void extraSecurity() {
+        testData.setSendMobileOneTimePassword("yes");
+        extraSecurity.runExtraSecurity(); }
+
+    //    @Test( dependsOnMethods = {"extraSecurity"} )
+    void verifyPhoneNumber() {
+        testData.setSendMobileOneTimePassword("already");
+        verifyPhoneNumber.runVerifyPhoneNumber(); }
+
+    //    @Test( dependsOnMethods = {"verifyPhoneNumber"} )
+    void newPassword() { setNewPassword.runNewPassword(); }
+
+    //    @Test( dependsOnMethods = {"newPassword"} )
+    void verifyStatusMessage() {
+        common.verifyStatusMessage("Felaktig kod.");
+
+        //Switch to english
+        common.timeoutMilliSeconds(500);
+        common.selectEnglish();
+        common.timeoutMilliSeconds(500);
+
+        common.verifyStatusMessage("Incorrect code.");
     }
 }

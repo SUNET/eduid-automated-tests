@@ -23,11 +23,13 @@ public class Logout {
         //Expand navigation menu
         common.click(common.findWebElementByXpath("//*[@id=\"header-nav\"]/button/span"));
 
-        //common.explicitWaitClickableElementId("logout");
-        common.click(common.findWebElementById("logout"));
+        common.explicitWaitClickableElementId("logout");
+        common.findWebElementById("logout").click();
 
         //Wait for the start page - sign up button
-        common.explicitWaitClickableElement("//section[2]/div/div/a");
+        //common.explicitWaitClickableElementId("//section[2]/div/div/a");
+        common.timeoutMilliSeconds(500);
+        common.explicitWaitClickableElementId("sign-up-button");
     }
 
     private void verifyLabels(){

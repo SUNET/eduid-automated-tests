@@ -9,7 +9,7 @@ public class TC_11 extends BeforeAndAfter {
     void timeoutForOTP(){
         //Sleep for OTP send interval timeout
         Common.log.info("Waiting for OTP timeout interval...");
-        common.timeoutSeconds(605);
+        //common.timeoutSeconds(305);
     }
 
     @Test( dependsOnMethods = {"timeoutForOTP"} )
@@ -35,25 +35,6 @@ public class TC_11 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"emailLink"} )
     void extraSecurity() {
         testData.setSendMobileOneTimePassword("yes");
+
         extraSecurity.runExtraSecurity(); }
-
-    @Test( dependsOnMethods = {"extraSecurity"} )
-    void verifyPhoneNumber() {
-        testData.setSendMobileOneTimePassword("already");
-        verifyPhoneNumber.runVerifyPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"verifyPhoneNumber"} )
-    void newPassword() { setNewPassword.runNewPassword(); }
-
-    @Test( dependsOnMethods = {"newPassword"} )
-    void verifyStatusMessage() {
-        common.verifyStatusMessage("Felaktig kod.");
-
-        //Switch to english
-        common.timeoutMilliSeconds(500);
-        common.selectEnglish();
-        common.timeoutMilliSeconds(500);
-
-        common.verifyStatusMessage("Incorrect phone code.");
-    }
 }

@@ -68,6 +68,7 @@ public class TC_60 extends BeforeAndAfter {
                 testData.getOtherDeviceCode().substring(4,5), testData.getOtherDeviceCode().substring(5,6));
 
         testData.setOtherDeviceSubmitCode("true");
+        testData.setOtherDeviceFillCode(true);
         loginOtherDevice.submitCode();
     }
 

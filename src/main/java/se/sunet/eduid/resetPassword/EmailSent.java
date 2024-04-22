@@ -25,31 +25,30 @@ public class EmailSent {
         common.timeoutSeconds(1);
 
         //Verify the texts after request of new pw
-        common.verifyStringOnPage("Om du har ett eduID-konto, har ett meddelande med instruktioner skickats till ");
+        common.verifyStringOnPage("Om du har ett eduID-konto, har koden skickats till ");
         common.verifyStringOnPage(testData.getEmail() +".");
-        common.verifyStringOnPage("Länken i e-postmeddelandet är giltig i två timmar.");
+        common.verifyStringOnPage("E-postkoden är giltig i två timmar.");
 
-        common.verifyStringOnPage("Om du inte fick e-postmeddelandet, kontrollera din skräppost innan " +
-                "du skickar e-postmeddelandet igen efter fem minuter, enligt timern intill Skicka E-post igen knappen.");
+        common.verifyStringOnPage("Om du inte har fått koden kan du avbryta processen och börja om från början.");
 
         //Button text
-        common.verifyStringById("go-back-button", "TILLBAKA");
-        common.verifyStringById("send-email-button", "SKICKA E-POST IGEN");
+        common.verifyStringById("response-code-abort-button", "AVBRYT");
+        common.verifyStringById("response-code-ok-button", "OK");
 
         //Switch to english
         common.selectEnglish();
 
         common.verifyPageTitle("Reset Password | eduID");
-        common.verifyStringOnPage("If you have an eduID account, an email with instructions has been sent to");
+        common.verifyStringOnPage("If you have an eduID account, the code has been sent to ");
         common.verifyStringOnPage(testData.getEmail() +".");
-        common.verifyStringOnPage("The link in the email is valid for two hours.");
+        common.verifyStringOnPage("The email code is valid for two hours.");
 
-        common.verifyStringOnPage("If you didn’t receive the email, check your junk email before " +
-                "resending it after five minutes, according to the timer next to the Resend button.");
+        common.verifyStringOnPage("If you haven't receive the code, please cancel the process and " +
+                "restart from the beginning.");
 
         //Button text
-        common.verifyStringById("go-back-button", "GO BACK");
-        common.verifyStringById("send-email-button", "RESEND EMAIL");
+        common.verifyStringById("response-code-abort-button", "CANCEL");
+        common.verifyStringById("response-code-ok-button", "OK");
 
 
         //Switch to swedish

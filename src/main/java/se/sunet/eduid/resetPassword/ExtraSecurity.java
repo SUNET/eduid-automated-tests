@@ -82,16 +82,22 @@ public class ExtraSecurity {
     private void sendOtp(){
         //Continue with extra security
         if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("yes")) {
-            //String otpText = common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/div[1]/button").getText();
+            Common.log.info("Selecting Phone for password reset");
+
             String otpText = common.findWebElementById("extra-security-phone").getText();
             testData.setOtpPhoneNumber(otpText.substring(otpText.length()-2));
             common.click(common.findWebElementById("extra-security-phone"));
-            Common.log.info("Selecting Phone for password reset");
+
+            //Verify the status message
+            common.verifyStatusMessage("En kod har skickats till din telefon.");
+
+            //Verify that we can fill in the code and are at the right page
+            common.explicitWaitClickableElementId("phone");
         }
         //Continue without extra security
         else if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("no")) {
-            common.click(common.findWebElementById("continue-without-security"));
             Common.log.info("Selecting 'no extra security' for password reset");
+            common.click(common.findWebElementById("continue-without-security"));
         }
         //If multiple phone numbers are added select the in order that should be used
         else if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("2")) {
@@ -108,27 +114,33 @@ public class ExtraSecurity {
         }
         //IF Freja eID should be used
         else if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja")) {
+            Common.log.info("Selecting Freja+ for password reset");
+
             //Verify button text
             common.verifyStringById("extra-security-freja", "ANVÄND MITT FREJA+");
-            Common.log.info("Selecting Freja+ for password reset");
 
             //Click Freja button
             common.findWebElementById("extra-security-freja").click();
         }
         //IF BankID should be used
         else if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("bankid")) {
+            Common.log.info("Selecting BankID for password reset");
+
             //Verify button text
             common.verifyStringById("extra-security-bankid", "ANVÄND MITT BANKID");
-            Common.log.info("Selecting BankID for password reset");
 
             //Click BankID button
             common.findWebElementById("extra-security-bankid").click();
         }
         //Already have OTP
         else {
-            common.click(common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/p[2]/a"));
+            Common.log.info("Selecting Already have OTP for password reset");
+            common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/p[2]/a").click();
 
-            Common.log.info("Already have OTP for password reset");
+            common.explicitWaitClickableElementId("phone");
+
+            common.verifyStringOnPage("Skriv in koden som skickats till ");
+            common.verifyStringOnPage("Skicka ny kod igen");
         }
     }
 }

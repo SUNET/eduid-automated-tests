@@ -209,26 +209,58 @@ public class Help {
         common.verifyStringOnPage("Hur kan jag göra mitt eduID säkrare?");
 
         //Text
-        common.verifyStringOnPage("Vissa tjänster kräver en högre tillitsnivå, för att förstärka " +
-                "säkerheten i ditt eduID, utöver kännedom om ditt användarnamn (bekräftad e-postadress) och " +
-                "lösenords-kombination, kan du lägga till ett ytterligare lager av autentisering för att kunna logga " +
-                "in. Det kallas multifaktorautentisering (MFA), och i eduIDs fall tvåfaktorsautentisering (2FA).");
+        common.verifyStringOnPage("Vissa tjänster kräver att kontot du använder för att logga in har " +
+                "en högre tillitsnivå. När du skapar ett konto i eduID behöver du kännedom om ditt användarnamn " +
+                "(bekräftad epost-adress) och tillhörande lösenord. Lösenordet räknas som den första " +
+                "autentiserings-faktorn. För ett ytterligare lager av autentisering för att kunna logga in kan du " +
+                "lägga till en säkerhetsnyckel. Säkerhetsnyckeln kallas tvåfaktorsautentisering (2FA) eller i vissa " +
+                "fall multifaktorautentisering (MFA).");
 
         //Text
-        common.verifyStringOnPage("Exempelvis en fysiskt USB-säkerhetsnyckel (viss ändamålsenlig typ " +
-                "av USB-nyckel) eller biometrisk information som fingeravtryck eller ansiktsigenkänning som stöds av " +
-                "enheten du loggar in med, är vad vi hänvisar till som 'Säkerhetsnyckel'.");
+        common.verifyStringOnPage("Ett exempel på en säkerhetsnyckel är en fysisk ändamålsenlig " +
+                "USB-nyckel som kräver att du är närvarande vid enheten. Du har också möjlighet att lägga till " +
+                "biometrisk information som fingeravtryck eller ansiktsigenkänning som stöds av enheten du loggar " +
+                "in med, för att kunna låsa upp säkerhetsnyckeln vid behov.");
 
         //Heading
         common.verifyStringOnPage("Hur kan jag lägga till 2FA för mitt eduID?");
 
         //Text
-        common.verifyStringOnPage("När du är inloggad kan du lägga till och bekräfta säkerhetsnycklar " +
-                "som du har möjlighet att använda, bland 'Avancerade inställningar' i eduID och följa instruktionerna.");
+        common.verifyStringOnPage("När du har loggat in kan du lägga till och bekräfta säkerhetsnycklar " +
+                "bland inställningarna i eduID genom att följa instruktionerna där.");
 
         //Text
         common.verifyStringOnPage("Obs: när du har lagt till en säkerhetsnyckel till ditt eduID behöver " +
                 "du sedan använda den för att kunna logga in.");
+
+        //Heading
+        common.verifyStringOnPage("Vilka säkerhetsnycklar kan jag använda för eduID?");
+
+        //Text
+        common.verifyStringOnPage("Vi följer en standard utöver vår egen policy för vilka " +
+                "säkerhetsnycklar som är möjliga att användas för tjänsten. Mer information om de tekniska " +
+                "förutsättningarna samt en uppdaterad lista över nycklar som möter dem finns nedan.");
+
+        //Heading
+        common.verifyStringOnPage("Om Säkerhetsnycklar");
+        common.verifyStringOnPage("Att välja säkerhetsnyckel");
+        common.verifyStringOnPage("Inte alla säkerhetsnycklar uppnår kraven för att kunna användas som säkerhetsnyckel för eduID.");
+        common.verifyStringOnPage("Kontrollera med tillverkaren eller återförsäljaren om produkten möter dessa krav:");
+        common.verifyStringOnPage("Certifierad FIDO 2.0, läs mer på fidoalliance.org.");
+        common.verifyStringOnPage("Släpper ett intyg utfärdat av tillverkaren som berättar vilken enhet " +
+                "det är i samband med inloggningen och kräver att personen är fysiskt vid säkerhetsnyckeln för att den ska kunna användas. ");
+        common.verifyStringOnPage("YTTERLIGARE TEKNISK INFORMATION:");
+        common.verifyStringOnPage("Säkerhetsnyckeln måste kunna genomföra en attestation och finnas i metadatat,\n" +
+                "får inte ha någon annan status i metadata än några olika varianter av:  \"fido certified\",\n" +
+                "måste stödja någon av följande \"user verification methods\":  \"faceprint_internal\", \"passcode_external\", \"passcode_internal\", \"handprint_internal\", \"pattern_internal\", \"voiceprint_internal\", \"fingerprint_internal\", \"eyeprint_internal\",\n" +
+                "samt inte stödja någon annan \"key protection\" än:  \"remote_handle\", \"hardware\", \"secure_element\", \"tee\".");
+
+        //Heading
+        common.verifyStringOnPage("Giltiga modeller av fysiska säkerhetsnycklar");
+        common.verifyStringOnPage("Här listas märke och modellnamn av fysiska säkerhetsnycklar som bör " +
+                "möta de tekniska förutsättningarna för att kunna användas för eduID. Listan är sorterad alfabetiskt " +
+                "och uppdateras en gång i månaden.");
+        common.verifyStringOnPage("Nästa uppdatering:");
     }
 
     private void verificationEduIdSwe(){
@@ -285,6 +317,10 @@ public class Help {
         //Text
         common.verifyStringOnPage("Om du inte är EU-medborgare och inte har ett svenskt personnummer, " +
                 "kan du använda Svipe ID med hjälp av ditt pass för att verifiera din identitet. Läs mer om Svipe iD nedan.");
+
+        //Text
+        common.verifyStringOnPage("Obs: pga ändrade förhållanden samt regler kring personuppgiftshantering " +
+                "finns detta alternativ inte tillgängligt för närvarande men utredning av lösningar är pågående.");
 
         //Heading
         common.verifyStringOnPage("Om Freja+");
@@ -411,6 +447,11 @@ public class Help {
         //Text
         common.verifyStringOnPage("Innehavare av svenskt personnummer uppmanas att istället använda sig " +
                 "av metoderna som stöds därav.");
+
+        //Text
+        common.verifyStringOnPage("Obs: pga ändrade förhållanden samt regler kring personuppgiftshantering " +
+                "finns detta alternativ inte tillgängligt för närvarande men utredning av lösningar är pågående.");
+
     }
 
     private void orcidEduIdSwe(){
@@ -520,9 +561,9 @@ public class Help {
         //Text
         common.verifyStringOnPage("Om du inte hittar svar på dina frågor om eduID på vår hjälpsida kan " +
                 "du kontakta eduID-supporten via e-post till support@eduid.se.");
-        common.verifyStringOnPage("Ange alltid den e-postadress som du använde när du loggade in, samt " +
-                "ditt unika 'eppn' ID som du hittar bland avancerade inställningar i eduID om du är inloggad. Om något " +
-                "har blivit fel är det alltid bra att skicka med skärmdumpar med felmeddelanden för att underlätta felsökning.");
+        common.verifyStringOnPage("Ange alltid den e-postadress som du använde när du loggade in, samt ditt unika 'eppn' ID som du hittar på startsidan i eduID om du är inloggad.\n" +
+                "Inkludera inte konfidentiell eller skyddsvärd information som t.ex. ditt personnummer!\n" +
+                "Om något har blivit fel är det alltid bra att skicka med skärmdumpar med felmeddelanden för att underlätta felsökning.");
         common.verifyStringOnPage("För bästa möjliga support rekommenderar vi dig alltid att skicka " +
                 "e-post, men för enklare ärenden kan du också nå oss per telefon 0455-385200.");
         common.verifyStringOnPage("Öppettider:");
@@ -660,27 +701,58 @@ public class Help {
         common.verifyStringOnPage("How can I make my eduID more secure?");
 
         //Text
-        common.verifyStringOnPage("Some services will require a higher security level so to improve the " +
-                "security of your eduID, in addition to knowledge of your username (confirmed email address) and password " +
-                "combination, you can use another layer of authentication to log in. This is called multi-factor " +
-                "authentication (MFA); and in eduID's case two-factor authentication (2FA).");
+        common.verifyStringOnPage("Depending on the service you are trying to access it might require " +
+                "that the account used to log in has reached a certain level of security. When you create your account " +
+                "you are required to have knowledge of your username (confirmed email address) and its associated " +
+                "password. The password is considered the first factor of authentication. For an additional layer of " +
+                "authentication to log in you may add a security key. The security key is called a two-factor " +
+                "authentication (2FA) or in some cases multi-factor (MFA), depending on the specifics of the layers of authentication.");
 
         //Text
-        common.verifyStringOnPage("Examples can be a physical device in your possession such as a USB " +
-                "token (types of USB-keys for this purpose), or biometric information such as fingerprint or " +
-                "face-recognition supported on the device you are using, and we refer to any of these techniques as a " +
-                "'Security key'.");
+        common.verifyStringOnPage("An example of a security key would be a physical device in your " +
+                "possession, such as a specific type of USB token for this purpose, that requires you to be present " +
+                "by the device. You may also add biometric information such as fingerprint or face-recognition " +
+                "supported on the device you are using, to be able to unlock your security key, if needed.");
 
         //Heading
         common.verifyStringOnPage("How can I add 2FA to eduID?");
 
         //Text
-        common.verifyStringOnPage("When logged in you can add and confirm security keys of your " +
-                "choice (provided you have access to any of these methods) in the 'Advanced Settings' area of eduID " +
-                "and follow the instructions.");
+        common.verifyStringOnPage("Once you have logged in you can add your security keys in the " +
+                "Settings area of eduID by following the instructions there.");
 
         //Text
         common.verifyStringOnPage("Note: once you have added a security key to your eduID it must be used to log in.");
+
+        //Heading
+        common.verifyStringOnPage("Which type of security key can I use with eduID?");
+
+        //Text
+        common.verifyStringOnPage("We follow a standard as well as our own policy for which security " +
+                "keys are allowed to be used with the service. More information on the standard as well as an updated " +
+                "list of valid keys can be found below.");
+
+        //Heading
+        common.verifyStringOnPage("About Security Keys");
+        common.verifyStringOnPage("Choosing a Security Key");
+        common.verifyStringOnPage("Not all security keys meet the necessary specifications to be used " +
+                "as a security key for eduID.");
+        common.verifyStringOnPage("Check with the manufacturer or retailer that the product meets the following requirements:");
+        common.verifyStringOnPage("Certified FIDO 2.0, you can read more at fidoalliance.org.");
+        common.verifyStringOnPage("Releases a certificate issued by the manufacturer providing " +
+                "information about the device where used, as well as requiring the user physically present for the key to be used.");
+        common.verifyStringOnPage("FURTHER TECHNICAL INFORMATION:");
+        common.verifyStringOnPage("The key must perform an attestation and exist in the metadata,\n" +
+                "it must not contain any other status in the metadata than a few variants of: \"fido certified\",\n" +
+                "it must support any of the following user verification methods: \"faceprint_internal\", \"passcode_external\", \"passcode_internal\", \"handprint_internal\", \"pattern_internal\", \"voiceprint_internal\", \"fingerprint_internal\", \"eyeprint_internal\",\n" +
+                "and must not support any other key protection than: \"remote_handle\", \"hardware\", \"secure_element\", \"tee\".");
+
+        //Heading
+        common.verifyStringOnPage("Valid physical Security Key options");
+        common.verifyStringOnPage("Listed below are maker and model names of physical security keys " +
+                "which should meet the technical requirements to be used for eduID. They are listed in alphabetical " +
+                "order and the list is updated once a month.");
+        common.verifyStringOnPage("Next update:");
     }
 
     private void verificationEduIdEng(){
@@ -977,9 +1049,9 @@ public class Help {
         //Text
         common.verifyStringOnPage("If you can't find the answers to your questions about eduID on this " +
                 "help page, you can contact the eduID support by mailing support@eduid.se.");
-        common.verifyStringOnPage("Always let us know the email address you used when you logged in to " +
-                "eduID, and if you are logged in include your ‘eppn’ unique ID as presented in the Advanced Settings " +
-                "area. If something went wrong, it is always a good idea to include screenshots with error messages to ease troubleshooting.");
+        common.verifyStringOnPage("Always let us know the email address you used when you logged in to eduID, and if you are logged in include your ‘eppn’ unique ID as presented in the logged in start page.\n" +
+                "Don't include confidential or sensitive information such as your personal identity number in the email!\n" +
+                "If something went wrong, it is always a good idea to include screenshots with error messages to ease troubleshooting.");
         common.verifyStringOnPage("In order to get best possible support, we recommend that you send " +
                 "e-mail, but for simple matters you can also reach us on phone number 0455-385200.");
         common.verifyStringOnPage("Opening hours:");
@@ -996,6 +1068,8 @@ public class Help {
         common.click(common.findWebElementById("accordion__heading-help-freja"));
         common.click(common.findWebElementById("accordion__heading-help-bankid"));
         common.click(common.findWebElementById("accordion__heading-help-security-key"));
+        common.click(common.findWebElementById("accordion__heading-help-security-usb"));
+        common.click(common.findWebElementById("accordion__heading-security-key-list"));
         common.click(common.findWebElementById("accordion__heading-help-using-eduid"));
         common.click(common.findWebElementById("accordion__heading-help-about-eduid"));
     }

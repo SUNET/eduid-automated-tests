@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
-public class TC_53 extends BeforeAndAfter {
+public class TC_90 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -25,7 +25,6 @@ public class TC_53 extends BeforeAndAfter {
         testData.setRegisterAccount(false);
         login.runLogin(); }
 
-
     @Test( dependsOnMethods = {"login"} )
     void personalInfo() {
         testData.setRegisterAccount(true);
@@ -36,6 +35,14 @@ public class TC_53 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
+    void storeEppn(){
+        advancedSettings.pressAdvancedSettings();
+        common.timeoutSeconds(1);
+        advancedSettings.storeEppn();
+        common.timeoutSeconds(1);
+    }
+
+    @Test( dependsOnMethods = {"storeEppn"} )
     void addPhoneNumber(){
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
@@ -59,12 +66,12 @@ public class TC_53 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
-    void clickVerifySecurityKey() {
+    void verifySecurityKey() {
         //Click on Verify for the added security key
         common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
     }
 
-    @Test( dependsOnMethods = {"clickVerifySecurityKey"} )
+    @Test( dependsOnMethods = {"verifySecurityKey"} )
     void verifySecurityKeyLogin() {
         //Add nin cookie
         common.addNinCookie();
@@ -113,46 +120,78 @@ public class TC_53 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
-    void navigateToSettings() {
-        common.navigateToSettings();
+    void logout(){
+        logout.runLogout();
     }
 
-    @Test( dependsOnMethods = {"navigateToSettings"} )
-    void delete() {
-        testData.setDeleteButton(true);
-        deleteAccount.runDeleteAccount();
+
+    @Test( dependsOnMethods = {"logout"} )
+    void navigateToFidusTestSkolverketDnp() {
+//        testData.setUsername("tBnmBXbE@dev.eduid.sunet.se");
+//        testData.setPassword("zfvs qtip dwn2");
+//        testData.setEppn("sital-jotof");
+
+        common.navigateToUrl("https://fidustest.skolverket.se/DNP-staging/");
+
+       //Wait for login button (with eID) at skolverket dnp page
+        common.explicitWaitClickableElement("//div[2]/div/div/p[3]");
+    }
+
+    @Test( dependsOnMethods = {"navigateToFidusTestSkolverketDnp"} )
+    void loginWithEid() {
+        //Click on login button (with eID)
+        common.findWebElementByXpath("//div[2]/div/div/p[3]/a/button").click();
+
+        //Wait for idp search field
+        common.explicitWaitClickableElementId("searchinput");
+    }
+
+    @Test( dependsOnMethods = {"loginWithEid"} )
+    public void navigateEduId(){
+        common.findWebElementById("searchinput").clear();
+        common.findWebElementById("searchinput").sendKeys("eduid staging");
+        common.timeoutMilliSeconds(3500);
+
+        //Select eduid staging
+        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/a[1]"));
+
+        //Wait for the eduID log in page to load
+        common.timeoutMilliSeconds(2000);
+        common.explicitWaitPageTitle("Logga in | eduID");
+    }
+
+    @Test( dependsOnMethods = {"navigateEduId"} )
+    void login2(){
+        //We need the magic cookie and the nin-cookie for log in with extra security options
+        common.addMagicCookie();
+        common.addNinCookie();
+
+        login.verifyPageTitle();
+
+        login.enterPassword();
+        common.click(common.findWebElementById("login-form-button"));
+    }
+
+    @Test( dependsOnMethods = {"login2"} )
+    void loginMfaSecurityKey2() {
+        //Set mfa method to be used to "security key" at login.
+        testData.setMfaMethod("securitykey");
+
+        //Login page for extra security select security key mfa method
+        loginExtraSecurity.runLoginExtraSecurity();
+        Common.log.info("Log in with Security key");
+
         common.timeoutSeconds(2);
     }
 
-    @Test( dependsOnMethods = {"delete"} )
-    void loginMfaFreja(){
-        //Set mfa method to be used to "freja" at login.
-        testData.setMfaMethod("freja");
+    @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
+    void validateSuccessfulLogin(){
+        //Wait for handeling of personal info link
+        common.explicitWaitVisibilityElement("//div[2]/div/div/p[5]/a");
 
-        loginExtraSecurity.runLoginExtraSecurity();
-        common.timeoutSeconds(1);
-    }
+        common.verifyStringOnPage("Grattis!\n" +
+                "Du har nu lyckats logga in till testsidan.");
 
-    @Test( dependsOnMethods = {"loginMfaFreja"} )
-    void selectUserRefIdp2(){
-        //Select and submit user
-        common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(3);
-
-        //Wait for register button at start page
-        common.explicitWaitClickableElementId("sign-up-button");
-    }
-
-    @Test( dependsOnMethods = {"selectUserRefIdp2"} )
-    void startPage2(){
-        startPage.runStartPage();
-    }
-
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login3(){
-        testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
+        common.verifyStringOnPage(testData.getEppn() +"@dev.eduid.se");
     }
 }

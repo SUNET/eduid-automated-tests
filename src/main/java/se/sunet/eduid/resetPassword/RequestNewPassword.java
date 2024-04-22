@@ -33,7 +33,7 @@ public class RequestNewPassword {
 
         //wait for the Send-again button on next page
         common.timeoutSeconds(1);
-        common.explicitWaitClickableElementId("go-back-button");
+        common.explicitWaitClickableElementId("response-code-abort-button");
     }
 
     private void verifyLabels(){

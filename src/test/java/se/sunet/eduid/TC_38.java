@@ -34,7 +34,13 @@ public class TC_38 extends BeforeAndAfter {
         testData.setDisplayName("");
         testData.setEmail(testData.getUsername());
 
+        //Setting register account to true to just check that the eppn is present on dashboard (eppn value is unknown at this point).
+        testData.setRegisterAccount(true);
+
+        //Setting Account verified to false to check the correct account verification text at dashboard.
+        testData.setAccountVerified(false);
         dashBoard.runDashBoard();
+        testData.setRegisterAccount(false);
     }
 
     //Delete the account, so it will be removed after 2 weeks by script

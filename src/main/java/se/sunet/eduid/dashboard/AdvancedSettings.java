@@ -25,8 +25,8 @@ public class AdvancedSettings {
     public void runAdvancedSettings(){
         pressAdvancedSettings();
         verifyPageTitle();
-        verifyLabels();
         storeEppn();
+        verifyLabels();
         pressAddSecurityKey();
         pressLadok();
         pressOrcid();
@@ -48,8 +48,12 @@ public class AdvancedSettings {
     }
 
     public void storeEppn(){
-        testData.setEppn(common.findWebElementById("user-eppn").getText());
-        Common.log.info("Saved EPPN: " +testData.getEppn());
+        testData.setEppn(common.findWebElementById("user-eppn").getAttribute("value"));
+        if(testData.getEppn().isEmpty()) {
+            Assert.fail("Failed to save eppn, saved eppn is: " +testData.getEppn());
+        }
+        else
+            Common.log.info("Saved EPPN: " +testData.getEppn());
     }
 
     private void pressAddSecurityKey(){
@@ -139,11 +143,12 @@ public class AdvancedSettings {
     }
 
     private void pressOrcid(){
-        common.timeoutMilliSeconds(2500);
+        common.timeoutMilliSeconds(500);
         common.click(common.findWebElementById("connect-orcid-button"));
 
         //Transferred to orcid after click
-        common.timeoutSeconds(8);
+        //common.timeoutSeconds(8);
+        common.timeoutSeconds(3);
 
         String title = common.getWebDriver().getTitle();
         if (title.equalsIgnoreCase("ORCID") || title.equalsIgnoreCase("Sign in - ORCID"))
@@ -165,9 +170,9 @@ public class AdvancedSettings {
 
         //Just go back to end test case by logout
         common.getWebDriver().navigate().back();
-        common.timeoutSeconds(2);
+        common.timeoutMilliSeconds(500);
         common.getWebDriver().navigate().back();
-        common.timeoutSeconds(5);
+        //common.timeoutSeconds(5);
         common.explicitWaitPageTitle("Avancerade Inställningar | eduID");
     }
 
@@ -207,11 +212,11 @@ public class AdvancedSettings {
         common.verifyStringOnPage("Finns ditt lärosäte inte i listan ska du inte använda eduID för att " +
                 "logga in i tjänster som kräver ESI. Kontakta då istället ditt lärosäte för mer information.");
 
-        common.verifyStringOnPage("EPPN - Unikt ID");
-        common.verifyStringOnPage("Eppn är ett unikt ID för ditt eduID som du kan behöva ange när du " +
-                "ber om teknisk support eller för att identifiera ditt konto.");
-        common.verifyStringOnPage("EPPN:");
-        common.verifyStringNotEmptyByXpath("//*[@id=\"user-eppn\"]", "//*[@id=\"uniqueId-container\"]/div/span/strong");
+        common.verifyStringOnPage("Unikt ID");
+        common.verifyStringOnPage("Detta unika ID är ett användarnamn för ditt eduID som du kan behöva " +
+                "ange för att identifiera ditt konto eller vid teknisk support. Det är en del av vad som kan hänvisas till som EPPN.");
+        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/div/span/strong", "Unikt ID: ");
+        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
 
         //click on english
         common.selectEnglish();
@@ -252,11 +257,11 @@ public class AdvancedSettings {
         common.verifyStringOnPage("If your institution is not in the list you cannot use your eduID " +
                 "to access services requiring ESI, contact your institution for more information.");
 
-        common.verifyStringOnPage("EPPN - Unique ID");
-        common.verifyStringOnPage("Eppn is a unique ID for your eduID that you may need to provide " +
-                "when requesting technical support or to identify your account.");
-        common.verifyStringOnPage("EPPN:");
-        common.verifyStringNotEmptyByXpath("//*[@id=\"user-eppn\"]", "//*[@id=\"uniqueId-container\"]/div/span/strong");
+        common.verifyStringOnPage("Unique ID");
+        common.verifyStringOnPage("This identifier is a username for your eduID that you may need to " +
+                "provide when accessing other services or requesting support. It is part of what may be referred to as EPPN.");
+        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/div/span/strong", "Unique ID: ");
+        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
 
         //click on swedish
         common.selectSwedish();

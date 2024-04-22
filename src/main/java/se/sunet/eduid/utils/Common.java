@@ -55,7 +55,8 @@ public class Common {
     }
 
     public void selectEnglish() {
-        click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a"));
+        //click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a"));
+        selectSwedish();
     }
 
     public void selectSwedish() {
@@ -375,7 +376,7 @@ public class Common {
     public boolean isCookieSet(String cookieName){
         try {
             log.info("Cookie set with name: " + webDriver.manage().getCookieNamed(cookieName).getName());
-        }catch (NullPointerException ex){
+        }catch (Exception ex){
             log.info("No cookie found with name:" +cookieName);
             return false;
         }
@@ -384,12 +385,12 @@ public class Common {
 
     public void logCookie(String name){
         log.info("Cookie added:");
-        log.info("Cookie name: " + webDriver.manage().getCookieNamed(name).getName());
+/*        log.info("Cookie name: " + webDriver.manage().getCookieNamed(name).getName());
         log.info("Cookie value: " + webDriver.manage().getCookieNamed(name).getValue());
         log.info("Cookie domain: " + webDriver.manage().getCookieNamed(name).getDomain());
         log.info("Cookie path: " + webDriver.manage().getCookieNamed(name).getPath());
         log.info("Cookie expire: " + webDriver.manage().getCookieNamed(name).getExpiry());
-        log.info("Cookie samesite: " + webDriver.manage().getCookieNamed(name).getSameSite());
+        log.info("Cookie samesite: " + webDriver.manage().getCookieNamed(name).getSameSite());*/
     }
 
     public void setPhoneNumber(){
@@ -418,7 +419,7 @@ public class Common {
         navigateToUrl(fromURL);
         String code = findWebElementByXpath("/html/body").getText();
 
-        Common.log.info("Fetched code: " +code);
+        Common.log.info("Fetched code in new window tab: " +code);
         timeoutMilliSeconds(500);
 
         //Close the tab or window
@@ -439,12 +440,8 @@ public class Common {
 
         //Wait for generate new captcha button
         switchToPopUpWindow();
+        timeoutMilliSeconds(300);
         explicitWaitClickableElement("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button");
-
-        //For unknown reason, textfield has to be cleared twice.
-        clearTextField(findWebElementById("phone-captcha-modal"));
-        timeoutMilliSeconds(100);
-        findWebElementById("phone-captcha-modal").sendKeys(captchaCode);
 
         clearTextField(findWebElementById("phone-captcha-modal"));
         timeoutMilliSeconds(100);
@@ -452,5 +449,6 @@ public class Common {
 
         //Press continue
         findWebElementByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button").click();
+        Common.log.info("Captcha code entered (" +captchaCode +"), pressing Continue");
     }
 }

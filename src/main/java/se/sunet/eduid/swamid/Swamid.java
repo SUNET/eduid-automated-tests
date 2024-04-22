@@ -19,8 +19,14 @@ public class Swamid {
         common.click(common.findWebElementByXpath("//div/div[2]/div[2]/a/button"));
         common.timeoutMilliSeconds(1000);
 
-        //Select swamid testing
-        common.click(common.findWebElementByXpath("//*[@id=\"selectIdP\"]/div/div[2]/a/button"));
+        //Switch to first iframe
+        common.getWebDriver().switchTo().frame(0);
+
+        //Click on - Choose your organisation
+        common.click(common.findWebElementById("idpbutton"));
+
+        //Switch back to default window
+        common.getWebDriver().switchTo().defaultContent();
 
         //wait for next page
         common.explicitWaitClickableElementId("searchinput");
@@ -30,7 +36,9 @@ public class Swamid {
         common.findWebElementById("searchinput").clear();
         common.findWebElementById("searchinput").sendKeys(searchString);
         common.timeoutMilliSeconds(3500);
-        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/div[3]"));
+
+        //Select eduid staging
+        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/a[1]"));
 
         //Wait for the eduID log in page to load
         common.timeoutMilliSeconds(1000);

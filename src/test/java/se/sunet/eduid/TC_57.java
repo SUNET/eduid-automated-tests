@@ -126,7 +126,7 @@ public class TC_57 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"logout"} )
     void navigateToSwamid(){
-        common.navigateToUrl("https://release-check.swamid.se");
+        common.navigateToUrl("https://release-check.qa.swamid.se");
     }
 
     @Test( dependsOnMethods = {"navigateToSwamid"} )
@@ -172,7 +172,7 @@ public class TC_57 extends BeforeAndAfter {
     void navigateToEduid(){
         common.navigateToUrl("https://dev.eduid.se");
 
-        common.click(common.findWebElementByXpath("//section[2]/div/p[3]/a"));
+        common.click(common.findWebElementById("login-button"));
         common.timeoutSeconds(3);
     }
 
@@ -216,7 +216,7 @@ public class TC_57 extends BeforeAndAfter {
         common.timeoutSeconds(3);
 
         //Wait for register button at start page
-        common.explicitWaitClickableElement("//section[2]/div/div/a");
+        common.explicitWaitClickableElementId("sign-up-button");
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp4"} )

@@ -176,6 +176,7 @@ public class Identity {
 
     private void verifyFrejaIdLabelsSwedish(){
         //Click on Freja
+        common.explicitWaitClickableElement("//*[@id=\"accordion__panel-se-freja\"]/button");
         common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button"));
 
         //Switch to the Freja Id pop up
@@ -280,6 +281,7 @@ public class Identity {
         common.verifyStringByXpath("//*[@id=\"accordion__heading-se-bankID\"]/div/h3", "WITH A BANKID");
 
         //Button text - Bank ID - Fine text
+        common.timeoutMilliSeconds(500);
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-bankID\"]/p[1]", "To use this " +
                 "option you will need to first create a digital ID-card in the BankID app.");
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-bankID\"]/p[2]", "The button " +

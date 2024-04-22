@@ -26,8 +26,8 @@ public class StartPage {
     }
 
     private void verifyPageTitle() {
-        common.timeoutSeconds(2);
-        common.explicitWaitPageTitle("eduID");
+        //common.timeoutSeconds(2);
+//        common.explicitWaitPageTitle("eduID");
         common.verifyPageTitle("eduID");
 
         //Verify footer
@@ -36,15 +36,15 @@ public class StartPage {
 
     private void signIn(){
         //Click on sign in link
-        common.click(common.findWebElementByXpath("//section[2]/div/p[3]/a"));
+        common.click(common.findWebElementById("login-button"));
 
-        //Wait for next page
+        //Wait for log in page
         common.explicitWaitPageTitle("Logga in | eduID");
     }
 
     private void registerAccount(){
         //Click on sign up button
-        common.click(common.findWebElementByXpath("//section[2]/div/div/a"));
+        common.click(common.findWebElementById("sign-up-button"));
     }
 
     private void verifyLabelsSwedish(){
@@ -53,7 +53,6 @@ public class StartPage {
                 "komma åt flera olika tjänster och organisationer inom högskolan.");
         common.verifyStringOnPage("eduID gör det enklare för dig eftersom du bara behöver komma ihåg " +
                 "ett lösenord och säkrare för skolorna eftersom det är kopplat till en riktig individ.");
-        common.verifyStringOnPage("Om du redan har ett eduID kan du logga in här");
     }
 
     private void verifyLabelsEnglish(){
@@ -62,6 +61,5 @@ public class StartPage {
                 "services and organisations related to higher education.");
         common.verifyStringOnPage("eduID is easier for you because you only have to remember one " +
                 "password and safer for the Universities becasue it is connecetd to a real individual.");
-        common.verifyStringOnPage("If you already have eduID you can log in here.");
     }
 }

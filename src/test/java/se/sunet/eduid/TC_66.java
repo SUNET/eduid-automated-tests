@@ -27,7 +27,7 @@ public class TC_66 extends BeforeAndAfter {
     void verifySignInPage() {
         //Verify label with registered display name
         common.explicitWaitClickableElementId("login-form-button");
-        common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName() +"!");
+        common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName()+"!");
 
         //Verify placeholder for username
         common.verifyStrings(testData.getUsername(), common.findWebElementById("username").getAttribute("value"));

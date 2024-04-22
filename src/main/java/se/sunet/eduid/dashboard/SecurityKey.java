@@ -1,5 +1,13 @@
 package se.sunet.eduid.dashboard;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.devtools.Command;
+import org.openqa.selenium.devtools.DevTools;
+import org.openqa.selenium.devtools.Command;
+import org.openqa.selenium.devtools.v102.security.Security;
 import org.openqa.selenium.virtualauthenticator.HasVirtualAuthenticator;
 import org.openqa.selenium.virtualauthenticator.VirtualAuthenticator;
 import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
@@ -37,10 +45,36 @@ public class SecurityKey {
     }
 
     //Not used any more, keeping code for example
-    private void virtualAuthenticator(){
-        //Add cookie for back doors
+    public void virtualAuthenticator(){
+        //Add cookie for back doors, if not set
         if(!common.isCookieSet("autotests"))
             common.addMagicCookie();
+/*
+
+        //Virtual authenticatior emulating authenticator devices in chrome
+        // Create a DevTools session
+        DevTools devTools = ((ChromeDriver) common.getWebDriver()).getDevTools();
+        devTools.createSession();
+
+        // Enable security domain
+        devTools.send(Security.enable());
+
+        // Set up a virtual authenticator (USB)
+        JsonObject options = new JsonObject();
+        options.addProperty("transport", "usb");
+        options.addProperty("hasUserVerification", true);
+        options.addProperty("isUserVerified", true);
+
+        JsonObject setUserVerifiedParams = new JsonObject();
+        setUserVerifiedParams.add("options", options);
+
+        // Execute the CDP command to set user verified
+        //TODO send the command to devtools in some other way...
+        //devTools.executeCdpCommand("Security.setUserVerified", setUserVerifiedParams);
+
+        System.out.println("Virtual USB authentication completed successfully");
+*/
+
 
         VirtualAuthenticatorOptions options = new VirtualAuthenticatorOptions();
         options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
@@ -49,6 +83,7 @@ public class SecurityKey {
 
         VirtualAuthenticator authenticator = ((HasVirtualAuthenticator) common.getWebDriver()).addVirtualAuthenticator(options);
         authenticator.setUserVerified(true);
+        Common.log.info("Virtual authentication made with USB");
     }
 
     private void addSecurityKey(){
@@ -137,7 +172,18 @@ public class SecurityKey {
 
         //English
         common.timeoutMilliSeconds(500);
-        common.selectEnglish();
+
+        //For unknown reason, chrome sometimes freezes at this point when change of language. A page refresh resolves the problem.
+        try {
+            common.click(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a"));
+        }catch (TimeoutException ex){
+            Common.log.info("Got timeout exception when trying to change language to english, reloading the page");
+            common.getWebDriver().navigate().refresh();
+            common.timeoutSeconds(1);
+            Common.log.info("Page refreshed, selecting english again");
+
+            common.selectEnglish();
+        }
 
         //Verify Security key
         common.click(common.findWebElementById("security-webauthn-button"));

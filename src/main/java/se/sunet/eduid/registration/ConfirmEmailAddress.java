@@ -53,16 +53,19 @@ public class ConfirmEmailAddress {
                 }
 
                 //Enter email verification code
-                typeEmailVerificationCode();
+                typeEmailVerificationCode(testData.getEmailVerificationCode());
+
+                //Press OK button
+                common.findWebElementById("response-code-ok-button").click();
 
                 //Wait for go to eduid link on next page or error message if not correct code is supplied or too many attempts
                 if (!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl") && emailVerificationAttempts == 2) {
                     //verify status message in swedish
-                    common.verifyStatusMessage("För många ogiltiga verifieringsförsök. Var god försök igen.");
+                    common.verifyStatusMessage("För många ogiltiga verifieringsförsök. Var god försök igen senare.");
 
                     //verify status message in english
                     common.selectEnglish();
-                    common.verifyStatusMessage("Too many invalid verification attempts. Please try again.");
+                    common.verifyStatusMessage("Too many invalid verification attempts. Please try again later.");
 
                     common.selectSwedish();
                 }
@@ -126,8 +129,8 @@ public class ConfirmEmailAddress {
         common.selectSwedish();
     }
 
-    private void typeEmailVerificationCode(){
-        String emailVerificationCode = testData.getEmailVerificationCode();
+    public void typeEmailVerificationCode(String emailVerificationCode){
+        common.explicitWaitVisibilityElement("//*[@id=\"eduid-splash-and-children\"]/form/div/input[1]");
         common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[1]").sendKeys(emailVerificationCode.substring(0, 1));
         common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[2]").sendKeys(emailVerificationCode.substring(1, 2));
         common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[3]").sendKeys(emailVerificationCode.substring(2, 3));

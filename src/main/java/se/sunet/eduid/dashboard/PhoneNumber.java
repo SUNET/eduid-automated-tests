@@ -46,6 +46,8 @@ public class PhoneNumber {
     }
 
     public void addPhoneNumber() {
+        Common.log.info("Add new phone number");
+
         //Press settings
         common.navigateToSettings();
 
@@ -73,6 +75,8 @@ public class PhoneNumber {
 
 
     public void confirmNewPhoneNumber(){
+        Common.log.info("Confirm new phone number");
+
         //Add cookie for back doors
         if(!common.isCookieSet("autotests"))
             common.addMagicCookie();
@@ -95,20 +99,20 @@ public class PhoneNumber {
         common.navigateToAdvancedSettings();
 
         //Store eppen
-        String eppen = common.findWebElementById("user-eppn").getText();
+        testData.setEppn(common.findWebElementById("user-eppn").getAttribute("value"));
 
         //Fetch the code
         String phoneCode = common.getCodeInNewTab("https://dashboard.dev.eduid.se/services/phone/get-code?eppn="
-                +eppen +"&phone=" +phoneNumber);
-        Common.log.info("Fetching phone code: " +"https://dashboard.dev.eduid.se/services/phone/get-code?eppn="
-                +eppen +"&phone=" +phoneNumber);
+                +testData.getEppn() +"&phone=" +phoneNumber);
+        Common.log.info("Fetching phone code, got following code: " +phoneCode);
 
         //Navigate back to settings page
-        common.navigateToUrl("https://dashboard.dev.eduid.se/profile/settings/personaldata");
+        common.navigateToSettings();
 
         //Press confirm phone number link
         common.timeoutSeconds(1);
         common.click(common.findWebElementByXpathContainingText("Bekräfta"));
+        common.timeoutMilliSeconds(500);
 
         //Solve captcha
         common.enterCaptcha("123456");
@@ -168,6 +172,7 @@ public class PhoneNumber {
         common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button");
 
         //Heading
+        common.timeoutMilliSeconds(400);
         common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
                 "Enter the code sent to +46");
 
@@ -190,6 +195,7 @@ public class PhoneNumber {
 
     private void verifyCaptcha(){
         //Press confirm beside phoneNumber to open captcha
+        common.timeoutMilliSeconds(200);
         common.click(common.findWebElementByXpathContainingText("Bekräfta"));
 
         //Wait for generate new captcha button

@@ -116,6 +116,10 @@ public class TC_49 extends BeforeAndAfter {
 
         //Navigate to settings
         common.navigateToSettings();
+
+        //Set identity to not confirmed
+        testData.setIdentityConfirmed(false);
+
         personalInfo.runPersonalInfo();
     }
 
@@ -200,7 +204,13 @@ public class TC_49 extends BeforeAndAfter {
         //Set some user data that will be verified in dashboard
         testData.setDisplayName("Cookie Magic Cookie");
 
+        //Setting register account to true to just check that the eppn is present on dashboard (eppn value is unknown at this point).
+        testData.setRegisterAccount(true);
+
+        //Setting Account verified to false to check the correct account verification text at dashboard.
+        testData.setAccountVerified(false);
         dashBoard.runDashBoard();
+        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"dashboard"} )

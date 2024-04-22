@@ -33,12 +33,16 @@ public class TC_81 extends BeforeAndAfter {
         testData.setDisplayName("");
         testData.setPhoneNumber("");
 
+        //Setting register account to true to just check that the eppn is present on dashboard (eppn value is unknown at this point).
+        testData.setRegisterAccount(true);
+
+        //Setting Account verified to false to check the correct account verification text at dashboard.
+        testData.setAccountVerified(false);
         dashBoard.runDashBoard();
     }
 
     @Test( dependsOnMethods = {"dashboard"} )
     void personalInfo() {
-        testData.setRegisterAccount(true);
         //Navigate to settings
         common.navigateToSettings();
         personalInfo.runPersonalInfo();

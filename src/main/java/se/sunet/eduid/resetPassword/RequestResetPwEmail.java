@@ -27,7 +27,7 @@ public class RequestResetPwEmail {
 
         //wait for the Send-again button on next page
         common.timeoutSeconds(4);
-        common.verifyStringOnPage("Om du har ett eduID-konto, har ett meddelande med instruktioner skickats till");
+        common.verifyStringOnPage("Om du har ett eduID-konto, har koden skickats till");
     }
 
     private void verifyLabels(){

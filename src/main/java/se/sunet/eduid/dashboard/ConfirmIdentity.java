@@ -54,6 +54,7 @@ public class ConfirmIdentity{
             Common.log.info("Verify identity by Letter");
 
             //Click on proceed with letter, switch to pop-up
+            common.explicitWaitClickableElement("//*[@id=\"accordion__panel-se-letter\"]/button");
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
             common.switchToPopUpWindow();
 
@@ -73,6 +74,7 @@ public class ConfirmIdentity{
 
             //Verify response
             common.verifyStatusMessage("Den kod du angett stämmer inte. Var god försök igen");
+            common.closeStatusMessage();
 
             //Fetch the code
             common.navigateToUrl("https://dashboard.dev.eduid.se/services/letter-proofing/get-code");
@@ -80,13 +82,13 @@ public class ConfirmIdentity{
             Common.log.info("Letter proofing code: " +letterProofingCode);
 
             common.getWebDriver().navigate().back();
-            common.timeoutSeconds(1);
-
-            //Expand Letter menu, since collapsed when change of langyage
-            common.click(common.findWebElementById("accordion__heading-se-letter"));
 
             //Press again on the letter button - Add the correct code
+            common.click(common.findWebElementById("accordion__heading-se-letter"));
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
+
+            //Wait for close button at pop up before enter the code
+            common.explicitWaitClickableElement("//*[@id=\"confirm-user-data-modal\"]/div/div/h5/button");
             common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input")
                     .sendKeys(letterProofingCode);
 

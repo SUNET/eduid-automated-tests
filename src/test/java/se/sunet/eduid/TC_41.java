@@ -50,11 +50,27 @@ public class TC_41 extends BeforeAndAfter {
         testData.setRegisterAccount(false);
     }
 
-    //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"confirmedIdentity"} )
+    void personalInfo2() {
+        //Check that after identity is confirmed that Display name is present
+        testData.setIdentityConfirmed(true);
+
+        common.selectEnglish();
+
+        //Set the Given name, Last name and Display name since that is "fetched from idp" when confirming identity
+        //in test its just test data.
+        testData.setGivenName("Magic Cookie");
+        testData.setSurName("Testsson");
+        testData.setDisplayName("Cookie Testsson");
+
+        personalInfo.runPersonalInfo();
+    }
+
+    //Delete the account, so it will be removed after 2 weeks by script
+//    @Test( dependsOnMethods = {"personalInfo2"} )
     void navigateToSettings() { common.navigateToSettings(); }
 
-    @Test( dependsOnMethods = {"navigateToSettings"} )
+    @Test( dependsOnMethods = {"personalInfo2"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }

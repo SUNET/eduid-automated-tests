@@ -38,7 +38,7 @@ public class TC_35 extends BeforeAndAfter {
         common.click(common.findWebElementById("accept-button"));
 
         //Verify status message - english
-        common.verifyStatusMessage("Too many attempts to create account have been made. Pleas try again later.");
+        common.verifyStatusMessage("Too many attempts to create account have been made. Please try again later.");
 
         //Verify status message - swedish
         common.selectSwedish();

@@ -88,15 +88,15 @@ public class LoginOtherDevice {
     public void submitCode(){
         if(testData.getOtherDeviceSubmitCode().equalsIgnoreCase("true")) {
             //Submit code
-            if(testData.isRememberMe()) {
+            if(testData.isOtherDeviceFillCode())
+                common.click(common.findWebElementById("response-code-submit-button"));
+            else
                 common.click(common.findWebElementById("response-code-continue-button"));
-            }
         }
         else if(testData.getOtherDeviceSubmitCode().equalsIgnoreCase("false")){
             //Press cancel
             if(testData.isRememberMe()) {
                 common.timeoutSeconds(2);
- //               common.logPageBody();
                 common.click(common.findWebElementById("response-code-cancel-button"));
             }
             else

@@ -55,8 +55,9 @@ public class Password {
 
             //Enter current password, first clear the input fields
             common.findWebElementById("old").clear();
-            common.findWebElementById("old").clear();
-            common.findWebElementById("old").clear();
+            common.findWebElementById("custom").clear();
+            common.findWebElementById("repeat").clear();
+
             if (testData.isIncorrectPassword()){
                 common.findWebElementById("old").sendKeys("notCorrectPw");
 

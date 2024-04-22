@@ -40,7 +40,7 @@ public class TC_45 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"logout"} )
     void navigateToSwamid(){
-        common.navigateToUrl("https://release-check.swamid.se");
+        common.navigateToUrl("https://release-check.qa.swamid.se");
     }
 
     @Test( dependsOnMethods = {"navigateToSwamid"} )
@@ -67,7 +67,7 @@ public class TC_45 extends BeforeAndAfter {
         common.navigateToUrl("https://dev.eduid.se");
 
         //Click on sign in link
-        common.click(common.findWebElementByXpath("//section[2]/div/p[3]/a"));
+        common.click(common.findWebElementById("login-button"));
 
         testData.setRegisterAccount(false);
 
@@ -77,7 +77,10 @@ public class TC_45 extends BeforeAndAfter {
     //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"startPage2"} )
     void dashboard() {
-        //Account is not verified
+         //Setting register account to true to just check that the eppn is present on dashboard (eppn value is unknown at this point).
+        testData.setRegisterAccount(true);
+
+        //Setting Account verified to false to check the correct account verification text at dashboard.
         testData.setAccountVerified(false);
 
         //Set some user data that will be verified in dashboard
@@ -94,7 +97,10 @@ public class TC_45 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void startPage3(){ startPage.runStartPage(); }
+    void startPage3(){
+        testData.setRegisterAccount(false);
+        startPage.runStartPage();
+    }
 
     @Test( dependsOnMethods = {"startPage3"} )
     void login3(){

@@ -10,7 +10,6 @@
     <listeners>
         <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
     </listeners>
-<!--
 
     <test name="TC_1">
         <parameter name="testDescription" value="Log in and check account data and labels" />
@@ -84,6 +83,17 @@
         </classes>
     </test>
 
+<!--
+    <test name="TC_11">
+        <parameter name="testDescription" value="Initiate password reset with extra security (mobile OTP), click on
+        'already have code' to check that user gets opportunity to fill in the code." />
+        <classes>
+            <class name="se.sunet.eduid.TC_11" >
+            </class>
+        </classes>
+    </test>
+-->
+
     <test name="TC_12">
         <parameter name="testDescription" value="Add additional email address, try to confirm with incorrect code" />
         <classes>
@@ -108,6 +118,7 @@
         </classes>
     </test>
 
+    <!-- Test case obsolete - url/links are no longer provided in the confirmation emails etc 2024-04-11
     <test name="TC_15">
         <parameter name="testDescription" value="Add an extra email address and confirm it by clicking on link in email" />
         <classes>
@@ -116,6 +127,7 @@
         </classes>
     </test>
 
+
     <test name="TC_16">
         <parameter name="testDescription" value="Remove the extra email address added in TC_15" />
         <classes>
@@ -123,7 +135,7 @@
             </class>
         </classes>
     </test>
-
+    -->
     <test name="TC_17">
         <parameter name="testDescription" value="Initiate password change but abort at pop-up window" />
         <classes>
@@ -403,7 +415,7 @@
         </classes>
     </test>
 
-    -->
+
 
 
 <!-- Below are test cases are picked from parallell suite -->
@@ -468,7 +480,8 @@
     </test>
 
     <test name="TC_41">
-        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by letter" />
+        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by letter,
+        then check that Display name is present at Settings page." />
         <classes>
             <class name="se.sunet.eduid.TC_41" >
             </class>
@@ -501,7 +514,7 @@
     </test>
 
     <test name="TC_44">
-        <parameter name="url" value="https://release-check.swamid.se" />
+        <parameter name="url" value="https://release-check.qa.swamid.se" />
         <parameter name="testDescription" value="Verify that login to eduID can be done from Swamid Testing on a verified account" />
         <classes>
             <class name="se.sunet.eduid.TC_44" >
@@ -543,6 +556,7 @@
         </classes>
     </test>
 
+<!-- Obsolete - About sunet link is removed from startpage
     <test name="TC_59">
         <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
         <classes>
@@ -550,6 +564,7 @@
             </class>
         </classes>
     </test>
+    -->
 
     <test name="TC_78">
         <parameter name="testDescription" value="Register new account, add and confirm phone number.
@@ -591,6 +606,7 @@
         </classes>
     </test>
 
+<!-- Obsolete - Google captcha link is removed
     <test name="TC_83" >
         <parameter name="testDescription" value="Initiate Register of new account, verify that old captcha is working
             but human can not be confirmed" />
@@ -600,6 +616,7 @@
         </classes>
     </test>
 
+
     <test name="TC_84" >
         <parameter name="testDescription" value="Initiate Register of new account, verify that old captcha is working
             and human can be confirmed" />
@@ -608,7 +625,7 @@
             </class>
         </classes>
     </test>
-
+    -->
     <test name="TC_56">
         <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings, attempt
         to verify the Security key without the nin-cookie set. I.e. Security key verification will fail" />
@@ -618,4 +635,41 @@
         </classes>
     </test>
 
+    <test name="TC_87">
+        <parameter name="testDescription" value="Log in to DNP 'without eID' with username and password" />
+        <parameter name="url" value="https://fidustest.skolverket.se/DNP-staging/" />
+        <classes>
+            <class name="se.sunet.eduid.TC_87" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_88">
+        <parameter name="testDescription" value="Log in to DNP 'with eID' with username, password and extra
+        security option using Freja." />
+        <parameter name="url" value="https://fidustest.skolverket.se/DNP-staging/" />
+        <classes>
+            <class name="se.sunet.eduid.TC_88" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_89">
+        <parameter name="testDescription" value="Initiate Log in to DNP 'with eID' with username, password and extra
+        security option BankID (here only verify that we reach the BankID IDP)." />
+        <parameter name="url" value="https://fidustest.skolverket.se/DNP-staging/" />
+        <classes>
+            <class name="se.sunet.eduid.TC_89" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_90">
+        <parameter name="testDescription" value="Register a user, Log in to DNP 'with eID' with username, password and extra
+        security option using SecurityKey." />
+        <classes>
+            <class name="se.sunet.eduid.TC_90" >
+            </class>
+        </classes>
+    </test>
 </suite>
