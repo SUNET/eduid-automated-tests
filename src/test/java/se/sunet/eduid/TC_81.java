@@ -17,6 +17,9 @@ public class TC_81 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+
+    @Test( dependsOnMethods = {"confirmPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -29,15 +32,9 @@ public class TC_81 extends BeforeAndAfter {
         //Account is not verified
         testData.setAccountVerified(false);
 
-        //Set some user data that will be verified in dashboard
-        testData.setDisplayName("");
-        testData.setPhoneNumber("");
-
-        //Setting register account to true to just check that the eppn is present on dashboard (eppn value is unknown at this point).
+        //Account is a new register
         testData.setRegisterAccount(true);
 
-        //Setting Account verified to false to check the correct account verification text at dashboard.
-        testData.setAccountVerified(false);
         dashBoard.runDashBoard();
     }
 
@@ -53,6 +50,9 @@ public class TC_81 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"advancedSettings"} )
     void confirmIdentityFreja(){
+        //Set phone number to empty, so no phone labels are verified
+        testData.setPhoneNumber("");
+
         testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }
 
@@ -65,9 +65,6 @@ public class TC_81 extends BeforeAndAfter {
 
     //Delete the account
     @Test( dependsOnMethods = {"confirmedIdentity"} )
-    void navigateToSettings() { common.navigateToSettings(); }
-
-    @Test( dependsOnMethods = {"navigateToSettings"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }
@@ -118,11 +115,6 @@ public class TC_81 extends BeforeAndAfter {
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
 
     @Test( dependsOnMethods = {"passwordChanged"} )
-    void startPage3(){
-        startPage.runStartPage();
-    }
-
-    @Test( dependsOnMethods = {"startPage3"} )
     void login4(){
         testData.setResetPassword(false);
         login.enterPassword();
@@ -134,7 +126,7 @@ public class TC_81 extends BeforeAndAfter {
         //Account is no longer verified
 
         //Set some user data that will be verified in dashboard
-        testData.setDisplayName("Ulla Alm");
+        testData.setDisplayName("Sixten von Samordnungsnummer");
 
         dashBoard.runDashBoard();
     }
@@ -150,16 +142,8 @@ public class TC_81 extends BeforeAndAfter {
         common.verifyStringOnPage("Välj din huvudsakliga identifieringsmetod");
     }
 
-    @Test( dependsOnMethods = {"identity"} )
-    void navigateToSettings2() {
-        //Verify that phone number is still confirmed
-        common.navigateToSettings();
-
-        //common.verifyStringByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr/td[2]", "PRIMÄR");
-    }
-
     //Delete account when confirmed that identity is no longer verified
-    @Test( dependsOnMethods = {"navigateToSettings2"} )
+    @Test( dependsOnMethods = {"identity"} )
     void delete2() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }

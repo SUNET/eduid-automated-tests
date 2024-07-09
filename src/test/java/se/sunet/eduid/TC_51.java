@@ -27,7 +27,15 @@ public class TC_51 extends BeforeAndAfter {
         testData.setRegisterAccount(true);
 
         phoneNumber.addPhoneNumber();
-        phoneNumber.confirmNewPhoneNumber(); }
+        phoneNumber.confirmNewPhoneNumber();
+
+/*        common.click(common.findWebElementByXpathContainingText("Bekräfta"));
+
+        //Wait for generate new captcha button
+        common.switchToPopUpWindow();
+        common.explicitWaitClickableElement("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button");*/
+
+    }
 
     @Test( dependsOnMethods = {"addPhoneNumber1"} )
     void addPhoneNumber2(){

@@ -17,6 +17,9 @@ public class TC_80 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+
+    @Test( dependsOnMethods = {"confirmPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -54,9 +57,6 @@ public class TC_80 extends BeforeAndAfter {
 
     //Delete the account
     @Test( dependsOnMethods = {"confirmedIdentity"} )
-    void navigateToSettings() { common.navigateToSettings(); }
-
-    @Test( dependsOnMethods = {"navigateToSettings"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }
@@ -115,11 +115,6 @@ public class TC_80 extends BeforeAndAfter {
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
 
     @Test( dependsOnMethods = {"passwordChanged"} )
-    void startPage3(){
-        startPage.runStartPage();
-    }
-
-    @Test( dependsOnMethods = {"startPage3"} )
     void login4(){
         testData.setResetPassword(false);
         login.enterPassword();

@@ -19,6 +19,9 @@ public class TC_87 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+
+    @Test( dependsOnMethods = {"confirmPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -39,13 +42,6 @@ public class TC_87 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
-    void storeEppn(){
-        advancedSettings.pressAdvancedSettings();
-        common.timeoutSeconds(1);
-        advancedSettings.storeEppn();
-        common.timeoutSeconds(1);
-    }
-    @Test( dependsOnMethods = {"storeEppn"} )
     void addPhoneNumber(){
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }

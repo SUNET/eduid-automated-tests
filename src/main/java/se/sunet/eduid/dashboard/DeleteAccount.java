@@ -41,13 +41,7 @@ public class DeleteAccount {
             common.click(common.findWebElementById("delete-account-modal-accept-button"));
 
             //Enter userName and password since we need to login again before account is deleted
-            common.timeoutSeconds(1);
-            Login login = new Login(common, testData);
-            login.enterPassword();
-
-            common.click(common.findWebElementById("login-form-button"));
-
-            common.timeoutMilliSeconds(1500);
+            common.timeoutMilliSeconds(2500);
         }
         //Press abort
         else {
@@ -94,7 +88,10 @@ public class DeleteAccount {
 
         //Text
         common.verifyStringOnPage("När du tar bort ditt eduID kommer all information du sparat rensas " +
-                "permanent. Om du väljer att ta bort ditt eduID kommer du att behöva logga in igen en sista gång.");
+                "permanent. Om det har gått lång tid sedan du senast loggade in kan det hända att du behöver logga in igen.");
+
+        //Button text
+        common.verifyStringById("delete-account-modal-accept-button", "RADERA MITT EDUID");
 
         common.closePopupDialog();
 
@@ -111,7 +108,10 @@ public class DeleteAccount {
 
         //Text
         common.verifyStringOnPage("Deleting your eduID will permanently remove all your saved " +
-                "information. After clicking the button you need to use your log in details one final time");
+                "information. If it has been a long time since you last logged in, you may need to log in again.");
+
+        //Button text
+        common.verifyStringById("delete-account-modal-accept-button", "DELETE MY EDUID");
 
         common.closePopupDialog();
 
@@ -121,5 +121,44 @@ public class DeleteAccount {
 
         common.timeoutMilliSeconds(200);
         common.click(common.findWebElementById("delete-button"));
+    }
+
+    public void confirmDeleteAfter5Min(){
+        common.switchToPopUpWindow();
+
+        log.info("Verify text and labels in pop-up when delete of account demands one more log in");
+
+        //Verify labels and text
+        common.explicitWaitClickableElementId("security-confirm-modal-accept-button");
+        common.verifyStringOnPage("Av säkerhetsskäl...");
+        common.verifyStringOnPage("Det har gått för lång tid sedan din inloggning. Efter att du har " +
+                "klickat på knappen Godkänn måste du använda dina inloggningsuppgifter en sista gång.");
+        common.verifyStringById("security-confirm-modal-accept-button", "GODKÄNN");
+
+        //Close pop-upp
+        common.click(common.findWebElementById("security-confirm-modal-close-button"));
+
+        //Select english
+        common.selectEnglish();
+
+        //Press delete button again to open the first pop-up
+        common.click(common.findWebElementById("delete-button"));
+
+        //Press delete my eduID to come to the last pop-up
+        common.click(common.findWebElementById("delete-account-modal-accept-button"));
+
+        common.switchToPopUpWindow();
+
+        //Verify labels and text
+        common.explicitWaitClickableElementId("security-confirm-modal-accept-button");
+        common.verifyStringOnPage("For security reasons...");
+        common.verifyStringOnPage("It has been too long since your login. After clicking the Accept " +
+                "button, you need to use your login details one final time.");
+        common.verifyStringById("security-confirm-modal-accept-button", "ACCEPT");
+
+        //Press Accept button
+        common.click(common.findWebElementById("security-confirm-modal-accept-button"));
+
+        log.info("Clicked on Accept, to delete account and to be forwarded to log in page");
     }
 }

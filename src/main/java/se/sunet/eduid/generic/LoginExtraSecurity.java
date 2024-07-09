@@ -36,6 +36,8 @@ public class LoginExtraSecurity {
         if(testData.getMfaMethod().equalsIgnoreCase("securitykey")) {
             Common.log.info("Selecting security key for mfa login");
             common.findWebElementById("mfa-security-key").click();
+
+            common.timeoutSeconds(2);
         }
         else if(testData.getMfaMethod().equalsIgnoreCase("freja")){
             Common.log.info("Selecting Freja eID+ for mfa login");

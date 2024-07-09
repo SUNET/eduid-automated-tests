@@ -28,6 +28,9 @@ public class TC_49 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+
+    @Test( dependsOnMethods = {"confirmPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -93,6 +96,9 @@ public class TC_49 extends BeforeAndAfter {
     void confirmEmailAddress2() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress2"} )
+    void confirmPassword2() { confirmPassword.runConfirmPassword(); }
+
+    @Test( dependsOnMethods = {"confirmPassword2"} )
     void confirmedNewAccount2() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount2"} )
@@ -145,9 +151,6 @@ public class TC_49 extends BeforeAndAfter {
 
     //Delete the second account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"confirmedIdentity2"} )
-    void navigateToSettings() { common.navigateToSettings(); }
-
-    @Test( dependsOnMethods = {"navigateToSettings"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }
@@ -204,13 +207,9 @@ public class TC_49 extends BeforeAndAfter {
         //Set some user data that will be verified in dashboard
         testData.setDisplayName("Cookie Magic Cookie");
 
-        //Setting register account to true to just check that the eppn is present on dashboard (eppn value is unknown at this point).
-        testData.setRegisterAccount(true);
-
         //Setting Account verified to false to check the correct account verification text at dashboard.
         testData.setAccountVerified(false);
         dashBoard.runDashBoard();
-        testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"dashboard"} )
@@ -231,8 +230,7 @@ public class TC_49 extends BeforeAndAfter {
 
         //verify that Identity is not confirmed
         common.verifyStringOnPage("Koppla din identitet till ditt eduID");
-        common.verifyStringOnPage("Lägg till ditt personnummer");
-        common.verifyStringOnPage("Bekräfta ditt personnummer");
+        common.verifyStringOnPage("Verifiera att du har tillgång till ditt person- eller samordningsnummer.");
     }
 
     //Delete the first account, so it will be removed after 2 weeks by script

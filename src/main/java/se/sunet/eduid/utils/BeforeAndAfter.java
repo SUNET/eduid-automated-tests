@@ -8,6 +8,7 @@ import org.testng.annotations.*;
 import se.sunet.eduid.dashboard.*;
 import se.sunet.eduid.generic.*;
 import se.sunet.eduid.registration.ConfirmEmailAddress;
+import se.sunet.eduid.registration.ConfirmPassword;
 import se.sunet.eduid.registration.ConfirmedNewAccount;
 import se.sunet.eduid.registration.Register;
 import se.sunet.eduid.resetPassword.*;
@@ -28,7 +29,6 @@ public class BeforeAndAfter {
     public PersonalInfo personalInfo;
     public EmailAddresses emailAddresses;
     public PhoneNumber phoneNumber;
-    public InitPwChange initPwChange;
     public AdvancedSettings advancedSettings;
     public Identity identity;
     public Logout logout;
@@ -44,6 +44,7 @@ public class BeforeAndAfter {
     public Password password;
     public ConfirmPhoneNumber confirmPhoneNumber;
     public ConfirmEmailAddress confirmEmailAddress;
+    public ConfirmPassword confirmPassword;
     public Register register;
     public ConfirmIdentity confirmIdentity;
     public ConfirmedIdentity confirmedIdentity;
@@ -93,9 +94,9 @@ public class BeforeAndAfter {
         logout = new Logout(common);
         dashBoard = new DashBoard(common, testData);
         password = new Password(common, testData);
-        initPwChange = new InitPwChange(common, testData);
         confirmPhoneNumber = new ConfirmPhoneNumber(common, testData);
         confirmEmailAddress = new ConfirmEmailAddress(common, testData);
+        confirmPassword = new ConfirmPassword(common, testData);
         register = new Register(common, testData);
         confirmIdentity = new ConfirmIdentity(common, testData, identity);
         confirmedIdentity = new ConfirmedIdentity(common, testData);
@@ -131,8 +132,16 @@ public class BeforeAndAfter {
 
     @AfterTest
     public void quitBrowser() throws IOException {
-        webdriver.quit();
-        Common.log.info("End of: " +testData.getTestCase());
+        try {
+            webdriver.quit();
+            Common.log.info("End of: " +testData.getTestCase());
+        } catch (Exception ex) {
+            Common.log.info("Failed to quit the browser normally");
+        }
+        finally {
+            webdriver.quit();
+            Common.log.info("End of: " +testData.getTestCase() +" - quit by finally!");
+        }
     }
 
     @AfterMethod(alwaysRun = true)

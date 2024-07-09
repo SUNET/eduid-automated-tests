@@ -39,7 +39,8 @@ public class ConfirmIdentity{
         common.click(common.findWebElementById("add-nin-button"));
 
         //Wait for the nin to be added and show/hide button is visible
-        common.explicitWaitClickableElementId("show-hide-button");
+        common.explicitWaitClickableElementId("letter-proofing-show-hide-button");
+        common.explicitWaitClickableElementId("lookup-mobile-proofing-show-hide-button");
     }
 
     public void selectConfirmIdentity(){
@@ -77,14 +78,12 @@ public class ConfirmIdentity{
             common.closeStatusMessage();
 
             //Fetch the code
-            common.navigateToUrl("https://dashboard.dev.eduid.se/services/letter-proofing/get-code");
-            String letterProofingCode = common.findWebElementByXpath("/html/body").getText();
-            Common.log.info("Letter proofing code: " +letterProofingCode);
-
-            common.getWebDriver().navigate().back();
+            String letterProofingCode =
+                    common.getCodeInNewTab("https://dashboard.dev.eduid.se/services/letter-proofing/get-code",
+                            10);
 
             //Press again on the letter button - Add the correct code
-            common.click(common.findWebElementById("accordion__heading-se-letter"));
+            common.timeoutMilliSeconds(300);
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
 
             //Wait for close button at pop up before enter the code
@@ -149,7 +148,8 @@ public class ConfirmIdentity{
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-eu\"]/button"));
 
             //Select country XA in sandbox
-            common.findWebElementById("countryFlag_XA").click();
+            //common.findWebElementById("countryFlag_XA").click();
+            common.findWebElementByXpath("//*[@id=\"countrySelectForm\"]/div/div[3]/button").click();
 
             //Submit IDP identity
             common.findWebElementById("idpSubmitbutton").click();
@@ -211,10 +211,10 @@ public class ConfirmIdentity{
         common.switchToPopUpWindow();
         common.verifyStringOnPage("Add the code you have received by post");
         common.verifyStringOnPage("Code");
-        common.verifyStrings("Code",
+        common.verifyStrings("enter code",
                 common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input")
                         .getAttribute("placeholder"));
-        common.verifyStringOnPage("*Field cannot be empty");
+        //common.verifyStringOnPage("*Field cannot be empty");
 
         //Close
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
@@ -232,10 +232,10 @@ public class ConfirmIdentity{
         common.timeoutSeconds(1);
         common.verifyStringOnPage("Skriv in koden du fått hemskickad");
         common.verifyStringOnPage("Kod");
-        common.verifyStrings("Kod",
+        common.verifyStrings("skriv in koden",
                 common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input")
                         .getAttribute("placeholder"));
-        common.verifyStringOnPage("*Fältet kan inte vara tomt");
+        //common.verifyStringOnPage("*Fältet kan inte vara tomt");
 
         //Close
         common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));

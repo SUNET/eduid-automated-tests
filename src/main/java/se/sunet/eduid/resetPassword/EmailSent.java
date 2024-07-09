@@ -25,7 +25,8 @@ public class EmailSent {
         common.timeoutSeconds(1);
 
         //Verify the texts after request of new pw
-        common.verifyStringOnPage("Om du har ett eduID-konto, har koden skickats till ");
+        common.verifyStringOnPage("Återställ lösenord: Verifiera e-postadressen");
+        common.verifyStringOnPage("Om du har ett eduID-konto har koden skickats till ");
         common.verifyStringOnPage(testData.getEmail() +".");
         common.verifyStringOnPage("E-postkoden är giltig i två timmar.");
 
@@ -39,12 +40,13 @@ public class EmailSent {
         common.selectEnglish();
 
         common.verifyPageTitle("Reset Password | eduID");
+        common.verifyStringOnPage("Reset Password: Verify email address");
         common.verifyStringOnPage("If you have an eduID account, the code has been sent to ");
         common.verifyStringOnPage(testData.getEmail() +".");
         common.verifyStringOnPage("The email code is valid for two hours.");
 
-        common.verifyStringOnPage("If you haven't receive the code, please cancel the process and " +
-                "restart from the beginning.");
+        common.verifyStringOnPage(
+                "If you haven't receive the code, please cancel the process and restart from the beginning.");
 
         //Button text
         common.verifyStringById("response-code-abort-button", "CANCEL");

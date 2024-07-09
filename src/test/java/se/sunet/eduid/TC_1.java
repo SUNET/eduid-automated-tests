@@ -23,12 +23,6 @@ public class TC_1 extends BeforeAndAfter {
     void phoneNumber() { phoneNumber.runPhoneNumber(); }
 
     @Test( dependsOnMethods = {"phoneNumber"} )
-    void initPwChange() {
-        testData.setButtonValuePopup(false);
-        initPwChange.runInitPwChange();
-    }
-
-    @Test( dependsOnMethods = {"initPwChange"} )
     void identity() { identity.runIdentity(); }
 
     @Test( dependsOnMethods = {"identity"} )

@@ -50,7 +50,7 @@ public class ConfirmPhoneNumber {
         log.info("Navigate to get phone code: " +"https://dashboard.dev.eduid.se/services/phone/get-code?eppn="
                 +testData.getEppn() +"&phone=" +phoneNumber);
         phoneCode = common.getCodeInNewTab("https://dashboard.dev.eduid.se/services/phone/get-code?eppn="
-                +testData.getEppn() +"&phone=" +phoneNumber);
+                +testData.getEppn() +"&phone=" +phoneNumber, 10);
 
 /*
         //Press the Confirm phone number link

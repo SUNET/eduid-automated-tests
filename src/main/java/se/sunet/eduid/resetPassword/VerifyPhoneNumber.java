@@ -41,16 +41,17 @@ public class VerifyPhoneNumber {
         common.verifyStatusMessage("En kod har skickats till din telefon.");
 
         //Verify labels - swedish
-        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", "Skriv in koden som skickats till ");
+        common.verifyStringOnPage("Återställ lösenord: Telefonverifiering");
+        common.verifyStringOnPage("Skriv in koden som skickats till ");
 
         //Verify phone number OTP has been sent to
-        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", testData.getOtpPhoneNumber());
+        common.verifyXpathContainsString("//*[@id=\"content\"]/section/div/p/b", testData.getOtpPhoneNumber());
 
         common.verifyStringByXpath("//*[@id=\"phone-wrapper\"]/div/label", "Kod");
         common.verifyStringById("resend-phone", "Skicka ny kod igen");
 
         //Verify Placholder
-        common.verifyPlaceholder("Kod", "phone");
+        common.verifyPlaceholder("skriv in koden", "phone");
 
         //Switch to english
         common.selectEnglish();
@@ -61,13 +62,14 @@ public class VerifyPhoneNumber {
         common.verifyStatusMessage("A code has been sent to your phone.");
 
         //Verify labels - swedish
-        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", "Enter the code sent to ");
-        common.verifyXpathContainsString("//*[@id=\"reset-pass-display\"]/p", testData.getOtpPhoneNumber());
+        common.verifyStringOnPage("Reset Password: Phone verification");
+        common.verifyStringOnPage("Please enter the code sent to ");
+        common.verifyXpathContainsString("//*[@id=\"content\"]/section/div/p/b", testData.getOtpPhoneNumber());
         common.verifyStringByXpath("//*[@id=\"phone-wrapper\"]/div/label", "Code");
         common.verifyStringById("resend-phone", "Send a new code");
 
         //Verify Placholder
-        common.verifyPlaceholder("Code", "phone");
+        common.verifyPlaceholder("enter code", "phone");
     }
 
     private void enterOtp(){
@@ -97,8 +99,9 @@ public class VerifyPhoneNumber {
         }
         else {
             //Get the otp
-            otp = common.getCodeInNewTab("https://idp.dev.eduid.se/services/reset-password/get-phone-code?eppn=" +testData.getEppn());
-            //fetchOtp();
+            otp = common.getCodeInNewTab(
+                    "https://idp.dev.eduid.se/services/reset-password/get-phone-code?eppn=" +testData.getEppn(),
+                    10);
 
             //Switch to swedish if we need to
             if (common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")) {
@@ -117,27 +120,4 @@ public class VerifyPhoneNumber {
         //Wait for next page
         common.explicitWaitClickableElementId("copy-new-password");
     }
-
-  /*  private void fetchOtp() {
-        //Store current window handle
-        common.switchToPopUpWindow();
-
-        // Opens a new window and switches to new window, to continue with same session
-        common.getWebDriver().switchTo().newWindow(WindowType.TAB);
-
-        //Navigate to page with otp
-        common.navigateToUrl("https://idp.dev.eduid.se/services/reset-password/get-phone-code?eppn=" +testData.getEppn());
-        otp = common.findWebElementByXpath("/html/body").getText();
-
-        Common.log.info("OTP: " +otp);
-        common.timeoutMilliSeconds(500);
-
-        //Close the tab or window
-        common.getWebDriver().close();
-        common.timeoutMilliSeconds(500);
-
-        //Switch back to the old tab
-        common.switchToDefaultWindow();
-        common.timeoutMilliSeconds(500);
-    }*/
 }

@@ -60,10 +60,10 @@ public class ConfirmedIdentity {
         }
         //Heading -non eIDAS
         else {
-            common.verifyStringOnPage("Personnummer");
+            common.verifyStringOnPage("personnummer");
 
             //Show full id-number
-            common.findWebElementById("show-hide-button").click();
+            common.findWebElementById("undefined-show-hide-button").click();
 
             //Data
             common.verifyStringById("nin-number", testData.getIdentityNumber());
@@ -93,10 +93,10 @@ public class ConfirmedIdentity {
             common.verifyStringOnPage("Swedish national identity number");
 
             //Heading
-            common.verifyStringOnPage("Id number");
+            common.verifyStringOnPage("National ID number");
 
             //Show full id-number
-            common.findWebElementById("show-hide-button").click();
+            common.findWebElementById("undefined-show-hide-button").click();
 
             //Data
             common.verifyStringById("nin-number", testData.getIdentityNumber());

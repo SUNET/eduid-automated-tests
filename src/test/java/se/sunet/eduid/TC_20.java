@@ -20,24 +20,6 @@ public class TC_20 extends BeforeAndAfter {
    }
 
     @Test( dependsOnMethods = {"dashboard"} )
-    void initPwChange() {
-        initPwChange.runInitPwChange();
-    }
-
-    @Test( dependsOnMethods = {"initPwChange"} )
-    void loginPwChange(){
-        //Check first if the incorrect password flag is set, then we need to re-set it after login.
-        boolean tempIncorrectPassword = testData.isIncorrectPassword();
-        testData.setIncorrectPassword(false);
-
-        //Enter userName and password since we need to login again before pw change
-        login.enterPassword();
-        login.signIn();
-
-        testData.setIncorrectPassword(tempIncorrectPassword);
-    }
-
-    @Test( dependsOnMethods = {"loginPwChange"} )
     void password() {
         testData.setNewPassword("Test?=59(GG1234%€#\\");
         password.runPassword(); }
@@ -66,24 +48,6 @@ public class TC_20 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"dashboard2"} )
-    void initPwChange2() {
-        initPwChange.runInitPwChange();
-    }
-
-    @Test( dependsOnMethods = {"initPwChange2"} )
-    void loginPwChange2(){
-        //Check first if the incorrect password flag is set, then we need to re-set it after login.
-        boolean tempIncorrectPassword = testData.isIncorrectPassword();
-        testData.setIncorrectPassword(false);
-
-        //Enter userName and password since we need to login again before pw change
-        login.enterPassword();
-        login.signIn();
-
-        testData.setIncorrectPassword(tempIncorrectPassword);
-    }
-
-    @Test( dependsOnMethods = {"loginPwChange2"} )
     void password2() {
         testData.setNewPassword("lq2k dvzo 917s");
         password.runPassword();

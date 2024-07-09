@@ -31,8 +31,10 @@ public class ExtraSecurity {
         common.timeoutSeconds(1);
         common.verifyPageTitle("Reset Password | eduID");
 
-        common.verifyStringOnPage("Select an extra security option");
-        common.verifyStringOnPage("A password reset using an extra security option will keep your identity confirmed.");
+        common.verifyStringOnPage("Reset Password: Verification method");
+        common.verifyStringOnPage("Select an extra security option to maintain identity confirmation " +
+                "during the password reset process, or continue without extra security, with identity confirmation " +
+                "required after the password reset.");
         if(!testData.getPhoneNumber().isEmpty())
             common.verifyStringOnPage("SEND SMS TO **********" + testData.getPhoneNumber().substring(10,12));
 
@@ -56,9 +58,10 @@ public class ExtraSecurity {
         common.selectSwedish();
 
         //verify the labels - swedish
-        common.verifyStringOnPage("Välj ett extra säkerhetsalternativ");
-        common.verifyStringOnPage("Genom att återställa lösenordet med ett extra säkerhetsalternativ " +
-                "kommer kontot att förbli verifierat.");
+        common.verifyStringOnPage("Återställ lösenord: Verifieringsmetod");
+        common.verifyStringOnPage("Välj ett extra säkerhetsalternativ för att bekräfta din identitet " +
+                "under lösenordsåterställningsprocessen, eller fortsätt utan extra säkerhet, med krav på " +
+                "identitetsbekräftelse efter lösenordsåterställningen.");
         if(!testData.getPhoneNumber().isEmpty())
             common.verifyStringOnPage("SKICKA SMS TILL **********" + testData.getPhoneNumber().substring(10,12));
 

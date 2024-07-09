@@ -31,11 +31,6 @@ public class TC_34 extends BeforeAndAfter {
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
 
     @Test( dependsOnMethods = {"passwordChanged"} )
-    void startPage2(){
-        startPage.runStartPage();
-    }
-
-    @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
         testData.setResetPassword(false);
         login.runLogin();
@@ -50,24 +45,6 @@ public class TC_34 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"dashboard2"} )
-    void initPwChange2() {
-        initPwChange.runInitPwChange();
-    }
-
-    @Test( dependsOnMethods = {"initPwChange2"} )
-    void loginPwChange2(){
-        //Check first if the incorrect password flag is set, then we need to re-set it after login.
-        boolean tempIncorrectPassword = testData.isIncorrectPassword();
-        testData.setIncorrectPassword(false);
-
-        //Enter userName and password since we need to login again before pw change
-        login.enterPassword();
-        login.signIn();
-
-        testData.setIncorrectPassword(tempIncorrectPassword);
-    }
-
-    @Test( dependsOnMethods = {"loginPwChange2"} )
     void password2() {
         testData.setNewPassword("lq2k dvzo 917s");
         password.runPassword();

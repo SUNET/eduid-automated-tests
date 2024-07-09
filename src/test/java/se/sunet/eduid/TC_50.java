@@ -17,6 +17,9 @@ public class TC_50 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+
+    @Test( dependsOnMethods = {"confirmPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )

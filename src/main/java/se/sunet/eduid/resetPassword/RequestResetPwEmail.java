@@ -6,6 +6,7 @@ import se.sunet.eduid.utils.TestData;
 public class RequestResetPwEmail {
     private final Common common;
     private final TestData testData;
+    private String sendEmailButton = "//*[@id=\"content\"]/div/button[2]";
 
     public RequestResetPwEmail(Common common, TestData testData){
         this.common = common;
@@ -23,23 +24,22 @@ public class RequestResetPwEmail {
     }
 
     private void clickSendEmail(){
-        common.click(common.findWebElementByXpath("//*[@id=\"reset-pass-display\"]/div/button[2]"));
+        common.click(common.findWebElementByXpath(sendEmailButton));
 
-        //wait for the Send-again button on next page
-        common.timeoutSeconds(4);
-        common.verifyStringOnPage("Om du har ett eduID-konto, har koden skickats till");
+        //Wait for abort button on next page: Reset Password: Verify email address
+        common.explicitWaitClickableElementId("response-code-abort-button");
     }
 
     private void verifyLabels(){
         //Heading
-        common.verifyStringOnPage("Återställ lösenord");
+        common.verifyStringOnPage("Återställ lösenord: Starta processen för återställning av konto");
 
-        common.verifyStringOnPage("För att komma igång med kontoåterställningen, klicka på knappen " +
-                "nedan för att skicka ett e-postmeddelande till");
+        common.verifyStringOnPage("Klicka på knappen nedan för att skicka ett e-postmeddelande till");
         common.verifyStringOnPage(testData.getUsername().toLowerCase());
+        common.verifyStringOnPage("Om du väljer att avbryta, klicka på knappen Gå tillbaka för att återgå till inloggningssidan.");
 
         //Buttons
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/button[2]", "SKICKA E-POST");
+        common.verifyStringByXpath(sendEmailButton, "SKICKA E-POST");
         common.verifyStringById("go-back-button", "TILLBAKA");
 
         //Switch to english
@@ -49,13 +49,14 @@ public class RequestResetPwEmail {
         common.verifyPageTitle("Reset Password | eduID");
 
         //Heading
-        common.verifyStringOnPage("Reset password");
+        common.verifyStringOnPage("Reset Password: Start account recovery process");
 
-        common.verifyStringOnPage("To start the account recovery process, press the button below to send an email to");
+        common.verifyStringOnPage("Click the button below to send an e-mail to");
         common.verifyStringOnPage(testData.getUsername().toLowerCase());
+        common.verifyStringOnPage("If you decide to cancel, simply click the Go Back button to return to the login page.");
 
         //Buttons
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/button[2]", "SEND EMAIL");
+        common.verifyStringByXpath(sendEmailButton, "SEND EMAIL");
         common.verifyStringById("go-back-button", "GO BACK");
 
         //Switch to swedish

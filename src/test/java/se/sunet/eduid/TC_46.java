@@ -18,6 +18,9 @@ public class TC_46 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+
+    @Test( dependsOnMethods = {"confirmPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -66,8 +69,9 @@ public class TC_46 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKey() {
-       //Click on Verify for the added security key
-        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
+        testData.setVerifySecurityKey(true);
+
+        securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"verifySecurityKey"} )
@@ -86,7 +90,9 @@ public class TC_46 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
-    void loginMfa() {
+    void loginMfaSecurityKey() {
+        common.timeoutSeconds(4);
+
         //Set mfa method to be used to "security key" at login.
         testData.setMfaMethod("securitykey");
 
@@ -94,14 +100,26 @@ public class TC_46 extends BeforeAndAfter {
         loginExtraSecurity.runLoginExtraSecurity();
         Common.log.info("Log in with extra security");
 
-        common.timeoutSeconds(2);
+        //Wait for the Verify link for the added security key - Selecting Freja
+        try{
+            common.explicitWaitVisibilityElement("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button");
+        }catch (Exception ex){
+            Common.log.info("At page: " +common.getWebDriver().getTitle());
+            Common.log.info("We are not logged in, call log in again");
+            loginExtraSecurity.selectMfaMethod();
+        }
+
     }
 
-    @Test( dependsOnMethods = {"loginMfa"} )
+    @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
     void selectUserRefIdp(){
-        common.explicitWaitClickableElementId("submitButton");
+        common.timeoutSeconds(3);
+
+        //Click on Verify for the added security key - Selecting Freja
+        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
 
         //Select and submit user
+        common.explicitWaitClickableElementId("submitButton");
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
@@ -110,7 +128,6 @@ public class TC_46 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void verifySecurityKeyStatus() {
-
         //Verify status beside the added key dates
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
 
@@ -122,28 +139,41 @@ public class TC_46 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
-    void navigateToSettings() {
-        common.navigateToSettings();
+    void timeoutBeforeDelete() {
+        //Timeout to make sure last log in was +5min ago
+        common.timeoutSeconds(30);
     }
 
-    @Test( dependsOnMethods = {"navigateToSettings"} )
+    @Test( dependsOnMethods = {"timeoutBeforeDelete"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
-        common.timeoutSeconds(2);
+
+        //Verify the extra pop-up when logged in +5minutes
+        deleteAccount.confirmDeleteAfter5Min();
     }
 
     @Test( dependsOnMethods = {"delete"} )
+    void login3(){
+        login.verifyPageTitle();
+        login.enterPassword();
+
+        //Click log in button
+        common.findWebElementById("login-form-button").click();
+    }
+
+    @Test( dependsOnMethods = {"login3"} )
     void loginExtraSecurity(){
-        loginExtraSecurity.runLoginExtraSecurity();
-        common.timeoutSeconds(1);
+
+        loginExtraSecurity.selectMfaMethod();
+        common.timeoutSeconds(2);
     }
 
     @Test( dependsOnMethods = {"loginExtraSecurity"} )
-    void startPage2(){startPage.runStartPage();}
+    void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login3(){
+    void login4(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

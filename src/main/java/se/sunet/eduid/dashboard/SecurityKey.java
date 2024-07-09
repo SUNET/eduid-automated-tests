@@ -14,6 +14,8 @@ import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
+import static se.sunet.eduid.utils.Common.log;
+
 public class SecurityKey {
     private final Common common;
     private final TestData testData;
@@ -24,13 +26,18 @@ public class SecurityKey {
     }
 
     public void runSecurityKey(){
-        pressAdvancedSettings();
+        if(testData.isVerifySecurityKey()){
+            verifySecurityKey();
+        }
+        else {
+            pressAdvancedSettings();
 
-        //If we shall add extra security key
-        if(testData.isAddSecurityKey())
-            virtualAuthenticator();
+            //If we shall add extra security key
+    //        if(testData.isAddSecurityKey())
+                virtualAuthenticator();
 
-        addSecurityKey();
+            addSecurityKey();
+        }
     }
 
     private void pressAdvancedSettings(){
@@ -40,8 +47,10 @@ public class SecurityKey {
         common.explicitWaitVisibilityElement("//*[@id=\"register-security-key-container\"]/h2");
 
         //TODO temp fix to get swedish language
-        if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))
+        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))
             common.selectSwedish();
+
+
     }
 
     //Not used any more, keeping code for example
@@ -101,21 +110,16 @@ public class SecurityKey {
         common.timeoutMilliSeconds(500);
 
         //Verify that without personal info added, no extra key can be added.
-        if(!testData.isAddSecurityKey()) {
+ /*       if(!testData.isAddSecurityKey()) {
             common.verifyStatusMessage("Du behöver lägga till ditt namn i Inställningar innan du kan lägga till en säkerhetsnyckel");
 
             //Close the status message
             common.closeStatusMessage();
-        }
+        }*/
         //Verify that extra key can be added.
-        else if(testData.isAddSecurityKey()) {
+        if(testData.isAddSecurityKey()) {
             //Verify headings
             verifySecurityKeyHeaders();
-
-            //Try to remove the "last" key
-            //common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[5]/button"));
-            //common.timeoutMilliSeconds(500);
-            //common.verifyStatusMessage("Du kan inte ta bort din enda säkerhetsnyckel");
         }
     }
 
@@ -224,5 +228,48 @@ public class SecurityKey {
         //English
         common.timeoutMilliSeconds(2500);
         common.selectSwedish();
+    }
+
+    private void verifySecurityKey(){
+        Common.log.info("Start verify security key pop up labels and text");
+
+        //Click on Verify for the added security key - Selecting Freja
+        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
+
+        common.switchToPopUpWindow();
+
+        //Verify labels and text
+        common.timeoutSeconds(3);
+        common.explicitWaitClickableElementId("security-confirm-modal-close-button");
+        common.verifyStringOnPage("Av säkerhetsskäl...");
+        common.verifyStringOnPage("För att verifiera din säkerhetsnyckel test-key1");
+        common.verifyStringOnPage(" måste du logga in igen. när du har loggat in, trycker du på knappen igen.");
+
+        common.verifyStringById("security-confirm-modal-accept-button", "GODKÄNN");
+
+        //Close pop-up
+        common.click(common.findWebElementById("security-confirm-modal-close-button"));
+
+        //Select English
+        common.selectEnglish();
+
+        //Click on Verify for the added security key - Selecting Freja
+
+        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
+
+        common.switchToPopUpWindow();
+
+        //Verify labels and text
+        common.timeoutSeconds(3);
+        common.explicitWaitClickableElementId("security-confirm-modal-close-button");
+        common.verifyStringOnPage("For security reasons...");
+        common.verifyStringOnPage("To verify your security key test-key1");
+        common.verifyStringOnPage(", you'll have to log in again. Once logged in, please press the button again.");
+
+        common.verifyStringById("security-confirm-modal-accept-button", "ACCEPT");
+
+        //Click on Accept
+        Common.log.info("Start verify security key pop up - pressing Accept button");
+        common.click(common.findWebElementById("security-confirm-modal-accept-button"));
     }
 }

@@ -319,6 +319,11 @@ public class Common {
         timeoutMilliSeconds(500);
     }
 
+    public void scrollDown(int pixelsDown) {
+        ((JavascriptExecutor)getWebDriver()).executeScript("window.scrollTo(0, " +pixelsDown +")");
+        timeoutMilliSeconds(500);
+    }
+
     public void clearTextField(WebElement webElementToField) {
         ((JavascriptExecutor) getWebDriver()).executeScript("arguments[0].value=''", webElementToField);
     }
@@ -407,7 +412,7 @@ public class Common {
         }
     }
 
-    public String getCodeInNewTab(String fromURL) {
+    public String getCodeInNewTab(String fromURL, int expectedLength) {
         //Store current window handle
         switchToPopUpWindow();
 
@@ -418,6 +423,15 @@ public class Common {
         //Navigate to page with otp
         navigateToUrl(fromURL);
         String code = findWebElementByXpath("/html/body").getText();
+
+        //Sometimes code generations fails, reload the page will often help
+        if(code.length() != expectedLength){
+            Common.log.info("Failed to fetch the code, got: " +code +"\nwill try to reload the page!");
+            getWebDriver().navigate().refresh();
+            timeoutSeconds(4);
+        }
+        code = findWebElementByXpath("/html/body").getText();
+        Assert.assertEquals(code.length(), expectedLength, "Failed to fetch the OTP code! Got: " +code);
 
         Common.log.info("Fetched code in new window tab: " +code);
         timeoutMilliSeconds(500);

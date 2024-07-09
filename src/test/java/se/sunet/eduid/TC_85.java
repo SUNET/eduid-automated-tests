@@ -8,22 +8,6 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
 public class TC_85 extends BeforeAndAfter {
- /*   @Test
-    void startPage(){
-        testData.setRegisterAccount(true);
-        startPage.runStartPage();
-    }
-
-    @Test( dependsOnMethods = {"startPage"} )
-    void register(){ register.runRegister(); }
-
-    @Test( dependsOnMethods = {"register"} )
-    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
-
-    @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
-
-    @Test( dependsOnMethods = {"confirmedNewAccount"} )*/
  @Test
  void startPage(){
      startPage.runStartPage();
@@ -40,7 +24,6 @@ public class TC_85 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login"} )
     void personalInfo() {
-//        testData.setRegisterAccount(true);
 
         //Navigate to settings
         common.navigateToSettings();
@@ -49,7 +32,6 @@ public class TC_85 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
-//        phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
     @Test( dependsOnMethods = {"addPhoneNumber"} )
@@ -72,9 +54,10 @@ public class TC_85 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void clickVerifySecurityKey() {
-        //Click on Verify for the added security key
-        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
-    }
+        testData.setVerifySecurityKey(true);
+
+        securityKey.runSecurityKey();
+ }
 
     @Test( dependsOnMethods = {"clickVerifySecurityKey"} )
     void verifySecurityKeyLogin() {
@@ -105,7 +88,11 @@ public class TC_85 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
     void selectUserRefIdp(){
+        //Click on Verify for the added security key - Selecting Freja
+        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
+
         //Select and submit user
+        common.explicitWaitClickableElementId("submitButton");
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
@@ -139,9 +126,6 @@ public class TC_85 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"logInSomething"} )
     void login2(){
-        //testData.setUsername("sPPQxsHz@dev.eduid.sunet.se");
-        //testData.setPassword("gnhr jgdp zi2t");
-
         login.enterUsername();
         login.enterPassword();
 
@@ -173,13 +157,12 @@ public class TC_85 extends BeforeAndAfter {
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
         Common.log.info("Log in with Security key");
-
-        common.timeoutSeconds(2);
     }
 
 //    @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
     void selectUserRefIdp2(){
         //Select and submit user
+        common.explicitWaitClickableElementId("submitButton");
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();

@@ -18,6 +18,9 @@ public class TC_90 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+
+    @Test( dependsOnMethods = {"confirmPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -35,14 +38,6 @@ public class TC_90 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
-    void storeEppn(){
-        advancedSettings.pressAdvancedSettings();
-        common.timeoutSeconds(1);
-        advancedSettings.storeEppn();
-        common.timeoutSeconds(1);
-    }
-
-    @Test( dependsOnMethods = {"storeEppn"} )
     void addPhoneNumber(){
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
@@ -67,8 +62,9 @@ public class TC_90 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKey() {
-        //Click on Verify for the added security key
-        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
+        testData.setVerifySecurityKey(true);
+
+        securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"verifySecurityKey"} )
@@ -100,7 +96,11 @@ public class TC_90 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
     void selectUserRefIdp(){
+        //Click on Verify for the added security key - Selecting Freja
+        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
+
         //Select and submit user
+        common.explicitWaitClickableElementId("submitButton");
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();

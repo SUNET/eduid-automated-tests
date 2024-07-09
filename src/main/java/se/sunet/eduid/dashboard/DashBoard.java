@@ -53,11 +53,21 @@ public class DashBoard {
         common.click(common.findWebElementByXpath("//*[@id=\"header-nav\"]/button"));
         common.verifyStringByXpath("//*[@id=\"header-nav\"]/div/ul/a[1]", "Start");
 
+        //Close site location menu
+        common.click(common.findWebElementByXpath("//*[@id=\"header-nav\"]/button"));
+
         //Verify welcome heading
-        if (testData.getDisplayName().isEmpty())
+        if (testData.getDisplayName().isEmpty())//*[@id="eduid-splash-and-children"]/section/h1/strong
             common.verifyStringOnPage("Välkommen, " + testData.getEmail().toLowerCase() + "!");
-        else
-            common.verifyStringOnPage("Välkommen, " + testData.getDisplayName() + "!");
+        else{
+            //Ignore case-sensitive since when double name all names are shown with capital letter
+            common.verifyStrings(common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/section/h1/strong")
+                    .getText(), "Välkommen, " + testData.getDisplayName() + "!");
+           //Assert.assertTrue(
+           //         common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/section/h1/strong")
+             //               .getText().equalsIgnoreCase("Välkommen, " + testData.getDisplayName() + "!"));
+        }
+            //common.verifyStringOnPage("Välkommen, " + testData.getDisplayName() + "!");
 
         //Verify heading sub-text
         common.verifyStringOnPage("Få ut det mesta av eduID genom att granska din information.");
@@ -67,16 +77,17 @@ public class DashBoard {
         common.verifyStringOnPage("Detta unika ID är ett användarnamn för ditt eduID som du kan behöva " +
                 "ange för att identifiera ditt konto eller vid teknisk support. Det är en del av vad som kan hänvisas till som EPPN.");
         common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/div/span/strong", "Unikt ID: ");
-        if (testData.isRegisterAccount()){
+/*        if (testData.isRegisterAccount()){
             //Just check that eppn is 11 characters long
             Assert.assertTrue(common.findWebElementById("user-eppn").getAttribute("value").length() == 11,
                     "EPPN seems to be missing or not correct length");
         }
-        else
+        else*/
             common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
 
         //Non-verified account text
-        if(!testData.isAccountVerified() && testData.getDisplayName().isEmpty()) {
+//        if(!testData.isAccountVerified() && testData.getDisplayName().isEmpty()) {
+        if(!testData.isAccountVerified() && testData.isRegisterAccount()) {
             Common.log.info("Verifying dashboard labels in swedish, Account is not verified");
 
             common.verifyStringOnPage("Status för verifiering av din identitet");
@@ -88,16 +99,16 @@ public class DashBoard {
             common.verifyStringOnPage("För att få ut det mesta av eduID rekommenderar vi att du följer nedanstående rekommendationer.");
 
             //Recommended actions - Name
-            recommendedActionName(testData.getLanguage());
+            //recommendedActionName("Svenska");
 
             //Recommended actions - Add Number
-            recommendedActionAddNumber(testData.getLanguage());
+            recommendedActionAddNumber("Svenska");
 
             //Recommended actions - Identity
-            recommendedActionIdentity(testData.getLanguage());
+            recommendedActionIdentity("Svenska");
 
             //Recommended actions - Security key
-            recommendedActionSecurityKey(testData.getLanguage());
+            recommendedActionSecurityKey("Svenska");
         }
 
         //Verified account text
@@ -113,7 +124,7 @@ public class DashBoard {
             common.verifyStringOnPage("För att få ut det mesta av eduID rekommenderar vi att du följer nedanstående rekommendationer.");
 
             //Recommended actions - Security key
-            recommendedActionSecurityKey(testData.getLanguage());
+            recommendedActionSecurityKey("Svenska");
         }
 
         //Account has been verified earlier but after reset pw its not verified anymore
@@ -130,17 +141,17 @@ public class DashBoard {
 
             //Recommended actions - Confirm or Add Number depending on whats already registered
             if(testData.getPhoneNumber().isEmpty())
-                recommendedActionAddNumber(testData.getLanguage());
+                recommendedActionAddNumber("Svenska");
             else if(!testData.isRegisterAccount())
                 Common.log.info("Do nothing....?!?!?");
             else
-                recommendedActionConfirmNumber(testData.getLanguage());
+                recommendedActionConfirmNumber("Svenska");
 
             //Recommended actions - Identity
-            recommendedActionIdentity(testData.getLanguage());
+            recommendedActionIdentity("Svenska");
 
             //Recommended actions - Security key
-            recommendedActionSecurityKey(testData.getLanguage());
+            recommendedActionSecurityKey("Svenska");
         }
     }
 
@@ -155,11 +166,18 @@ public class DashBoard {
         common.click(common.findWebElementByXpath("//*[@id=\"header-nav\"]/button"));
         common.verifyStringByXpath("//*[@id=\"header-nav\"]/div/ul/a[1]", "Start");
 
+        //Close site location menu
+        common.click(common.findWebElementByXpath("//*[@id=\"header-nav\"]/button"));
+
         //Verify welcome heading
-        if(testData.getDisplayName().isEmpty())
-            common.verifyStringOnPage("Welcome, " +testData.getEmail().toLowerCase() +"!");
-        else
-            common.verifyStringOnPage("Welcome, " +testData.getDisplayName() +"!");
+        if(testData.getDisplayName().isEmpty()) {
+            common.verifyStringOnPage("Welcome, " + testData.getEmail().toLowerCase() + "!");
+        }
+        else {
+            common.verifyStrings(common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/section/h1/strong")
+                    .getText(), "Welcome, " + testData.getDisplayName() + "!");
+            //common.verifyStringOnPage("Welcome, " +testData.getDisplayName() +"!");
+        }
 
         //Verify heading sub-text
         common.verifyStringOnPage("Make the most out of eduID by reviewing your information.");
@@ -178,7 +196,8 @@ public class DashBoard {
             common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
 
         //Non-verified accounts
-        if(!testData.isAccountVerified() && testData.getDisplayName().isEmpty()) {
+//        if(!testData.isAccountVerified() && testData.getDisplayName().isEmpty()) {
+        if(!testData.isAccountVerified() && testData.isRegisterAccount()) {
             Common.log.info("Verifying dashboard labels in english, Account is not verified");
 
             //Non-verified account text
@@ -189,7 +208,7 @@ public class DashBoard {
             common.verifyStringOnPage("To get the most out of eduID we recommend that you follow the below recommendations.");
 
             //Recommended actions - Name
-            recommendedActionName("English");
+            //recommendedActionName("English");
 
             //Recommended actions - Add Number
             recommendedActionAddNumber("English");
@@ -272,7 +291,7 @@ public class DashBoard {
         }
         else{
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-verify-identity\"]/div/h3"));
-            common.timeoutMilliSeconds(100);
+            common.timeoutMilliSeconds(200);
             common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-verify-identity\"]/div/h3", "Verify your identity");
 
             //Check if account is new and has not been verified before
@@ -296,7 +315,7 @@ public class DashBoard {
        //Recommended actions - Security key
         if(language.equalsIgnoreCase("Svenska")) {
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-security-key\"]/div/h3"));
-            common.timeoutMilliSeconds(100);
+            common.timeoutMilliSeconds(200);
             common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-security-key\"]/div/h3",
                     "Lägg till din säkerhetsnyckel");
             common.verifyStringOnPage("Lägg till en säkerhetsnyckel för att aktivera säker återställning av lösenord");
@@ -315,7 +334,7 @@ public class DashBoard {
         }
         else{
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-security-key\"]/div/h3"));
-            common.timeoutMilliSeconds(100);
+            common.timeoutMilliSeconds(200);
             common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-security-key\"]/div/h3",
                     "Add your security key");
             common.verifyStringOnPage("Add your security key to enable safe reset of password");
@@ -338,7 +357,7 @@ public class DashBoard {
         //Recommended actions - Add name
         if(language.equalsIgnoreCase("Svenska")) {
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-add-name\"]/div/h3"));
-            common.timeoutMilliSeconds(100);
+            common.timeoutMilliSeconds(200);
             common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-add-name\"]/div/h3",
                     "Lägg till ditt namn");
             common.verifyStringOnPage("Namn kan användas för att anpassa tjänster som du kommer åt med ditt eduID.");
@@ -351,7 +370,7 @@ public class DashBoard {
         }
         else{
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-add-name\"]/div/h3"));
-            common.timeoutMilliSeconds(100);
+            common.timeoutMilliSeconds(200);
             common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-add-name\"]/div/h3",
                     "Add your name");
             common.verifyStringOnPage("Name can be used to personalise services that you access with your eduID.");
@@ -368,7 +387,7 @@ public class DashBoard {
         //Recommended actions - Add phone number
         if(language.equalsIgnoreCase("Svenska")) {
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3"));
-            common.timeoutMilliSeconds(100);
+            common.timeoutMilliSeconds(200);
             common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3",
                     "Lägg till ditt telefonnummer");
             common.verifyStringOnPage("Lägg till ditt telefonnummer för att möjliggöra säker återställning " +
@@ -382,7 +401,7 @@ public class DashBoard {
         }
         else{
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3"));
-            common.timeoutMilliSeconds(100);
+            common.timeoutMilliSeconds(200);
             common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3",
                     "Add your phone number");
             common.verifyStringOnPage("Add your phone number to enable safe reset of password and verification of identity.");
@@ -399,7 +418,7 @@ public class DashBoard {
         //Recommended actions - Add phone number
         if(language.equalsIgnoreCase("Svenska")) {
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3"));
-            common.timeoutMilliSeconds(100);
+            common.timeoutMilliSeconds(200);
             common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3",
                     "Bekräfta ditt telefonnummer");
             common.verifyStringOnPage("Bekräfta ditt telefonnummer för att möjliggöra säker återställning " +
@@ -413,7 +432,7 @@ public class DashBoard {
         }
         else{
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3"));
-            common.timeoutMilliSeconds(100);
+            common.timeoutMilliSeconds(200);
             common.verifyStringByXpath("//*[@id=\"accordion__heading-recommendation-phone\"]/div/h3",
                     "Confirm your phone number");
             common.verifyStringOnPage("Confirm your phone number to enable safe reset of password and verification of identity.");

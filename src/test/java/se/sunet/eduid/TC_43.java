@@ -21,6 +21,9 @@ public class TC_43 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+
+    @Test( dependsOnMethods = {"confirmPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -59,13 +62,6 @@ public class TC_43 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"confirmedIdentity"} )
-    void storeEppn(){
-        advancedSettings.pressAdvancedSettings();
-        common.timeoutSeconds(1);
-        advancedSettings.storeEppn();
-    }
-
-    @Test( dependsOnMethods = {"storeEppn"} )
     void logout(){ logout.runLogout(); }
 
     //Navigate to the support tool
@@ -105,9 +101,6 @@ public class TC_43 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login2"} )
-    void navigateToSettings() { common.navigateToSettings(); }
-
-    @Test( dependsOnMethods = {"navigateToSettings"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }

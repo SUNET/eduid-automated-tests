@@ -17,6 +17,9 @@ public class TC_38 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+
+    @Test( dependsOnMethods = {"confirmPassword"} )
     void confirmedNewAccount() {
         confirmedNewAccount.runConfirmedNewAccount(); }
 
@@ -27,14 +30,10 @@ public class TC_38 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login"} )
     void dashboard() {
-        //Account is verified
-        testData.setAccountVerified(false);
-
         //Set some user data that will be verified in dashboard
-        testData.setDisplayName("");
         testData.setEmail(testData.getUsername());
 
-        //Setting register account to true to just check that the eppn is present on dashboard (eppn value is unknown at this point).
+        //Account is a new register
         testData.setRegisterAccount(true);
 
         //Setting Account verified to false to check the correct account verification text at dashboard.

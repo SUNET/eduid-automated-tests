@@ -13,18 +13,20 @@ public class TestData {
     private String confirmNewEmail1 = "";
     private String newPassword = "";
     private String sendMobileOneTimePassword = "yes";
-    private String refIdpUser = "Ulla Alm (198611062384)";
+    //private String refIdpUser = "Ulla Alm (198611062384)";
+    //private String refIdpUser = "Bernt Olof Larsson (193911137077)";
+    private String refIdpUser = "Sixten von Samordnungsnummer (197010632391)";
     private String username, password, givenName, surName, displayName, magicCode, email,
             phoneNumber, identityNumber, language, eppn, confirmIdBy, supportUsername,
             emailCode, testCase, testDescription, testSuite, testMethod, mfaMethod, otpPhoneNumber, otherDeviceCode,
             otherDeviceSubmitCode, emailVerificationCode, browser, headlessExecution;
 
-    private boolean buttonValuePopup = true;
     private boolean buttonValueConfirm = true;
     private boolean generateUsername = true;
     private boolean acceptTerms = true;
     private boolean verifyEmail = true;
     private boolean addSecurityKey = false;
+    private boolean verifySecurityKey;
     private boolean accountVerified;
     private boolean registerAccount, resetPassword, incorrectPassword, removeNewEmail1,
             resendOTP, deleteButton, useRecommendedPw, otherDeviceFillCode, rememberMe, identityConfirmed;
@@ -47,6 +49,6 @@ public class TestData {
         setEppn(properties.getProperty("eppn"));
         setSupportUsername(properties.getProperty("support_username"));
 
-        setLanguage("Svenska");
+        //setLanguage("Svenska");
     }
 }

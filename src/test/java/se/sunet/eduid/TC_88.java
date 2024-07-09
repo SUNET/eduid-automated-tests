@@ -59,13 +59,12 @@ public class TC_88 extends BeforeAndAfter {
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
         Common.log.info("Log in with Freja");
-
-        common.timeoutSeconds(2);
     }
 
     @Test( dependsOnMethods = {"loginMfaFreja"} )
     void selectUserRefIdp(){
         //Select and submit user
+        common.explicitWaitClickableElementId("submitButton");
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();

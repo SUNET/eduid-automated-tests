@@ -28,11 +28,13 @@ public class ConfirmEmailAddress {
             //Evaluate response according to below criterias
             if(!testData.isGenerateUsername()) {
                 //Verify status message in swedish
-                common.verifyStatusMessage("E-postadressen är redan registrerad.");
+                common.verifyStatusMessage("E-postadressen är redan registrerad. Om du har glömt ditt lösenord kan " +
+                        "du gå till inloggningssidan och återställa det.");
 
                 //Verify status message in english
                 common.selectEnglish();
-                common.verifyStatusMessage("The email address is already registered.");
+                common.verifyStatusMessage("The email address is already registered. If you've forgotten your password, " +
+                        "go to the login page and reset it.");
 
                 //Press on login button to prepare Log in and delete the account
                 common.click(common.findWebElementById("login"));
@@ -44,7 +46,7 @@ public class ConfirmEmailAddress {
                 //Fetch the email verification code, first url encode the email address
                 String userName = testData.getUsername().replace("@", "%40");
                 testData.setEmailVerificationCode(common.getCodeInNewTab(
-                        "https://signup.dev.eduid.se/services/signup/get-code/?email=" + userName.toLowerCase()));
+                        "https://signup.dev.eduid.se/services/signup/get-code/?email=" + userName.toLowerCase(), 6));
 
                 //If not the code fetched above should be used...
                 if (!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
@@ -85,9 +87,10 @@ public class ConfirmEmailAddress {
                     emailVerificationAttempts ++;
                 }
 
-                //Wait for go to eduid link on next page
+                //Wait the copy password on confirm password page
                 else {
-                    common.explicitWaitClickableElementId("finished-button");
+                    common.explicitWaitClickableElementId("clipboard");
+                    //common.explicitWaitClickableElementId("finished-button");
                 }
             }
         }
@@ -96,7 +99,7 @@ public class ConfirmEmailAddress {
             common.click(common.findWebElementById("response-code-abort-button"));
 
             //Wait for text header
-            common.verifyStringOnPage("Registrera din e-postadress för att skapa ditt eduID.");
+            common.verifyStringOnPage("Registrera: Ange dina uppgifter");
         }
     }
 
@@ -104,7 +107,7 @@ public class ConfirmEmailAddress {
         //Wait for cancel button to be present
         common.explicitWaitClickableElementId("response-code-abort-button");
 
-        common.verifyStringOnPage("Verifiering av e-postadress");
+        common.verifyStringOnPage("Registrera: Verifiera e-postadress");
         common.verifyStringOnPage("Ange den sexsiffriga koden som skickats till");
         common.verifyStringOnPage(testData.getUsername().toLowerCase());
         common.verifyStringOnPage("för att verifiera din e-postadress. Du kan också kopiera och klistra " +
@@ -116,7 +119,7 @@ public class ConfirmEmailAddress {
         //Select English
         common.selectEnglish();
 
-        common.verifyStringOnPage("Verification of email address");
+        common.verifyStringOnPage("Register: Verify email address");
         common.verifyStringOnPage("Enter the six digit code sent to");
         common.verifyStringOnPage(testData.getUsername().toLowerCase());
         common.verifyStringOnPage("to verify your email address. You can also copy and paste the code " +

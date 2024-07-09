@@ -38,9 +38,9 @@ public class RequestNewPassword {
 
     private void verifyLabels(){
         //Heading
-        common.verifyStringOnPage("Återställ lösenord");
+        common.verifyStringOnPage("Återställ lösenord: Ange e-postadressen");
 
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p", "Ange din e-postadress registrerad till ditt konto.");
+        common.verifyStringOnPage("Om det finns en användare med den epostadressen, skickas ett mail med instruktioner.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress");
 
         //Verify placeholder
@@ -56,9 +56,9 @@ public class RequestNewPassword {
         common.verifyPageTitle("Reset Password | eduID");
 
         //Heading
-        common.verifyStringOnPage("Reset password");
+        common.verifyStringOnPage("Reset Password: Enter the email address");
 
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/p", "Enter the email address registered to your eduID account.");
+        common.verifyStringOnPage("Once entered, if the address is registered, a message with instructions to reset the password will be sent.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address");
 
         //Verify placeholder

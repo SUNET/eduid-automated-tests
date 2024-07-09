@@ -1,5 +1,6 @@
 package se.sunet.eduid.generic;
 
+import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -49,6 +50,7 @@ public class Login {
 
         //Enter username
         common.findWebElementById("username").clear();
+        common.findWebElementById("username").clear();
         common.findWebElementById("username").sendKeys(testData.getUsername());
 
         Common.log.info("Log in with username: " +testData.getUsername());
@@ -56,6 +58,7 @@ public class Login {
 
     public void enterPassword() {
         common.timeoutMilliSeconds(500);
+        common.findWebElementById("currentPassword").clear();
         common.findWebElementById("currentPassword").clear();
 
         common.findWebElementById("currentPassword").sendKeys(testData.getPassword());
@@ -78,8 +81,10 @@ public class Login {
         }
         else {
             //Wait for the username label at dashboard upper right corner
-//            common.timeoutSeconds(2);
-            common.explicitWaitClickableElementId("header-nav");
+            common.timeoutSeconds(4);
+
+            common.explicitWaitClickableElementId("clipboard");
+            storeEppn();
         }
     }
 
@@ -97,5 +102,18 @@ public class Login {
 
         //Wait for next page, return to login
         common.explicitWaitClickableElementId("go-back-button");
+    }
+
+    public void storeEppn(){
+        //Wait for copy eppn button
+        common.timeoutSeconds(2);
+        common.explicitWaitClickableElementId("clipboard");
+
+        testData.setEppn(common.findWebElementById("user-eppn").getAttribute("value"));
+        if(testData.getEppn().isEmpty()) {
+            Assert.fail("Failed to save eppn, saved eppn is: " +testData.getEppn());
+        }
+        else
+            Common.log.info("Saved EPPN: " +testData.getEppn());
     }
 }

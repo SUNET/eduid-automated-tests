@@ -256,12 +256,12 @@ public class EmailAddresses {
     }
 
     private void verifyConfirmEmailPopupLabels(){
-        // In pop-up, verify labels and place holder
+        // In pop-up, verify labels and placeholder
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
                 "Klicka på länken eller skriv in koden som skickats till "
                         +testData.getAddNewEmail1() +" här");
         common.verifyStringByXpath("//*[@id=\"email-confirm-modal-wrapper\"]/div/label", "Kod");
-        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-form\"]/div[1]/div[2]/a",
+        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-form\"]/div[1]/div[2]/button",
                 "Skicka ny kod igen");
 
         //Close confirmation pop-up
@@ -276,12 +276,12 @@ public class EmailAddresses {
         //Switch to the new pop-up window
         common.switchToPopUpWindow();
 
-        // In pop-up, verify labels and place holder
+        // In pop-up, verify labels and placeholder
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
                 "Click the link or enter the code sent to "
                         +testData.getAddNewEmail1() +" here");
         common.verifyStringByXpath("//*[@id=\"email-confirm-modal-wrapper\"]/div/label", "Code");
-        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-form\"]/div[1]/div[2]/a",
+        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-form\"]/div[1]/div[2]/button",
                 "Send a new code");
 
         //Close confirmation pop-up

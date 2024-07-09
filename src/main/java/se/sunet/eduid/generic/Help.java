@@ -230,8 +230,8 @@ public class Help {
                 "bland inställningarna i eduID genom att följa instruktionerna där.");
 
         //Text
-        common.verifyStringOnPage("Obs: när du har lagt till en säkerhetsnyckel till ditt eduID behöver " +
-                "du sedan använda den för att kunna logga in.");
+        common.verifyStringOnPage("Obs: om du har lagt till en säkerhetsnyckel till ditt eduID behöver " +
+                "du sedan använda den för att kunna logga in och du behöver ha minst en.");
 
         //Heading
         common.verifyStringOnPage("Vilka säkerhetsnycklar kan jag använda för eduID?");
@@ -565,7 +565,7 @@ public class Help {
                 "Inkludera inte konfidentiell eller skyddsvärd information som t.ex. ditt personnummer!\n" +
                 "Om något har blivit fel är det alltid bra att skicka med skärmdumpar med felmeddelanden för att underlätta felsökning.");
         common.verifyStringOnPage("För bästa möjliga support rekommenderar vi dig alltid att skicka " +
-                "e-post, men för enklare ärenden kan du också nå oss per telefon 0455-385200.");
+                "e-post, men för enklare ärenden kan du också nå oss per telefonnummer 08-555 213 62");
         common.verifyStringOnPage("Öppettider:");
     }
 
@@ -722,7 +722,8 @@ public class Help {
                 "Settings area of eduID by following the instructions there.");
 
         //Text
-        common.verifyStringOnPage("Note: once you have added a security key to your eduID it must be used to log in.");
+        common.verifyStringOnPage("Note: if you have added a security key to your eduID it must be " +
+                "used to log in and you need to keep at least one.");
 
         //Heading
         common.verifyStringOnPage("Which type of security key can I use with eduID?");
@@ -1053,7 +1054,7 @@ public class Help {
                 "Don't include confidential or sensitive information such as your personal identity number in the email!\n" +
                 "If something went wrong, it is always a good idea to include screenshots with error messages to ease troubleshooting.");
         common.verifyStringOnPage("In order to get best possible support, we recommend that you send " +
-                "e-mail, but for simple matters you can also reach us on phone number 0455-385200.");
+                "e-mail, but for simple matters you can also reach us on phone number 08-555 213 62");
         common.verifyStringOnPage("Opening hours:");
     }
 

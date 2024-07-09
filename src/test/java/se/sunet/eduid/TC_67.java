@@ -55,12 +55,11 @@ public class TC_67 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"pressLogin"} )
     void dashboard2() {
-        //Setting register account to true to just check that the eppn is present on dashboard (eppn value is unknown at this point).
-        testData.setRegisterAccount(true);
-
         //Setting Account verified to false to check the correct account verification text at dashboard.
         testData.setAccountVerified(false);
         testData.setDisplayName("Rutger Jönåker");
+        testData.setEppn("jusof-vosuh");
+
         dashBoard.runDashBoard();
         testData.setRegisterAccount(false);
     }

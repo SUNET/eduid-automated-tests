@@ -18,6 +18,9 @@ public class TC_56 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+
+    @Test( dependsOnMethods = {"confirmPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -59,8 +62,9 @@ public class TC_56 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKey() {
-       //Click on Verify for the added security key
-        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
+        testData.setVerifySecurityKey(true);
+
+        securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"verifySecurityKey"} )
@@ -83,13 +87,15 @@ public class TC_56 extends BeforeAndAfter {
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
         Common.log.info("Log in with extra security");
-
-        common.timeoutSeconds(2);
     }
 
     @Test( dependsOnMethods = {"loginMfa"} )
     void selectUserRefIdp(){
+        //Click on Verify for the added security key - Selecting Freja
+        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
+
         //Select and submit user
+        common.explicitWaitClickableElementId("submitButton");
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
@@ -102,41 +108,57 @@ public class TC_56 extends BeforeAndAfter {
         common.verifyStatusMessage("Felaktigt format av identitetsnumret. Var god försök igen.");
 
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button[1]", "FREJA+");
+        common.verifyStringByXpath(
+                "//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button[1]", "FREJA+");
 
         common.selectEnglish();
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button[2]", "BANKID");
+        common.verifyStringByXpath(
+                "//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button[2]", "BANKID");
 
         //Verify the status message
         common.verifyStatusMessage("Incorrect format of the identity number. Please try again.");
+        common.closeStatusMessage();
 
         common.selectSwedish();
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
-    void navigateToSettings() {
-        common.navigateToSettings();
+    void timeoutBeforeDelete() {
+        //Timeout to make sure last log in was +5min ago
+        common.timeoutSeconds(75);
     }
 
-    @Test( dependsOnMethods = {"navigateToSettings"} )
+    @Test( dependsOnMethods = {"timeoutBeforeDelete"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
-        common.timeoutSeconds(2);
+
+        //Verify the extra pop-up when logged in +5minutes
+        deleteAccount.confirmDeleteAfter5Min();
     }
 
     @Test( dependsOnMethods = {"delete"} )
+    void login3(){
+        login.verifyPageTitle();
+        login.enterPassword();
+
+        //Click log in button
+        common.findWebElementById("login-form-button").click();
+    }
+
+    @Test( dependsOnMethods = {"login3"} )
     void loginExtraSecurity(){
-        loginExtraSecurity.runLoginExtraSecurity();
-        common.timeoutSeconds(1);
+
+        loginExtraSecurity.selectMfaMethod();
+        common.timeoutSeconds(2);
     }
 
     @Test( dependsOnMethods = {"loginExtraSecurity"} )
-    void startPage2(){startPage.runStartPage();}
+    void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login3(){
+    void login4(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

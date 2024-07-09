@@ -15,9 +15,6 @@ public class TC_55 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login"} )
-    void navigateToSettings() { common.navigateToSettings(); }
-
-    @Test( dependsOnMethods = {"navigateToSettings"} )
     void removeExtraPhonenumbers() {
         //Click on X on the second line twice to remove both extra added phone numbers in TC_51
         common.timeoutMilliSeconds(700);

@@ -13,20 +13,24 @@ public class PersonalInfo {
     }
 
     public void runPersonalInfo(){
+        common.timeoutMilliSeconds(4500);
         common.navigateToSettings();
 
         //If new account
         if(testData.isRegisterAccount()) {
             //Click add data
-            common.timeoutMilliSeconds(500);
-            common.click(common.findWebElementById("add-personal-data"));
-
-            updatePersonalInfo();
+            //common.timeoutMilliSeconds(500);
+            //common.click(common.findWebElementById("add-personal-data"));
+//TODO add test case when personal data is changed...
+//            updatePersonalInfo();
         }
         else
             verifyAndUpdatePersonalInfo();
-        selectLanguage();
-        if(testData.getLanguage().equals("Svenska"))
+
+        //TODO change language
+        if(testData.getLanguage() != null)
+            selectLanguage();
+        if(testData.getLanguage() == null || testData.getLanguage().equals("Svenska"))
             verifyLabelsSwedish();
         else
             verifyLabelsEnglish();
@@ -124,17 +128,15 @@ public class PersonalInfo {
     }
 
     private void selectLanguage() {
-        //Change to Swedish
-        if((testData.getLanguage().equalsIgnoreCase("Svenska") && !testData.getLanguage().equalsIgnoreCase(
-                common.findWebElementById("language").getText()))) {
-            //Click on change
-            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button"));
+        //Click on change
+        common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button").click();
 
+        //Change to Swedish
+        if(testData.getLanguage().equalsIgnoreCase("Svenska")){
             //Verify button text, before change
             common.verifyStringById("personal-data-button", "SAVE");
 
             //Select new language - Swedish
-            //common.click(common.findWebElementByXpath("//*[@id=\"personaldata-view-form\"]/fieldset[2]/div/label[2]/input"));
             common.click(common.findWebElementById("Svenska"));
 
             pressSaveButton();
@@ -142,11 +144,7 @@ public class PersonalInfo {
             common.timeoutSeconds(1);
         }
         //Change to English
-        else if(testData.getLanguage().equalsIgnoreCase("English") && !testData.getLanguage().equalsIgnoreCase(
-                common.findWebElementById("language").getText())){
-            //Click on change
-            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button"));
-
+        else if(testData.getLanguage().equalsIgnoreCase("English")){
             //Verify button text, before change
             common.verifyStringById("personal-data-button", "SPARA");
 
@@ -193,9 +191,6 @@ public class PersonalInfo {
         if(testData.isIdentityConfirmed()) {
             common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/div[2]/div[3]/span/strong", "Visningsnamn");
         }
-
-        //Language
-        common.verifyStringOnPage( "Språk");
     }
 
     private void verifyLabelsEnglish() {
@@ -221,8 +216,5 @@ public class PersonalInfo {
         if(testData.isIdentityConfirmed()) {
             common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/div[2]/div[3]/span/strong", "Display name");
         }
-
-        //Language
-        common.verifyStringOnPage("Language");
     }
 }

@@ -15,7 +15,7 @@ public class StartPage {
     public void runStartPage(){
         verifyPageTitle();
 
-        if(testData.getLanguage().equalsIgnoreCase("English"))
+        if(testData.getLanguage() != null && testData.getLanguage().equalsIgnoreCase("English"))
             verifyLabelsEnglish();
         else
             verifyLabelsSwedish();
@@ -26,9 +26,7 @@ public class StartPage {
     }
 
     private void verifyPageTitle() {
-        //common.timeoutSeconds(2);
-//        common.explicitWaitPageTitle("eduID");
-        common.verifyPageTitle("eduID");
+        common.explicitWaitPageTitle("eduID");
 
         //Verify footer
         common.verifyStringOnPage("©2013-" +common.getDate().toString().substring(0,4));

@@ -39,25 +39,33 @@ public class Register {
 
     private void verifyLabels(){
         //Verify placeholder
+        common.verifyPlaceholder("Förnamn", "given_name");
+        common.verifyPlaceholder("Efternamn", "surname");
         common.verifyPlaceholder("namn@example.com", "email");
 
-        common.verifyStringOnPage("Registrera din e-postadress för att skapa ditt eduID.");
-
+        common.verifyStringOnPage("Registrera: Ange dina uppgifter");
         common.verifyStringOnPage("När du har skapat ditt eduID kan du logga in och koppla det till " +
                 "din identitet.");
+
+        common.verifyStringByXpath("//*[@id=\"given_name-wrapper\"]/div/label", "Förnamn");
+        common.verifyStringByXpath("//*[@id=\"surname-wrapper\"]/div/label", "Efternamn");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress");
 
         //Switch language to English
         common.selectEnglish();
         common.verifyPageTitle("Register | eduID");
 
-        common.verifyStringOnPage("Register your email address to create your eduID.");
-
+        common.verifyStringOnPage("Register: Enter your details");
         common.verifyStringOnPage("Once you have created an eduID you will be able to log in and " +
                 "connect it to your identity.");
+
+        common.verifyStringByXpath("//*[@id=\"given_name-wrapper\"]/div/label", "First name");
+        common.verifyStringByXpath("//*[@id=\"surname-wrapper\"]/div/label", "Last name");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address");
 
         //Verify placeholder
+        common.verifyPlaceholder("First name", "given_name");
+        common.verifyPlaceholder("Last name", "surname");
         common.verifyPlaceholder("name@example.com", "email");
 
     }
@@ -67,19 +75,35 @@ public class Register {
         if(testData.isGenerateUsername())
             generateUsername();
 
-        //Generate new identity number if not specified in test case
-        if(testData.isRegisterAccount() && testData.getIdentityNumber().isEmpty())
+        //Generate new identity number, given name and surname if not specified in test case
+        if(testData.isRegisterAccount()) {
             setIdentityNumber();
-        else
-            Common.log.info("Identity number set to: " +testData.getIdentityNumber());
-
+            setGivenName();
+            setSurName();
+            testData.setDisplayName(testData.getGivenName() + " " +testData.getSurName());
+            Common.log.info("Display name set to: " +testData.getDisplayName());
+        }
+        else {
+            Common.log.info("Identity number set to: " + testData.getIdentityNumber());
+        }
         Common.log.info("Register user: " +testData.getUsername());
 
         //Also set the email address for future usage
         testData.setEmail(testData.getUsername().toLowerCase());
 
+        //Enter given name
+        common.findWebElementById("given_name").clear();
+        common.findWebElementById("given_name").sendKeys(testData.getGivenName());
+
+        //Enter sur name
+        common.findWebElementById("surname").clear();
+        common.findWebElementById("surname").sendKeys(testData.getSurName());
+
+        //Enter email
         common.findWebElementById("email").clear();
         common.findWebElementById("email").sendKeys(testData.getUsername());
+
+        //Press register
         common.click(common.findWebElementById("register-button"));
     }
 
@@ -93,6 +117,9 @@ public class Register {
 
         common.selectSwedish();
 
+        //Fill in registration data again
+        common.findWebElementById("given_name").sendKeys(testData.getGivenName());
+        common.findWebElementById("surname").sendKeys(testData.getSurName());
         common.findWebElementById("email").sendKeys(testData.getUsername());
         common.click(common.findWebElementById("register-button"));
 
@@ -112,7 +139,7 @@ public class Register {
     private void verifyTermsSwedish(){
         //Swedish
         Common.log.info("Verify terms - swedish");
-        common.verifyStringOnPage("Användarvillkor");
+        common.verifyStringOnPage("Registrera: Godkänn användarvillkor");
         common.verifyStringOnPage("För att skapa ditt eduID måste du acceptera användarvillkoren för eduID.");
         common.verifyStringOnPage("För eduID.se gäller generellt");
         common.verifyStringOnPage("att all användning av " +
@@ -138,7 +165,7 @@ public class Register {
 
     private void verifyTermsEnglish(){
         Common.log.info("Verify terms - english");
-        common.verifyStringOnPage("Terms of use");
+        common.verifyStringOnPage("Register: Approve terms of use");
         common.verifyStringOnPage("To create your eduID you need to accept the eduID terms of use.");
         common.verifyStringOnPage("The following generally applies:");
         common.verifyStringOnPage("that all usage of user accounts " +
@@ -201,16 +228,59 @@ public class Register {
         }
     }
 
+    private void setGivenName(){
+        //Select random given name from file
+        List<String> lines;
+        Random random = new Random();
+        try {
+            lines = Files.readAllLines(Paths.get("src/main/resources/given_name.txt"));
+
+            testData.setGivenName(lines.get(random.nextInt(lines.size())));
+            Common.log.info("First name set to: " +testData.getGivenName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setSurName(){
+        //Select random sur name from file
+        List<String> lines;
+        Random random = new Random();
+        try {
+            lines = Files.readAllLines(Paths.get("src/main/resources/sur_name.txt"));
+
+            testData.setSurName(lines.get(random.nextInt(lines.size())));
+            Common.log.info("Sur name set to: " +testData.getSurName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void verifyLabelsAtConfirmEmailAddress() {
         //Label1
-        common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Confirm that you are a human.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Register: Confirm that you are a human");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/p",
+                "As a protection against automated spam, you'll need to confirm that you are a human.");
+        common.verifyStringOnPage("Enter the code from the image");
+        common.verifyStringOnPage("Generate a new image");
+
+        //Verify button text
+        common.verifyStringById("cancel-captcha-button", "CANCEL");
 
         //Switch language to Swedish
         common.selectSwedish();
 
         //Label1
-        common.verifyStringByXpath("//*[@id=\"content\"]/h1", "eduID måste " +
-                "verifiera att du är en människa och inte en maskin.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/h1",
+                "Registrera: Bekräfta att du är en människa");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/p",
+                "Som ett skydd mot automatisk spam måste du bekräfta att du är en människa.");
+        common.verifyStringOnPage("Ange koden från bilden");
+        common.verifyStringOnPage("Generera en ny bild");
+
+        //Verify button text
+        common.verifyStringById("cancel-captcha-button", "AVBRYT");
+
 
         //Switch language to English
         common.selectEnglish();

@@ -17,25 +17,21 @@ public class TC_45 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+
+    @Test( dependsOnMethods = {"confirmPassword"} )
     void confirmedNewAccount() {
         confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
         testData.setRegisterAccount(false);
-        login.runLogin(); }
-
-    @Test( dependsOnMethods = {"login"} )
-    void storeEppn(){
-        advancedSettings.pressAdvancedSettings();
-        common.timeoutSeconds(1);
-        advancedSettings.storeEppn();
-        common.timeoutSeconds(1);
+        login.runLogin();
 
         testData.setEmail(testData.getUsername().toLowerCase());
     }
 
-    @Test( dependsOnMethods = {"storeEppn"} )
+    @Test( dependsOnMethods = {"login"} )
     void logout() { logout.runLogout(); }
 
     @Test( dependsOnMethods = {"logout"} )
@@ -82,9 +78,6 @@ public class TC_45 extends BeforeAndAfter {
 
         //Setting Account verified to false to check the correct account verification text at dashboard.
         testData.setAccountVerified(false);
-
-        //Set some user data that will be verified in dashboard
-        testData.setDisplayName("");
 
         dashBoard.runDashBoard();
     }

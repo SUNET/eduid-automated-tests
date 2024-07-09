@@ -30,7 +30,7 @@ public class ConfirmedNewAccount {
 
     private void verifyLabels(){
         //Details
-        common.verifyStringOnPage("Registrering av ditt eduID är klar.");
+        common.verifyStringOnPage("Registrera: Slutförd");
         common.verifyStringOnPage("Här är dina inloggningsuppgifter med ett genererat lösenord. Spara " +
                 "lösenordet! Obs: mellanrummen i lösenordet är för att göra det mer läsbart och tas automatiskt bort " +
                 "vid inmatning. Du kan efter att du har loggat in välja att byta lösenord.");
@@ -44,7 +44,8 @@ public class ConfirmedNewAccount {
 
         //Password
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Lösenord");
-        testData.setPassword(common.findWebElementById("user-password").getText());
+        common.verifyStringById("user-password", testData.getPassword());
+        //testData.setPassword(common.findWebElementById("user-password").getText());
 
         //Switch language to English
         common.selectEnglish();
@@ -52,10 +53,10 @@ public class ConfirmedNewAccount {
         common.verifyPageTitle("Register | eduID");
 
         //Details
-        common.verifyStringOnPage("You have completed the registration for eduID.");
-        common.verifyStringOnPage("These are your login details for eduID. A password has been " +
-                "generated for you. Save the password! Note: spaces in the generated password are there for legibility " +
-                "and will be removed automatically if entered. Once you've logged in it is possible to change your password.");
+        common.verifyStringOnPage("Register: Completed");
+        common.verifyStringOnPage("These are your login details for eduID. Save the password! Note: " +
+                "spaces in the generated password are there for legibility and will be removed automatically if entered." +
+                " Once you've logged in it is possible to change your password.");
 
         //Email
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "Email address");
@@ -63,6 +64,7 @@ public class ConfirmedNewAccount {
 
         //Password
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Password");
+        common.verifyStringById("user-password", testData.getPassword());
 
         //Button
         common.verifyStringById("finished-button", "Go to eduID to login");

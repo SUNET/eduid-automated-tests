@@ -33,12 +33,13 @@ public class SetNewPassword {
         common.verifyStrings("xxxx xxxx xxxx", common.findWebElementById("newPassword").getAttribute("placeholder"));
 
         //verify the labels in Swedish
-        common.verifyStringOnPage("Skapa ditt nya lösenord");
+        common.verifyStringOnPage("Återställ lösenord: Ange nytt lösenord");
         common.verifyStringOnPage("Ett starkt lösenord har genererats åt dig. För att fortsätta måste " +
                 "du kopiera lösenordet till fältet Repetera ditt nya lösenord och klicka på Acceptera lösenord och " +
-                "spara det för framtida bruk.");
+                "spara det för framtida bruk. Obs: mellanrummen i lösenordet är för att göra det mer läsbart och tas " +
+                "automatiskt bort vid inmatning. ");
 
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/label", "Nytt lösenord");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/label", "Nytt lösenord");
         common.verifyStringByXpath("//*[@id=\"newPassword-wrapper\"]/div/label", "Repetera ditt nya lösenord");
 
         //Switch to Swedish
@@ -47,12 +48,13 @@ public class SetNewPassword {
         common.verifyPageTitle("Reset Password | eduID");
 
         //verify the labels
-        common.verifyStringOnPage("Set your new password");
+        common.verifyStringOnPage("Reset Password: Set new password");
         common.verifyStringOnPage("A strong password has been generated for you. To proceed you will " +
                 "need to copy the password in to the Repeat new password field and click Accept Password and save it " +
-                "for future use.");
+                "for future use. Note: spaces in the generated password are there for legibility and will be removed " +
+                "automatically if entered.");
 
-        common.verifyStringByXpath("//*[@id=\"reset-pass-display\"]/div/label", "New password");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/label", "New password");
         common.verifyStringByXpath("//*[@id=\"newPassword-wrapper\"]/div/label", "Repeat new password");
 
         Assert.assertTrue(common.findWebElementById("copy-new-password").getText().isEmpty(), "New password field is empty");
@@ -78,7 +80,7 @@ public class SetNewPassword {
 
         //Wait for next page
         if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("already"))
-            common.explicitWaitClickableElementId("return-login");
+            common.explicitWaitClickableElementId("reset-password-finished");
 
         /* Abort...
         common.verifyStringOnPage("GÅ TILLBAKA");

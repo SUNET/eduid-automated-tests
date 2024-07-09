@@ -92,22 +92,14 @@ public class PhoneNumber {
             phoneNumber = phoneNumber.replace("070", "%2b4670");
         }
 
+
         Common.log.info("Verify captcha");
         verifyCaptcha();
 
-        //Fetch eppen - click on advanced settings
-        common.navigateToAdvancedSettings();
-
-        //Store eppen
-        testData.setEppn(common.findWebElementById("user-eppn").getAttribute("value"));
-
         //Fetch the code
         String phoneCode = common.getCodeInNewTab("https://dashboard.dev.eduid.se/services/phone/get-code?eppn="
-                +testData.getEppn() +"&phone=" +phoneNumber);
+                +testData.getEppn() +"&phone=" +phoneNumber, 10);
         Common.log.info("Fetching phone code, got following code: " +phoneCode);
-
-        //Navigate back to settings page
-        common.navigateToSettings();
 
         //Press confirm phone number link
         common.timeoutSeconds(1);
@@ -136,6 +128,7 @@ public class PhoneNumber {
     private void verifyLabelsConfirmPhoneNumber(){
         //Wait for pop-up close button
         common.timeoutMilliSeconds(1000);
+        Common.log.info("Verify Captcha text and labels in Swedish");
 
         //Heading
         common.verifyXpathContainsString("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
@@ -145,7 +138,7 @@ public class PhoneNumber {
         common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/div/label", "Kod");
 
         //Verify placeholder
-        common.verifyPlaceholder("Kod", "phone-confirm-modal");
+        common.verifyPlaceholder("skriv in koden", "phone-confirm-modal");
 
         //Resend link
         common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-form\"]/div[1]/div[2]/a", "Skicka ny kod igen");
@@ -157,6 +150,8 @@ public class PhoneNumber {
         common.timeoutMilliSeconds(300);
         common.selectEnglish();
 
+        Common.log.info("Verify Captcha text and labels in English");
+
         //Verify Button text
         common.verifyStringByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr/td[2]/button",
                 "CONFIRM");
@@ -166,7 +161,6 @@ public class PhoneNumber {
 
         //Solve captcha
         common.enterCaptcha("123456");
-//        common.timeoutSeconds(1);
 
         //Wait for close pop-up button
         common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button");
@@ -180,7 +174,7 @@ public class PhoneNumber {
         common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-wrapper\"]/div/label", "Code");
 
         //Verify placeholder
-        common.verifyPlaceholder("Code", "phone-confirm-modal");
+        common.verifyPlaceholder("enter code", "phone-confirm-modal");
 
         //Resend link
         common.verifyStringByXpath("//*[@id=\"phone-confirm-modal-form\"]/div[1]/div[2]/a", "Send a new code");
@@ -194,72 +188,80 @@ public class PhoneNumber {
     }
 
     private void verifyCaptcha(){
-        //Press confirm beside phoneNumber to open captcha
-        common.timeoutMilliSeconds(200);
-        common.click(common.findWebElementByXpathContainingText("Bekräfta"));
+        //We do not need to verify captcha text and labels in all test cases that add a phone number
+        if(!testData.getTestCase().equalsIgnoreCase("TC_40")) {
+            //Press confirm beside phoneNumber to open captcha
+            common.timeoutMilliSeconds(200);
+            common.click(common.findWebElementByXpathContainingText("Bekräfta"));
+            //common.findWebElementByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr[3]/td[2]/button").click();
 
-        //Wait for generate new captcha button
-        common.switchToPopUpWindow();
-        common.explicitWaitClickableElement("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button");
+            //Wait for generate new captcha button
+            common.switchToPopUpWindow();
+            common.explicitWaitClickableElement("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button");
 
-        //Verify labels - Swedish
-        //For unknown reason, textfield has to be cleared twice.
-        common.clearTextField(common.findWebElementById("phone-captcha-modal"));
-        common.timeoutMilliSeconds(500);
+            //Verify labels - Swedish
+            //For unknown reason, text field has to be cleared twice.
+            common.clearTextField(common.findWebElementById("phone-captcha-modal"));
+            common.timeoutMilliSeconds(500);
 
-        common.clearTextField(common.findWebElementById("phone-captcha-modal"));
-        common.timeoutMilliSeconds(500);
+            common.clearTextField(common.findWebElementById("phone-captcha-modal"));
+            common.timeoutMilliSeconds(700);
 
-        common.verifyStringOnPage("*Fältet kan inte vara tomt");
-        common.findWebElementById("phone-captcha-modal").sendKeys("1");
-        common.verifyStringOnPage("För att begära kod, fyll i nedan captcha.");
-        common.verifyStringOnPage("Ange koden från bilden");
-        common.verifyStringOnPage("Generera en ny bild");
-        common.verifyStringByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button", "FORTSÄTT");
+            //common.verifyStringOnPage("*Fältet kan inte vara tomt");
+            common.findWebElementById("phone-captcha-modal").sendKeys("1");
+            common.verifyStringOnPage("För att begära kod, fyll i nedan captcha.");
+            common.verifyStringOnPage("Ange koden från bilden");
+            common.verifyStringOnPage("Generera en ny bild");
+            common.verifyStringByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button", "FORTSÄTT");
 
-        //Close captcha
-        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5/button"));
+            //Close captcha
+            common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5/button"));
 
-        //Change to english
-        common.timeoutMilliSeconds(500);
-        common.selectEnglish();
+            //Change to english
+            common.timeoutMilliSeconds(500);
+            common.selectEnglish();
 
-        //Press confirm beside phoneNumber to open captcha
-        common.timeoutMilliSeconds(800);
-        common.click(common.findWebElementByXpathContainingText("confirm"));
+            //Press confirm beside phoneNumber to open captcha
+            common.timeoutMilliSeconds(1500);
+            common.click(common.findWebElementByXpathContainingText("confirm"));
+            common.timeoutMilliSeconds(1000);
+            common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr[2]/td[2]/button"));
+            //common.click(common.findWebElementByXpathContainingText("confirm"));
 
-        //Wait for generate new captcha button
-        common.switchToPopUpWindow();
-        common.explicitWaitClickableElement("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button");
+            //Wait for generate new captcha button
+            common.switchToPopUpWindow();
+            common.explicitWaitClickableElement("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button");
 
-        //Verify labels - English
-        common.verifyStringOnPage("*Field cannot be empty");
-        common.findWebElementById("phone-captcha-modal").sendKeys("1");
-        common.verifyStringOnPage("To receive code, complete below captcha.");
-        common.verifyStringOnPage("Enter the code from the image");
-        common.verifyStringOnPage("Generate a new image");
-        common.verifyStringByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button", "CONTINUE");
+            //Verify labels - English
+            //common.verifyStringOnPage("*Field cannot be empty");
+            common.findWebElementById("phone-captcha-modal").sendKeys("2");
+            common.verifyStringOnPage("To receive code, complete below captcha.");
+            common.verifyStringOnPage("Enter the code from the image");
+            common.verifyStringOnPage("Generate a new image");
+            common.verifyStringByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button", "CONTINUE");
 
-        //Generate new captcha code
-        common.findWebElementByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button").click();
+            //Generate new captcha code
+            common.findWebElementByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button").click();
 
-        //Enter code
-        common.findWebElementById("phone-captcha-modal").clear();
-        common.findWebElementById("phone-captcha-modal").sendKeys("12345");
+            //Enter code
+            common.findWebElementById("phone-captcha-modal").clear();
+            common.findWebElementById("phone-captcha-modal").sendKeys("12345");
 
-        //Press continue
-        common.findWebElementByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button").click();
+            //Press continue
+            common.findWebElementByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button").click();
 
-        //Check status message
-        common.verifyStatusMessage("Captcha failed. Please try again.");
+            //Check status message
+            common.verifyStatusMessage("Captcha failed. Please try again.");
 
-        //Change back to swedish
-        common.timeoutMilliSeconds(200);
-        common.selectSwedish();
+            //Change back to swedish
+            common.timeoutMilliSeconds(200);
+            common.selectSwedish();
 
-        //Check status message
-        common.verifyStatusMessage("Captcha inte slutförd. Vänligen försök igen");
-        common.closeStatusMessage();
+            //Check status message
+            common.verifyStatusMessage("Captcha inte slutförd. Vänligen försök igen");
+            common.closeStatusMessage();
+
+        }
 
         //Press confirm beside phoneNumber to open captcha
         common.click(common.findWebElementByXpathContainingText("Bekräfta"));

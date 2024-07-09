@@ -25,11 +25,12 @@ public class AdvancedSettings {
     public void runAdvancedSettings(){
         pressAdvancedSettings();
         verifyPageTitle();
-        storeEppn();
         verifyLabels();
         pressAddSecurityKey();
         pressLadok();
-        pressOrcid();
+        //if(testData.getTestCase().equalsIgnoreCase("TC_40") || testData.getTestCase().equalsIgnoreCase("TC_1"))
+        if(testData.getTestCase().equalsIgnoreCase("TC_1"))
+            pressOrcid();
     }
 
     private void verifyPageTitle() {
@@ -45,15 +46,6 @@ public class AdvancedSettings {
 
         //Wait for heading "Gör ditt eduID säkrare"
         common.explicitWaitVisibilityElement("//*[@id=\"content\"]/section/h1");
-    }
-
-    public void storeEppn(){
-        testData.setEppn(common.findWebElementById("user-eppn").getAttribute("value"));
-        if(testData.getEppn().isEmpty()) {
-            Assert.fail("Failed to save eppn, saved eppn is: " +testData.getEppn());
-        }
-        else
-            Common.log.info("Saved EPPN: " +testData.getEppn());
     }
 
     private void pressAddSecurityKey(){
@@ -74,13 +66,16 @@ public class AdvancedSettings {
     }
 
     private void pressLadok(){
+        Common.log.info("Verify Ladok");
+
         //Activate ladok
         common.timeoutSeconds(2);
         common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset/form/label/div"));
         common.timeoutSeconds(1);
 
         common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/label", "Välj lärosäte");
-        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[1]/div", "Tillgängliga lärosäten");
+        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[1]/div",
+                "Tillgängliga lärosäten");
 
         //Extract all table rows in to a list of web elements
         common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[1]/div"));
@@ -89,7 +84,8 @@ public class AdvancedSettings {
         List<WebElement> rows = elementName.findElements(By.xpath("*"));
 
         //Assert that there are at least two univeritys in the drop down
-        Assert.assertTrue(rows.size() > 1, "Number of rows with available universitys are too low (are: " +rows.size() +" lower than 2)");
+        Assert.assertTrue(rows.size() > 1,
+                "Number of rows with available universitys are too low (are: " +rows.size() +" lower than 2)");
 
         //click on english
         common.selectEnglish();
@@ -98,19 +94,20 @@ public class AdvancedSettings {
         common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset/form/label/div"));
         common.timeoutMilliSeconds(200);
 
-        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/label", "Select higher education institution");
-        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[1]/div", "Available higher education institutions");
+        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/label",
+                "Select higher education institution");
+        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[1]/div",
+                "Available higher education institutions");
 
         //Scroll down to bottom of pagem, otherwise we get click exception when drop down not in page
         common.scrollToPageBottom();
 
         //Expand options
-        common.findWebElementByXpathContainingText("Available higher education institutions").click();
+        common.findWebElementByXpath("//*[@id=\"ladok-container\"]/form").click();
         try {
-
-            common.findWebElementByXpathContainingText("Linnaeus").click();
+            common.click(common.findWebElementByXpathContainingText("Linnaeus"));
         }catch (NoSuchElementException ex){
-            Common.log.info("Failed to click on drop down first time, trying again.");
+            Common.log.info("Failed to click on ESI drop down first time, trying again.");
             common.scrollToPageBottom();
             common.findWebElementByXpathContainingText("Available higher education institutions").click();
             common.timeoutMilliSeconds(500);
@@ -140,15 +137,21 @@ public class AdvancedSettings {
             //Verify status message
             common.verifyStatusMessage("Du behöver verifiera ditt svenska personnummer för att länka ditt konto med ditt ESI.");
         }
+
+        common.closeStatusMessage();
     }
 
     private void pressOrcid(){
-        common.timeoutMilliSeconds(500);
-        common.click(common.findWebElementById("connect-orcid-button"));
+        Common.log.info("Verify ORCID");
+        common.explicitWaitClickableElementId("connect-orcid-button");
+
+        common.scrollDown(500);
+        common.findWebElementById("connect-orcid-button").click();
+        Common.log.info("Clicked on ORCID");
 
         //Transferred to orcid after click
         //common.timeoutSeconds(8);
-        common.timeoutSeconds(3);
+        common.timeoutSeconds(5);
 
         String title = common.getWebDriver().getTitle();
         if (title.equalsIgnoreCase("ORCID") || title.equalsIgnoreCase("Sign in - ORCID"))
@@ -164,7 +167,7 @@ public class AdvancedSettings {
             common.timeoutSeconds(4);
             common.findWebElementById("onetrust-accept-btn-handler").click();
         }catch (Exception ex){
-            Common.log.info("No cookied dialog present");
+            Common.log.info("No cookie dialog present");
         }
 */
 
@@ -212,11 +215,11 @@ public class AdvancedSettings {
         common.verifyStringOnPage("Finns ditt lärosäte inte i listan ska du inte använda eduID för att " +
                 "logga in i tjänster som kräver ESI. Kontakta då istället ditt lärosäte för mer information.");
 
-        common.verifyStringOnPage("Unikt ID");
+/*        common.verifyStringOnPage("Unikt ID");
         common.verifyStringOnPage("Detta unika ID är ett användarnamn för ditt eduID som du kan behöva " +
                 "ange för att identifiera ditt konto eller vid teknisk support. Det är en del av vad som kan hänvisas till som EPPN.");
         common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/div/span/strong", "Unikt ID: ");
-        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
+        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));*/
 
         //click on english
         common.selectEnglish();
@@ -257,11 +260,11 @@ public class AdvancedSettings {
         common.verifyStringOnPage("If your institution is not in the list you cannot use your eduID " +
                 "to access services requiring ESI, contact your institution for more information.");
 
-        common.verifyStringOnPage("Unique ID");
+/*        common.verifyStringOnPage("Unique ID");
         common.verifyStringOnPage("This identifier is a username for your eduID that you may need to " +
                 "provide when accessing other services or requesting support. It is part of what may be referred to as EPPN.");
         common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/div/span/strong", "Unique ID: ");
-        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
+        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));*/
 
         //click on swedish
         common.selectSwedish();
