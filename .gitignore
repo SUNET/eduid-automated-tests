@@ -16,3 +16,9 @@ config_prod.properties
 config_dev.properties
 config_mobile.properties
 *dev-test.xml
+
+# jmeter binaries
+jmeter
+
+# python
+__pycache__
