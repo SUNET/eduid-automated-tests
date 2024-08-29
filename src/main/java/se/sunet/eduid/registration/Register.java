@@ -39,8 +39,8 @@ public class Register {
 
     private void verifyLabels(){
         //Verify placeholder
-        common.verifyPlaceholder("Förnamn", "given_name");
-        common.verifyPlaceholder("Efternamn", "surname");
+        common.verifyPlaceholder("förnamn", "given_name");
+        common.verifyPlaceholder("efternamn", "surname");
         common.verifyPlaceholder("namn@example.com", "email");
 
         common.verifyStringOnPage("Registrera: Ange dina uppgifter");
@@ -64,8 +64,8 @@ public class Register {
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address");
 
         //Verify placeholder
-        common.verifyPlaceholder("First name", "given_name");
-        common.verifyPlaceholder("Last name", "surname");
+        common.verifyPlaceholder("first name", "given_name");
+        common.verifyPlaceholder("last name", "surname");
         common.verifyPlaceholder("name@example.com", "email");
 
     }

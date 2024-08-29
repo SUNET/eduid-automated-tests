@@ -17,9 +17,9 @@ public class TC_40 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+    void setRecommendedPassword() { password.setPassword(); }
 
-    @Test( dependsOnMethods = {"confirmPassword"} )
+    @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -30,6 +30,7 @@ public class TC_40 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"login"} )
     void personalInfo() {
         testData.setRegisterAccount(true);
+
         //Navigate to settings
         common.navigateToSettings();
         personalInfo.runPersonalInfo();
@@ -107,9 +108,15 @@ public class TC_40 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"selectIdRefIdp"} )
-    void newPassword() { setNewPassword.runNewPassword(); }
+    void setCustomPassword2() {
+        //Get default password from properties
+        testData.setNewPassword(testData.getPassword());
 
-    @Test( dependsOnMethods = {"newPassword"} )
+        testData.setUseRecommendedPw(false);
+        password.setPassword();
+    }
+
+    @Test( dependsOnMethods = {"setCustomPassword2"} )
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
 
     @Test( dependsOnMethods = {"passwordChanged"} )

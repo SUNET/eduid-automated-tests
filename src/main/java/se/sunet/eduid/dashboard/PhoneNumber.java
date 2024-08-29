@@ -55,7 +55,7 @@ public class PhoneNumber {
         common.click(common.findWebElementById("phone-number-add-more-button"));
 
         //Verify placeholder
-        common.verifyPlaceholder("Telefonnummer", "number");
+        common.verifyPlaceholder("telefonnummer", "number");
 
         //Enter phone number, if not set in test case, pick on from phone number list
         common.findWebElementById("number").clear();
@@ -75,7 +75,7 @@ public class PhoneNumber {
 
 
     public void confirmNewPhoneNumber(){
-        Common.log.info("Confirm new phone number");
+        //Common.log.info("Confirm new phone number");
 
         //Add cookie for back doors
         if(!common.isCookieSet("autotests"))
@@ -83,7 +83,7 @@ public class PhoneNumber {
 
         //Back door can not handle phone number with +, replacing it.
         String phoneNumber = testData.getPhoneNumber();
-        Common.log.info("Adding phone number: " +phoneNumber);
+        Common.log.info("Confirm phone number: " +phoneNumber);
 
         if(phoneNumber.contains("+")) {
             phoneNumber = phoneNumber.replace("+", "%2b");
@@ -92,14 +92,12 @@ public class PhoneNumber {
             phoneNumber = phoneNumber.replace("070", "%2b4670");
         }
 
-
-        Common.log.info("Verify captcha");
+        Common.log.info("Verify captcha for phone number: " +phoneNumber);
         verifyCaptcha();
 
         //Fetch the code
         String phoneCode = common.getCodeInNewTab("https://dashboard.dev.eduid.se/services/phone/get-code?eppn="
                 +testData.getEppn() +"&phone=" +phoneNumber, 10);
-        Common.log.info("Fetching phone code, got following code: " +phoneCode);
 
         //Press confirm phone number link
         common.timeoutSeconds(1);
@@ -189,11 +187,12 @@ public class PhoneNumber {
 
     private void verifyCaptcha(){
         //We do not need to verify captcha text and labels in all test cases that add a phone number
-        if(!testData.getTestCase().equalsIgnoreCase("TC_40")) {
+        if(!testData.getTestCase().equalsIgnoreCase("TC_40") ) {
             //Press confirm beside phoneNumber to open captcha
-            common.timeoutMilliSeconds(200);
+            common.timeoutMilliSeconds(400);
+            Common.log.info("Pressing confirm and wait for button in pop up before validate " +
+                    "text strings within captcha window - Swedish");
             common.click(common.findWebElementByXpathContainingText("Bekräfta"));
-            //common.findWebElementByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr[3]/td[2]/button").click();
 
             //Wait for generate new captcha button
             common.switchToPopUpWindow();
@@ -208,6 +207,7 @@ public class PhoneNumber {
             common.timeoutMilliSeconds(700);
 
             //common.verifyStringOnPage("*Fältet kan inte vara tomt");
+            Common.log.info("Validate captcha buttons and text strings - Swedish");
             common.findWebElementById("phone-captcha-modal").sendKeys("1");
             common.verifyStringOnPage("För att begära kod, fyll i nedan captcha.");
             common.verifyStringOnPage("Ange koden från bilden");
@@ -223,8 +223,9 @@ public class PhoneNumber {
 
             //Press confirm beside phoneNumber to open captcha
             common.timeoutMilliSeconds(1500);
-            common.click(common.findWebElementByXpathContainingText("confirm"));
-            common.timeoutMilliSeconds(1000);
+            Common.log.info("Pressing confirm and wait for button in pop up before validate " +
+                    "text strings within captcha window - English");
+
             common.click(common.findWebElementByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr[2]/td[2]/button"));
             //common.click(common.findWebElementByXpathContainingText("confirm"));
 
@@ -234,6 +235,7 @@ public class PhoneNumber {
 
             //Verify labels - English
             //common.verifyStringOnPage("*Field cannot be empty");
+            Common.log.info("Validate captcha buttons and text strings - English");
             common.findWebElementById("phone-captcha-modal").sendKeys("2");
             common.verifyStringOnPage("To receive code, complete below captcha.");
             common.verifyStringOnPage("Enter the code from the image");
@@ -260,7 +262,6 @@ public class PhoneNumber {
             //Check status message
             common.verifyStatusMessage("Captcha inte slutförd. Vänligen försök igen");
             common.closeStatusMessage();
-
         }
 
         //Press confirm beside phoneNumber to open captcha

@@ -19,9 +19,9 @@ public class TC_87 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+    void setRecommendedPassword() { password.setPassword(); }
 
-    @Test( dependsOnMethods = {"confirmPassword"} )
+    @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )

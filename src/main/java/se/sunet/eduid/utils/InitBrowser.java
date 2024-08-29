@@ -72,6 +72,7 @@ public class InitBrowser {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("disable-infobars");
             chromeOptions.addArguments("--remote-allow-origins=*");
+            chromeOptions.addArguments("--disable-search-engine-choice-screen");
 
             // If execution should be performed headless
             if (headless.equals("true")) {
@@ -110,6 +111,7 @@ public class InitBrowser {
             chromeOptions.addArguments("--no-sandbox");
             chromeOptions.addArguments("--headless");
             chromeOptions.addArguments("--lang=" +language);
+            chromeOptions.addArguments("--disable-search-engine-choice-screen");
 
             try {
                 webDriver = new RemoteWebDriver(new URL("http://selenium-hub:4444/wd/hub"), chromeOptions);

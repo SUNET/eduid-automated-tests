@@ -126,7 +126,7 @@ public class ConfirmIdentity{
             common.addNinCookie();
 
             //Expand Freja menu, since collapsed when change of language
-            common.timeoutMilliSeconds(500);
+            common.timeoutMilliSeconds(800);
 
             common.click(common.findWebElementById("accordion__heading-se-freja"));
 

@@ -17,7 +17,7 @@ public class Password {
     public void runPassword(){
         navigateToSettingss();
         verifyPageTitle();
-        changePassword();
+        setPassword();
     }
 
     private void navigateToSettingss(){
@@ -34,7 +34,7 @@ public class Password {
         }
     }
 
-    private void changePassword(){
+    public void setPassword(){
         //Wait for abort button to be clickable
         common.explicitWaitClickableElement(abortRecPwButton);
 
@@ -89,6 +89,7 @@ public class Password {
         if(testData.isButtonValueConfirm()) {
             //The Save button has different ID depending on if recommended or own password is used.
             Common.log.info("Pressing OK to save new password");
+            common.timeoutMilliSeconds(500);
             if(testData.isUseRecommendedPw())
                 common.click(common.findWebElementById("new-password-button"));
             else
@@ -126,9 +127,25 @@ public class Password {
 
     private void verifyCustomPasswordLabels(){
         //Heading - Swedish
-        common.verifyStringOnPage("Ändra lösenord: Skapa ditt eget lösenord");
+        if(testData.isRegisterAccount()){
+            common.verifyStringOnPage("Registrera: Skapa eget lösenord");
+        }
+        else if(testData.isResetPassword()){
+            common.verifyStringOnPage("Återställ lösenord: Ange ditt eget lösenord");
+        }
+        //Change password from settings
+        else{
+            common.verifyStringOnPage("Ändra lösenord: Skapa ditt eget lösenord");
+        }
+
         common.verifyStringOnPage("När du skapar ditt eget lösenord, bör du se till att det är " +
                 "tillräckligt starkt för att hålla ditt konto säkert.");
+
+        common.verifyStringOnPage("Välj ett alternativ");
+        common.verifyStringOnPage("Rekommenderat lösenord");
+        common.verifyStringOnPage("Skapa ditt eget lösenord");
+        Assert.assertTrue(common.findWebElementById("custom-pw").isSelected(),
+                "Radio button for recommended password not checked");
 
         //Text - Swedish
         common.verifyStringOnPage("Tänk på att välja ett säkert lösenord");
@@ -139,13 +156,18 @@ public class Password {
 
         //Heading 2 - Swedish
         common.verifyStringOnPage("Skriv ditt nya lösenord");
+        common.verifyStringByXpath("//*[@id=\"custom-wrapper\"]/div[2]/button", "VISA");
 
         //Heading 3 - Swedish
         common.verifyStringOnPage("Repetera ditt nya lösenord");
+        common.verifyStringByXpath("//*[@id=\"repeat-wrapper\"]/div[2]/button", "VISA");
 
         //Link - Swedish
         common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/fieldset/div/label[1]/span",
-                "Rekommenderat Lösenord");
+                "Rekommenderat lösenord");
+
+        //Button text
+        common.verifyStringByXpath("//*[@id=\"chpass-form\"]/button[1]", "AVBRYT");
 
         //Switch to English
         common.selectEnglish();
@@ -154,9 +176,25 @@ public class Password {
         common.click(common.findWebElementById("custom-pw"));
 
         //Heading - English
-        common.verifyStringOnPage("Change password: Set your own password");
+        if(testData.isRegisterAccount()){
+            common.verifyStringOnPage("Register: Set your own password");
+        }
+        else if(testData.isResetPassword()){
+            common.verifyStringOnPage("Reset Password: Set your own password");
+        }
+        //Change password from settings
+        else{
+            common.verifyStringOnPage("Change password: Set your own password");
+        }
+
         common.verifyStringOnPage("When creating your own password, make sure it's strong enough to " +
                 "keep your account safe.");
+
+        common.verifyStringOnPage("Choose an option");
+        common.verifyStringOnPage("Suggested password");
+        common.verifyStringOnPage("Set your own password");
+        Assert.assertTrue(common.findWebElementById("custom-pw").isSelected(),
+                "Radio button for recommended password not checked");
 
         //Text - English
         common.verifyStringOnPage("Tip: Choose a strong password");
@@ -167,27 +205,53 @@ public class Password {
 
         //Heading 2 - English
         common.verifyStringOnPage("Enter new password");
+        common.verifyStringByXpath("//*[@id=\"custom-wrapper\"]/div[2]/button", "SHOW");
 
         //Heading 3 - English
         common.verifyStringOnPage("Repeat new password");
+        common.verifyStringByXpath("//*[@id=\"repeat-wrapper\"]/div[2]/button", "SHOW");
 
         //Link - English
         common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/fieldset/div/label[1]/span",
-                "Suggested Password");
+                "Suggested password");
+
+        //Button text
+        common.verifyStringByXpath("//*[@id=\"chpass-form\"]/button[1]", "CANCEL");
 
         //Switch to Swedish
         common.selectSwedish();
     }
 
     private void verifyRecommendedPwLabels(){
-        //Heading
-        common.verifyStringOnPage("Ändra lösenord: Rekommenderat lösenord");
+        //Heading - Swedish
+        if(testData.isRegisterAccount()){
+            common.verifyStringOnPage("Registrera: Rekommenderat lösenord");
+        }
+        else if(testData.isResetPassword()){
+            common.verifyStringOnPage("Återställ lösenord: Föreslaget lösenord");
+        }
+        //Change password from settings
+        else{
+            common.verifyStringOnPage("Ändra lösenord: Rekommenderat lösenord");
+        }
+
         common.verifyStringOnPage("Ett starkt lösenord har genererats åt dig. För att fortsätta måste " +
                 "du kopiera lösenordet till fältet Repetera ditt nya lösenord och klicka på Spara knappen för att " +
                 "lagra det för framtida bruk.");
 
-        //Label 1
-        //common.verifyStringByXpath("//*[@id=\"old-wrapper\"]/label","Skriv ditt nuvarande lösenord");
+        common.verifyStringOnPage("Välj ett alternativ");
+        common.verifyStringOnPage("Rekommenderat lösenord");
+        common.verifyStringOnPage("Skapa ditt eget lösenord");
+        Assert.assertTrue(common.findWebElementById("suggested-pw").isSelected(),
+                "Radio button for recommended password not checked");
+
+
+        common.verifyStringByXpath("//*[@id=\"newPassword-wrapper\"]/div/label", "Repetera ditt nya lösenord");
+        common.verifyPlaceholder("xxxx xxxx xxxx", "newPassword");
+
+        //Button text
+        common.verifyStringByXpath("//*[@id=\"new-password-form\"]/div[2]/button[1]", "AVBRYT");
+        common.verifyStringById("new-password-button", "SPARA");
 
         //Heading 2 - Swedish
         common.verifyStringOnPage("Nytt lösenord");
@@ -195,18 +259,34 @@ public class Password {
         //Heading 3 - Swedish
         common.verifyStringOnPage("Repetera ditt nya lösenord");
 
-        // Link label
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/fieldset/div/label[2]/span",
-                "Skapa Ditt Eget Lösenord");
-
         //English
         common.selectEnglish();
 
-        //Heading
-        common.verifyStringOnPage( "Change password: Suggested password");
+        //Heading - English
+        if(testData.isRegisterAccount()){
+            common.verifyStringOnPage("Register: Suggested password");
+        }
+        else if(testData.isResetPassword()){
+            common.verifyStringOnPage("Reset Password: Suggested password");
+        }
+        //Change password from settings
+        else{
+            common.verifyStringOnPage("Change password: Suggested password");
+        }
+
         common.verifyStringOnPage("A strong password has been generated for you. To proceed you will " +
                 "need to copy the password in to the Repeat new password field and click the Save button to store it " +
                 "for future use.");
+
+        common.verifyStringOnPage("Choose an option");
+        common.verifyStringOnPage("Suggested password");
+        common.verifyStringOnPage("Set your own password");
+        Assert.assertTrue(common.findWebElementById("suggested-pw").isSelected(),
+                "Radio button for recommended password not checked");
+
+        //Button text
+        common.verifyStringByXpath("//*[@id=\"new-password-form\"]/div[2]/button[1]", "CANCEL");
+        common.verifyStringById("new-password-button", "SAVE");
 
         //Label 2
         common.verifyStringOnPage("New password");
@@ -214,22 +294,17 @@ public class Password {
         //Label 2
         common.verifyStringOnPage("Repeat new password");
 
-        // Link label
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/fieldset/div/label[2]/span",
-                "Set Your Own Password");
-
         //Swedish
         common.selectSwedish();
     }
 
     private void copyPasteNewPassword(){
-        String newPassword = common.getAttributeById("copy-new-password");
+        testData.setPassword(common.getAttributeById("copy-new-password"));
 
         //store the new password
-        testData.setPassword(newPassword);
         Common.log.info("New password saved: " + testData.getPassword());
 
         common.findWebElementById("newPassword").clear();
-        common.findWebElementById("newPassword").sendKeys(newPassword);
+        common.findWebElementById("newPassword").sendKeys(testData.getPassword());
     }
 }

@@ -28,9 +28,9 @@ public class TC_49 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+    void setRecommendedPassword() { password.setPassword(); }
 
-    @Test( dependsOnMethods = {"confirmPassword"} )
+    @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -96,9 +96,9 @@ public class TC_49 extends BeforeAndAfter {
     void confirmEmailAddress2() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress2"} )
-    void confirmPassword2() { confirmPassword.runConfirmPassword(); }
+    void setRecommendedPassword2() { password.setPassword(); }
 
-    @Test( dependsOnMethods = {"confirmPassword2"} )
+    @Test( dependsOnMethods = {"setRecommendedPassword2"} )
     void confirmedNewAccount2() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount2"} )

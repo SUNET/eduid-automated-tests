@@ -17,9 +17,17 @@ public class TC_38 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+    void setCustomPassword() {
+        //Use custom password and not recommended
+        testData.setUseRecommendedPw(false);
 
-    @Test( dependsOnMethods = {"confirmPassword"} )
+        //Get default password from properties
+        testData.setNewPassword(testData.getPassword());
+
+        password.setPassword();
+    }
+
+    @Test( dependsOnMethods = {"setCustomPassword"} )
     void confirmedNewAccount() {
         confirmedNewAccount.runConfirmedNewAccount(); }
 

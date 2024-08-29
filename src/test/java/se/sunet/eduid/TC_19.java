@@ -20,12 +20,9 @@ public class TC_19 extends BeforeAndAfter {
    }
 
     @Test( dependsOnMethods = {"dashboard"} )
-    void password() {
-        testData.setUseRecommendedPw(true);
-        password.runPassword();
-    }
+    void setRecommendedPassword() { password.setPassword(); }
 
-    @Test( dependsOnMethods = {"password"} )
+    @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void logout() {
         logout.runLogout();
     }

@@ -55,12 +55,29 @@ public class Common {
     }
 
     public void selectEnglish() {
-        //click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a"));
-        selectSwedish();
+        if(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("English")) {
+            click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a"));
+            timeoutMilliSeconds(400);
+
+            log.info("English language selected");
+        }
+        else if(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("Svenska"))
+            log.info("English language was already selected");
+        else
+            Assert.fail("Failed to switch language to English");
     }
 
     public void selectSwedish() {
-        click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a"));
+        if(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("Svenska")) {
+            click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a"));
+            timeoutMilliSeconds(400);
+
+            log.info("Swedish language selected");
+        }
+        else if(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("English"))
+            log.info("Swedish language was already selected");
+        else
+            Assert.fail("Failed to switch language to Swedish");
     }
 
     public void navigateToSettings() {
@@ -209,6 +226,10 @@ public class Common {
 
     public WebElement findWebElementById(String elementToFind) {
         explicitWaitVisibilityElementId(elementToFind);
+        return webDriver.findElement(By.id(elementToFind));
+    }
+
+    public WebElement findWebElementByIdNoExplWait(String elementToFind) {
         return webDriver.findElement(By.id(elementToFind));
     }
 
@@ -389,7 +410,7 @@ public class Common {
     }
 
     public void logCookie(String name){
-        log.info("Cookie added:");
+        log.info("Cookie added with name: " +name);
 /*        log.info("Cookie name: " + webDriver.manage().getCookieNamed(name).getName());
         log.info("Cookie value: " + webDriver.manage().getCookieNamed(name).getValue());
         log.info("Cookie domain: " + webDriver.manage().getCookieNamed(name).getDomain());
@@ -464,5 +485,47 @@ public class Common {
         //Press continue
         findWebElementByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button").click();
         Common.log.info("Captcha code entered (" +captchaCode +"), pressing Continue");
+    }
+
+    public void securityConfirmPopUp(String xPathToButton){
+        switchToPopUpWindow();
+
+        //Verify labels and text
+        timeoutSeconds(3);
+        explicitWaitClickableElementId("security-confirm-modal-close-button");
+        verifyStringOnPage("Säkerhetsskäl");
+        verifyStringOnPage("Du behöver logga in igen för att kunna utföra åtgärden.");
+
+        verifyStringById("security-confirm-modal-accept-button", "FORTSÄTT");
+
+        //Close pop-up
+        click(findWebElementById("security-confirm-modal-close-button"));
+
+        //Select English
+        selectEnglish();
+
+        //Click on the button that will initiate the security confirm pop up
+        click(findWebElementByXpath(xPathToButton));
+
+        switchToPopUpWindow();
+
+        //Verify labels and text
+        timeoutSeconds(3);
+
+        //For Delete account additional click is needed
+        try{
+            //Click on 'Delete my eduid' button in pop up after Delete eduid link is clicked in settings
+            click(findWebElementByIdNoExplWait("delete-account-modal-accept-button"));
+        }catch (Exception ex){
+            //log.info("");
+        }
+
+        explicitWaitClickableElementId("security-confirm-modal-close-button");
+        verifyStringOnPage("Security check");
+        verifyStringOnPage("You need to log in again to perform the requested action.");
+
+        verifyStringById("security-confirm-modal-accept-button", "CONTINUE");
+
+        click(findWebElementById("security-confirm-modal-accept-button"));
     }
 }

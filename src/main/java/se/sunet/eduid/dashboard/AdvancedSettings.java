@@ -28,7 +28,8 @@ public class AdvancedSettings {
         verifyLabels();
         pressAddSecurityKey();
         pressLadok();
-        //if(testData.getTestCase().equalsIgnoreCase("TC_40") || testData.getTestCase().equalsIgnoreCase("TC_1"))
+
+        //TODO investigate why orcid does not work for tc 1
         if(testData.getTestCase().equalsIgnoreCase("TC_1"))
             pressOrcid();
     }
@@ -188,9 +189,10 @@ public class AdvancedSettings {
         common.verifyStringOnPage("Öka säkerheten för ditt eduID eller anslut det till andra tjänster.");
 
         //Security key
-        common.verifyStringOnPage("Gör ditt eduID säkrare");
-        common.verifyStringOnPage("Om möjligt lägg till ett ytterligare sätt, utöver användarnamn och lösenord, " +
-                "för att kunna identifiera dig så att du är säker på att bara du har tillgång till ditt eduID.");
+        common.verifyStringOnPage("Tvåfaktorsautenticering (2FA)");
+        common.verifyStringOnPage("Om möjligt lägg till ett ytterligare sätt att identifiera dig i " +
+                "form av en säkerhetsnyckel, utöver användarnamn och lösenord, så att du är säker på att bara du har " +
+                "tillgång till ditt eduID. Exempel på säkerhetsnycklar kan en USB-säkerhetsnyckel eller din enhet.");
         common.verifyStringOnPage("Du kan läsa mer om säkerhetsnycklar i hjälpavsnittet: Utökad säkerhet med ditt eduID.");
         common.verifyStringOnPage("Välj ytterligare identifieringsmetod:");
         common.verifyStringById("security-webauthn-button", "SÄKERHETSNYCKEL");
@@ -234,9 +236,9 @@ public class AdvancedSettings {
         common.verifyStringOnPage("Increase the security of your eduID or connect it to other services.");
 
         //Security key
-        common.verifyStringOnPage("Make your eduID more secure");
-        common.verifyStringOnPage("If possible, it is advisable to add a security key as a second layer " +
-                "of identification, beyond username and password, to prove you are the owner of your eduID.");
+        common.verifyStringOnPage("Two-factor Authentication (2FA)");
+        common.verifyStringOnPage("If possible add a security key as a second factor of authentication, " +
+                "beyond username and password, to prove you are the owner of your eduID. Examples are USB security keys or your device.");
         common.verifyStringOnPage("You can read more about security keys in the Help section: Improving the security level of eduID.");
         common.verifyStringOnPage("Choose additional identification method:");
         common.verifyStringById("security-webauthn-button", "SECURITY KEY");

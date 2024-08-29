@@ -18,9 +18,9 @@ public class TC_47 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+    void setRecommendedPassword() { password.setPassword(); }
 
-    @Test( dependsOnMethods = {"confirmPassword"} )
+    @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -57,17 +57,41 @@ public class TC_47 extends BeforeAndAfter {
         testData.setRegisterAccount(false);
     }
 
+    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
+    void deleteIdentityConfirmation() {
+        //Click remove identity button
+        common.findWebElementById("remove-webauthn").click();
+
+        common.explicitWaitClickableElementId("accordion__heading-swedish");
+    }
+
+
     //Delete the account, so it will be removed after 2 weeks by script
-    @Test( dependsOnMethods = {"confirmedIdentity"} )
+    @Test( dependsOnMethods = {"deleteIdentityConfirmation"} )
     void delete() {
         testData.setDeleteButton(true);
-        deleteAccount.runDeleteAccount(); }
+        deleteAccount.runDeleteAccount();
+
+        //Verify the extra pop-up when logged in +5minutes
+        deleteAccount.confirmDeleteAfter5Min();
+    }
 
     @Test( dependsOnMethods = {"delete"} )
+    void login2(){
+        login.verifyPageTitle();
+        login.enterPassword();
+
+        //Click log in button
+        common.findWebElementById("login-form-button").click();
+
+        common.timeoutSeconds(5);
+    }
+
+    @Test( dependsOnMethods = {"login2"} )
     void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
+    void login3(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

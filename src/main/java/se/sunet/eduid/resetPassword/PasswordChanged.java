@@ -1,12 +1,15 @@
 package se.sunet.eduid.resetPassword;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class PasswordChanged {
     private final Common common;
+    private final TestData testData;
 
-    public PasswordChanged(Common common){
+    public PasswordChanged(Common common, TestData testData){
         this.common = common;
+        this.testData = testData;
     }
 
     public void runPasswordChanged(){
@@ -22,10 +25,16 @@ public class PasswordChanged {
     private void verifyLabels(){
         //verify the labels - swedish
         common.verifyStringOnPage("Återställ lösenord: Slutförd");
-        common.verifyStringOnPage("Detta är ditt nya lösenord för eduID. Spara lösenordet! När du har " +
-                "loggat in är det möjligt att byta ditt lösenord.");
+        common.verifyStringOnPage("Ditt lösenord är nu uppdaterat. Se till att förvara ditt lösenord på " +
+                "ett säkert sätt för framtida användning. När du har loggat in är det möjligt att ändra ditt lösenord.");
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "E-postadress");
-        common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Lösenord");
+        common.verifyStringById("user-email", testData.getUsername().toLowerCase());
+
+        //Password only visible when the recommended password is used
+        if(testData.isUseRecommendedPw()) {
+            common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Lösenord");
+            common.verifyStringById("user-password", testData.getPassword());
+        }
 
         common.verifyStringById("reset-password-finished", "Gå till eduID för att logga in");
 
@@ -34,10 +43,16 @@ public class PasswordChanged {
 
         //verify the labels - english
         common.verifyStringOnPage("Reset Password: Completed");
-        common.verifyStringOnPage("This is your new password for eduID. Save the password! Once you've " +
-                "logged in it is possible to change your password.");
+        common.verifyStringOnPage("You have successfully updated your password. Make sure to store " +
+                "your password securely for future use. Once you've logged in it is possible to change your password.");
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "Email address");
-        common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Password");
+        common.verifyStringById("user-email", testData.getUsername().toLowerCase());
+
+        //Password only visible when the recommended password is used
+        if(testData.isUseRecommendedPw()) {
+            common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[2]/label", "Password");
+            common.verifyStringById("user-password", testData.getPassword());
+        }
 
         common.verifyStringById("reset-password-finished", "Go to eduID to login");
 

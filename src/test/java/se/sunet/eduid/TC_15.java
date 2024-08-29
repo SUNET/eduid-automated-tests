@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
-public class TC_16 extends BeforeAndAfter {
+public class TC_15 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -19,9 +19,15 @@ public class TC_16 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void setRecommendedPassword() { password.setPassword(); }
+    void confirmPassword() {
+        testData.setUseRecommendedPw(false);
 
-    @Test( dependsOnMethods = {"setRecommendedPassword"} )
+        //Get default password from properties
+        testData.setNewPassword(testData.getPassword());
+        password.setPassword();
+    }
+
+    @Test( dependsOnMethods = {"confirmPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -36,14 +42,12 @@ public class TC_16 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
-    void verifySecurityKey() {
-        testData.setVerifySecurityKey(true);
-
-        securityKey.runSecurityKey();
+    void initiateRemoveNonVerifiedSecurityKey() {
+        securityKey.deleteSecurityKey();
     }
 
-    @Test( dependsOnMethods = {"verifySecurityKey"} )
-    void verifySecurityKeyLogin() {
+    @Test( dependsOnMethods = {"initiateRemoveNonVerifiedSecurityKey"} )
+    void deleteNonVerifiedSecurityKeyLogin() {
         //Add nin cookie
         common.addNinCookie();
 
@@ -57,7 +61,7 @@ public class TC_16 extends BeforeAndAfter {
         common.explicitWaitClickableElementId("mfa-security-key");
     }
 
-    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
+    @Test( dependsOnMethods = {"deleteNonVerifiedSecurityKeyLogin"} )
     void loginMfaSecurityKey() {
         //Set mfa method to be used to "security key" at login.
         testData.setMfaMethod("securitykey");
@@ -70,67 +74,7 @@ public class TC_16 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
-    void selectUserRefIdp(){
-        //Click on Verify for the added security key - Selecting Freja
-        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
-
-        //Select and submit user
-        common.explicitWaitClickableElementId("submitButton");
-        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
-
-        common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(3);
-    }
-
-    @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void verifySecurityKeyStatus() {
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
-
-        common.selectEnglish();
-
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIED");
-        common.selectSwedish();
-    }
-
-
-    //Remove the verified security key
-
-    @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
-    void initiateRemoveVerifiedSecurityKey() {
-        securityKey.deleteSecurityKey();
-    }
-
-    @Test( dependsOnMethods = {"initiateRemoveVerifiedSecurityKey"} )
-    void deleteVerifiedSecurityKeyLogin() {
-        //Add nin cookie
-        common.addNinCookie();
-
-        //Enter username, password to verify security key first time
-        login.verifyPageTitle();
-        login.enterPassword();
-
-        //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
-
-        common.explicitWaitClickableElementId("mfa-security-key");
-    }
-
-    @Test( dependsOnMethods = {"deleteVerifiedSecurityKeyLogin"} )
-    void loginMfaSecurityKey2() {
-        //Set mfa method to be used to "security key" at login.
-        testData.setMfaMethod("securitykey");
-
-        //Login page for extra security select security key mfa method
-        loginExtraSecurity.runLoginExtraSecurity();
-        Common.log.info("Log in with Security key");
-
-        common.timeoutSeconds(2);
-    }
-
-    @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
-    void removeVerifiedSecurityKey() {
+    void removeNonVerifiedSecurityKey() {
         //Click on Remove button for the added security key
         common.findWebElementById("remove-webauthn").click();
 
@@ -140,7 +84,7 @@ public class TC_16 extends BeforeAndAfter {
     }
 
     //Log out and verify that it is possible to log in again without the security key
-    @Test( dependsOnMethods = {"removeVerifiedSecurityKey"} )
+    @Test( dependsOnMethods = {"removeNonVerifiedSecurityKey"} )
     void logout(){
         logout.runLogout();
     }

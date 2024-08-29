@@ -29,6 +29,7 @@ public class DeleteAccount {
     }
 
     private void clickDelete(){
+        log.info("Click delete link in settings");
         common.click(common.findWebElementById("delete-button"));
 
         verifyPopUpLabels();
@@ -80,6 +81,8 @@ public class DeleteAccount {
     }
 
     private void verifyPopUpLabels(){
+        log.info("Verify Delete pop up labels and text");
+
         //Heading
         common.timeoutMilliSeconds(500);
 
@@ -120,44 +123,21 @@ public class DeleteAccount {
         common.selectSwedish();
 
         common.timeoutMilliSeconds(200);
+
+        log.info("Verified Delete pop up labels and text, clicking on Delete link again in settings");
         common.click(common.findWebElementById("delete-button"));
     }
 
     public void confirmDeleteAfter5Min(){
         common.switchToPopUpWindow();
 
+        //Press delete my eduID to come to the last pop-up
+        //log.info("Click on Delete button in pop up");
+        //common.click(common.findWebElementByIdNoExplWait("delete-account-modal-accept-button"));
+
         log.info("Verify text and labels in pop-up when delete of account demands one more log in");
 
-        //Verify labels and text
-        common.explicitWaitClickableElementId("security-confirm-modal-accept-button");
-        common.verifyStringOnPage("Av säkerhetsskäl...");
-        common.verifyStringOnPage("Det har gått för lång tid sedan din inloggning. Efter att du har " +
-                "klickat på knappen Godkänn måste du använda dina inloggningsuppgifter en sista gång.");
-        common.verifyStringById("security-confirm-modal-accept-button", "GODKÄNN");
-
-        //Close pop-upp
-        common.click(common.findWebElementById("security-confirm-modal-close-button"));
-
-        //Select english
-        common.selectEnglish();
-
-        //Press delete button again to open the first pop-up
-        common.click(common.findWebElementById("delete-button"));
-
-        //Press delete my eduID to come to the last pop-up
-        common.click(common.findWebElementById("delete-account-modal-accept-button"));
-
-        common.switchToPopUpWindow();
-
-        //Verify labels and text
-        common.explicitWaitClickableElementId("security-confirm-modal-accept-button");
-        common.verifyStringOnPage("For security reasons...");
-        common.verifyStringOnPage("It has been too long since your login. After clicking the Accept " +
-                "button, you need to use your login details one final time.");
-        common.verifyStringById("security-confirm-modal-accept-button", "ACCEPT");
-
-        //Press Accept button
-        common.click(common.findWebElementById("security-confirm-modal-accept-button"));
+        common.securityConfirmPopUp("//*[@id=\"delete-button\"]");
 
         log.info("Clicked on Accept, to delete account and to be forwarded to log in page");
     }

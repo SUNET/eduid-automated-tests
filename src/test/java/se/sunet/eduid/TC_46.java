@@ -18,9 +18,9 @@ public class TC_46 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+    void setRecommendedPassword() { password.setPassword(); }
 
-    @Test( dependsOnMethods = {"confirmPassword"} )
+    @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -68,6 +68,11 @@ public class TC_46 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
+    void securityConfirmation() {
+        common.securityConfirmPopUp("//*[@id=\"register-webauthn-tokens-area\"]/fieldset/form/label/div");
+    }
+
+    @Test( dependsOnMethods = {"securityConfirmation"} )
     void verifySecurityKey() {
         testData.setVerifySecurityKey(true);
 

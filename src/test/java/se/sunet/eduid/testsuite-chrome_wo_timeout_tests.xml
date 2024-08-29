@@ -118,18 +118,19 @@
         </classes>
     </test>
 
-    <!-- Test case obsolete - url/links are no longer provided in the confirmation emails etc 2024-04-11
+
     <test name="TC_15">
-        <parameter name="testDescription" value="Add an extra email address and confirm it by clicking on link in email" />
+        <parameter name="testDescription" value="Register account, add security key and verify that it can
+            be removed when not verified, check that login does not require mfa after removal." />
         <classes>
             <class name="se.sunet.eduid.TC_15" >
             </class>
         </classes>
     </test>
 
-
     <test name="TC_16">
-        <parameter name="testDescription" value="Remove the extra email address added in TC_15" />
+        <parameter name="testDescription" value="Register account, add security key and verify that it can
+            be removed when verified, check that login does not require mfa after removal." />
         <classes>
             <class name="se.sunet.eduid.TC_16" >
             </class>
@@ -137,13 +138,14 @@
     </test>
 
     <test name="TC_17">
-        <parameter name="testDescription" value="Initiate password change but abort at pop-up window" />
+        <parameter name="testDescription" value="Register account, add security key and verify that it (mfa) is not
+            needed for logging in to eduID when turned off in advanced settings." />
         <classes>
             <class name="se.sunet.eduid.TC_17" >
             </class>
         </classes>
     </test>
-    -->
+
     <test name="TC_18">
         <parameter name="testDescription" value="Initiate password change but abort instead of save new password" />
         <classes>
@@ -455,7 +457,7 @@
     </test>
 
     <test name="TC_38">
-        <parameter name="testDescription" value="Register a new account" />
+        <parameter name="testDescription" value="Register a new account, use custom password" />
         <classes>
             <class name="se.sunet.eduid.TC_38" >
             </class>
@@ -472,7 +474,7 @@
 
     <test name="TC_40">
         <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by phone. After delete
-        account, restore account by reset password using Freja eID and check that identity and phone number still is confirmed." />
+        account, restore account by reset password (using custom password) using Freja eID and check that identity and phone number still is confirmed." />
         <classes>
             <class name="se.sunet.eduid.TC_40" >
             </class>
@@ -489,7 +491,8 @@
     </test>
 
     <test name="TC_47">
-        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by Freja ID" />
+        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by Freja ID
+            verify that the confirmation of identity can be deleted." />
         <classes>
             <class name="se.sunet.eduid.TC_47" >
             </class>

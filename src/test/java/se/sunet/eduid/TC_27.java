@@ -44,9 +44,9 @@ public class TC_27 extends BeforeAndAfter {
         verifyPhoneNumber.runVerifyPhoneNumber(); }
 
     @Test( dependsOnMethods = {"verifyPhoneNumber"} )
-    void newPassword() { setNewPassword.runNewPassword(); }
+    void setRecommendedPassword() { password.setPassword(); }
 
-    @Test( dependsOnMethods = {"newPassword"} )
+    @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void verifyStatusMessage() {
         common.verifyStatusMessage("Koden har gått ut. Skicka telefonkoden igen.");
 

@@ -3,7 +3,7 @@ package se.sunet.eduid;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
-public class TC_39 extends BeforeAndAfter {
+public class TC_91 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -21,7 +21,7 @@ public class TC_39 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
-    @Test( dependsOnMethods = {"confirmedNewAccount"} )
+/*    @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
         testData.setRegisterAccount(false);
         login.runLogin(); }
@@ -30,6 +30,10 @@ public class TC_39 extends BeforeAndAfter {
     void logout() {
         logout.runLogout();
     }
+
+    registrera nytt konto med ny epost i samma session, dvs utan att logga ut.
+    - förväntat resultat - ska vara möjligt att gå direkt till startsidan och skapa nytt konto!
+    */
 
     @Test( dependsOnMethods = {"logout"} )
     void startPage2(){

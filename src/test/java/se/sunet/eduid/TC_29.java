@@ -30,9 +30,9 @@ public class TC_29 extends BeforeAndAfter {
     void emailLink() { emailLink.runEmailLink(); }
 
     @Test( dependsOnMethods = {"emailLink"} )
-    void newPassword() { setNewPassword.runNewPassword(); }
+    void setRecommendedPassword() { password.setPassword(); }
 
-    @Test( dependsOnMethods = {"newPassword"} )
+    @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
 
     @Test( dependsOnMethods = {"passwordChanged"} )
@@ -51,6 +51,7 @@ public class TC_29 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"dashboard2"} )
     void password2() {
+        testData.setUseRecommendedPw(false);
         testData.setNewPassword("lq2k dvzo 917s");
         password.runPassword();
     }

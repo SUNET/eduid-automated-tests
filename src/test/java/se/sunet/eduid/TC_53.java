@@ -18,9 +18,9 @@ public class TC_53 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+    void setRecommendedPassword() { password.setPassword(); }
 
-    @Test( dependsOnMethods = {"confirmPassword"} )
+    @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -124,16 +124,32 @@ public class TC_53 extends BeforeAndAfter {
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
-        common.timeoutSeconds(2);
+
+        //Verify the extra pop-up when logged in +5minutes
+        deleteAccount.confirmDeleteAfter5Min();
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void startPage2(){
-        startPage.runStartPage();
+    void login3(){
+        login.verifyPageTitle();
+        login.enterPassword();
+
+        //Click log in button
+        common.findWebElementById("login-form-button").click();
     }
 
+    @Test( dependsOnMethods = {"login3"} )
+    void loginExtraSecurity(){
+
+        loginExtraSecurity.selectMfaMethod();
+        common.timeoutSeconds(2);
+    }
+
+    @Test( dependsOnMethods = {"loginExtraSecurity"} )
+    void startPage2(){ startPage.runStartPage(); }
+
     @Test( dependsOnMethods = {"startPage2"} )
-    void login3(){
+    void login4(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

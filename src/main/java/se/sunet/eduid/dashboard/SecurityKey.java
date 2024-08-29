@@ -124,15 +124,53 @@ public class SecurityKey {
     }
 
     private void verifySecurityKeyHeaders(){
+        //Security key Toggle information
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/fieldset/form/label/legend",
+                "Använd alltid tvåfaktorsautenticering (2FA) vid inloggning till eduID\n" +
+                        "Om andra externa tjänster än eduID kräver tvåfaktorsautenticering (2FA) vid inloggning, " +
+                        "kommer du ändå behöva använda din säkerhetsnyckel då, även när denna inställning är avslagen.");
+
         //Verify headings
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/h4", "Hantera dina säkerhetsnycklar");
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[1]", "Namn");
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[2]", "Skapad den");
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[3]", "Senast använd");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[4]", "Verifiera");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[5]", "Ta bort");
 
         //verify data
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[1]", "test-key1");
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[2]", common.getDate().toString());
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[3]", "Aldrig använd");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button[1]", "FREJA+");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button[2]", "BANKID");
+
+        //English
+        common.selectEnglish();
+
+        //Security key Toggle information
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/fieldset/form/label/legend",
+                "Always use a second factor (2FA) to log in to eduID\n" +
+                        "If external services other than eduID require a second factor during login, you will then " +
+                        "still need to use your security key even when this setting is toggled off.");
+
+        //Verify headings
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/h4", "Manage your security keys");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[1]", "Name");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[2]", "Created on");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[3]", "Used on");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[4]", "Verify");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[1]/th[5]", "Remove");
+
+        //verify data
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[1]", "test-key1");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[2]", common.getDate().toString());
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[3]", "Never used");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button[1]", "FREJA+");
+        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button[2]", "BANKID");
+
+        //Swedish
+        common.selectSwedish();
     }
 
     private void verifyAddSecurityKeyLabels(){
@@ -144,7 +182,7 @@ public class SecurityKey {
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5", "Ge ett namn till din säkerhetsnyckel");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Säkerhetsnyckel");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 tecken");
-        common.verifyStrings("Beskriv din säkerhetsnyckel",
+        common.verifyStrings("beskriv din säkerhetsnyckel",
                 common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input").getAttribute("placeholder"));
 
         //Close pop up
@@ -162,7 +200,7 @@ public class SecurityKey {
                 common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5", "Ge ett namn till din säkerhetsnyckel");
                 common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Säkerhetsnyckel");
                 common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 tecken");
-                common.verifyStrings("Beskriv din säkerhetsnyckel",
+                common.verifyStrings("beskriv din säkerhetsnyckel",
                         common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input").getAttribute("placeholder"));
 
                 //Close pop up
@@ -197,7 +235,7 @@ public class SecurityKey {
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5", "Add a name for your security key");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Security key");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 characters");
-        common.verifyStrings("Describe your security key",
+        common.verifyStrings("describe your security key",
                 common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input").getAttribute("placeholder"));
 
         //Close pop up
@@ -215,7 +253,7 @@ public class SecurityKey {
                 common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5", "Add a name for your security key");
                 common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Security key");
                 common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 characters");
-                common.verifyStrings("Describe your security key",
+                common.verifyStrings("describe your security key",
                         common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input").getAttribute("placeholder"));
 
                 //Close pop up
@@ -236,40 +274,23 @@ public class SecurityKey {
         //Click on Verify for the added security key - Selecting Freja
         common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
 
-        common.switchToPopUpWindow();
-
-        //Verify labels and text
-        common.timeoutSeconds(3);
-        common.explicitWaitClickableElementId("security-confirm-modal-close-button");
-        common.verifyStringOnPage("Av säkerhetsskäl...");
-        common.verifyStringOnPage("För att verifiera din säkerhetsnyckel test-key1");
-        common.verifyStringOnPage(" måste du logga in igen. när du har loggat in, trycker du på knappen igen.");
-
-        common.verifyStringById("security-confirm-modal-accept-button", "GODKÄNN");
-
-        //Close pop-up
-        common.click(common.findWebElementById("security-confirm-modal-close-button"));
-
-        //Select English
-        common.selectEnglish();
-
-        //Click on Verify for the added security key - Selecting Freja
-
-        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
-
-        common.switchToPopUpWindow();
-
-        //Verify labels and text
-        common.timeoutSeconds(3);
-        common.explicitWaitClickableElementId("security-confirm-modal-close-button");
-        common.verifyStringOnPage("For security reasons...");
-        common.verifyStringOnPage("To verify your security key test-key1");
-        common.verifyStringOnPage(", you'll have to log in again. Once logged in, please press the button again.");
-
-        common.verifyStringById("security-confirm-modal-accept-button", "ACCEPT");
+        //Verify the security pop up and click accept
+        common.securityConfirmPopUp("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button");
 
         //Click on Accept
-        Common.log.info("Start verify security key pop up - pressing Accept button");
-        common.click(common.findWebElementById("security-confirm-modal-accept-button"));
+        Common.log.info("Start verify security key pop up - pressed Accept button");
+    }
+
+    public void deleteSecurityKey(){
+        Common.log.info("Delete security key - start verify security key pop up labels and text");
+
+        //Click on Remove button for the added security key
+        common.click(common.findWebElementById("remove-webauthn"));
+
+        //Verify the security pop up and click accept
+        common.securityConfirmPopUp("//*[@id=\"remove-webauthn\"]");
+
+        //Click on Accept
+        Common.log.info("Delete security key - start verify security key pop up - pressed Accept button");
     }
 }

@@ -16,9 +16,9 @@ public class TC_41 extends BeforeAndAfter {
     void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
 
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void confirmPassword() { confirmPassword.runConfirmPassword(); }
+    void setRecommendedPassword() { password.setPassword(); }
 
-    @Test( dependsOnMethods = {"confirmPassword"} )
+    @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
@@ -58,7 +58,7 @@ public class TC_41 extends BeforeAndAfter {
         //Check that after identity is confirmed that Display name is present
         testData.setIdentityConfirmed(true);
 
-        common.selectEnglish();
+        common.selectSwedish();
 
         //Set the Given name, Last name and Display name since that is "fetched from idp" when confirming identity
         //in test its just test data.
