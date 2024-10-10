@@ -71,15 +71,12 @@ public class TC_16 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
     void selectUserRefIdp(){
-        //Click on Verify for the added security key - Selecting Freja
-        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
-
         //Select and submit user
         common.explicitWaitClickableElementId("submitButton");
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(3);
+        common.timeoutSeconds(8);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
@@ -96,7 +93,6 @@ public class TC_16 extends BeforeAndAfter {
 
 
     //Remove the verified security key
-
     @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
     void initiateRemoveVerifiedSecurityKey() {
         securityKey.deleteSecurityKey();
@@ -130,17 +126,13 @@ public class TC_16 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
-    void removeVerifiedSecurityKey() {
-        //Click on Remove button for the added security key
-        common.findWebElementById("remove-webauthn").click();
-
-        common.timeoutSeconds(3);
+    void verifySecurityKeyRemoved() {
         Assert.assertFalse(common.getPageBody().contains("test-key1"),
                 "Security is still present at page! Should have been removed.");
     }
 
     //Log out and verify that it is possible to log in again without the security key
-    @Test( dependsOnMethods = {"removeVerifiedSecurityKey"} )
+    @Test( dependsOnMethods = {"verifySecurityKeyRemoved"} )
     void logout(){
         logout.runLogout();
     }

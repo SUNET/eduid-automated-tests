@@ -4,65 +4,6 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
 public class TC_87 extends BeforeAndAfter {
-/*
-    @Test
-    void startPage(){
-        testData.setRegisterAccount(true);
-        startPage.runStartPage(); }
-
-    @Test( dependsOnMethods = {"startPage"} )
-    void register(){
-        testData.setIdentityNumber("");
-        register.runRegister(); }
-
-    @Test( dependsOnMethods = {"register"} )
-    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
-
-    @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void setRecommendedPassword() { password.setPassword(); }
-
-    @Test( dependsOnMethods = {"setRecommendedPassword"} )
-    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
-
-    @Test( dependsOnMethods = {"confirmedNewAccount"} )
-    void login(){
-        testData.setRegisterAccount(false);
-        login.runLogin();
-
-        common.explicitWaitClickableElement("//*[@id=\"header-nav\"]/button/span");
-    }
-
-    @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
-
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
-    void addPhoneNumber(){
-        phoneNumber.addPhoneNumber();
-        phoneNumber.confirmNewPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"addPhoneNumber"} )
-    void confirmIdentityFreja(){
-        testData.setConfirmIdBy("freja");
-        confirmIdentity.runConfirmIdentity(); }
-
-    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
-    void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
-
-        testData.setRegisterAccount(false);
-    }
-
-    @Test( dependsOnMethods = {"confirmedIdentity"} )
-    void logout() { logout.runLogout(); }
-*/
-
-//    @Test( dependsOnMethods = {"logout"} )
     @Test
     void navigateToFidusTestSkolverketDnp() {
         testData.setUsername("ySxlpB9S@dev.eduid.sunet.se");

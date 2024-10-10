@@ -20,7 +20,7 @@ public class RequestResetPwEmail {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Återställ Lösenord | eduID");
+        common.verifyPageTitle("Återställ lösenord | eduID");
     }
 
     private void clickSendEmail(){
@@ -46,10 +46,10 @@ public class RequestResetPwEmail {
         common.selectEnglish();
 
         //Page title
-        common.verifyPageTitle("Reset Password | eduID");
+        common.verifyPageTitle("Reset password | eduID");
 
         //Heading
-        common.verifyStringOnPage("Reset Password: Start account recovery process");
+        common.verifyStringOnPage("Reset password: Start account recovery process");
 
         common.verifyStringOnPage("Click the button below to send an e-mail to");
         common.verifyStringOnPage(testData.getUsername().toLowerCase());

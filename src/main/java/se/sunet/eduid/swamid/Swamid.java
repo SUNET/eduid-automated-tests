@@ -11,7 +11,7 @@ public class Swamid {
 
     public void runSwamid(){
         selectIdp();
-        navigateEduId("eduid");
+        navigateEduId("eduid staging");
     }
 
     private void selectIdp(){

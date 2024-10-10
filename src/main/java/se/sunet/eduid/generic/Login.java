@@ -30,17 +30,6 @@ public class Login {
 
     public void verifyPageTitle() {
         common.explicitWaitPageTitle("Logga in | eduID");
-//        common.verifyPageTitle("Logga in | eduID");
-
-        //TODO temp fix to get swedish language
-/*        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")){
-            common.explicitWaitPageTitle("Log in | eduID");
-            common.verifyPlaceholder("email or username", "email");
-            common.verifyPlaceholder("enter password", "currentPassword");
-            common.selectSwedish();
-        }*/
-
-        //common.timeoutMilliSeconds(500);
     }
 
     public void enterUsername(){
@@ -50,6 +39,7 @@ public class Login {
 
         //Enter username
         common.findWebElementById("username").clear();
+        common.timeoutMilliSeconds(200);
         common.findWebElementById("username").clear();
         common.findWebElementById("username").sendKeys(testData.getUsername());
 
@@ -59,6 +49,7 @@ public class Login {
     public void enterPassword() {
         common.timeoutMilliSeconds(500);
         common.findWebElementById("currentPassword").clear();
+        common.timeoutMilliSeconds(200);
         common.findWebElementById("currentPassword").clear();
 
         common.findWebElementById("currentPassword").sendKeys(testData.getPassword());
@@ -80,11 +71,23 @@ public class Login {
             common.selectSwedish();
         }
         else {
+            //Check if the temporary information about removal of phone number is presented
+            if(testData.getTestCase().equalsIgnoreCase("TC_11")) {
+                common.explicitWaitClickableElementId("continue-button");
+
+                common.verifyStringOnPage("Vi upphör med support av telefonnummer");
+
+                common.findWebElementById("continue-button").click();
+                Common.log.info("The extra info page about removal of phone number present, click on continue");
+            }
+
             //Wait for the username label at dashboard upper right corner
             common.timeoutSeconds(4);
 
+            //Log in successful
             common.explicitWaitClickableElementId("clipboard");
             storeEppn();
+
         }
     }
 

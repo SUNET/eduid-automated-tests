@@ -109,17 +109,18 @@ public class SecurityKey {
         common.click(common.findWebElementByXpath("//*[@id=\"describe-webauthn-token-modal-form\"]/div[2]/button"));
         common.timeoutMilliSeconds(500);
 
-        //Verify that without personal info added, no extra key can be added.
- /*       if(!testData.isAddSecurityKey()) {
-            common.verifyStatusMessage("Du behöver lägga till ditt namn i Inställningar innan du kan lägga till en säkerhetsnyckel");
-
-            //Close the status message
-            common.closeStatusMessage();
-        }*/
         //Verify that extra key can be added.
         if(testData.isAddSecurityKey()) {
             //Verify headings
             verifySecurityKeyHeaders();
+        }
+        //Verify that without personal info added, no extra key can be added.
+        //TODO can probably be remoed
+        else if(!testData.isAddSecurityKey()) {
+            common.verifyStatusMessage("Du behöver lägga till ditt namn i Inställningar innan du kan lägga till en säkerhetsnyckel");
+
+            //Close the status message
+            common.closeStatusMessage();
         }
     }
 

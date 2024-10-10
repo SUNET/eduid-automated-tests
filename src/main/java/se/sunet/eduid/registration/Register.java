@@ -11,6 +11,7 @@ import java.util.Random;
 public class Register {
     private final Common common;
     private final TestData testData;
+    String pageBody;
 
     public Register(Common common, TestData testData){
         this.common = common;
@@ -85,6 +86,7 @@ public class Register {
         }
         else {
             Common.log.info("Identity number set to: " + testData.getIdentityNumber());
+            Common.log.info("Using existing Display name: " + testData.getDisplayName());
         }
         Common.log.info("Register user: " +testData.getUsername());
 
@@ -137,54 +139,60 @@ public class Register {
     }
 
     private void verifyTermsSwedish(){
+        //Extract page body for validation
+        pageBody = common.getPageBody();
+
         //Swedish
         Common.log.info("Verify terms - swedish");
-        common.verifyStringOnPage("Registrera: Godkänn användarvillkor");
-        common.verifyStringOnPage("För att skapa ditt eduID måste du acceptera användarvillkoren för eduID.");
-        common.verifyStringOnPage("För eduID.se gäller generellt");
-        common.verifyStringOnPage("att all användning av " +
+        common.verifyPageBodyContainsString(pageBody, "Registrera: Godkänn användarvillkor");
+        common.verifyPageBodyContainsString(pageBody, "För att skapa ditt eduID måste du acceptera användarvillkoren för eduID.");
+        common.verifyPageBodyContainsString(pageBody, "För eduID.se gäller generellt");
+        common.verifyPageBodyContainsString(pageBody, "att all användning av " +
                 "användarkonton ska följa Sveriges lagar och förordningar,");
-        common.verifyStringOnPage("att man är " +
+        common.verifyPageBodyContainsString(pageBody, "att man är " +
                 "sanningsenlig vid uppgivande av personlig information som namn, kontaktuppgifter el. dyl,");
-        common.verifyStringOnPage("att användarkonton, lösenord, " +
+        common.verifyPageBodyContainsString(pageBody, "att användarkonton, lösenord, " +
                 "säkerhetsnycklar och koder är personliga och får endast användas av innehavaren,");
-        common.verifyStringOnPage("att SUNET:s etiska regler reglerar övrig tillåten användning.");
-        common.verifyStringOnPage("SUNET bedömer som oetiskt när någon:");
-        common.verifyStringOnPage("försöker " +
+        common.verifyPageBodyContainsString(pageBody, "att SUNET:s etiska regler reglerar övrig tillåten användning.");
+        common.verifyPageBodyContainsString(pageBody, "SUNET bedömer som oetiskt när någon:");
+        common.verifyPageBodyContainsString(pageBody, "försöker " +
                 "få tillgång till nätverksresurser utan att ha rätt till det");
-        common.verifyStringOnPage("försöker dölja sin användaridentitet");
-        common.verifyStringOnPage("försöker störa eller avbryta den avsedda användningen av nätverken");
-        common.verifyStringOnPage("uppenbart slösar med tillgängliga resurser (personal, maskinvara eller programvara)");
-        common.verifyStringOnPage("försöker störa eller avbryta " +
+        common.verifyPageBodyContainsString(pageBody, "försöker dölja sin användaridentitet");
+        common.verifyPageBodyContainsString(pageBody, "försöker störa eller avbryta den avsedda användningen av nätverken");
+        common.verifyPageBodyContainsString(pageBody, "uppenbart slösar med tillgängliga resurser (personal, maskinvara eller programvara)");
+        common.verifyPageBodyContainsString(pageBody, "försöker störa eller avbryta " +
                 "den avsedda användningen av nätverken");
-        common.verifyStringOnPage("gör intrång i andras privatliv");
-        common.verifyStringOnPage("försöker förolämpa eller förnedra andra");
-        common.verifyStringOnPage("Den som överträder, eller misstänks överträda, ovanstående regler " +
+        common.verifyPageBodyContainsString(pageBody, "gör intrång i andras privatliv");
+        common.verifyPageBodyContainsString(pageBody, "försöker förolämpa eller förnedra andra");
+        common.verifyPageBodyContainsString(pageBody, "Den som överträder, eller misstänks överträda, ovanstående regler " +
                 "kan stängas av från eduID.se. Dessutom kan rättsliga åtgärder komma att vidtas.");
     }
 
     private void verifyTermsEnglish(){
+        //Extract page body for validation
+        pageBody = common.getPageBody();
+
         Common.log.info("Verify terms - english");
-        common.verifyStringOnPage("Register: Approve terms of use");
-        common.verifyStringOnPage("To create your eduID you need to accept the eduID terms of use.");
-        common.verifyStringOnPage("The following generally applies:");
-        common.verifyStringOnPage("that all usage of user accounts " +
+        common.verifyPageBodyContainsString(pageBody, "Register: Approve terms of use");
+        common.verifyPageBodyContainsString(pageBody, "To create your eduID you need to accept the eduID terms of use.");
+        common.verifyPageBodyContainsString(pageBody, "The following generally applies:");
+        common.verifyPageBodyContainsString(pageBody, "that all usage of user accounts " +
                 "follow the laws and by-laws of Sweden,");
-        common.verifyStringOnPage("that all personal information " +
+        common.verifyPageBodyContainsString(pageBody, "that all personal information " +
                 "that you provide, such as name and contact information shall be truthful,");
-        common.verifyStringOnPage("that user accounts, password, " +
+        common.verifyPageBodyContainsString(pageBody, "that user accounts, password, " +
                 "security keys and codes are individual and shall only be used by the intended individual,");
-        common.verifyStringOnPage("that SUNET's ethical rules regulate the “other” usage.");
-        common.verifyStringOnPage("SUNET judges unethical behaviour to be when someone:");
-        common.verifyStringOnPage("attempts to gain access to " +
+        common.verifyPageBodyContainsString(pageBody, "that SUNET's ethical rules regulate the “other” usage.");
+        common.verifyPageBodyContainsString(pageBody, "SUNET judges unethical behaviour to be when someone:");
+        common.verifyPageBodyContainsString(pageBody, "attempts to gain access to " +
                 "network resources that they do not have the right to");
-        common.verifyStringOnPage("attempts to conceal their user identity");
-        common.verifyStringOnPage("attempts to interfere or disrupt the intended usage of the network");
-        common.verifyStringOnPage("clearly wastes available resources (personnel, hardware or software)");
-        common.verifyStringOnPage("attempts to disrupt or destroy computer-based information");
-        common.verifyStringOnPage("infringes on the privacy of others");
-        common.verifyStringOnPage("attempts to insult or offend others");
-        common.verifyStringOnPage("Any person found violating or suspected of violating these rules can " +
+        common.verifyPageBodyContainsString(pageBody, "attempts to conceal their user identity");
+        common.verifyPageBodyContainsString(pageBody, "attempts to interfere or disrupt the intended usage of the network");
+        common.verifyPageBodyContainsString(pageBody, "clearly wastes available resources (personnel, hardware or software)");
+        common.verifyPageBodyContainsString(pageBody, "attempts to disrupt or destroy computer-based information");
+        common.verifyPageBodyContainsString(pageBody, "infringes on the privacy of others");
+        common.verifyPageBodyContainsString(pageBody, "attempts to insult or offend others");
+        common.verifyPageBodyContainsString(pageBody, "Any person found violating or suspected of violating these rules can " +
                 "be disabled from eduID.se for investigation. Furthermore, legal action may be taken.");
     }
 

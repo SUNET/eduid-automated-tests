@@ -6,7 +6,7 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 import java.io.IOException;
 
 public class TC_49 extends BeforeAndAfter {
-    private String username1, password1;
+    private String username1, password1, displayName;
 
     //Register first account
     @Test
@@ -22,6 +22,8 @@ public class TC_49 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage"} )
     void register(){
         register.runRegister();
+
+        displayName = testData.getDisplayName();
     }
 
     @Test( dependsOnMethods = {"register"} )
@@ -53,16 +55,11 @@ public class TC_49 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
-    void addPhoneNumber(){
-        phoneNumber.addPhoneNumber();
-        phoneNumber.confirmNewPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"addPhoneNumber"} )
-    void confirmIdentityPhone(){
-        testData.setConfirmIdBy("phone");
+    void confirmIdentityFreja(){
+        testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentityPhone"} )
+    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void confirmedIdentity() {
         confirmedIdentity.runConfirmIdentity();
 
@@ -130,19 +127,11 @@ public class TC_49 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo2"} )
-    void addPhoneNumber2(){
-        //Setting register to false in order to use the previous phone number
-        testData.setRegisterAccount(false);
-        phoneNumber.addPhoneNumber();
-        testData.setRegisterAccount(true);
-        phoneNumber.confirmNewPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"addPhoneNumber2"} )
-    void confirmIdentityPhone2(){
-        testData.setConfirmIdBy("phone");
+    void confirmIdentityFreja2(){
+        testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentityPhone2"} )
+    @Test( dependsOnMethods = {"confirmIdentityFreja2"} )
     void confirmedIdentity2() {
         confirmedIdentity.runConfirmIdentity();
 
@@ -178,6 +167,7 @@ public class TC_49 extends BeforeAndAfter {
         initBrowser(url, browser, headless, language,testsuite);
         testData.setTestSuite(testsuite);
         testData.setTestCase("TC_49");
+        testData.setDisplayName(displayName);
     }
 
     //Log in to first account, verify that phone number and identity needs to be confirmed
@@ -204,26 +194,12 @@ public class TC_49 extends BeforeAndAfter {
     void dashboard() {
         //Account is no longer verified
 
-        //Set some user data that will be verified in dashboard
-        testData.setDisplayName("Cookie Magic Cookie");
-
         //Setting Account verified to false to check the correct account verification text at dashboard.
         testData.setAccountVerified(false);
         dashBoard.runDashBoard();
     }
 
     @Test( dependsOnMethods = {"dashboard"} )
-    void verifyPhoneNotConfirmed(){
-        //Navigate to settings
-        common.navigateToSettings();
-
-        //Verify that phone number is not confirmed
-        String currentButtonText = common.findWebElementByXpath("//*[@id=\"phone-display\"]/div[1]/table/tbody/tr/td[2]/button").getText();
-        common.verifyStrings("BEKRÄFTA", currentButtonText);
-
-    }
-
-    @Test( dependsOnMethods = {"verifyPhoneNotConfirmed"} )
     void verifyIdentityNotConfirmed(){
         //Navigate to Identity
         common.navigateToIdentity();

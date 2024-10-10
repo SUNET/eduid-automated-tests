@@ -9,10 +9,4 @@ public class TC_98 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){ login.runLogin(); }
-
-    @Test( dependsOnMethods = {"login"} )
-    void confirmPhoneNumber() {
-        common.navigateToSettings();
-        confirmPhoneNumber.runConfirmPhoneNumber();
-    }
 }

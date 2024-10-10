@@ -41,12 +41,12 @@ public class TC_477 extends BeforeAndAfter {
         personalInfo.runPersonalInfo();
     }
 
-    @Test( dependsOnMethods = {"personalInfo"} )
+ /*    @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }
 
-/*    @Test( dependsOnMethods = {"addPhoneNumber"} )
+   @Test( dependsOnMethods = {"addPhoneNumber"} )
     void confirmIdentityFreja(){
         testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }

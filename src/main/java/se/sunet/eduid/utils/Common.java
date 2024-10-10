@@ -55,13 +55,12 @@ public class Common {
     }
 
     public void selectEnglish() {
-        if(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("English")) {
+        if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("English")) {
             click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a"));
             timeoutMilliSeconds(400);
 
             log.info("English language selected");
-        }
-        else if(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("Svenska"))
+        } else if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("Svenska"))
             log.info("English language was already selected");
         else
             Assert.fail("Failed to switch language to English");

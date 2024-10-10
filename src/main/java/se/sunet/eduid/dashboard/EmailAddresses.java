@@ -17,7 +17,8 @@ public class EmailAddresses {
     public void runEmailAddresses(){
         common.navigateToSettings();
         verifyPageTitle();
-        removeEmail();
+        if(testData.isRemoveNewEmail1())
+            removeEmail();
         addNewEmail();
         verifyLabelsSwedish();
         verifyLabelsEnglish();
@@ -28,12 +29,8 @@ public class EmailAddresses {
     }
 
     private void removeEmail() {
-        common.timeoutMilliSeconds(500);
-
-        // RemoveNewEmail1, in this case the second email address in the list
-        if(testData.isRemoveNewEmail1()) {
-            common.click(common.findWebElementByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[3]/td[3]/button"));
-        }
+        common.explicitWaitClickableElement("//*[@id=\"email-display\"]/div/table/tbody/tr[3]/td[3]/button");
+        common.click(common.findWebElementByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[3]/td[3]/button"));
     }
 
     private void addNewEmail() {
@@ -60,6 +57,7 @@ public class EmailAddresses {
             common.click(common.findWebElementById("add-email"));
             common.timeoutMilliSeconds(200);
 
+            //Try to add already existing email address
             if (testData.getAddNewEmail1().equals(common.findWebElementByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr/td[1]").getText())) {
                 //Verify info messages - swedish
                 common.timeoutMilliSeconds(500);
@@ -86,6 +84,7 @@ public class EmailAddresses {
                 common.timeoutMilliSeconds(200);
                 common.selectSwedish();
             }
+            //Add new email address
             else {
                 //Verify info messages - swedish
                 common.verifyStringByXpath("//*[@id=\"email-display\"]/div[1]/table/tbody/tr[3]/td[1]", testData.getAddNewEmail1());
@@ -154,10 +153,14 @@ public class EmailAddresses {
                 //Check labels
                 common.timeoutSeconds(1);
                 if(testData.getConfirmNewEmail1().equals("wrongCode")) {
+                    Common.log.info("Verify status message when email confirmation code is not correct");
                     common.verifyStatusMessage("Ogiltig kod eller en kod som har gått ut. Var god prova igen eller begär en ny kod");
+
                     common.selectEnglish();
+
                     common.verifyStatusMessage("The code is invalid or has expired, please try again or request a new code");
                     common.selectSwedish();
+
                 }
                 else {
                     common.verifyStringByXpath("//*[@id=\"email-display\"]/div/table/tbody/tr[2]/td[2]/span", "PRIMÄR");
@@ -257,6 +260,7 @@ public class EmailAddresses {
 
     private void verifyConfirmEmailPopupLabels(){
         // In pop-up, verify labels and placeholder
+        Common.log.info("Verify email confirmation pop-up - Swedish");
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
                 "Klicka på länken eller skriv in koden som skickats till "
                         +testData.getAddNewEmail1() +" här");
@@ -277,6 +281,7 @@ public class EmailAddresses {
         common.switchToPopUpWindow();
 
         // In pop-up, verify labels and placeholder
+        Common.log.info("Verify email confirmation pop-up - English");
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
                 "Click the link or enter the code sent to "
                         +testData.getAddNewEmail1() +" here");

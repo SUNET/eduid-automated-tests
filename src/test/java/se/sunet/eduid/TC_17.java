@@ -72,15 +72,7 @@ public class TC_17 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
-    void turnOffNonVerifiedSecurityKey() {
-        //Turn security off for logging in
-        common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/fieldset/form/label/div").click();
-
-        common.timeoutSeconds(2);
-    }
-
     //Log out and verify that it is possible to log in again without the security key
-    @Test( dependsOnMethods = {"turnOffNonVerifiedSecurityKey"} )
     void logout(){
         logout.runLogout();
     }
@@ -120,7 +112,7 @@ public class TC_17 extends BeforeAndAfter {
     void loginExtraSecurity(){
 
         loginExtraSecurity.selectMfaMethod();
-        common.timeoutSeconds(2);
+        common.timeoutSeconds(6);
     }
 
     @Test( dependsOnMethods = {"loginExtraSecurity"} )

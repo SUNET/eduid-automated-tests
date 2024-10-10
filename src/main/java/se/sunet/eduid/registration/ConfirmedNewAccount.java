@@ -19,13 +19,17 @@ public class ConfirmedNewAccount {
     }
 
     private void verifyPageTitle() {
-        //common.explicitWaitPageTitle("Registrera | eduID");
-        common.verifyPageTitle("Registrera | eduID");
+        common.explicitWaitPageTitle("Registrera | eduID");
+
+        //Wait for the go to eduid link at bottom of page
+        common.explicitWaitClickableElementId("finished-button");
+
+        //common.verifyPageTitle("Registrera | eduID");
 
         //TODO temp fix to get swedish language
-        common.timeoutMilliSeconds(500);
-        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
-            common.selectSwedish();
+//        common.timeoutMilliSeconds(500);
+//        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
+//            common.selectSwedish();
     }
 
     private void verifyLabels(){

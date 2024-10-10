@@ -83,16 +83,14 @@
         </classes>
     </test>
 
-<!--
     <test name="TC_11">
-        <parameter name="testDescription" value="Initiate password reset with extra security (mobile OTP), click on
-        'already have code' to check that user gets opportunity to fill in the code." />
+        <parameter name="testDescription" value="Log in with user that has a verified phone number, verify that the extra
+        information about phone number removal in eduID is present. Click OK and log in." />
         <classes>
             <class name="se.sunet.eduid.TC_11" >
             </class>
         </classes>
     </test>
--->
 
     <test name="TC_12">
         <parameter name="testDescription" value="Add additional email address, try to confirm with incorrect code" />
@@ -187,7 +185,7 @@
     </test>
 
     <test name="TC_23">
-        <parameter name="testDescription" value="Reset password with extra security (mobile OTP), then change pw to default" />
+        <parameter name="testDescription" value="Reset password without extra security (mobile OTP), then change pw to default" />
         <classes>
             <class name="se.sunet.eduid.TC_23" >
             </class>
@@ -203,13 +201,14 @@
     </test>
 
     <test name="TC_28">
-        <parameter name="testDescription" value="Reset password without extra security (mobile OTP)" />
+        <parameter name="testDescription" value="Register new account. Confirm identity by Freja. Reset password without extra security,
+        verify that identity is no longer verified" />
         <classes>
             <class name="se.sunet.eduid.TC_28" >
             </class>
         </classes>
     </test>
-
+<!--
     <test name="TC_29">
         <parameter name="testDescription" value="Reset password without extra security (Phone number not confirmed).
         Abort confirmation of the phone number from dashboard" />
@@ -236,7 +235,7 @@
             </class>
         </classes>
     </test>
-
+-->
     <test name="TC_32">
         <parameter name="testDescription" value="Initiate account termination but abort in confirm pop-up" />
         <classes>
@@ -254,7 +253,7 @@
     </test>
 
     <test name="TC_34">
-        <parameter name="testDescription" value="Restore the account by reset password with extra security (mobile OTP) and set a new password" />
+        <parameter name="testDescription" value="Restore the account by reset password without extra security (mobile OTP) and set a new password" />
         <classes>
             <class name="se.sunet.eduid.TC_23" >
             </class>
@@ -277,6 +276,8 @@
         </classes>
     </test>
 
+<!--
+Obsolete! phone number is not used any more unleass they are already confirmed
     <test name="TC_51">
         <parameter name="testDescription" value="Add and confirm two extra phone numbers" />
         <classes>
@@ -292,6 +293,7 @@
             </class>
         </classes>
     </test>
+-->
 
     <test name="TC_60">
         <parameter name="testDescription" value="Log in using 'Other Device' - 'Remember me' disabled" />
@@ -473,8 +475,8 @@
     </test>
 
     <test name="TC_40">
-        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by phone. After delete
-        account, restore account by reset password (using custom password) using Freja eID and check that identity and phone number still is confirmed." />
+        <parameter name="testDescription" value="Register new account. Confirm identity by Freja. After delete
+        account, restore account by reset password (using custom password) using Freja eID and check that identity still is confirmed." />
         <classes>
             <class name="se.sunet.eduid.TC_40" >
             </class>
@@ -482,7 +484,7 @@
     </test>
 
     <test name="TC_41">
-        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by letter,
+        <parameter name="testDescription" value="Register new account. Confirm identity by letter,
         then check that Display name is present at Settings page." />
         <classes>
             <class name="se.sunet.eduid.TC_41" >
@@ -491,7 +493,7 @@
     </test>
 
     <test name="TC_47">
-        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by Freja ID
+        <parameter name="testDescription" value="Register new account. Confirm identity by Freja ID
             verify that the confirmation of identity can be deleted." />
         <classes>
             <class name="se.sunet.eduid.TC_47" >
@@ -500,8 +502,8 @@
     </test>
 
     <test name="TC_49">
-        <parameter name="testDescription" value="Register new account, add and confirm phone number. Confirm identity by phone. Create another new
-        account, confirm phone and identity. Then log in to first account and check that phone number, email and identity is no longer confirmed" />
+        <parameter name="testDescription" value="Register new account. Confirm identity by Freja. Create another new
+        account for the same person, confirm identity. Then log in to first account and check that identity is no longer confirmed" />
         <classes>
             <class name="se.sunet.eduid.TC_49" >
             </class>
@@ -542,13 +544,15 @@
         </classes>
     </test>
 
+<!--
+    Covered by other test cases
     <test name="TC_46">
         <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings, Verify the Security key" />
         <classes>
             <class name="se.sunet.eduid.TC_46" >
             </class>
         </classes>
-    </test>
+    </test>-->
 
     <test name="TC_53">
         <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings, use Security key
@@ -570,35 +574,31 @@
     -->
 
     <test name="TC_78">
-        <parameter name="testDescription" value="Register new account, add and confirm phone number.
-                Confirm identity by eIDAS and Freja eID" />
+        <parameter name="testDescription" value="Register new account. Confirm identity by eIDAS and Freja eID" />
         <classes>
             <class name="se.sunet.eduid.TC_78" >
             </class>
         </classes>
     </test>
-
+<!--
+tested in tc_28
     <test name="TC_81">
         <parameter name="testDescription" value="Register account, confirm identity by Freja eID. Reset pw and choose
-        no extra security. Then verify on dashboard that identity is no longer verified and that add of phone number is
-        recommended among recommended actions" />
+        no extra security. Then verify on dashboard that identity is no longer verified" />
         <classes>
             <class name="se.sunet.eduid.TC_81" >
             </class>
         </classes>
     </test>
+-->
 
-    <!--
-    2024-03-05 SVIPE is temporarily disabled until new agreement is signed
     <test name="TC_79">
-        <parameter name="testDescription" value="Register new account, add and confirm phone number.
-                Attempt to confirm identity by SVIPE ID (no complete confirmation will be done)" />
+        <parameter name="testDescription" value="Register new account. Attempt to confirm identity by Freja without Swedish personal identity number (no complete confirmation will be done)" />
         <classes>
             <class name="se.sunet.eduid.TC_79" >
             </class>
         </classes>
     </test>
-    -->
 
     <test name="TC_82" >
         <parameter name="testDescription" value="Initiate Register of new account, verify that incorrect email
@@ -651,7 +651,6 @@
     <test name="TC_88">
         <parameter name="testDescription" value="Log in to DNP 'with eID' with username, password and extra
         security option using Freja." />
-        <parameter name="url" value="https://fidustest.skolverket.se/DNP-staging/" />
         <classes>
             <class name="se.sunet.eduid.TC_88" >
             </class>

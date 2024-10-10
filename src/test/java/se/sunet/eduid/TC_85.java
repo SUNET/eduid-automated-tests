@@ -31,10 +31,6 @@ public class TC_85 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
-    void addPhoneNumber(){
-        phoneNumber.confirmNewPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"addPhoneNumber"} )
     void confirmIdentityMail(){
         testData.setConfirmIdBy("mail");
         confirmIdentity.runConfirmIdentity(); }
@@ -96,7 +92,7 @@ public class TC_85 extends BeforeAndAfter {
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(3);
+        common.timeoutSeconds(8);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )

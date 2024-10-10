@@ -6,6 +6,7 @@ import se.sunet.eduid.utils.TestData;
 public class PersonalInfo {
     private final Common common;
     private final TestData testData;
+    String pageBody;
 
     public PersonalInfo(Common common, TestData testData){
         this.common = common;
@@ -129,30 +130,30 @@ public class PersonalInfo {
 
     private void selectLanguage() {
         //Click on change
-        common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button").click();
+        //common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button").click();
 
         //Change to Swedish
         if(testData.getLanguage().equalsIgnoreCase("Svenska")){
             //Verify button text, before change
-            common.verifyStringById("personal-data-button", "SAVE");
+            common.verifyStringByXpath("//*[@id=\"personaldata-view-form\"]/fieldset/article/div/label[2]/span", "Svenska");
 
             //Select new language - Swedish
             common.click(common.findWebElementById("Svenska"));
 
-            pressSaveButton();
+            //pressSaveButton();
 
             common.timeoutSeconds(1);
         }
         //Change to English
         else if(testData.getLanguage().equalsIgnoreCase("English")){
             //Verify button text, before change
-            common.verifyStringById("personal-data-button", "SPARA");
+            common.verifyStringByXpath("//*[@id=\"personaldata-view-form\"]/fieldset/article/div/label[1]/span", "English");
 
             //Select new language - English
             //common.click(common.findWebElementByXpath("//*[@id=\"personaldata-view-form\"]/fieldset[2]/div/label[1]/input"));
             common.click(common.findWebElementById("English"));
 
-            pressSaveButton();
+            //pressSaveButton();
 
             common.timeoutSeconds(1);
         }
@@ -171,21 +172,24 @@ public class PersonalInfo {
         //Page title
         common.verifyPageTitle("Inställningar | eduID");
 
+        //Extract page body for validation
+        pageBody = common.getPageBody();
+
         //Verify site location menu, beside Start link
         common.verifySiteLocation("Inställningar");
 
         //Heading
-        common.verifyStringOnPage( "Namn & språk");
+        common.verifyPageBodyContainsString(pageBody,  "Namn & Visningsnamn");
 
         //Text
-        common.verifyStringOnPage("Den här informationen kan komma att användas för att anpassa tjänster " +
+        common.verifyPageBodyContainsString(pageBody, "Den här informationen kan komma att användas för att anpassa tjänster " +
                 "som du når med ditt eduID.");
 
         //Given name
-        common.verifyStringOnPage("Förnamn");
+        common.verifyPageBodyContainsString(pageBody, "Förnamn");
 
         //Sur name
-        common.verifyStringOnPage( "Efternamn");
+        common.verifyPageBodyContainsString(pageBody,  "Efternamn");
 
         //Display name
         if(testData.isIdentityConfirmed()) {
@@ -197,20 +201,23 @@ public class PersonalInfo {
         //Page title
         common.verifyPageTitle("Settings | eduID");
 
+        //Extract page body for validation
+        pageBody = common.getPageBody();
+
         //Verify site location menu, beside Start link
         common.verifySiteLocation("Settings");
 
         //Heading
-        common.verifyStringOnPage("Name & language");
+        common.verifyPageBodyContainsString(pageBody, "Names & Display Name");
 
         //Text
-        common.verifyStringOnPage("This information may be used to personalise services that you access with your eduID.");
+        common.verifyPageBodyContainsString(pageBody, "This information may be used to personalise services that you access with your eduID.");
 
         //Given name
-        common.verifyStringOnPage("First name");
+        common.verifyPageBodyContainsString(pageBody, "First name");
 
         //Sur name
-        common.verifyStringOnPage("Last name");
+        common.verifyPageBodyContainsString(pageBody, "Last name");
 
         //Display name
         if(testData.isIdentityConfirmed()) {

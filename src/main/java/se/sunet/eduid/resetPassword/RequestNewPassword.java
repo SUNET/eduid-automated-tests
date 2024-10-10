@@ -20,7 +20,7 @@ public class RequestNewPassword {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Återställ Lösenord | eduID");
+        common.verifyPageTitle("Återställ lösenord | eduID");
     }
 
     private void enterEmail(){
@@ -53,10 +53,10 @@ public class RequestNewPassword {
         //Switch to english
         common.selectEnglish();
 
-        common.verifyPageTitle("Reset Password | eduID");
+        common.verifyPageTitle("Reset password | eduID");
 
         //Heading
-        common.verifyStringOnPage("Reset Password: Enter the email address");
+        common.verifyStringOnPage("Reset password: Enter the email address");
 
         common.verifyStringOnPage("Once entered, if the address is registered, a message with instructions to reset the password will be sent.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address");

@@ -9,7 +9,6 @@ public class TC_40 extends BeforeAndAfter {
         testData.setRegisterAccount(true);
         startPage.runStartPage();
     }
-
     @Test( dependsOnMethods = {"startPage"} )
     void register(){ register.runRegister(); }
 
@@ -37,19 +36,14 @@ public class TC_40 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
-    void addPhoneNumber(){
-        phoneNumber.addPhoneNumber();
-        phoneNumber.confirmNewPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"addPhoneNumber"} )
     void advancedSettings() { advancedSettings.runAdvancedSettings(); }
 
     @Test( dependsOnMethods = {"advancedSettings"} )
-    void confirmIdentityPhone(){
-        testData.setConfirmIdBy("phone");
+    void confirmIdentityFreja(){
+        testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentityPhone"} )
+    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void confirmedIdentity() {
         confirmedIdentity.runConfirmIdentity();
 
@@ -131,9 +125,6 @@ public class TC_40 extends BeforeAndAfter {
         //Account is verified
         testData.setAccountVerified(true);
 
-        //Set some user data that will be verified in dashboard
-        testData.setDisplayName("Cookie Magic Cookie");
-
         dashBoard.runDashBoard();
     }
 
@@ -147,19 +138,14 @@ public class TC_40 extends BeforeAndAfter {
         common.verifyStringOnPage("Svenskt personnummer");
     }
 
+    //Delete account when confirmed that identity is no longer verified
     @Test( dependsOnMethods = {"identity"} )
-    void verifyConfirmedPhone() {
-        //Verify that phone number is still confirmed
+    void delete2() {
         common.navigateToSettings();
 
-        common.verifyStringByXpath("//*[@id=\"phone-display\"]/div/table/tbody/tr/td[2]", "PRIMÄR");
-    }
-
-    //Delete account when confirmed that identity is no longer verified
-    @Test( dependsOnMethods = {"verifyConfirmedPhone"} )
-    void delete2() {
         testData.setDeleteButton(true);
-        deleteAccount.runDeleteAccount(); }
+        deleteAccount.runDeleteAccount();
+    }
 
     @Test( dependsOnMethods = {"delete2"} )
     void startPage4(){ startPage.runStartPage(); }

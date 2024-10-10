@@ -126,7 +126,7 @@ public class BeforeAndAfter {
         Common.log.info(testData.getTestCase() +" - "+testData.getTestMethod());
     }
 
-    @AfterTest
+//    @AfterTest
     public void quitBrowser() throws IOException {
         try {
             webdriver.quit();

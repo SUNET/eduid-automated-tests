@@ -41,19 +41,14 @@ public class TC_43 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
-    void addPhoneNumber(){
-        phoneNumber.addPhoneNumber();
-        phoneNumber.confirmNewPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"addPhoneNumber"} )
-    void confirmIdentityPhone(){
-        testData.setConfirmIdBy("phone");
+    void confirmIdentityEidas(){
+        testData.setConfirmIdBy("eidas");
         confirmIdentity.runConfirmIdentity();
 
         testData.setRegisterAccount(false);
     }
 
-    @Test( dependsOnMethods = {"confirmIdentityPhone"} )
+    @Test( dependsOnMethods = {"confirmIdentityEidas"} )
     void confirmedIdentity() {
         confirmedIdentity.runConfirmIdentity();
 

@@ -2,39 +2,23 @@ package se.sunet.eduid;
 
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
-import se.sunet.eduid.utils.Common;
 
 public class TC_11 extends BeforeAndAfter {
     @Test
-    void timeoutForOTP(){
-        //Sleep for OTP send interval timeout
-        Common.log.info("Waiting for OTP timeout interval...");
-        //common.timeoutSeconds(305);
-    }
-
-    @Test( dependsOnMethods = {"timeoutForOTP"} )
-    void startPage(){
-        startPage.runStartPage();
-    }
+    void startPage() { startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
-        testData.setResetPassword(true);
-        login.runLogin();
-    }
+        testData.setUsername("HxFUBUCO@dev.eduid.sunet.se");
+        testData.setPassword("fqv5 57l8 korp");
+        testData.setDisplayName("Cookie Magic Cookie");
+        testData.setAccountVerified(true);
+
+        login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-    void requestNewPassword() { requestNewPassword.runRequestNewPassword(); }
+    void dashboard() { dashBoard.runDashBoard(); }
 
-    @Test( dependsOnMethods = {"requestNewPassword"} )
-    void emailSent() { emailSent.runEmailSent(); }
-
-    @Test( dependsOnMethods = {"emailSent"} )
-    void emailLink() { emailLink.runEmailLink(); }
-
-    @Test( dependsOnMethods = {"emailLink"} )
-    void extraSecurity() {
-        testData.setSendMobileOneTimePassword("yes");
-
-        extraSecurity.runExtraSecurity(); }
+    @Test( dependsOnMethods = {"dashboard"} )
+    void logout() { logout.runLogout(); }
 }

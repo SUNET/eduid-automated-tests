@@ -38,7 +38,7 @@ public class EmailLink {
 
                 common.findWebElementById("response-code-ok-button").click();
 
-            common.explicitWaitPageTitle("Återställ Lösenord | eduID");
+            common.explicitWaitPageTitle("Återställ lösenord | eduID");
         }
         common.timeoutSeconds(3);
     }

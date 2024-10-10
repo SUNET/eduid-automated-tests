@@ -25,7 +25,7 @@ public class RetryAndScreenShot implements IRetryAnalyzer {
 
         //check if test case failed, then retry it. If failure, maximize window and screenshot
         if (!iTestResult.isSuccess()) {
-            int maxTry = 2;
+            int maxTry = 1;
             if (retryCount < maxTry) {
                 log.info(testCase + " - " + testMethod + " - Test failed at attempt " +(retryCount +1) +" will try again\n" +iTestResult.getThrowable().getMessage());
                  //Comment screenshot method below, since screenshot will be taken from BeforeAndAfter

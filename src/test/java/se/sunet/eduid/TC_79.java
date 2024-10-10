@@ -30,25 +30,14 @@ public class TC_79 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
+    void confirmIdentityFrejaNoSwedishPnr(){
+        //Set phone number to empty, so no phone labels are verified
+        testData.setPhoneNumber("");
 
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
-    void addPhoneNumber(){
-        phoneNumber.addPhoneNumber();
-        phoneNumber.confirmNewPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
-    void confirmIdentitySvipe(){
-        testData.setConfirmIdBy("svipe");
+        testData.setConfirmIdBy("frejaNoSwedishPnr");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentitySvipe"} )
+    @Test( dependsOnMethods = {"confirmIdentityFrejaNoSwedishPnr"} )
     void navigateBackToEduId() {
         common.getWebDriver().navigate().back();
     }

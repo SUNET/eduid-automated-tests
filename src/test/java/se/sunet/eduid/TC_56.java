@@ -38,11 +38,6 @@ public class TC_56 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
-    void addPhoneNumber(){
-        phoneNumber.addPhoneNumber();
-        phoneNumber.confirmNewPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"addPhoneNumber"} )
     void confirmIdentityMail(){
         testData.setConfirmIdBy("mail");
         confirmIdentity.runConfirmIdentity(); }
@@ -91,15 +86,12 @@ public class TC_56 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"loginMfa"} )
     void selectUserRefIdp(){
-        //Click on Verify for the added security key - Selecting Freja
-        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
-
         //Select and submit user
         common.explicitWaitClickableElementId("submitButton");
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(3);
+        common.timeoutSeconds(8);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
@@ -124,12 +116,6 @@ public class TC_56 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
-    void timeoutBeforeDelete() {
-        //Timeout to make sure last log in was +5min ago
-        common.timeoutSeconds(75);
-    }
-
-    @Test( dependsOnMethods = {"timeoutBeforeDelete"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();

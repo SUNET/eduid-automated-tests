@@ -19,7 +19,7 @@ public class ExtraSecurity {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Återställ Lösenord | eduID");;
+        common.verifyPageTitle("Återställ lösenord | eduID");;
     }
 
     private void verifyLabels(){
@@ -29,57 +29,63 @@ public class ExtraSecurity {
 
         //verify the labels - English
         common.timeoutSeconds(1);
-        common.verifyPageTitle("Reset Password | eduID");
+        common.verifyPageTitle("Reset password | eduID");
 
-        common.verifyStringOnPage("Reset Password: Verification method");
-        common.verifyStringOnPage("Select an extra security option to maintain identity confirmation " +
+        //Extract page body for validation
+        String pageBody = common.getPageBody();
+
+        common.verifyPageBodyContainsString(pageBody, "Reset password: Verification method");
+        common.verifyPageBodyContainsString(pageBody, "Select an extra security option to maintain identity confirmation " +
                 "during the password reset process, or continue without extra security, with identity confirmation " +
                 "required after the password reset.");
-        if(!testData.getPhoneNumber().isEmpty())
-            common.verifyStringOnPage("SEND SMS TO **********" + testData.getPhoneNumber().substring(10,12));
+//        if(!testData.getPhoneNumber().isEmpty())
+//            common.verifyPageBodyContainsString(pageBody, "SEND SMS TO **********" + testData.getPhoneNumber().substring(10,12));
 
         if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja") &!
                 testData.getSendMobileOneTimePassword().equalsIgnoreCase("no")) {
 
-            common.verifyStringOnPage("Already received the code?  enter code");
+//            common.verifyPageBodyContainsString(pageBody, "Already received the code?  enter code");
 
         }
         if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja ") ||
                 testData.getSendMobileOneTimePassword().equalsIgnoreCase("bankid ")){
-            common.verifyStringOnPage("USE MY FREJA+");
-            common.verifyStringOnPage("USE MY BANKID");
+            common.verifyPageBodyContainsString(pageBody, "USE MY FREJA+");
+            common.verifyPageBodyContainsString(pageBody, "USE MY BANKID");
         }
 
-        common.verifyStringOnPage("Continue without extra security option");
-        common.verifyStringOnPage("Your identity will require confirmation after the password has been " +
+        common.verifyPageBodyContainsString(pageBody, "Your identity will require confirmation after the password has been " +
                 "reset. Continue resetting password");
+        common.verifyPageBodyContainsString(pageBody, "Continue without extra security option");
 
         //Switch to Swedish
         common.selectSwedish();
 
         //verify the labels - swedish
-        common.verifyStringOnPage("Återställ lösenord: Verifieringsmetod");
-        common.verifyStringOnPage("Välj ett extra säkerhetsalternativ för att bekräfta din identitet " +
+        //Extract page body for validation
+        pageBody = common.getPageBody();
+
+        common.verifyPageBodyContainsString(pageBody, "Återställ lösenord: Verifieringsmetod");
+        common.verifyPageBodyContainsString(pageBody, "Välj ett extra säkerhetsalternativ för att bekräfta din identitet " +
                 "under lösenordsåterställningsprocessen, eller fortsätt utan extra säkerhet, med krav på " +
                 "identitetsbekräftelse efter lösenordsåterställningen.");
-        if(!testData.getPhoneNumber().isEmpty())
-            common.verifyStringOnPage("SKICKA SMS TILL **********" + testData.getPhoneNumber().substring(10,12));
+//        if(!testData.getPhoneNumber().isEmpty())
+//            common.verifyPageBodyContainsString(pageBody, "SKICKA SMS TILL **********" + testData.getPhoneNumber().substring(10,12));
 
         if(!testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja") &!
                 testData.getSendMobileOneTimePassword().equalsIgnoreCase("no")) {
 
-            common.verifyStringOnPage("Redan fått en kod?  skriv in koden");
+//            common.verifyPageBodyContainsString(pageBody, "Redan fått en kod?  skriv in koden");
         }
 
         if(testData.getSendMobileOneTimePassword().equalsIgnoreCase("freja ") ||
                 testData.getSendMobileOneTimePassword().equalsIgnoreCase("bankid ")){
-            common.verifyStringOnPage("ANVÄND MITT FREJA+");
-            common.verifyStringOnPage("ANVÄND MITT BANKID");
+            common.verifyPageBodyContainsString(pageBody, "ANVÄND MITT FREJA+");
+            common.verifyPageBodyContainsString(pageBody, "ANVÄND MITT BANKID");
         }
 
-        common.verifyStringOnPage("Fortsätt utan extra säkerhetsalternativ");
-        common.verifyStringOnPage("Din identitet kommer att behöva verifieras efter att lösenordet har " +
+        common.verifyPageBodyContainsString(pageBody, "Din identitet kommer att behöva verifieras efter att lösenordet har " +
                 "återställts. Fortsätt återställa lösenordet");
+        common.verifyPageBodyContainsString(pageBody, "Fortsätt utan extra säkerhetsalternativ");
     }
 
     private void sendOtp(){
@@ -135,6 +141,7 @@ public class ExtraSecurity {
             //Click BankID button
             common.findWebElementById("extra-security-bankid").click();
         }
+        //TODO below can probably be removed
         //Already have OTP
         else {
             Common.log.info("Selecting Already have OTP for password reset");

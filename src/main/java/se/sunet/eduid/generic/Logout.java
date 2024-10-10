@@ -21,13 +21,12 @@ public class Logout {
 
     private void pressLogOut(){
         //Expand navigation menu
-        common.click(common.findWebElementByXpath("//*[@id=\"header-nav\"]/button/span"));
+        common.click(common.findWebElementByXpath("//*[@id=\"header-nav\"]/button"));
 
         common.explicitWaitClickableElementId("logout");
-        common.findWebElementById("logout").click();
+        common.click(common.findWebElementById("logout"));
 
         //Wait for the start page - sign up button
-        //common.explicitWaitClickableElementId("//section[2]/div/div/a");
         common.timeoutMilliSeconds(500);
         common.explicitWaitClickableElementId("sign-up-button");
     }

@@ -21,6 +21,7 @@ public class TC_22 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"dashboard"} )
     void password() {
+        testData.setUseRecommendedPw(false);
         testData.setNewPassword("test");
         password.runPassword(); }
 

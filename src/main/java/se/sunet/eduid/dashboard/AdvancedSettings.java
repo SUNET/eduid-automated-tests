@@ -151,7 +151,6 @@ public class AdvancedSettings {
         Common.log.info("Clicked on ORCID");
 
         //Transferred to orcid after click
-        //common.timeoutSeconds(8);
         common.timeoutSeconds(5);
 
         String title = common.getWebDriver().getTitle();
@@ -181,92 +180,86 @@ public class AdvancedSettings {
     }
 
     private void verifyLabels(){
+        //Extract page body for validation
+        String pageBody = common.getPageBody();
+
         //Swedish
         //Verify site location menu, beside Start link
         common.verifySiteLocation("Avancerade inställningar");
 
-        common.verifyStringOnPage("Förbättra ditt eduID");
-        common.verifyStringOnPage("Öka säkerheten för ditt eduID eller anslut det till andra tjänster.");
+        common.verifyPageBodyContainsString(pageBody,"Förbättra ditt eduID");
+        common.verifyPageBodyContainsString(pageBody,"Öka säkerheten för ditt eduID eller anslut det till andra tjänster.");
 
         //Security key
-        common.verifyStringOnPage("Tvåfaktorsautenticering (2FA)");
-        common.verifyStringOnPage("Om möjligt lägg till ett ytterligare sätt att identifiera dig i " +
-                "form av en säkerhetsnyckel, utöver användarnamn och lösenord, så att du är säker på att bara du har " +
-                "tillgång till ditt eduID. Exempel på säkerhetsnycklar kan en USB-säkerhetsnyckel eller din enhet.");
-        common.verifyStringOnPage("Du kan läsa mer om säkerhetsnycklar i hjälpavsnittet: Utökad säkerhet med ditt eduID.");
-        common.verifyStringOnPage("Välj ytterligare identifieringsmetod:");
+        common.verifyPageBodyContainsString(pageBody,"Tvåfaktorsautenticering (2FA)");
+        common.verifyPageBodyContainsString(pageBody,"Om möjligt lägg till ett ytterligare sätt att identifiera dig i form " +
+                "av en säkerhetsnyckel, utöver användarnamn och lösenord, så att du är säker på att bara du har tillgång " +
+                "till ditt eduID. Exempel på säkerhetsnycklar kan vara en USB-säkerhetsnyckel eller din enhet.");
+        common.verifyPageBodyContainsString(pageBody,"Du kan läsa mer om säkerhetsnycklar i hjälpavsnittet: Utökad säkerhet med ditt eduID.");
+        common.verifyPageBodyContainsString(pageBody,"Välj ytterligare identifieringsmetod:");
         common.verifyStringById("security-webauthn-button", "SÄKERHETSNYCKEL");
-        common.verifyStringOnPage("T.ex. USB säkerhetsnyckel som du använder.");
+        common.verifyPageBodyContainsString(pageBody,"T.ex. USB säkerhetsnyckel som du använder.");
         if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
             common.verifyStringById("security-webauthn-platform-button", "DEN HÄR ENHETEN");
-            common.verifyStringOnPage("T.ex. Touch/ Face ID som stöds på den här enheten.");
+            common.verifyPageBodyContainsString(pageBody,"Enheten som du just nu använder");
         }
 
         //OrcID
-        common.verifyStringOnPage("Länka till ditt ORCID konto");
-        common.verifyStringOnPage("Om du är forskare med ett ORCID iD kan du dela det med ditt eduID.");
-        common.verifyStringOnPage("ORCID ger en beständig identifierare, ett ORCID iD, som unikt särskiljer " +
+        common.verifyPageBodyContainsString(pageBody,"Länka till ditt ORCID konto");
+        common.verifyPageBodyContainsString(pageBody,"Om du är forskare med ett ORCID iD kan du dela det med ditt eduID.");
+        common.verifyPageBodyContainsString(pageBody,"ORCID ger en beständig identifierare, ett ORCID iD, som unikt särskiljer " +
                 "dig från andra forskare och en mekanism för att koppla dina forskningsresultat och aktiviteter till ditt " +
                 "ORCID iD oberoende vilken organisation du är verksam vid.");
 
         //ESI information
-        common.verifyStringOnPage("ESI information");
-        common.verifyStringOnPage("Vissa lärosäten har anslutit sig till att låta eduID hämta ut ditt " +
+        common.verifyPageBodyContainsString(pageBody,"ESI information");
+        common.verifyPageBodyContainsString(pageBody,"Vissa lärosäten har anslutit sig till att låta eduID hämta ut ditt " +
                 "ESI - European Student Identifier från Ladok för att kunna få tillgång till vissa tjänster.");
-        common.verifyStringOnPage("Länka ditt ESI till ditt eduID-konto");
-        common.verifyStringOnPage("Finns ditt lärosäte inte i listan ska du inte använda eduID för att " +
+        common.verifyPageBodyContainsString(pageBody,"Länka ditt ESI till ditt eduID-konto");
+        common.verifyPageBodyContainsString(pageBody,"Finns ditt lärosäte inte i listan ska du inte använda eduID för att " +
                 "logga in i tjänster som kräver ESI. Kontakta då istället ditt lärosäte för mer information.");
-
-/*        common.verifyStringOnPage("Unikt ID");
-        common.verifyStringOnPage("Detta unika ID är ett användarnamn för ditt eduID som du kan behöva " +
-                "ange för att identifiera ditt konto eller vid teknisk support. Det är en del av vad som kan hänvisas till som EPPN.");
-        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/div/span/strong", "Unikt ID: ");
-        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));*/
 
         //click on english
         common.selectEnglish();
 
         common.verifyPageTitle("Advanced Settings | eduID");
 
+        //Extract page body for validation
+        pageBody = common.getPageBody();
+
         //English
         //Verify site location menu, beside Start link
         common.verifySiteLocation("Advanced settings");
 
-        common.verifyStringOnPage("Enhance your eduID");
-        common.verifyStringOnPage("Increase the security of your eduID or connect it to other services.");
+        common.verifyPageBodyContainsString(pageBody,"Enhance your eduID");
+        common.verifyPageBodyContainsString(pageBody,"Increase the security of your eduID or connect it to other services.");
 
         //Security key
-        common.verifyStringOnPage("Two-factor Authentication (2FA)");
-        common.verifyStringOnPage("If possible add a security key as a second factor of authentication, " +
+        common.verifyPageBodyContainsString(pageBody,"Two-factor Authentication (2FA)");
+        common.verifyPageBodyContainsString(pageBody,"If possible add a security key as a second factor of authentication, " +
                 "beyond username and password, to prove you are the owner of your eduID. Examples are USB security keys or your device.");
-        common.verifyStringOnPage("You can read more about security keys in the Help section: Improving the security level of eduID.");
-        common.verifyStringOnPage("Choose additional identification method:");
+        common.verifyPageBodyContainsString(pageBody,"You can read more about security keys in the Help section: Improving the security level of eduID.");
+        common.verifyPageBodyContainsString(pageBody,"Choose additional identification method:");
         common.verifyStringById("security-webauthn-button", "SECURITY KEY");
-        common.verifyStringOnPage("E.g a USB Security Key you are using.");
+        common.verifyPageBodyContainsString(pageBody,"E.g a USB Security Key you are using.");
         if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
             common.verifyStringById("security-webauthn-platform-button", "THIS DEVICE");
-            common.verifyStringOnPage("E.g. Touch/ Face ID supported on this device.");
+            common.verifyPageBodyContainsString(pageBody,"The device you are currently using.");
         }
 
         //OrcID
-        common.verifyStringOnPage("ORCID account");
-        common.verifyStringOnPage("If you are a researcher with an ORCID iD you can share it with your eduID.");
-        common.verifyStringOnPage("ORCID iD distinguishes you from other researchers and allows linking of " +
+        common.verifyPageBodyContainsString(pageBody,"ORCID account");
+        common.verifyPageBodyContainsString(pageBody,"If you are a researcher with an ORCID iD you can share it with your eduID.");
+        common.verifyPageBodyContainsString(pageBody,"ORCID iD distinguishes you from other researchers and allows linking of " +
                 "your research outputs and activities to your identity, regardless of the organisation you are working with.");
 
         //ESI information
-        common.verifyStringOnPage("ESI information");
-        common.verifyStringOnPage("Some higher education institutions allow eduID to fetch your " +
+        common.verifyPageBodyContainsString(pageBody,"ESI information");
+        common.verifyPageBodyContainsString(pageBody,"Some higher education institutions allow eduID to fetch your " +
                 "ESI - European Student identifier from Ladok, which might give you access to certain services.");
-        common.verifyStringOnPage("Link your ESI with your eduID account");
-        common.verifyStringOnPage("If your institution is not in the list you cannot use your eduID " +
+        common.verifyPageBodyContainsString(pageBody,"Link your ESI with your eduID account");
+        common.verifyPageBodyContainsString(pageBody,"If your institution is not in the list you cannot use your eduID " +
                 "to access services requiring ESI, contact your institution for more information.");
-
-/*        common.verifyStringOnPage("Unique ID");
-        common.verifyStringOnPage("This identifier is a username for your eduID that you may need to " +
-                "provide when accessing other services or requesting support. It is part of what may be referred to as EPPN.");
-        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/div/span/strong", "Unique ID: ");
-        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));*/
 
         //click on swedish
         common.selectSwedish();

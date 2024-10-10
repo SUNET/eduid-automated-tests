@@ -70,15 +70,11 @@ public class TC_15 extends BeforeAndAfter {
         loginExtraSecurity.runLoginExtraSecurity();
         Common.log.info("Log in with Security key");
 
-        common.timeoutSeconds(2);
+        common.timeoutSeconds(8);
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
     void removeNonVerifiedSecurityKey() {
-        //Click on Remove button for the added security key
-        common.findWebElementById("remove-webauthn").click();
-
-        common.timeoutSeconds(3);
         Assert.assertFalse(common.getPageBody().contains("test-key1"),
                 "Security is still present at page! Should have been removed.");
     }

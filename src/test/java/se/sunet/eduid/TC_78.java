@@ -38,11 +38,6 @@ public class TC_78 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
-    void addPhoneNumber(){
-        phoneNumber.addPhoneNumber();
-        phoneNumber.confirmNewPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"addPhoneNumber"} )
     void confirmIdentityEidas(){
         testData.setConfirmIdBy("eidas");
         confirmIdentity.runConfirmIdentity(); }

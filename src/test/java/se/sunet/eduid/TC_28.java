@@ -2,35 +2,84 @@ package se.sunet.eduid;
 
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
-import se.sunet.eduid.utils.Common;
 
 public class TC_28 extends BeforeAndAfter {
     @Test
     void startPage(){
+        testData.setRegisterAccount(true);
         startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage"} )
-    void timeoutForOTP(){
-        //Sleep for OTP send interval timeout
-        Common.log.info("Waiting for OTP timeout interval...");
-        common.timeoutSeconds(26);
+    void register(){ register.runRegister(); }
+
+    @Test( dependsOnMethods = {"register"} )
+    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
+
+    @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void setRecommendedPassword() { password.setPassword(); }
+
+    @Test( dependsOnMethods = {"setRecommendedPassword"} )
+    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
+
+    @Test( dependsOnMethods = {"confirmedNewAccount"} )
+    void login(){
+        testData.setRegisterAccount(false);
+        login.runLogin(); }
+
+    @Test( dependsOnMethods = {"login"} )
+    void personalInfo() {
+        testData.setRegisterAccount(true);
+
+        //Navigate to settings
+        common.navigateToSettings();
+        personalInfo.runPersonalInfo();
     }
 
-    @Test( dependsOnMethods = {"timeoutForOTP"} )
-    void login(){
+    @Test( dependsOnMethods = {"personalInfo"} )
+    void advancedSettings() { advancedSettings.runAdvancedSettings(); }
+
+    @Test( dependsOnMethods = {"advancedSettings"} )
+    void confirmIdentityFreja(){
+        testData.setConfirmIdBy("freja");
+        confirmIdentity.runConfirmIdentity(); }
+
+    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
+    void confirmedIdentity() {
+        confirmedIdentity.runConfirmIdentity();
+
+        testData.setRegisterAccount(false);
+    }
+
+    @Test( dependsOnMethods = {"confirmedIdentity"} )
+    void logout() {
+        logout.runLogout();
+    }
+
+    @Test( dependsOnMethods = {"logout"} )
+    void startPage2(){
+        startPage.runStartPage();
+    }
+
+    //Reset password and verify that the Identity still is verified
+    @Test( dependsOnMethods = {"startPage2"} )
+    void login3(){
         testData.setResetPassword(true);
         login.runLogin();
     }
 
-    @Test( dependsOnMethods = {"login"} )
-    void requestNewPassword() { requestNewPassword.runRequestNewPassword(); }
+    @Test( dependsOnMethods = {"login3"} )
+    void requestNewPassword() {
+        requestResetPwEmail.runRequestResetPwEmail();
+    }
 
     @Test( dependsOnMethods = {"requestNewPassword"} )
     void emailSent() { emailSent.runEmailSent(); }
 
     @Test( dependsOnMethods = {"emailSent"} )
-    void emailLink() { emailLink.runEmailLink(); }
+    void emailLink() { emailLink.runEmailLink();
+        common.addNinCookie();
+    }
 
     @Test( dependsOnMethods = {"emailLink"} )
     void NoExtraSecurity() {
@@ -38,34 +87,45 @@ public class TC_28 extends BeforeAndAfter {
         extraSecurity.runExtraSecurity(); }
 
     @Test( dependsOnMethods = {"NoExtraSecurity"} )
-    void setRecommendedPassword() { password.setPassword(); }
+    void setCustomPassword2() {
+        //Get default password from properties
+        testData.setNewPassword(testData.getPassword());
 
-    @Test( dependsOnMethods = {"setRecommendedPassword"} )
+        testData.setUseRecommendedPw(false);
+        password.setPassword();
+    }
+
+    @Test( dependsOnMethods = {"setCustomPassword2"} )
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
 
     @Test( dependsOnMethods = {"passwordChanged"} )
-    void login2(){
+    void login4(){
         testData.setResetPassword(false);
-        login.runLogin();
+        login.enterPassword();
+        login.signIn();
     }
 
-    @Test( dependsOnMethods = {"login2"} )
-    void changeToDefaultPassword(){}
-
-    @Test( dependsOnMethods = {"changeToDefaultPassword"} )
-    void dashboard2() {
+    @Test( dependsOnMethods = {"login4"} )
+    void dashboard() {
         dashBoard.runDashBoard();
     }
 
-    @Test( dependsOnMethods = {"dashboard2"} )
-    void password2() {
-        testData.setUseRecommendedPw(false);
-        testData.setNewPassword("lq2k dvzo 917s");
-        password.runPassword();
+    @Test( dependsOnMethods = {"dashboard"} )
+    void delete2() {
+        common.navigateToSettings();
+
+        testData.setDeleteButton(true);
+        deleteAccount.runDeleteAccount();
     }
 
-    @Test( dependsOnMethods = {"password2"} )
-    void logout() {
-        logout.runLogout();
+    @Test( dependsOnMethods = {"delete2"} )
+    void startPage4(){ startPage.runStartPage(); }
+
+    @Test( dependsOnMethods = {"startPage4"} )
+    void login5(){
+        testData.setIncorrectPassword(true);
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
     }
 }

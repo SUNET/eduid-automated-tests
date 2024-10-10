@@ -8,26 +8,57 @@ public class TC_99 extends BeforeAndAfter {
     void helpPage(){ help.runHelp(); }
 
     @Test( dependsOnMethods = {"helpPage"} )
-    void navigateToHelpPageDirectLink(){ common.navigateToUrl("https://eduid.se/faq.html"); }
+    void navigateToHelpPageDirectLinkQA(){ common.navigateToUrl("https://dev.eduid.se/faq.html"); }
 
-
-    @Test( dependsOnMethods = {"navigateToHelpPageDirectLink"} )
-    void helpPageDirectLink(){
-        help.expandAllOptions();
-        //help.verifySwedish();
+    @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkQA"} )
+    void helpPageDirectLinkQA(){
         common.verifyStringOnPage("Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
                 "om användandet av eduID och kontaktinformation till supporten.");
     }
 
+    @Test( dependsOnMethods = {"helpPageDirectLinkQA"} ) //Note! Presented language is default browser language
+    void navigateToHelpPageDirectLinkQAEng(){ common.navigateToUrl("https://dev.eduid.se/en/faq.html"); }
 
-//    @Test( dependsOnMethods = {"helpPageDirectLink"} )
-    void navigateToHelpPageDirectLinkEng(){ common.navigateToUrl("https://eduid.se/en/faq.html"); }
+    @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkQAEng"} )
+    void helpPageDirectLinkQAEng(){
+        common.verifyStringOnPage("Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
+                "om användandet av eduID och kontaktinformation till supporten.");
+    }
 
-//    @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkEng"} )
-    void helpPageDirectLinkEng(){
-        help.expandAllOptions();
-        //help.verifyEnglish();
-        common.verifyStringOnPage("Listed below is general information about the service, answers to " +
-                "common questions about using eduID and Support contact information.");
+    @Test( dependsOnMethods = {"helpPageDirectLinkQAEng"} ) //Note! Presented language is default browser language
+    void navigateToHelpPageDirectLinkNewUrlQA(){ common.navigateToUrl("https://dev.eduid.se/help"); }
+
+    @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkNewUrlQA"} )
+    void helpPageDirectLinkNewUrlQA(){
+        common.verifyStringOnPage("Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
+                "om användandet av eduID och kontaktinformation till supporten.");
+    }
+
+    @Test( dependsOnMethods = {"helpPageDirectLinkNewUrlQA"} )
+    void navigateToHelpPageDirectLinkProd(){ common.navigateToUrl("https://eduid.se/faq.html"); }
+
+
+    @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkProd"} )
+    void helpPageDirectLinkProd(){
+        common.verifyStringOnPage("Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
+                "om användandet av eduID och kontaktinformation till supporten.");
+    }
+
+    @Test( dependsOnMethods = {"helpPageDirectLinkProd"} ) //Note! Presented language is default browser language
+    void navigateToHelpPageDirectLinkProdEng(){ common.navigateToUrl("https://eduid.se/en/faq.html"); }
+
+    @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkProdEng"} )
+    void helpPageDirectLinkProdEng(){
+        common.verifyStringOnPage("Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
+                "om användandet av eduID och kontaktinformation till supporten.");
+    }
+
+    @Test( dependsOnMethods = {"helpPageDirectLinkProdEng"} ) //Note! Presented language is default browser language
+    void navigateToHelpPageDirectLinkNewUrlProd(){ common.navigateToUrl("https://eduid.se/help"); }
+
+    @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkNewUrlProd"} )
+    void helpPageDirectLinkNewUrlProd(){
+        common.verifyStringOnPage("Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
+                "om användandet av eduID och kontaktinformation till supporten.");
     }
 }

@@ -19,7 +19,7 @@ public class PasswordChanged {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Återställ Lösenord | eduID");;
+        common.verifyPageTitle("Återställ lösenord | eduID");;
     }
 
     private void verifyLabels(){
@@ -42,7 +42,7 @@ public class PasswordChanged {
         common.selectEnglish();
 
         //verify the labels - english
-        common.verifyStringOnPage("Reset Password: Completed");
+        common.verifyStringOnPage("Reset password: Completed");
         common.verifyStringOnPage("You have successfully updated your password. Make sure to store " +
                 "your password securely for future use. Once you've logged in it is possible to change your password.");
         common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "Email address");

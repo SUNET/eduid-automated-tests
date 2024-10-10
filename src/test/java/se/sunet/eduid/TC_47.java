@@ -41,11 +41,6 @@ public class TC_47 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"personalInfo"} )
-    void addPhoneNumber(){
-        phoneNumber.addPhoneNumber();
-        phoneNumber.confirmNewPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"addPhoneNumber"} )
     void confirmIdentityFreja(){
         testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }
@@ -61,6 +56,31 @@ public class TC_47 extends BeforeAndAfter {
     void deleteIdentityConfirmation() {
         //Click remove identity button
         common.findWebElementById("remove-webauthn").click();
+
+        //Verify text and labels in remove identity pop-up
+        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5", "Disconnect your identity");
+        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]",
+                "Are you sure you want to disconnect your identity from your eduID account?");
+        common.verifyStringById("remove-identity-verification-accept-button", "CONFIRM");
+
+        //Close pop up
+        common.click(common.findWebElementById("remove-identity-verification-close-button"));
+
+        //Select Swedish
+        common.selectSwedish();
+
+        //Click remove identity button
+        common.findWebElementById("remove-webauthn").click();
+
+        //Verify text and labels in remove identity pop-up
+        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5",
+                "Koppla bort din identitet");
+        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]",
+                "Är du säker på att du vill koppla bort din identitet från ditt eduID konto?");
+        common.verifyStringById("remove-identity-verification-accept-button", "BEKRÄFTA");
+
+        //Press confirm delete
+        common.click(common.findWebElementById("remove-identity-verification-accept-button"));
 
         common.explicitWaitClickableElementId("accordion__heading-swedish");
     }

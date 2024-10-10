@@ -6,6 +6,7 @@ import se.sunet.eduid.utils.TestData;
 public class EmailSent {
     private final Common common;
     private final TestData testData;
+    String pageBody;
 
     public EmailSent(Common common, TestData testData){
         this.common = common;
@@ -18,19 +19,21 @@ public class EmailSent {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Återställ Lösenord | eduID");
+        common.verifyPageTitle("Återställ lösenord | eduID");
     }
 
     private void verifyLabels(){
         common.timeoutSeconds(1);
+        //Extract page body for validation
+        pageBody = common.getPageBody();
 
         //Verify the texts after request of new pw
-        common.verifyStringOnPage("Återställ lösenord: Verifiera e-postadressen");
-        common.verifyStringOnPage("Om du har ett eduID-konto har koden skickats till ");
-        common.verifyStringOnPage(testData.getEmail() +".");
-        common.verifyStringOnPage("E-postkoden är giltig i två timmar.");
+        common.verifyPageBodyContainsString(pageBody, "Återställ lösenord: Verifiera e-postadressen");
+        common.verifyPageBodyContainsString(pageBody, "Om du har ett eduID-konto har koden skickats till ");
+        common.verifyPageBodyContainsString(pageBody, testData.getEmail() +".");
+        common.verifyPageBodyContainsString(pageBody, "E-postkoden är giltig i två timmar.");
 
-        common.verifyStringOnPage("Om du inte har fått koden kan du avbryta processen och börja om från början.");
+        common.verifyPageBodyContainsString(pageBody, "Om du inte har fått koden kan du avbryta processen och börja om från början.");
 
         //Button text
         common.verifyStringById("response-code-abort-button", "AVBRYT");
@@ -39,13 +42,16 @@ public class EmailSent {
         //Switch to english
         common.selectEnglish();
 
-        common.verifyPageTitle("Reset Password | eduID");
-        common.verifyStringOnPage("Reset Password: Verify email address");
-        common.verifyStringOnPage("If you have an eduID account, the code has been sent to ");
-        common.verifyStringOnPage(testData.getEmail() +".");
-        common.verifyStringOnPage("The email code is valid for two hours.");
+        //Extract page body for validation
+        pageBody = common.getPageBody();
 
-        common.verifyStringOnPage(
+        common.verifyPageTitle("Reset password | eduID");
+        common.verifyPageBodyContainsString(pageBody, "Reset password: Verify email address");
+        common.verifyPageBodyContainsString(pageBody, "If you have an eduID account, the code has been sent to ");
+        common.verifyPageBodyContainsString(pageBody, testData.getEmail() +".");
+        common.verifyPageBodyContainsString(pageBody, "The email code is valid for two hours.");
+
+        common.verifyPageBodyContainsString(pageBody,
                 "If you haven't receive the code, please cancel the process and restart from the beginning.");
 
         //Button text

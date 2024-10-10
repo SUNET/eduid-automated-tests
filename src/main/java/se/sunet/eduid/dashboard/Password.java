@@ -27,7 +27,7 @@ public class Password {
     }
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("Byt Lösenord | eduID");
+        common.explicitWaitPageTitle("Byt lösenord | eduID");
 
         if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")) {
             common.selectSwedish();
@@ -36,6 +36,7 @@ public class Password {
 
     public void setPassword(){
         //Wait for abort button to be clickable
+        common.timeoutSeconds(2);
         common.explicitWaitClickableElement(abortRecPwButton);
 
         //Verify recommend password labels
@@ -117,10 +118,14 @@ public class Password {
             }
         }
         else {
-            if(testData.isUseRecommendedPw())
+            if(testData.isUseRecommendedPw()) {
                 common.click(common.findWebElementByXpath(abortRecPwButton));
-            else
+                Common.log.info("Pressed Cancel new password");
+            }
+            else {
+                //Common.log.info("Pressed Save new password");
                 common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[1]"));
+            }
         }
     }
 
@@ -128,7 +133,7 @@ public class Password {
     private void verifyCustomPasswordLabels(){
         //Heading - Swedish
         if(testData.isRegisterAccount()){
-            common.verifyStringOnPage("Registrera: Skapa eget lösenord");
+            common.verifyStringOnPage("Registrera: Skapa ditt eget lösenord");
         }
         else if(testData.isResetPassword()){
             common.verifyStringOnPage("Återställ lösenord: Ange ditt eget lösenord");
@@ -180,7 +185,7 @@ public class Password {
             common.verifyStringOnPage("Register: Set your own password");
         }
         else if(testData.isResetPassword()){
-            common.verifyStringOnPage("Reset Password: Set your own password");
+            common.verifyStringOnPage("Reset password: Set your own password");
         }
         //Change password from settings
         else{
@@ -267,7 +272,7 @@ public class Password {
             common.verifyStringOnPage("Register: Suggested password");
         }
         else if(testData.isResetPassword()){
-            common.verifyStringOnPage("Reset Password: Suggested password");
+            common.verifyStringOnPage("Reset password: Suggested password");
         }
         //Change password from settings
         else{

@@ -33,7 +33,7 @@ public class VerifyPhoneNumber {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Återställ Lösenord | eduID");
+        common.verifyPageTitle("Återställ lösenord | eduID");
     }
 
     public void verifyLabels(){
@@ -56,13 +56,13 @@ public class VerifyPhoneNumber {
         //Switch to english
         common.selectEnglish();
 
-        common.verifyPageTitle("Reset Password | eduID");
+        common.verifyPageTitle("Reset password | eduID");
 
         //verify status message - english
         common.verifyStatusMessage("A code has been sent to your phone.");
 
         //Verify labels - swedish
-        common.verifyStringOnPage("Reset Password: Phone verification");
+        common.verifyStringOnPage("Reset password: Phone verification");
         common.verifyStringOnPage("Please enter the code sent to ");
         common.verifyXpathContainsString("//*[@id=\"content\"]/section/div/p/b", testData.getOtpPhoneNumber());
         common.verifyStringByXpath("//*[@id=\"phone-wrapper\"]/div/label", "Code");
