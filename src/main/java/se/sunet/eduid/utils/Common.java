@@ -14,6 +14,7 @@ import io.github.sukgu.Shadow;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -211,7 +212,7 @@ public class Common {
     }
 
     public void explicitWaitPageTitle(String pageTitle) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.titleContains(pageTitle));
     }
 
@@ -273,6 +274,18 @@ public class Common {
     public void verifyPlaceholder(String placeholderText, String placeholderElementId) {
         //Verify placeholder
         verifyStrings(placeholderText, findWebElementById(placeholderElementId).getAttribute("placeholder"));
+    }
+
+    public void verifyXpathIsWorkingLink(String xpathToLink){
+        Assert.assertTrue(findWebElementByXpath(xpathToLink).getAttribute("href") != null,
+                "Provided xpath: " +xpathToLink +" \nDoes not contain a href element, failing test case!");
+
+        try {
+            Assert.assertTrue(linkWorking(findWebElementByXpath(xpathToLink).getAttribute("href")),
+                    "Provided xpath: " +xpathToLink +" \nDoes not contain a working url, failing test case!");
+        }catch (Exception ex){
+            log.info("Catching exception when trying to validate url");
+        }
     }
 
     public void verifyStatusMessage(String message) {
@@ -526,5 +539,64 @@ public class Common {
         verifyStringById("security-confirm-modal-accept-button", "CONTINUE");
 
         click(findWebElementById("security-confirm-modal-accept-button"));
+    }
+
+    public boolean linkWorking(String url) throws IOException {
+        // First set the default cookie manager.
+        CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+
+        boolean httpStatus = true;
+        String notEncodedUrl = url;
+
+        try {
+            //Replace swedish characters in url
+            url = url.replace("ä", "%C3%A4")
+                    .replace("å", "%C3%A5")
+                    .replace("ö", "%C3%B6")
+                    .replace("Ä", "%C3%84")
+                    .replace("Å", "%C3%85")
+                    .replace("Ö", "%C3%96");
+
+            //Creating URL object
+            URL url_link = new URL(url);
+
+            //creating conn object for the URL
+            HttpURLConnection conn = (HttpURLConnection) url_link.openConnection();
+            conn.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
+            conn.addRequestProperty("Connection", "keep-alive");
+            conn.addRequestProperty("Accept-Language", "sv-SE,sv;q=0.8,en-US;q=0.5,en;q=0.3");
+            conn.addRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
+            conn.addRequestProperty("Accept-Encoding", "gzip, deflate, br");
+            conn.addRequestProperty("Upgrade-Insecure-Requests", "1");
+//            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+
+            conn.connect();
+
+            if(conn.getResponseCode() != 200){
+                log.info(testData.getTestCase() + " - Link is not working. Status code: " + conn.getResponseCode() + " URL: " + url );
+
+                httpStatus = false;
+            }
+
+            conn.disconnect();
+
+            return httpStatus;
+        }catch (Exception ex){
+            log.info(testData.getTestCase() + " - " +url + " Something went wrong at connecting to site: "+ex);
+            String stringValueOfEx = String.valueOf(ex);
+
+            if(stringValueOfEx.contains("MalformedURLException")){
+                log.info("url: " +url + " is MalFormed.");
+            }
+            else
+                log.info("Ignoring: " +ex);
+
+            httpStatus = false;
+            return httpStatus;
+        }
     }
 }

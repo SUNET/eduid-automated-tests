@@ -47,7 +47,7 @@ public class TC_23 extends BeforeAndAfter {
     void password2() {
         testData.isIncorrectPassword();
         testData.setUseRecommendedPw(false);
-        testData.setNewPassword("lq2k dvzo 917s");
+        testData.setNewPassword("zojk ekd7 002n");
         password.runPassword();
     }
 

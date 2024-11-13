@@ -12,10 +12,7 @@ public class TestData {
     private String addNewEmail1 = "";
     private String confirmNewEmail1 = "";
     private String newPassword = "";
-    private String sendMobileOneTimePassword = "yes";
-    //private String refIdpUser = "Ulla Alm (198611062384)";
-    //private String refIdpUser = "Bernt Olof Larsson (193911137077)";
-    private String refIdpUser = "Sixten von Samordnungsnummer (197010632391)";
+//    private String refIdpUser = "Sixten von Samordnungsnummer (197010632391)";
     private String username, password, givenName, surName, displayName, magicCode, email,
             phoneNumber, identityNumber, language, eppn, confirmIdBy, supportUsername,
             emailCode, testCase, testDescription, testSuite, testMethod, mfaMethod, otpPhoneNumber, otherDeviceCode,

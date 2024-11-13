@@ -85,9 +85,11 @@ public class TC_53 extends BeforeAndAfter {
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
+        extraSecurity.selectMfaMethod();
+
         Common.log.info("Log in with Security key");
 
-        common.timeoutSeconds(2);
+        //common.timeoutSeconds(2);
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
@@ -133,8 +135,9 @@ public class TC_53 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"login3"} )
     void loginExtraSecurity(){
 
-        loginExtraSecurity.selectMfaMethod();
-        common.timeoutSeconds(2);
+        //loginExtraSecurity.selectMfaMethod();
+        extraSecurity.selectMfaMethod();
+        //common.timeoutSeconds(2);
     }
 
     @Test( dependsOnMethods = {"loginExtraSecurity"} )

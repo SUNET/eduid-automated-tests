@@ -6,58 +6,46 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 import java.io.IOException;
 
 public class TC_49 extends BeforeAndAfter {
-    private String username1, password1, displayName;
+    private String username1, password1, displayname1;
 
-    //Register first account
     @Test
-    void registerFirstAccount(){
+    void loginFirstAccount(){
     }
 
-    @Test( dependsOnMethods = {"registerFirstAccount"} )
+    @Test( dependsOnMethods = {"loginFirstAccount"} )
     void startPage(){
-        testData.setRegisterAccount(true);
         startPage.runStartPage();
+
+        testData.setUsername("E5rm9Tle@dev.eduid.sunet.se");
+        testData.setPassword("kyrz jg9x xrn2");
+        testData.setEppn("salam-zamoz");
+        testData.setIdentityNumber("199104142386");
+        testData.setGivenName("Ingela Ester Louisa");
+        testData.setSurName("Åkerberg");
+        testData.setDisplayName(testData.getGivenName() + " " +testData.getSurName());
+        testData.setEmail(testData.getUsername());
     }
 
     @Test( dependsOnMethods = {"startPage"} )
-    void register(){
-        register.runRegister();
-
-        displayName = testData.getDisplayName();
-    }
-
-    @Test( dependsOnMethods = {"register"} )
-    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
-
-    @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void setRecommendedPassword() { password.setPassword(); }
-
-    @Test( dependsOnMethods = {"setRecommendedPassword"} )
-    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
-
-    @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
-        testData.setRegisterAccount(false);
+        //testData.setRegisterAccount(false);
         login.runLogin();
 
         //Store user credentials for the first user
         username1 = testData.getUsername();
         password1 = testData.getPassword();
+        displayname1 = testData.getDisplayName();
     }
 
     @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
-
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
     void confirmIdentityFreja(){
         testData.setConfirmIdBy("freja");
-        confirmIdentity.runConfirmIdentity(); }
+
+        common.addMagicCookie();
+        common.navigateToIdentity();
+        confirmIdentity.runConfirmIdentity();
+
+    }
 
     @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void confirmedIdentity() {
@@ -69,38 +57,23 @@ public class TC_49 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void logout() { logout.runLogout(); }
 
-    //Register the second account
 
     @Test( dependsOnMethods = {"logout"} )
-    void registerSecondAccount(){
+    void loginSecondAccount(){
     }
 
-    @Test( dependsOnMethods = {"registerSecondAccount"} )
+    @Test( dependsOnMethods = {"loginSecondAccount"} )
     void startPage2(){
-        testData.setRegisterAccount(true);
         startPage.runStartPage();
+
+        testData.setUsername("QHIA91DH@dev.eduid.sunet.se");
+        testData.setPassword("96v7 36e3 qm24");
+        testData.setEppn("vanal-fanib");
+        testData.setEmail("QHIA91DH@dev.eduid.sunet.se");
     }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void register2(){
-        //Special in order not to generate a new identity number
-        testData.setRegisterAccount(false);
-        register.runRegister();
-        testData.setRegisterAccount(true);
-    }
-
-    @Test( dependsOnMethods = {"register2"} )
-    void confirmEmailAddress2() { confirmEmailAddress.runConfirmEmailAddress(); }
-
-    @Test( dependsOnMethods = {"confirmEmailAddress2"} )
-    void setRecommendedPassword2() { password.setPassword(); }
-
-    @Test( dependsOnMethods = {"setRecommendedPassword2"} )
-    void confirmedNewAccount2() { confirmedNewAccount.runConfirmedNewAccount(); }
-
-    @Test( dependsOnMethods = {"confirmedNewAccount2"} )
     void login2(){
-        testData.setRegisterAccount(false);
         login.verifyPageTitle();
 
         //Disable Remember me
@@ -113,23 +86,12 @@ public class TC_49 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login2"} )
-    void personalInfo2() {
-        //Navigate to settings
-        testData.setRegisterAccount(true);
-
-        //Navigate to settings
-        common.navigateToSettings();
-
-        //Set identity to not confirmed
-        testData.setIdentityConfirmed(false);
-
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo2"} )
     void confirmIdentityFreja2(){
         testData.setConfirmIdBy("freja");
-        confirmIdentity.runConfirmIdentity(); }
+
+        common.navigateToIdentity();
+        confirmIdentity.runConfirmIdentity();
+    }
 
     @Test( dependsOnMethods = {"confirmIdentityFreja2"} )
     void confirmedIdentity2() {
@@ -140,23 +102,6 @@ public class TC_49 extends BeforeAndAfter {
 
     //Delete the second account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"confirmedIdentity2"} )
-    void delete() {
-        testData.setDeleteButton(true);
-        deleteAccount.runDeleteAccount(); }
-
-    @Test( dependsOnMethods = {"delete"} )
-    void startPage3(){ startPage.runStartPage(); }
-
-    @Test( dependsOnMethods = {"startPage3"} )
-    void login3(){
-        testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterUsername();
-        login.enterPassword();
-        login.signIn();
-    }
-
-    @Test( dependsOnMethods = {"login3"} )
     void stopBrowser(){
         common.getWebDriver().quit();
     }
@@ -167,15 +112,15 @@ public class TC_49 extends BeforeAndAfter {
         initBrowser(url, browser, headless, language,testsuite);
         testData.setTestSuite(testsuite);
         testData.setTestCase("TC_49");
-        testData.setDisplayName(displayName);
+        testData.setDisplayName(displayname1);
     }
 
     //Log in to first account, verify that phone number and identity needs to be confirmed
     @Test( dependsOnMethods = {"startBrowser"} )
-    void checkFirstAccount(){
+    void checkFirstAccounNotVerifiedIdentity(){
     }
 
-    @Test( dependsOnMethods = {"checkFirstAccount"} )
+    @Test( dependsOnMethods = {"checkFirstAccounNotVerifiedIdentity"} )
     void startPage4(){
         testData.setIncorrectPassword(false);
         testData.setRegisterAccount(false);
@@ -209,23 +154,6 @@ public class TC_49 extends BeforeAndAfter {
         common.verifyStringOnPage("Verifiera att du har tillgång till ditt person- eller samordningsnummer.");
     }
 
-    //Delete the first account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"verifyIdentityNotConfirmed"} )
-    void navigateToSettings2() { common.navigateToSettings(); }
-
-    @Test( dependsOnMethods = {"navigateToSettings2"} )
-    void delete2() {
-        testData.setDeleteButton(true);
-        deleteAccount.runDeleteAccount(); }
-
-    @Test( dependsOnMethods = {"delete2"} )
-    void startPage5(){ startPage.runStartPage(); }
-
-    @Test( dependsOnMethods = {"startPage5"} )
-    void login5(){
-        testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
-    }
+    void logout2() { logout.runLogout(); }
 }

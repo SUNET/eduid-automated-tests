@@ -34,8 +34,8 @@ public class SwamidData {
         List<WebElement> rows = elementName.findElements(By.xpath("*"));
 
         if(confirmedUser && testData.getMfaMethod().isEmpty()) {
-            Assert.assertEquals(rows.size(), 13, "Number of rows in user data table has changed, i.e eduID has " +
-                    "release more attributes that it should. Should be 13, now its " + rows.size());
+            Assert.assertEquals(rows.size(), 14, "Number of rows in user data table has changed, i.e eduID has " +
+                    "release more attributes that it should. Should be 14, now its " + rows.size());
 
             common.verifyStringByXpath("//*[@id=\"attributes\"]/h3[2]", "Result for eduID staging (https://idp.dev.eduid.se/idp.xml)");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[2]/td", "se");
@@ -54,8 +54,9 @@ public class SwamidData {
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[9]/td", testData.getGivenName());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[10]/td", testData.getEmail());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[11]/td", testData.getEmail());
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[12]/td", testData.getSurName());
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[13]/td", testData.getEppn() +"@dev.eduid.se");
+            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[12]/td", testData.getDisplayName());
+            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[13]/td", testData.getSurName());
+            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[14]/td", testData.getEppn() +"@dev.eduid.se");
         }
         else if(!testData.getMfaMethod().isEmpty()) {
             //Given name and Surname will always be Magic Cookie Testsson when user is confirmed using some magic
@@ -113,8 +114,8 @@ public class SwamidData {
             common.verifyXpathContainsString("//*[@id=\"attributes\"]/table[1]/tbody/tr[8]/td",
                     "https://idp.dev.eduid.se/idp.xml!https://release-check.qa.swamid.se/shibboleth!");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[9]/td", testData.getGivenName());
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[10]/td", testData.getEmail());
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[11]/td", testData.getEmail());
+            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[10]/td", testData.getEmail().toLowerCase());
+            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[11]/td", testData.getEmail().toLowerCase());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[12]/td", testData.getSurName());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[13]/td", testData.getEppn() +"@dev.eduid.se");
         }

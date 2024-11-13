@@ -93,7 +93,7 @@ public class TC_86 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailLink"} )
     void extraSecurityBankId() {
-        testData.setSendMobileOneTimePassword("bankid");
+        testData.setMfaMethod("bankid");
         extraSecurity.runExtraSecurity();
     }
 
@@ -232,7 +232,7 @@ public class TC_86 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailLink2"} )
     void extraSecurityFreja() {
-        testData.setSendMobileOneTimePassword("mail");
+        testData.setMfaMethod("mail");
         extraSecurity.runExtraSecurity();
     }
 

@@ -84,9 +84,10 @@ public class TC_58 extends BeforeAndAfter {
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
+        extraSecurity.selectMfaMethod();
         Common.log.info("Log in with Security key");
 
-        common.timeoutSeconds(2);
+        //common.timeoutSeconds(4);
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
@@ -96,11 +97,14 @@ public class TC_58 extends BeforeAndAfter {
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(8);
+//        common.timeoutSeconds(8);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void verifySecurityKeyStatus() {
+        //Wait for the remove security key button
+        common.explicitWaitClickableElementId("remove-webauthn");
+
         //Verify status beside the added key dates
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
 
@@ -136,13 +140,15 @@ public class TC_58 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"login2"} )
     void loginMfaSecurityKey2() {
         //Login page for extra security select security key mfa method
-        loginExtraSecurity.selectMfaMethod();
+        //loginExtraSecurity.selectMfaMethod();
+        extraSecurity.selectMfaMethod();
 
-        common.timeoutSeconds(2);
+        //common.timeoutSeconds(2);
 
         if(!common.findWebElementByXpath("//div/div[4]/div[1]/div[1]/div/a/button").isDisplayed()) {
             Common.log.info("Show attributes button in swamid data not present, clicking again");
-            loginExtraSecurity.selectMfaMethod();
+            //loginExtraSecurity.selectMfaMethod();
+            extraSecurity.selectMfaMethod();
         }
 
         //Wait for button show attributes in swamid data
@@ -165,9 +171,10 @@ public class TC_58 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"navigateToEduid"} )
     void loginMfaSecurityKey3() {
         //Login page for extra security select security key mfa method
-        loginExtraSecurity.selectMfaMethod();
+        //loginExtraSecurity.selectMfaMethod();
+        extraSecurity.selectMfaMethod();
 
-        common.timeoutSeconds(2);
+        //common.timeoutSeconds(2);
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey3"} )

@@ -39,7 +39,7 @@ public class TC_89 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"navigateEduId"} )
-    void login2(){
+    void login(){
         //We need the magic cookie and the nin-cookie for log in with extra security options
         common.addMagicCookie();
         common.addNinCookie();
@@ -51,12 +51,26 @@ public class TC_89 extends BeforeAndAfter {
         common.findWebElementById("login-form-button").click();
     }
 
-    @Test( dependsOnMethods = {"login2"} )
-    void verifyBankIdLoginPage(){
-        //Click on bankID
-        common.findWebElementById("mfa-bankid").click();
+    @Test( dependsOnMethods = {"login"} )
+    void loginMfaBankId() {
+        common.timeoutSeconds(2);
 
-        //Wait and verify that we come to the Freja log in page
+        //Set mfa method to be used to "security key" at login.
+        testData.setMfaMethod("bankid");
+
+        //This account has confirmed identity
+        testData.setIdentityConfirmed(true);
+
+        //Login page for extra security select security key mfa method
+        loginExtraSecurity.runLoginExtraSecurity();
+        extraSecurity.selectMfaMethod();
+
+        Common.log.info("Log in with BankID");
+    }
+
+    @Test( dependsOnMethods = {"loginMfaBankId"} )
+    void verifyBankIdLoginPage(){
+        //Wait and verify that we come to the BankID log in page i.e. the saml bankid idp.
         common.explicitWaitPageTitle("BankID");
 
         //Navigate back

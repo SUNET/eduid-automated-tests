@@ -42,7 +42,10 @@ public class TC_28 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"advancedSettings"} )
     void confirmIdentityFreja(){
         testData.setConfirmIdBy("freja");
-        confirmIdentity.runConfirmIdentity(); }
+
+        common.navigateToIdentity();
+        confirmIdentity.runConfirmIdentity();
+    }
 
     @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void confirmedIdentity() {
@@ -83,7 +86,7 @@ public class TC_28 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailLink"} )
     void NoExtraSecurity() {
-        testData.setSendMobileOneTimePassword("no");
+        testData.setMfaMethod("no");
         extraSecurity.runExtraSecurity(); }
 
     @Test( dependsOnMethods = {"NoExtraSecurity"} )
@@ -109,7 +112,6 @@ public class TC_28 extends BeforeAndAfter {
     void dashboard() {
         dashBoard.runDashBoard();
     }
-
     @Test( dependsOnMethods = {"dashboard"} )
     void delete2() {
         common.navigateToSettings();

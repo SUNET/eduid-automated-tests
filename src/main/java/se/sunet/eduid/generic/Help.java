@@ -130,6 +130,8 @@ public class Help {
                 "vilket betyder att du behöver använda ditt eduID för att ha tillgång till deras IT-system. Eller så " +
                 "använder du bara ditt eduID konto för att skapa åtkomst till andra konton, t.ex. universityadmissions.se " +
                 "eller ditt studentkonto.");
+        //Verify link is working
+        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-about-eduid\"]/article/p[5]/a");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Logga in med eduID när du:");
@@ -153,6 +155,8 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Hur du kan skapa ditt eduID-konto på eduid.se:");
+        //Verify link is working
+        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-using-eduid\"]/article[1]/p[1]/a");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "ange din e-postadress,\n" +
@@ -266,6 +270,8 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Inte alla säkerhetsnycklar uppnår kraven för att kunna användas som säkerhetsnyckel för eduID.");
         common.verifyPageBodyContainsString(pageBody, "Kontrollera med tillverkaren eller återförsäljaren om produkten möter dessa krav:");
         common.verifyPageBodyContainsString(pageBody, "Certifierad FIDO 2.0, läs mer på fidoalliance.org.");
+        //Verify link is working
+        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-security-usb\"]/article/ul/li[1]/a");
         common.verifyPageBodyContainsString(pageBody, "Släpper ett intyg utfärdat av tillverkaren som berättar vilken enhet " +
                 "det är i samband med inloggningen och kräver att personen är fysiskt vid säkerhetsnyckeln för att den ska kunna användas. ");
         common.verifyPageBodyContainsString(pageBody, "YTTERLIGARE TEKNISK INFORMATION:");
@@ -352,6 +358,8 @@ public class Help {
         //Text
         common.verifyPageBodyContainsString(pageBody, "installera Freja app på din mobila enhet (iOS eller Android) och " +
                 "skapa ett Freja+ konto enligt instruktionerna,");
+        //Verify link is working
+        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-freja\"]/article/ul/li[1]/a");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "om du har ett giltigt svenskt pass kan du verifiera ditt konto " +
@@ -442,6 +450,8 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Uppdaterad information om inkluderade länder kan hittas på: Freja eID");
+        //Verify link is working
+        common.verifyXpathIsWorkingLink("//*[@id=\"international\"]/p[2]/a");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Hur du kan använda Freja med eduID:");
@@ -450,6 +460,8 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "för att bekräfta ditt eduID med Freja behöver du först ett Freja-konto " +
                 "med en profil som är bekräftad med ditt pass, genom att installera Freja app på din mobila enhet (iOS " +
                 "eller Android) och följa instruktionerna,");
+        //Verify link is working
+        common.verifyXpathIsWorkingLink("//*[@id=\"international\"]/ul/li[1]/a");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "logga in i eduID, navigera till Identitet och välj verifieringsmetoden " +
@@ -482,6 +494,8 @@ public class Help {
                 "klicka på knappen 'Länka Orcid konto' bland Inställningar i eduID,\n" +
                 "logga in i ORCID och ge eduID tillstånd att använda ditt ORCID iD för att försäkra att det " +
                 "är korrekt kopplat till dig.");
+        //Verify link is working
+        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-orcid-ladok\"]/article[1]/ul/li[1]/a");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Hur kan jag ta bort ett länkat ORCID från eduID?");
@@ -510,6 +524,8 @@ public class Help {
         //Text
         common.verifyPageBodyContainsString(pageBody, "Läs Integritetspolicyn i sin helhet för användning av eduID på Sunets " +
                 "hemsida, där du även hittar kontaktinformation till Dataskyddsombudet och Integritetsskyddsmyndigheten.");
+        //Verify link is working
+        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-privacy-accessibility\"]/article[1]/p[1]/a");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Sammanfattning av hur eduID behandlar dina personuppgifter enligt policyn:");
@@ -533,6 +549,8 @@ public class Help {
                 "Sunets hemsida, där du även hittar instruktioner för hur du kan meddela innehåll som brister i " +
                 "tillgänglighet. Rapporten beskriver eduIDs arbete för förenlighet med lagen om tillgänglighet till " +
                 "digital offentlig service, inklusive kända brister.");
+        //Verify link is working
+        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-privacy-accessibility\"]/article[2]/p[1]/a");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Det är av stor vikt för oss att så många som möjligt kan använda " +
@@ -555,6 +573,8 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "SUNET tog fram eduID i syfte att erbjuda framförallt lärosäten " +
                 "gemensamma rutiner för identitetshantering av väl identifierade och autenticerade användare. Läs mer " +
                 "om SUNET på www.sunet.se.");
+        //Verify link is working
+        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-about-sunet\"]/article/p[2]/a");
     }
 
     private void contactEduIdSwe(){

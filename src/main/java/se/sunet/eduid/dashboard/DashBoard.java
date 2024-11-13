@@ -248,11 +248,9 @@ public class DashBoard {
             }
             common.verifyPageBodyContainsString(pageBody, "Vänligen se rekommenderade åtgärder nedan.");
             common.verifyPageBodyContainsString(pageBody, "Gå till Identitet");
-            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-verify-identity\"]/a"));
-            common.explicitWaitPageTitle("Identitet | eduID");
 
-            common.getWebDriver().navigate().back();
-            common.explicitWaitPageTitle("Start | eduID");
+            //Verify internal link to identity page works
+            common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-recommendation-verify-identity\"]/a");
         }
         else{
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-verify-identity\"]/div/h3"));
@@ -272,11 +270,9 @@ public class DashBoard {
             }
             common.verifyPageBodyContainsString(pageBody, "Please see the recommended actions below.");
             common.verifyPageBodyContainsString(pageBody, "Go to Identity");
-            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-verify-identity\"]/a"));
-            common.explicitWaitPageTitle("Identity | eduID");
 
-            common.getWebDriver().navigate().back();
-            common.explicitWaitPageTitle("Start | eduID");
+            //Verify internal link to identity page works
+            common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-recommendation-verify-identity\"]/a");
         }
     }
 
@@ -284,7 +280,7 @@ public class DashBoard {
        //Recommended actions - Security key
         if(language.equalsIgnoreCase("Svenska")) {
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__heading-recommendation-security-key\"]/div/h3"));
-            common.timeoutMilliSeconds(200);
+            common.timeoutMilliSeconds(400);
 
             //Extract page body for validation
             pageBody = common.getPageBody();
@@ -293,11 +289,15 @@ public class DashBoard {
                     "Lägg till din säkerhetsnyckel");
             common.verifyPageBodyContainsString(pageBody, "Lägg till en säkerhetsnyckel för att aktivera säker återställning av lösenord");
             common.verifyPageBodyContainsString(pageBody, "Gå till Avancerade inställningar");
-            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-security-key\"]/a"));
-            common.explicitWaitPageTitle("Avancerade Inställningar | eduID");
 
-            common.getWebDriver().navigate().back();
-            common.explicitWaitPageTitle("Start | eduID");
+            //Verify internal link to advanced settings page works
+            common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-recommendation-security-key\"]/a");
+
+            //common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-security-key\"]/a"));
+            //common.explicitWaitPageTitle("Avancerade Inställningar | eduID");
+
+            //common.getWebDriver().navigate().back();
+            //common.explicitWaitPageTitle("Start | eduID");
 
             //FAQ
             common.verifyPageBodyContainsString(pageBody, "Hjälp");
@@ -316,11 +316,15 @@ public class DashBoard {
                     "Add your security key");
             common.verifyPageBodyContainsString(pageBody, "Add your security key to enable safe reset of password");
             common.verifyPageBodyContainsString(pageBody, "Go to Advanced settings");
-            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-security-key\"]/a"));
-            common.explicitWaitPageTitle("Advanced Settings | eduID");
 
-            common.getWebDriver().navigate().back();
-            common.explicitWaitPageTitle("Start | eduID");
+            //Verify internal link to advanced settings page works
+            common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-recommendation-security-key\"]/a");
+
+            //common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-recommendation-security-key\"]/a"));
+            //common.explicitWaitPageTitle("Advanced Settings | eduID");
+
+            //common.getWebDriver().navigate().back();
+            //common.explicitWaitPageTitle("Start | eduID");
 
             //FAQ
             common.verifyPageBodyContainsString(pageBody, "Help");

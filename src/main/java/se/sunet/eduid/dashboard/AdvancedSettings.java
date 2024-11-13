@@ -27,11 +27,12 @@ public class AdvancedSettings {
         verifyPageTitle();
         verifyLabels();
         pressAddSecurityKey();
-        pressLadok();
 
         //TODO investigate why orcid does not work for tc 1
-        if(testData.getTestCase().equalsIgnoreCase("TC_1"))
+        if(testData.getTestCase().equalsIgnoreCase("TC_1")){
+            pressLadok();
             pressOrcid();
+        }
     }
 
     private void verifyPageTitle() {
@@ -100,7 +101,7 @@ public class AdvancedSettings {
         common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[1]/div",
                 "Available higher education institutions");
 
-        //Scroll down to bottom of pagem, otherwise we get click exception when drop down not in page
+        //Scroll down to bottom of page, otherwise we get click exception when drop down not in page
         common.scrollToPageBottom();
 
         //Expand options
@@ -196,8 +197,12 @@ public class AdvancedSettings {
                 "av en säkerhetsnyckel, utöver användarnamn och lösenord, så att du är säker på att bara du har tillgång " +
                 "till ditt eduID. Exempel på säkerhetsnycklar kan vara en USB-säkerhetsnyckel eller din enhet.");
         common.verifyPageBodyContainsString(pageBody,"Du kan läsa mer om säkerhetsnycklar i hjälpavsnittet: Utökad säkerhet med ditt eduID.");
-        common.verifyPageBodyContainsString(pageBody,"Välj ytterligare identifieringsmetod:");
-        common.verifyStringById("security-webauthn-button", "SÄKERHETSNYCKEL");
+
+        //Verify internal link to help pages works
+        common.verifyXpathIsWorkingLink("//*[@id=\"register-security-key-container\"]/p[2]/a");
+
+        common.verifyPageBodyContainsString(pageBody,"Lägg till en ny säkerhetsnyckel:");
+        common.verifyStringById("security-webauthn-button", "FYSISK SÄKERHETSNYCKEL");
         common.verifyPageBodyContainsString(pageBody,"T.ex. USB säkerhetsnyckel som du använder.");
         if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
             common.verifyStringById("security-webauthn-platform-button", "DEN HÄR ENHETEN");
@@ -239,8 +244,12 @@ public class AdvancedSettings {
         common.verifyPageBodyContainsString(pageBody,"If possible add a security key as a second factor of authentication, " +
                 "beyond username and password, to prove you are the owner of your eduID. Examples are USB security keys or your device.");
         common.verifyPageBodyContainsString(pageBody,"You can read more about security keys in the Help section: Improving the security level of eduID.");
-        common.verifyPageBodyContainsString(pageBody,"Choose additional identification method:");
-        common.verifyStringById("security-webauthn-button", "SECURITY KEY");
+
+        //Verify internal link to help pages works
+        common.verifyXpathIsWorkingLink("//*[@id=\"register-security-key-container\"]/p[2]/a");
+
+        common.verifyPageBodyContainsString(pageBody,"Add a new security key:");
+        common.verifyStringById("security-webauthn-button", "EXTERNAL SECURITY KEY");
         common.verifyPageBodyContainsString(pageBody,"E.g a USB Security Key you are using.");
         if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
             common.verifyStringById("security-webauthn-platform-button", "THIS DEVICE");

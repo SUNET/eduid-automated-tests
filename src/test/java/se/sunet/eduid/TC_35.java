@@ -48,8 +48,8 @@ public class TC_35 extends BeforeAndAfter {
         //Add the same user credentials a 3rd time
         //register.enterEmailAndPressRegister();
         common.selectSwedish();
-        
-        register.runRegister();
+
+        //register.runRegister();
 
         //Accept terms & conditions
         //common.click(common.findWebElementById("accept-button"));

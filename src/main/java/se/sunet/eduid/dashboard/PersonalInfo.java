@@ -170,7 +170,7 @@ public class PersonalInfo {
 
     private void verifyLabelsSwedish() {
         //Page title
-        common.verifyPageTitle("Inställningar | eduID");
+        common.explicitWaitPageTitle("Inställningar | eduID");
 
         //Extract page body for validation
         pageBody = common.getPageBody();
@@ -199,7 +199,7 @@ public class PersonalInfo {
 
     private void verifyLabelsEnglish() {
         //Page title
-        common.verifyPageTitle("Settings | eduID");
+        common.explicitWaitPageTitle("Settings | eduID");
 
         //Extract page body for validation
         pageBody = common.getPageBody();

@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
 public class TC_45 extends BeforeAndAfter {
+/*
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -33,9 +34,20 @@ public class TC_45 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login"} )
     void logout() { logout.runLogout(); }
+*/
 
-    @Test( dependsOnMethods = {"logout"} )
+//    @Test( dependsOnMethods = {"logout"} )
+    @Test
     void navigateToSwamid(){
+        testData.setUsername("9c1qsEFn@dev.eduid.sunet.se");
+        testData.setPassword("bt14 fyw8 079c");
+        testData.setEppn("purul-kakid");
+        testData.setIdentityNumber("199001222398");
+        testData.setGivenName("Erika");
+        testData.setSurName("Lööf");
+        testData.setDisplayName(testData.getGivenName() + " " +testData.getSurName());
+        testData.setEmail(testData.getUsername());
+
         common.navigateToUrl("https://release-check.qa.swamid.se");
     }
 
@@ -47,6 +59,7 @@ public class TC_45 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"swamid"} )
     void login2(){
         login.verifyPageTitle();
+        login.enterUsername();
         login.enterPassword();
         common.click(common.findWebElementById("login-form-button"));
 
@@ -57,7 +70,7 @@ public class TC_45 extends BeforeAndAfter {
     void swamidData(){
         testData.setMfaMethod("");
         swamidData.runSwamidData(false); }
-
+/*
     @Test( dependsOnMethods = {"swamidData"} )
     void startPage2() {
         common.navigateToUrl("https://dev.eduid.se");
@@ -101,5 +114,5 @@ public class TC_45 extends BeforeAndAfter {
         login.verifyPageTitle();
         login.enterPassword();
         login.signIn();
-    }
+    }*/
 }

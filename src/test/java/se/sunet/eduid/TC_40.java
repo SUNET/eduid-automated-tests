@@ -92,7 +92,7 @@ public class TC_40 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailLink"} )
     void extraSecurityFreja() {
-        testData.setSendMobileOneTimePassword("freja");
+        testData.setMfaMethod("freja");
         extraSecurity.runExtraSecurity();
     }
 

@@ -23,6 +23,9 @@ public class PasswordChanged {
     }
 
     private void verifyLabels(){
+        //Wait for goto eduid button
+        common.explicitWaitClickableElementId("reset-password-finished");
+
         //verify the labels - swedish
         common.verifyStringOnPage("Återställ lösenord: Slutförd");
         common.verifyStringOnPage("Ditt lösenord är nu uppdaterat. Se till att förvara ditt lösenord på " +

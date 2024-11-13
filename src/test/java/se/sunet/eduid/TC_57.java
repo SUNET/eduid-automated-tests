@@ -7,116 +7,19 @@ import se.sunet.eduid.utils.Common;
 public class TC_57 extends BeforeAndAfter {
     @Test
     void startPage(){
-        testData.setRegisterAccount(true);
+        testData.setUsername("x2lSCHs1@dev.eduid.sunet.se");
+        testData.setPassword("0our 2s65 q0pl");
+        testData.setEppn("jutap-dizid");
+        testData.setIdentityNumber("199706212389");
+        testData.setGivenName("Eleonara");
+        testData.setSurName("Lagerfeldt");
+        testData.setDisplayName(testData.getGivenName() + " " +testData.getSurName());
+        testData.setEmail(testData.getUsername());
+
         startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage"} )
-    void register(){ register.runRegister(); }
-
-    @Test( dependsOnMethods = {"register"} )
-    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
-
-    @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void setRecommendedPassword() { password.setPassword(); }
-
-    @Test( dependsOnMethods = {"setRecommendedPassword"} )
-    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
-
-    @Test( dependsOnMethods = {"confirmedNewAccount"} )
-    void login(){
-        testData.setRegisterAccount(false);
-        login.runLogin(); }
-
-    @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
-
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
-    void confirmIdentityMail(){
-        testData.setConfirmIdBy("mail");
-        confirmIdentity.runConfirmIdentity(); }
-
-    @Test( dependsOnMethods = {"confirmIdentityMail"} )
-    void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
-
-        testData.setRegisterAccount(false);
-    }
-
-    @Test( dependsOnMethods = {"confirmedIdentity"} )
-    void addSecurityKey() {
-        testData.setAddSecurityKey(true);
-        securityKey.runSecurityKey();
-    }
-
-    @Test( dependsOnMethods = {"addSecurityKey"} )
-    void verifySecurityKey() {
-        testData.setVerifySecurityKey(true);
-
-        securityKey.runSecurityKey();
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKey"} )
-    void verifySecurityKeyLogin() {
-        //Add nin cookie
-        common.addNinCookie();
-
-        //Enter username, password to verify security key first time
-        login.verifyPageTitle();
-        login.enterPassword();
-
-        //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
-
-        common.explicitWaitClickableElementId("mfa-security-key");
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
-    void loginMfaSecurityKey() {
-        //Set mfa method to be used to "security key" at login.
-        testData.setMfaMethod("securitykey");
-
-        //Login page for extra security select security key mfa method
-        loginExtraSecurity.runLoginExtraSecurity();
-        Common.log.info("Log in with Security key");
-
-        common.timeoutSeconds(2);
-    }
-
-    @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
-    void selectUserRefIdp(){
-        //Select and submit user
-        common.explicitWaitClickableElementId("submitButton");
-        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
-
-        common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(8);
-    }
-
-    @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void verifySecurityKeyStatus() {
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
-
-        common.selectEnglish();
-
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIED");
-        common.selectSwedish();
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
-    void logout(){
-        logout.runLogout();
-    }
-
-    @Test( dependsOnMethods = {"logout"} )
     void navigateToSwamid(){
         common.navigateToUrl("https://release-check.qa.swamid.se");
     }
@@ -127,80 +30,42 @@ public class TC_57 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"swamid"} )
-    void login2(){
-        //Add magic cookie
+    void login(){
+        //Add nin cookie and magic cookie
+        common.addNinCookie();
         common.addMagicCookie();
 
         login.verifyPageTitle();
+
+        login.enterUsername();
         login.enterPassword();
         common.click(common.findWebElementById("login-form-button"));
     }
 
-    @Test( dependsOnMethods = {"login2"} )
+    @Test( dependsOnMethods = {"login"} )
     void loginMfaFreja() {
         common.timeoutSeconds(2);
 
         //Set mfa method to be used to "security key" at login.
         testData.setMfaMethod("freja");
 
+        //This account has confirmed identity
+        testData.setIdentityConfirmed(true);
+
         //Login page for extra security select security key mfa method
-        loginExtraSecurity.selectMfaMethod();
+        loginExtraSecurity.runLoginExtraSecurity();
+        extraSecurity.selectMfaMethod();
+
         Common.log.info("Log in with Freja eID+");
     }
 
     @Test( dependsOnMethods = {"loginMfaFreja"} )
     void selectUserRefIdp2(){
-        common.explicitWaitClickableElementId("submitButton");
-        common.findWebElementById("submitButton").click();
+        confirmIdentity.selectAndSubmitUserRefIdp();
         common.timeoutSeconds(3);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp2"} )
     void swamidData(){
         swamidData.runSwamidData(true); }
-
-    @Test( dependsOnMethods = {"swamidData"} )
-    void navigateToEduid(){
-        common.navigateToUrl("https://dev.eduid.se");
-
-        common.click(common.findWebElementById("login-button"));
-        common.timeoutSeconds(3);
-
-        //Wait for mfa login at next page
-        common.explicitWaitVisibilityElementId("mfa-security-key");
-    }
-
-    @Test( dependsOnMethods = {"navigateToEduid"} )
-    void loginMfaFreja2() {
-        //Login page for extra security select security key mfa method
-        loginExtraSecurity.selectMfaMethod();
-        Common.log.info("Log in with Freja eID+");
-    }
-
-    @Test( dependsOnMethods = {"loginMfaFreja2"} )
-    void selectUserRefIdp3(){
-        common.explicitWaitClickableElementId("submitButton");
-        common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(3);
-    }
-
-    @Test( dependsOnMethods = {"selectUserRefIdp3"} )
-    void delete() {
-        testData.setDeleteButton(true);
-        deleteAccount.runDeleteAccount();
-        common.timeoutSeconds(2);
-    }
-
-    @Test( dependsOnMethods = {"delete"} )
-    void startPage2(){
-        startPage.runStartPage();
-    }
-
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login3(){
-        testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
-    }
 }

@@ -7,7 +7,7 @@ import se.sunet.eduid.utils.TestData;
 public class Password {
     private final Common common;
     private final TestData testData;
-    private final String abortRecPwButton = "//*[@id=\"new-password-form\"]/div[2]/button[1]";
+    private final String abortRecPwButton = "new-password-cancel-button";
 
     public Password(Common common, TestData testData){
         this.common = common;
@@ -36,13 +36,13 @@ public class Password {
 
     public void setPassword(){
         //Wait for abort button to be clickable
-        common.timeoutSeconds(2);
-        common.explicitWaitClickableElement(abortRecPwButton);
+        common.timeoutSeconds(6);
+        common.explicitWaitClickableElementId(abortRecPwButton);
 
         //Verify recommend password labels
         verifyRecommendedPwLabels();
 
-        //Should recommended password be used
+        //Should recocmended password be used
         if(!testData.isUseRecommendedPw()) {
             //Select use own password
             common.click(common.findWebElementById("custom-pw"));
@@ -119,7 +119,7 @@ public class Password {
         }
         else {
             if(testData.isUseRecommendedPw()) {
-                common.click(common.findWebElementByXpath(abortRecPwButton));
+                common.click(common.findWebElementById(abortRecPwButton));
                 Common.log.info("Pressed Cancel new password");
             }
             else {
@@ -255,7 +255,7 @@ public class Password {
         common.verifyPlaceholder("xxxx xxxx xxxx", "newPassword");
 
         //Button text
-        common.verifyStringByXpath("//*[@id=\"new-password-form\"]/div[2]/button[1]", "AVBRYT");
+        common.verifyStringById(abortRecPwButton, "AVBRYT");
         common.verifyStringById("new-password-button", "SPARA");
 
         //Heading 2 - Swedish
@@ -290,7 +290,7 @@ public class Password {
                 "Radio button for recommended password not checked");
 
         //Button text
-        common.verifyStringByXpath("//*[@id=\"new-password-form\"]/div[2]/button[1]", "CANCEL");
+        common.verifyStringById(abortRecPwButton, "CANCEL");
         common.verifyStringById("new-password-button", "SAVE");
 
         //Label 2

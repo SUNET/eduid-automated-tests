@@ -64,6 +64,8 @@ public class TC_16 extends BeforeAndAfter {
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
+        extraSecurity.selectMfaMethod();
+
         Common.log.info("Log in with Security key");
 
         common.timeoutSeconds(2);
@@ -120,6 +122,8 @@ public class TC_16 extends BeforeAndAfter {
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
+        extraSecurity.selectMfaMethod();
+
         Common.log.info("Log in with Security key");
 
         common.timeoutSeconds(2);

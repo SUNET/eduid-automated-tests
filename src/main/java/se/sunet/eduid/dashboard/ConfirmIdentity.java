@@ -19,9 +19,14 @@ public class ConfirmIdentity{
     public void runConfirmIdentity(){
         common.navigateToIdentity();
         verifyPageTitle();
-        identity.expandIdentityOptions();
-        enterPersonalNumber();
-        pressAddButton();
+
+        //Check and add personal id number when confirming by mail
+        if(testData.getConfirmIdBy().equalsIgnoreCase("mail")){
+            identity.expandIdentityOptions();
+
+            enterPersonalNumber();
+            pressAddButton();
+        }
         verifyLabels();
         selectConfirmIdentity();
     }
@@ -42,14 +47,12 @@ public class ConfirmIdentity{
 
         //Wait for the nin to be added and show/hide button is visible
         common.explicitWaitClickableElementId("letter-proofing-show-hide-button");
+
+        Common.log.info("Added swedish personal id number");
     }
 
     public void selectConfirmIdentity(){
         common.timeoutSeconds(1);
-
-        //First need to collapse to default
-        common.findWebElementById("accordion__heading-swedish").click();
-        identity.expandIdentityOptions();
 
         //Select way to confirm the identity. By letter or Freja Id
         if(testData.getConfirmIdBy().equalsIgnoreCase("mail")) {
@@ -93,7 +96,7 @@ public class ConfirmIdentity{
             //Click OK
             common.findWebElementByXpath("//*[@id=\"letter-confirm-modal-form\"]/div[2]/button").click();
 
-            common.timeoutMilliSeconds(800);
+            common.timeoutMilliSeconds(3800);
 
             Common.log.info("Verify identity by Letter - Done");
         }
@@ -106,6 +109,13 @@ public class ConfirmIdentity{
             if(testData.getTestCase().equalsIgnoreCase("TC_40")) {
                 //Select Freja eID
                 common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button"));
+
+                //Verify labels and text in pop-up
+                identity.verifyFrejaIdLabelsSwedish();
+                common.selectEnglish();
+
+                identity.expandIdentityOptions();
+                identity.verifyFrejaIdLabelsEnglish();
 
                 //Click Use Freja eID in pop-up dialog
                 common.findWebElementById("eidas-info-modal-accept-button").click();
@@ -122,7 +132,7 @@ public class ConfirmIdentity{
                 //Expand Freja menu, since collapsed when change of language
                 common.timeoutMilliSeconds(800);
 
-                common.click(common.findWebElementById("accordion__heading-se-freja"));
+                identity.expandIdentityOptions();
             }
             else {
                 //Add nin-cookie to get successful response from idp
@@ -131,11 +141,6 @@ public class ConfirmIdentity{
 
             //Select Freja eID
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button"));
-
-            //Verify labels and text
-            identity.verifyFrejaIdLabelsSwedish();
-            common.selectEnglish();
-            identity.verifyFrejaIdLabelsEnglish();
 
             //Click Use Freja eID in pop-up dialog
             common.findWebElementById("eidas-info-modal-accept-button").click();
@@ -148,11 +153,12 @@ public class ConfirmIdentity{
         else if(testData.getConfirmIdBy().equalsIgnoreCase("eidas")) {
             Common.log.info("Verify identity by eIDAS");
 
+            identity.expandIdentityOptions();
+
             //Select eIDAS
             common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-eu\"]/button"));
 
             //Select country XA in sandbox
-            //common.findWebElementById("countryFlag_XA").click();
             common.findWebElementByXpath("//*[@id=\"countrySelectForm\"]/div/div[3]/button").click();
 
             //Submit IDP identity
@@ -277,6 +283,6 @@ public class ConfirmIdentity{
         common.findWebElementById("submitButton").click();
 
         //Redirect back to eduID takes time, adding some timeout
-        common.timeoutSeconds(3);
+        common.timeoutSeconds(18);
     }
 }

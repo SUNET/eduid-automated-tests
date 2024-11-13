@@ -81,6 +81,8 @@ public class TC_56 extends BeforeAndAfter {
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
+        extraSecurity.selectMfaMethod();
+
         Common.log.info("Log in with extra security");
     }
 
@@ -91,7 +93,7 @@ public class TC_56 extends BeforeAndAfter {
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(8);
+        common.timeoutSeconds(12);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
@@ -136,8 +138,9 @@ public class TC_56 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"login3"} )
     void loginExtraSecurity(){
 
-        loginExtraSecurity.selectMfaMethod();
-        common.timeoutSeconds(2);
+        //loginExtraSecurity.selectMfaMethod();
+        extraSecurity.selectMfaMethod();
+        //common.timeoutSeconds(2);
     }
 
     @Test( dependsOnMethods = {"loginExtraSecurity"} )

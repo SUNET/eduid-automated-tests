@@ -6,6 +6,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 //import net.lightbody.bmp.core.har.Har;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,6 +15,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariOptions;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -58,8 +60,15 @@ public class InitBrowser {
 
     private void initSafariDriver(String headless, String language){
 
-        webDriver = new SafariDriver();
 
+        // Initialize Safari Driver
+        WebDriverManager.safaridriver().setup();
+
+        SafariOptions safariOptions = new SafariOptions();
+        //safariOptions.setCapability().addArguments("window-size=1920,1080");
+        // Create an instance of SafariDriver
+        webDriver = new SafariDriver();
+        webDriver.manage().window().setSize(new Dimension(1200, 800));
     }
 
     private void initChromeDriver(String headless, String language){
@@ -73,6 +82,11 @@ public class InitBrowser {
             chromeOptions.addArguments("disable-infobars");
             chromeOptions.addArguments("--remote-allow-origins=*");
             chromeOptions.addArguments("--disable-search-engine-choice-screen");
+
+            chromeOptions.addArguments("--disable-gpu");
+            chromeOptions.addArguments("--disable-extensions");
+            chromeOptions.addArguments("--no-sandbox");
+            chromeOptions.addArguments("--disable-dev-shm-usage");
 
             // If execution should be performed headless
             if (headless.equals("true")) {
@@ -152,6 +166,7 @@ public class InitBrowser {
             }
         }
     }
+
 /*
     public void startHarSession(String tc) throws IOException {
         testcase = tc;

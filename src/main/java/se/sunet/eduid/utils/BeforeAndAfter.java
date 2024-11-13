@@ -38,7 +38,6 @@ public class BeforeAndAfter {
     public EmailSent emailSent;
     public EmailLink emailLink;
     public ExtraSecurity extraSecurity;
-    public VerifyPhoneNumber verifyPhoneNumber;
     public PasswordChanged passwordChanged;
     public Password password;
     public ConfirmPhoneNumber confirmPhoneNumber;
@@ -86,7 +85,6 @@ public class BeforeAndAfter {
         emailSent = new EmailSent(common, testData);
         emailLink = new EmailLink(common, testData);
         extraSecurity = new ExtraSecurity(common, testData);
-        verifyPhoneNumber = new VerifyPhoneNumber(common, testData);
         passwordChanged = new PasswordChanged(common, testData);
         logout = new Logout(common);
         dashBoard = new DashBoard(common, testData);

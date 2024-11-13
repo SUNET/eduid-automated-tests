@@ -1,5 +1,6 @@
 package se.sunet.eduid.generic;
 
+import se.sunet.eduid.resetPassword.ExtraSecurity;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -15,8 +16,6 @@ public class LoginExtraSecurity {
     public void runLoginExtraSecurity(){
         verifyPageTitle();
         verifyTexts();
-
-        selectMfaMethod();
     }
 
     private void verifyPageTitle() {
@@ -29,22 +28,6 @@ public class LoginExtraSecurity {
         common.timeoutMilliSeconds(500);
     }
 
-    public void selectMfaMethod(){
-        common.timeoutSeconds(2);
-
-        //selectMfa method
-        if(testData.getMfaMethod().equalsIgnoreCase("securitykey")) {
-            Common.log.info("Selecting security key for mfa login");
-            common.findWebElementById("mfa-security-key").click();
-
-            common.timeoutSeconds(2);
-        }
-        else if(testData.getMfaMethod().equalsIgnoreCase("freja")){
-            Common.log.info("Selecting Freja eID+ for mfa login");
-            common.click(common.findWebElementById("mfa-freja"));
-        }
-    }
-
     private void verifyTexts(){
         //Extract page body for validation
         common.timeoutMilliSeconds(300);
@@ -52,18 +35,25 @@ public class LoginExtraSecurity {
 
         //Swedish
         common.verifyPageBodyContainsString(pageBody, "Logga in: Extra säkerhet");
-        common.verifyPageBodyContainsString(pageBody, "Du måste välja en ytterligare metod att autentisera dig själv med. " +
-                "Detta säkerställer att bara du kan komma åt ditt eduID.");
+        common.verifyPageBodyContainsString(pageBody,"Autentisera dig själv med ytterligare en metod för " +
+                "att vara säker på att bara du har tillgång till ditt eduID.");
+
+        if(testData.isIdentityConfirmed()) {
+            common.verifyPageBodyContainsString(pageBody, "Om du inte kan använda säkerhetsnyckeln, var " +
+                    "vänlig välj annat alternativ nedan, t.ex. BankID eller Freja+.");
+        }
+
+        common.verifyPageBodyContainsString(pageBody, "Kan du inte använda säkerhetsnyckel?");
+        common.verifyPageBodyContainsString(pageBody, "VISA ANDRA ALTERNATIV");
+
+        common.timeoutMilliSeconds(500);
+        common.verifyPageBodyContainsString(pageBody, "SÄKERHETSNYCKEL");
         common.verifyPageBodyContainsString(pageBody, "T.ex. USB säkerhetsnyckel eller enheten som du just nu använder.");
         common.verifyStringById("mfa-security-key", "ANVÄND MIN SÄKERHETSNYCKEL");
 
-        common.verifyPageBodyContainsString(pageBody, "Svenskt eID");
-        if(!testData.isVerifySecurityKey())
+        //If identity is not confirmed or security key is missing
+        if(!testData.isVerifySecurityKey() && !testData.isIdentityConfirmed())
             common.verifyPageBodyContainsString(pageBody, "Kräver ett bekräftat svenskt personnummer.");
-        common.verifyPageBodyContainsString(pageBody, "ANVÄND MITT\n Freja+");
-        common.verifyPageBodyContainsString(pageBody, "ANVÄND MITT\n BankID");
-
-        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/label", "Kom ihåg mig på den här enheten");
 
         common.selectEnglish();
 
@@ -72,17 +62,21 @@ public class LoginExtraSecurity {
         pageBody = common.getPageBody();
 
         common.verifyPageBodyContainsString(pageBody, "Log in: Extra security");
-        common.verifyPageBodyContainsString(pageBody, "You need to choose a second method to authenticate yourself. " +
-                "This ensures that only you can access your eduID.");
+        common.verifyPageBodyContainsString(pageBody,"Choose a second method to authenticate yourself, ensuring only you can access your eduID.");
+        if(testData.isIdentityConfirmed()) {
+            common.verifyPageBodyContainsString(pageBody, "If you are unable to use the security key, " +
+                    "please select from other options below, such as BankID or Freja+.");
+        }
+
+        common.verifyPageBodyContainsString(pageBody, "Having issues using a security key?");
+        common.verifyPageBodyContainsString(pageBody, "SHOW OTHER OPTIONS");
+
+        common.verifyPageBodyContainsString(pageBody, "SECURITY KEY");
         common.verifyPageBodyContainsString(pageBody, "E.g. USB Security Key or the device you are currently using.");
         common.verifyStringById("mfa-security-key", "USE MY SECURITY KEY");
 
-        common.verifyPageBodyContainsString(pageBody, "Swedish eID");
-        if(!testData.isVerifySecurityKey())
+        //If identity is not confirmed or security key is missing
+        if(!testData.isVerifySecurityKey() && !testData.isIdentityConfirmed())
             common.verifyPageBodyContainsString(pageBody, "Requires a confirmed Swedish national identity number.");
-        common.verifyPageBodyContainsString(pageBody, "USE MY\n Freja+");
-        common.verifyPageBodyContainsString(pageBody, "USE MY\n BankID");
-
-        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/label", "Remember me on this device");
     }
 }

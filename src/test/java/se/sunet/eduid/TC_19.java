@@ -47,7 +47,7 @@ public class TC_19 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"dashboard2"} )
     void password2() {
-        testData.setNewPassword("lq2k dvzo 917s");
+        testData.setNewPassword("zojk ekd7 002n");
         testData.setUseRecommendedPw(false);
         password.runPassword();
     }

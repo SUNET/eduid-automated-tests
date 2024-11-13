@@ -40,7 +40,11 @@ public class TC_78 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"personalInfo"} )
     void confirmIdentityEidas(){
         testData.setConfirmIdBy("eidas");
-        confirmIdentity.runConfirmIdentity(); }
+        //confirmIdentity.runConfirmIdentity();
+        common.navigateToIdentity();
+        confirmIdentity.selectConfirmIdentity();
+    }
+
 
     @Test( dependsOnMethods = {"confirmIdentityEidas"} )
     void confirmedIdentityEidas() {

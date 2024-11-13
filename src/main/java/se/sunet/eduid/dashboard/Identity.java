@@ -19,10 +19,6 @@ public class Identity {
         if(testData.getTestSuite().equalsIgnoreCase("prod"))
             common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Ditt eduID är redo att användas");
         else {
-            //Expand all selections with verify identity options
-            if(!testData.isRegisterAccount())
-                common.findWebElementById("accordion__heading-swedish").click();
-            expandIdentityOptions();
             verifyLabelsSwedish();
             verifyLabelsEnglish();
         }
@@ -41,6 +37,8 @@ public class Identity {
 
     public void verifyLabelsSwedish() {
         Common.log.info("Verify Identity heading labels in Swedish");
+
+        expandIdentityOptions();
 
         //Verify site location menu, beside Start link
         common.verifySiteLocation("Identitet");
@@ -72,6 +70,9 @@ public class Identity {
                 "nedan tar dig till en extern identifieringssida, där du genom att identifiera dig med Bank ID " +
                 "verifierar din identitet mot eduID.");
 
+        //Verify link to BankID page works - bot detection will prevent this test
+        //common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-se-bankID\"]/p[1]/a");
+
         //Verify button text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-bankID\"]/button", "FORTSÄTT");
 
@@ -87,10 +88,12 @@ public class Identity {
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-freja\"]/p", "För att " +
                 "använda det här alternativet behöver du först skapa ett digitalt ID-kort i Freja appen.");
 
+        //Verify link to Freja page works
+        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-se-freja\"]/p/a");
+
         //Verify button text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-freja\"]/button", "FORTSÄTT");
 
-        //verifyFrejaIdLabelsSwedish();
 
         //---- Letter ----
         //Button text - letter
@@ -127,6 +130,11 @@ public class Identity {
         //Fine text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-world\"]/p[1]",
                 "Om du har ett Freja eID kan du koppla det till ditt eduID.");
+
+        //Verify link to Freja page works
+        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-world\"]/p[1]/a");
+
+        //*[@id="accordion__panel-world"]/p[1]/a
         common.verifyStringByXpath("//*[@id=\"accordion__panel-world\"]/p[2]", "Knappen nedan " +
                 "tar dig till en extern identifieringssida, där du genom att identifiera dig med Freja eID verifierar " +
                 "din identitet mot eduID.");
@@ -170,6 +178,8 @@ public class Identity {
         common.selectEnglish();
         Common.log.info("Verify Identity heading labels in English");
 
+        expandIdentityOptions();
+
         //Verify site location menu, beside Start link
         common.verifySiteLocation("Identity");
 
@@ -180,11 +190,6 @@ public class Identity {
         common.verifyStringByXpath("//*[@id=\"content\"]/article/h2", "Choose your principal identification method");
         common.verifyStringByXpath("//*[@id=\"accordion__heading-swedish\"]/div/h3", "Swedish personal ID or coordination number");
         common.verifyStringByXpath("//*[@id=\"accordion__heading-swedish\"]/div/p", "With a digital ID-card / By post");
-
-        //Expand all selections with verify identity options
-        //First need to collapse to default
-        common.click(common.findWebElementById("accordion__heading-swedish"));
-        expandIdentityOptions();
 
         //---- Bank ID ----
         //Button text - Bank ID
@@ -200,6 +205,9 @@ public class Identity {
                 "below will take you to an external identification site, where you by identifying yourself with BankID " +
                 "will verify your identity towards eduID.");
 
+        //Verify link to BankID page works - bot detection will prevent this test
+        //common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-se-bankID\"]/p[1]/a");
+
         //Verify button text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-bankID\"]/button", "PROCEED");
 
@@ -213,6 +221,9 @@ public class Identity {
         //Button text - Freja - Fine text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-freja\"]/p", "To use this " +
                 "option you first need to create a digital ID-card in the Freja app.");
+
+        //Verify link to Freja page works
+        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-se-freja\"]/p/a");
 
         //Verify button text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-freja\"]/button", "PROCEED");
@@ -259,6 +270,9 @@ public class Identity {
                 "below will take you to an external identification site, where by identifying yourself with Freja eID, " +
                 "you will verify your identity towards eduID.");
 
+        //Verify link to Freja page works
+        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-world\"]/p[1]/a");
+
         //Button text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-world\"]/button", "PROCEED");
 
@@ -268,11 +282,13 @@ public class Identity {
 
         //Click on swedish
         common.selectSwedish();
+
+        //Expand Identity options again, since collapsed when changed language
+        expandIdentityOptions();
     }
 
     public void verifyFrejaIdLabelsEnglish(){
         //Click on Freja
-        common.click(common.findWebElementById("accordion__heading-se-freja"));
         common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button"));
 
         //Switch to the Freja Id pop up
@@ -333,13 +349,19 @@ public class Identity {
     }
 
     public void expandIdentityOptions(){
-        //Expand buttons, all text is visible
-        common.click(common.findWebElementById("accordion__heading-swedish"));
-        common.click(common.findWebElementById("accordion__heading-se-bankID"));
-        common.click(common.findWebElementById("accordion__heading-se-freja"));
-        common.click(common.findWebElementById("accordion__heading-se-letter"));
-        //common.click(common.findWebElementById("accordion__heading-se-phone"));
-        common.click(common.findWebElementById("accordion__heading-eu"));
-        common.click(common.findWebElementById("accordion__heading-world"));
+        //Expand buttons if not already expanded, to make all text visible
+        if(common.findWebElementById("accordion__heading-swedish").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-swedish"));
+        common.timeoutMilliSeconds(200);
+        if(common.findWebElementById("accordion__heading-se-bankID").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-se-bankID"));
+        if(common.findWebElementById("accordion__heading-se-freja").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-se-freja"));
+        if(common.findWebElementById("accordion__heading-se-letter").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-se-letter"));
+        if(common.findWebElementById("accordion__heading-eu").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-eu"));
+        if(common.findWebElementById("accordion__heading-world").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-world"));
     }
 }
