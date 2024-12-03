@@ -29,22 +29,13 @@ public class TC_58 extends BeforeAndAfter {
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
-
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
     void confirmIdentityMail(){
         testData.setConfirmIdBy("mail");
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentityMail"} )
     void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
+        confirmedIdentity.runConfirmedIdentity();
 
         testData.setRegisterAccount(false);
     }

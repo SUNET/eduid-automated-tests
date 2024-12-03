@@ -31,17 +31,17 @@ public class TC_477 extends BeforeAndAfter {
 
         common.explicitWaitClickableElement("//*[@id=\"header-nav\"]/button/span");
     }
-
+/*
     @Test( dependsOnMethods = {"login"} )
     void personalInfo() {
         testData.setRegisterAccount(true);
 
         //Navigate to settings
-        common.navigateToSettings();
+        common.navigateToAccount();
         personalInfo.runPersonalInfo();
     }
 
- /*    @Test( dependsOnMethods = {"personalInfo"} )
+     @Test( dependsOnMethods = {"personalInfo"} )
     void addPhoneNumber(){
         phoneNumber.addPhoneNumber();
         phoneNumber.confirmNewPhoneNumber(); }

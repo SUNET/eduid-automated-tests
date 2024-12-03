@@ -1,20 +1,11 @@
 package se.sunet.eduid.dashboard;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.devtools.Command;
-import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.Command;
-import org.openqa.selenium.devtools.v102.security.Security;
 import org.openqa.selenium.virtualauthenticator.HasVirtualAuthenticator;
 import org.openqa.selenium.virtualauthenticator.VirtualAuthenticator;
 import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
-
-import static se.sunet.eduid.utils.Common.log;
 
 public class SecurityKey {
     private final Common common;
@@ -32,6 +23,7 @@ public class SecurityKey {
         else {
             pressAdvancedSettings();
 
+            verifySecurityLabels();
             //If we shall add extra security key
     //        if(testData.isAddSecurityKey())
                 virtualAuthenticator();
@@ -41,7 +33,8 @@ public class SecurityKey {
     }
 
     private void pressAdvancedSettings(){
-        common.navigateToAdvancedSettings();
+        //common.navigateToAdvancedSettings();
+        common.navigateToSecurity();
 
         //Wait for heading "Gör ditt eduID säkrare"
         common.explicitWaitVisibilityElement("//*[@id=\"register-security-key-container\"]/h2");
@@ -125,6 +118,7 @@ public class SecurityKey {
     }
 
     private void verifySecurityKeyHeaders(){
+        Common.log.info("Verify security key headers - swedish");
         //Security key Toggle information
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/fieldset/form/label/legend",
                 "Använd alltid tvåfaktorsautenticering (2FA) vid inloggning till eduID\n" +
@@ -148,6 +142,8 @@ public class SecurityKey {
 
         //English
         common.selectEnglish();
+
+        Common.log.info("Verify security key headers - english");
 
         //Security key Toggle information
         common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/fieldset/form/label/legend",
@@ -175,6 +171,8 @@ public class SecurityKey {
     }
 
     private void verifyAddSecurityKeyLabels(){
+        common.selectSwedish();
+
         //Verify Security key
         common.click(common.findWebElementById("security-webauthn-button"));
         common.timeoutMilliSeconds(500);
@@ -182,6 +180,8 @@ public class SecurityKey {
         //Labels and placeholder
         common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5", "Ge ett namn till din säkerhetsnyckel");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Säkerhetsnyckel");
+        common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-form\"]/div[1]/p",
+                "Obs: beskrivningen är endast för att hjälpa dig skilja på dina tillagda nycklar.");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 tecken");
         common.verifyStrings("beskriv din säkerhetsnyckel",
                 common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input").getAttribute("placeholder"));
@@ -200,6 +200,8 @@ public class SecurityKey {
                 //Labels and placeholder
                 common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5", "Ge ett namn till din säkerhetsnyckel");
                 common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Säkerhetsnyckel");
+                common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-form\"]/div[1]/p",
+                        "Note: this is only for your own use to be able to distinguish between your added keys.");
                 common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 tecken");
                 common.verifyStrings("beskriv din säkerhetsnyckel",
                         common.findWebElementByXpath("//div[2]/div/div[1]/div/div/form/div[1]/div/div/input").getAttribute("placeholder"));
@@ -293,5 +295,72 @@ public class SecurityKey {
 
         //Click on Accept
         Common.log.info("Delete security key - start verify security key pop up - pressed Accept button");
+    }
+
+
+    public void verifySecurityLabels(){
+        Common.log.info("Start verify security page labels - swedish");
+
+        //Extract page body for validation
+        String pageBody = common.getPageBody();
+
+        //Swedish
+        //Verify site location menu, beside Start link
+        common.verifySiteLocation("Säkerhet");
+
+        common.verifyPageBodyContainsString(pageBody,"Säkerhet");
+        common.verifyPageBodyContainsString(pageBody,"Öka säkerheten för ditt eduID.");
+
+        //Security key
+        common.verifyPageBodyContainsString(pageBody,"Tvåfaktorsautenticering (2FA)");
+        common.verifyPageBodyContainsString(pageBody,"Om möjligt lägg till ett ytterligare sätt att identifiera dig i form " +
+                "av en säkerhetsnyckel, utöver användarnamn och lösenord, så att du är säker på att bara du har tillgång " +
+                "till ditt eduID. Exempel på säkerhetsnycklar kan vara en USB-säkerhetsnyckel eller din enhet.");
+        common.verifyPageBodyContainsString(pageBody,"Du kan läsa mer om säkerhetsnycklar i hjälpavsnittet: Utökad säkerhet med ditt eduID.");
+
+        //Verify internal link to help pages works
+        common.verifyXpathIsWorkingLink("//*[@id=\"register-security-key-container\"]/p[2]/a");
+
+        common.verifyPageBodyContainsString(pageBody,"Lägg till en ny säkerhetsnyckel:");
+        common.verifyStringById("security-webauthn-button", "FYSISK SÄKERHETSNYCKEL");
+        common.verifyPageBodyContainsString(pageBody,"T.ex. USB säkerhetsnyckel som du använder.");
+        if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
+            common.verifyStringById("security-webauthn-platform-button", "DEN HÄR ENHETEN");
+            common.verifyPageBodyContainsString(pageBody,"Enheten som du just nu använder");
+        }
+
+        //click on english
+        common.selectEnglish();
+
+        Common.log.info("Start verify security page labels - english");
+
+        common.verifyPageTitle("Security | eduID");
+
+        //Extract page body for validation
+        pageBody = common.getPageBody();
+
+        //English
+        //Verify site location menu, beside Start link
+        common.verifySiteLocation("Security");
+
+        common.verifyPageBodyContainsString(pageBody,"Security");
+        common.verifyPageBodyContainsString(pageBody,"Enhance the security of your eduID.");
+
+        //Security key
+        common.verifyPageBodyContainsString(pageBody,"Two-factor Authentication (2FA)");
+        common.verifyPageBodyContainsString(pageBody,"If possible add a security key as a second factor of authentication, " +
+                "beyond username and password, to prove you are the owner of your eduID. Examples are USB security keys or your device.");
+        common.verifyPageBodyContainsString(pageBody,"You can read more about security keys in the Help section: Improving the security level of eduID.");
+
+        //Verify internal link to help pages works
+        common.verifyXpathIsWorkingLink("//*[@id=\"register-security-key-container\"]/p[2]/a");
+
+        common.verifyPageBodyContainsString(pageBody,"Add a new security key:");
+        common.verifyStringById("security-webauthn-button", "EXTERNAL SECURITY KEY");
+        common.verifyPageBodyContainsString(pageBody,"E.g a USB Security Key you are using.");
+        if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
+            common.verifyStringById("security-webauthn-platform-button", "THIS DEVICE");
+            common.verifyPageBodyContainsString(pageBody,"The device you are currently using.");
+        }
     }
 }

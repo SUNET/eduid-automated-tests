@@ -13,6 +13,7 @@ public class TC_11 extends BeforeAndAfter {
         testData.setPassword("fqv5 57l8 korp");
         testData.setDisplayName("Cookie Magic Cookie");
         testData.setAccountVerified(true);
+        testData.setIdentityConfirmed(true);
 
         login.runLogin(); }
 

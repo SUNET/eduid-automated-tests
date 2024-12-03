@@ -23,14 +23,16 @@ public class TC_3 extends BeforeAndAfter {
    }
 
     @Test( dependsOnMethods = {"dashboard"} )
-    void personalInfo() {
+    void setNewUserNames() {
+        common.navigateToIdentity();
+
         testData.setGivenName("Bernt Olof");
         testData.setSurName("Larsson");
         testData.setDisplayName("Bernt Olof Larsson");
-        personalInfo.runPersonalInfo();
+        name.runName();
     }
 
-    @Test( dependsOnMethods = {"personalInfo"} )
+    @Test( dependsOnMethods = {"setNewUserNames"} )
     void logout() {
         logout.runLogout();
     }

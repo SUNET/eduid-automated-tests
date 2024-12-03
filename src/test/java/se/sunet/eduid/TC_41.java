@@ -28,22 +28,13 @@ public class TC_41 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
-
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
     void confirmIdentityMail(){
         testData.setConfirmIdBy("mail");
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentityMail"} )
     void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
+        confirmedIdentity.runConfirmedIdentity();
 
         testData.setRegisterAccount(false);
     }
@@ -61,7 +52,7 @@ public class TC_41 extends BeforeAndAfter {
         testData.setSurName("Testsson");
         testData.setDisplayName("Cookie Testsson");
 
-        personalInfo.runPersonalInfo();
+        name.runName();
     }
 
     //Delete the account, so it will be removed after 2 weeks by script

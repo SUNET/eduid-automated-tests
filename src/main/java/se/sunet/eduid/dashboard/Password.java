@@ -21,7 +21,7 @@ public class Password {
     }
 
     private void navigateToSettingss(){
-        common.navigateToSettings();
+        common.navigateToAccount();
 
         common.click(common.findWebElementById("security-change-button"));
     }

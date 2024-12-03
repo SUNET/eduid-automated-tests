@@ -41,7 +41,6 @@ public class ExtraSecurity {
             common.verifyPageTitle("Reset password | eduID");
         }
 
-
         //Extract page body for validation
         String pageBody = common.getPageBody();
 
@@ -53,15 +52,15 @@ public class ExtraSecurity {
                     "from other options below, such as BankID or Freja+.");
         }
         else {
-            common.verifyPageBodyContainsString(pageBody, "Select an extra security option to maintain identity confirmation " +
-                    "during the password reset process, or continue without extra security, with identity confirmation " +
+            common.verifyPageBodyContainsString(pageBody, "Select an security option to maintain identity confirmation " +
+                    "during the password reset process, or continue without security, with identity confirmation " +
                     "required after the password reset.");
         }
 
         common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/span", "Having issues using a security key?");
         common.verifyStringByXpath("//div/main/div/section/div/div[3]/form/div/div/div[1]/div", "SHOW OTHER OPTIONS");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Continue without extra security option");
+        common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Continue without security option");
         common.verifyStringByXpath("//*[@id=\"content\"]/p", "Your identity will require confirmation after the password has been " +
                 "reset. continue resetting password");
         common.verifyStringById("continue-without-security", "continue resetting password");
@@ -81,16 +80,16 @@ public class ExtraSecurity {
                     "var vänlig välj annat alternativ nedan, t.ex. BankID eller Freja+.");
         }
         else {
-            common.verifyPageBodyContainsString(pageBody, "Välj ett extra säkerhetsalternativ för att bekräfta din identitet " +
-                    "under lösenordsåterställningsprocessen, eller fortsätt utan extra säkerhet, med krav på " +
+            common.verifyPageBodyContainsString(pageBody, "Välj ett säkerhetsalternativ för att bekräfta din identitet " +
+                    "under lösenordsåterställningsprocessen, eller fortsätt utan säkerhet, med krav på " +
                     "identitetsbekräftelse efter lösenordsåterställningen.");
         }
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Fortsätt utan extra säkerhetsalternativ");
+        common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Fortsätt utan extra säkerhet");
         common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/span", "Kan du inte använda säkerhetsnyckel?");
         common.verifyStringByXpath("//div/main/div/section/div/div[3]/form/div/div/div[1]/div", "VISA ANDRA ALTERNATIV");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Fortsätt utan extra säkerhetsalternativ");
+        common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Fortsätt utan extra säkerhet");
         common.verifyStringByXpath("//*[@id=\"content\"]/p", "Din identitet kommer att behöva verifieras efter att lösenordet har " +
                 "återställts. fortsätt återställa lösenordet");
         common.verifyStringById("continue-without-security", "fortsätt återställa lösenordet");

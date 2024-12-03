@@ -17,7 +17,7 @@ public class ConfirmPhoneNumber {
     }
 
     public void runConfirmPhoneNumber(){
-        common.navigateToSettings();
+        common.navigateToAccount();
         verifyPageTitle();
         getConfirmationCode();
         confirmPhoneNumber();

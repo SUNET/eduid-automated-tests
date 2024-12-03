@@ -16,7 +16,8 @@ public class Swamid {
 
     private void selectIdp(){
         //Press select IDP
-        common.click(common.findWebElementByXpath("//div/div[2]/div[2]/a/button"));
+        common.explicitWaitClickableElement("//div/div[2]/div[2]/a/button");
+        common.findWebElementByXpath("//div/div[2]/div[2]/a/button").click();
         common.timeoutMilliSeconds(1000);
 
         //Switch to first iframe
@@ -35,10 +36,10 @@ public class Swamid {
     public void navigateEduId(String searchString){
         common.findWebElementById("searchinput").clear();
         common.findWebElementById("searchinput").sendKeys(searchString);
-        common.timeoutMilliSeconds(3500);
+        common.timeoutMilliSeconds(1500);
 
         //Select eduid staging
-        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/a[1]"));
+        common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/li/a").click();
 
         //Wait for the eduID log in page to load
         common.timeoutMilliSeconds(1000);

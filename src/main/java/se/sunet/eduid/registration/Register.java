@@ -25,11 +25,12 @@ public class Register {
 
         verifyLabelsAtConfirmEmailAddress();
 
-        common.addMagicCookie();
+        enterCaptchaCode();
+/*        common.addMagicCookie();
         common.findWebElementById("value").sendKeys("123456");
 
         //Fill in a dummy value and continue
-        common.click(common.findWebElementById("captcha-continue-button"));
+        common.click(common.findWebElementById("captcha-continue-button"));*/
 
         registerPopUp();
     }
@@ -72,15 +73,20 @@ public class Register {
     }
 
     public void enterEmailAndPressRegister(){
-        //Generate new username
-        if(testData.isGenerateUsername())
-            generateUsername();
-
         //Generate new identity number, given name and surname if not specified in test case
         if(testData.isRegisterAccount()) {
+            //Generate new username
+            if(testData.isGenerateUsername()) {
+                generateUsername();
+                setIdentityNumber();
+                setGivenName();
+                setSurName();
+            }
+/*
             setIdentityNumber();
             setGivenName();
             setSurName();
+*/
             testData.setDisplayName(testData.getGivenName() + " " +testData.getSurName());
             Common.log.info("Display name set to: " +testData.getDisplayName());
         }
@@ -109,7 +115,15 @@ public class Register {
         common.click(common.findWebElementById("register-button"));
     }
 
-    private void registerPopUp(){
+    public void enterCaptchaCode(){
+        common.addMagicCookie();
+        common.findWebElementById("value").sendKeys("123456");
+
+        //Fill in a dummy value and continue
+        common.click(common.findWebElementById("captcha-continue-button"));
+    }
+
+    public void registerPopUp(){
         //First verify terms in english
         common.timeoutMilliSeconds(1500);
         verifyTermsEnglish();

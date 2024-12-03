@@ -639,6 +639,15 @@ tested in tc_28
         </classes>
     </test>
 
+    <test name="TC_86">
+        <parameter name="testDescription" value="Register a user, reset password and select BankID as extra security option. Cancel and
+        at BankID page and continue the reset pw using mail option, verify that the identity is still verified." />
+        <classes>
+            <class name="se.sunet.eduid.TC_86" >
+            </class>
+        </classes>
+    </test>
+
     <test name="TC_87">
         <parameter name="testDescription" value="Log in to DNP 'without eID' with username and password" />
         <parameter name="url" value="https://fidustest.skolverket.se/DNP-staging/" />
@@ -675,4 +684,21 @@ tested in tc_28
             </class>
         </classes>
     </test>
+
+    <test name="TC_92">
+        <parameter name="testDescription" value="Register a user, Log in to DNP 'with eID' with username, password and
+        security key (not verified). Attempt to log in to DNP without a verified security key" />
+        <classes>
+            <class name="se.sunet.eduid.TC_92" >
+            </class>
+        </classes>
+    </test>
+
+<!--    <test name="TC_91"> -issue #1908 reported at eduid-front. end of tc needs to be updated when fix in place
+        <parameter name="testDescription" value="Register two accounts after each other in the same brower session" />
+        <classes>
+            <class name="se.sunet.eduid.TC_91" >
+            </class>
+        </classes>
+    </test>-->
 </suite>

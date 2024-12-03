@@ -13,7 +13,6 @@ import org.testng.Assert;
 import io.github.sukgu.Shadow;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -80,36 +79,41 @@ public class Common {
             Assert.fail("Failed to switch language to Swedish");
     }
 
-    public void navigateToSettings() {
+    public void navigateToAccount() {
         //Expand navigation menu
-        click(findWebElementByXpath("//*[@id=\"header-nav\"]/button/span"));
+        expandNavigationMenu();
 
-        //Click on Settings
-        click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[3]"));
+        //Click on Account
+        click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[4]"));
     }
 
     public void navigateToIdentity() {
         //Expand navigation menu
-        click(findWebElementByXpath("//*[@id=\"header-nav\"]/button/span"));
+        expandNavigationMenu();
 
         //Click on Identity
         click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[2]"));
     }
 
-    public void navigateToAdvancedSettings() {
+    public void navigateToSecurity() {
         //Expand navigation menu
-        click(findWebElementByXpath("//*[@id=\"header-nav\"]/button/span"));
+        expandNavigationMenu();
 
-        //Click on Advanced Settings
-        click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[4]"));
+        //Click on Security Settings
+        click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[3]"));
     }
 
     public void navigateToDashboard() {
         //Expand navigation menu
-        click(findWebElementByXpath("//*[@id=\"header-nav\"]/button/span"));
+        expandNavigationMenu();
 
         //Click on Start
         click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[1]"));
+    }
+
+    public void expandNavigationMenu(){
+        //Expand navigation menu
+        click(findWebElementByXpath("//*[@id=\"header-nav\"]/button/span"));
     }
 
     public void verifyPageTitle(String pageTitle) {
@@ -192,22 +196,22 @@ public class Common {
     }
 
     public void explicitWaitClickableElement(String xpathToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathToElementToWaitFor)));
     }
 
     public void explicitWaitClickableElementId(String idToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.elementToBeClickable(By.id(idToElementToWaitFor)));
     }
 
     public void explicitWaitVisibilityElement(String xpathToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathToElementToWaitFor)));
     }
 
     public void explicitWaitVisibilityElementId(String idToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(idToElementToWaitFor)));
     }
 

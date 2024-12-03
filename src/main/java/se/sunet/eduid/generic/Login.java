@@ -38,18 +38,24 @@ public class Login {
         common.verifyPlaceholder("ange lösenord", "currentPassword");
 
         //Enter username
+//        common.findWebElementById("username").clear();
+//        common.timeoutMilliSeconds(200);
         common.findWebElementById("username").clear();
-        common.timeoutMilliSeconds(200);
-        common.findWebElementById("username").clear();
-        common.findWebElementById("username").sendKeys(testData.getUsername());
+/*        Common.log.info("Username field : " + common.findWebElementById("username").getText());
+        if(common.findWebElementById("username").getText().contains("@")) {
+            Common.log.info("Username field already contains an email address: "
+                    +common.findWebElementById("username").getText() +" do not type it again");
+        }
+        else*/
+            common.findWebElementById("username").sendKeys(testData.getUsername());
 
         Common.log.info("Log in with username: " +testData.getUsername());
     }
 
     public void enterPassword() {
-        common.timeoutMilliSeconds(500);
-        common.findWebElementById("currentPassword").clear();
-        common.timeoutMilliSeconds(200);
+//        common.timeoutMilliSeconds(500);
+//        common.findWebElementById("currentPassword").clear();
+//        common.timeoutMilliSeconds(200);
         common.findWebElementById("currentPassword").clear();
 
         common.findWebElementById("currentPassword").sendKeys(testData.getPassword());
@@ -82,10 +88,10 @@ public class Login {
             }
 
             //Wait for the username label at dashboard upper right corner
-            common.timeoutSeconds(4);
+//            common.timeoutSeconds(4);
 
-            //Log in successful
-            common.explicitWaitClickableElementId("clipboard");
+            //Log in successful, wait for copy button at dashboard
+            common.explicitWaitClickableElement("//*[@id=\"uniqueId-container\"]/div/button");
             storeEppn();
 
         }
@@ -110,7 +116,7 @@ public class Login {
     public void storeEppn(){
         //Wait for copy eppn button
         common.timeoutSeconds(2);
-        common.explicitWaitClickableElementId("clipboard");
+        common.explicitWaitClickableElement("//*[@id=\"uniqueId-container\"]/div/button");
 
         testData.setEppn(common.findWebElementById("user-eppn").getAttribute("value"));
         if(testData.getEppn().isEmpty()) {

@@ -6,16 +6,20 @@ import se.sunet.eduid.utils.TestData;
 public class ConfirmedIdentity {
     private final Common common;
     private final TestData testData;
+    private final Name name;
     private String pageBody;
 
-    public ConfirmedIdentity(Common common, TestData testData){
+    public ConfirmedIdentity(Common common, TestData testData, Name name) {
         this.common = common;
         this.testData = testData;
+        this.name = name;
     }
 
-    public void runConfirmIdentity(){
+    public void runConfirmedIdentity(){
         verifyPageTitle();
         verifyTextAndLabels();
+
+        name.runName();
     }
 
     private void verifyPageTitle() {
@@ -39,14 +43,19 @@ public class ConfirmedIdentity {
 
         //English labels
         textAndLabelsEnglish();
+
+        //Change to Swedish
+        common.selectSwedish();
     }
 
     private void textAndLabelsSwedish(){
+        Common.log.info("Verify confirmed identity labels in Swedish");
+
         //Extract page body for validation
         pageBody = common.getPageBody();
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody,"Koppla din identitet till ditt eduID");
+        common.verifyPageBodyContainsString(pageBody,"Identitet");
 
         //Heading 1
         common.verifyPageBodyContainsString(pageBody,"Ditt eduID är redo att användas");
@@ -76,13 +85,15 @@ public class ConfirmedIdentity {
     }
 
     private void textAndLabelsEnglish(){
+        Common.log.info("Verify confirmed identity labels in English");
+
         //Extract page body for validation
         pageBody = common.getPageBody();
 
         common.verifyPageTitle("Identity | eduID");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody,"Connect your identity to your eduID");
+        common.verifyPageBodyContainsString(pageBody,"Identity");
 
         //Heading 1
         common.verifyPageBodyContainsString(pageBody,"Your eduID is ready to use");

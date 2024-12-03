@@ -1,70 +1,45 @@
 package se.sunet.eduid.dashboard;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
-public class AdvancedSettings {
+public class Account {
     private final Common common;
     private final TestData testData;
 
-    public AdvancedSettings(Common common, TestData testData){
+    public Account(Common common, TestData testData){
         this.common = common;
         this.testData = testData;
     }
 
-    public void runAdvancedSettings(){
-        pressAdvancedSettings();
+    public void runAccount(){
+        common.navigateToAccount();
         verifyPageTitle();
         verifyLabels();
-        pressAddSecurityKey();
 
         //TODO investigate why orcid does not work for tc 1
         if(testData.getTestCase().equalsIgnoreCase("TC_1")){
             pressLadok();
             pressOrcid();
         }
+
+        //TODO change language
+        if(testData.getLanguage() != null)
+            selectLanguage();
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Avancerade Inställningar | eduID");
+        common.verifyPageTitle("Account | eduID");
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))
             common.selectSwedish();
-    }
-
-    public void pressAdvancedSettings(){
-        common.navigateToAdvancedSettings();
-
-        //Wait for heading "Gör ditt eduID säkrare"
-        common.explicitWaitVisibilityElement("//*[@id=\"content\"]/section/h1");
-    }
-
-    private void pressAddSecurityKey(){
-        //Click on add security key
-        common.click(common.findWebElementByXpath("//*[@id=\"security-webauthn-button\"]"));
-
-        common.switchToPopUpWindow();
-
-        //Verify text
-        common.explicitWaitVisibilityElement("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5");
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5", "Ge ett namn till din säkerhetsnyckel");
-        common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Säkerhetsnyckel");
-        common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 tecken");
-
-
-        //Press close, in corner of pop-up
-        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
     }
 
     private void pressLadok(){
@@ -147,19 +122,19 @@ public class AdvancedSettings {
         Common.log.info("Verify ORCID");
         common.explicitWaitClickableElementId("connect-orcid-button");
 
-        common.scrollDown(500);
-        common.findWebElementById("connect-orcid-button").click();
+        //common.scrollDown(800);
+        common.click(common.findWebElementById("connect-orcid-button"));
         Common.log.info("Clicked on ORCID");
 
         //Transferred to orcid after click
-        common.timeoutSeconds(5);
+        common.timeoutSeconds(2);
 
         String title = common.getWebDriver().getTitle();
         if (title.equalsIgnoreCase("ORCID") || title.equalsIgnoreCase("Sign in - ORCID"))
             Common.log.info("ORCID page present");
         else {
-            Common.log.info("ORCID NOT page present");
-            Assert.fail("ORCID NOT page present");
+            Common.log.info("ORCID NOT page present, page title is: " +common.getWebDriver().getTitle());
+            Assert.fail("ORCID NOT page present, page title is: " +common.getWebDriver().getTitle());
         }
 
         //Accept cookies
@@ -177,37 +152,35 @@ public class AdvancedSettings {
         common.timeoutMilliSeconds(500);
         common.getWebDriver().navigate().back();
         //common.timeoutSeconds(5);
-        common.explicitWaitPageTitle("Avancerade Inställningar | eduID");
+        common.explicitWaitPageTitle("Account | eduID");
     }
 
     private void verifyLabels(){
         //Extract page body for validation
         String pageBody = common.getPageBody();
 
+        Common.log.info("Verify Account page labels - Swedish");
+
         //Swedish
         //Verify site location menu, beside Start link
-        common.verifySiteLocation("Avancerade inställningar");
+        common.verifySiteLocation("Konto");
 
-        common.verifyPageBodyContainsString(pageBody,"Förbättra ditt eduID");
-        common.verifyPageBodyContainsString(pageBody,"Öka säkerheten för ditt eduID eller anslut det till andra tjänster.");
+        //Swedish
+        //Verify site location menu, beside Start link
 
-        //Security key
-        common.verifyPageBodyContainsString(pageBody,"Tvåfaktorsautenticering (2FA)");
-        common.verifyPageBodyContainsString(pageBody,"Om möjligt lägg till ett ytterligare sätt att identifiera dig i form " +
-                "av en säkerhetsnyckel, utöver användarnamn och lösenord, så att du är säker på att bara du har tillgång " +
-                "till ditt eduID. Exempel på säkerhetsnycklar kan vara en USB-säkerhetsnyckel eller din enhet.");
-        common.verifyPageBodyContainsString(pageBody,"Du kan läsa mer om säkerhetsnycklar i hjälpavsnittet: Utökad säkerhet med ditt eduID.");
+        common.verifySiteLocation("Konto");
 
-        //Verify internal link to help pages works
-        common.verifyXpathIsWorkingLink("//*[@id=\"register-security-key-container\"]/p[2]/a");
+        common.verifyPageBodyContainsString(pageBody,"Konto");
+        common.verifyPageBodyContainsString(pageBody,"Uppdatera dina eduID-kontoinställningar, byt lösenord eller ta bort ditt eduID.");
 
-        common.verifyPageBodyContainsString(pageBody,"Lägg till en ny säkerhetsnyckel:");
-        common.verifyStringById("security-webauthn-button", "FYSISK SÄKERHETSNYCKEL");
-        common.verifyPageBodyContainsString(pageBody,"T.ex. USB säkerhetsnyckel som du använder.");
-        if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
-            common.verifyStringById("security-webauthn-platform-button", "DEN HÄR ENHETEN");
-            common.verifyPageBodyContainsString(pageBody,"Enheten som du just nu använder");
-        }
+        //EPPN
+        common.verifyPageBodyContainsString(pageBody,"Unikt ID");
+        common.verifyPageBodyContainsString(pageBody,"Detta unika ID är ett användarnamn för ditt eduID " +
+                "som du kan behöva ange för att identifiera ditt konto eller vid teknisk support. Det är en del av vad " +
+                "som kan hänvisas till som EPPN.");
+        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/span/strong", "Unikt ID: ");
+        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
+        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/div/button", "KOPIERA");
 
         //OrcID
         common.verifyPageBodyContainsString(pageBody,"Länka till ditt ORCID konto");
@@ -227,34 +200,29 @@ public class AdvancedSettings {
         //click on english
         common.selectEnglish();
 
-        common.verifyPageTitle("Advanced Settings | eduID");
+        Common.log.info("Verify Account page labels - English");
+
+        common.verifyPageTitle("Account | eduID");
 
         //Extract page body for validation
         pageBody = common.getPageBody();
 
+
         //English
         //Verify site location menu, beside Start link
-        common.verifySiteLocation("Advanced settings");
+        common.verifySiteLocation("Account");
 
-        common.verifyPageBodyContainsString(pageBody,"Enhance your eduID");
-        common.verifyPageBodyContainsString(pageBody,"Increase the security of your eduID or connect it to other services.");
+        common.verifyPageBodyContainsString(pageBody,"Account");
+        common.verifyPageBodyContainsString(pageBody,"Update your eduID account settings, change password or delete your eduID.");
 
-        //Security key
-        common.verifyPageBodyContainsString(pageBody,"Two-factor Authentication (2FA)");
-        common.verifyPageBodyContainsString(pageBody,"If possible add a security key as a second factor of authentication, " +
-                "beyond username and password, to prove you are the owner of your eduID. Examples are USB security keys or your device.");
-        common.verifyPageBodyContainsString(pageBody,"You can read more about security keys in the Help section: Improving the security level of eduID.");
-
-        //Verify internal link to help pages works
-        common.verifyXpathIsWorkingLink("//*[@id=\"register-security-key-container\"]/p[2]/a");
-
-        common.verifyPageBodyContainsString(pageBody,"Add a new security key:");
-        common.verifyStringById("security-webauthn-button", "EXTERNAL SECURITY KEY");
-        common.verifyPageBodyContainsString(pageBody,"E.g a USB Security Key you are using.");
-        if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
-            common.verifyStringById("security-webauthn-platform-button", "THIS DEVICE");
-            common.verifyPageBodyContainsString(pageBody,"The device you are currently using.");
-        }
+        //EPPN
+        common.verifyPageBodyContainsString(pageBody,"Unique ID");
+        common.verifyPageBodyContainsString(pageBody,"This identifier is a username for your eduID that " +
+                "you may need to provide when accessing other services or requesting support. It is part of what may be " +
+                "referred to as EPPN.");
+        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/span/strong", "Unique ID: ");
+        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
+        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/div/button", "COPY");
 
         //OrcID
         common.verifyPageBodyContainsString(pageBody,"ORCID account");
@@ -272,5 +240,37 @@ public class AdvancedSettings {
 
         //click on swedish
         common.selectSwedish();
+    }
+
+    private void selectLanguage() {
+        Common.log.info("Setting application language in settings to: " +testData.getLanguage());
+        //Click on change
+        //common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button").click();
+
+        //Change to Swedish
+        if(testData.getLanguage().equalsIgnoreCase("Svenska")){
+            //Verify button text, before change
+            common.verifyStringByXpath("//*[@id=\"personaldata-view-form\"]/fieldset/article/div/label[2]/span", "Svenska");
+
+            //Select new language - Swedish
+            common.click(common.findWebElementById("Svenska"));
+
+            //pressSaveButton();
+
+            common.timeoutSeconds(1);
+        }
+        //Change to English
+        else if(testData.getLanguage().equalsIgnoreCase("English")){
+            //Verify button text, before change
+            common.verifyStringByXpath("//*[@id=\"personaldata-view-form\"]/fieldset/article/div/label[1]/span", "English");
+
+            //Select new language - English
+            //common.click(common.findWebElementByXpath("//*[@id=\"personaldata-view-form\"]/fieldset[2]/div/label[1]/input"));
+            common.click(common.findWebElementById("English"));
+
+            //pressSaveButton();
+
+            common.timeoutSeconds(1);
+        }
     }
 }

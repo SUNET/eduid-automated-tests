@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
-public class TC_90 extends BeforeAndAfter {
+public class TC_92 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -47,75 +47,12 @@ public class TC_90 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
-    void verifySecurityKey() {
-        testData.setVerifySecurityKey(true);
-
-        securityKey.runSecurityKey();
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKey"} )
-    void verifySecurityKeyLogin() {
-        //Add nin cookie
-        common.addNinCookie();
-
-        //Enter username, password to verify security key first time
-        login.verifyPageTitle();
-        login.enterPassword();
-
-        //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
-
-        common.explicitWaitClickableElementId("mfa-security-key");
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
-    void loginMfaSecurityKey() {
-        //Set mfa method to be used to "security key" at login.
-        testData.setMfaMethod("securitykey");
-
-        //Login page for extra security select security key mfa method
-        loginExtraSecurity.runLoginExtraSecurity();
-        extraSecurity.selectMfaMethod();
-
-        Common.log.info("Log in with Security key");
-
-        common.timeoutSeconds(4);
-    }
-
-    @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
-    void selectUserRefIdp(){
-        //Select and submit user
-        common.explicitWaitClickableElementId("submitButton");
-        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
-
-        common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(8);
-    }
-
-    @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void verifySecurityKeyStatus() {
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
-
-        common.selectEnglish();
-
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIED");
-        common.selectSwedish();
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
     void logout(){
         logout.runLogout();
     }
 
-
     @Test( dependsOnMethods = {"logout"} )
     void navigateToFidusTestSkolverketDnp() {
-//        testData.setUsername("tBnmBXbE@dev.eduid.sunet.se");
-//        testData.setPassword("zfvs qtip dwn2");
-//        testData.setEppn("sital-jotof");
-
         common.navigateToUrl("https://fidustest.skolverket.se/DNP-staging/");
 
        //Wait for login button (with eID) at skolverket dnp page
@@ -172,13 +109,13 @@ public class TC_90 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
-    void validateSuccessfulLogin(){
-        //Wait for handeling of personal info link
-        common.explicitWaitVisibilityElement("//div[2]/div/div/p[5]/a");
+    void validateNonSuccessfulLogin(){
+        //Verify Status text
+        common.verifyStatusMessage("This multi-factor authentication (MFA) method is not allowed. Please choose a valid authentication method.");
 
-        common.verifyStringOnPage("Grattis!\n" +
-                "Du har nu lyckats logga in till testsidan.");
+        common.selectSwedish();
 
-        common.verifyStringOnPage(testData.getEppn() +"@dev.eduid.se");
+        //Verify Status text
+        common.verifyStatusMessage("Det är inte möjligt att använda detta alternativ för multifaktor-autenticeringen (MFA). Välj en giltig autenticeringsmetod.");
     }
 }

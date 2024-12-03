@@ -28,18 +28,9 @@ public class TC_28 extends BeforeAndAfter {
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
+    void account() { account.runAccount(); }
 
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
-    void advancedSettings() { advancedSettings.runAdvancedSettings(); }
-
-    @Test( dependsOnMethods = {"advancedSettings"} )
+    @Test( dependsOnMethods = {"account"} )
     void confirmIdentityFreja(){
         testData.setConfirmIdBy("freja");
 
@@ -49,7 +40,7 @@ public class TC_28 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
+        confirmedIdentity.runConfirmedIdentity();
 
         testData.setRegisterAccount(false);
     }
@@ -110,11 +101,13 @@ public class TC_28 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login4"} )
     void dashboard() {
+        testData.setIdentityConfirmed(false);
         dashBoard.runDashBoard();
     }
+
     @Test( dependsOnMethods = {"dashboard"} )
     void delete2() {
-        common.navigateToSettings();
+        common.navigateToAccount();
 
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();

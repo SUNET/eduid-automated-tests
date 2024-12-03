@@ -6,10 +6,12 @@ import se.sunet.eduid.utils.TestData;
 public class Identity {
     private final Common common;
     private final TestData testData;
+    private final Name name;
 
-    public Identity(Common common, TestData testData){
+    public Identity(Common common, TestData testData, Name name) {
         this.common = common;
         this.testData = testData;
+        this.name = name;
     }
 
     public void runIdentity(){
@@ -22,6 +24,8 @@ public class Identity {
             verifyLabelsSwedish();
             verifyLabelsEnglish();
         }
+
+        name.runName();
     }
 
     private void verifyPageTitle() {
@@ -44,9 +48,9 @@ public class Identity {
         common.verifySiteLocation("Identitet");
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"content\"]/section/h1", "Koppla din identitet till ditt eduID");
-        common.verifyStringByXpath("//*[@id=\"content\"]/section/div/p", "För att använda vissa tjänster behöver din identitet verifieras. " +
-                "Koppla din identitet till ditt eduID för att få mest användning av det.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/section/h1", "Identitet");
+        common.verifyStringByXpath("//*[@id=\"content\"]/section/div/p", "För att använda vissa" +
+                " tjänster behöver din identitet verifieras. Koppla din identitet till ditt eduID för att få mest användning av det.");
         common.verifyStringByXpath("//*[@id=\"content\"]/article/h2", "Välj din huvudsakliga identifieringsmetod");
         common.verifyStringByXpath("//*[@id=\"accordion__heading-swedish\"]/div/h3",
                 "Svenskt personnummer eller samordningsnummer");
@@ -97,13 +101,14 @@ public class Identity {
 
         //---- Letter ----
         //Button text - letter
-        common.verifyStringByXpath("//*[@id=\"accordion__heading-se-letter\"]/div/p", "För dig som har en svensk folkbokföringsadress");
+        common.verifyStringByXpath("//*[@id=\"accordion__heading-se-letter\"]/div/p",
+                "För dig som har en svensk folkbokföringsadress");
 
         common.verifyStringByXpath("//*[@id=\"accordion__heading-se-letter\"]/div/h3", "VIA POST");
 
         //Button text - letter - Fine text
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p", "Ett brev skickas till dig med en kod. Av säkerhetsskäl " +
-                "är koden giltig i två veckor.");
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p",
+                "Ett brev skickas till dig med en kod. Av säkerhetsskäl är koden giltig i två veckor.");
 
         //Verify button text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/button", "FORTSÄTT");
@@ -114,9 +119,11 @@ public class Identity {
         common.verifyStringByXpath("//*[@id=\"accordion__heading-eu\"]/div/p", "Med eIDAS elektronisk identifiering");
 
         //Fine text
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-eu\"]/p[1]", "Om du har ett elektroniskt ID från ett eIDAS-anslutet land kan du " +
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-eu\"]/p[1]",
+                "Om du har ett elektroniskt ID från ett eIDAS-anslutet land kan du " +
                 "använda det för att bekräfta din identitet i eduID.");
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-eu\"]/p[2]", "Knappen Fortsätt tar dig till en extern sida där du kan logga in " +
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-eu\"]/p[2]",
+                "Knappen Fortsätt tar dig till en extern sida där du kan logga in " +
                 "med ditt elektroniska ID för att koppla din identitet till eduID.");
 
         //Button text
@@ -124,7 +131,7 @@ public class Identity {
 
         //---- Freja without swedish personal identity number ----
         //Heading
-        common.verifyStringByXpath("//*[@id=\"accordion__heading-world\"]/div/h3", "Andra länder");
+        common.verifyStringByXpath("//*[@id=\"accordion__heading-world\"]/div/h3", "De flesta länder");
         common.verifyStringByXpath("//*[@id=\"accordion__heading-world\"]/div/p", "Med Freja eID identitetsverifiering");
 
         //Fine text
@@ -184,7 +191,7 @@ public class Identity {
         common.verifySiteLocation("Identity");
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"content\"]/section/h1", "Connect your identity to your eduID");
+        common.verifyStringByXpath("//*[@id=\"content\"]/section/h1", "Identity");
         common.verifyStringByXpath("//*[@id=\"content\"]/section/div/p", "Some services need to know your real life identity. Connect your " +
                 "identity to your eduID to get the most benefit from it.");
         common.verifyStringByXpath("//*[@id=\"content\"]/article/h2", "Choose your principal identification method");
@@ -193,7 +200,7 @@ public class Identity {
 
         //---- Bank ID ----
         //Button text - Bank ID
-        common.verifyStringByXpath("//*[@id=\"accordion__heading-se-bankID\"]/div/p", "For you able to use BankID");
+        common.verifyStringByXpath("//*[@id=\"accordion__heading-se-bankID\"]/div/p", "If you are able to use BankID");
 
         common.verifyStringByXpath("//*[@id=\"accordion__heading-se-bankID\"]/div/h3", "WITH A BANKID");
 
@@ -214,7 +221,7 @@ public class Identity {
         //---- Freja ----
         //Button text - Freja
         common.verifyStringByXpath("//*[@id=\"accordion__heading-se-freja\"]/div/p",
-                "For you able to create a Freja+ by using the app or visiting an authorised agent");
+                "If you are able to create a Freja+ by using the app or visiting an authorised agent");
 
         common.verifyStringByXpath("//*[@id=\"accordion__heading-se-freja\"]/div/h3", "WITH FREJA+");
 
@@ -230,7 +237,7 @@ public class Identity {
 
         //---- Letter ----
         //Button text - letter
-        common.verifyStringByXpath("//*[@id=\"accordion__heading-se-letter\"]/div/p", "For you officially registered at an address in Sweden");
+        common.verifyStringByXpath("//*[@id=\"accordion__heading-se-letter\"]/div/p", "If you are registered at your Swedish address");
 
         common.verifyStringByXpath("//*[@id=\"accordion__heading-se-letter\"]/div/h3", "BY POST");
 
@@ -248,9 +255,11 @@ public class Identity {
         common.verifyStringByXpath("//*[@id=\"accordion__heading-eu\"]/div/p", "With eIDAS electronic identification");
 
         //Fine text
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-eu\"]/p[1]", "If you have an electronic ID from a country connected to eIDAS, you " +
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-eu\"]/p[1]",
+                "If you have an electronic ID from a country connected to eIDAS, you " +
                 "can connect it to your eduID.");
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-eu\"]/p[2]", "The button below will take you to an external site where you log " +
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-eu\"]/p[2]",
+                "The button below will take you to an external site where you log " +
                 "in with your electronic ID to connect your identity to eduID.");
 
         //Button text
@@ -259,7 +268,7 @@ public class Identity {
 
         //---- Freja without swedish personal identity number ----
         //Heading
-        common.verifyStringByXpath("//*[@id=\"accordion__heading-world\"]/div/h3", "Other countries");
+        common.verifyStringByXpath("//*[@id=\"accordion__heading-world\"]/div/h3", "Most countries");
         common.verifyStringByXpath("//*[@id=\"accordion__heading-world\"]/div/p",
                 "With Freja eID identity verification");
 
@@ -305,8 +314,8 @@ public class Identity {
         common.verifyStringOnPage("Find a local authorised agent, show them a valid ID together with the QR-code and " +
                 "they will be able to verify your identity");
         common.verifyStringOnPage("Tip: Use the app to find your nearest agent");
-        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[5]", "Freja+ is now ready to be used with your eduID, proceed by " +
-                "clicking the button below");
+        common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[5]", "Freja+ is now " +
+                "ready to be used with your eduID, proceed by clicking the button below");
 
         common.verifyStringOnPage("What is Freja+?");
 

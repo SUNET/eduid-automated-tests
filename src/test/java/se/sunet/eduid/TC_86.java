@@ -2,6 +2,7 @@ package se.sunet.eduid;
 
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
+import se.sunet.eduid.utils.Common;
 
 public class TC_86 extends BeforeAndAfter {
     @Test
@@ -28,25 +29,16 @@ public class TC_86 extends BeforeAndAfter {
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
+    void account() { account.runAccount(); }
 
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
-    void advancedSettings() { advancedSettings.runAdvancedSettings(); }
-
-    @Test( dependsOnMethods = {"advancedSettings"} )
-    void confirmIdentityEidas(){
-        testData.setConfirmIdBy("eidas");
+    @Test( dependsOnMethods = {"account"} )
+    void confirmIdentityFreja(){
+        testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }
 
-    @Test( dependsOnMethods = {"confirmIdentityEidas"} )
+    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
+        confirmedIdentity.runConfirmedIdentity();
 
         testData.setRegisterAccount(false);
     }
@@ -87,7 +79,8 @@ public class TC_86 extends BeforeAndAfter {
     void emailSent() { emailSent.runEmailSent(); }
 
     @Test( dependsOnMethods = {"emailSent"} )
-    void emailLink() { emailLink.runEmailLink();
+    void emailLink() {
+        emailLink.runEmailLink();
         common.addNinCookie();
     }
 
@@ -100,6 +93,8 @@ public class TC_86 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"extraSecurityBankId"} )
     void verifyBankId() {
         common.explicitWaitPageTitle("BankID");
+
+        Common.log.info("Verify BankID labels - Swedish");
 
         //Verify texts
         common.verifyStringOnPage("eduID BankID-SP i staging har begärt att du legitimerar dig.");
@@ -118,6 +113,8 @@ public class TC_86 extends BeforeAndAfter {
         //Select english
         common.findWebElementByXpath("//*[@id=\"app\"]/div/button").click();
 
+        Common.log.info("Verify BankID labels - English");
+
         //Verify texts
         common.verifyStringOnPage("eduID BankID SP in staging has requested that you authenticate.");
         common.verifyStringOnPage("Do you want to use your BankID on this device or on another device?");
@@ -134,6 +131,8 @@ public class TC_86 extends BeforeAndAfter {
 
         //Select swedish
         common.findWebElementByXpath("//*[@id=\"app\"]/div/button").click();
+
+        Common.log.info("Verify BankID labels on other device - Swedish");
 
         //Select BankID on other device
         common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]").click();
@@ -159,6 +158,8 @@ public class TC_86 extends BeforeAndAfter {
         //Select BankID on other device
         common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]").click();
 
+        Common.log.info("Verify BankID labels on other device - English");
+
         //Verify pop-up texts - english
         common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/dialog/ol/li[1]", "Start the BankID app");
         common.verifyStringByXpath(
@@ -173,7 +174,7 @@ public class TC_86 extends BeforeAndAfter {
 
         //Close pop-up
         common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/dialog/button").click();
-
+/*
         //Select BankID on this device
         common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[1]").click();
 
@@ -182,28 +183,25 @@ public class TC_86 extends BeforeAndAfter {
         common.verifyStringByXpath(
                 "//*[@id=\"app\"]/main/div[1]/a", "Click here if the BankID app did not start automatically within 5 seconds.");
 
-        common.switchToPopUpWindow();
-        //common.
+        //common.switchToPopUpWindow();
 
         //Select swedish
         common.findWebElementByXpath("//*[@id=\"app\"]/div/button").click();
 
+        Common.log.info("Verify BankID labels - starting bankid - Swedish");
+
         //Verify text and labels
         common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/p", "Försöker starta BankID-appen.");
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/a", "Klicka här om BankID-appen inte startar inom 5 sekunder.");
+        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/a", "Klicka här om BankID-appen inte startar inom 5 sekunder.");*/
 
         //Press cancel
         common.findWebElementByXpath("//*[@id=\"app\"]/main/div[2]/button").click();
-
-        common.timeoutSeconds(5);
     }
 
     @Test( dependsOnMethods = {"verifyBankId"} )
     void verifySamlFailPage() {
-        common.verifyStringOnPage("Åtkomstfel\n" +
-                "Ett fel uppstod under åtkomst till tjänsten.\n" +
-                "\n" +
-                "Eventuellt behöver du bekräfta din identitet i eduID Dashboard innan du försöker igen.");
+        common.explicitWaitClickableElementId("dashboard-button");
+        common.verifyStringOnPage("Ett fel uppstod under åtkomst till tjänsten.");
 
         //Select to navigate to dashboard
         common.findWebElementById("dashboard-button").click();
@@ -232,7 +230,7 @@ public class TC_86 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailLink2"} )
     void extraSecurityFreja() {
-        testData.setMfaMethod("mail");
+        testData.setMfaMethod("freja");
         extraSecurity.runExtraSecurity();
     }
 

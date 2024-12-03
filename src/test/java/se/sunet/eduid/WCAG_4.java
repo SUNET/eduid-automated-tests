@@ -23,7 +23,7 @@ public class WCAG_4 extends BeforeAndAfter
         login.runLogin();
 
         common.timeoutSeconds(1);
-        common.navigateToSettings();
+        common.navigateToAccount();
         common.timeoutSeconds(1);
         accessibilityBase.checkAccessibilityViolations();
     }

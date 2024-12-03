@@ -3,62 +3,66 @@ package se.sunet.eduid.dashboard;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
-public class PersonalInfo {
+public class Name {
     private final Common common;
     private final TestData testData;
     String pageBody;
+    String changeButton = "//*[@id=\"content\"]/article[2]/div[1]/button";
 
-    public PersonalInfo(Common common, TestData testData){
+    public Name(Common common, TestData testData){
         this.common = common;
         this.testData = testData;
     }
 
-    public void runPersonalInfo(){
-        common.timeoutMilliSeconds(4500);
-        common.navigateToSettings();
+    public void runName(){
+        verifyAndUpdateName();
 
-        //If new account
-        if(testData.isRegisterAccount()) {
-            //Click add data
-            //common.timeoutMilliSeconds(500);
-            //common.click(common.findWebElementById("add-personal-data"));
-//TODO add test case when personal data is changed...
-//            updatePersonalInfo();
-        }
-        else
-            verifyAndUpdatePersonalInfo();
-
-        //TODO change language
-        if(testData.getLanguage() != null)
-            selectLanguage();
         if(testData.getLanguage() == null || testData.getLanguage().equals("Svenska"))
             verifyLabelsSwedish();
         else
             verifyLabelsEnglish();
     }
 
-    private void verifyAndUpdatePersonalInfo() {
+    private void verifyAndUpdateName() {
         // Old account, If given name shall be updated else verify the default value
         if(testData.getGivenName().equalsIgnoreCase(common.findWebElementById("first name").getText()) &&
                 testData.getSurName().equalsIgnoreCase(common.findWebElementById("last name").getText())
         || testData.isIdentityConfirmed()) {
 
             //Verify current names
-            common.verifyStringById("first name", testData.getGivenName());
-            common.verifyStringById("last name", testData.getSurName());
+            if(testData.getConfirmIdBy() != null && testData.getConfirmIdBy().equalsIgnoreCase("mail")){
+                common.verifyStringById("first name", "Magic Cookie");
+                common.verifyStringById("last name", "Testsson");
+                common.verifyStringById("display name", "Cookie Testsson");
 
-            if(testData.isIdentityConfirmed()) {
-                common.verifyStringById("display name", testData.getDisplayName());
+                testData.setDisplayName("Cookie Testsson");
+            }
+            else if(testData.getConfirmIdBy() != null && testData.getConfirmIdBy().equalsIgnoreCase("eidas")){
+                common.verifyStringById("first name", "Bernt Olof");
+                common.verifyStringById("last name", "Larsson");
+                common.verifyStringById("display name", "Bernt Olof Larsson");
+
+                //testData.setDisplayName("Bernt Olof Larsson");
+            }
+            else{
+                common.verifyStringById("first name", testData.getGivenName());
+                common.verifyStringById("last name", testData.getSurName());
+
+                if(testData.isIdentityConfirmed()) {
+                    common.verifyStringById("display name", testData.getDisplayName());
+                }
             }
         }
         else{
             //Click on change
-            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button"));
+            common.click(common.findWebElementByXpath(changeButton));
             updatePersonalInfo();
         }
     }
 
     private void updatePersonalInfo(){
+        Common.log.info("Update of name to: " + testData.getGivenName() + " " + testData.getSurName());
+
         //Verify placeholder
         common.verifyPlaceholder("Förnamn", "given_name");
         common.verifyPlaceholder("Efternamn", "surname");
@@ -74,7 +78,7 @@ public class PersonalInfo {
         if(testData.isRegisterAccount())
             common.click(common.findWebElementById("add-personal-data"));
         else
-            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button"));
+            common.click(common.findWebElementByXpath(changeButton));
 
         //Verify placeholder
         common.verifyPlaceholder("First name", "given_name");
@@ -91,7 +95,7 @@ public class PersonalInfo {
         if(testData.isRegisterAccount())
             common.click(common.findWebElementById("add-personal-data"));
         else
-            common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button"));
+            common.click(common.findWebElementByXpath(changeButton));
 
         //Note! for some unknown reason I need to clear and fill in givenname twice
         common.timeoutMilliSeconds(500);
@@ -126,37 +130,7 @@ public class PersonalInfo {
         }
 
         pressSaveButton();
-    }
-
-    private void selectLanguage() {
-        //Click on change
-        //common.findWebElementByXpath("//*[@id=\"content\"]/article[1]/div[1]/button").click();
-
-        //Change to Swedish
-        if(testData.getLanguage().equalsIgnoreCase("Svenska")){
-            //Verify button text, before change
-            common.verifyStringByXpath("//*[@id=\"personaldata-view-form\"]/fieldset/article/div/label[2]/span", "Svenska");
-
-            //Select new language - Swedish
-            common.click(common.findWebElementById("Svenska"));
-
-            //pressSaveButton();
-
-            common.timeoutSeconds(1);
-        }
-        //Change to English
-        else if(testData.getLanguage().equalsIgnoreCase("English")){
-            //Verify button text, before change
-            common.verifyStringByXpath("//*[@id=\"personaldata-view-form\"]/fieldset/article/div/label[1]/span", "English");
-
-            //Select new language - English
-            //common.click(common.findWebElementByXpath("//*[@id=\"personaldata-view-form\"]/fieldset[2]/div/label[1]/input"));
-            common.click(common.findWebElementById("English"));
-
-            //pressSaveButton();
-
-            common.timeoutSeconds(1);
-        }
+        Common.log.info("Pressed save for the updated name");
     }
 
     private void pressSaveButton(){
@@ -169,14 +143,16 @@ public class PersonalInfo {
     }
 
     private void verifyLabelsSwedish() {
+        Common.log.info("Verify name labels in Swedish");
+
         //Page title
-        common.explicitWaitPageTitle("Inställningar | eduID");
+        common.explicitWaitPageTitle("Identitet | eduID");
 
         //Extract page body for validation
         pageBody = common.getPageBody();
 
         //Verify site location menu, beside Start link
-        common.verifySiteLocation("Inställningar");
+        common.verifySiteLocation("Identitet");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody,  "Namn & Visningsnamn");
@@ -193,19 +169,21 @@ public class PersonalInfo {
 
         //Display name
         if(testData.isIdentityConfirmed()) {
-            common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/div[2]/div[3]/span/strong", "Visningsnamn");
+            common.verifyStringByXpath("//*[@id=\"content\"]/article[2]/div[2]/div[3]/span/strong", "Visningsnamn");
         }
     }
 
     private void verifyLabelsEnglish() {
+        Common.log.info("Verify name labels in English");
+
         //Page title
-        common.explicitWaitPageTitle("Settings | eduID");
+        common.explicitWaitPageTitle("Identity | eduID");
 
         //Extract page body for validation
         pageBody = common.getPageBody();
 
         //Verify site location menu, beside Start link
-        common.verifySiteLocation("Settings");
+        common.verifySiteLocation("Identity");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Names & Display Name");
@@ -221,7 +199,7 @@ public class PersonalInfo {
 
         //Display name
         if(testData.isIdentityConfirmed()) {
-            common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/div[2]/div[3]/span/strong", "Display name");
+            common.verifyStringByXpath("//*[@id=\"content\"]/article[2]/div[2]/div[3]/span/strong", "Display name");
         }
     }
 }

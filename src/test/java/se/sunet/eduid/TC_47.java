@@ -32,28 +32,21 @@ public class TC_47 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
-
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
     void confirmIdentityFreja(){
         testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
+        confirmedIdentity.runConfirmedIdentity();
 
         testData.setRegisterAccount(false);
     }
 
     @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void deleteIdentityConfirmation() {
+        common.selectEnglish();
+
         //Click remove identity button
         common.findWebElementById("remove-webauthn").click();
 

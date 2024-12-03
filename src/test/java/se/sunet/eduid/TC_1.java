@@ -14,9 +14,6 @@ public class TC_1 extends BeforeAndAfter {
     void dashboard() { dashBoard.runDashBoard(); }
 
     @Test( dependsOnMethods = {"dashboard"} )
-    void personalInfo() { personalInfo.runPersonalInfo(); }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
     void emailAddresses() { emailAddresses.runEmailAddresses(); }
 
     @Test( dependsOnMethods = {"emailAddresses"} )
@@ -26,8 +23,8 @@ public class TC_1 extends BeforeAndAfter {
     void identity() { identity.runIdentity(); }
 
     @Test( dependsOnMethods = {"identity"} )
-    void advancedSettings() { advancedSettings.runAdvancedSettings(); }
+    void account() { account.runAccount(); }
 
-    @Test( dependsOnMethods = {"advancedSettings"} )
+    @Test( dependsOnMethods = {"account"} )
     void logout() { logout.runLogout(); }
 }

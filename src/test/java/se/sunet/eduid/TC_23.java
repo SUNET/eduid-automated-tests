@@ -23,6 +23,7 @@ public class TC_23 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailSent"} )
     void emailLink() { emailLink.runEmailLink(); }
+
     @Test( dependsOnMethods = {"emailLink"} )
     void setRecommendedPassword() { password.setPassword(); }
 

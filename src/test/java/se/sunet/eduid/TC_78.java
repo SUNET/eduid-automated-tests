@@ -29,15 +29,6 @@ public class TC_78 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
-
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
     void confirmIdentityEidas(){
         testData.setConfirmIdBy("eidas");
         //confirmIdentity.runConfirmIdentity();
@@ -48,7 +39,7 @@ public class TC_78 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmIdentityEidas"} )
     void confirmedIdentityEidas() {
-        confirmedIdentity.runConfirmIdentity();
+        confirmedIdentity.runConfirmedIdentity();
 
         testData.setRegisterAccount(false);
     }
@@ -81,7 +72,7 @@ public class TC_78 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void confirmedIdentityFreja() {
         testData.setConfirmIdBy("freja");
-        confirmedIdentity.runConfirmIdentity();
+        confirmedIdentity.runConfirmedIdentity();
     }
 
     //Delete the account, so it will be removed after 2 weeks by script

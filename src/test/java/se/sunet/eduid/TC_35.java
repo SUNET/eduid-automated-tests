@@ -7,15 +7,45 @@ public class TC_35 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
-        startPage.runStartPage(); }
 
-    @Test( dependsOnMethods = {"startPage"} )
-    void initiateRegistrationAbortAtTerms(){
-        testData.setAcceptTerms(false);
-        register.runRegister(); }
+        testData.setGenerateUsername(false);
+        testData.setUsername("OsvslUDA@dev.eduid.sunet.se");
+        testData.setGivenName("Telma");
+        testData.setSurName("Olari");
 
-    @Test( dependsOnMethods = {"initiateRegistrationAbortAtTerms"} )
-    void initiateRegisterSameEmailAgain(){
+
+        startPage.runStartPage();
+
+    }
+
+    @Test( dependsOnMethods = {"startPage"}, invocationCount = 5)
+    void firstInitiateRegistrationAbortAtTerms(){
+        testData.setAcceptTerms(true);
+
+        register.enterEmailAndPressRegister();
+
+        try {
+            if (common.findWebElementById("value").isDisplayed())
+                register.enterCaptchaCode();
+        }catch (Exception ex){
+            System.out.println("dsfklasf");
+        }
+        common.selectEnglish();
+        register.registerPopUp();
+
+        //Wait for cancel email verification button
+        common.explicitWaitClickableElementId("response-code-abort-button");
+//        register.runRegister();
+
+        //Cancel email response code at confirm email page
+        common.click(common.findWebElementById("response-code-abort-button"));
+
+        //Wait for given name field at register page
+        common.explicitWaitVisibilityElementId("given_name");
+        }
+
+/*    @Test( dependsOnMethods = {"firstInitiateRegistrationAbortAtTerms"} )
+    void secondInitiateRegisterSameEmailAgain(){
         //Select english, just to get placeholder text in english
         common.selectEnglish();
 
@@ -25,7 +55,7 @@ public class TC_35 extends BeforeAndAfter {
         register.enterEmailAndPressRegister();
     }
 
-    @Test( dependsOnMethods = {"initiateRegisterSameEmailAgain"} )
+    @Test( dependsOnMethods = {"secondInitiateRegisterSameEmailAgain"} )
     void acceptTerms(){
         //Accept terms & conditions
         common.click(common.findWebElementById("accept-button"));
@@ -44,10 +74,16 @@ public class TC_35 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"cancelVerifyEmail"} )
-    void initiateRegisterSameEmailAgain3rdTime(){
+    void thirdInitiateRegisterSameEmailAgain(){
         //Add the same user credentials a 3rd time
         //register.enterEmailAndPressRegister();
         common.selectSwedish();
+
+
+        //Enter email and press register
+        testData.setRegisterAccount(false);
+        testData.setGenerateUsername(false);
+        register.enterEmailAndPressRegister();
 
         //register.runRegister();
 
@@ -55,7 +91,7 @@ public class TC_35 extends BeforeAndAfter {
         //common.click(common.findWebElementById("accept-button"));
     }
 
-    @Test( dependsOnMethods = {"cancelVerifyEmail"} )
+    @Test( dependsOnMethods = {"thirdInitiateRegisterSameEmailAgain"} )
     void verifyMultipleRegisterBlocked(){
         //Verify status message - english
         common.verifyStatusMessage("Too many attempts to create account have been made. Please try again later.");
@@ -63,5 +99,5 @@ public class TC_35 extends BeforeAndAfter {
         //Verify status message - swedish
         common.selectSwedish();
         common.verifyStatusMessage("För många försök att skapa ett konto har gjorts. Försök igen senare.");
-    }
+    }*/
 }

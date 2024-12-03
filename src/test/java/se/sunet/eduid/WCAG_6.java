@@ -23,7 +23,7 @@ public class WCAG_6 extends BeforeAndAfter
         login.runLogin();
 
         common.timeoutSeconds(1);
-        common.navigateToAdvancedSettings();
+        common.navigateToSecurity();
         common.timeoutSeconds(1);
         accessibilityBase.checkAccessibilityViolations();
     }

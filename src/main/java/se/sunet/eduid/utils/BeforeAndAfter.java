@@ -3,33 +3,33 @@ package se.sunet.eduid.utils;
 import com.assertthat.selenium_shutterbug.core.Capture;
 import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import org.openqa.selenium.WebDriver;
-import org.testng.*;
+import org.testng.ITestContext;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 import se.sunet.eduid.dashboard.*;
 import se.sunet.eduid.generic.*;
 import se.sunet.eduid.registration.ConfirmEmailAddress;
-//import se.sunet.eduid.registration.ConfirmPassword;
 import se.sunet.eduid.registration.ConfirmedNewAccount;
 import se.sunet.eduid.registration.Register;
 import se.sunet.eduid.resetPassword.*;
 import se.sunet.eduid.supportTool.RegisteredData;
 import se.sunet.eduid.swamid.Swamid;
 import se.sunet.eduid.swamid.SwamidData;
+import se.sunet.eduid.wcag.AccessibilityBase;
+
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-//import com.browserstack.local.Local;
-import se.sunet.eduid.wcag.AccessibilityBase;
 
 public class BeforeAndAfter {
     public StartPage startPage;
     public Login login;
     public DashBoard dashBoard;
-    public PersonalInfo personalInfo;
+    public Name name;
     public EmailAddresses emailAddresses;
     public PhoneNumber phoneNumber;
-    public AdvancedSettings advancedSettings;
+    public Account account;
     public Identity identity;
     public Logout logout;
     public Common common;
@@ -76,11 +76,11 @@ public class BeforeAndAfter {
 
         startPage = new StartPage(common, testData);
         login = new Login(common, testData);
-        personalInfo = new PersonalInfo(common, testData);
+        name = new Name(common, testData);
         emailAddresses = new EmailAddresses(common, testData);
         phoneNumber = new PhoneNumber(common, testData);
-        advancedSettings = new AdvancedSettings(common, testData);
-        identity = new Identity(common, testData);
+        account = new Account(common, testData);
+        identity = new Identity(common, testData, name);
         requestNewPassword = new RequestNewPassword(common, testData);
         emailSent = new EmailSent(common, testData);
         emailLink = new EmailLink(common, testData);
@@ -93,7 +93,7 @@ public class BeforeAndAfter {
         confirmEmailAddress = new ConfirmEmailAddress(common, testData);
         register = new Register(common, testData);
         confirmIdentity = new ConfirmIdentity(common, testData, identity);
-        confirmedIdentity = new ConfirmedIdentity(common, testData);
+        confirmedIdentity = new ConfirmedIdentity(common, testData, name);
         deleteAccount = new DeleteAccount(common, testData);
         confirmedNewAccount = new ConfirmedNewAccount(common, testData);
         registeredData = new RegisteredData(common, testData);
@@ -124,18 +124,21 @@ public class BeforeAndAfter {
         Common.log.info(testData.getTestCase() +" - "+testData.getTestMethod());
     }
 
-//    @AfterTest
+    @AfterTest
     public void quitBrowser() throws IOException {
-        try {
-            webdriver.quit();
-            Common.log.info("End of: " +testData.getTestCase());
-        } catch (Exception ex) {
-            Common.log.info("Failed to quit the browser normally");
-        }
-        finally {
-            webdriver.quit();
-            Common.log.info("End of: " +testData.getTestCase() +" - quit by finally!");
-        }
+//        if(testData.getTestSuite().equalsIgnoreCase("regression")) {
+            try {
+                webdriver.quit();
+                Common.log.info("End of: " + testData.getTestCase());
+            } catch (Exception ex) {
+                Common.log.info("Failed to quit the browser normally");
+            } finally {
+                webdriver.quit();
+                Common.log.info("End of: " + testData.getTestCase() + " - quit by finally!");
+            }
+//        }
+ //       else
+   //         Common.log.info("Browser not quit due to dev execution");
     }
 
     @AfterMethod(alwaysRun = true)

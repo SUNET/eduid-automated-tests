@@ -27,13 +27,6 @@ public class Mobile_1 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"dashboard"} )
-    void personalInfo() {
-        common.navigateToSettings();
-        common.timeoutSeconds(2);
-        common.takeFullPageScreenshot("personalInfo");
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
     void identity() {
         common.navigateToIdentity();
         common.timeoutSeconds(2);
@@ -41,12 +34,12 @@ public class Mobile_1 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"identity"} )
-    void advancedSettings() {
-        common.navigateToAdvancedSettings();
+    void account() {
+        common.navigateToSecurity();
         common.timeoutSeconds(2);
-        common.takeFullPageScreenshot("advancedSettings");
+        common.takeFullPageScreenshot("account");
     }
 
-    @Test( dependsOnMethods = {"advancedSettings"} )
+    @Test( dependsOnMethods = {"account"} )
     void logout() { logout.runLogout(); }
 }

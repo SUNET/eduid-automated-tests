@@ -3,9 +3,21 @@ package se.sunet.eduid.generic;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
+import java.util.Random;
+
 public class StartPage {
     private final Common common;
     private final TestData testData;
+
+    //Buttons and text at page
+    String buttonSign = "sign-up-button";
+    String buttonLogin = "login-button";
+    String buttonLoginCorner = "login";
+    String h1EduEasierAndSafer = "//h1";
+    String pCreateEduAndConnect = "//p[.//strong]";
+    String pEduEasierForYou = "/html/body/div/main/div/section/div/div[1]/p[2]";
+    String pYouCanReadMore = "//p[.//a[@target='_blank']]";
+    String linkSunet = "//a[@target='_blank']";
 
     public StartPage(Common common, TestData testData){
         this.common = common;
@@ -34,8 +46,19 @@ public class StartPage {
 
     private void signIn(){
         //Click on sign in link
-        common.explicitWaitClickableElementId("login-button");
-        common.findWebElementById("login-button").click();
+        common.explicitWaitClickableElementId(buttonLogin);
+
+        //Select by random which log in button to press
+        Random random = new Random();
+        int rand = random.nextInt(2);
+        if(rand==0) {
+            common.findWebElementById(buttonLogin).click();
+            Common.log.info("Selected login button in center of page");
+        }
+        else {
+            common.findWebElementById(buttonLoginCorner).click();
+            Common.log.info("Selected login button in upper right corner");
+        }
 
         //Wait for log in page
         common.explicitWaitPageTitle("Logga in | eduID");
@@ -43,38 +66,38 @@ public class StartPage {
 
     private void registerAccount(){
         //Click on sign up button
-        common.click(common.findWebElementById("sign-up-button"));
+        common.click(common.findWebElementById(buttonSign));
     }
 
     private void verifyLabelsSwedish(){
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/h1",
+        common.verifyStringByXpath(h1EduEasierAndSafer,
                 "eduID är enklare och säkrare inloggning.");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[1]/p[1]/strong",
+        common.verifyStringByXpath(pCreateEduAndConnect,
                 "Skapa ett eduID och koppla det till din identitet för att kunna " +
                 "komma åt flera olika tjänster och organisationer inom högskolan.");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[1]/p[2]",
+        common.verifyStringByXpath(pEduEasierForYou,
                 "eduID gör det enklare för dig eftersom du bara behöver komma ihåg " +
                 "ett lösenord och säkrare för skolorna eftersom det är kopplat till en riktig individ.");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[1]/p[3]",
+        common.verifyStringByXpath(pYouCanReadMore,
                 "Du kan läsa mer om eduID på Sunet");
 
         //Verify link to Sunet page works
-        common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/div[1]/p[3]/a");
+        common.verifyXpathIsWorkingLink(linkSunet);
     }
 
     private void verifyLabelsEnglish(){
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/h1",
+        common.verifyStringByXpath(h1EduEasierAndSafer,
                 "eduID is easier and safer login.");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[1]/p[1]/strong",
+        common.verifyStringByXpath(pCreateEduAndConnect,
                 "Create an eduID and connect it to your identity to gain access to " +
                 "services and organisations related to higher education.");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[1]/p[2]",
+        common.verifyStringByXpath(pEduEasierForYou,
                 "eduID is easier for you because you only have to remember one " +
                 "password and safer for the Universities becasue it is connecetd to a real individual.");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[1]/p[3]",
+        common.verifyStringByXpath(pYouCanReadMore,
                 "You can read more about eduID at Sunet");
 
         //Verify link to Sunet page works
-        common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/div[1]/p[3]/a");
+        common.verifyXpathIsWorkingLink(linkSunet);
     }
 }

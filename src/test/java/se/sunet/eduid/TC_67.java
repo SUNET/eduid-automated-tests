@@ -56,7 +56,6 @@ public class TC_67 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"pressLogin"} )
     void dashboard2() {
         //Setting Account verified to false to check the correct account verification text at dashboard.
-        testData.setAccountVerified(false);
         testData.setDisplayName("Rutger Jönåker");
         testData.setEppn("jusof-vosuh");
 

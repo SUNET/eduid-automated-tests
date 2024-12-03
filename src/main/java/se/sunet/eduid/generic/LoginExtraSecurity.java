@@ -1,6 +1,5 @@
 package se.sunet.eduid.generic;
 
-import se.sunet.eduid.resetPassword.ExtraSecurity;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -34,7 +33,7 @@ public class LoginExtraSecurity {
         String pageBody = common.getPageBody();
 
         //Swedish
-        common.verifyPageBodyContainsString(pageBody, "Logga in: Extra säkerhet");
+        common.verifyPageBodyContainsString(pageBody, "Logga in: Säkerhet");
         common.verifyPageBodyContainsString(pageBody,"Autentisera dig själv med ytterligare en metod för " +
                 "att vara säker på att bara du har tillgång till ditt eduID.");
 
@@ -61,7 +60,7 @@ public class LoginExtraSecurity {
         //Extract page body for validation
         pageBody = common.getPageBody();
 
-        common.verifyPageBodyContainsString(pageBody, "Log in: Extra security");
+        common.verifyPageBodyContainsString(pageBody, "Log in: Security");
         common.verifyPageBodyContainsString(pageBody,"Choose a second method to authenticate yourself, ensuring only you can access your eduID.");
         if(testData.isIdentityConfirmed()) {
             common.verifyPageBodyContainsString(pageBody, "If you are unable to use the security key, " +

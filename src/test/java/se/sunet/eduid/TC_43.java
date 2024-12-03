@@ -32,15 +32,6 @@ public class TC_43 extends BeforeAndAfter {
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
-
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
     void confirmIdentityEidas(){
         testData.setConfirmIdBy("eidas");
         confirmIdentity.runConfirmIdentity();
@@ -50,7 +41,7 @@ public class TC_43 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmIdentityEidas"} )
     void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
+        confirmedIdentity.runConfirmedIdentity();
 
         testData.setRegisterAccount(false);
         common.selectSwedish();

@@ -15,7 +15,7 @@ public class EmailAddresses {
     }
 
     public void runEmailAddresses(){
-        common.navigateToSettings();
+        common.navigateToAccount();
         verifyPageTitle();
         if(testData.isRemoveNewEmail1())
             removeEmail();
@@ -25,7 +25,7 @@ public class EmailAddresses {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Inställningar | eduID");
+        common.explicitWaitPageTitle("Account | eduID");
     }
 
     private void removeEmail() {

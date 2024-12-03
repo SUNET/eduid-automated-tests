@@ -1,6 +1,5 @@
 package se.sunet.eduid.dashboard;
 
-import se.sunet.eduid.generic.Login;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -16,7 +15,7 @@ public class DeleteAccount {
     }
 
     public void runDeleteAccount(){
-        common.navigateToSettings();
+        common.navigateToAccount();
 
         //TODO temp fix to get swedish language//*[@id="language-selector"]/span
         if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))

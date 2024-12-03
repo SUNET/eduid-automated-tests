@@ -89,8 +89,7 @@ public class ConfirmEmailAddress {
 
                 //Wait the copy password on confirm password page
                 else {
-                    common.explicitWaitClickableElementId("clipboard");
-                    //common.explicitWaitClickableElementId("finished-button");
+                    common.explicitWaitClickableElement("//*[@id=\"eduid-splash-and-children\"]/div/button");
                 }
             }
         }

@@ -49,7 +49,7 @@ public class PhoneNumber {
         Common.log.info("Add new phone number");
 
         //Press settings
-        common.navigateToSettings();
+        common.navigateToAccount();
 
         //Click add phone number button
         common.click(common.findWebElementById("phone-number-add-more-button"));

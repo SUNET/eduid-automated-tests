@@ -20,12 +20,12 @@ public class TC_4 extends BeforeAndAfter {
    }
 
     @Test( dependsOnMethods = {"dashboard"} )
-    void personalInfo() {
+    void setLanguageEnglish() {
         testData.setLanguage("English");
-        personalInfo.runPersonalInfo();
+        account.runAccount();
     }
 
-    @Test( dependsOnMethods = {"personalInfo"} )
+    @Test( dependsOnMethods = {"setLanguageEnglish"} )
     void logout() {
         logout.runLogout();
     }

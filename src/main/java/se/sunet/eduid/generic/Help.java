@@ -1,6 +1,5 @@
 package se.sunet.eduid.generic;
 
-import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
 
 public class Help {
@@ -54,6 +53,7 @@ public class Help {
         useEduIdSwe();
         securityEduIdSwe();
         verificationEduIdSwe();
+        loaEduIdSwe();
         orcidEduIdSwe();
         privacyEduIdSwe();
         aboutSunetSwe();
@@ -77,6 +77,7 @@ public class Help {
         useEduIdEng();
         securityEduIdEng();
         verificationEduIdEng();
+        loaEduIdEng();
         orcidEduIdEng();
         privacyEduIdEng();
         aboutSunetEng();
@@ -293,16 +294,7 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Verifiering av identitet");
 
         //Heading - text
-        common.verifyPageBodyContainsString(pageBody, "Tillitsnivåer och verifieringsmetoder för olika användargrupper");
-
-        //Heading
-        common.verifyPageBodyContainsString(pageBody, "Vad är tillitsnivåer?");
-
-        //Text
-        common.verifyPageBodyContainsString(pageBody, "Tjänsteleverantörer behöver förlita sig på att organisationer " +
-                "autentiserar sina användare enligt vissa tillitsnivåer (t.ex. AL1-3), beroende på vilken slags " +
-                "information som tillhandahålls. Nivåerna varierar från obekräftade, till bekräftade till verifierade " +
-                "användare som även använder MFA vid inloggning till systemet.");
+        common.verifyPageBodyContainsString(pageBody, "Verifieringsmetoder för olika användargrupper");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Vilka verifieringsmetoder finns för eduID?");
@@ -311,6 +303,10 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Tjänsten utvecklas löpande för att bäst kunna möta våra användares " +
                 "olika behov. För närvarande stöds verifieringsmetoderna nedan, beroende av din situation som t.ex. " +
                 "efterfrågad tillitsnivå, nationalitet och boplats.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Obs: du kan ta bort en verifierad identitet som är" +
+                " kopplad till ditt eduID bland inställningarna för Identitet.");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Om du har svenskt personnummer eller samordningsnummer, kan det verifieras med:");
@@ -470,6 +466,53 @@ public class Help {
         //Text
         common.verifyPageBodyContainsString(pageBody, "Obs: innehavare av svenskt person- eller samordningsnummer eller " +
                 "EU-medborgare uppmanas att istället använda sig av metoderna som stöds därav.");
+    }
+
+    private void loaEduIdSwe(){
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Tillitsnivåer");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "AL, LOA mm.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Vad är tillitsnivåer?");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Tjänsteleverantörer behöver förlita sig på att " +
+                "organisationer autentiserar sina användare enligt vissa tillitsnivåer som sätts av relevanta myndigheter, " +
+                "beroende av vilken slags information som tillhandahålls. Nivåerna varierar från obekräftade, till " +
+                "bekräftade till verifierade användare som även använder ytterligare autentisering vid inloggning till systemet.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "På vilken nivå är ditt eduID?");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Under inloggade startsidan visas en statusöversikt av ditt eduID.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Bekräftat konto: när du har skapat ett eduID (med " +
+                "bekräftad epostadress och godkänd CAPTCHA) vilket i allmänhet motsvarar AL1.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Verifierad identitet: eduID-kontot når i allmänhet " +
+                "AL2, vilket är en tillräcklig nivå för många lärosäten och t.ex. Ladok.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Ökad säkerhet: är tillagd i form av multifaktorautentisering.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Verifierad säkerhetsnyckel: din tillagda säkerhetsnyckel är kopplad till din identitet.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Med en verifierad svensk identitet och verified " +
+                "säkerhetsnyckel, uppnår kontot i allmänhet Swamid AL3/ DIGG LOA2 och är på en tillräcklig nivå för " +
+                "t.ex. Digitala Nationella Proven (DNP) och Nice.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Obs: detta är bara en förenklad sammanfattning av " +
+                "ett föränderligt ämne, fullständig information angående vad som krävs av ditt eduID behöver " +
+                "tillgodoses av tjänsten som ansluts.");
     }
 
     private void orcidEduIdSwe(){
@@ -729,7 +772,7 @@ public class Help {
 
     private void securityEduIdEng(){
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "Improving the security level of eduID");
+        common.verifyPageBodyContainsString(pageBody, "Enhancing the security level of eduID");
 
         //Heading - text
         common.verifyPageBodyContainsString(pageBody, "Adding an MFA/2FA Security Key");
@@ -799,16 +842,7 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Verification of identity");
 
         //Heading - text
-        common.verifyPageBodyContainsString(pageBody, "Levels and methods of verifying eduID for different user groups");
-
-        //Heading
-        common.verifyPageBodyContainsString(pageBody, "What are assurance levels?");
-
-        //Text
-        common.verifyPageBodyContainsString(pageBody, "Service providers need to rely on organisations to manage their " +
-                "users credentials according to certain assurance levels (e.g. AL1-3), depending on the type of " +
-                "information accessible. The levels range from unconfirmed, to confirmed, to verified users also using " +
-                "MFA when logging in to the system.");
+        common.verifyPageBodyContainsString(pageBody, "Methods of verifying eduID for different user groups");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Which are the methods of verification for eduID?");
@@ -817,6 +851,10 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "The service is constantly being developed to better support the " +
                 "needs of our various users. At present the methods below are available, depending on your situation " +
                 "such as assurance level requirements, nationality and residence.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Note: you can remove a verified identity connected" +
+                " to your eduID in the Identity area.");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "If you have a Swedish personal identity number or coordination " +
@@ -976,6 +1014,52 @@ public class Help {
                 "are advised to use those supported methods instead.");
     }
 
+    private void loaEduIdEng(){
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Assurance levels");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "AL, LOA etc.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "What are assurance levels?");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Service providers need to rely on organisations to " +
+                "manage their users credentials according to certain assurance levels set by relevant authorities, " +
+                "depending on the type of information accessible. The levels range from unconfirmed, to confirmed, to " +
+                "verified users with additional authentication when logging in to a system.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "At what level is your eduID?");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "At the logged in start page an overview of the status of your eduID is presented.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Confirmed account: when successfully creating an " +
+                "eduID (with confirmed email-address and passed CAPTCHA) which generally conforms to AL1.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Verified identity: the eduID account generally " +
+                "reaches AL2, which is at a sufficient level for many services at higher education institutions and e.g. Ladok.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Enhanced security: is added in the form of multi factor authentication.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Verified security key: your added security key is connected to your identity.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "With a verified Swedish identity and a verified " +
+                "security key the account generally conforms to Swamid AL3/ DIGG LOA2 and is at a sufficient level for " +
+                "the purpose of e.g. Digital National Exams (DNP) and Nice.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Note: this is only a generalization and is subject " +
+                "to change, complete information as to what is required of your eduID must be provided by the connecting services.");
+    }
+
     private void orcidEduIdEng(){
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Connecting account with Orcid / ESI");
@@ -1104,6 +1188,7 @@ public class Help {
         common.click(common.findWebElementById("accordion__heading-help-freja"));
         common.click(common.findWebElementById("accordion__heading-help-bankid"));
         common.click(common.findWebElementById("accordion__heading-help-security-key"));
+        common.click(common.findWebElementById("accordion__heading-help-assurance-levels"));
         common.click(common.findWebElementById("accordion__heading-help-security-usb"));
         common.click(common.findWebElementById("accordion__heading-security-key-list"));
         common.click(common.findWebElementById("accordion__heading-help-using-eduid"));

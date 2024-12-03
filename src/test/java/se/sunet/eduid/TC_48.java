@@ -14,9 +14,6 @@ public class TC_48 extends BeforeAndAfter {
     void dashboard() { dashBoard.runDashBoard(); }
 
     @Test( dependsOnMethods = {"dashboard"} )
-    void personalInfo() { personalInfo.runPersonalInfo(); }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
     void logout() { logout.runLogout(); }
 
     @Test( dependsOnMethods = {"logout"} )
@@ -33,8 +30,5 @@ public class TC_48 extends BeforeAndAfter {
     void dashboard2() { dashBoard.runDashBoard(); }
 
     @Test( dependsOnMethods = {"dashboard2"} )
-    void personalInfo2() { personalInfo.runPersonalInfo(); }
-
-    @Test( dependsOnMethods = {"personalInfo2"} )
     void logout2() { logout.runLogout(); }
 }

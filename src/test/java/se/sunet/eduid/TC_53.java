@@ -30,22 +30,13 @@ public class TC_53 extends BeforeAndAfter {
 
 
     @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
-
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
     void confirmIdentityMail(){
         testData.setConfirmIdBy("mail");
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentityMail"} )
     void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
+        confirmedIdentity.runConfirmedIdentity();
 
         testData.setRegisterAccount(false);
     }
@@ -88,8 +79,6 @@ public class TC_53 extends BeforeAndAfter {
         extraSecurity.selectMfaMethod();
 
         Common.log.info("Log in with Security key");
-
-        //common.timeoutSeconds(2);
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
@@ -114,7 +103,11 @@ public class TC_53 extends BeforeAndAfter {
         common.selectSwedish();
     }
 
+    //Verify at dashboard that all security options are checked
     @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
+    void dashboard() { dashBoard.runDashBoard(); }
+
+    @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();

@@ -1,17 +1,14 @@
 package se.sunet.eduid;
 
-import org.openqa.selenium.virtualauthenticator.HasVirtualAuthenticator;
-import org.openqa.selenium.virtualauthenticator.VirtualAuthenticator;
-import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
 public class TC_85 extends BeforeAndAfter {
- @Test
- void startPage(){
+    @Test
+    void startPage(){
      startPage.runStartPage();
- }
+    }
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
@@ -23,21 +20,13 @@ public class TC_85 extends BeforeAndAfter {
 
 
     @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
     void confirmIdentityMail(){
         testData.setConfirmIdBy("mail");
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentityMail"} )
     void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
+        confirmedIdentity.runConfirmedIdentity();
 
         testData.setRegisterAccount(false);
     }

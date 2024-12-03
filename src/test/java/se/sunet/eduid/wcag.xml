@@ -47,7 +47,7 @@
         </classes>
     </test>
 
-    <test name="EduID_AdvancedSettings">
+    <test name="EduID_account">
         <parameter name="testDescription" value="Verify WCAG at Advanced settings page" />
         <classes>
             <class name="se.sunet.eduid.WCAG_6" >

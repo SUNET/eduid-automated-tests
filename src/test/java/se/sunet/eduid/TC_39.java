@@ -63,7 +63,7 @@ public class TC_39 extends BeforeAndAfter {
         testData.setPhoneNumber("inget telefonnummer sparat");
         testData.setEmail(testData.getUsername());
 
-        common.navigateToSettings();
+        common.navigateToAccount();
     }
 
     @Test( dependsOnMethods = {"dashboard"} )

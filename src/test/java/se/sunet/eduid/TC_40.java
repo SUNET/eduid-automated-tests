@@ -27,25 +27,16 @@ public class TC_40 extends BeforeAndAfter {
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
+    void account() { account.runAccount(); }
 
-        //Navigate to settings
-        common.navigateToSettings();
-        personalInfo.runPersonalInfo();
-    }
-
-    @Test( dependsOnMethods = {"personalInfo"} )
-    void advancedSettings() { advancedSettings.runAdvancedSettings(); }
-
-    @Test( dependsOnMethods = {"advancedSettings"} )
+    @Test( dependsOnMethods = {"account"} )
     void confirmIdentityFreja(){
         testData.setConfirmIdBy("freja");
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
+        confirmedIdentity.runConfirmedIdentity();
 
         testData.setRegisterAccount(false);
     }
@@ -86,7 +77,8 @@ public class TC_40 extends BeforeAndAfter {
     void emailSent() { emailSent.runEmailSent(); }
 
     @Test( dependsOnMethods = {"emailSent"} )
-    void emailLink() { emailLink.runEmailLink();
+    void emailLink() {
+        emailLink.runEmailLink();
         common.addNinCookie();
     }
 
@@ -141,7 +133,7 @@ public class TC_40 extends BeforeAndAfter {
     //Delete account when confirmed that identity is no longer verified
     @Test( dependsOnMethods = {"identity"} )
     void delete2() {
-        common.navigateToSettings();
+        common.navigateToAccount();
 
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();

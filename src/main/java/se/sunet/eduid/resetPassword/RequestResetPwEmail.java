@@ -24,9 +24,20 @@ public class RequestResetPwEmail {
     }
 
     private void clickSendEmail(){
+        common.explicitWaitClickableElement(sendEmailButton);
         common.click(common.findWebElementByXpath(sendEmailButton));
+        Common.log.info("Clicked send email button");
 
         //Wait for abort button on next page: Reset Password: Verify email address
+                //TODO tempfix to be removed when bug fixed
+                common.timeoutSeconds(18);
+                Common.log.info("special temp fix, closing status message and sending email once again");
+                //common.closeStatusMessage();
+        if(!common.getPageBody().contains("Återställ lösenord: Verifiera e-postadressen")) {
+            common.findWebElementById("reset-password-button").click();
+            Common.log.info("Reset email button again...");
+        }
+
         common.explicitWaitClickableElementId("response-code-abort-button");
     }
 

@@ -49,7 +49,7 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmIdentityFreja"} )
     void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
+        confirmedIdentity.runConfirmedIdentity();
 
         testData.setRegisterAccount(false);
     }
@@ -95,7 +95,7 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmIdentityFreja2"} )
     void confirmedIdentity2() {
-        confirmedIdentity.runConfirmIdentity();
+        confirmedIdentity.runConfirmedIdentity();
 
         testData.setRegisterAccount(false);
     }
@@ -137,10 +137,9 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login4"} )
     void dashboard() {
-        //Account is no longer verified
-
-        //Setting Account verified to false to check the correct account verification text at dashboard.
-        testData.setAccountVerified(false);
+        //Identity is no longer verified
+        testData.setAccountVerified(true);
+        testData.setIdentityConfirmed(false);
         dashBoard.runDashBoard();
     }
 

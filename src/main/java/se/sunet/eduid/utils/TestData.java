@@ -24,7 +24,7 @@ public class TestData {
     private boolean verifyEmail = true;
     private boolean addSecurityKey = false;
     private boolean verifySecurityKey;
-    private boolean accountVerified;
+    private boolean accountVerified = true;
     private boolean useRecommendedPw = true;
     private boolean registerAccount, resetPassword, incorrectPassword, removeNewEmail1,
             resendOTP, deleteButton, otherDeviceFillCode, rememberMe, identityConfirmed;
