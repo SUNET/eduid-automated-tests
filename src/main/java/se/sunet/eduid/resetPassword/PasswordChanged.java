@@ -30,7 +30,7 @@ public class PasswordChanged {
         common.verifyStringOnPage("Återställ lösenord: Slutförd");
         common.verifyStringOnPage("Ditt lösenord är nu uppdaterat. Se till att förvara ditt lösenord på " +
                 "ett säkert sätt för framtida användning. När du har loggat in är det möjligt att ändra ditt lösenord.");
-        common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "E-postadress");
+        common.verifyStringByXpath("//*[@id=\"content\"]/form/div[1]/fieldset/label", "E-postadress");
         common.verifyStringById("user-email", testData.getUsername().toLowerCase());
 
         //Password only visible when the recommended password is used
@@ -48,7 +48,7 @@ public class PasswordChanged {
         common.verifyStringOnPage("Reset password: Completed");
         common.verifyStringOnPage("You have successfully updated your password. Make sure to store " +
                 "your password securely for future use. Once you've logged in it is possible to change your password.");
-        common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "Email address");
+        common.verifyStringByXpath("//*[@id=\"content\"]/form/div[1]/fieldset/label", "Email address");
         common.verifyStringById("user-email", testData.getUsername().toLowerCase());
 
         //Password only visible when the recommended password is used

@@ -79,7 +79,7 @@ public class ConfirmedIdentity {
             common.findWebElementById("undefined-show-hide-button").click();
 
             //Data
-            common.verifyStringById("nin-number", testData.getIdentityNumber());
+            common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/figure/div[3]/div/div", testData.getIdentityNumber());
         }
         testData.setIdentityConfirmed(true);
     }
@@ -117,7 +117,7 @@ public class ConfirmedIdentity {
             common.findWebElementById("undefined-show-hide-button").click();
 
             //Data
-            common.verifyStringById("nin-number", testData.getIdentityNumber());
+            common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/figure/div[3]/div/div", testData.getIdentityNumber());
         }
     }
 }

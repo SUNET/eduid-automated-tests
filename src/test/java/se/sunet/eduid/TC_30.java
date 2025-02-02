@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
-public class TC_17 extends BeforeAndAfter {
+public class TC_30 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -28,24 +28,29 @@ public class TC_17 extends BeforeAndAfter {
         testData.setRegisterAccount(false);
         login.runLogin(); }
 
+
     @Test( dependsOnMethods = {"login"} )
+    void confirmIdentityMail(){
+        testData.setConfirmIdBy("mail");
+        confirmIdentity.runConfirmIdentity(); }
+
+    @Test( dependsOnMethods = {"confirmIdentityMail"} )
+    void confirmedIdentity() {
+        confirmedIdentity.runConfirmedIdentity();
+
+        testData.setRegisterAccount(false);
+    }
+
+    @Test( dependsOnMethods = {"confirmedIdentity"} )
     void addSecurityKey() {
         testData.setAddSecurityKey(true);
-        securityKey.runSecurityKey();
+        testData.setVerifySecurityKeyByFreja(true);
 
-        //Turn security off for logging in
-        common.explicitWaitClickableElement("//*[@id=\"content\"]/article[2]/form/fieldset/label/div");
-        common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[2]/form/fieldset/label/div"));
+        securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
-    void initiateTurnOffMfa() {
-        common.securityConfirmPopUp("//*[@id=\"content\"]/article[2]/form/fieldset/label/div");
-    }
-
-
-    @Test( dependsOnMethods = {"initiateTurnOffMfa"} )
-    void turnOffNonVerifiedSecurityKeyLogin() {
+    void verifySecurityKeyLogin() {
         //Add nin cookie
         common.addNinCookie();
 
@@ -59,40 +64,47 @@ public class TC_17 extends BeforeAndAfter {
         common.explicitWaitClickableElementId("mfa-security-key");
     }
 
-    @Test( dependsOnMethods = {"turnOffNonVerifiedSecurityKeyLogin"} )
-    void loginMfaSecurityKey() {
-        //Set mfa method to be used to "security key" at login.
-        testData.setMfaMethod("securitykey");
+    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
+    void extraSecurityFreja() {
+        //Set mfa method to be used to "freja" at login.
+        testData.setMfaMethod("freja");
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
 
-        Common.log.info("Log in with Security key");
-
-        common.timeoutSeconds(2);
+        Common.log.info("Log in with Freja");
     }
 
-    @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
-    //Log out and verify that it is possible to log in again without the security key
-    void logout(){
-        logout.runLogout();
+
+    @Test( dependsOnMethods = {"extraSecurityFreja"} )
+    void selectUserRefIdp(){
+        //Select and submit user
+        common.explicitWaitClickableElementId("submitButton");
+        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
+
+        common.findWebElementById("submitButton").click();
     }
 
-    @Test( dependsOnMethods = {"logout"} )
-    void startPage2(){
-        testData.setRegisterAccount(false);
-        startPage.runStartPage();
+    @Test( dependsOnMethods = {"extraSecurityFreja"} )
+    void selectUserRefIdp2ndTime(){
+        //Select and submit user
+        common.explicitWaitClickableElementId("submitButton");
+        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
+
+        common.findWebElementById("submitButton").click();
     }
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        login.verifyPageTitle();
-        login.enterPassword();
-        common.click(common.findWebElementById("login-form-button"));
+    @Test( dependsOnMethods = {"selectUserRefIdp2ndTime"} )
+    void verifiedSecurityKeyStatus() {
+        securityKey.verifiedSecurityKey();
     }
 
-    @Test( dependsOnMethods = {"login2"} )
+    //Verify at dashboard that all security options are checked
+    @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
+    void dashboard() { dashBoard.runDashBoard(); }
+
+    @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
@@ -111,18 +123,9 @@ public class TC_17 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login3"} )
-    void loginExtraSecurity(){
-        extraSecurity.selectMfaMethod();
-        //common.timeoutSeconds(6);
-    }
+    void startPage2(){ startPage.runStartPage(); }
 
-    @Test( dependsOnMethods = {"loginExtraSecurity"} )
-    void startPage3(){
-        common.timeoutSeconds(2);
-        startPage.runStartPage();
-    }
-
-    @Test( dependsOnMethods = {"startPage3"} )
+    @Test( dependsOnMethods = {"startPage2"} )
     void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();

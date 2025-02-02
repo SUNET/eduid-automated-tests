@@ -3,6 +3,8 @@ package se.sunet.eduid;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
+import java.io.IOException;
+
 public class TC_3 extends BeforeAndAfter {
     @Test
     void startPage(){
@@ -23,12 +25,11 @@ public class TC_3 extends BeforeAndAfter {
    }
 
     @Test( dependsOnMethods = {"dashboard"} )
-    void setNewUserNames() {
+    void setNewUserNames() throws IOException {
         common.navigateToIdentity();
 
-        testData.setGivenName("Bernt Olof");
-        testData.setSurName("Larsson");
-        testData.setDisplayName("Bernt Olof Larsson");
+        testData.setProperties(testData.getTestSuite());
+
         name.runName();
     }
 

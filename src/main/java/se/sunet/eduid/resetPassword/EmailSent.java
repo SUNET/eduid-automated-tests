@@ -30,7 +30,7 @@ public class EmailSent {
         //Verify the texts after request of new pw
         common.verifyPageBodyContainsString(pageBody, "Återställ lösenord: Verifiera e-postadressen");
         common.verifyPageBodyContainsString(pageBody, "Om du har ett eduID-konto har koden skickats till ");
-        common.verifyPageBodyContainsString(pageBody, testData.getEmail() +".");
+        common.verifyPageBodyContainsString(pageBody, testData.getEmail().toLowerCase() +".");
         common.verifyPageBodyContainsString(pageBody, "E-postkoden är giltig i två timmar.");
 
         common.verifyPageBodyContainsString(pageBody, "Om du inte har fått koden kan du avbryta processen och börja om från början.");
@@ -48,7 +48,7 @@ public class EmailSent {
         common.verifyPageTitle("Reset password | eduID");
         common.verifyPageBodyContainsString(pageBody, "Reset password: Verify email address");
         common.verifyPageBodyContainsString(pageBody, "If you have an eduID account, the code has been sent to ");
-        common.verifyPageBodyContainsString(pageBody, testData.getEmail() +".");
+        common.verifyPageBodyContainsString(pageBody, testData.getEmail().toLowerCase() +".");
         common.verifyPageBodyContainsString(pageBody, "The email code is valid for two hours.");
 
         common.verifyPageBodyContainsString(pageBody,

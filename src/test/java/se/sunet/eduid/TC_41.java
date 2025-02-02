@@ -65,7 +65,7 @@ public class TC_41 extends BeforeAndAfter {
     void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
+    void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

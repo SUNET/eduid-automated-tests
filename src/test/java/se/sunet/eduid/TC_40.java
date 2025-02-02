@@ -51,7 +51,7 @@ public class TC_40 extends BeforeAndAfter {
     void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
+    void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();
@@ -62,13 +62,13 @@ public class TC_40 extends BeforeAndAfter {
 
 
     //Reset password and verify that the Identity still is verified
-    @Test( dependsOnMethods = {"login2"} )
-    void login3(){
+    @Test( dependsOnMethods = {"verifyAccountDeleted"} )
+    void resetPassword(){
         testData.setResetPassword(true);
         login.runLogin();
     }
 
-    @Test( dependsOnMethods = {"login3"} )
+    @Test( dependsOnMethods = {"resetPassword"} )
     void requestNewPassword() {
         requestResetPwEmail.runRequestResetPwEmail();
     }
@@ -143,7 +143,7 @@ public class TC_40 extends BeforeAndAfter {
     void startPage4(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage4"} )
-    void login5(){
+    void verifyAccountDeleted2(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

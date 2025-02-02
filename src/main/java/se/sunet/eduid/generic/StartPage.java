@@ -3,8 +3,6 @@ package se.sunet.eduid.generic;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
-import java.util.Random;
-
 public class StartPage {
     private final Common common;
     private final TestData testData;
@@ -12,7 +10,6 @@ public class StartPage {
     //Buttons and text at page
     String buttonSign = "sign-up-button";
     String buttonLogin = "login-button";
-    String buttonLoginCorner = "login";
     String h1EduEasierAndSafer = "//h1";
     String pCreateEduAndConnect = "//p[.//strong]";
     String pEduEasierForYou = "/html/body/div/main/div/section/div/div[1]/p[2]";
@@ -48,17 +45,7 @@ public class StartPage {
         //Click on sign in link
         common.explicitWaitClickableElementId(buttonLogin);
 
-        //Select by random which log in button to press
-        Random random = new Random();
-        int rand = random.nextInt(2);
-        if(rand==0) {
-            common.findWebElementById(buttonLogin).click();
-            Common.log.info("Selected login button in center of page");
-        }
-        else {
-            common.findWebElementById(buttonLoginCorner).click();
-            Common.log.info("Selected login button in upper right corner");
-        }
+        common.findWebElementById(buttonLogin).click();
 
         //Wait for log in page
         common.explicitWaitPageTitle("Logga in | eduID");

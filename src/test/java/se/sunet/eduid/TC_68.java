@@ -10,20 +10,19 @@ public class TC_68 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
         //Disable Remember me
-        common.timeoutSeconds(3);
-        common.click(common.findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div"));
-        common.timeoutSeconds(1);
+        testData.setRememberMe(false);
+        common.rememberMe();
 
         //Verify remember me labels
-        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/label", "Kom ihåg mig på den här enheten");
-        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/p", "Genom att tillåta eduID " +
+        common.verifyStringOnPage("Kom ihåg mig på den här enheten");
+        common.verifyStringOnPage("Genom att tillåta eduID " +
                 "att komma ihåg dig på den här enheten kan inloggningen göras enklare och säkrare");
 
         //Swedish
         common.selectEnglish();
         //Verify remember me labels
-        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/label", "Remember me on this device");
-        common.verifyStringByXpath("//*[@id=\"content\"]/fieldset/p", "Allowing eduID to remember " +
+        common.verifyStringOnPage("Remember me on this device");
+        common.verifyStringOnPage("Allowing eduID to remember " +
                 "you on this device makes logging in easier and more secure");
 
         common.selectSwedish();

@@ -32,17 +32,12 @@ public class TC_16 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"login"} )
     void addSecurityKey() {
         testData.setAddSecurityKey(true);
+        testData.setVerifySecurityKeyByFreja(true);
+
         securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
-    void verifySecurityKey() {
-        testData.setVerifySecurityKey(true);
-
-        securityKey.runSecurityKey();
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKey"} )
     void verifySecurityKeyLogin() {
         //Add nin cookie
         common.addNinCookie();
@@ -78,24 +73,15 @@ public class TC_16 extends BeforeAndAfter {
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(8);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void verifySecurityKeyStatus() {
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
-
-        common.selectEnglish();
-
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIED");
-        common.selectSwedish();
+    void verifiedSecurityKeyStatus() {
+        securityKey.verifiedSecurityKey();
     }
 
-
     //Remove the verified security key
-    @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
+    @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
     void initiateRemoveVerifiedSecurityKey() {
         securityKey.deleteSecurityKey();
     }
@@ -126,7 +112,9 @@ public class TC_16 extends BeforeAndAfter {
 
         Common.log.info("Log in with Security key");
 
-        common.timeoutSeconds(2);
+        common.timeoutSeconds(5);
+        //Wait for the add security key button to appear
+        common.explicitWaitClickableElementId("security-webauthn-button");
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
@@ -168,7 +156,7 @@ public class TC_16 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"startPage3"} )
-    void login3(){
+    void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

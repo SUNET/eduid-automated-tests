@@ -1,7 +1,5 @@
 package se.sunet.eduid.utils;
 
-import com.assertthat.selenium_shutterbug.core.Capture;
-import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -75,13 +73,14 @@ public class BeforeAndAfter {
         testData.setHeadlessExecution(headless);
 
         startPage = new StartPage(common, testData);
+        register = new Register(common, testData);
         login = new Login(common, testData);
         name = new Name(common, testData);
         emailAddresses = new EmailAddresses(common, testData);
         phoneNumber = new PhoneNumber(common, testData);
         account = new Account(common, testData);
         identity = new Identity(common, testData, name);
-        requestNewPassword = new RequestNewPassword(common, testData);
+        requestNewPassword = new RequestNewPassword(common, testData, register);
         emailSent = new EmailSent(common, testData);
         emailLink = new EmailLink(common, testData);
         extraSecurity = new ExtraSecurity(common, testData);
@@ -91,7 +90,6 @@ public class BeforeAndAfter {
         password = new Password(common, testData);
         confirmPhoneNumber = new ConfirmPhoneNumber(common, testData);
         confirmEmailAddress = new ConfirmEmailAddress(common, testData);
-        register = new Register(common, testData);
         confirmIdentity = new ConfirmIdentity(common, testData, identity);
         confirmedIdentity = new ConfirmedIdentity(common, testData, name);
         deleteAccount = new DeleteAccount(common, testData);
@@ -105,7 +103,7 @@ public class BeforeAndAfter {
         sunet = new Sunet(common, testData);
         loginOtherDevice = new LoginOtherDevice(common, testData);
         accessibilityBase = new AccessibilityBase(common, testData);
-        requestResetPwEmail = new RequestResetPwEmail(common, testData);
+        requestResetPwEmail = new RequestResetPwEmail(common, testData, register);
 
 //        initBrowser.startHarSession(testContext.getName());
     }
@@ -145,12 +143,15 @@ public class BeforeAndAfter {
     public void captureScreenshot(ITestResult result){
         // Change the condition , If the screenshot needs to be taken for other status as well
         if(ITestResult.FAILURE==result.getStatus()){
-            Shutterbug.shootPage(webdriver, Capture.FULL_SCROLL, 500, true)
-                    .withName(testData.getTestCase() +"-" +result.getName())
-                    .save("screenshots/");
+            Common.log.info("After method, test result failed " +ITestResult.FAILURE);
+//            Shutterbug.shootPage(webdriver, Capture.FULL_SCROLL, 500, true)
+//                    .withName(testData.getTestCase() +"-" +result.getName())
+//                    .save("screenshots/");
 
 //            failedTests.add(testData.getTestCase() +" - "+method.getName());
         }
+//        else
+//            Common.log.info("After method, test result passed " +ITestResult.SUCCESS);
     }
 
 //    @BeforeSuite

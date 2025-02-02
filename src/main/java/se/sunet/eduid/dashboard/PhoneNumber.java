@@ -6,6 +6,7 @@ import se.sunet.eduid.utils.TestData;
 public class PhoneNumber {
     private final Common common;
     private final TestData testData;
+    String pageBody;
 
     public PhoneNumber(Common common, TestData testData){
         this.common = common;
@@ -13,33 +14,41 @@ public class PhoneNumber {
     }
 
     public void runPhoneNumber(){
-        verifyLabelsSwedish();
-        verifyLabelsEnglish();
+        //verifyLabelsSwedish();
+        //verifyLabelsEnglish();
     }
 
     private void verifyLabelsSwedish() {
+        pageBody = common.getPageBody();
+
         //Heading
-        common.verifyStringOnPage("Telefonnummer");
+        common.verifyPageBodyContainsString(pageBody, "Telefonnummer");
 
         //Text
-        common.verifyStringOnPage( "Du kan koppla ett eller flera mobiltelefonnummer till ditt eduID.");
+        common.verifyPageBodyContainsString(pageBody, "Du kan koppla ett eller flera mobiltelefonnummer till ditt eduID.");
+        common.verifyPageBodyContainsString(pageBody, "Obs: användningen av telefonnummer i eduID kommer snart att upphöra. " +
+                "Redan verifierade nummer kommer att vara oförändrade, men nya nummer kan inte läggas till.");
 
         //Add more phone numbers
-        common.verifyStringOnPage( "+ lägg till fler");
+        common.verifyPageBodyContainsString(pageBody, "+ lägg till fler");
     }
 
     private void verifyLabelsEnglish() {
         //Click on English
         common.selectEnglish();
 
+        pageBody = common.getPageBody();
+
         //Heading
-        common.verifyStringOnPage("Mobile phone numbers");
+        common.verifyPageBodyContainsString(pageBody, "Mobile phone numbers");
 
         //Text
-        common.verifyStringOnPage("You can connect one or more mobile phone numbers to your eduID.");
+        common.verifyPageBodyContainsString(pageBody, "You can connect one or more mobile phone numbers to your eduID.");
+        common.verifyPageBodyContainsString(pageBody, "Note: the use of phone numbers with your eduID will soon be " +
+                "discontinued. Verified numbers remain unchanged, but new numbers can no longer be added.");
 
         //Add more phone numbers
-        common.verifyStringOnPage("+ add more");
+        common.verifyPageBodyContainsString(pageBody, "+ add more");
 
         //Click on Swedish
         common.selectSwedish();

@@ -75,7 +75,7 @@ public class TC_92 extends BeforeAndAfter {
         common.timeoutMilliSeconds(3500);
 
         //Select eduid staging
-        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/a[1]"));
+        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/li/a"));
 
         //Wait for the eduID log in page to load
         common.timeoutMilliSeconds(2000);
@@ -116,6 +116,6 @@ public class TC_92 extends BeforeAndAfter {
         common.selectSwedish();
 
         //Verify Status text
-        common.verifyStatusMessage("Det är inte möjligt att använda detta alternativ för multifaktor-autenticeringen (MFA). Välj en giltig autenticeringsmetod.");
+        common.verifyStatusMessage("Det är inte möjligt att använda detta alternativ för multifaktor-autentiseringen (MFA). Välj en giltig autentiseringsmetod.");
     }
 }

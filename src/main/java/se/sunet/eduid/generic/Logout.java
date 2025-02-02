@@ -21,7 +21,7 @@ public class Logout {
 
     private void pressLogOut(){
         //Expand navigation menu
-        common.click(common.findWebElementByXpath("//*[@id=\"header-nav\"]/button"));
+        common.click(common.findWebElementByXpath("//*[@id=\"header\"]/nav/button"));
 
         common.explicitWaitClickableElementId("logout");
         common.click(common.findWebElementById("logout"));

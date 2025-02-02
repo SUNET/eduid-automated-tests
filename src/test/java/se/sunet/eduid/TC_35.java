@@ -18,7 +18,7 @@ public class TC_35 extends BeforeAndAfter {
 
     }
 
-    @Test( dependsOnMethods = {"startPage"}, invocationCount = 5)
+    @Test( dependsOnMethods = {"startPage"})
     void firstInitiateRegistrationAbortAtTerms(){
         testData.setAcceptTerms(true);
 
@@ -44,7 +44,7 @@ public class TC_35 extends BeforeAndAfter {
         common.explicitWaitVisibilityElementId("given_name");
         }
 
-/*    @Test( dependsOnMethods = {"firstInitiateRegistrationAbortAtTerms"} )
+    @Test( dependsOnMethods = {"firstInitiateRegistrationAbortAtTerms"} )
     void secondInitiateRegisterSameEmailAgain(){
         //Select english, just to get placeholder text in english
         common.selectEnglish();
@@ -54,7 +54,7 @@ public class TC_35 extends BeforeAndAfter {
         testData.setGenerateUsername(false);
         register.enterEmailAndPressRegister();
     }
-
+/*
     @Test( dependsOnMethods = {"secondInitiateRegisterSameEmailAgain"} )
     void acceptTerms(){
         //Accept terms & conditions

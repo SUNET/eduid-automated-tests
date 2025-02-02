@@ -29,9 +29,9 @@ public class Password {
     private void verifyPageTitle() {
         common.explicitWaitPageTitle("Byt lösenord | eduID");
 
-        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")) {
+/*        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")) {
             common.selectSwedish();
-        }
+        }*/
     }
 
     public void setPassword(){

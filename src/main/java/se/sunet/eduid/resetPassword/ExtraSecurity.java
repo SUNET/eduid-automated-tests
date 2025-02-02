@@ -46,7 +46,7 @@ public class ExtraSecurity {
 
         common.verifyPageBodyContainsString(pageBody, "Reset password: Verification method");
         if(testData.isResetPassword()){
-            common.verifyStringByXpath("//*[@id=\"content\"]/section/div",
+            common.verifyStringByXpath("//*[@id=\"content\"]/section/p",
                     "Choose a second method to authenticate yourself, " +
                     "ensuring only you can access your eduID. If you are unable to use the security key, please select " +
                     "from other options below, such as BankID or Freja+.");
@@ -74,7 +74,7 @@ public class ExtraSecurity {
 
         common.verifyPageBodyContainsString(pageBody, "Återställ lösenord: Verifieringsmetod");
         if(testData.isResetPassword()){
-            common.verifyStringByXpath("//*[@id=\"content\"]/section/div",
+            common.verifyStringByXpath("//*[@id=\"content\"]/section/p",
                     "Autentisera dig själv med ytterligare en metod " +
                     "för att vara säker på att bara du har tillgång till ditt eduID. Om du inte kan använda säkerhetsnyckeln, " +
                     "var vänlig välj annat alternativ nedan, t.ex. BankID eller Freja+.");
@@ -112,8 +112,8 @@ public class ExtraSecurity {
             common.findWebElementByXpath("//div[contains(text(), 'Visa andra alternativ')]").click();
             common.timeoutMilliSeconds(500);
 
-            //Click Freja button
-            common.findWebElementByXpath("//span[contains(text(), 'Freja+')]").click();
+            //Click Freja button - Freja might be displayed out window display, using javascript click for this.
+            common.click(common.findWebElementByXpath("//span[contains(text(), 'Freja+')]"));
 
             //Wait for ref IDP page
             common.explicitWaitPageTitle("Sweden Connect Reference Identity Provider");

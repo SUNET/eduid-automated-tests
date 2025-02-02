@@ -32,7 +32,7 @@ public class TC_87 extends BeforeAndAfter {
         common.timeoutMilliSeconds(3500);
 
         //Select eduid staging
-        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/a[1]"));
+        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/li/a"));
 
         //Wait for the eduID log in page to load
         common.timeoutMilliSeconds(2000);

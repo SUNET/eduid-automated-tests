@@ -43,17 +43,12 @@ public class TC_58 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void addSecurityKey() {
         testData.setAddSecurityKey(true);
+        testData.setVerifySecurityKeyByFreja(true);
+
         securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
-    void verifySecurityKey() {
-        testData.setVerifySecurityKey(true);
-
-        securityKey.runSecurityKey();
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKey"} )
     void verifySecurityKeyLogin() {
         //Add nin cookie
         common.addNinCookie();
@@ -77,8 +72,6 @@ public class TC_58 extends BeforeAndAfter {
         loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
         Common.log.info("Log in with Security key");
-
-        //common.timeoutSeconds(4);
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
@@ -88,25 +81,14 @@ public class TC_58 extends BeforeAndAfter {
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
-//        common.timeoutSeconds(8);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void verifySecurityKeyStatus() {
-        //Wait for the remove security key button
-        common.explicitWaitClickableElementId("remove-webauthn");
-
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
-
-        common.selectEnglish();
-
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIED");
-        common.selectSwedish();
+    void verifiedSecurityKeyStatus() {
+        securityKey.verifiedSecurityKey();
     }
 
-    @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
+    @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
     void logout(){
         logout.runLogout();
     }
@@ -131,14 +113,10 @@ public class TC_58 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"login2"} )
     void loginMfaSecurityKey2() {
         //Login page for extra security select security key mfa method
-        //loginExtraSecurity.selectMfaMethod();
         extraSecurity.selectMfaMethod();
-
-        //common.timeoutSeconds(2);
 
         if(!common.findWebElementByXpath("//div/div[4]/div[1]/div[1]/div/a/button").isDisplayed()) {
             Common.log.info("Show attributes button in swamid data not present, clicking again");
-            //loginExtraSecurity.selectMfaMethod();
             extraSecurity.selectMfaMethod();
         }
 
@@ -155,17 +133,15 @@ public class TC_58 extends BeforeAndAfter {
     void navigateToEduid(){
         common.navigateToUrl("https://dev.eduid.se");
 
-        common.click(common.findWebElementById("login-button"));
+        common.explicitWaitClickableElementId("login-button");
+        common.findWebElementById("login-button").click();
         common.timeoutSeconds(3);
     }
 
     @Test( dependsOnMethods = {"navigateToEduid"} )
     void loginMfaSecurityKey3() {
         //Login page for extra security select security key mfa method
-        //loginExtraSecurity.selectMfaMethod();
         extraSecurity.selectMfaMethod();
-
-        //common.timeoutSeconds(2);
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey3"} )
@@ -182,7 +158,7 @@ public class TC_58 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login3(){
+    void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

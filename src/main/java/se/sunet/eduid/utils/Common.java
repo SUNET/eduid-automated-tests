@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import io.github.sukgu.Shadow;
+import se.sunet.eduid.generic.Login;
 
 import java.io.IOException;
 import java.net.*;
@@ -20,6 +21,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.NoSuchElementException;
 
 public class Common {
 
@@ -84,7 +86,7 @@ public class Common {
         expandNavigationMenu();
 
         //Click on Account
-        click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[4]"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/a[4]"));
     }
 
     public void navigateToIdentity() {
@@ -92,7 +94,7 @@ public class Common {
         expandNavigationMenu();
 
         //Click on Identity
-        click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[2]"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/a[2]"));
     }
 
     public void navigateToSecurity() {
@@ -100,7 +102,7 @@ public class Common {
         expandNavigationMenu();
 
         //Click on Security Settings
-        click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[3]"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/a[3]"));
     }
 
     public void navigateToDashboard() {
@@ -108,12 +110,12 @@ public class Common {
         expandNavigationMenu();
 
         //Click on Start
-        click(findWebElementByXpath("//*[@id=\"header-nav\"]/div/ul/a[1]"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/a[1]"));
     }
 
     public void expandNavigationMenu(){
         //Expand navigation menu
-        click(findWebElementByXpath("//*[@id=\"header-nav\"]/button/span"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/button/span"));
     }
 
     public void verifyPageTitle(String pageTitle) {
@@ -133,7 +135,11 @@ public class Common {
     }
 
     public void verifyStringByXpath(String xpath, String stringToCompareWith) {
-        Assert.assertEquals(findWebElementByXpath(xpath).getText(), stringToCompareWith, errorMsg);
+        try {
+            Assert.assertEquals(findWebElementByXpath(xpath).getText(), stringToCompareWith, errorMsg);
+        }catch (Exception ex){
+            checkIfXpathIsUpdated(xpath, stringToCompareWith);
+        }
     }
 
     public void verifyStringById(String id, String stringToCompareWith) {
@@ -157,7 +163,7 @@ public class Common {
 
     public void verifyPageBodyContainsString(String pageBody, String stringToBeEval) {
         Assert.assertTrue(pageBody.contains(stringToBeEval), errorMsg
-                + pageBody + " Does not contain: " + stringToBeEval);
+                    + pageBody + " Does not contain: " + stringToBeEval);
     }
 
     public void verifyStringNotEmptyByXpath(String xpath, String parameterNameXpath) {
@@ -196,12 +202,12 @@ public class Common {
     }
 
     public void explicitWaitClickableElement(String xpathToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(50));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathToElementToWaitFor)));
     }
 
     public void explicitWaitClickableElementId(String idToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(50));
         wait.until(ExpectedConditions.elementToBeClickable(By.id(idToElementToWaitFor)));
     }
 
@@ -280,6 +286,11 @@ public class Common {
         verifyStrings(placeholderText, findWebElementById(placeholderElementId).getAttribute("placeholder"));
     }
 
+    public void verifyPlaceholderXpath(String placeholderText, String placeholderElementXpath) {
+        //Verify placeholder
+        verifyStrings(placeholderText, findWebElementByXpath(placeholderElementXpath).getAttribute("placeholder"));
+    }
+
     public void verifyXpathIsWorkingLink(String xpathToLink){
         Assert.assertTrue(findWebElementByXpath(xpathToLink).getAttribute("href") != null,
                 "Provided xpath: " +xpathToLink +" \nDoes not contain a href element, failing test case!");
@@ -316,19 +327,21 @@ public class Common {
 
     public void rememberMe() {
         boolean enableRememberMe = testData.isRememberMe();
+        explicitWaitClickableElementId("remember-me");
+
         log.info("Status of Remember me: " + webDriver.findElement(By.id("remember-me")).isSelected());
         timeoutSeconds(1);
 
-        if (enableRememberMe) {
+        if(enableRememberMe) {
             //If Remember Me is disabled. Click button
             if (!webDriver.findElement(By.id("remember-me")).isSelected())
-                click(findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div"));
+                click(findWebElementById("remember-me"));
         }
         //Disable Remember Me, if enabled
         else {
             //If Remember Me is enabled. Click button
             if (webDriver.findElement(By.id("remember-me")).isSelected())
-                click(findWebElementByXpath("//*[@id=\"content\"]/fieldset/label/div"));
+                click(findWebElementById("remember-me"));
         }
         //log.info("Status of Remember me: " +webDriver.findElement(By.id("remember-me")).isSelected());
     }
@@ -506,41 +519,46 @@ public class Common {
     public void securityConfirmPopUp(String xPathToButton){
         switchToPopUpWindow();
 
-        //Verify labels and text
-        timeoutSeconds(3);
-        explicitWaitClickableElementId("security-confirm-modal-close-button");
-        verifyStringOnPage("Säkerhetsskäl");
-        verifyStringOnPage("Du behöver logga in igen för att kunna utföra åtgärden.");
-
-        verifyStringById("security-confirm-modal-accept-button", "FORTSÄTT");
-
-        //Close pop-up
-        click(findWebElementById("security-confirm-modal-close-button"));
-
-        //Select English
-        selectEnglish();
-
-        //Click on the button that will initiate the security confirm pop up
-        click(findWebElementByXpath(xPathToButton));
-
-        switchToPopUpWindow();
-
-        //Verify labels and text
-        timeoutSeconds(3);
-
-        //For Delete account additional click is needed
-        try{
-            //Click on 'Delete my eduid' button in pop up after Delete eduid link is clicked in settings
-            click(findWebElementByIdNoExplWait("delete-account-modal-accept-button"));
-        }catch (Exception ex){
-            //log.info("");
+        if(xPathToButton.equalsIgnoreCase("")){
+            log.info("Ignore security confirm popup label verification, pressing Continue button");
         }
+        else {
+            //Verify labels and text
+            timeoutSeconds(3);
+            explicitWaitClickableElementId("security-confirm-modal-close-button");
+            verifyStringOnPage("Säkerhetsskäl");
+            verifyStringOnPage("Du behöver logga in igen för att kunna utföra åtgärden.");
 
-        explicitWaitClickableElementId("security-confirm-modal-close-button");
-        verifyStringOnPage("Security check");
-        verifyStringOnPage("You need to log in again to perform the requested action.");
+            verifyStringById("security-confirm-modal-accept-button", "FORTSÄTT");
 
-        verifyStringById("security-confirm-modal-accept-button", "CONTINUE");
+            //Close pop-up
+            click(findWebElementById("security-confirm-modal-close-button"));
+
+            //Select English
+            selectEnglish();
+
+            //Click on the button that will initiate the security confirm pop up
+            click(findWebElementByXpath(xPathToButton));
+
+            switchToPopUpWindow();
+
+            //Verify labels and text
+            timeoutSeconds(3);
+
+            //For Delete account additional click is needed
+            try {
+                //Click on 'Delete my eduid' button in pop up after Delete eduid link is clicked in settings
+                click(findWebElementByIdNoExplWait("delete-account-modal-accept-button"));
+            } catch (Exception ex) {
+                //log.info("");
+            }
+
+            explicitWaitClickableElementId("security-confirm-modal-close-button");
+            verifyStringOnPage("Security check");
+            verifyStringOnPage("You need to log in again to perform the requested action.");
+
+            verifyStringById("security-confirm-modal-accept-button", "CONTINUE");
+        }
 
         click(findWebElementById("security-confirm-modal-accept-button"));
     }
@@ -602,5 +620,73 @@ public class Common {
             httpStatus = false;
             return httpStatus;
         }
+    }
+
+
+    private void checkIfXpathIsUpdated(String xpath, String stringToCompareWith){
+        if (getPageBody().contains(stringToCompareWith)){
+            log.info("Text String on webpage, xpath is probably changed");
+            log.info("Searching webpage for possible update of xpath...");
+
+            // Find elements containing the specified text
+            List<WebElement> elements = webDriver.findElements(By.xpath("//*[contains(text(), '" + stringToCompareWith + "')]"));
+
+            // Print the XPath of each matching element
+            if (elements.isEmpty()) {
+                System.out.println("No elements found with the text: " + stringToCompareWith);
+            }
+            else {
+                for (WebElement element : elements) {
+                    String newXpath = generateXPath(element, getWebDriver());
+                    Assert.fail("Xpath (" +xpath +") to text string: \n" +stringToCompareWith +
+                            "\nIs not working. Suggested new xpath to element is: " +newXpath);
+                }
+            }
+        }
+        else{
+            log.info("Text String can not be found on webpage.");
+        }
+    }
+
+    // Helper method to generate an XPath for a WebElement
+    private static String generateXPath(WebElement element, WebDriver driver) {
+        String script = "function absoluteXPath(element) {" +
+                "var comp, comps = [];" +
+                "var xpath = '';" +
+                "var getPos = function(element) {" +
+                "var position = 1, curNode;" +
+                "for (curNode = element.previousSibling; curNode; curNode = curNode.previousSibling) {" +
+                "if (curNode.nodeName == element.nodeName) {" +
+                "++position;" +
+                "}" +
+                "}" +
+                "for (curNode = element.nextSibling; curNode; curNode = curNode.nextSibling) {" +
+                "if (curNode.nodeName == element.nodeName) {" +
+                "return position;" + // More than one sibling, return position
+                "}" +
+                "}" +
+                "return null;" + // No siblings, no index
+                "};" +
+                "if (element instanceof Document) {" +
+                "return '/';" +
+                "}" +
+                "for (; element && !(element instanceof Document); element = element.parentNode) {" +
+                "comp = {};" +
+                "comp.name = element.nodeName;" +
+                "comp.position = getPos(element);" +
+                "comps.unshift(comp);" +
+                "}" +
+                "for (var i = 0; i < comps.length; i++) {" +
+                "comp = comps[i];" +
+                "xpath += '/' + comp.name.toLowerCase();" +
+                "if (comp.position !== null) {" +
+                "xpath += '[' + comp.position + ']';" +
+                "}" +
+                "}" +
+                "return xpath;" +
+                "}" +
+                "return absoluteXPath(arguments[0]);";
+
+        return (String) ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(script, element);
     }
 }

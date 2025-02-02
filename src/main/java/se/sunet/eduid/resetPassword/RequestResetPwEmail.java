@@ -1,16 +1,19 @@
 package se.sunet.eduid.resetPassword;
 
+import se.sunet.eduid.registration.Register;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
 public class RequestResetPwEmail {
     private final Common common;
     private final TestData testData;
+    private final Register register;
     private String sendEmailButton = "//*[@id=\"content\"]/div/button[2]";
 
-    public RequestResetPwEmail(Common common, TestData testData){
+    public RequestResetPwEmail(Common common, TestData testData, Register register) {
         this.common = common;
         this.testData = testData;
+        this.register = register;
     }
 
     public void runRequestResetPwEmail(){
@@ -30,15 +33,41 @@ public class RequestResetPwEmail {
 
         //Wait for abort button on next page: Reset Password: Verify email address
                 //TODO tempfix to be removed when bug fixed
-                common.timeoutSeconds(18);
-                Common.log.info("special temp fix, closing status message and sending email once again");
+                //common.timeoutSeconds(18);
+                //Common.log.info("special temp fix, closing status message and sending email once again");
                 //common.closeStatusMessage();
-        if(!common.getPageBody().contains("Återställ lösenord: Verifiera e-postadressen")) {
+/*        if(!common.getPageBody().contains("Återställ lösenord: Verifiera e-postadressen")) {
             common.findWebElementById("reset-password-button").click();
             Common.log.info("Reset email button again...");
+        }*/
+
+        // If whe have initiated authentication with bankID and aborted since it's not possible to do by automation,
+        // then the captcha has already been done in the same req-pw session. Then user will not end up at captcha page
+        // after clicking forgot password link but on the send reset-pw email page
+        if(testData.getMfaMethod().equalsIgnoreCase("bankid")){
+            common.explicitWaitClickableElementId("response-code-abort-button");
+        }
+        else {
+            //Wait for next page, return to login
+            common.explicitWaitClickableElementId("cancel-captcha-button");
+
+            //Add nin cookie
+            common.addNinCookie();
+            register.enterCaptchaCode();
         }
 
+/*        //Wait for next page, return to login
+        common.explicitWaitClickableElementId("cancel-captcha-button");
+
+        //Add nin cookie
+        common.addNinCookie();
+        register.enterCaptchaCode();*/
+
+
+        //wait for the Send-again button on next page
         common.explicitWaitClickableElementId("response-code-abort-button");
+
+        //common.explicitWaitClickableElementId("response-code-abort-button");
     }
 
     private void verifyLabels(){

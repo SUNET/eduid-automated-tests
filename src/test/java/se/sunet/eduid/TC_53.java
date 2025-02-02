@@ -44,17 +44,12 @@ public class TC_53 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void addSecurityKey() {
         testData.setAddSecurityKey(true);
+        testData.setVerifySecurityKeyByFreja(true);
+
         securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
-    void clickVerifySecurityKey() {
-        testData.setVerifySecurityKey(true);
-
-        securityKey.runSecurityKey();
-    }
-
-    @Test( dependsOnMethods = {"clickVerifySecurityKey"} )
     void verifySecurityKeyLogin() {
         //Add nin cookie
         common.addNinCookie();
@@ -88,23 +83,15 @@ public class TC_53 extends BeforeAndAfter {
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(8);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void verifySecurityKeyStatus() {
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
-
-        common.selectEnglish();
-
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIED");
-        common.selectSwedish();
+    void verifiedSecurityKeyStatus() {
+        securityKey.verifiedSecurityKey();
     }
 
     //Verify at dashboard that all security options are checked
-    @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
+    @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
     void dashboard() { dashBoard.runDashBoard(); }
 
     @Test( dependsOnMethods = {"dashboard"} )
@@ -137,7 +124,7 @@ public class TC_53 extends BeforeAndAfter {
     void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login4(){
+    void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

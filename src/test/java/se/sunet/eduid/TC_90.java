@@ -43,17 +43,12 @@ public class TC_90 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void addSecurityKey() {
         testData.setAddSecurityKey(true);
+        testData.setVerifySecurityKeyByFreja(true);
+
         securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
-    void verifySecurityKey() {
-        testData.setVerifySecurityKey(true);
-
-        securityKey.runSecurityKey();
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKey"} )
     void verifySecurityKeyLogin() {
         //Add nin cookie
         common.addNinCookie();
@@ -89,26 +84,18 @@ public class TC_90 extends BeforeAndAfter {
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(8);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void verifySecurityKeyStatus() {
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
-
-        common.selectEnglish();
-
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIED");
-        common.selectSwedish();
+    void verifiedSecurityKeyStatus() {
+        securityKey.verifiedSecurityKey();
     }
 
-    @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
+    //Remove the verified security key
+    @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
     void logout(){
         logout.runLogout();
     }
-
 
     @Test( dependsOnMethods = {"logout"} )
     void navigateToFidusTestSkolverketDnp() {
@@ -138,7 +125,7 @@ public class TC_90 extends BeforeAndAfter {
         common.timeoutMilliSeconds(3500);
 
         //Select eduid staging
-        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/a[1]"));
+        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/li/a"));
 
         //Wait for the eduID log in page to load
         common.timeoutMilliSeconds(2000);

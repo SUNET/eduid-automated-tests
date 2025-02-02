@@ -1,6 +1,7 @@
 package se.sunet.eduid.generic;
 
 import org.testng.Assert;
+import se.sunet.eduid.registration.Register;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -8,7 +9,7 @@ public class Login {
     private final Common common;
     private final TestData testData;
 
-    public Login(Common common, TestData testData){
+    public Login(Common common, TestData testData) {
         this.testData = testData;
         this.common = common;
     }
@@ -77,21 +78,8 @@ public class Login {
             common.selectSwedish();
         }
         else {
-            //Check if the temporary information about removal of phone number is presented
-            if(testData.getTestCase().equalsIgnoreCase("TC_11")) {
-                common.explicitWaitClickableElementId("continue-button");
-
-                common.verifyStringOnPage("Vi upphör med support av telefonnummer");
-
-                common.findWebElementById("continue-button").click();
-                Common.log.info("The extra info page about removal of phone number present, click on continue");
-            }
-
-            //Wait for the username label at dashboard upper right corner
-//            common.timeoutSeconds(4);
-
             //Log in successful, wait for copy button at dashboard
-            common.explicitWaitClickableElement("//*[@id=\"uniqueId-container\"]/div/button");
+            common.explicitWaitClickableElement("//*[@id=\"uniqueId-container\"]/button");
             storeEppn();
 
         }
@@ -109,14 +97,28 @@ public class Login {
         //Click on forgot password link
         common.click(common.findWebElementById("link-forgot-password"));
 
-        //Wait for next page, return to login
         common.explicitWaitClickableElementId("go-back-button");
+
+/*        // If whe have initiated authetication with bankID and aborted since it's not possible to do by automation,
+        // then the captcha has already been done in the same req-pw session. Then user will not end up at captcha page
+        // after clicking forgot password link but on the send reset-pw email page
+        if(testData.getMfaMethod().equalsIgnoreCase("bankid")){
+            common.explicitWaitClickableElementId("reset-password-button");
+        }
+        else {
+            //Wait for next page, return to login
+            common.explicitWaitClickableElementId("cancel-captcha-button");
+
+            //Add nin cookie
+            common.addNinCookie();
+            register.enterCaptchaCode();
+        }*/
     }
 
     public void storeEppn(){
         //Wait for copy eppn button
         common.timeoutSeconds(2);
-        common.explicitWaitClickableElement("//*[@id=\"uniqueId-container\"]/div/button");
+        common.explicitWaitClickableElement("//*[@id=\"uniqueId-container\"]/button");
 
         testData.setEppn(common.findWebElementById("user-eppn").getAttribute("value"));
         if(testData.getEppn().isEmpty()) {

@@ -28,7 +28,7 @@ public class TC_47 extends BeforeAndAfter {
         testData.setRegisterAccount(false);
         login.runLogin();
 
-        common.explicitWaitClickableElement("//*[@id=\"header-nav\"]/button/span");
+//        common.explicitWaitClickableElement("//*[@id=\"header\"]/nav/button");
     }
 
     @Test( dependsOnMethods = {"login"} )
@@ -48,7 +48,7 @@ public class TC_47 extends BeforeAndAfter {
         common.selectEnglish();
 
         //Click remove identity button
-        common.findWebElementById("remove-webauthn").click();
+        common.findWebElementById("remove-identity-nin").click();
 
         //Verify text and labels in remove identity pop-up
         common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5", "Disconnect your identity");
@@ -63,7 +63,7 @@ public class TC_47 extends BeforeAndAfter {
         common.selectSwedish();
 
         //Click remove identity button
-        common.findWebElementById("remove-webauthn").click();
+        common.findWebElementById("remove-identity-nin").click();
 
         //Verify text and labels in remove identity pop-up
         common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5",
@@ -104,7 +104,7 @@ public class TC_47 extends BeforeAndAfter {
     void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login3(){
+    void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

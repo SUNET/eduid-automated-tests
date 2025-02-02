@@ -30,9 +30,12 @@ public class Help {
     }
 
     //Click on help button
-    private void clickHelp(){
+    public void clickHelp(){
         //Click on Help link
         common.click(common.findWebElementByXpath("//*[@id=\"footer\"]/nav/ul/li[1]/a"));
+
+        //Help pages are now opened in a new tab
+        common.switchToPopUpWindow();
 
         //Wait for header "Help and Contact info"
         common.explicitWaitVisibilityElement("//*[@id=\"content\"]/section/h1");
@@ -55,6 +58,7 @@ public class Help {
         verificationEduIdSwe();
         loaEduIdSwe();
         orcidEduIdSwe();
+        termsOfUseSwe();
         privacyEduIdSwe();
         aboutSunetSwe();
         contactEduIdSwe();
@@ -79,6 +83,7 @@ public class Help {
         verificationEduIdEng();
         loaEduIdEng();
         orcidEduIdEng();
+        termsOfUseEng();
         privacyEduIdEng();
         aboutSunetEng();
         contactEduIdEng();
@@ -126,11 +131,11 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "När använder jag eduID?");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Hur ofta du kommer att använda ditt eduID är beroende av ditt arbete " +
-                "eller dina studier; vissa skolor, institutioner och tjänster använder eduID som sin tjänsteleverantör, " +
-                "vilket betyder att du behöver använda ditt eduID för att ha tillgång till deras IT-system. Eller så " +
-                "använder du bara ditt eduID konto för att skapa åtkomst till andra konton, t.ex. universityadmissions.se " +
-                "eller ditt studentkonto.");
+        common.verifyPageBodyContainsString(pageBody, "Hur ofta du kommer att använda ditt eduID är beroende" +
+                " av ditt arbete eller dina studier; vissa skolor, institutioner och tjänster använder eduID som sin " +
+                "tjänsteleverantör, vilket betyder att du behöver använda ditt eduID för att ha tillgång till deras " +
+                "IT-system. Eller så använder du bara ditt eduID konto för att skapa åtkomst till andra konton, t.ex. " +
+                "ditt studentkonto eller antagning.se.");
         //Verify link is working
         common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-about-eduid\"]/article/p[5]/a");
 
@@ -141,7 +146,8 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "ansöker till och accepterar plats på högskolan,\n" +
                 "organiserar studentkontos e-post och intranät,\n" +
                 "byter lärosäte,\n" +
-                "förlorar ett lösenord och behöver återfå åtkomst till konto.");
+                "förlorar ett lösenord och behöver återfå åtkomst till konto,\n" +
+                "administrera studenter som ska utföra Digitala Nationella Provet.");
     }
 
     private void useEduIdSwe(){
@@ -149,75 +155,201 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Användning av eduID");
 
         //Heading - text
-        common.verifyPageBodyContainsString(pageBody, "Skapa, använda och utöka ditt eduID");
+        common.verifyPageBodyContainsString(pageBody, "Skapa, logga in och konto-inställningar");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "Hur kan jag skapa ett eduID?");
+        common.verifyPageBodyContainsString(pageBody, "Hur skaffar jag ett konto?");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Skapa ett eduID");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Hur du kan skapa ditt eduID-konto på eduid.se:");
+        common.verifyPageBodyContainsString(pageBody, "Hur du registrerar ditt nya eduID-konto på eduid.se/register:");
         //Verify link is working
-        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-using-eduid\"]/article[1]/p[1]/a");
+        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-create\"]/p/a");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "ange din e-postadress,\n" +
-                "bekräfta att du inte är en robot m.h.a. CAPTCHA,\n" +
-                "acceptera användarvillkoren,\n" +
-                "bekräfta din e-postadress m.h.a. koden som skickats till den,\n" +
-                "notera dina inloggningsuppgifter (e-postadress och lösenord). Ditt eduID är redo att användas.\n" +
-                "Obs: du kan välja mellan ett automatiskt genererat lösenord eller ett du har skapat själv när du " +
-                "registrerar dig, återställer eller byter lösenord.");
+        common.verifyPageBodyContainsString(pageBody, "ange ditt förnamn, efternamn och e-postadress i " +
+                "formuläret och klicka på knappen \"Skapa eduID\",\n" +
+                "bekräfta att du inte är en robot m.h.a. CAPTCHA genom att skriva in koden som presenteras/läses upp i " +
+                "fälten och klicka på knappen \"Fortsätt\",\n" +
+                "läs och godkänn användarvillkoren genom att klicka på knappen \"Jag accepterar\",\n" +
+                "bekräfta din e-postadress genom att använda koden som skickats till den i formuläret på sidan och " +
+                "klicka på knappen \"Ok\",\n" +
+                "välj med hjälp av radioknapparna mellan ett föreslaget (automatiskt genererat) lösenord eller ett " +
+                "du skapar själv,\n" +
+                "när lösenordet bedömts som tillräckligt starkt, upprepa det i nedre fältet och klick på knappen " +
+                "\"Spara\",\n" +
+                "notera dina inloggningsuppgifter (den använda e-postadressen och lösenordet)!\n" +
+                "Du kan nu logga in med ditt eduID.");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "Hur kan jag utöka mitt eduID?");
-
-        //Text
-        common.verifyPageBodyContainsString(pageBody, "I eduID har du möjlighet att lägga till information som t.ex:");
-
-        //Text
-        common.verifyPageBodyContainsString(pageBody, "ditt namn för att kunna lägga till en säkerhetsnyckel eller hantera vissa tjänster från ett icke verifierat konto,\n" +
-                "ditt telefonnummer för att lättare kunna återställa ditt konto om det skulle behövas,\n" +
-                "en säkerhetsnyckel om du har möjlighet för ytterligare säkerhet,\n" +
-                "ansluta ditt eduID till ESI och/eller befintligt ORCID iD om det stöds av din institution,\n" +
-                "verifiera din identitet för att förstärka ditt eduID tillräckligt för många externa tjänsters behov.");
-
-        //Text
-        common.verifyPageBodyContainsString(pageBody, "För mer detaljerad information om hur du bäst kan verifiera ditt " +
-                "skapade eduID-konto, se hjälpavsnittet 'Verifiering av identitet'.");
+        common.verifyPageBodyContainsString(pageBody, "Hur loggar jag in med mitt konto?");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "Vilken e-postadress kan jag använda för att logga in?");
+        common.verifyPageBodyContainsString(pageBody, "Logga in med eduID");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Du kan logga in med alla e-postadresser som du angett och bekräftat i eduID.");
+        common.verifyPageBodyContainsString(pageBody, "MED ANVÄNDARNAMN OCH LÖSENORD");
+        common.verifyPageBodyContainsString(pageBody, "Om du har ett eduID-konto, skriv in dina " +
+                "inloggningsuppgifter i formuläret på eduid.se och klicka på knappen \"Logga in\". Ditt användarnamn kan vara:");
+        common.verifyPageBodyContainsString(pageBody, "alla e-postadresser som lagts till och bekräftats i eduID under Konto,\n" +
+                "ditt unika ID som visas på inloggade startsidan och under Konto.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "MED SPARADE ANVÄNDARUPPGIFTER\n" +
+                "Under inloggningsformuläret finns en toggle-kontroll märkt \"Kom ihåg mig på den här enheten\". Om " +
+                "den är påslagen kommer webbläsaren försöka fylla i sparat användarnamn och dolt lösenord i formuläret. " +
+                "Stäng av kontrollen för att använda ett annat konto eller logga in på en enhet som inte är privat.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "MED ANNAN ENHET");
+                common.verifyPageBodyContainsString(pageBody, "Använd dina inloggningsuppgifter från en " +
+                        "annan enhet än du vill logga i eduID med:");
+        common.verifyPageBodyContainsString(pageBody, "klicka på knappen \"Annan enhet\" i inloggningsformuläret,\n" +
+                "skanna QR-koden som visas med enheten där du har din säkerhetsnyckel eller sparat lösenord,\n" +
+                "på den andra enheten; kontrollera informationen om enheten som försöker logga in och använd koden som" +
+                " visas, inom den angivna tiden, för att logga in på den första enheten.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "MED SÄKERHETSNYCKEL");
+        common.verifyPageBodyContainsString(pageBody, "Om du har lagt till säkerhetsnyckel för autentisering " +
+                "under Säkerhet kommer den att efterfrågas i ett extra steg efter inloggningsformuläret:");
+        common.verifyPageBodyContainsString(pageBody, "Klicka på knappen \"Använd min säkerhetsnyckel\" " +
+                "och följ instruktionerna för din säkerhetsnyckel.\n" +
+                "Ytterligare tillagd säkerhet finns listad i menyn \"Visa andra alternativ\", t.ex. BankID och Freja+\n" +
+                "Om du bara vill använda säkerhetsnyckel för att logga in när det efterfrågas, stäng av kontrollen märkt " +
+                "\"Använd alltid tvåfaktorsautentisering (2FA) vid inloggning till eduID\" under Säkerhet.\n" +
+                "Obs: du kan läsa mer om säkerhetsnycklar i hjälpavsnittet \"Utökad säkerhet med ditt eduID\".");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "Hur kan jag ändra standardspråk i eduID?");
+        common.verifyPageBodyContainsString(pageBody, "Återfå tillgång vid glömt lösenord");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Det språk som används som standard i eduID är baserat på den " +
-                "språkinställning som din webbläsare använder. För att byta standardspråk kan du logga in i eduID och " +
-                "välja önskat språk under Personlig information. Du kan också byta det visade språket i hemsidans sidfot. " +
-                "Möjliga val är svenska och engelska.");
-
-        //Heading
-        common.verifyPageBodyContainsString(pageBody, "Hur kan jag logga in med en annan enhet?");
-
-        //Text
-        common.verifyPageBodyContainsString(pageBody, "Inloggning kan även ske genom att logga in i eduID med hjälp av en annan enhet:");
-
-        //Text
-        common.verifyPageBodyContainsString(pageBody, "klicka på knappen 'Annan enhet' i inloggnings-formuläret,\n" +
-                "skanna QR-koden med enheten där du har din säkerhetsnyckel eller sparat lösenord,\n" +
-                "på den andra enheten; kontrollera informationen om enheten som försöker logga in och använd koden " +
-                "som visas, inom den angivna tiden, för att logga in på den första enheten.");
+        common.verifyPageBodyContainsString(pageBody, "klicka på länken \"Glömt ditt lösenord?\" under inloggningsformuläret,\n" +
+                "klicka på knappen \"Skicka e-post\" för att skicka en kod till adressen som presenteras på sidan,\n" +
+                "Följ instruktionerna i mejlet inom 2 timmar. Stegen för att bekräfta din epostadress och välja nytt " +
+                "lösenord är samma som när du skapar ditt eduID.\n" +
+                "Obs: beroende av dina tidigare inställningar kan du behöva återverifiera din identitet i eduID.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Jag är redan inloggad, varför behöver jag logga in igen?");
-        common.verifyPageBodyContainsString(pageBody, "Vissa situationer kräver högre säkerhet, t.ex. lösenordsbyte, " +
-                "ändring av 2FA inställning, raderande av eduID-konto och ändrade säkerhetsnycklar. Om mer än 5 minuter " +
-                "har passerat sedan senaste inloggning kommer du behöva logga in igen (med säkerhetsnyckel om du har " +
-                "en tillagd) för att slutföra åtgärderna.");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Vissa situationer kräver högre säkerhet, om mer än " +
+                "5 minuter har passerat sedan senaste inloggning kommer du behöva logga in igen (med säkerhetsnyckel om " +
+                "du har en tillagd) för att slutföra åtgärderna, t.ex:");
+
+        common.verifyPageBodyContainsString(pageBody, "lösenordsbyte,\n" +
+                "på- och avslagning av 2FA vid inloggning,\n" +
+                "radera eduID-konto,\n" +
+                "lägga till / ta bort säkerhetsnyckel,\n" +
+                "radera din verifierade identitet.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Hur uppdaterar jag mitt konto?");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "När du loggar in i eduid.se finns olika " +
+                "inställningar uppdelade i 4 vyer; Start, Identitet, Säkerhet och Konto som nås med menyn i övre högra " +
+                "hörnet genom att klicka på användarnamnet. Läs mer om varje sida nedan.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Start");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Startsidan innehåller:");
+        common.verifyPageBodyContainsString(pageBody, "ditt namn,\n" +
+                "ditt unika användar-ID,\n" +
+                "en statusöversikt av ditt eduID som länkar till föreslagna inställningar i siten. Dessa uppgifter " +
+                "förstärker och utökar användbarheten av ditt eduID:\n" +
+                "bekräftat konto (bekräftad epostadress och godkända användarvillkor),\n" +
+                "verifierad verklig identitet,\n" +
+                "ökad säkerhet (lagt till metod för multifaktor-inloggning),\n" +
+                "en verifierad säkerhetsnyckel (kopplat din verifierade identitet till din multifaktor-inloggning).\n" +
+                "Obs: Du kan läsa om hur statusen relaterar till anslutande tjänster i hjälpavsnittet \"Tillitsnivåer\".");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Identitet");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Identitetssidan innehåller:");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "En tabell med dina verifierade identiteter om du har någon,\n" +
+                "alternativ för identitetsverifiering om din verkliga identitet inte är verifierad eller din existerande " +
+                "verifiering inte är med ett svenskt person- eller samordningsnummer, beroende på din situation:\n" +
+                "med svenskt digitalt ID (Freja+/BankID) eller via post,\n" +
+                "med eIDAS elektronisk identifiering för EU-medborgare,\n" +
+                "Freja eID för de flesta länder.\n" +
+                "Obs: du kan läsa mer om metoderna i hjälpavsnittet \"Verifiering av identitet\".");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Ett formulär för att uppdatera namn och " +
+                "visningsnamn genom att klicka på länken \"ändra\", där tillgängliga inställningar beror på om din " +
+                "identitet är verifierad.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Säkerhet");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Säkerhetssidan innehåller:");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Knappar för att lägga till tvåfaktorsautentisering " +
+                "för att öka säkerheten för ditt eduID m.h.a. en säkerhetsnyckel som ytterligare ett lager till " +
+                "inloggningsprocessen utöver ditt lösenord. Genom att även verifiera säkerhetsnyckeln kopplas den till " +
+                "din identitet vilket stärker kontots tillitsnivå. Du kan lägga till så många säkerhetsnycklar du " +
+                "önskar och beroende på din enhet (dator, mobil, operativsystem m.m.) är alternativen för att lägga " +
+                "till en säkerhetsnyckel följande:\n" +
+                "Denna enhet: inbyggd säkerhetsnyckel i mobil eller laptop, t.ex. passkey med din biometriska information,\n" +
+                "Säkerhetsnyckel: extern enhet som t.ex. din USB-säkerhetsnyckel,");
+
+        common.verifyPageBodyContainsString(pageBody, "Under \"Hantera dina säkerhetsnycklar\" finns en " +
+                "toggle-kontroll märkt \"Använd alltid tvåfaktorsautentisering (2FA) vid inloggning till eduID\" som " +
+                "kan stängas av för att bara använda säkerhetsnyckel för att logga in när det efterfrågas. " +
+                "Standardinställning är påslagen.");
+
+        common.verifyPageBodyContainsString(pageBody, "En tabell som visar dina tillagda nycklar med " +
+                "följande information:\n" +
+                "det beskrivande namnet du gav nyckeln då den lades till,\n" +
+                "datum då skapat och senast använt,\n" +
+                "verifierings-status / alternativ (Freja+/BankID),\n" +
+                "en papperskorgs-ikon som raderar nyckeln vid klick.\n" +
+                "Obs: du kan läsa mer om säkerhetsnycklar i hjälpavsnittet \"Utökad säkerhet med ditt eduID\".");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Konto");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Kontosidan innehåller:");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Epostadresser: Du kan lägga till så många du önskar " +
+                "men behöver minst en epostadress som du har bekräftad åtkomst till. Du kan logga in med alla bekräftade " +
+                "adresser men den primära används för att kommunicera med dig. De listas i en tabell med följande alternativ:\n" +
+                "Lägg till genom att klicka på länken \"+ lägg till fler\" och ta bort genom att klicka på papperskorgs-ikonen.\n" +
+                "Bekräfta en epostadress genom att klicka på länken \"Bekräfta\" och fylla i koden som skickas till den " +
+                "adressen i formuläret.\n" +
+                "Gör en epostadress primär genom att klicka på länken \"Gör primär\".");
+
+        common.verifyPageBodyContainsString(pageBody, "Språk: Standardspråket baseras på din webbläsares " +
+                "språkinställning. I eduID kan du kan välja mellan svenska och engelska.\n" +
+                "För att byta standardspråk kan du logga in i eduID och välja önskat språk med radioknapparna under Konto.\n" +
+                "Du kan även ändra visat språk för laddade sidan i sidfoten.");
+
+        common.verifyPageBodyContainsString(pageBody, "Byt lösenord: Byt alltid ditt lösenord om du tror " +
+                "att någon annan har tillgång till det.\n" +
+                "Länken \"Byt lösenord\" tar dig igenom stegen för att byta ditt lösenord. Som när du skapade ditt eduID " +
+                "kommer du få välja mellan ett föreslaget (automatiskt genererat) lösenord och ett du skapar själv.\n" +
+                "Ett föreslaget slumpmässigt genererat lösenord är vanligtvis säkrast och du kan använda en " +
+                "lösenordshanterare, antigen inbyggd i webbläsaren eller installerad tredje-part, för att hjälpa dig " +
+                "att komma ihåg ditt lösenord.\n" +
+                "Om du använder en passkey för din inloggning, spara den inte på samma nyckelring som ditt lösenord.\n" +
+                "ORCID konto: En knapp för att ansluta ditt eduID med befintligt ORCID iD.\n" +
+                "ESI information: En toggle-kontroll och meny för att länka ditt eduID till ESI om det stöds av din institution.\n" +
+                "Radera eduID: Länken \"Radera eduID\" öppnar en modal för att bekräfta att ditt konto ska raderas permanent.\n" +
+                "Obs: du kan läsa mer om ORCID iD, Ladok och ESI i hjälpavsnittet \"Länkning till ORCID / ESI\".");
     }
 
     private void securityEduIdSwe(){
@@ -248,14 +380,14 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Hur kan jag lägga till 2FA för mitt eduID?");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "När du har loggat in kan du lägga till och bekräfta säkerhetsnycklar " +
-                "bland inställningarna i eduID genom att följa instruktionerna där.");
+        common.verifyPageBodyContainsString(pageBody, "När du är inloggad kan du lägga till och bekräfta " +
+                "säkerhetsnycklar som du har möjlighet att använda, under Säkerhet i eduID och följa instruktionerna.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Obs: om du har lagt till en säkerhetsnyckel till ditt eduID behöver " +
-                "du sedan använda den för att kunna logga in, om du inte har stängt av 2FA inställningen i Avancerade " +
-                "inställningar. Du kan ändå behöva använda säkerhetsnyckeln för åtkomst till andra anslutande tjänster " +
-                "som kräver det.");
+        common.verifyPageBodyContainsString(pageBody, "Obs: om du har lagt till en säkerhetsnyckel till " +
+                "ditt eduID behöver du sedan använda den för att kunna logga in, om du inte har stängt av 2FA " +
+                "inställningen under Säkerhet. Du kan ändå behöva använda säkerhetsnyckeln för åtkomst till andra " +
+                "anslutande tjänster som kräver det.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Vilka säkerhetsnycklar kan jag använda för eduID?");
@@ -283,10 +415,9 @@ public class Help {
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Giltiga modeller av fysiska säkerhetsnycklar");
-        common.verifyPageBodyContainsString(pageBody, "Här listas märke och modellnamn av fysiska säkerhetsnycklar som bör " +
-                "möta de tekniska förutsättningarna för att kunna användas för eduID. Listan är sorterad alfabetiskt " +
-                "och uppdateras en gång i månaden.");
-        common.verifyPageBodyContainsString(pageBody, "Nästa uppdatering:");
+        common.verifyPageBodyContainsString(pageBody, "Här listas märke och modellnamn av fysiska " +
+                "säkerhetsnycklar som bör möta de tekniska förutsättningarna för att kunna användas för eduID. Listan " +
+                "är sorterad alfabetiskt och uppdateras regelbundet.");
     }
 
     private void verificationEduIdSwe(){
@@ -352,8 +483,8 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Hur du kan använda Freja+ med eduID:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "installera Freja app på din mobila enhet (iOS eller Android) och " +
-                "skapa ett Freja+ konto enligt instruktionerna,");
+        common.verifyPageBodyContainsString(pageBody, "installera Freja-appen på din mobila enhet " +
+                "(iOS eller Android) och skapa ett Freja+ konto enligt instruktionerna,");
         //Verify link is working
         common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-freja\"]/article/ul/li[1]/a");
 
@@ -398,9 +529,9 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Hur du kan använda BankID med eduID:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "BankID erhålls från din personliga bank och installeras på din " +
-                "enhet som en app eller fil. Tillvägagångssättet varierar, så besök din banks hemsida och följ " +
-                "instruktionerna. Du kan läsa mer om att skaffa BankID på the BankID website");
+        common.verifyPageBodyContainsString(pageBody, "BankID erhålls från din personliga bank och " +
+                "installeras på din enhet som en app eller fil. Tillvägagångssättet varierar, så besök din banks hemsida " +
+                "och följ instruktionerna. Du kan läsa mer om att skaffa BankID på BankID.com.");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "logga in i eduID och välj metoden 'Med elektroniskt BankID' i " +
@@ -453,9 +584,9 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Hur du kan använda Freja med eduID:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "för att bekräfta ditt eduID med Freja behöver du först ett Freja-konto " +
-                "med en profil som är bekräftad med ditt pass, genom att installera Freja app på din mobila enhet (iOS " +
-                "eller Android) och följa instruktionerna,");
+        common.verifyPageBodyContainsString(pageBody, "för att bekräfta ditt eduID med Freja behöver du " +
+                "först ett Freja-konto med en profil som är bekräftad med ditt pass, genom att installera Freja-appen " +
+                "på din mobila enhet (iOS eller Android) och följa instruktionerna,");
         //Verify link is working
         common.verifyXpathIsWorkingLink("//*[@id=\"international\"]/ul/li[1]/a");
 
@@ -473,7 +604,7 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Tillitsnivåer");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "AL, LOA mm.");
+        common.verifyPageBodyContainsString(pageBody, "AL, LoA mm.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Vad är tillitsnivåer?");
@@ -488,36 +619,39 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "På vilken nivå är ditt eduID?");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Under inloggade startsidan visas en statusöversikt av ditt eduID.");
+        common.verifyPageBodyContainsString(pageBody, "Under inloggade startsidan presenteras en " +
+                "statusöversikt av ditt eduID. Det här är vad den vanligtvis innebär för din tillitsnivå och tjänsterna " +
+                "som du kan autentisera dig för:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Bekräftat konto: när du har skapat ett eduID (med " +
-                "bekräftad epostadress och godkänd CAPTCHA) vilket i allmänhet motsvarar AL1.");
+        common.verifyPageBodyContainsString(pageBody, "Bekräftat konto:\n" +
+                "tjänster som kräver en låg tillitsnivå, ofta kallad AL1 / RAF Low.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Verifierad identitet: eduID-kontot når i allmänhet " +
-                "AL2, vilket är en tillräcklig nivå för många lärosäten och t.ex. Ladok.");
+        common.verifyPageBodyContainsString(pageBody, "Verifierad identitet:\n" +
+                "tjänster som kräver en medelhög tillitsnivå, inklusive många lärosäten, ofta kallad AL2 / RAF Medium.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Ökad säkerhet: är tillagd i form av multifaktorautentisering.");
+        common.verifyPageBodyContainsString(pageBody, "Ökad säkerhet:\n" +
+                "tjänster som kräver att du loggar in med multifaktorautentisering, ofta kallad REFEDS MFA.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Verifierad säkerhetsnyckel: din tillagda säkerhetsnyckel är kopplad till din identitet.");
+        common.verifyPageBodyContainsString(pageBody, "Verifierad säkerhetsnyckel:\n" +
+                "tjänster som kräver en stark koppling mellan din identitet och din inloggning, ofta kallad AL3 / RAF High / LoA2.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Med en verifierad svensk identitet och verified " +
-                "säkerhetsnyckel, uppnår kontot i allmänhet Swamid AL3/ DIGG LOA2 och är på en tillräcklig nivå för " +
-                "t.ex. Digitala Nationella Proven (DNP) och Nice.");
+        common.verifyPageBodyContainsString(pageBody, "Obs: detta är en förenklad sammanfattning och kan " +
+                "förändras, fullständig information angående vad som krävs av ditt eduID behöver tillgodoses av tjänsten som ansluts.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Obs: detta är bara en förenklad sammanfattning av " +
-                "ett föränderligt ämne, fullständig information angående vad som krävs av ditt eduID behöver " +
-                "tillgodoses av tjänsten som ansluts.");
+        common.verifyPageBodyContainsString(pageBody,"Exempelvis med en verifierad svensk identitet och " +
+                "verified säkerhetsnyckel, uppnår kontot i allmänhet Swamid AL3/ DIGG LoA2 och är på en tillräcklig " +
+                "nivå för t.ex. Digitala Nationella Proven (DNP) och Nice.");
     }
 
     private void orcidEduIdSwe(){
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "Länkning till Orcid / ESI");
+        common.verifyPageBodyContainsString(pageBody, "Länkning till ORCID / ESI");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Vad är ORCID?");
@@ -534,9 +668,9 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "läs mer och skaffa ett ORCID på orcid.org,\n" +
-                "klicka på knappen 'Länka Orcid konto' bland Inställningar i eduID,\n" +
-                "logga in i ORCID och ge eduID tillstånd att använda ditt ORCID iD för att försäkra att det " +
-                "är korrekt kopplat till dig.");
+                "klicka på knappen 'Länka ORCID konto' under Konto i eduID,\n" +
+                "logga in i ORCID och ge eduID tillstånd att använda ditt ORCID iD för att försäkra att det är " +
+                "korrekt kopplat till dig.");
         //Verify link is working
         common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-orcid-ladok\"]/article[1]/ul/li[1]/a");
 
@@ -553,8 +687,47 @@ public class Help {
                 "och högskolor för antagning och betygssättning. Vissa lärosäten har valt att ge eduID åtkomst till " +
                 "ESI-attributet (European Student Identifier) från Ladok, som t.ex. används vid ansökning till Erasmus utbytesprogram.");
         common.verifyPageBodyContainsString(pageBody, "Hur du kan länka ditt ESI med eduID:");
-        common.verifyPageBodyContainsString(pageBody, "bland dina inställningar i eduID, aktivera ESI-kontrollen,\n" +
+        common.verifyPageBodyContainsString(pageBody, "under Konto i eduID, aktivera ESI-kontrollen,\n" +
                 "välj din institution från listan - om den finns tillgänglig.");
+    }
+
+    private void termsOfUseSwe(){
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Användarvillkor");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Vad är eduIDs användarvillkor?");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Villkoren accepteras av användaren när eduID-kontot " +
+                "skapas. Det är en juridisk överenskommelse mellan eduID och dess användare att följa användarvillkoren. " +
+                "Du kan bli ombedd att acceptera villkoren på nytt om du inte har använt tjänsten sedan en tid.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "För eduID.se gäller generellt:");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "att all användning av användarkonton ska följa " +
+                "Sveriges lagar och förordningar,\n" +
+                "att man är sanningsenlig vid uppgivande av personlig information som namn, kontaktuppgifter el. dyl,\n" +
+                "att användarkonton, lösenord, säkerhetsnycklar och koder är personliga och får endast användas av innehavaren,\n" +
+                "att SUNET:s etiska regler reglerar övrig tillåten användning.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "SUNET bedömer som oetiskt när någon:");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "försöker få tillgång till nätverksresurser utan att ha rätt till det\n" +
+                "försöker dölja sin användaridentitet\n" +
+                "försöker störa eller avbryta den avsedda användningen av nätverken\n" +
+                "uppenbart slösar med tillgängliga resurser (personal, maskinvara eller programvara)\n" +
+                "försöker störa eller avbryta den avsedda användningen av nätverken\n" +
+                "gör intrång i andras privatliv\n" +
+                "försöker förolämpa eller förnedra andra");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Den som överträder, eller misstänks överträda, " +
+                "ovanstående regler kan stängas av från eduID.se. Dessutom kan rättsliga åtgärder komma att vidtas.");
     }
 
     private void privacyEduIdSwe(){
@@ -613,9 +786,9 @@ public class Help {
                 "nätverk hos svenska lärosäten och andra offentliga organisationer med koppling till forskning eller högre utbildning.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "SUNET tog fram eduID i syfte att erbjuda framförallt lärosäten " +
-                "gemensamma rutiner för identitetshantering av väl identifierade och autenticerade användare. Läs mer " +
-                "om SUNET på www.sunet.se.");
+        common.verifyPageBodyContainsString(pageBody, "SUNET tog fram eduID i syfte att erbjuda " +
+                "framförallt lärosäten gemensamma rutiner för identitetshantering av väl identifierade och " +
+                "autentiserade användare. Läs mer om SUNET på www.sunet.se.");
         //Verify link is working
         common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-about-sunet\"]/article/p[2]/a");
     }
@@ -678,11 +851,11 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "When will I use eduID?");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Depending on where you work or study you might only use your eduID " +
-                "account a few times, or you might use it every day. Some schools, institutions and services use eduID " +
-                "as their identity provider, this means you will use your eduID to gain access to their IT-systems. Or " +
-                "you may mainly use your eduID account to create and access other accounts, such as universityadmissions.se " +
-                "or your student account.");
+        common.verifyPageBodyContainsString(pageBody, "Depending on where you work or study you might " +
+                "only use your eduID account a few times, or you might use it every day. Some schools, institutions and " +
+                "services use eduID as their identity provider, this means you will use your eduID to gain access to " +
+                "their IT-systems. Or you may mainly use your eduID account to create and access other accounts, such " +
+                "as your student account or e.g. universityadmissions.se.");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Log in at eduid.se when you:");
@@ -691,7 +864,8 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "apply to and accept your place at a university,\n" +
                 "organise your student account for email and intranet,\n" +
                 "change university,\n" +
-                "lose a student account password and need to regain access.");
+                "lose a student account password and need to regain access,\n" +
+                "administrate students taking the Digital national exam.");
     }
 
     private void useEduIdEng(){
@@ -699,75 +873,199 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Using eduID");
 
         //Heading - text
-        common.verifyPageBodyContainsString(pageBody, "How to create, use and strengthen your eduID");
+        common.verifyPageBodyContainsString(pageBody, "Create, login and account settings");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "How can I create an eduID?");
-
-        //Text
-        common.verifyPageBodyContainsString(pageBody, "How to create your eduID account at eduid.se:");
-
-        //Text
-        common.verifyPageBodyContainsString(pageBody, "register your email address,\n" +
-                "confirm that you are human by using CAPTCHA,\n" +
-                "accept the eduID terms of use,\n" +
-                "verify your email address by entering the code emailed to you,\n" +
-                "take note of your login details (username and password). Your eduID is now ready to use.\n" +
-                "Note: you can choose between an automatically generated password or one you have created, when you " +
-                "register, reset and change password.");
+        common.verifyPageBodyContainsString(pageBody, "How do I get an account?");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "How can I enhance my eduID?");
+        common.verifyPageBodyContainsString(pageBody, "Create an eduID");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "In eduID you are encouraged to add further details such as:");
+        common.verifyPageBodyContainsString(pageBody, "How to register your new eduID account at eduid.se/register:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "your full name to be able to add a security key or access some services from an unverified account,\n" +
-                "your phone number for easier retrieval of your account should it be needed,\n" +
-                "a security key if you are able to for added security,\n" +
-                "connecting your eduID to ESI if enabled by your institution, or sharing it with your existing ORCID iD,\n" +
-                "verifying your identity to strengthen your eduID sufficiently for many external services.");
-
-        //Text
-        common.verifyPageBodyContainsString(pageBody, "For more detailed information on how to verify your created account " +
-                "based on your situation, see the 'Verification of Identity' help section.");
+        common.verifyPageBodyContainsString(pageBody, "enter your first name, last name and email address " +
+                "in the form and press the ”Create eduID” button,\n" +
+                "confirm that you are human using CAPTCHA by entering the displayed/read out code and press the ”Continue” button,\n" +
+                "read and approve the eduID terms of use by pressing the ”I Accept” button,\n" +
+                "verify your email address by entering the code emailed to you in the website form and press the ”Ok” button,\n" +
+                "choose using the radio buttons between a suggested (automatically generated) password or one you create,\n" +
+                "when validated for strength, repeat the password in the corresponding field and press the ”Save” button,\n" +
+                "take careful note of your login details (used email address and password)!\n" +
+                "You can now log in with your eduID.");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "Which email account can I use to log in?");
-
-        //Text
-        common.verifyPageBodyContainsString(pageBody, "You can log in with all the email addresses you have entered and confirmed in eduID.");
+        common.verifyPageBodyContainsString(pageBody, "Log in with eduID");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "How can I change the default language in eduID?");
+        common.verifyPageBodyContainsString(pageBody, "WITH USERNAME AND PASSWORD");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "To change the default language you can log in to eduID and select " +
-                "your language preference in the Personal information area in eduID. The default language is based on " +
-                "the language setting that your browser uses. You can also change the displayed language in the footer " +
-                "of the webpage. Available options are Swedish and English.");
+        common.verifyPageBodyContainsString(pageBody, "If you have an eduID account, enter your credentials in the form at eduid.se and press the button \"Log in\". Your username can be:");
+        common.verifyPageBodyContainsString(pageBody, "any email address you have entered and confirmed in eduID under Account,\n" +
+                "your unique ID, shown on the logged in start page and under Account.");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "How can I log in with other devices?");
+        common.verifyPageBodyContainsString(pageBody, "WITH SAVED CREDENTIALS");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "You can also login using another device to login to eduID on the device you are currently using:");
+        common.verifyPageBodyContainsString(pageBody, "Underneath the login form there is a toggle control" +
+                " called \"Remember me on this device\". If this is switched on the web browser will attempt to fill in " +
+                "your username and hidden password. For a different account or on a shared device, set this to off.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "WITH ANOTHER DEVICE");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "select 'Other device' button in the login form,\n" +
-                "scan the QR-code with the device where you have your login credentials, e.g. security key or saved password,\n" +
+        common.verifyPageBodyContainsString(pageBody, "Use your credentials from another device than you wish to access eduID with:");
+        common.verifyPageBodyContainsString(pageBody, "press the \"Other device\" button in the login form,\n" +
+                "scan the presented QR-code with the other device where you have your login credentials, e.g. security " +
+                "key or saved password,\n" +
                 "on that second device, review the device requesting to be logged in, and use the presented code to log " +
                 "in by entering it within the time shown, in the first device.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "WITH SECURITY KEY");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "If you have added a security key for authentication " +
+                "under Security, it will be requested after the initial login form in an additional Security step:");
+        common.verifyPageBodyContainsString(pageBody, "Press the \"Use my security key\" button and follow " +
+                "the instructions, which will vary depending on your key.\n" +
+                "Added security alternatives are listed in the \"Other options\" dropdown below the security key button, " +
+                "such as BankID and Freja+.\n" +
+                "If you don't wish to use a security key to log in unless required, set the \"Always use a second factor " +
+                "(2FA) to log in to eduID\" toggle control under Security to off.\n" +
+                "Note: you can read more about security keys in the \"Enhancing the security level of eduID\" help section.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Regain access if forgotten password");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "press the \"Forgot your password?\" link below the login form,\n" +
+                "press the \"Send email\" button to receive a code to the email address presented on the page,\n" +
+                "follow the instructions in the email within 2 hours. The steps to verify your email address and " +
+                "selecting a new password are the same as when you created your eduID.\n" +
+                "Note: depending on your previous settings you might need to re-verify your identity in eduID.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "I'm already logged in, why do I need to log in again?");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Some situations require added security, e.g. changing your password, " +
-                "toggling 2FA login requirement setting, deleting your eduID account or adding/removing a security key. " +
-                "If more than 5 minutes have passed since you last logged in you will be asked to log in again (with " +
-                "your security key if you are using one), to complete these actions.");
+        common.verifyPageBodyContainsString(pageBody, "In some situations that require added security you " +
+                "will be asked to log in again (with your security key if you are using one), if more than 5 minutes " +
+                "have passed since you logged in, e.g:");
+        common.verifyPageBodyContainsString(pageBody, "changing your password,\n" +
+                "toggling 2FA login requirement setting,\n" +
+                "deleting your eduID account,\n" +
+                "adding/removing a security key,\n" +
+                "deleting your verified identity.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "How do I update my account?");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "When you log in to eduid.se the various settings " +
+                "are grouped into 4 views; Start, Identity, Security and Account, accessible from the drop down menu " +
+                "in the header by clicking on your username. Read more about the possible actions of each page below.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Start");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "The Start page contains:");
+        common.verifyPageBodyContainsString(pageBody, "your name,\n" +
+                "your unique user ID,\n" +
+                "an overview of the status of your eduID with links to where it can be addressed in the site. These " +
+                "tasks strengthen and increase the use of your eduID:\n" +
+                "confirmed account (confirmed email address and accepted terms of use),\n" +
+                "real identity verified,\n" +
+                "enhanced security (added a method used for multi factor login),\n" +
+                "a verified security key (bound your verified identity to your multi factor login).\n" +
+                "Note: You can read about how the status correlates to connecting services in the help section \"Assurance levels\".");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Identity");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "The Identity page contains:");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "The Identity page contains:\n" +
+                "A table presenting your verified identities if you have any,\n" +
+                "options for identity verification if your real identity is not verified, or if your existing " +
+                "verification is not with a Swedish ID- or coordination number, depending on your situation:\n" +
+                "with Swedish digital ID (Freja+/BankID) or by post,\n" +
+                "with eIDAS electronic identification for EU citizens,\n" +
+                "Freja eID for most nationalities.\n" +
+                "Note: You can read more about these methods in the help section \"Verification of identity\".");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "A form for updating name and display name by " +
+                "clicking on the link \"edit\", where available settings are dependent on wether your identity is verified.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Security");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "The Security page contains:");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Buttons to add Two-factor authentication to increase " +
+                "the security of your eduID by adding a layer called a security key to your login process besides " +
+                "password. By also verifying the security key it is bound to your identity, increasing the assurance " +
+                "level of your account. You can add as many as you wish and depending on your device (computer, mobile, " +
+                "operating system etc.), the options to add a security key include:\n" +
+                "This device: built in security key in mobile or laptop, e.g. a passkey, including your biometrics,\n" +
+                "Security key: external device such as your USB security key.");
+
+        common.verifyPageBodyContainsString(pageBody, "Under \"Manage your security keys\" is a toggle " +
+                "control marked \"Always use a second factor (2FA) to log in to eduID\" which can let you log in with " +
+                "your eduID account without using your added security key when allowed. Default setting is on.");
+
+        common.verifyPageBodyContainsString(pageBody, "A table displaying all your added security keys " +
+                "with the following information:\n" +
+                "the descriptive name given by you when created,\n" +
+                "dates of creation and latest use,\n" +
+                "verification status / verification options (Freja+/BankID),\n" +
+                "a bin icon which deletes the key when clicked.\n" +
+                "Note: You can read more about security keys in the help section \"Enhancing the security level of eduID\".");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Account");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "The Account page contains:");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Email addresses: You can add as many as you wish, " +
+                "but need to have at least one email address that you have confirmed access to. You can log in with all " +
+                "confirmed addresses but the primary one will be used for communication with you. They are listed in a " +
+                "table with the following options:\n" +
+                "Add by clicking on the \"+ add more\" link and remove by clicking on the bin icon.\n" +
+                "Confirm an address by clicking on the link \"Confirm\" and enter the code that is emailed to that " +
+                "address into the website form.\n" +
+                "Make one email address your primary address by clicking on the link \"Make primary\".");
+
+        common.verifyPageBodyContainsString(pageBody, "Language: The default language is based on the " +
+                "language setting that your browser uses. Available options are Swedish and English.\n" +
+                "To change the default language for eduID you can log in to eduID and select your preference using the " +
+                "Language radio buttons under Account.\n" +
+                "You can also change the language for the loaded page in the footer of the webpage.");
+
+        common.verifyPageBodyContainsString(pageBody, "Change password: Always change your password if " +
+                "you believe someone else has access to it.\n" +
+                "Clicking on the link \"Change password\" will take you through the steps for changing your password. " +
+                "As when you created your eduID, there is a choice between a suggested (automatically generated) " +
+                "password or one you create.\n" +
+                "A randomly created suggested password is generally considered safest and you can use a third party or " +
+                "browser built in Password Manager tool to help you keep track of your password.\n" +
+                "If you are using a passkey for your login, don't save it on the same key chain as your password.\n" +
+                "ORCID account: A button connecting your eduID with your existing ORCID iD.\n" +
+                "ESI information: A toggle control and select menu connecting your eduID to ESI, if enabled by your institution.\n" +
+                "Delete eduID: Clicking on the link \"Delete eduID\" will open a modal confirming deletion of your account permanently.\n" +
+                "Note: you can read more about ORCID iD and Ladok and ESI settings in the \"Connecting account with Orcid / ESI\" help section.\"");
     }
 
     private void securityEduIdEng(){
@@ -798,13 +1096,15 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "How can I add 2FA to eduID?");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Once you have logged in you can add your security keys in the " +
-                "Settings area of eduID by following the instructions there.");
+        common.verifyPageBodyContainsString(pageBody, "When logged in you can add and confirm security " +
+                "keys of your choice (provided you have access to any of these methods) in the Security area of eduID " +
+                "and follow the instructions.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Note: if you have added a security key to your eduID it must be used " +
-                "to log in to eduID, unless you turn off this feature under Two-factor Authentication (2FA) in Advanced " +
-                "settings. You might still need to use your security key if other connecting services require 2FA.");
+        common.verifyPageBodyContainsString(pageBody, "Note: if you have added a security key to your " +
+                "eduID it must be used to log in to eduID, unless you turn off this feature under Two-factor " +
+                "Authentication (2FA) in Security. You might still need to use your security key if other connecting " +
+                "services require 2FA.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Which type of security key can I use with eduID?");
@@ -831,10 +1131,8 @@ public class Help {
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Valid physical Security Key options");
-        common.verifyPageBodyContainsString(pageBody, "Listed below are maker and model names of physical security keys " +
-                "which should meet the technical requirements to be used for eduID. They are listed in alphabetical " +
-                "order and the list is updated once a month.");
-        common.verifyPageBodyContainsString(pageBody, "Next update:");
+        common.verifyPageBodyContainsString(pageBody, "This is a list of names of maker and models of " +
+                "external security keys that kan be used for eduID. They are listed in alphabetical order and updated regularly.");
     }
 
     private void verificationEduIdEng(){
@@ -948,9 +1246,9 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "How to use BankID with eduID:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "the BankID is obtained from your personal bank and installed on your " +
-                "device as an app or file. The process varies, so visit your bank's website and follow the instructions. " +
-                "You can read more about obtaining a BankID on the BankID website");
+        common.verifyPageBodyContainsString(pageBody, "the BankID is obtained from your personal bank and " +
+                "installed on your device as an app or file. The process varies, so visit your bank's website and follow " +
+                "the instructions. You can read more about obtaining a BankID on BankID.com,");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "log in to eduID and choose the 'Electronic BankID' option in the " +
@@ -1019,7 +1317,7 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Assurance levels");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "AL, LOA etc.");
+        common.verifyPageBodyContainsString(pageBody, "AL, LoA etc.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "What are assurance levels?");
@@ -1034,35 +1332,38 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "At what level is your eduID?");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "At the logged in start page an overview of the status of your eduID is presented.");
+        common.verifyPageBodyContainsString(pageBody, "At the logged in start page an overview of the " +
+                "status of your eduID is presented. This is what it typically indicates regarding your assurance level " +
+                "and the services you may authenticate to:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Confirmed account: when successfully creating an " +
-                "eduID (with confirmed email-address and passed CAPTCHA) which generally conforms to AL1.");
+        common.verifyPageBodyContainsString(pageBody, "Confirmed account:\n" +
+                "services requiring a low level of assurance, often called AL1 / RAF Low.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Verified identity: the eduID account generally " +
-                "reaches AL2, which is at a sufficient level for many services at higher education institutions and e.g. Ladok.");
+        common.verifyPageBodyContainsString(pageBody, "Verified identity:\n" +
+                "services requiring a medium level of assurance, including many higher education institutions, often called AL2 / RAF Medium.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Enhanced security: is added in the form of multi factor authentication.");
+        common.verifyPageBodyContainsString(pageBody, "Enhanced security:\n" +
+                "services requiring you to log in using multi factor authentication, often called REFEDS MFA.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Verified security key: your added security key is connected to your identity.");
+        common.verifyPageBodyContainsString(pageBody, "Verified security key:\n" +
+                "services requiring a strong binding between your identity and your login, often called AL3 / RAF High / LoA2.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "With a verified Swedish identity and a verified " +
-                "security key the account generally conforms to Swamid AL3/ DIGG LOA2 and is at a sufficient level for " +
-                "the purpose of e.g. Digital National Exams (DNP) and Nice.");
+        common.verifyPageBodyContainsString(pageBody, "Note: this is a generalization and could change, " +
+                "complete information as to what is required of your eduID must be provided by the connecting services.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Note: this is only a generalization and is subject " +
-                "to change, complete information as to what is required of your eduID must be provided by the connecting services.");
+        common.verifyPageBodyContainsString(pageBody, "As an exemple, with a verified Swedish identity " +
+                "and a verified security key the account is at a sufficient level for the purpose of e.g. Digital National Exams (DNP) and Nice.");
     }
 
     private void orcidEduIdEng(){
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "Connecting account with Orcid / ESI");
+        common.verifyPageBodyContainsString(pageBody, "Connecting account with ORCID / ESI");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "What is ORCID?");
@@ -1078,7 +1379,7 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "read more and register for an ORCID at orcid.org,\n" +
-                "click the 'Connect ORCID account' button in the Settings area of eduID,\n" +
+                "click the 'Add ORCID account' button in the Account area of eduID,\n" +
                 "sign in to your ORCID account and grant eduID permission to receive your ORCID iD. This process " +
                 "ensures that the correct ORCID iD is connected to the correct eduID.");
 
@@ -1096,8 +1397,46 @@ public class Help {
                 "education institutions for registration and grading. Some schools have chosen to release the ESI " +
                 "(European Student Identifier) attribute to eduID, used for instance when applying to an Erasmus exchange student program.");
         common.verifyPageBodyContainsString(pageBody, "How to link ESI with eduID:");
-        common.verifyPageBodyContainsString(pageBody, "in the Settings area of eduID, toggle the ESI control,\n" +
+        common.verifyPageBodyContainsString(pageBody, "in the Account area of eduID, toggle the ESI control,\n" +
                 "choose your institution from the drop down list - if it is available.");
+    }
+
+    private void termsOfUseEng(){
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "Terms of use");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "What are eduIDs terms of use?");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "These terms are accepted by the user upon creating " +
+                "an eduID account. It is a legal agreement between eduID and its users to abide by the terms. You may " +
+                "be asked to accept the terms again if you haven't used the service for a period of time.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "The following generally applies:");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "that all usage of user accounts follow the laws and by-laws of Sweden,\n" +
+                "that all personal information that you provide, such as name and contact information shall be truthful,\n" +
+                "that user accounts, password, security keys and codes are individual and shall only be used by the intended individual,\n" +
+                "that SUNET's ethical rules regulate the “other” usage.");
+
+        //Heading
+        common.verifyPageBodyContainsString(pageBody, "SUNET judges unethical behaviour to be when someone:");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "attempts to gain access to network resources that they do not have the right to\n" +
+                "attempts to conceal their user identity\n" +
+                "attempts to interfere or disrupt the intended usage of the network\n" +
+                "clearly wastes available resources (personnel, hardware or software)\n" +
+                "attempts to disrupt or destroy computer-based information\n" +
+                "infringes on the privacy of others\n" +
+                "attempts to insult or offend others");
+
+        //Text
+        common.verifyPageBodyContainsString(pageBody, "Any person found violating or suspected of violating " +
+                "these rules can be disabled from eduID.se for investigation. Furthermore, legal action may be taken.");
     }
 
     private void privacyEduIdEng(){
@@ -1154,9 +1493,9 @@ public class Help {
                 "education and research institutions.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "SUNET developed eduID to provide a secure common routine for " +
-                "managing identity in the higher education community, with adequate authorization levels of confirmed " +
-                "accounts. More information about SUNET is available at www.sunet.se.");
+        common.verifyPageBodyContainsString(pageBody, "SUNET developed eduID to provide a secure common " +
+                "routine for managing identity in the higher education community, with adequate authorization levels of " +
+                "confirmed accounts. More information about SUNET is available at www.sunet.se (in Swedish).");
     }
 
     private void contactEduIdEng(){
@@ -1178,20 +1517,57 @@ public class Help {
     }
 
     public void expandAllOptions(){
-        common.click(common.findWebElementById("accordion__heading-help-contact"));
-        common.click(common.findWebElementById("accordion__heading-help-about-sunet"));
-        common.click(common.findWebElementById("accordion__heading-help-privacy-accessibility"));
-        common.click(common.findWebElementById("accordion__heading-help-orcid-ladok"));
-        common.click(common.findWebElementById("accordion__heading-help-verification"));
-        common.click(common.findWebElementById("accordion__heading-help-international"));
-        common.click(common.findWebElementById("accordion__heading-help-eidas"));
-        common.click(common.findWebElementById("accordion__heading-help-freja"));
-        common.click(common.findWebElementById("accordion__heading-help-bankid"));
-        common.click(common.findWebElementById("accordion__heading-help-security-key"));
-        common.click(common.findWebElementById("accordion__heading-help-assurance-levels"));
-        common.click(common.findWebElementById("accordion__heading-help-security-usb"));
-        common.click(common.findWebElementById("accordion__heading-security-key-list"));
-        common.click(common.findWebElementById("accordion__heading-help-using-eduid"));
-        common.click(common.findWebElementById("accordion__heading-help-about-eduid"));
+        if(common.findWebElementById("accordion__heading-help-contact").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-contact"));
+        if(common.findWebElementById("accordion__heading-help-about-sunet").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-about-sunet"));
+        if(common.findWebElementById("accordion__heading-help-privacy-accessibility").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-privacy-accessibility"));
+        if(common.findWebElementById("accordion__heading-help-orcid-ladok").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-orcid-ladok"));
+        if(common.findWebElementById("accordion__heading-help-tou").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-tou"));
+        if(common.findWebElementById("accordion__heading-help-verification").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-verification"));
+        if(common.findWebElementById("accordion__heading-help-international").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-international"));
+        if(common.findWebElementById("accordion__heading-help-eidas").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-eidas"));
+        if(common.findWebElementById("accordion__heading-help-freja").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-freja"));
+        if(common.findWebElementById("accordion__heading-help-bankid").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-bankid"));
+        if(common.findWebElementById("accordion__heading-help-security-key").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-security-key"));
+        if(common.findWebElementById("accordion__heading-help-assurance-levels").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-assurance-levels"));
+        if(common.findWebElementById("accordion__heading-help-security-usb").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-security-usb"));
+        if(common.findWebElementById("accordion__heading-security-key-list").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-security-key-list"));
+
+        //Use eduID
+        if(common.findWebElementById("accordion__heading-help-using-eduid").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-using-eduid"));
+        if(common.findWebElementById("accordion__heading-help-relogin").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-relogin"));
+        if(common.findWebElementById("accordion__heading-help-Account").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-Account"));
+        if(common.findWebElementById("accordion__heading-help-security").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-security"));
+        if(common.findWebElementById("accordion__heading-help-identity").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-identity"));
+        if(common.findWebElementById("accordion__heading-help-start").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-start"));
+        if(common.findWebElementById("accordion__heading-help-pw").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-pw"));
+        if(common.findWebElementById("accordion__heading-help-login").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-login"));
+        if(common.findWebElementById("accordion__heading-help-create").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-create"));
+
+
+        if(common.findWebElementById("accordion__heading-help-about-eduid").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+            common.click(common.findWebElementById("accordion__heading-help-about-eduid"));
     }
 }

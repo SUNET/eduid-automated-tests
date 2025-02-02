@@ -1,15 +1,18 @@
 package se.sunet.eduid.resetPassword;
 
+import se.sunet.eduid.registration.Register;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
 public class RequestNewPassword {
     private final Common common;
     private final TestData testData;
+    private final Register register;
 
-    public RequestNewPassword(Common common, TestData testData){
+    public RequestNewPassword(Common common, TestData testData, Register register){
         this.common = common;
         this.testData = testData;
+        this.register = register;
     }
 
     public void runRequestNewPassword(){
@@ -20,7 +23,7 @@ public class RequestNewPassword {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Återställ lösenord | eduID");
+        common.explicitWaitPageTitle("Återställ lösenord | eduID");
     }
 
     private void enterEmail(){
@@ -31,8 +34,23 @@ public class RequestNewPassword {
     public void pressResetPassword(){
         common.click(common.findWebElementById("reset-password-button"));
 
+        // If whe have initiated authentication with bankID and aborted since it's not possible to do by automation,
+        // then the captcha has already been done in the same req-pw session. Then user will not end up at captcha page
+        // after clicking forgot password link but on the send reset-pw email page
+        if(testData.getMfaMethod().equalsIgnoreCase("bankid")){
+            common.explicitWaitClickableElementId("reset-password-button");
+        }
+        else {
+            //Wait for next page, return to login
+            common.explicitWaitClickableElementId("cancel-captcha-button");
+
+            //Add nin cookie
+            common.addNinCookie();
+            register.enterCaptchaCode();
+        }
+
         //wait for the Send-again button on next page
-        common.timeoutSeconds(1);
+        //common.timeoutSeconds(1);
         common.explicitWaitClickableElementId("response-code-abort-button");
     }
 

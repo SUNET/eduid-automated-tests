@@ -12,10 +12,12 @@ public class TestData {
     private String addNewEmail1 = "";
     private String confirmNewEmail1 = "";
     private String newPassword = "";
+    private String confirmIdBy = "";
+    private String mfaMethod = "";
 //    private String refIdpUser = "Sixten von Samordnungsnummer (197010632391)";
     private String username, password, givenName, surName, displayName, magicCode, email,
-            phoneNumber, identityNumber, language, eppn, confirmIdBy, supportUsername,
-            emailCode, testCase, testDescription, testSuite, testMethod, mfaMethod, otpPhoneNumber, otherDeviceCode,
+            phoneNumber, identityNumber, language, eppn, supportUsername,
+            emailCode, testCase, testDescription, testSuite, testMethod, otpPhoneNumber, otherDeviceCode,
             otherDeviceSubmitCode, emailVerificationCode, browser, headlessExecution;
 
     private boolean buttonValueConfirm = true;
@@ -23,14 +25,15 @@ public class TestData {
     private boolean acceptTerms = true;
     private boolean verifyEmail = true;
     private boolean addSecurityKey = false;
-    private boolean verifySecurityKey;
+    private boolean verifySecurityKeyByFreja;
+    private boolean verifySecurityKeyByBankId;
     private boolean accountVerified = true;
     private boolean useRecommendedPw = true;
     private boolean registerAccount, resetPassword, incorrectPassword, removeNewEmail1,
             resendOTP, deleteButton, otherDeviceFillCode, rememberMe, identityConfirmed;
     private int counter = 0;
 
-    void setProperties(String testSuite) throws IOException {
+    public void setProperties(String testSuite) throws IOException {
         Properties properties = new Properties();
         FileInputStream fileInput = new FileInputStream("src/main/resources/config_" +testSuite +".properties");
         properties.load(fileInput);
@@ -47,6 +50,6 @@ public class TestData {
         setEppn(properties.getProperty("eppn"));
         setSupportUsername(properties.getProperty("support_username"));
 
-        //setLanguage("Svenska");
+        setLanguage("Svenska");
     }
 }

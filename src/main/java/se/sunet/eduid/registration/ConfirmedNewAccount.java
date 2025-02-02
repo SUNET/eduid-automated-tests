@@ -40,7 +40,7 @@ public class ConfirmedNewAccount {
                 "tas automatiskt bort vid inmatning. Du kan efter att du har loggat in välja att byta lösenord.");
 
         //Email
-        common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "E-postadress");
+        common.verifyStringByXpath("//*[@id=\"content\"]/form/div[2]/fieldset/label", "E-postadress");
         common.verifyStringById("user-email", testData.getUsername().toLowerCase());
 
         //Button
@@ -64,7 +64,7 @@ public class ConfirmedNewAccount {
                 "automatically if entered. Once you've logged in it is possible to change your password.");
 
         //Email
-        common.verifyStringByXpath("//*[@id=\"email-display\"]/fieldset[1]/label", "Email address");
+        common.verifyStringByXpath("//*[@id=\"content\"]/form/div[2]/fieldset/label", "Email address");
         common.verifyStringById("user-email", testData.getUsername().toLowerCase());
 
         //Password only visible when the recommended password is used

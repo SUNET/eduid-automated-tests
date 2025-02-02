@@ -30,7 +30,7 @@ public class TC_33 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
+    void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Random;
 
+import static se.sunet.eduid.utils.Common.log;
+
 public class Register {
     private final Common common;
     private final TestData testData;
@@ -88,13 +90,13 @@ public class Register {
             setSurName();
 */
             testData.setDisplayName(testData.getGivenName() + " " +testData.getSurName());
-            Common.log.info("Display name set to: " +testData.getDisplayName());
+            log.info("Display name set to: " +testData.getDisplayName());
         }
         else {
-            Common.log.info("Identity number set to: " + testData.getIdentityNumber());
-            Common.log.info("Using existing Display name: " + testData.getDisplayName());
+            log.info("Identity number set to: " + testData.getIdentityNumber());
+            log.info("Using existing Display name: " + testData.getDisplayName());
         }
-        Common.log.info("Register user: " +testData.getUsername());
+        log.info("Register user: " +testData.getUsername());
 
         //Also set the email address for future usage
         testData.setEmail(testData.getUsername().toLowerCase());
@@ -121,6 +123,8 @@ public class Register {
 
         //Fill in a dummy value and continue
         common.click(common.findWebElementById("captcha-continue-button"));
+
+        log.info("Added captcha code and pressed continue-button");
     }
 
     public void registerPopUp(){
@@ -157,7 +161,7 @@ public class Register {
         pageBody = common.getPageBody();
 
         //Swedish
-        Common.log.info("Verify terms - swedish");
+        log.info("Verify terms - swedish");
         common.verifyPageBodyContainsString(pageBody, "Registrera: Godkänn användarvillkor");
         common.verifyPageBodyContainsString(pageBody, "För att skapa ditt eduID måste du acceptera användarvillkoren för eduID.");
         common.verifyPageBodyContainsString(pageBody, "För eduID.se gäller generellt");
@@ -186,7 +190,7 @@ public class Register {
         //Extract page body for validation
         pageBody = common.getPageBody();
 
-        Common.log.info("Verify terms - english");
+        log.info("Verify terms - english");
         common.verifyPageBodyContainsString(pageBody, "Register: Approve terms of use");
         common.verifyPageBodyContainsString(pageBody, "To create your eduID you need to accept the eduID terms of use.");
         common.verifyPageBodyContainsString(pageBody, "The following generally applies:");
@@ -244,7 +248,7 @@ public class Register {
             lines = Files.readAllLines(Paths.get("src/main/resources/identity_numbers.txt"));
 
             testData.setIdentityNumber(lines.get(random.nextInt(lines.size())));
-            Common.log.info("Identitynumber set to: " +testData.getIdentityNumber());
+            log.info("Identitynumber set to: " +testData.getIdentityNumber());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -258,7 +262,7 @@ public class Register {
             lines = Files.readAllLines(Paths.get("src/main/resources/given_name.txt"));
 
             testData.setGivenName(lines.get(random.nextInt(lines.size())));
-            Common.log.info("First name set to: " +testData.getGivenName());
+            log.info("First name set to: " +testData.getGivenName());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -272,7 +276,7 @@ public class Register {
             lines = Files.readAllLines(Paths.get("src/main/resources/sur_name.txt"));
 
             testData.setSurName(lines.get(random.nextInt(lines.size())));
-            Common.log.info("Sur name set to: " +testData.getSurName());
+            log.info("Sur name set to: " +testData.getSurName());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -29,7 +29,7 @@ public class TC_477 extends BeforeAndAfter {
         testData.setRegisterAccount(false);
         login.runLogin();
 
-        common.explicitWaitClickableElement("//*[@id=\"header-nav\"]/button/span");
+//        common.explicitWaitClickableElement("//*[@id=\"header\"]/nav/button");
     }
 /*
     @Test( dependsOnMethods = {"login"} )

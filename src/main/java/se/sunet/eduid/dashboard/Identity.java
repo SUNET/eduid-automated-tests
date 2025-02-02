@@ -113,6 +113,10 @@ public class Identity {
         //Verify button text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/button", "FORTSÄTT");
 
+        if(testData.getConfirmIdBy().equalsIgnoreCase("mail")) {
+            verifyMailTextsInPopUpSwedish();
+        }
+
         //---- eIDAS ----
         //Heading
         common.verifyStringByXpath("//*[@id=\"accordion__heading-eu\"]/div/h3", "EU-medborgare");
@@ -248,6 +252,10 @@ public class Identity {
         //Verify button text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/button", "PROCEED");
 
+        if(testData.getConfirmIdBy().equalsIgnoreCase("mail")) {
+            verifyMailTextsInPopUpEnglish();
+        }
+
 
         //---- eIDAS ----
         //Heading
@@ -323,10 +331,10 @@ public class Identity {
         common.verifyStringById("eidas-info-modal-accept-button", "USE MY FREJA+");
     }
 
-    public void verifyMailLabelsEnglish(){
-        Common.log.info("Verify identity by Letter text in pop up - English");
+    public void verifyMailTextsInPopUpEnglish(){
+        Common.log.info("Verify identity information text for verify by Letter in pop up - English");
 
-        common.click(common.findWebElementById("accordion__heading-se-letter"));
+        //common.click(common.findWebElementById("accordion__heading-se-letter"));
         common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
 
         common.switchToPopUpWindow();
@@ -336,10 +344,16 @@ public class Identity {
         common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]", "The letter will contain " +
                 "a code that you enter here to verify your identity. The code sent to you will expire in 2 weeks starting " +
                 "from now");
+
+        //Close pop-up
+        //common.closePopupDialog();
+
+        //Click on accept in confirmation pop-up to receive the letter
+        common.click(common.findWebElementById("letter-confirm-modal-accept-button"));
     }
 
-    public void verifyMailLabelsSwedish(){
-        Common.log.info("Verify identity by Letter text in pop up - Swedish");
+    public void verifyMailTextsInPopUpSwedish(){
+        Common.log.info("Verify identity information text by Letter in pop up - Swedish");
 
         //Click on Letter option
         common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
@@ -353,7 +367,7 @@ public class Identity {
                 "få ett brev hem måste du skriva in koden här för att bevisa att personnumret är ditt. Av säkerhetsskäl " +
                 "går koden ut om två veckor.");
 
-        //Click first on abort
+        //Close pop-up
         common.closePopupDialog();
     }
 

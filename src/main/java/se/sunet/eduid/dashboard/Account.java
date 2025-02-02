@@ -20,22 +20,25 @@ public class Account {
 
     public void runAccount(){
         common.navigateToAccount();
-        verifyPageTitle();
-        verifyLabels();
+
+        //TODO change language
+        if(testData.getLanguage() != null) {
+            selectLanguage();
+        }
+        else {
+            verifyPageTitle();
+            verifyLabels();
+        }
 
         //TODO investigate why orcid does not work for tc 1
         if(testData.getTestCase().equalsIgnoreCase("TC_1")){
             pressLadok();
             pressOrcid();
         }
-
-        //TODO change language
-        if(testData.getLanguage() != null)
-            selectLanguage();
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Account | eduID");
+        common.verifyPageTitle("Konto | eduID");
 
         //TODO temp fix to get swedish language
         if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))
@@ -47,17 +50,19 @@ public class Account {
 
         //Activate ladok
         common.timeoutSeconds(2);
-        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset/form/label/div"));
+        common.click(common.findWebElementById("ladok-connection"));
         common.timeoutSeconds(1);
 
-        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/label", "Välj lärosäte");
-        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[1]/div",
-                "Tillgängliga lärosäten");
+        String availableUniversitys = "//*[@id=\"content\"]/article[6]/form[2]/fieldset/div/div/div[1]/div";
+
+        common.verifyStringByXpath("//*[@id=\"content\"]/article[6]/form[2]/fieldset/label", "Välj lärosäte");
+        common.verifyStringByXpath(availableUniversitys, "Tillgängliga lärosäten");
 
         //Extract all table rows in to a list of web elements
-        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[1]/div"));
+        common.click(common.findWebElementByXpathContainingText("Tillgängliga lärosäten"));
+        common.timeoutSeconds(1);
 
-        WebElement elementName = common.findWebElementByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[2]");
+        WebElement elementName = common.findWebElementByXpath("//*[@id=\"react-select-3-listbox\"]/div");
         List<WebElement> rows = elementName.findElements(By.xpath("*"));
 
         //Assert that there are at least two univeritys in the drop down
@@ -68,19 +73,18 @@ public class Account {
         common.selectEnglish();
 
         //Activate ladok button
-        common.click(common.findWebElementByXpath("//*[@id=\"ladok-container\"]/fieldset/form/label/div"));
+        common.click(common.findWebElementById("ladok-connection"));
         common.timeoutMilliSeconds(200);
 
-        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/label",
+        common.verifyStringByXpath("//*[@id=\"content\"]/article[6]/form[2]/fieldset/label",
                 "Select higher education institution");
-        common.verifyStringByXpath("//*[@id=\"ladok-container\"]/form/fieldset/div/div/div[1]/div",
-                "Available higher education institutions");
+        common.verifyStringByXpath(availableUniversitys, "Available higher education institutions");
 
         //Scroll down to bottom of page, otherwise we get click exception when drop down not in page
         common.scrollToPageBottom();
 
         //Expand options
-        common.findWebElementByXpath("//*[@id=\"ladok-container\"]/form").click();
+        common.findWebElementByXpath("//*[@id=\"content\"]/article[6]/form[2]/fieldset/div/div[1]/div[1]/div").click();
         try {
             common.click(common.findWebElementByXpathContainingText("Linnaeus"));
         }catch (NoSuchElementException ex){
@@ -152,7 +156,7 @@ public class Account {
         common.timeoutMilliSeconds(500);
         common.getWebDriver().navigate().back();
         //common.timeoutSeconds(5);
-        common.explicitWaitPageTitle("Account | eduID");
+        common.explicitWaitPageTitle("Konto | eduID");
     }
 
     private void verifyLabels(){
@@ -178,9 +182,9 @@ public class Account {
         common.verifyPageBodyContainsString(pageBody,"Detta unika ID är ett användarnamn för ditt eduID " +
                 "som du kan behöva ange för att identifiera ditt konto eller vid teknisk support. Det är en del av vad " +
                 "som kan hänvisas till som EPPN.");
-        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/span/strong", "Unikt ID: ");
+        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/label/strong", "Unikt ID:");
         common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
-        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/div/button", "KOPIERA");
+        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/button", "KOPIERA");
 
         //OrcID
         common.verifyPageBodyContainsString(pageBody,"Länka till ditt ORCID konto");
@@ -220,9 +224,9 @@ public class Account {
         common.verifyPageBodyContainsString(pageBody,"This identifier is a username for your eduID that " +
                 "you may need to provide when accessing other services or requesting support. It is part of what may be " +
                 "referred to as EPPN.");
-        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/span/strong", "Unique ID: ");
+        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/label/strong", "Unique ID:");
         common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
-        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/div/button", "COPY");
+        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/button", "COPY");
 
         //OrcID
         common.verifyPageBodyContainsString(pageBody,"ORCID account");

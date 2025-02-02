@@ -10,7 +10,7 @@ public class TC_65 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage"} )
     void disableRememberMe() {
-        common.explicitWaitClickableElement("//*[@id=\"content\"]/fieldset/label/div");
+        common.explicitWaitClickableElement("//*[@id=\"content\"]/label/div");
 
         //Set remember me function
         testData.setRememberMe(false);

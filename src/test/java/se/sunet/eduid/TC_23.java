@@ -3,6 +3,8 @@ package se.sunet.eduid;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
+import java.io.IOException;
+
 public class TC_23 extends BeforeAndAfter {
     @Test
     void startPage(){
@@ -45,10 +47,12 @@ public class TC_23 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"dashboard2"} )
-    void password2() {
+    void password2() throws IOException {
         testData.isIncorrectPassword();
         testData.setUseRecommendedPw(false);
-        testData.setNewPassword("zojk ekd7 002n");
+        testData.setProperties(testData.getTestSuite());
+        testData.setNewPassword(testData.getPassword());
+
         password.runPassword();
     }
 

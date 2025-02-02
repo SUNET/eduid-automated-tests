@@ -43,17 +43,12 @@ public class TC_56 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void addSecurityKey() {
         testData.setAddSecurityKey(true);
+        testData.setVerifySecurityKeyByFreja(true);
+
         securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
-    void verifySecurityKey() {
-        testData.setVerifySecurityKey(true);
-
-        securityKey.runSecurityKey();
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKey"} )
     void verifySecurityKeyLogin() {
        //Enter username, password to verify security key first time
         login.verifyPageTitle();
@@ -84,7 +79,6 @@ public class TC_56 extends BeforeAndAfter {
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(12);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
@@ -94,12 +88,12 @@ public class TC_56 extends BeforeAndAfter {
 
         //Verify status beside the added key dates
         common.verifyStringByXpath(
-                "//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button[1]", "FREJA+");
+                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[1]", "FREJA+");
 
         common.selectEnglish();
         //Verify status beside the added key dates
         common.verifyStringByXpath(
-                "//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button[2]", "BANKID");
+                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[2]", "BANKID");
 
         //Verify the status message
         common.verifyStatusMessage("Incorrect format of the identity number. Please try again.");
@@ -138,7 +132,7 @@ public class TC_56 extends BeforeAndAfter {
     void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login4(){
+    void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

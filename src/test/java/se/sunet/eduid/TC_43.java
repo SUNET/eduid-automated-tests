@@ -95,7 +95,7 @@ public class TC_43 extends BeforeAndAfter {
     void startPage3(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage3"} )
-    void login3(){
+    void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();
@@ -103,7 +103,7 @@ public class TC_43 extends BeforeAndAfter {
     }
 
     //Navigate to the support tool again
-    @Test( dependsOnMethods = {"login3"} )
+    @Test( dependsOnMethods = {"verifyAccountDeleted"} )
     void startPageSupport2(){
         common.navigateToUrl("https://support.dev.eduid.se");
     }

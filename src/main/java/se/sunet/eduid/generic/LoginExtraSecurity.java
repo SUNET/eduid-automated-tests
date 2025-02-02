@@ -29,7 +29,7 @@ public class LoginExtraSecurity {
 
     private void verifyTexts(){
         //Extract page body for validation
-        common.timeoutMilliSeconds(300);
+        common.timeoutMilliSeconds(600);
         String pageBody = common.getPageBody();
 
         //Swedish
@@ -47,11 +47,11 @@ public class LoginExtraSecurity {
 
         common.timeoutMilliSeconds(500);
         common.verifyPageBodyContainsString(pageBody, "SÄKERHETSNYCKEL");
-        common.verifyPageBodyContainsString(pageBody, "T.ex. USB säkerhetsnyckel eller enheten som du just nu använder.");
+        common.verifyPageBodyContainsString(pageBody, "T.ex. USB-säkerhetsnyckel eller enheten som du just nu använder.");
         common.verifyStringById("mfa-security-key", "ANVÄND MIN SÄKERHETSNYCKEL");
 
         //If identity is not confirmed or security key is missing
-        if(!testData.isVerifySecurityKey() && !testData.isIdentityConfirmed())
+        if(!testData.isVerifySecurityKeyByFreja() && !testData.isIdentityConfirmed())
             common.verifyPageBodyContainsString(pageBody, "Kräver ett bekräftat svenskt personnummer.");
 
         common.selectEnglish();
@@ -75,7 +75,7 @@ public class LoginExtraSecurity {
         common.verifyStringById("mfa-security-key", "USE MY SECURITY KEY");
 
         //If identity is not confirmed or security key is missing
-        if(!testData.isVerifySecurityKey() && !testData.isIdentityConfirmed())
+        if(!testData.isVerifySecurityKeyByFreja() && !testData.isIdentityConfirmed())
             common.verifyPageBodyContainsString(pageBody, "Requires a confirmed Swedish national identity number.");
     }
 }

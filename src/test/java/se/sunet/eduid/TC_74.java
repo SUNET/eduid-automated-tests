@@ -3,7 +3,6 @@ package se.sunet.eduid;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
-import se.sunet.eduid.utils.Common;
 
 public class TC_74 extends BeforeAndAfter {
     @Test

@@ -34,17 +34,12 @@ public class TC_85 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void addSecurityKey() {
         testData.setAddSecurityKey(true);
+        testData.setVerifySecurityKeyByFreja(true);
+
         securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
-    void clickVerifySecurityKey() {
-        testData.setVerifySecurityKey(true);
-
-        securityKey.runSecurityKey();
- }
-
-    @Test( dependsOnMethods = {"clickVerifySecurityKey"} )
     void verifySecurityKeyLogin() {
         //Add nin cookie
         common.addNinCookie();
@@ -83,22 +78,14 @@ public class TC_85 extends BeforeAndAfter {
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();
-        common.timeoutSeconds(8);
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void verifySecurityKeyStatus() {
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
-
-        common.selectEnglish();
-
-        //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIED");
-        common.selectSwedish();
+    void verifiedSecurityKeyStatus() {
+        securityKey.verifiedSecurityKey();
     }
 
-    @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
+    @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
     void logInSomething(){
         common.navigateToUrl("https://ds.fidus.skolverket.se/ds/?entityID=https%3A%2F%2Fidpproxy.dev.eduid.se%2Fsp&return=https%3A%2F%2Fidpproxy.dev.eduid.se%2FSaml2SP%2Fdisco");
 

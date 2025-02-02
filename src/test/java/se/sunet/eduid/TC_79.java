@@ -26,7 +26,7 @@ public class TC_79 extends BeforeAndAfter {
         testData.setRegisterAccount(false);
         login.runLogin();
 
-        common.explicitWaitClickableElement("//*[@id=\"header-nav\"]/button/span");
+//        common.explicitWaitClickableElement("//*[@id=\"header\"]/nav/button");
     }
 
     @Test( dependsOnMethods = {"login"} )
@@ -55,7 +55,7 @@ public class TC_79 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
+    void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

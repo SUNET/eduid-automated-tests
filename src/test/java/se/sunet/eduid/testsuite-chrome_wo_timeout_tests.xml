@@ -83,14 +83,16 @@
         </classes>
     </test>
 
-    <test name="TC_11">
+<!-- Obsolete from jan - 2025
+
+      <test name="TC_11">
         <parameter name="testDescription" value="Log in with user that has a verified phone number, verify that the extra
         information about phone number removal in eduID is present. Click OK and log in." />
         <classes>
             <class name="se.sunet.eduid.TC_11" >
             </class>
         </classes>
-    </test>
+    </test>-->
 
     <test name="TC_12">
         <parameter name="testDescription" value="Add additional email address, try to confirm with incorrect code" />
@@ -208,10 +210,10 @@
             </class>
         </classes>
     </test>
-<!--
+
     <test name="TC_29">
-        <parameter name="testDescription" value="Reset password without extra security (Phone number not confirmed).
-        Abort confirmation of the phone number from dashboard" />
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings,
+        immediately init verification of the security key using BankID" />
         <classes>
             <class name="se.sunet.eduid.TC_29" >
             </class>
@@ -219,13 +221,14 @@
     </test>
 
     <test name="TC_30">
-        <parameter name="testDescription" value="After reset password without extra security (mobile OTP). Enter
-        incorrect code for confirmation of the phone number from dashboard" />
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings,
+        verify it immediately using Freja" />
         <classes>
             <class name="se.sunet.eduid.TC_30" >
             </class>
         </classes>
     </test>
+<!--
 
     <test name="TC_31">
         <parameter name="testDescription" value="After reset password without extra security (mobile OTP). Confirm

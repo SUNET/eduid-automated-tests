@@ -18,8 +18,8 @@ public class DeleteAccount {
         common.navigateToAccount();
 
         //TODO temp fix to get swedish language//*[@id="language-selector"]/span
-        if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))
-            common.selectSwedish();
+        //if (common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska"))
+        //    common.selectSwedish();
 
         verifyLabelsSwedish();
         verifyLabelsEnglish();
@@ -29,6 +29,7 @@ public class DeleteAccount {
 
     private void clickDelete(){
         log.info("Click delete link in settings");
+        common.explicitWaitClickableElementId("delete-button");
         common.click(common.findWebElementById("delete-button"));
 
         verifyPopUpLabels();
@@ -37,11 +38,13 @@ public class DeleteAccount {
     private void clickDeleteInPopUp(){
         //Press delete
         if(testData.isDeleteButton()) {
-            common.timeoutSeconds(2);
-            common.click(common.findWebElementById("delete-account-modal-accept-button"));
+            common.explicitWaitClickableElementId("delete-account-modal-accept-button");
+            common.findWebElementById("delete-account-modal-accept-button").click();
+            //common.timeoutSeconds(2);
+            //common.click(common.findWebElementById("delete-account-modal-accept-button"));
 
             //Enter userName and password since we need to login again before account is deleted
-            common.timeoutMilliSeconds(2500);
+            common.timeoutMilliSeconds(5000);
         }
         //Press abort
         else {
@@ -51,10 +54,10 @@ public class DeleteAccount {
 
     private void verifyLabelsSwedish() {
         //Heading
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/h2", "Radera eduID");
+        common.verifyStringByXpath("//*[@id=\"content\"]/article[7]/h2", "Radera eduID");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/p", "Om du väljer att " +
+        common.verifyStringByXpath("//*[@id=\"content\"]/article[7]/p", "Om du väljer att " +
                 "ta bort ditt eduID kommer all information du sparat rensas permanent.");
 
         //Delete eduid link
@@ -66,10 +69,10 @@ public class DeleteAccount {
         common.selectEnglish();
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/h2", "Delete eduID");
+        common.verifyStringByXpath("//*[@id=\"content\"]/article[7]/h2", "Delete eduID");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"delete-account-container\"]/p", "Click the link " +
+        common.verifyStringByXpath("//*[@id=\"content\"]/article[7]/p", "Click the link " +
                 "to permanently delete your eduID.");
 
         //Delete eduid link

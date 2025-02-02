@@ -8,9 +8,9 @@ public class MailReader{
 
     private final String hostName = "smtp.gmail.com";
     private final String username = "eduidtest.se1@gmail.com";
-    //String password = "test1eduid!";
+    //String password = "xUvhyf-7symjy-baqfen";
     //Password below is for google app password
-    private final String password = "xvdmpygsfsichkdc";
+    private final String password = "cxwt mynl jcom wlhd";
     private String confirmationUrl;
     private String confirmationCode;
 
@@ -65,21 +65,20 @@ public class MailReader{
             String mailBody = getMessageContent(emailMessage);
 
             //Extract the confirmation url and code into a string
-            //System.out.println("Mail body: " +mailBody);
-            confirmationUrl = mailBody.substring(mailBody.indexOf("nedan:") +6, mailBody.indexOf("Fungerar")).replaceAll("[\\n\\t ]", "");
-            confirmationCode = mailBody.substring(mailBody.indexOf("kod:") +4).replaceAll("[\\n\\t ]", "");
-
-            /*
-            System.out.println("confirmationUrl: " +confirmationUrl);
-            System.out.println("confirmationCode: " +confirmationCode);
+//            System.out.println("Mail body: " +mailBody);
+            confirmationCode = mailBody.substring(mailBody.indexOf("dig:") +4).replaceAll("[\\n]", "");
+//            System.out.println("ConfirmationCode: " +confirmationCode);
 
             // Print complete message body
-            System.out.println("Mail body: " +getMessageContent(mailBody));
+            //System.out.println("Mail body: " +getMessageContent(mailBody));
 
-            emailMessage.setFlag(Flags.Flag.SEEN, true);
-*/
+//            emailMessage.setFlag(Flags.Flag.SEEN, true);
+
+//
+
+
             //Delete the email
-            emailMessage.setFlag(Flags.Flag.DELETED, true);
+//            emailMessage.setFlag(Flags.Flag.DELETED, true);
             boolean expunge = true;
             emailInbox.close(expunge);
 
