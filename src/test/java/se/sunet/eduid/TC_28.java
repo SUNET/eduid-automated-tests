@@ -55,16 +55,20 @@ public class TC_28 extends BeforeAndAfter {
         startPage.runStartPage();
     }
 
-    //Reset password and verify that the Identity still is verified
+    //Reset password and verify that the Identity no longer is verified
     @Test( dependsOnMethods = {"startPage2"} )
     void login3(){
         testData.setResetPassword(true);
+
+        //Click on not you, to verify that username has to be filled on next page
+        common.findWebElementById("wrong-person-button").click();
+
         login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login3"} )
     void requestNewPassword() {
-        requestResetPwEmail.runRequestResetPwEmail();
+        requestNewPassword.runRequestNewPassword();
     }
 
     @Test( dependsOnMethods = {"requestNewPassword"} )
@@ -95,8 +99,7 @@ public class TC_28 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"passwordChanged"} )
     void login4(){
         testData.setResetPassword(false);
-        login.enterPassword();
-        login.signIn();
+        login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login4"} )
@@ -117,7 +120,7 @@ public class TC_28 extends BeforeAndAfter {
     void startPage4(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage4"} )
-    void login5(){
+    void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
         login.verifyPageTitle();
         login.enterPassword();

@@ -72,6 +72,8 @@ public class TC_58 extends BeforeAndAfter {
         loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
         Common.log.info("Log in with Security key");
+
+        common.timeoutSeconds(3);
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey"} )

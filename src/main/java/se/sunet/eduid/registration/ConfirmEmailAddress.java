@@ -107,7 +107,7 @@ public class ConfirmEmailAddress {
         common.explicitWaitClickableElementId("response-code-abort-button");
 
         common.verifyStringOnPage("Registrera: Verifiera e-postadress");
-        common.verifyStringOnPage("Ange den sexsiffriga koden som skickats till");
+        common.verifyStringOnPage("Ange den sexsiffriga koden som skickats från no-reply@eduid.se till");
         common.verifyStringOnPage(testData.getUsername().toLowerCase());
         common.verifyStringOnPage("för att verifiera din e-postadress. Du kan också kopiera och klistra " +
                         "in koden från e-posten i inmatningsfältet.");
@@ -119,7 +119,7 @@ public class ConfirmEmailAddress {
         common.selectEnglish();
 
         common.verifyStringOnPage("Register: Verify email address");
-        common.verifyStringOnPage("Enter the six digit code sent to");
+        common.verifyStringOnPage("Enter the six digit code sent from no-reply@eduid.se to");
         common.verifyStringOnPage(testData.getUsername().toLowerCase());
         common.verifyStringOnPage("to verify your email address. You can also copy and paste the code " +
                 "from the email into the input field.");

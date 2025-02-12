@@ -169,18 +169,16 @@ public class Help {
         common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-create\"]/p/a");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "ange ditt förnamn, efternamn och e-postadress i " +
-                "formuläret och klicka på knappen \"Skapa eduID\",\n" +
-                "bekräfta att du inte är en robot m.h.a. CAPTCHA genom att skriva in koden som presenteras/läses upp i " +
-                "fälten och klicka på knappen \"Fortsätt\",\n" +
-                "läs och godkänn användarvillkoren genom att klicka på knappen \"Jag accepterar\",\n" +
-                "bekräfta din e-postadress genom att använda koden som skickats till den i formuläret på sidan och " +
-                "klicka på knappen \"Ok\",\n" +
-                "välj med hjälp av radioknapparna mellan ett föreslaget (automatiskt genererat) lösenord eller ett " +
-                "du skapar själv,\n" +
-                "när lösenordet bedömts som tillräckligt starkt, upprepa det i nedre fältet och klick på knappen " +
-                "\"Spara\",\n" +
-                "notera dina inloggningsuppgifter (den använda e-postadressen och lösenordet)!\n" +
+        common.verifyPageBodyContainsString(pageBody, "Ange ditt förnamn, efternamn och e-postadress i " +
+                "formuläret och klicka på knappen \"Skapa eduID\".\n" +
+                "Bekräfta att du inte är en robot m.h.a. CAPTCHA genom att skriva in koden som presenteras/läses upp i " +
+                "fälten och klicka på knappen \"Fortsätt\".\n" +
+                "Läs och godkänn användarvillkoren genom att klicka på knappen \"Jag accepterar\".\n" +
+                "Bekräfta din e-postadress genom att använda koden som skickats till den i formuläret på sidan och " +
+                "klicka på knappen \"Ok\".\n" +
+                "Välj med hjälp av radioknapparna mellan ett föreslaget (automatiskt genererat) lösenord eller ett du skapar själv.\n" +
+                "När lösenordet bedömts som tillräckligt starkt, upprepa det i nedre fältet och klick på knappen \"Spara\".\n" +
+                "Notera dina inloggningsuppgifter (den använda e-postadressen och lösenordet)!\n" +
                 "Du kan nu logga in med ditt eduID.");
 
         //Heading
@@ -192,8 +190,8 @@ public class Help {
         //Text
         common.verifyPageBodyContainsString(pageBody, "MED ANVÄNDARNAMN OCH LÖSENORD");
         common.verifyPageBodyContainsString(pageBody, "Om du har ett eduID-konto, skriv in dina " +
-                "inloggningsuppgifter i formuläret på eduid.se och klicka på knappen \"Logga in\". Ditt användarnamn kan vara:");
-        common.verifyPageBodyContainsString(pageBody, "alla e-postadresser som lagts till och bekräftats i eduID under Konto,\n" +
+                "inloggningsuppgifter i formuläret på eduid.se och klicka på knappen \"Logga in\". Ditt användarnamn kan vara");
+        common.verifyPageBodyContainsString(pageBody, "alla e-postadresser som lagts till och bekräftats i eduID under Konto\n" +
                 "ditt unika ID som visas på inloggade startsidan och under Konto.");
 
         //Text
@@ -206,10 +204,10 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "MED ANNAN ENHET");
                 common.verifyPageBodyContainsString(pageBody, "Använd dina inloggningsuppgifter från en " +
                         "annan enhet än du vill logga i eduID med:");
-        common.verifyPageBodyContainsString(pageBody, "klicka på knappen \"Annan enhet\" i inloggningsformuläret,\n" +
-                "skanna QR-koden som visas med enheten där du har din säkerhetsnyckel eller sparat lösenord,\n" +
-                "på den andra enheten; kontrollera informationen om enheten som försöker logga in och använd koden som" +
-                " visas, inom den angivna tiden, för att logga in på den första enheten.");
+        common.verifyPageBodyContainsString(pageBody, "Klicka på knappen \"Annan enhet\" i inloggningsformuläret.\n" +
+                "Skanna QR-koden som visas med enheten där du har din säkerhetsnyckel eller sparat lösenord.\n" +
+                "På den andra enheten; kontrollera informationen om enheten som försöker logga in och använd koden som " +
+                "visas, inom den angivna tiden, för att logga in på den första enheten.");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "MED SÄKERHETSNYCKEL");
@@ -217,17 +215,18 @@ public class Help {
                 "under Säkerhet kommer den att efterfrågas i ett extra steg efter inloggningsformuläret:");
         common.verifyPageBodyContainsString(pageBody, "Klicka på knappen \"Använd min säkerhetsnyckel\" " +
                 "och följ instruktionerna för din säkerhetsnyckel.\n" +
-                "Ytterligare tillagd säkerhet finns listad i menyn \"Visa andra alternativ\", t.ex. BankID och Freja+\n" +
-                "Om du bara vill använda säkerhetsnyckel för att logga in när det efterfrågas, stäng av kontrollen märkt " +
-                "\"Använd alltid tvåfaktorsautentisering (2FA) vid inloggning till eduID\" under Säkerhet.\n" +
+                "Ytterligare tillagd säkerhet finns listad i menyn \"Visa andra alternativ\", t.ex. BankID och Freja+.\n" +
+                "Om du bara vill använda säkerhetsnyckel för att logga in när det efterfrågas, stäng av kontrollen " +
+                "märkt \"Använd alltid tvåfaktorsautentisering (2FA) vid inloggning till eduID\" under Säkerhet.\n" +
                 "Obs: du kan läsa mer om säkerhetsnycklar i hjälpavsnittet \"Utökad säkerhet med ditt eduID\".");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Återfå tillgång vid glömt lösenord");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "klicka på länken \"Glömt ditt lösenord?\" under inloggningsformuläret,\n" +
-                "klicka på knappen \"Skicka e-post\" för att skicka en kod till adressen som presenteras på sidan,\n" +
+        common.verifyPageBodyContainsString(pageBody, "Klicka på länken \"Glömt ditt lösenord?\" under " +
+                "inloggningsformuläret.\n" +
+                "Klicka på knappen \"Skicka e-post\" för att skicka en kod till adressen som presenteras på sidan.\n" +
                 "Följ instruktionerna i mejlet inom 2 timmar. Stegen för att bekräfta din epostadress och välja nytt " +
                 "lösenord är samma som när du skapar ditt eduID.\n" +
                 "Obs: beroende av dina tidigare inställningar kan du behöva återverifiera din identitet i eduID.");
@@ -240,11 +239,11 @@ public class Help {
                 "5 minuter har passerat sedan senaste inloggning kommer du behöva logga in igen (med säkerhetsnyckel om " +
                 "du har en tillagd) för att slutföra åtgärderna, t.ex:");
 
-        common.verifyPageBodyContainsString(pageBody, "lösenordsbyte,\n" +
-                "på- och avslagning av 2FA vid inloggning,\n" +
-                "radera eduID-konto,\n" +
-                "lägga till / ta bort säkerhetsnyckel,\n" +
-                "radera din verifierade identitet.");
+        common.verifyPageBodyContainsString(pageBody, "Lösenordsbyte.\n" +
+                "På- och avstängning av 2FA vid inloggning.\n" +
+                "Radera eduID-konto.\n" +
+                "Lägga till/ta bort säkerhetsnyckel.\n" +
+                "Radera din verifierade identitet.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Hur uppdaterar jag mitt konto?");
@@ -259,13 +258,13 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Startsidan innehåller:");
-        common.verifyPageBodyContainsString(pageBody, "ditt namn,\n" +
-                "ditt unika användar-ID,\n" +
+        common.verifyPageBodyContainsString(pageBody, "ditt namn\n" +
+                "ditt unika användar-ID\n" +
                 "en statusöversikt av ditt eduID som länkar till föreslagna inställningar i siten. Dessa uppgifter " +
                 "förstärker och utökar användbarheten av ditt eduID:\n" +
-                "bekräftat konto (bekräftad epostadress och godkända användarvillkor),\n" +
-                "verifierad verklig identitet,\n" +
-                "ökad säkerhet (lagt till metod för multifaktor-inloggning),\n" +
+                "bekräftat konto (bekräftad epostadress och godkända användarvillkor)\n" +
+                "verifierad verklig identitet\n" +
+                "ökad säkerhet (lagt till metod för multifaktor-inloggning)\n" +
                 "en verifierad säkerhetsnyckel (kopplat din verifierade identitet till din multifaktor-inloggning).\n" +
                 "Obs: Du kan läsa om hur statusen relaterar till anslutande tjänster i hjälpavsnittet \"Tillitsnivåer\".");
 
@@ -276,12 +275,12 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Identitetssidan innehåller:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "En tabell med dina verifierade identiteter om du har någon,\n" +
-                "alternativ för identitetsverifiering om din verkliga identitet inte är verifierad eller din existerande " +
+        common.verifyPageBodyContainsString(pageBody, "En tabell med dina verifierade identiteter om du har någon.\n" +
+                "Alternativ för identitetsverifiering om din verkliga identitet inte är verifierad eller din existerande " +
                 "verifiering inte är med ett svenskt person- eller samordningsnummer, beroende på din situation:\n" +
-                "med svenskt digitalt ID (Freja+/BankID) eller via post,\n" +
-                "med eIDAS elektronisk identifiering för EU-medborgare,\n" +
-                "Freja eID för de flesta länder.\n" +
+                "Med svenskt digitalt ID (Freja+/BankID) eller via post.\n" +
+                "Med eIDAS elektronisk identifiering för EU-medborgare.\n" +
+                "Med Freja eID för de flesta länder.\n" +
                 "Obs: du kan läsa mer om metoderna i hjälpavsnittet \"Verifiering av identitet\".");
 
         //Text
@@ -296,13 +295,8 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Säkerhetssidan innehåller:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Knappar för att lägga till tvåfaktorsautentisering " +
-                "för att öka säkerheten för ditt eduID m.h.a. en säkerhetsnyckel som ytterligare ett lager till " +
-                "inloggningsprocessen utöver ditt lösenord. Genom att även verifiera säkerhetsnyckeln kopplas den till " +
-                "din identitet vilket stärker kontots tillitsnivå. Du kan lägga till så många säkerhetsnycklar du " +
-                "önskar och beroende på din enhet (dator, mobil, operativsystem m.m.) är alternativen för att lägga " +
-                "till en säkerhetsnyckel följande:\n" +
-                "Denna enhet: inbyggd säkerhetsnyckel i mobil eller laptop, t.ex. passkey med din biometriska information,\n" +
+        common.verifyPageBodyContainsString(pageBody, "Knappar för att lägga till tvåfaktorsautentisering för att öka säkerheten för ditt eduID m.h.a. en säkerhetsnyckel som ytterligare ett lager till inloggningsprocessen utöver ditt lösenord. Genom att även verifiera säkerhetsnyckeln kopplas den till din identitet vilket stärker kontots tillitsnivå. Du kan lägga till så många säkerhetsnycklar du önskar och beroende på din enhet (dator, mobil, operativsystem m.m.) är alternativen för att lägga till en säkerhetsnyckel följande:\n" +
+                "Denna enhet: inbyggd säkerhetsnyckel i mobil eller laptop, t.ex. passkey med din biometriska information.\n" +
                 "Säkerhetsnyckel: extern enhet som t.ex. din USB-säkerhetsnyckel,");
 
         common.verifyPageBodyContainsString(pageBody, "Under \"Hantera dina säkerhetsnycklar\" finns en " +
@@ -312,9 +306,9 @@ public class Help {
 
         common.verifyPageBodyContainsString(pageBody, "En tabell som visar dina tillagda nycklar med " +
                 "följande information:\n" +
-                "det beskrivande namnet du gav nyckeln då den lades till,\n" +
-                "datum då skapat och senast använt,\n" +
-                "verifierings-status / alternativ (Freja+/BankID),\n" +
+                "det beskrivande namnet du gav nyckeln då den lades till\n" +
+                "datum då skapat och senast använt\n" +
+                "verifierings-status / alternativ (Freja+/BankID)\n" +
                 "en papperskorgs-ikon som raderar nyckeln vid klick.\n" +
                 "Obs: du kan läsa mer om säkerhetsnycklar i hjälpavsnittet \"Utökad säkerhet med ditt eduID\".");
 
@@ -498,13 +492,14 @@ public class Help {
                 "identitetshanteringen och följ instruktionerna.");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "Behöver jag besöka ett auktoriserat ATG ombud för att skapa Freja+?");
+        common.verifyPageBodyContainsString(pageBody, "Behöver jag besöka ett auktoriserat ATG-ombud för att skapa Freja+?");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Bara om du använder en annan ID-handling än svenskt pass. ATG " +
-                "ombudet kan påbörja en kontroll av din legitimation genom att scanna den QR-kod som Freja-appen " +
-                "genererat och följa instruktionerna på sin skärm. Du kommer bli informerad när legitimationskontrollen " +
-                "är slutförd och ditt Freja+ är klart att användas, det kan ta upp till 3 timmar.");
+        common.verifyPageBodyContainsString(pageBody, "Bara om du använder en annan ID-handling än svenskt " +
+                "pass, eller om du har skyddad identitet. ATG-ombudet kan påbörja en kontroll av din legitimation genom " +
+                "att scanna den QR-kod som Freja-appen genererat och följa instruktionerna på sin skärm. Du kommer bli " +
+                "informerad när legitimationskontrollen är slutförd och ditt Freja+ är klart att användas, det kan ta " +
+                "upp till 3 timmar.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Vad kan jag göra om legitimationskontrollen för Freja+ misslyckades?");
@@ -885,14 +880,14 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "How to register your new eduID account at eduid.se/register:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "enter your first name, last name and email address " +
-                "in the form and press the ”Create eduID” button,\n" +
-                "confirm that you are human using CAPTCHA by entering the displayed/read out code and press the ”Continue” button,\n" +
-                "read and approve the eduID terms of use by pressing the ”I Accept” button,\n" +
-                "verify your email address by entering the code emailed to you in the website form and press the ”Ok” button,\n" +
-                "choose using the radio buttons between a suggested (automatically generated) password or one you create,\n" +
-                "when validated for strength, repeat the password in the corresponding field and press the ”Save” button,\n" +
-                "take careful note of your login details (used email address and password)!\n" +
+        common.verifyPageBodyContainsString(pageBody, "Enter your first name, last name and email address " +
+                "in the form and press the ”Create eduID” button.\n" +
+                "Confirm that you are human using CAPTCHA by entering the displayed/read out code and press the ”Continue” button.\n" +
+                "Read and approve the eduID terms of use by pressing the ”I Accept” button.\n" +
+                "Verify your email address by entering the code emailed to you in the website form and press the ”Ok” button.\n" +
+                "Choose using the radio buttons between a suggested (automatically generated) password or one you create.\n" +
+                "When validated for strength, repeat the password in the corresponding field and press the ”Save” button.\n" +
+                "Take careful note of your login details (used email address and password)!\n" +
                 "You can now log in with your eduID.");
 
         //Heading
@@ -902,8 +897,9 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "WITH USERNAME AND PASSWORD");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "If you have an eduID account, enter your credentials in the form at eduid.se and press the button \"Log in\". Your username can be:");
-        common.verifyPageBodyContainsString(pageBody, "any email address you have entered and confirmed in eduID under Account,\n" +
+        common.verifyPageBodyContainsString(pageBody, "If you have an eduID account, enter your " +
+                "credentials in the form at eduid.se and press the button \"Log in\". Your username can be\n" +
+                "any email address you have entered and confirmed in eduID under Account\n" +
                 "your unique ID, shown on the logged in start page and under Account.");
 
         //Heading
@@ -919,11 +915,10 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Use your credentials from another device than you wish to access eduID with:");
-        common.verifyPageBodyContainsString(pageBody, "press the \"Other device\" button in the login form,\n" +
-                "scan the presented QR-code with the other device where you have your login credentials, e.g. security " +
-                "key or saved password,\n" +
-                "on that second device, review the device requesting to be logged in, and use the presented code to log " +
-                "in by entering it within the time shown, in the first device.");
+        common.verifyPageBodyContainsString(pageBody, "Press the \"Other device\" button in the login form.\n" +
+                "Scan the presented QR-code with the other device where you have your login credentials, e.g. security key or saved password.\n" +
+                "On that second device, review the device requesting to be logged in and use the presented code to login " +
+                "by entering it within the time shown, in the first device.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "WITH SECURITY KEY");
@@ -943,9 +938,9 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Regain access if forgotten password");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "press the \"Forgot your password?\" link below the login form,\n" +
-                "press the \"Send email\" button to receive a code to the email address presented on the page,\n" +
-                "follow the instructions in the email within 2 hours. The steps to verify your email address and " +
+        common.verifyPageBodyContainsString(pageBody, "Press the \"Forgot your password?\" link below the login form.\n" +
+                "Press the \"Send email\" button to receive a code to the email address presented on the page.\n" +
+                "Follow the instructions in the email within 2 hours. The steps to verify your email address and " +
                 "selecting a new password are the same as when you created your eduID.\n" +
                 "Note: depending on your previous settings you might need to re-verify your identity in eduID.");
 
@@ -956,11 +951,11 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "In some situations that require added security you " +
                 "will be asked to log in again (with your security key if you are using one), if more than 5 minutes " +
                 "have passed since you logged in, e.g:");
-        common.verifyPageBodyContainsString(pageBody, "changing your password,\n" +
-                "toggling 2FA login requirement setting,\n" +
-                "deleting your eduID account,\n" +
-                "adding/removing a security key,\n" +
-                "deleting your verified identity.");
+        common.verifyPageBodyContainsString(pageBody, "Changing your password.\n" +
+                "Toggling 2FA login requirement setting.\n" +
+                "Deleting your eduID account.\n" +
+                "Adding/removing a security key.\n" +
+                "Deleting your verified identity.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "How do I update my account?");
@@ -975,13 +970,13 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "The Start page contains:");
-        common.verifyPageBodyContainsString(pageBody, "your name,\n" +
-                "your unique user ID,\n" +
+        common.verifyPageBodyContainsString(pageBody, "your name\n" +
+                "your unique user ID\n" +
                 "an overview of the status of your eduID with links to where it can be addressed in the site. These " +
                 "tasks strengthen and increase the use of your eduID:\n" +
-                "confirmed account (confirmed email address and accepted terms of use),\n" +
-                "real identity verified,\n" +
-                "enhanced security (added a method used for multi factor login),\n" +
+                "confirmed account (confirmed email address and accepted terms of use)\n" +
+                "real identity verified\n" +
+                "enhanced security (added a method used for multi factor login)\n" +
                 "a verified security key (bound your verified identity to your multi factor login).\n" +
                 "Note: You can read about how the status correlates to connecting services in the help section \"Assurance levels\".");
 
@@ -993,12 +988,12 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "The Identity page contains:\n" +
-                "A table presenting your verified identities if you have any,\n" +
-                "options for identity verification if your real identity is not verified, or if your existing " +
+                "A table presenting your verified identities if you have any.\n" +
+                "Options for identity verification if your real identity is not verified, or if your existing " +
                 "verification is not with a Swedish ID- or coordination number, depending on your situation:\n" +
-                "with Swedish digital ID (Freja+/BankID) or by post,\n" +
-                "with eIDAS electronic identification for EU citizens,\n" +
-                "Freja eID for most nationalities.\n" +
+                "With Swedish digital ID (Freja+/BankID) or by post.\n" +
+                "With eIDAS electronic identification for EU citizens.\n" +
+                "With Freja eID for most nationalities.\n" +
                 "Note: You can read more about these methods in the help section \"Verification of identity\".");
 
         //Text
@@ -1013,11 +1008,11 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Buttons to add Two-factor authentication to increase " +
-                "the security of your eduID by adding a layer called a security key to your login process besides " +
-                "password. By also verifying the security key it is bound to your identity, increasing the assurance " +
-                "level of your account. You can add as many as you wish and depending on your device (computer, mobile, " +
-                "operating system etc.), the options to add a security key include:\n" +
-                "This device: built in security key in mobile or laptop, e.g. a passkey, including your biometrics,\n" +
+                "the security of your eduID by adding a layer called a security key to your login process besides password. " +
+                "By also verifying the security key it is bound to your identity, increasing the assurance level of your " +
+                "account. You can add as many as you wish and depending on your device (computer, mobile, operating system etc.), " +
+                "the options to add a security key include:\n" +
+                "This device: built in security key in mobile or laptop, e.g. a passkey, including your biometrics.\n" +
                 "Security key: external device such as your USB security key.");
 
         common.verifyPageBodyContainsString(pageBody, "Under \"Manage your security keys\" is a toggle " +
@@ -1026,9 +1021,9 @@ public class Help {
 
         common.verifyPageBodyContainsString(pageBody, "A table displaying all your added security keys " +
                 "with the following information:\n" +
-                "the descriptive name given by you when created,\n" +
-                "dates of creation and latest use,\n" +
-                "verification status / verification options (Freja+/BankID),\n" +
+                "the descriptive name given by you when created\n" +
+                "dates of creation and latest use\n" +
+                "verification status / verification options (Freja+/BankID)\n" +
                 "a bin icon which deletes the key when clicked.\n" +
                 "Note: You can read more about security keys in the help section \"Enhancing the security level of eduID\".");
 
@@ -1217,11 +1212,11 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Do I need to visit an authorised ATG agent to create Freja+?");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Only if you use another means of identification than a Swedish " +
-                "passport. On site, the agent can start the verification process by scanning a QR code in your Freja " +
-                "app and follow the instructions in their terminal. You will be informed when you have passed the ID " +
-                "verification and will be able use your Freja+ with your eduID. It can take up to three hours for your " +
-                "Freja+ to be fully activated.");
+        common.verifyPageBodyContainsString(pageBody, "Only if you use another means of identification " +
+                "than a Swedish passport, or if you have a protected identity. On site, the agent can start the " +
+                "verification process by scanning a QR code in your app and follow the instructions in their terminal. " +
+                "You will be informed when you have passed the ID verification and will be able use your Freja+ with " +
+                "your eduID. It can take up to three hours for your Freja+ to be fully activated.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "What should I do if my identity verification for Freja+ fails?");

@@ -12,6 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <selenium.version>4.4.0</selenium.version>
+<!--        <selenium.version>4.28.1</selenium.version>-->
         <testng.version>7.4.0</testng.version>
         <webdrivermanager.version>5.9.2</webdrivermanager.version>
         <log4j>2.19.0</log4j>
@@ -133,7 +134,6 @@
             <artifactId>selenium-shutterbug</artifactId>
             <version>1.6</version>
         </dependency>
-
 
         <!-- accessibility tests with axe -->
         <!-- https://mvnrepository.com/artifact/com.deque/axe-selenium -->

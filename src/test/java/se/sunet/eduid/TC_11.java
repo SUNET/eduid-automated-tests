@@ -5,21 +5,42 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 
 public class TC_11 extends BeforeAndAfter {
     @Test
-    void startPage() { startPage.runStartPage(); }
+    void startPage(){
+        testData.setUsername("GvY0RfP0@dev.eduid.sunet.se");
+        testData.setPassword("g307 hjz7 zaqr");
+        testData.setEppn("mopab-gotas");
+        testData.setIdentityNumber("198904082396");
+        testData.setGivenName("Jenny");
+        testData.setSurName("Huling");
+        testData.setDisplayName(testData.getGivenName() + " " +testData.getSurName());
+        testData.setEmail(testData.getUsername());
+
+        startPage.runStartPage();
+    }
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
-        testData.setUsername("HxFUBUCO@dev.eduid.sunet.se");
-        testData.setPassword("fqv5 57l8 korp");
-        testData.setDisplayName("Cookie Magic Cookie");
-        testData.setAccountVerified(true);
-        testData.setIdentityConfirmed(true);
-
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-    void dashboard() { dashBoard.runDashBoard(); }
+    void confirmIdentityEidas(){
+        testData.setConfirmIdBy("eidas");
+        testData.setLoaLevel("eIDAS Low");
 
-    @Test( dependsOnMethods = {"dashboard"} )
+        common.navigateToIdentity();
+        confirmIdentity.runConfirmIdentity();
+    }
+
+    @Test( dependsOnMethods = {"confirmIdentityEidas"} )
+    void verifySamlFailPage() {
+        common.explicitWaitClickableElementId("dashboard-button");
+        common.verifyStringOnPage("Ett fel uppstod under åtkomst till tjänsten.");
+
+        //Select to navigate to dashboard
+        common.findWebElementById("dashboard-button").click();
+        common.timeoutSeconds(5);
+    }
+
+    @Test( dependsOnMethods = {"verifySamlFailPage"} )
     void logout() { logout.runLogout(); }
 }

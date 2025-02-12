@@ -49,9 +49,18 @@ public class RequestNewPassword {
             register.enterCaptchaCode();
         }
 
-        //wait for the Send-again button on next page
-        //common.timeoutSeconds(1);
-        common.explicitWaitClickableElementId("response-code-abort-button");
+        //If non-existing user is submitted
+        if(testData.isIncorrectPassword()){
+            common.verifyStatusMessage("Användaren hittades inte. Vänligen försök igen.");
+
+            common.selectEnglish();
+
+            common.verifyStatusMessage("User not found. Please try again.");
+        }
+        else {
+            //wait for the Send-again button on next page
+            common.explicitWaitClickableElementId("response-code-abort-button");
+        }
     }
 
     private void verifyLabels(){

@@ -14,6 +14,7 @@ public class TestData {
     private String newPassword = "";
     private String confirmIdBy = "";
     private String mfaMethod = "";
+    private String loaLevel = "eIDAS Substantial";
 //    private String refIdpUser = "Sixten von Samordnungsnummer (197010632391)";
     private String username, password, givenName, surName, displayName, magicCode, email,
             phoneNumber, identityNumber, language, eppn, supportUsername,

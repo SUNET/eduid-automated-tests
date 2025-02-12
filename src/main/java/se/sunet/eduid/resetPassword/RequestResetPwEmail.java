@@ -76,7 +76,7 @@ public class RequestResetPwEmail {
 
         common.verifyStringOnPage("Klicka på knappen nedan för att skicka ett e-postmeddelande till");
         common.verifyStringOnPage(testData.getUsername().toLowerCase());
-        common.verifyStringOnPage("Om du väljer att avbryta, klicka på knappen Gå tillbaka för att återgå till inloggningssidan.");
+        common.verifyStringOnPage("Om du väljer att avbryta, klicka på knappen Tillbaka för att återgå till inloggningssidan.");
 
         //Buttons
         common.verifyStringByXpath(sendEmailButton, "SKICKA E-POST");

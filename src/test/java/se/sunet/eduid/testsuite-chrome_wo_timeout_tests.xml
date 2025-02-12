@@ -51,6 +51,14 @@
         </classes>
     </test>
 
+    <test name="TC_6">
+        <parameter name="testDescription" value="Verify that eppn can be used as user name for log in" />
+        <classes>
+            <class name="se.sunet.eduid.TC_6" >
+            </class>
+        </classes>
+    </test>
+
     <test name="TC_7">
         <parameter name="testDescription" value="Add an additional email address and confirm it by code" />
         <classes>
@@ -60,7 +68,7 @@
     </test>
 
     <test name="TC_8">
-        <parameter name="testDescription" value="Remove the additional email address added in TC_7" />
+        <parameter name="testDescription" value="Log in with the new non-primary email address added in TC_7, then remove it" />
         <classes>
             <class name="se.sunet.eduid.TC_8" >
             </class>
@@ -83,16 +91,14 @@
         </classes>
     </test>
 
-<!-- Obsolete from jan - 2025
-
-      <test name="TC_11">
-        <parameter name="testDescription" value="Log in with user that has a verified phone number, verify that the extra
-        information about phone number removal in eduID is present. Click OK and log in." />
+    <test name="TC_11">
+        <parameter name="testDescription" value="Verify that identity can not be confirmed when user
+        tries to use eIDAS LoA low" />
         <classes>
             <class name="se.sunet.eduid.TC_11" >
             </class>
         </classes>
-    </test>-->
+    </test>
 
     <test name="TC_12">
         <parameter name="testDescription" value="Add additional email address, try to confirm with incorrect code" />
@@ -194,6 +200,14 @@
         </classes>
     </test>
 
+    <test name="TC_24">
+        <parameter name="testDescription" value="Register account, init identity confirmation by BankID" />
+        <classes>
+            <class name="se.sunet.eduid.TC_24" >
+            </class>
+        </classes>
+    </test>
+
     <test name="TC_25">
         <parameter name="testDescription" value="Try to reset password with incorrect magic code, ends with a 404-page" />
         <classes>
@@ -202,9 +216,17 @@
         </classes>
     </test>
 
+    <test name="TC_26">
+        <parameter name="testDescription" value="Try to reset password with non-existing email address" />
+        <classes>
+            <class name="se.sunet.eduid.TC_26" >
+            </class>
+        </classes>
+    </test>
+
     <test name="TC_28">
         <parameter name="testDescription" value="Register new account. Confirm identity by Freja. Reset password without extra security,
-        verify that identity is no longer verified" />
+        verify that identity is no longer verified. Click 'Not you' at start page to be forced to fill in email" />
         <classes>
             <class name="se.sunet.eduid.TC_28" >
             </class>

@@ -157,6 +157,11 @@ public class ConfirmIdentity{
             //Select country XA in sandbox
             common.findWebElementByXpath("//*[@id=\"countrySelectForm\"]/div/div[3]/button").click();
 
+            //Set LoA to substantial
+            common.click(common.findWebElementByXpath("//*[@id=\"authnForm\"]/table/tbody/tr[3]/td/div/div/button"));
+            common.click(common.findWebElementByXpath(
+                    "//*[@id=\"authnForm\"]//span[contains(text(),'" +testData.getLoaLevel() +"')]"));
+
             //Submit IDP identity
             common.findWebElementById("idpSubmitbutton").click();
 
@@ -176,6 +181,27 @@ public class ConfirmIdentity{
             //Wait and see that we come to Freja eID OpenID Connect - Logga in - page
             common.explicitWaitPageTitle("Freja eID OpenID Connect - Logga in");
             common.verifyStringOnPage("För att gå vidare skanna QR-koden");
+        }
+
+        //BankID
+        else if(testData.getConfirmIdBy().equalsIgnoreCase("bankid")) {
+            Common.log.info("Verify identity by BankID");
+
+            identity.expandIdentityOptions();
+
+            //Click proceed with bankid button
+            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-bankID\"]/button"));
+
+            //Wait and press BankId on other device
+            common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]");
+            common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]").click();
+
+            //Wait and press abort scanning the qr code
+            common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[1]/dialog/button");
+            common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/dialog/button").click();
+
+            //Cancel the authention
+            common.findWebElementByXpath("//*[@id=\"app\"]/main/div[2]/button/span").click();
         }
     }
 

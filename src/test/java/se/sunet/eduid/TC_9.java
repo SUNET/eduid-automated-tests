@@ -4,8 +4,12 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
 public class TC_9 extends BeforeAndAfter {
+    String userName;
+
     @Test
     void startPage(){
+        //Set local username from properties
+        userName = testData.getUsername();
         startPage.runStartPage();
     }
 
@@ -21,7 +25,7 @@ public class TC_9 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"dashboard"} )
     void emailAddresses() {
-        testData.setAddNewEmail1("ove@idsec.se");
+        testData.setAddNewEmail1(userName);
         testData.setConfirmNewEmail1("code");
         emailAddresses.runEmailAddresses(); }
 

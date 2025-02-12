@@ -276,7 +276,7 @@ public class EmailAddresses {
                 "Skriv in koden som skickats till " +testData.getAddNewEmail1());
         common.verifyStringByXpath("//*[@id=\"email-confirm-modal-wrapper\"]/div/label", "Kod");
         common.verifyStringByXpath("//*[@id=\"email-confirm-modal-form\"]/div[1]/div[2]/button",
-                "Skicka ny kod igen");
+                "Skicka ny kod");
 
         //Close confirmation pop-up
         common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
