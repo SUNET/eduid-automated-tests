@@ -60,7 +60,6 @@ public class TC_39 extends BeforeAndAfter {
         testData.setGivenName("inget");
         testData.setSurName("namn");
         testData.setIdentityNumber("lägg till personnummer");
-        testData.setPhoneNumber("inget telefonnummer sparat");
         testData.setEmail(testData.getUsername());
 
         common.navigateToAccount();

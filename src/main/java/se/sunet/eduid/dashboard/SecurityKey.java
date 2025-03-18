@@ -279,7 +279,7 @@ public class SecurityKey {
         common.verifyPageBodyContainsString(pageBody,"Du kan läsa mer om säkerhetsnycklar i hjälpavsnittet: Utökad säkerhet med ditt eduID.");
 
         //Verify internal link to help pages works
-        common.verifyXpathIsWorkingLink("//*[@id=\"content\"]/article/p[2]/a");
+        common.verifyXpathIsWorkingLink("//*[@id=\"content\"]/article[1]/p[3]/a");
 
         common.verifyPageBodyContainsString(pageBody,"Lägg till en ny säkerhetsnyckel:");
         common.verifyStringById("security-webauthn-button", "SÄKERHETSNYCKEL");
@@ -313,7 +313,7 @@ public class SecurityKey {
         common.verifyPageBodyContainsString(pageBody,"You can read more about security keys in the Help section: Improving the security level of eduID.");
 
         //Verify internal link to help pages works
-        common.verifyXpathIsWorkingLink("//*[@id=\"content\"]/article/p[2]/a");
+        common.verifyXpathIsWorkingLink("//*[@id=\"content\"]/article[1]/p[3]/a");
 
         common.verifyPageBodyContainsString(pageBody,"Add a new security key:");
         common.verifyStringById("security-webauthn-button", "SECURITY KEY");

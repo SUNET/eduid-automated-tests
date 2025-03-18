@@ -86,7 +86,7 @@ public class Common {
         expandNavigationMenu();
 
         //Click on Account
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/a[4]"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[7]/a"));
     }
 
     public void navigateToIdentity() {
@@ -94,7 +94,7 @@ public class Common {
         expandNavigationMenu();
 
         //Click on Identity
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/a[2]"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/a"));
     }
 
     public void navigateToSecurity() {
@@ -102,7 +102,7 @@ public class Common {
         expandNavigationMenu();
 
         //Click on Security Settings
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/a[3]"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[5]/a"));
     }
 
     public void navigateToDashboard() {
@@ -110,12 +110,12 @@ public class Common {
         expandNavigationMenu();
 
         //Click on Start
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/a[1]"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/a"));
     }
 
     public void expandNavigationMenu(){
         //Expand navigation menu
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/button/span"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/button"));
     }
 
     public void verifyPageTitle(String pageTitle) {

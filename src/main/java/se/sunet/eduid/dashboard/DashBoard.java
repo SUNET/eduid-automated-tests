@@ -4,10 +4,24 @@ import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
+import static se.sunet.eduid.utils.Common.log;
+
 public class DashBoard {
     private final Common common;
     private final TestData testData;
     String pageBody;
+    String eduIDStatusOverviewMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[2]/ul/li/a";
+    String verifyIdentityMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[1]/a";
+    String nameMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[2]/a";
+    String mfaMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[6]/ul/li[1]/a";
+    String handleSecurityKeyMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[6]/ul/li[2]/a";
+    String uniqueMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[1]/a";
+    String emailMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[2]/a";
+    String languageMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[3]/a";
+    String changePasswordMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[4]/a";
+    String orchIdMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[5]/a";
+    String esiInfoMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[6]/a";
+    String deleteAccountMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[7]/a";
 
     public DashBoard(Common common, TestData testData){
         this.common = common;
@@ -15,7 +29,12 @@ public class DashBoard {
     }
 
     public void runDashBoard(){
-        common.navigateToDashboard();
+        //If we are not on dashboard e.g. after security key validation, navigate to dashboard
+        if(!common.getWebDriver().getCurrentUrl().equalsIgnoreCase("https://dev.eduid.se/profile/")) {
+            common.navigateToDashboard();
+        }
+
+
         verifyPageTitle();
 
         verifyUserId();
@@ -44,19 +63,16 @@ public class DashBoard {
     }
 
     private void verifyLabelsSwedish() {
-        Common.log.info("Verifying dashboard labels in swedish");
+        log.info("Verifying dashboard labels in swedish");
 
         common.verifyPageTitle("Start | eduID");
 
         //Extract page body for validation
         pageBody = common.getPageBody();
 
-        //Verify navigation label
-        common.click(common.findWebElementByXpath("//*[@id=\"header\"]/nav/button"));
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/a[1]", "Start");
-
-        //Close site location menu
-        common.click(common.findWebElementByXpath("//*[@id=\"header\"]/nav/button"));
+        //Verify menu labels, not needed for every test case
+        if(testData.getTestCase().equalsIgnoreCase("TC_40"))
+            verifyMenuLabelsSwe();
 
         //Verify welcome heading
         if (testData.getDisplayName().isEmpty())
@@ -88,7 +104,7 @@ public class DashBoard {
         }
         else{
             //TODO when account is not confirmed i.e. email address not verified
-            Common.log.info("TODO - Account is not verified");
+            log.info("TODO - Account is not verified");
         }
         if(testData.isIdentityConfirmed()){
             common.verifyPageBodyContainsString(pageBody, "Verifierad identitet");
@@ -138,12 +154,9 @@ public class DashBoard {
         //Extract page body for validation
         pageBody = common.getPageBody();
 
-        //Verify site location menu
-        common.click(common.findWebElementByXpath("//*[@id=\"header\"]/nav/button"));
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/a[1]", "Start");
-
-        //Close site location menu
-        common.click(common.findWebElementByXpath("//*[@id=\"header\"]/nav/button"));
+        //Verify menu labels, not needed for every test case
+        if(testData.getTestCase().equalsIgnoreCase("TC_40"))
+            verifyMenuLabelsEng();
 
         //Verify welcome heading
         if(testData.getDisplayName().isEmpty()) {
@@ -181,10 +194,10 @@ public class DashBoard {
         }
         else{
             //TODO when account is not confirmed i.e. email address not verified
-            Common.log.info("TODO - Account is not verified");
+            log.info("TODO - Account is not verified");
         }
         if(testData.isIdentityConfirmed()){
-            Common.log.info("Identiy is verified");
+            log.info("Identity is verified");
             common.verifyPageBodyContainsString(pageBody, "Verified identity");
             common.verifyPageBodyContainsString(pageBody, "Read more details about your verified identity at Identity");
         }
@@ -195,7 +208,7 @@ public class DashBoard {
         common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[2]/div[2]/span/a");
 
         if(testData.isAddSecurityKey()){
-            Common.log.info("Security key is added");
+            log.info("Security key is added");
             common.verifyPageBodyContainsString(pageBody, "Enhanced security");
             common.verifyPageBodyContainsString(pageBody, "Read more about your added two-factor authentication at Security");
         }
@@ -207,7 +220,7 @@ public class DashBoard {
         common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[3]/div[2]/span/a");
 
         if(testData.isVerifySecurityKeyByFreja()) {
-            Common.log.info("Security key is verified");
+            log.info("Security key is verified");
             common.verifyPageBodyContainsString(pageBody, "Verified security key");
             common.verifyPageBodyContainsString(pageBody, "Read more details about your verified two-factor authentication at Security");
         }
@@ -228,5 +241,83 @@ public class DashBoard {
         //Select swedish
         if(!testData.getTestCase().equalsIgnoreCase("TC_5"))
             common.selectSwedish();
+    }
+
+    void verifyMenuLabelsSwe(){
+        log.info("Verifying menu labels in swedish and check that sub menu links are not broken");
+
+        expandFullNavigationMenuWithSubMenus();
+
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/a", "Start");
+        common.verifyStringByXpath(eduIDStatusOverviewMenuLink, "eduID statusöversikt");
+        common.verifyXpathIsWorkingLink(eduIDStatusOverviewMenuLink);
+
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/a", "Identitet");
+        common.verifyStringByXpath(verifyIdentityMenuLink, "Verifiera identitet");
+        common.verifyXpathIsWorkingLink(verifyIdentityMenuLink);
+        common.verifyStringByXpath(nameMenuLink, "Namn & Visningsnamn");
+        common.verifyXpathIsWorkingLink(nameMenuLink);
+
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[5]/a", "Säkerhet");
+        common.verifyStringByXpath(mfaMenuLink, "Tvåfaktorsautentisering (2FA)");
+        common.verifyXpathIsWorkingLink(mfaMenuLink);
+        common.verifyStringByXpath(handleSecurityKeyMenuLink, "Hantera dina säkerhetsnycklar");
+        common.verifyXpathIsWorkingLink(handleSecurityKeyMenuLink);
+
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[7]/a", "Konto");
+        common.verifyStringByXpath(uniqueMenuLink, "Unikt ID");
+        common.verifyXpathIsWorkingLink(uniqueMenuLink);
+        common.verifyStringByXpath(emailMenuLink, "E-postadresser");
+        common.verifyXpathIsWorkingLink(emailMenuLink);
+        common.verifyStringByXpath(languageMenuLink, "Språk");
+        common.verifyXpathIsWorkingLink(languageMenuLink);
+        common.verifyStringByXpath(changePasswordMenuLink, "Byt lösenord");
+        common.verifyXpathIsWorkingLink(changePasswordMenuLink);
+        common.verifyStringByXpath(orchIdMenuLink, "Länka till ditt ORCID konto");
+        common.verifyXpathIsWorkingLink(orchIdMenuLink);
+        common.verifyStringByXpath(esiInfoMenuLink, "ESI information");
+        common.verifyXpathIsWorkingLink(esiInfoMenuLink);
+        common.verifyStringByXpath(deleteAccountMenuLink, "Radera eduID");
+        common.verifyXpathIsWorkingLink(deleteAccountMenuLink);
+
+        common.verifyStringById("logout", "LOGGA UT");
+    }
+
+    void verifyMenuLabelsEng(){
+        log.info("Verifying menu labels in swedish");
+
+        expandFullNavigationMenuWithSubMenus();
+
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/a", "Start");
+        common.verifyStringByXpath(eduIDStatusOverviewMenuLink, "eduID status overview");
+
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/a", "Identity");
+        common.verifyStringByXpath(verifyIdentityMenuLink, "Verify identity");
+        common.verifyStringByXpath(nameMenuLink, "Names & Display Name");
+
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[5]/a", "Security");
+        common.verifyStringByXpath(mfaMenuLink, "Two-factor Authentication (2FA)");
+        common.verifyStringByXpath(handleSecurityKeyMenuLink, "Manage your security keys");
+
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[7]/a", "Account");
+        common.verifyStringByXpath(uniqueMenuLink, "Unique ID");
+        common.verifyStringByXpath(emailMenuLink, "Email addresses");
+        common.verifyStringByXpath(languageMenuLink, "Language");
+        common.verifyStringByXpath(changePasswordMenuLink, "Change password");
+        common.verifyStringByXpath(orchIdMenuLink, "ORCID account");
+        common.verifyStringByXpath(esiInfoMenuLink, "ESI information");
+        common.verifyStringByXpath(deleteAccountMenuLink, "Delete eduID");
+
+        common.verifyStringById("logout", "LOG OUT");
+    }
+
+    public void expandFullNavigationMenuWithSubMenus(){
+        common.expandNavigationMenu();
+
+        //Expand sub-menus
+        common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[7]/button").click();
+        common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[5]/button").click();
+        common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/button").click();
+        common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/button").click();
     }
 }

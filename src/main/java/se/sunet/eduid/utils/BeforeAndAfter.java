@@ -1,5 +1,7 @@
 package se.sunet.eduid.utils;
 
+import com.assertthat.selenium_shutterbug.core.Capture;
+import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -26,7 +28,6 @@ public class BeforeAndAfter {
     public DashBoard dashBoard;
     public Name name;
     public EmailAddresses emailAddresses;
-    public PhoneNumber phoneNumber;
     public Account account;
     public Identity identity;
     public Logout logout;
@@ -77,7 +78,6 @@ public class BeforeAndAfter {
         login = new Login(common, testData);
         name = new Name(common, testData);
         emailAddresses = new EmailAddresses(common, testData);
-        phoneNumber = new PhoneNumber(common, testData);
         account = new Account(common, testData);
         identity = new Identity(common, testData, name);
         requestNewPassword = new RequestNewPassword(common, testData, register);
@@ -85,7 +85,7 @@ public class BeforeAndAfter {
         emailLink = new EmailLink(common, testData);
         extraSecurity = new ExtraSecurity(common, testData);
         passwordChanged = new PasswordChanged(common, testData);
-        logout = new Logout(common);
+        logout = new Logout(common, startPage);
         dashBoard = new DashBoard(common, testData);
         password = new Password(common, testData);
         confirmPhoneNumber = new ConfirmPhoneNumber(common, testData);
@@ -122,48 +122,19 @@ public class BeforeAndAfter {
         Common.log.info(testData.getTestCase() +" - "+testData.getTestMethod());
     }
 
-    @AfterTest
+//    @AfterTest
     public void quitBrowser() throws IOException {
-//        if(testData.getTestSuite().equalsIgnoreCase("regression")) {
-            try {
-                webdriver.quit();
-                Common.log.info("End of: " + testData.getTestCase());
-            } catch (Exception ex) {
-                Common.log.info("Failed to quit the browser normally");
-            } finally {
-                webdriver.quit();
-                Common.log.info("End of: " + testData.getTestCase() + " - quit by finally!");
-            }
-//        }
- //       else
-   //         Common.log.info("Browser not quit due to dev execution");
+        webdriver.quit();
+        Common.log.info("End of: " + testData.getTestCase());
     }
 
     @AfterMethod(alwaysRun = true)
     public void captureScreenshot(ITestResult result){
         // Change the condition , If the screenshot needs to be taken for other status as well
         if(ITestResult.FAILURE==result.getStatus()){
-            Common.log.info("After method, test result failed " +ITestResult.FAILURE);
-//            Shutterbug.shootPage(webdriver, Capture.FULL_SCROLL, 500, true)
-//                    .withName(testData.getTestCase() +"-" +result.getName())
-//                    .save("screenshots/");
-
-//            failedTests.add(testData.getTestCase() +" - "+method.getName());
-        }
-//        else
-//            Common.log.info("After method, test result passed " +ITestResult.SUCCESS);
-    }
-
-//    @BeforeSuite
-    public void beforeSuite(){
-        failedTests = new ArrayList<>();
-    }
-
-//    @AfterSuite
-    public void printFailedTests(){
-        Common.log.info("Failing testcases: " +failedTests.size());
-        for (String failedTest : failedTests) {
-            Common.log.info(failedTest);
+            Shutterbug.shootPage(webdriver, Capture.FULL_SCROLL, 500, true)
+                    .withName(testData.getTestCase() +"-" +result.getName())
+                    .save("screenshots/");
         }
     }
 }

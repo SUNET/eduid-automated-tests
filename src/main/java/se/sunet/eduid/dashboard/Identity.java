@@ -55,7 +55,7 @@ public class Identity {
         common.verifyStringByXpath("//*[@id=\"accordion__heading-swedish\"]/div/h3",
                 "Svenskt personnummer eller samordningsnummer");
         common.verifyStringByXpath("//*[@id=\"accordion__heading-swedish\"]/div/p",
-                "Med digitalt ID-kort / Via post");
+                "Med digitalt ID / Via post");
 
         common.verifyStringByXpath("//*[@id=\"accordion__panel-swedish\"]/p",
                 "Verifiera att du har tillgång till ditt person- eller samordningsnummer.");
@@ -69,7 +69,7 @@ public class Identity {
 
         //Button text - Bank ID - Fine text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-bankID\"]/p[1]", "För att " +
-                "använda det här alternativet måste du först skapa ett digitalt ID-kort i BankID appen.");
+                "använda det här alternativet behöver du först skapa ett digitalt ID i BankID appen.");
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-bankID\"]/p[2]", "Knappen " +
                 "nedan tar dig till en extern identifieringssida, där du genom att identifiera dig med Bank ID " +
                 "verifierar din identitet mot eduID.");
@@ -89,8 +89,8 @@ public class Identity {
         common.verifyStringByXpath("//*[@id=\"accordion__heading-se-freja\"]/div/h3", "MED FREJA+");
 
         //Button text - Freja - Fine text
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-freja\"]/p", "För att " +
-                "använda det här alternativet behöver du först skapa ett digitalt ID-kort i Freja appen.");
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-freja\"]/p", "För att använda " +
+                "det här alternativet behöver du först skapa ett digitalt ID i Freja appen.");
 
         //Verify link to Freja page works
         common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-se-freja\"]/p/a");
@@ -200,7 +200,7 @@ public class Identity {
                 "identity to your eduID to get the most benefit from it.");
         common.verifyStringByXpath("//*[@id=\"content\"]/article/h2", "Choose your principal identification method");
         common.verifyStringByXpath("//*[@id=\"accordion__heading-swedish\"]/div/h3", "Swedish personal ID or coordination number");
-        common.verifyStringByXpath("//*[@id=\"accordion__heading-swedish\"]/div/p", "With a digital ID-card / By post");
+        common.verifyStringByXpath("//*[@id=\"accordion__heading-swedish\"]/div/p", "With a digital ID / By post");
 
         //---- Bank ID ----
         //Button text - Bank ID
@@ -211,7 +211,7 @@ public class Identity {
         //Button text - Bank ID - Fine text
         common.timeoutMilliSeconds(500);
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-bankID\"]/p[1]", "To use this " +
-                "option you will need to first create a digital ID-card in the BankID app.");
+                "option you will need to first create a digital ID in the BankID app.");
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-bankID\"]/p[2]", "The button " +
                 "below will take you to an external identification site, where you by identifying yourself with BankID " +
                 "will verify your identity towards eduID.");
@@ -231,7 +231,7 @@ public class Identity {
 
         //Button text - Freja - Fine text
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-freja\"]/p", "To use this " +
-                "option you first need to create a digital ID-card in the Freja app.");
+                "option you will need to first create a digital ID in the Freja app.");
 
         //Verify link to Freja page works
         common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-se-freja\"]/p/a");
@@ -375,7 +375,7 @@ public class Identity {
         //Expand buttons if not already expanded, to make all text visible
         if(common.findWebElementById("accordion__heading-swedish").getAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-swedish"));
-        common.timeoutMilliSeconds(200);
+        common.timeoutMilliSeconds(400);
         if(common.findWebElementById("accordion__heading-se-bankID").getAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-se-bankID"));
         if(common.findWebElementById("accordion__heading-se-freja").getAttribute("aria-expanded").equalsIgnoreCase("false"))

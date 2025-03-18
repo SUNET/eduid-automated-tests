@@ -67,7 +67,8 @@ public class RequestNewPassword {
         //Heading
         common.verifyStringOnPage("Återställ lösenord: Ange e-postadressen");
 
-        common.verifyStringOnPage("Om det finns en användare med den epostadressen, skickas ett mail med instruktioner.");
+        common.verifyStringOnPage("Om det finns en användare med den epostadressen, skickas ett mail " +
+                "med instruktioner från no-reply@eduid.se.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress");
 
         //Verify placeholder
@@ -85,7 +86,8 @@ public class RequestNewPassword {
         //Heading
         common.verifyStringOnPage("Reset password: Enter the email address");
 
-        common.verifyStringOnPage("Once entered, if the address is registered, a message with instructions to reset the password will be sent.");
+        common.verifyStringOnPage("Once entered, if the address is registered, a message with " +
+                "instructions to reset the password will be sent from no-reply@eduid.se.");
         common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address");
 
         //Verify placeholder

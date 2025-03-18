@@ -49,8 +49,9 @@ public class Account {
         Common.log.info("Verify Ladok");
 
         //Activate ladok
-        common.timeoutSeconds(2);
-        common.click(common.findWebElementById("ladok-connection"));
+        //common.timeoutSeconds(2);
+        common.scrollToPageBottom();
+        common.findWebElementByXpath("//*[@id=\"ladok\"]/form/fieldset/label/div").click();
         common.timeoutSeconds(1);
 
         String availableUniversitys = "//*[@id=\"content\"]/article[6]/form[2]/fieldset/div/div/div[1]/div";

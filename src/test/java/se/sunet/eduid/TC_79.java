@@ -25,16 +25,11 @@ public class TC_79 extends BeforeAndAfter {
     void login(){
         testData.setRegisterAccount(false);
         login.runLogin();
-
-//        common.explicitWaitClickableElement("//*[@id=\"header\"]/nav/button");
     }
 
     @Test( dependsOnMethods = {"login"} )
     void confirmIdentityFrejaNoSwedishPnr(){
-        //Set phone number to empty, so no phone labels are verified
-        testData.setPhoneNumber("");
-
-        testData.setConfirmIdBy("frejaNoSwedishPnr");
+       testData.setConfirmIdBy("frejaNoSwedishPnr");
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentityFrejaNoSwedishPnr"} )

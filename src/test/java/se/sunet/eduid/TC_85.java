@@ -14,7 +14,6 @@ public class TC_85 extends BeforeAndAfter {
     void login(){
         testData.setPassword("ycb1 al8x ucrc");
         testData.setUsername("dKdmCkae@dev.eduid.sunet.se");
-        testData.setPhoneNumber("0701740614");
         testData.setRegisterAccount(false);
         login.runLogin(); }
 

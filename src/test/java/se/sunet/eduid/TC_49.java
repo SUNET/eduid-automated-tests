@@ -115,7 +115,7 @@ public class TC_49 extends BeforeAndAfter {
         testData.setDisplayName(displayname1);
     }
 
-    //Log in to first account, verify that phone number and identity needs to be confirmed
+    //Log in to first account, verify that identity needs to be confirmed
     @Test( dependsOnMethods = {"startBrowser"} )
     void checkFirstAccounNotVerifiedIdentity(){
     }

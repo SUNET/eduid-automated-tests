@@ -1,80 +1,38 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
+import java.util.List;
+
+import static se.sunet.eduid.utils.Common.log;
+
 public class TC_477 extends BeforeAndAfter {
     @Test
-    void startPage(){
-        testData.setRegisterAccount(true);
-        startPage.runStartPage(); }
-
-    @Test( dependsOnMethods = {"startPage"} )
-    void register(){
-        //Set identity number of Ulla Alm in ref.idp
-        testData.setIdentityNumber("198611062384");
-        register.runRegister(); }
-
-    @Test( dependsOnMethods = {"register"} )
-    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
-
-    @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void setRecommendedPassword() { password.setPassword(); }
-
-    @Test( dependsOnMethods = {"setRecommendedPassword"} )
-    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
-
-    @Test( dependsOnMethods = {"confirmedNewAccount"} )
-    void login(){
-        testData.setRegisterAccount(false);
-        login.runLogin();
-
-//        common.explicitWaitClickableElement("//*[@id=\"header\"]/nav/button");
-    }
+    void startPage() {
 /*
-    @Test( dependsOnMethods = {"login"} )
-    void personalInfo() {
-        testData.setRegisterAccount(true);
+        //Extract email addresses from sandbox tool
+        common.navigateToUrl("https://eid.svelegtest.se/mdreg/login");
 
-        //Navigate to settings
-        common.navigateToAccount();
-        personalInfo.runPersonalInfo();
+        common.findWebElementById("username").sendKeys("semart");
+        common.findWebElementById("password").sendKeys("jaeqX5ff+e");
+
+        common.findWebElementByXpath("//*[@id=\"loginForm\"]/button").click();
+        common.timeoutSeconds(3);
+
+        common.findWebElementByXpath("//*[@id=\"navbarNavAltMarkup\"]/div/div/a[3]").click();
+
+        //Extract all table rows in to a list of web elements
+        WebElement webElement = common.findWebElementByXpath("//*[@id=\"user-table\"]/tbody");
+        List<WebElement> rowsInAdTable = webElement.findElements(By.xpath("*"));
+
+        log.info("Number of rows in table: " + rowsInAdTable.size());
+
+        for (int i = 1; i <= rowsInAdTable.size(); i++) {
+
+            System.out.println(common.findWebElementByXpath("//*[@id=\"user-row-" + i + "\"]/td[3]").getText());
+        }*/
     }
-
-     @Test( dependsOnMethods = {"personalInfo"} )
-    void addPhoneNumber(){
-        phoneNumber.addPhoneNumber();
-        phoneNumber.confirmNewPhoneNumber(); }
-
-   @Test( dependsOnMethods = {"addPhoneNumber"} )
-    void confirmIdentityFreja(){
-        testData.setConfirmIdBy("freja");
-        confirmIdentity.runConfirmIdentity(); }
-
-    @Test( dependsOnMethods = {"confirmIdentityFreja"} )
-    void confirmedIdentity() {
-        confirmedIdentity.runConfirmIdentity();
-
-        testData.setRegisterAccount(false);
-    }*/
-
-    //Delete the account, so it will be removed after 2 weeks by script
-/*    @Test( dependsOnMethods = {"confirmedIdentity"} )
-    void navigateToSettings() { common.navigateToSettings(); }
-
-    @Test( dependsOnMethods = {"navigateToSettings"} )
-    void delete() {
-        testData.setDeleteButton(true);
-        deleteAccount.runDeleteAccount(); }
-
-    @Test( dependsOnMethods = {"delete"} )
-    void startPage2(){ startPage.runStartPage(); }
-
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
-    }*/
 }

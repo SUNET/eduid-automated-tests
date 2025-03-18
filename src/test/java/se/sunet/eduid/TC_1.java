@@ -17,9 +17,6 @@ public class TC_1 extends BeforeAndAfter {
     void emailAddresses() { emailAddresses.runEmailAddresses(); }
 
     @Test( dependsOnMethods = {"emailAddresses"} )
-    void phoneNumber() { phoneNumber.runPhoneNumber(); }
-
-    @Test( dependsOnMethods = {"phoneNumber"} )
     void identity() { identity.runIdentity(); }
 
     @Test( dependsOnMethods = {"identity"} )

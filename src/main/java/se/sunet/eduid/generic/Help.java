@@ -409,9 +409,9 @@ public class Help {
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Giltiga modeller av fysiska säkerhetsnycklar");
-        common.verifyPageBodyContainsString(pageBody, "Här listas märke och modellnamn av fysiska " +
-                "säkerhetsnycklar som bör möta de tekniska förutsättningarna för att kunna användas för eduID. Listan " +
-                "är sorterad alfabetiskt och uppdateras regelbundet.");
+        common.verifyPageBodyContainsString(pageBody, "Här listas, från Fido Alliance, märke och modellnamn" +
+                " av fysiska säkerhetsnycklar som bör möta de tekniska förutsättningarna för att kunna användas för " +
+                "eduID, det kan även finnas andra som fungerar. Listan är sorterad alfabetiskt och uppdateras regelbundet.");
     }
 
     private void verificationEduIdSwe(){
@@ -442,9 +442,9 @@ public class Help {
                 "slutföra verifieringen i eduid.se,");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Freja+ (digitalt ID-kort) - med svenskt personnummer eller " +
-                "samordningsnummer: användaren blir hänvisad till Freja eIDs hemsida för att använda sig av deras tjänst. " +
-                "Om du inte redan har Freja+ behöver du skapa det innan du kan verifiera ditt eduID. Läs mer om Freja nedan.");
+        common.verifyPageBodyContainsString(pageBody, "Freja+ (digitalt ID) - med svenskt personnummer " +
+                "eller samordningsnummer: användaren blir hänvisad till Freja eIDs hemsida för att använda sig av deras " +
+                "tjänst. Om du inte redan har Freja+ behöver du skapa det innan du kan verifiera ditt eduID. Läs mer om Freja nedan.");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "BankID (elektroniskt identifieringssystem) - med svenskt " +
@@ -470,8 +470,8 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Vad är Freja+?");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Freja+ (ett verifierat Freja eID) är ett kostnadsfritt digitalt " +
-                "ID-kort tillgängligt för personer med svenskt personnummer eller samordningsnummer.");
+        common.verifyPageBodyContainsString(pageBody, "Freja+ (ett verifierat Freja eID) är ett " +
+                "kostnadsfritt digitalt ID tillgängligt för personer med svenskt personnummer eller samordningsnummer.");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Hur du kan använda Freja+ med eduID:");
@@ -488,7 +488,7 @@ public class Help {
                 "ID-kort) till ett auktoriserat ATG-ombud för att verifiera din identitet,");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "logga in i eduID och välj metoden 'Med Freja+ digitalt id-kort' i " +
+        common.verifyPageBodyContainsString(pageBody, "logga in i eduID och välj metoden 'Med Freja+' i " +
                 "identitetshanteringen och följ instruktionerna.");
 
         //Heading
@@ -620,11 +620,11 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Bekräftat konto:\n" +
-                "tjänster som kräver en låg tillitsnivå, ofta kallad AL1 / RAF Low.");
+                "tjänster som kräver en låg tillitsnivå, ofta kallad AL1 (obekräftad användare) / RAF Low.");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Verifierad identitet:\n" +
-                "tjänster som kräver en medelhög tillitsnivå, inklusive många lärosäten, ofta kallad AL2 / RAF Medium.");
+                "tjänster som kräver en medelhög tillitsnivå, inklusive många lärosäten, ofta kallad AL2 (bekräftad användare) / RAF Medium.");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Ökad säkerhet:\n" +
@@ -632,7 +632,7 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Verifierad säkerhetsnyckel:\n" +
-                "tjänster som kräver en stark koppling mellan din identitet och din inloggning, ofta kallad AL3 / RAF High / LoA2.");
+                "tjänster som kräver en stark koppling mellan din identitet och din inloggning, ofta kallad AL3 (verifierad användare) / RAF High / LoA2.");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Obs: detta är en förenklad sammanfattning och kan " +
@@ -640,7 +640,7 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody,"Exempelvis med en verifierad svensk identitet och " +
-                "verified säkerhetsnyckel, uppnår kontot i allmänhet Swamid AL3/ DIGG LoA2 och är på en tillräcklig " +
+                "verified säkerhetsnyckel, uppnår kontot i allmänhet SWAMID AL3/ DIGG LoA2 och är på en tillräcklig " +
                 "nivå för t.ex. Digitala Nationella Proven (DNP) och Nice.");
     }
 
@@ -1126,8 +1126,9 @@ public class Help {
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Valid physical Security Key options");
-        common.verifyPageBodyContainsString(pageBody, "This is a list of names of maker and models of " +
-                "external security keys that kan be used for eduID. They are listed in alphabetical order and updated regularly.");
+        common.verifyPageBodyContainsString(pageBody, "This is a list, derived from Fido Alliance, of " +
+                "names of maker and models of external security keys that can be used for eduID, though there might be " +
+                "other keys that could work for this purpose. They are listed in alphabetical order and updated regularly.");
     }
 
     private void verificationEduIdEng(){
@@ -1159,8 +1160,8 @@ public class Help {
                 "(the Swedish Tax Agency), and instructions on how to complete the verification on eduid.se,");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Freja+ (digital ID-card) - for Swedish personal identity or " +
-                "coordination number holders: the user will be directed to the Freja eID website to use their service. " +
+        common.verifyPageBodyContainsString(pageBody, "Freja+ (digital ID) - for Swedish personal identity " +
+                "or coordination number holders: the user will be directed to the Freja eID website to use their service. " +
                 "If you don't have Freja+ you have to create it separately before you can complete verification of your " +
                 "eduID. Read more about Freja below.");
 
@@ -1189,7 +1190,7 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "What is Freja+?");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Freja+ is a digital ID-card (a verified Freja eID) in app format, " +
+        common.verifyPageBodyContainsString(pageBody, "Freja+ is a digital ID (a verified Freja eID) " +
                 "free of charge, available to holders of a Swedish personal identification number or coordination number.");
 
         //Text
@@ -1205,8 +1206,8 @@ public class Help {
                 "ID card) to the nearest ATG agent authorised to verify your identity,");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "log in to eduID and choose the 'Freja+ digital ID-card' option in " +
-                "the Identity area and follow the instructions.");
+        common.verifyPageBodyContainsString(pageBody, "log in to eduID and choose the 'With Freja+' " +
+                "option in the Identity area and follow the instructions.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Do I need to visit an authorised ATG agent to create Freja+?");
@@ -1333,11 +1334,12 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Confirmed account:\n" +
-                "services requiring a low level of assurance, often called AL1 / RAF Low.");
+                "services requiring a low level of assurance, often called AL1 (unconfirmed user) / RAF Low.");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Verified identity:\n" +
-                "services requiring a medium level of assurance, including many higher education institutions, often called AL2 / RAF Medium.");
+                "services requiring a medium level of assurance, including many higher education institutions, " +
+                "often called AL2 (confirmed user) / RAF Medium.");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Enhanced security:\n" +
@@ -1345,15 +1347,15 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Verified security key:\n" +
-                "services requiring a strong binding between your identity and your login, often called AL3 / RAF High / LoA2.");
+                "services requiring a strong binding between your identity and your login, often called AL3 (verified user) / RAF High / LoA2.\n");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Note: this is a generalization and could change, " +
                 "complete information as to what is required of your eduID must be provided by the connecting services.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "As an exemple, with a verified Swedish identity " +
-                "and a verified security key the account is at a sufficient level for the purpose of e.g. Digital National Exams (DNP) and Nice.");
+        common.verifyPageBodyContainsString(pageBody, "As an example, with a verified Swedish identity and " +
+                "a verified security key the account is at a sufficient level for the purpose of e.g. Digital National Exams (DNP) and Nice.");
     }
 
     private void orcidEduIdEng(){
