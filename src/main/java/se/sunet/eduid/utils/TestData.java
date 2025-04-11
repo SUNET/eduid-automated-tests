@@ -17,7 +17,7 @@ public class TestData {
     private String loaLevel = "eIDAS Substantial";
 //    private String refIdpUser = "Sixten von Samordnungsnummer (197010632391)";
     private String username, password, givenName, surName, displayName, magicCode, email,
-            phoneNumber, identityNumber, language, eppn, supportUsername,
+            phoneNumber, identityNumber, language, eppn, supportUsername, supportPassword,
             emailCode, testCase, testDescription, testSuite, testMethod, otpPhoneNumber, otherDeviceCode,
             otherDeviceSubmitCode, emailVerificationCode, browser, headlessExecution;
 
@@ -50,6 +50,7 @@ public class TestData {
         setEmail(properties.getProperty("email"));
         setEppn(properties.getProperty("eppn"));
         setSupportUsername(properties.getProperty("support_username"));
+        setSupportPassword(properties.getProperty("support_password"));
 
         setLanguage("Svenska");
     }

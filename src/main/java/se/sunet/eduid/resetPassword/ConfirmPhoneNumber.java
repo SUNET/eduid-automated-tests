@@ -47,9 +47,9 @@ public class ConfirmPhoneNumber {
 
         //Fetch the code
         common.timeoutSeconds(2);
-        log.info("Navigate to get phone code: " +"https://dashboard.dev.eduid.se/services/phone/get-code?eppn="
+        log.info("Navigate to get phone code: " +"https://dashboard.eduid.docker/services/phone/get-code?eppn="
                 +testData.getEppn() +"&phone=" +phoneNumber);
-        phoneCode = common.getCodeInNewTab("https://dashboard.dev.eduid.se/services/phone/get-code?eppn="
+        phoneCode = common.getCodeInNewTab("https://dashboard.eduid.docker/services/phone/get-code?eppn="
                 +testData.getEppn() +"&phone=" +phoneNumber, 10);
 
 /*

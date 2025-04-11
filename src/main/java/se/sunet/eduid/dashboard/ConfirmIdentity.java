@@ -61,7 +61,7 @@ public class ConfirmIdentity{
 
             //Fetch the code
             String letterProofingCode =
-                    common.getCodeInNewTab("https://dashboard.dev.eduid.se/services/letter-proofing/get-code",
+                    common.getCodeInNewTab("https://dashboard.eduid.docker/services/letter-proofing/get-code",
                             10);
 
             //Verify labels when letter is sent
@@ -219,7 +219,7 @@ public class ConfirmIdentity{
 
         //Verify that letter is valid date is 2 weeks after today's date
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[3]",
-                "Brevet är giltigt till " +common.getDate().plusDays(15));
+                "Brevet är giltigt till " +common.getDate().plusDays(14));
 
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[4]",
                 "När du har mottagit brevet, fortsätt genom att klicka på knappen nedan.");
@@ -256,7 +256,7 @@ public class ConfirmIdentity{
 
         //Verify that letter is valid date is 2 weeks after today's date
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[3]",
-                "The letter is valid to " +common.getDate().plusDays(15));
+                "The letter is valid to " +common.getDate().plusDays(14));
 
         common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[4]",
                 "When you have received the letter, proceed by clicking the button below.");

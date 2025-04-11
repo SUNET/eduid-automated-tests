@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
@@ -125,14 +126,16 @@ public class InitBrowser {
         }
         else {
             ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.setCapability("Platform", "LINUX");
+            chromeOptions.setCapability("platformName", "LINUX");
+            chromeOptions.setCapability("acceptInsecureCerts", true);
             chromeOptions.addArguments("--no-sandbox");
-            chromeOptions.addArguments("--headless");
-            chromeOptions.addArguments("--lang=" +language);
+            //chromeOptions.addArguments("--headless");
+            chromeOptions.addArguments("--lang=" + language);
+            chromeOptions.addArguments("--accept-lang" + language);
             chromeOptions.addArguments("--disable-search-engine-choice-screen");
 
             try {
-                webDriver = new RemoteWebDriver(new URL("http://selenium-hub:4444/wd/hub"), chromeOptions);
+                webDriver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), chromeOptions);
             } catch (Exception ex) {
                 log.error("Chrome driver initialization exception: " + ex);
             }
@@ -155,12 +158,16 @@ public class InitBrowser {
             webDriver = new FirefoxDriver(firefoxOptions);
         } else {
             FirefoxOptions firefoxOptions = new FirefoxOptions();
-            firefoxOptions.setCapability("Platform", "LINUX");
-            firefoxOptions.setCapability("marionette", true);
-            firefoxOptions.setCapability("language", language);
+            firefoxOptions.setCapability("platformName", "LINUX");
+            firefoxOptions.addArguments("--ignore-certificate-errors");
+            //firefoxOptions.setCapability("marionette", true);
+            //firefoxOptions.setCapability("language", lguage);
+            FirefoxProfile profile = new FirefoxProfile();
+            profile.setPreference("intl.accept_languages", "sv");
+            firefoxOptions.setProfile(profile);
 
             try {
-                webDriver = new RemoteWebDriver(new URL("http://selenium-hub:4444/wd/hub"), firefoxOptions);
+                webDriver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), firefoxOptions);
             } catch (Exception ex) {
                 log.error("Firefox driver initialization exception: " + ex);
             }

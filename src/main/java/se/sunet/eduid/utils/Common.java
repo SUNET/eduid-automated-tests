@@ -408,13 +408,13 @@ public class Common {
     }
 
     public void addMagicCookie(){
-        if(!isCookieSet("autotests")) {
+        if(!isCookieSet("magiccookie")) {
             Date today = new Date();
             Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
-            webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi",
-                    ".dev.eduid.se", "/", tomorrow, true, true, "None"));
+            webDriver.manage().addCookie(new Cookie("magiccookie", "magiccookie",
+                    ".eduid.docker", "/", tomorrow, true, true, "None"));
 
-            logCookie("autotests");
+            logCookie("magiccookie");
         }
     }
     public void addNinCookie(){
@@ -422,7 +422,7 @@ public class Common {
             Date today = new Date();
             Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
             webDriver.manage().addCookie(new Cookie("nin", testData.getIdentityNumber(),
-                    ".dev.eduid.se", "/", tomorrow, true, true, "None"));
+                    ".eduid.docker", "/", tomorrow, true, true, "None"));
 
             logCookie("nin");
         }
