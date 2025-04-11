@@ -133,7 +133,7 @@ public class TC_43 extends BeforeAndAfter {
 
         //Enter support username and password
         common.findWebElementById("username").sendKeys(testData.getSupportUsername());
-        common.findWebElementById("current-password").sendKeys("v8ic uz53 wd85");
+        common.findWebElementById("current-password").sendKeys(testData.getSupportUsername());
 
         //eppn: dalum-zifuj
 
