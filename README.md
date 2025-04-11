@@ -100,6 +100,7 @@ Start the development environment. selenium hub and selenium runner.
 Make sure you are using the system installation of java and add your developer ca cert to your system trusted ca certs.
 
 Create a user and set username, password, email and eppn in **src/main/resources/config_dev.properties**.
+Also set **magiccode** to **magiccookie** in config_dev.properties.
 
 Create a support user and add the username and password to the above file, also add the eppn to the support app config.
 
