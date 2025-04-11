@@ -356,7 +356,7 @@ public class SecurityKey {
 
     public void virtualAuthenticator(){
         //Add cookie for back doors, if not set
-        if(!common.isCookieSet("autotests"))
+        if(!common.isCookieSet("magiccookie"))
             common.addMagicCookie();
 /*
 

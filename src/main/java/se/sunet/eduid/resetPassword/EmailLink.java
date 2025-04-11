@@ -18,7 +18,7 @@ public class EmailLink {
     }
 
     private void verifyEmailAddress(){
-        if(!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")){
+        if(!testData.getMagicCode().equals("magiccookie")){
             common.navigateToUrl("https://idp.dev.eduid.se/services/reset-password/get-email-code?eppn=" +testData.getMagicCode());
 
             common.verifyStringOnPage("Bad Request");
@@ -29,7 +29,7 @@ public class EmailLink {
 
             //Navigate to get the code
             testData.setEmailCode(common.getCodeInNewTab(
-                    "https://idp.dev.eduid.se/services/reset-password/get-email-code?eppn=" +testData.getEppn(), 6));
+                    "https://idp.eduid.docker/services/reset-password/get-email-code?eppn=" +testData.getEppn(), 6));
 
                 //Fill in the code and press OK
                 Common.log.info("Filling in the code (" +testData.getEmailCode() +") and pressing ok");

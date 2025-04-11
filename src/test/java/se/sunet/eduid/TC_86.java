@@ -96,7 +96,7 @@ public class TC_86 extends BeforeAndAfter {
         Common.log.info("Verify BankID labels - Swedish");
 
         //Verify texts
-        common.verifyStringOnPage("eduID BankID-SP i staging har begärt att du legitimerar dig.");
+        common.verifyStringOnPage("eduID BankID-SP i lokal miljö har begärt att du legitimerar dig.");
         common.verifyStringOnPage("Vill du använda BankID på den här enheten eller på en annan enhet?");
 
         //Verify button texts
@@ -115,7 +115,7 @@ public class TC_86 extends BeforeAndAfter {
         Common.log.info("Verify BankID labels - English");
 
         //Verify texts
-        common.verifyStringOnPage("eduID BankID SP in staging has requested that you authenticate.");
+        common.verifyStringOnPage("eduID BankID SP in local dev has requested that you authenticate.");
         common.verifyStringOnPage("Do you want to use your BankID on this device or on another device?");
 
         //Verify button texts

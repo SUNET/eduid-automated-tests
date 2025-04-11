@@ -50,16 +50,16 @@ public class TC_43 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void logout(){ logout.runLogout(); }
 
-    //Navigate to the support tool
-    @Test( dependsOnMethods = {"logout"} )
-    void startPageSupport(){
-        common.navigateToUrl("https://support.dev.eduid.se");
-    }
-
     //Log in to the support tool
     @Test( dependsOnMethods = {"startPageSupport"} )
     void loginSupport(){
         loginSupportTool();
+    }
+
+    //Navigate to the support tool
+    @Test( dependsOnMethods = {"logout"} )
+    void startPageSupport(){
+        common.navigateToUrl("https://support.eduid.docker");
     }
 
     //Search for newly created account
@@ -105,7 +105,7 @@ public class TC_43 extends BeforeAndAfter {
     //Navigate to the support tool again
     @Test( dependsOnMethods = {"verifyAccountDeleted"} )
     void startPageSupport2(){
-        common.navigateToUrl("https://support.dev.eduid.se");
+        common.navigateToUrl("https://support.eduid.docker");
     }
 
     //Log in to the support tool

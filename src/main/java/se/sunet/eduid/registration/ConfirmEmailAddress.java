@@ -46,10 +46,10 @@ public class ConfirmEmailAddress {
                 //Fetch the email verification code, first url encode the email address
                 String userName = testData.getUsername().replace("@", "%40");
                 testData.setEmailVerificationCode(common.getCodeInNewTab(
-                        "https://signup.dev.eduid.se/services/signup/get-code/?email=" + userName.toLowerCase(), 6));
+                        "https://signup.eduid.docker/services/signup/get-code/?email=" + userName.toLowerCase(), 6));
 
                 //If not the code fetched above should be used...
-                if (!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
+                if (!testData.getMagicCode().equals("magiccookie")) {
                     testData.setEmailVerificationCode("987654");
                     Common.log.info("Will use an incorrect emailVerificationCode code: " +testData.getEmailVerificationCode());
                 }
@@ -61,7 +61,7 @@ public class ConfirmEmailAddress {
                 common.findWebElementById("response-code-ok-button").click();
 
                 //Wait for go to eduid link on next page or error message if not correct code is supplied or too many attempts
-                if (!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl") && emailVerificationAttempts == 2) {
+                if (!testData.getMagicCode().equals("magiccookie") && emailVerificationAttempts == 2) {
                     //verify status message in swedish
                     common.verifyStatusMessage("För många ogiltiga verifieringsförsök. Var god försök igen senare.");
 
@@ -71,7 +71,7 @@ public class ConfirmEmailAddress {
 
                     common.selectSwedish();
                 }
-                else if (!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
+                else if (!testData.getMagicCode().equals("magiccookie")) {
                     //verify status message in swedish
                     common.verifyStatusMessage("E-post verifieringen misslyckades. Var god försök igen.");
 

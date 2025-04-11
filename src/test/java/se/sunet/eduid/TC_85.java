@@ -114,7 +114,7 @@ public class TC_85 extends BeforeAndAfter {
         common.timeoutSeconds(5);
 
         //Add cookie for back doors
-        if(!common.isCookieSet("autotests"))
+        if(!common.isCookieSet("magiccookie"))
             common.addMagicCookie();
 
         //Add nin cookie
