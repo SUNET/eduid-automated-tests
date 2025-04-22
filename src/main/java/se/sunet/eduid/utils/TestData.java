@@ -15,11 +15,12 @@ public class TestData {
     private String confirmIdBy = "";
     private String mfaMethod = "";
     private String loaLevel = "eIDAS Substantial";
-//    private String refIdpUser = "Sixten von Samordnungsnummer (197010632391)";
-    private String username, password, givenName, surName, displayName, magicCode, email,
-            phoneNumber, identityNumber, language, eppn, supportUsername,
+    private String username, password, givenName, surName, displayName, email,
+            phoneNumber, identityNumber, language, eppn, supportUsername, supportPassword,
             emailCode, testCase, testDescription, testSuite, testMethod, otpPhoneNumber, otherDeviceCode,
-            otherDeviceSubmitCode, emailVerificationCode, browser, headlessExecution;
+            otherDeviceSubmitCode, emailVerificationCode, browser, headlessExecution, letterProofingCodeUrl,
+            emailVerificationCodeUrl, phoneConfirmationCodeUrl, emailResetPwCodeUrl, domain, bankIdTextSwe,
+            bankIdTextEng, supportUrl, baseUrl;
 
     private boolean buttonValueConfirm = true;
     private boolean generateUsername = true;
@@ -36,20 +37,30 @@ public class TestData {
 
     public void setProperties(String testSuite) throws IOException {
         Properties properties = new Properties();
-        FileInputStream fileInput = new FileInputStream("src/main/resources/config_" +testSuite +".properties");
+        FileInputStream fileInput = new FileInputStream("src/main/resources/" +testSuite +".properties");
         properties.load(fileInput);
 
         setUsername(properties.getProperty("username"));
         setPassword(properties.getProperty("password"));
-        setMagicCode(properties.getProperty("magiccode"));
-        setIdentityNumber(properties.getProperty("identitynumber"));
-        setGivenName(properties.getProperty("givenname"));
-        setSurName(properties.getProperty("surname"));
-        setDisplayName(properties.getProperty("displayname"));
-        setPhoneNumber(properties.getProperty("phonenumber"));
+        setIdentityNumber(properties.getProperty("identity_number"));
+        setGivenName(properties.getProperty("given_name"));
+        setSurName(properties.getProperty("sur_name"));
+        setDisplayName(properties.getProperty("display_name"));
+        setPhoneNumber(properties.getProperty("phone_number"));
         setEmail(properties.getProperty("email"));
         setEppn(properties.getProperty("eppn"));
         setSupportUsername(properties.getProperty("support_username"));
+        setSupportPassword(properties.getProperty("support_password"));
+
+        setBaseUrl(properties.getProperty("base_url"));
+        setLetterProofingCodeUrl(properties.getProperty("letter_proofing_code_url"));
+        setEmailVerificationCodeUrl(properties.getProperty("email_verification_code_url"));
+        setPhoneConfirmationCodeUrl(properties.getProperty("phone_confirmation_code_url"));
+        setEmailResetPwCodeUrl(properties.getProperty("email_reset_pw_code_url"));
+        setDomain(properties.getProperty("domain"));
+        setBankIdTextSwe(properties.getProperty("bankid_text_sv"));
+        setBankIdTextEng(properties.getProperty("bankid_text_eng"));
+        setSupportUsername(properties.getProperty("support_url"));
 
         setLanguage("Svenska");
     }

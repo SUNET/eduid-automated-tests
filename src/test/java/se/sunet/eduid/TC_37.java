@@ -12,9 +12,11 @@ public class TC_37 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage"} )
     void register(){
-        testData.setMagicCode("notTheCorrectMagicCode");
         register.runRegister(); }
 
     @Test( dependsOnMethods = {"register"} )
-    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
+    void confirmEmailAddress() {
+        //Set incorrect email verification code
+        testData.setEmailVerificationCode("987654");
+        confirmEmailAddress.runConfirmEmailAddress(); }
 }

@@ -96,7 +96,10 @@ public class TC_86 extends BeforeAndAfter {
         Common.log.info("Verify BankID labels - Swedish");
 
         //Verify texts
-        common.verifyStringOnPage("eduID BankID-SP i staging har begärt att du legitimerar dig.");
+        //Wait for cancel button
+        common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[2]/button");
+
+        common.verifyStringOnPage(testData.getBankIdTextSwe());
         common.verifyStringOnPage("Vill du använda BankID på den här enheten eller på en annan enhet?");
 
         //Verify button texts
@@ -115,7 +118,7 @@ public class TC_86 extends BeforeAndAfter {
         Common.log.info("Verify BankID labels - English");
 
         //Verify texts
-        common.verifyStringOnPage("eduID BankID SP in staging has requested that you authenticate.");
+        common.verifyStringOnPage(testData.getBankIdTextEng());
         common.verifyStringOnPage("Do you want to use your BankID on this device or on another device?");
 
         //Verify button texts
@@ -160,6 +163,9 @@ public class TC_86 extends BeforeAndAfter {
         Common.log.info("Verify BankID labels on other device - English");
 
         //Verify pop-up texts - english
+        //Wait for pop-up close button
+        common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[1]/dialog/button");
+
         common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/dialog/ol/li[1]", "Start the BankID app");
         common.verifyStringByXpath(
                 "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[2]", "Press the QR code button in the BankID app");
@@ -173,25 +179,6 @@ public class TC_86 extends BeforeAndAfter {
 
         //Close pop-up
         common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/dialog/button").click();
-/*
-        //Select BankID on this device
-        common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[1]").click();
-
-        //Verify text and labels
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/p", "Trying to start your BankID app.");
-        common.verifyStringByXpath(
-                "//*[@id=\"app\"]/main/div[1]/a", "Click here if the BankID app did not start automatically within 5 seconds.");
-
-        //common.switchToPopUpWindow();
-
-        //Select swedish
-        common.findWebElementByXpath("//*[@id=\"app\"]/div/button").click();
-
-        Common.log.info("Verify BankID labels - starting bankid - Swedish");
-
-        //Verify text and labels
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/p", "Försöker starta BankID-appen.");
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/a", "Klicka här om BankID-appen inte startar inom 5 sekunder.");*/
 
         //Press cancel
         common.findWebElementByXpath("//*[@id=\"app\"]/main/div[2]/button").click();

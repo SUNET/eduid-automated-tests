@@ -30,7 +30,7 @@ public class DashBoard {
 
     public void runDashBoard(){
         //If we are not on dashboard e.g. after security key validation, navigate to dashboard
-        if(!common.getWebDriver().getCurrentUrl().equalsIgnoreCase("https://dev.eduid.se/profile/")) {
+        if(!common.getWebDriver().getCurrentUrl().equalsIgnoreCase(testData.getBaseUrl() + "/profile/")) {
             common.navigateToDashboard();
         }
 
@@ -277,7 +277,7 @@ public class DashBoard {
         common.verifyXpathIsWorkingLink(orchIdMenuLink);
         common.verifyStringByXpath(esiInfoMenuLink, "ESI information");
         common.verifyXpathIsWorkingLink(esiInfoMenuLink);
-        common.verifyStringByXpath(deleteAccountMenuLink, "Radera eduID");
+        common.verifyStringByXpath(deleteAccountMenuLink, "Spärra och radera eduID");
         common.verifyXpathIsWorkingLink(deleteAccountMenuLink);
 
         common.verifyStringById("logout", "LOGGA UT");
@@ -306,7 +306,7 @@ public class DashBoard {
         common.verifyStringByXpath(changePasswordMenuLink, "Change password");
         common.verifyStringByXpath(orchIdMenuLink, "ORCID account");
         common.verifyStringByXpath(esiInfoMenuLink, "ESI information");
-        common.verifyStringByXpath(deleteAccountMenuLink, "Delete eduID");
+        common.verifyStringByXpath(deleteAccountMenuLink, "Block and delete eduID");
 
         common.verifyStringById("logout", "LOG OUT");
     }

@@ -3,6 +3,7 @@ package se.sunet.eduid.utils;
 //import io.appium.java_client.ios.IOSDriver;
 import com.assertthat.selenium_shutterbug.core.Capture;
 import com.assertthat.selenium_shutterbug.core.Shutterbug;
+//import com.gargoylesoftware.htmlunit.html.impl.SelectableTextSelectionDelegate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -31,18 +32,12 @@ public class Common {
     private String firstWinHandle = null;
     private final TestData testData;
 
-    public Common(WebDriver webDriver, String testSuite, TestData testData) throws IOException {
+    public Common(WebDriver webDriver, TestData testData, String testSuite) throws IOException {
         this.webDriver = webDriver;
         this.testData = testData;
         testData.setProperties(testSuite);
     }
 
-    /*
-        public Common(IOSDriver<?> webDriver) throws IOException {
-            this.webDriver = webDriver;
-            setProperties();
-        }
-    */
     private String getTitle() {
         int counter = 0;
         while (webDriver.getTitle().isEmpty()) {
@@ -61,8 +56,15 @@ public class Common {
             click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a"));
             timeoutMilliSeconds(400);
 
-            log.info("English language selected");
-        } else if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("Svenska"))
+            if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("Svenska")) {
+                log.info("English language selected");
+            }
+            else {
+                log.info("English language not selected, trying again");
+                selectEnglish();
+            }
+        }
+        else if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("Svenska"))
             log.info("English language was already selected");
         else
             Assert.fail("Failed to switch language to English");
@@ -139,6 +141,7 @@ public class Common {
             Assert.assertEquals(findWebElementByXpath(xpath).getText(), stringToCompareWith, errorMsg);
         }catch (Exception ex){
             checkIfXpathIsUpdated(xpath, stringToCompareWith);
+            Assert.fail("Failed to find text by Xpath: " + stringToCompareWith);
         }
     }
 
@@ -391,16 +394,6 @@ public class Common {
 
         Shutterbug.shootPage(webDriver, Capture.FULL_SCROLL, 500, true).withName(name)
                 .save("screenshots/" +timestamp.toLocalDate() +"/" + testData.getTestCase() +"/");
-
-        /* full screen screenshots implemented in selenium only works with firefox that does not emulate mobile
-        Date today = new Date();
-        File src = ((FirefoxDriver) webDriver).getFullPageScreenshotAs(OutputType.FILE);
-        try {
-            copy(src, new File("screenshots/" + today.getTime() + getTestCase()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
     }
 
     public Select selectDropDown(String dropDownId) {
@@ -412,19 +405,26 @@ public class Common {
             Date today = new Date();
             Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
             webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi",
-                    ".dev.eduid.se", "/", tomorrow, true, true, "None"));
+                    testData.getDomain(), "/", tomorrow, true, true, "None"));
 
             logCookie("autotests");
         }
     }
+
     public void addNinCookie(){
         if(!isCookieSet("nin")) {
             Date today = new Date();
             Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
             webDriver.manage().addCookie(new Cookie("nin", testData.getIdentityNumber(),
-                    ".dev.eduid.se", "/", tomorrow, true, true, "None"));
+                    testData.getDomain(), "/", tomorrow, true, true, "None"));
 
             logCookie("nin");
+        }
+    }
+
+    public void deleteCookie(String cookieName) {
+        if(isCookieSet(cookieName)) {
+            webDriver.manage().deleteCookieNamed(cookieName);
         }
     }
 

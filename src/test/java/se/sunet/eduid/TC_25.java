@@ -28,6 +28,7 @@ public class TC_25 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailSent"} )
     void emailLink() {
-        testData.setMagicCode("notTheCorrectMagicCode");
+        //Delete cookie not to fetch the code
+        common.deleteCookie("autotests");
         emailLink.runEmailLink(); }
 }

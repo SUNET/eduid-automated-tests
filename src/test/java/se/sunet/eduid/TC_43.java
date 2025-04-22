@@ -53,7 +53,7 @@ public class TC_43 extends BeforeAndAfter {
     //Navigate to the support tool
     @Test( dependsOnMethods = {"logout"} )
     void startPageSupport(){
-        common.navigateToUrl("https://support.dev.eduid.se");
+        common.navigateToUrl(testData.getSupportUrl());
     }
 
     //Log in to the support tool
@@ -105,7 +105,7 @@ public class TC_43 extends BeforeAndAfter {
     //Navigate to the support tool again
     @Test( dependsOnMethods = {"verifyAccountDeleted"} )
     void startPageSupport2(){
-        common.navigateToUrl("https://support.dev.eduid.se");
+        common.navigateToUrl(testData.getSupportUrl());
     }
 
     //Log in to the support tool
@@ -133,9 +133,7 @@ public class TC_43 extends BeforeAndAfter {
 
         //Enter support username and password
         common.findWebElementById("username").sendKeys(testData.getSupportUsername());
-        common.findWebElementById("current-password").sendKeys("v8ic uz53 wd85");
-
-        //eppn: dalum-zifuj
+        common.findWebElementById("current-password").sendKeys(testData.getSupportPassword());
 
         common.click(common.findWebElementById("login-form-button"));
     }

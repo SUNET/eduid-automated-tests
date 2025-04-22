@@ -3,6 +3,7 @@ package se.sunet.eduid.dashboard;
 import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
+import static se.sunet.eduid.utils.Common.log;
 
 public class Password {
     private final Common common;
@@ -15,12 +16,12 @@ public class Password {
     }
 
     public void runPassword(){
-        navigateToSettingss();
+        navigateToSettings();
         verifyPageTitle();
         setPassword();
     }
 
-    private void navigateToSettingss(){
+    private void navigateToSettings(){
         common.navigateToAccount();
 
         common.click(common.findWebElementById("security-change-button"));
@@ -28,21 +29,17 @@ public class Password {
 
     private void verifyPageTitle() {
         common.explicitWaitPageTitle("Byt lösenord | eduID");
-
-/*        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")) {
-            common.selectSwedish();
-        }*/
     }
 
     public void setPassword(){
         //Wait for abort button to be clickable
-        common.timeoutSeconds(6);
+        //common.timeoutSeconds(6);
         common.explicitWaitClickableElementId(abortRecPwButton);
 
         //Verify recommend password labels
         verifyRecommendedPwLabels();
 
-        //Should recocmended password be used
+        //Should recommended password be used
         if(!testData.isUseRecommendedPw()) {
             //Select use own password
             common.click(common.findWebElementById("custom-pw"));
@@ -100,7 +97,7 @@ public class Password {
 
             // If not the correct password was entered at password change
             if(testData.isIncorrectPassword()) {
-                common.verifyStringByXpath("//*[@id=\"repeat-wrapper\"]/small/span",
+                common.verifyStringByXpath("//*[@id=\"repeat-wrapper\"]/div[3]/span",
                         "Det nya och repeterade lösenordet är olika.");
                 common.timeoutMilliSeconds(500);
                 //Click abort
@@ -131,6 +128,8 @@ public class Password {
 
 
     private void verifyCustomPasswordLabels(){
+        log.info("Verify custom password labels - swedish");
+
         //Heading - Swedish
         if(testData.isRegisterAccount()){
             common.verifyStringOnPage("Registrera: Skapa ditt eget lösenord");
@@ -176,6 +175,7 @@ public class Password {
 
         //Switch to English
         common.selectEnglish();
+        log.info("Verify custom password labels - english");
 
         //Click on use own password
         common.click(common.findWebElementById("custom-pw"));
@@ -228,6 +228,8 @@ public class Password {
     }
 
     private void verifyRecommendedPwLabels(){
+        log.info("Verify recommended password labels - swedish");
+
         //Heading - Swedish
         if(testData.isRegisterAccount()){
             common.verifyStringOnPage("Registrera: Rekommenderat lösenord");
@@ -266,6 +268,7 @@ public class Password {
 
         //English
         common.selectEnglish();
+        log.info("Verify recommended password labels - english");
 
         //Heading - English
         if(testData.isRegisterAccount()){

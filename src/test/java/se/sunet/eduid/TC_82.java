@@ -12,16 +12,27 @@ public class TC_82 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage"} )
     void register(){
-        testData.setMagicCode("notTheCorrectMagicCode");
         register.runRegister(); }
 
     //Enter incorrect code three times
     @Test( dependsOnMethods = {"register"} )
-    void confirmEmailAddress1stAttempt() { confirmEmailAddress.runConfirmEmailAddress(); }
+    void confirmEmailAddress1stAttempt() {
+        //Set incorrect email verification code
+        testData.setEmailVerificationCode("987654");
+        confirmEmailAddress.runConfirmEmailAddress();
+    }
 
     @Test( dependsOnMethods = {"confirmEmailAddress1stAttempt"} )
-    void confirmEmailAddress2ndAttempt() { confirmEmailAddress.runConfirmEmailAddress(); }
+    void confirmEmailAddress2ndAttempt() {
+        //Set incorrect email verification code
+        testData.setEmailVerificationCode("987654");
+        confirmEmailAddress.runConfirmEmailAddress();
+    }
 
     @Test( dependsOnMethods = {"confirmEmailAddress2ndAttempt"} )
-    void confirmEmailAddress3rdAttempt() { confirmEmailAddress.runConfirmEmailAddress(); }
+    void confirmEmailAddress3rdAttempt() {
+        //Set incorrect email verification code
+        testData.setEmailVerificationCode("987654");
+        confirmEmailAddress.runConfirmEmailAddress();
+    }
 }

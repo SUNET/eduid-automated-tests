@@ -1,0 +1,21 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="local">
+    <parameter name="browser" value="chrome" />
+    <parameter name="headless" value="true" />
+    <parameter name="language" value="sv" />
+
+    <listeners>
+        <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
+    </listeners>
+
+    <test name="TC_40">
+        <parameter name="testDescription" value="Register new account. Confirm identity by Freja. After delete
+        account, restore account by reset password (using custom password) using Freja eID and check that identity still is confirmed." />
+        <classes>
+            <class name="se.sunet.eduid.TC_40" >
+            </class>
+        </classes>
+    </test>
+
+</suite>

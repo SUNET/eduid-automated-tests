@@ -1,11 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="dev">
-    <parameter name="url" value="https://dev.eduid.se" />
+<suite name="staging">
     <parameter name="browser" value="chrome" />
     <parameter name="headless" value="false" />
     <parameter name="language" value="sv" />
-    <parameter name="testsuite" value="mobile" />
 
     <listeners>
         <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>

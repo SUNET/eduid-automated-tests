@@ -7,10 +7,12 @@ import se.sunet.eduid.utils.TestData;
 public class EmailLink {
     private final Common common;
     private final TestData testData;
+    private final ConfirmEmailAddress confirmEmailAddress;
 
-    public EmailLink(Common common, TestData testData){
+    public EmailLink(Common common, TestData testData, ConfirmEmailAddress confirmEmailAddress) {
         this.common = common;
         this.testData = testData;
+        this.confirmEmailAddress = confirmEmailAddress;
     }
 
     public void runEmailLink(){
@@ -18,9 +20,9 @@ public class EmailLink {
     }
 
     private void verifyEmailAddress(){
-        if(!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")){
-            common.navigateToUrl("https://idp.dev.eduid.se/services/reset-password/get-email-code?eppn=" +testData.getMagicCode());
-
+        //Verify that there is no reset pw code when magic cookie is not set
+        if(!common.isCookieSet("autotests")){
+            common.navigateToUrl(testData.getEmailResetPwCodeUrl() +testData.getEppn());
             common.verifyStringOnPage("Bad Request");
         }
         else{
@@ -29,11 +31,10 @@ public class EmailLink {
 
             //Navigate to get the code
             testData.setEmailCode(common.getCodeInNewTab(
-                    "https://idp.dev.eduid.se/services/reset-password/get-email-code?eppn=" +testData.getEppn(), 6));
+                    testData.getEmailResetPwCodeUrl() +testData.getEppn(), 6));
 
                 //Fill in the code and press OK
                 Common.log.info("Filling in the code (" +testData.getEmailCode() +") and pressing ok");
-                ConfirmEmailAddress confirmEmailAddress = new ConfirmEmailAddress(common, testData);
                 confirmEmailAddress.typeEmailVerificationCode(testData.getEmailCode());
 
                 common.findWebElementById("response-code-ok-button").click();
@@ -42,5 +43,4 @@ public class EmailLink {
         }
         common.timeoutSeconds(3);
     }
-
 }

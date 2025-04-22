@@ -133,7 +133,7 @@ public class TC_58 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"swamidData"} )
     void navigateToEduid(){
-        common.navigateToUrl("https://dev.eduid.se");
+        common.navigateToUrl(testData.getBaseUrl());
 
         common.explicitWaitClickableElementId("login-button");
         common.findWebElementById("login-button").click();

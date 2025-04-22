@@ -27,8 +27,6 @@ public class TC_47 extends BeforeAndAfter {
     void login(){
         testData.setRegisterAccount(false);
         login.runLogin();
-
-//        common.explicitWaitClickableElement("//*[@id=\"header\"]/nav/button");
     }
 
     @Test( dependsOnMethods = {"login"} )
@@ -51,8 +49,9 @@ public class TC_47 extends BeforeAndAfter {
         common.findWebElementById("remove-identity-nin").click();
 
         //Verify text and labels in remove identity pop-up
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5", "Disconnect your identity");
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]",
+        common.verifyStringByXpath("//*[@id=\"remove-identity-verification\"]/div/div/div[1]/h5",
+                "Disconnect your identity");
+        common.verifyStringByXpath("//*[@id=\"remove-identity-verification\"]/div/div/div[2]",
                 "Are you sure you want to disconnect your identity from your eduID account?");
         common.verifyStringById("remove-identity-verification-accept-button", "CONFIRM");
 
@@ -66,9 +65,9 @@ public class TC_47 extends BeforeAndAfter {
         common.findWebElementById("remove-identity-nin").click();
 
         //Verify text and labels in remove identity pop-up
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5",
+        common.verifyStringByXpath("//*[@id=\"remove-identity-verification\"]/div/div/div[1]/h5",
                 "Koppla bort din identitet");
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]",
+        common.verifyStringByXpath("//*[@id=\"remove-identity-verification\"]/div/div/div[2]",
                 "Är du säker på att du vill koppla bort din identitet från ditt eduID konto?");
         common.verifyStringById("remove-identity-verification-accept-button", "BEKRÄFTA");
 

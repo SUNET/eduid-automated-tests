@@ -1,11 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="dev">
-    <parameter name="url" value="https://dev.eduid.se" />
+<suite name="staging">
     <parameter name="browser" value="chrome" />
     <parameter name="headless" value="true" />
     <parameter name="language" value="sv" />
-    <parameter name="testsuite" value="dev" />
 
     <listeners>
         <listener class-name="se.sunet.eduid.utils.AnnotationTransformer"/>
@@ -209,7 +207,7 @@
     </test>
 
     <test name="TC_25">
-        <parameter name="testDescription" value="Try to reset password with incorrect magic code, ends with a 404-page" />
+        <parameter name="testDescription" value="Verify that reset pw code can not be fetched when magic cookie not set, ends with a 404-page" />
         <classes>
             <class name="se.sunet.eduid.TC_25" >
             </class>
@@ -527,7 +525,7 @@ Obsolete! phone number is not used any more unleass they are already confirmed
     </test>
 
     <test name="TC_49">
-        <parameter name="testDescription" value="Register new account. Confirm identity by Freja. Create another new
+        <parameter name="testDescription" value="1st account, confirm identity by Freja. Create another new
         account for the same person, confirm identity. Then log in to first account and check that identity is no longer confirmed" />
         <classes>
             <class name="se.sunet.eduid.TC_49" >
@@ -544,7 +542,6 @@ Obsolete! phone number is not used any more unleass they are already confirmed
     </test>
 
     <test name="TC_44">
-        <parameter name="url" value="https://release-check.qa.swamid.se" />
         <parameter name="testDescription" value="Verify that login to eduID can be done from Swamid Testing on a verified account" />
         <classes>
             <class name="se.sunet.eduid.TC_44" >
@@ -694,7 +691,6 @@ tested in tc_28
     <test name="TC_89">
         <parameter name="testDescription" value="Initiate Log in to DNP 'with eID' with username, password and extra
         security option BankID (here only verify that we reach the IDP)." />
-        <parameter name="url" value="https://fidustest.skolverket.se/DNP-staging/" />
         <classes>
             <class name="se.sunet.eduid.TC_89" >
             </class>
@@ -719,11 +715,11 @@ tested in tc_28
         </classes>
     </test>
 
-<!--    <test name="TC_91"> -issue #1908 reported at eduid-front. end of tc needs to be updated when fix in place
-        <parameter name="testDescription" value="Register two accounts after each other in the same brower session" />
+    <test name="TC_91">
+        <parameter name="testDescription" value="Register two accounts after each other in the same browser session" />
         <classes>
             <class name="se.sunet.eduid.TC_91" >
             </class>
         </classes>
-    </test>-->
+    </test>
 </suite>

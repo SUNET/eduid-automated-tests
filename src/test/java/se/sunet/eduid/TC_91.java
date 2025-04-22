@@ -20,7 +20,7 @@ public class TC_91 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
-//TODO here a new second account should be created and not "user does already exist"
+
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void loginPage(){
         //Press register button at login page
@@ -28,13 +28,13 @@ public class TC_91 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"loginPage"} )
-    void register2(){
+    void register2ndAccountInSameBrowserSession(){
         register.runRegister(); }
 
-    @Test( dependsOnMethods = {"register2"} )
+    @Test( dependsOnMethods = {"register2ndAccountInSameBrowserSession"} )
     void confirmEmailAddress2() { confirmEmailAddress.runConfirmEmailAddress(); }
 
-    @Test( dependsOnMethods = {"register2"} )
+    @Test( dependsOnMethods = {"confirmEmailAddress2"} )
     void setRecommendedPassword2() { password.setPassword(); }
 
     @Test( dependsOnMethods = {"setRecommendedPassword2"} )
@@ -44,9 +44,7 @@ public class TC_91 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmedNewAccount2"} )
     void login2(){
         testData.setRegisterAccount(false);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
+        login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login2"} )

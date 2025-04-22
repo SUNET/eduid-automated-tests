@@ -155,7 +155,7 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Användning av eduID");
 
         //Heading - text
-        common.verifyPageBodyContainsString(pageBody, "Skapa, logga in och konto-inställningar");
+        common.verifyPageBodyContainsString(pageBody, "Skapa, logga in, konto-inställningar och spärra/radera konto");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Hur skaffar jag ett konto?");
@@ -334,15 +334,15 @@ public class Help {
 
         common.verifyPageBodyContainsString(pageBody, "Byt lösenord: Byt alltid ditt lösenord om du tror " +
                 "att någon annan har tillgång till det.\n" +
-                "Länken \"Byt lösenord\" tar dig igenom stegen för att byta ditt lösenord. Som när du skapade ditt eduID " +
-                "kommer du få välja mellan ett föreslaget (automatiskt genererat) lösenord och ett du skapar själv.\n" +
+                "Länken \"Byt lösenord\" tar dig igenom stegen för att byta ditt lösenord. Som när du skapade ditt eduID" +
+                " kommer du få välja mellan ett föreslaget (automatiskt genererat) lösenord och ett du skapar själv.\n" +
                 "Ett föreslaget slumpmässigt genererat lösenord är vanligtvis säkrast och du kan använda en " +
                 "lösenordshanterare, antigen inbyggd i webbläsaren eller installerad tredje-part, för att hjälpa dig " +
                 "att komma ihåg ditt lösenord.\n" +
                 "Om du använder en passkey för din inloggning, spara den inte på samma nyckelring som ditt lösenord.\n" +
                 "ORCID konto: En knapp för att ansluta ditt eduID med befintligt ORCID iD.\n" +
                 "ESI information: En toggle-kontroll och meny för att länka ditt eduID till ESI om det stöds av din institution.\n" +
-                "Radera eduID: Länken \"Radera eduID\" öppnar en modal för att bekräfta att ditt konto ska raderas permanent.\n" +
+                "Spärra och radera eduID: Länken \"radera eduID\" öppnar en modal för att bekräfta att ditt konto ska tas bort.\n" +
                 "Obs: du kan läsa mer om ORCID iD, Ladok och ESI i hjälpavsnittet \"Länkning till ORCID / ESI\".");
     }
 
@@ -695,8 +695,9 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Villkoren accepteras av användaren när eduID-kontot " +
-                "skapas. Det är en juridisk överenskommelse mellan eduID och dess användare att följa användarvillkoren. " +
-                "Du kan bli ombedd att acceptera villkoren på nytt om du inte har använt tjänsten sedan en tid.");
+                "skapas. Det är en juridisk överenskommelse mellan eduID och dess användare att följa användarvillkoren.\n" +
+                "Du kan bli ombedd att acceptera villkoren på nytt om du inte har använt tjänsten sedan en tid, eller " +
+                "närsomhelst om villkoren har ändrats.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "För eduID.se gäller generellt:");
@@ -868,7 +869,7 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Using eduID");
 
         //Heading - text
-        common.verifyPageBodyContainsString(pageBody, "Create, login and account settings");
+        common.verifyPageBodyContainsString(pageBody, "Create, login, account settings and blocking/deleting account");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "How do I get an account?");
@@ -1049,17 +1050,17 @@ public class Help {
                 "Language radio buttons under Account.\n" +
                 "You can also change the language for the loaded page in the footer of the webpage.");
 
-        common.verifyPageBodyContainsString(pageBody, "Change password: Always change your password if " +
-                "you believe someone else has access to it.\n" +
+        common.verifyPageBodyContainsString(pageBody, "Change password: Always change your password if you " +
+                "believe someone else has access to it.\n" +
                 "Clicking on the link \"Change password\" will take you through the steps for changing your password. " +
-                "As when you created your eduID, there is a choice between a suggested (automatically generated) " +
-                "password or one you create.\n" +
+                "As when you created your eduID, there is a choice between a suggested (automatically generated) password " +
+                "or one you create.\n" +
                 "A randomly created suggested password is generally considered safest and you can use a third party or " +
                 "browser built in Password Manager tool to help you keep track of your password.\n" +
                 "If you are using a passkey for your login, don't save it on the same key chain as your password.\n" +
                 "ORCID account: A button connecting your eduID with your existing ORCID iD.\n" +
                 "ESI information: A toggle control and select menu connecting your eduID to ESI, if enabled by your institution.\n" +
-                "Delete eduID: Clicking on the link \"Delete eduID\" will open a modal confirming deletion of your account permanently.\n" +
+                "Blocking and deleting eduID: Clicking on the link \"delete eduID\" will open a modal confirming removal of your account.\n" +
                 "Note: you can read more about ORCID iD and Ladok and ESI settings in the \"Connecting account with Orcid / ESI\" help section.\"");
     }
 
@@ -1407,8 +1408,9 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "These terms are accepted by the user upon creating " +
-                "an eduID account. It is a legal agreement between eduID and its users to abide by the terms. You may " +
-                "be asked to accept the terms again if you haven't used the service for a period of time.");
+                "an eduID account. It is a legal agreement between eduID and its users to abide by the terms.\n" +
+                "You may be asked to accept the terms again if you haven't used the service for a period of time, or " +
+                "any time the terms have changed.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "The following generally applies:");

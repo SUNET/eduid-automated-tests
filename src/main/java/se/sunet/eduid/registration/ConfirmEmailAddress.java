@@ -2,6 +2,7 @@ package se.sunet.eduid.registration;
 
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
+import static se.sunet.eduid.utils.Common.log;
 
 public class ConfirmEmailAddress {
     private final Common common;
@@ -43,15 +44,15 @@ public class ConfirmEmailAddress {
                 //Verify labels
                 verityTextAndLabels();
 
-                //Fetch the email verification code, first url encode the email address
-                String userName = testData.getUsername().replace("@", "%40");
-                testData.setEmailVerificationCode(common.getCodeInNewTab(
-                        "https://signup.dev.eduid.se/services/signup/get-code/?email=" + userName.toLowerCase(), 6));
-
                 //If not the code fetched above should be used...
-                if (!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
-                    testData.setEmailVerificationCode("987654");
+                if("987654".equals(testData.getEmailVerificationCode())){
                     Common.log.info("Will use an incorrect emailVerificationCode code: " +testData.getEmailVerificationCode());
+                }
+                else{
+                    //Fetch the email verification code, first url encode the email address
+                    String userName = testData.getUsername().replace("@", "%40");
+                    testData.setEmailVerificationCode(common.getCodeInNewTab(
+                            testData.getEmailVerificationCodeUrl() + userName.toLowerCase(), 6));
                 }
 
                 //Enter email verification code
@@ -61,7 +62,7 @@ public class ConfirmEmailAddress {
                 common.findWebElementById("response-code-ok-button").click();
 
                 //Wait for go to eduid link on next page or error message if not correct code is supplied or too many attempts
-                if (!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl") && emailVerificationAttempts == 2) {
+                if ("987654".equals(testData.getEmailVerificationCode()) && emailVerificationAttempts == 2) {
                     //verify status message in swedish
                     common.verifyStatusMessage("För många ogiltiga verifieringsförsök. Var god försök igen senare.");
 
@@ -71,7 +72,7 @@ public class ConfirmEmailAddress {
 
                     common.selectSwedish();
                 }
-                else if (!testData.getMagicCode().equals("mknhKYFl94fJaWaiVk2oG9Tl")) {
+                else if ("987654".equals(testData.getEmailVerificationCode())) {
                     //verify status message in swedish
                     common.verifyStatusMessage("E-post verifieringen misslyckades. Var god försök igen.");
 
@@ -103,28 +104,35 @@ public class ConfirmEmailAddress {
     }
 
     private void verityTextAndLabels(){
+        log.info("Verify text and labels for verify of email address - swedish");
+
         //Wait for cancel button to be present
         common.explicitWaitClickableElementId("response-code-abort-button");
 
-        common.verifyStringOnPage("Registrera: Verifiera e-postadress");
-        common.verifyStringOnPage("Ange den sexsiffriga koden som skickats från no-reply@eduid.se till");
-        common.verifyStringOnPage(testData.getUsername().toLowerCase());
-        common.verifyStringOnPage("för att verifiera din e-postadress. Du kan också kopiera och klistra " +
+        String pagebody = common.getPageBody();
+
+        common.verifyPageBodyContainsString(pagebody, "Registrera: Verifiera e-postadress");
+        common.verifyPageBodyContainsString(pagebody, "Ange den sexsiffriga koden som skickats från no-reply@eduid.se till");
+        common.verifyPageBodyContainsString(pagebody, testData.getUsername().toLowerCase());
+        common.verifyPageBodyContainsString(pagebody, "för att verifiera din e-postadress. Du kan också kopiera och klistra " +
                         "in koden från e-posten i inmatningsfältet.");
 
-        common.verifyStringOnPage("Koden går ut om");
+        common.verifyPageBodyContainsString(pagebody, "Koden går ut om");
         common.verifyStringById("response-code-abort-button", "AVBRYT");
 
         //Select English
         common.selectEnglish();
+        log.info("Verify text and labels for verify of email address - swedish");
 
-        common.verifyStringOnPage("Register: Verify email address");
-        common.verifyStringOnPage("Enter the six digit code sent from no-reply@eduid.se to");
-        common.verifyStringOnPage(testData.getUsername().toLowerCase());
-        common.verifyStringOnPage("to verify your email address. You can also copy and paste the code " +
+        pagebody = common.getPageBody();
+
+        common.verifyPageBodyContainsString(pagebody, "Register: Verify email address");
+        common.verifyPageBodyContainsString(pagebody, "Enter the six digit code sent from no-reply@eduid.se to");
+        common.verifyPageBodyContainsString(pagebody, testData.getUsername().toLowerCase());
+        common.verifyPageBodyContainsString(pagebody, "to verify your email address. You can also copy and paste the code " +
                 "from the email into the input field.");
 
-        common.verifyStringOnPage("The code expires in");
+        common.verifyPageBodyContainsString(pagebody, "The code expires in");
         common.verifyStringById("response-code-abort-button", "CANCEL");
 
         //Select Swedish

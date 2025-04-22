@@ -16,11 +16,8 @@ import se.sunet.eduid.supportTool.RegisteredData;
 import se.sunet.eduid.swamid.Swamid;
 import se.sunet.eduid.swamid.SwamidData;
 import se.sunet.eduid.wcag.AccessibilityBase;
-
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BeforeAndAfter {
     public StartPage startPage;
@@ -39,7 +36,6 @@ public class BeforeAndAfter {
     public ExtraSecurity extraSecurity;
     public PasswordChanged passwordChanged;
     public Password password;
-    public ConfirmPhoneNumber confirmPhoneNumber;
     public ConfirmEmailAddress confirmEmailAddress;
     public Register register;
     public ConfirmIdentity confirmIdentity;
@@ -57,22 +53,20 @@ public class BeforeAndAfter {
     public AccessibilityBase accessibilityBase;
     public RequestResetPwEmail requestResetPwEmail;
     public TestData testData = new TestData();
-    List<String> failedTests;
 
-//    Local bsLocal;
     public WebDriver webdriver;
 
     @BeforeTest
-    @Parameters({"url", "browser", "headless", "language", "testsuite"})
-    public void initBrowser(String url, String browser, String headless, String language, String testsuite) throws IOException {
-
+    @Parameters({"browser", "headless", "language"})
+    public void initBrowser(String browser, String headless, String language, final ITestContext testContext) throws IOException {
         initBrowser = new InitBrowser();
-        webdriver = initBrowser.initiateBrowser(browser, headless, language);
-        common = new Common(webdriver, testsuite, testData);
-        webdriver.get(url);
+        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language));
+
+        testData.setTestSuite(testContext.getCurrentXmlTest().getSuite().getName());
         testData.setBrowser(browser);
         testData.setHeadlessExecution(headless);
 
+        common = new Common(WebDriverManager.getWebDriver(), testData, testData.getTestSuite());
         startPage = new StartPage(common, testData);
         register = new Register(common, testData);
         login = new Login(common, testData);
@@ -82,14 +76,13 @@ public class BeforeAndAfter {
         identity = new Identity(common, testData, name);
         requestNewPassword = new RequestNewPassword(common, testData, register);
         emailSent = new EmailSent(common, testData);
-        emailLink = new EmailLink(common, testData);
         extraSecurity = new ExtraSecurity(common, testData);
         passwordChanged = new PasswordChanged(common, testData);
         logout = new Logout(common, startPage);
         dashBoard = new DashBoard(common, testData);
         password = new Password(common, testData);
-        confirmPhoneNumber = new ConfirmPhoneNumber(common, testData);
         confirmEmailAddress = new ConfirmEmailAddress(common, testData);
+        emailLink = new EmailLink(common, testData, confirmEmailAddress);
         confirmIdentity = new ConfirmIdentity(common, testData, identity);
         confirmedIdentity = new ConfirmedIdentity(common, testData, name);
         deleteAccount = new DeleteAccount(common, testData);
@@ -104,13 +97,13 @@ public class BeforeAndAfter {
         loginOtherDevice = new LoginOtherDevice(common, testData);
         accessibilityBase = new AccessibilityBase(common, testData);
         requestResetPwEmail = new RequestResetPwEmail(common, testData, register);
-
-//        initBrowser.startHarSession(testContext.getName());
     }
 
     @BeforeTest
     public void testCase(final ITestContext testContext){
-        testData.setTestSuite(testContext.getSuite().getName());
+        common.navigateToUrl(testData.getBaseUrl());
+
+        //testData.setTestSuite(testContext.getSuite().getName());
         testData.setTestCase(testContext.getName());
         Common.log.info("\n\nStart executing: " +testData.getTestCase() + " - "
                 +testContext.getCurrentXmlTest().getParameter("testDescription"));
@@ -122,9 +115,9 @@ public class BeforeAndAfter {
         Common.log.info(testData.getTestCase() +" - "+testData.getTestMethod());
     }
 
-//    @AfterTest
+    @AfterTest
     public void quitBrowser() throws IOException {
-        webdriver.quit();
+        WebDriverManager.quitWebDriver();
         Common.log.info("End of: " + testData.getTestCase());
     }
 
@@ -132,7 +125,7 @@ public class BeforeAndAfter {
     public void captureScreenshot(ITestResult result){
         // Change the condition , If the screenshot needs to be taken for other status as well
         if(ITestResult.FAILURE==result.getStatus()){
-            Shutterbug.shootPage(webdriver, Capture.FULL_SCROLL, 500, true)
+            Shutterbug.shootPage(WebDriverManager.getWebDriver(), Capture.FULL_SCROLL, 500, true)
                     .withName(testData.getTestCase() +"-" +result.getName())
                     .save("screenshots/");
         }

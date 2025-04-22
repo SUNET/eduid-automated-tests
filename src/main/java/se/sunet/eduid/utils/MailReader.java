@@ -1,6 +1,8 @@
 package se.sunet.eduid.utils;
 
-import javax.mail.*;
+import jakarta.mail.*;
+
+//import javax.mail.*;
 import java.io.IOException;
 import java.util.Properties;
 

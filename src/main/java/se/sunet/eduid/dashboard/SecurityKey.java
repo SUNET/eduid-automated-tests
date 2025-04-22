@@ -168,7 +168,7 @@ public class SecurityKey {
     }
 
     private void verifyAddSecurityKeyLabels(){
-        String closePopupButton = "//*[@id=\"confirm-user-data-modal\"]/div/div/h5/button";
+        String closePopupButton = "//*[@id=\"content\"]/dialog[1]/div/div/div/div/button";
         log.info("Verify add security key headers in pop-up - english");
 
         //Verify Security key
@@ -176,11 +176,14 @@ public class SecurityKey {
         common.explicitWaitClickableElement(closePopupButton);
 
         //Labels and placeholder
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5", "Add a name for your security key");
+        common.verifyStringByXpath("//*[@id=\"content\"]/dialog[1]/div/div/div/div/h5", "Add a name for your security key");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-form\"]/div[1]/p",
                 "Note: this is only for your own use to be able to distinguish between your added keys.");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Security key");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/span", "max 50 characters");
+
+        System.out.printf("Print of element with ID - describe-webauthn-token-modal: \n"
+                +common.findWebElementById("describe-webauthn-token-modal").getText());
         common.verifyPlaceholder("describe your security key", securityKeyInputFieldId);
 
         //Close pop up
@@ -196,7 +199,7 @@ public class SecurityKey {
         common.explicitWaitClickableElement(closePopupButton);
 
         //Labels and placeholder
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5", "Ge ett namn till din säkerhetsnyckel");
+        common.verifyStringByXpath("//*[@id=\"content\"]/dialog[1]/div/div/div/div/h5", "Ge ett namn till din säkerhetsnyckel");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-form\"]/div[1]/p",
                 "Obs: beskrivningen är endast för att hjälpa dig skilja på dina tillagda nycklar.");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Säkerhetsnyckel");

@@ -31,11 +31,10 @@ public class ConfirmedIdentity {
     }
 
     private void verifyTextAndLabels(){
-        //Wait for heading: Following identietes are now...
-        common.explicitWaitVisibilityElement("//*[@id=\"content\"]/article/h2");
+        //Wait for the remove identity button, use xpath since different id depending on method of identification
+        common.explicitWaitClickableElement("//div/div/main/div/section/article[1]/figure/button");
 
         //Swedish labels
-        common.timeoutMilliSeconds(500);
         textAndLabelsSwedish();
 
         //Change to English

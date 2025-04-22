@@ -2,6 +2,8 @@ package se.sunet.eduid.registration;
 
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
+import static se.sunet.eduid.utils.Common.log;
+
 
 public class ConfirmedNewAccount {
     private final Common common;
@@ -23,16 +25,11 @@ public class ConfirmedNewAccount {
 
         //Wait for the go to eduid link at bottom of page
         common.explicitWaitClickableElementId("finished-button");
-
-        //common.verifyPageTitle("Registrera | eduID");
-
-        //TODO temp fix to get swedish language
-//        common.timeoutMilliSeconds(500);
-//        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska"))
-//            common.selectSwedish();
     }
 
     private void verifyLabels(){
+        log.info("Verify new account labels - swedish");
+
         //Details
         common.verifyStringOnPage("Registrera: Slutförd");
         common.verifyStringOnPage("Här är dina inloggningsuppgifter för eduID. Kom ihåg eller spara " +
@@ -54,6 +51,7 @@ public class ConfirmedNewAccount {
 
         //Switch language to English
         common.selectEnglish();
+        log.info("Verify new account labels - english");
 
         common.verifyPageTitle("Register | eduID");
 

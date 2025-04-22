@@ -11,6 +11,8 @@ public class TC_89 extends BeforeAndAfter {
         testData.setPassword("zfvs qtip dwn2");
         testData.setEppn("sital-jotof");
 
+        common.navigateToUrl("https://fidustest.skolverket.se/DNP-staging/");
+
         //Wait for login button (with eID) at skolverket dnp page
         common.explicitWaitClickableElement("//div[2]/div/div/p[3]");
     }

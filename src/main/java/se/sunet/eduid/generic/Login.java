@@ -81,7 +81,6 @@ public class Login {
             //Log in successful, wait for copy button at dashboard
             common.explicitWaitClickableElement("//*[@id=\"uniqueId-container\"]/button");
             storeEppn();
-
         }
     }
 

@@ -8,7 +8,7 @@ public class TC_99 extends BeforeAndAfter {
     void helpPage(){ help.runHelp(); }
 
     @Test( dependsOnMethods = {"helpPage"} )
-    void navigateToHelpPageDirectLinkQA(){ common.navigateToUrl("https://dev.eduid.se/faq.html"); }
+    void navigateToHelpPageDirectLinkQA(){ common.navigateToUrl(testData.getBaseUrl() + "/faq.html"); }
 
     @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkQA"} )
     void helpPageDirectLinkQA(){
@@ -17,7 +17,7 @@ public class TC_99 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"helpPageDirectLinkQA"} ) //Note! Presented language is default browser language
-    void navigateToHelpPageDirectLinkQAEng(){ common.navigateToUrl("https://dev.eduid.se/en/faq.html"); }
+    void navigateToHelpPageDirectLinkQAEng(){ common.navigateToUrl(testData.getBaseUrl() + "/en/faq.html"); }
 
     @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkQAEng"} )
     void helpPageDirectLinkQAEng(){
@@ -26,7 +26,7 @@ public class TC_99 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"helpPageDirectLinkQAEng"} ) //Note! Presented language is default browser language
-    void navigateToHelpPageDirectLinkNewUrlQA(){ common.navigateToUrl("https://dev.eduid.se/help"); }
+    void navigateToHelpPageDirectLinkNewUrlQA(){ common.navigateToUrl(testData.getBaseUrl() + "/help"); }
 
     @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkNewUrlQA"} )
     void helpPageDirectLinkNewUrlQA(){

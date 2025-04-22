@@ -28,11 +28,6 @@ public class Register {
         verifyLabelsAtConfirmEmailAddress();
 
         enterCaptchaCode();
-/*        common.addMagicCookie();
-        common.findWebElementById("value").sendKeys("123456");
-
-        //Fill in a dummy value and continue
-        common.click(common.findWebElementById("captcha-continue-button"));*/
 
         registerPopUp();
     }
@@ -42,6 +37,8 @@ public class Register {
     }
 
     private void verifyLabels(){
+        log.info("Verify registration labels - swedish");
+
         //Verify placeholder
         common.verifyPlaceholder("förnamn", "given_name");
         common.verifyPlaceholder("efternamn", "surname");
@@ -57,6 +54,7 @@ public class Register {
 
         //Switch language to English
         common.selectEnglish();
+        log.info("Verify registration labels - english");
         common.verifyPageTitle("Register | eduID");
 
         common.verifyStringOnPage("Register: Enter your details");
@@ -84,11 +82,7 @@ public class Register {
                 setGivenName();
                 setSurName();
             }
-/*
-            setIdentityNumber();
-            setGivenName();
-            setSurName();
-*/
+
             testData.setDisplayName(testData.getGivenName() + " " +testData.getSurName());
             log.info("Display name set to: " +testData.getDisplayName());
         }
@@ -162,6 +156,10 @@ public class Register {
 
         //Swedish
         log.info("Verify terms - swedish");
+
+        //Wait for cancel terms button
+        common.explicitWaitClickableElementId("cancel-button");
+
         common.verifyPageBodyContainsString(pageBody, "Registrera: Godkänn användarvillkor");
         common.verifyPageBodyContainsString(pageBody, "För att skapa ditt eduID måste du acceptera användarvillkoren för eduID.");
         common.verifyPageBodyContainsString(pageBody, "För eduID.se gäller generellt");
@@ -191,6 +189,10 @@ public class Register {
         pageBody = common.getPageBody();
 
         log.info("Verify terms - english");
+
+        //Wait for cancel terms button
+        common.explicitWaitClickableElementId("cancel-button");
+
         common.verifyPageBodyContainsString(pageBody, "Register: Approve terms of use");
         common.verifyPageBodyContainsString(pageBody, "To create your eduID you need to accept the eduID terms of use.");
         common.verifyPageBodyContainsString(pageBody, "The following generally applies:");
@@ -281,6 +283,7 @@ public class Register {
             e.printStackTrace();
         }
     }
+
 
     private void verifyLabelsAtConfirmEmailAddress() {
         //Label1

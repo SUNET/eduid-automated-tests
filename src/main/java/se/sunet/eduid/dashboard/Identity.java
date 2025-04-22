@@ -160,9 +160,10 @@ public class Identity {
     public void verifyFrejaIdLabelsSwedish(){
         //Switch to the Freja Id pop up
         common.switchToPopUpWindow();
+        Common.log.info("Verify identity labels in pop up for Freja eID - swedish");
 
         //Swedish
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5",
+        common.verifyStringByXpath("//div/div/main/div/section/article[1]/div/div[1]/div/div/div[2]/div/dialog/div/div/div/div[1]/h5",
                 "Med Freja-appen kan du skapa ett digitalt ID-kort");
         common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[1]", "Installera appen");
         common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[2]",
@@ -305,6 +306,8 @@ public class Identity {
     }
 
     public void verifyFrejaIdLabelsEnglish(){
+        Common.log.info("Verify identity labels in pop up for Freja eID - english");
+
         //Click on Freja
         common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button"));
 
@@ -312,7 +315,7 @@ public class Identity {
         common.switchToPopUpWindow();
 
         //Verify Pop-up labels
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5",
+        common.verifyStringByXpath("//div/div/main/div/section/article[1]/div/div[1]/div/div/div[2]/div/dialog/div/div/div/div[1]/h5",
                 "Use Freja+ and visit a local authorised agent");
         common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[1]", "Install the app");
         common.verifyStringByXpath("//*[@id=\"freja-instructions\"]/ol/li[2]",
@@ -338,10 +341,10 @@ public class Identity {
         common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-letter\"]/button"));
 
         common.switchToPopUpWindow();
-        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5",
+        common.explicitWaitVisibilityElement("//*[@id=\"letter-confirm-modal\"]/div/div/div[1]/h5");
+        common.verifyStringByXpath("//*[@id=\"letter-confirm-modal\"]/div/div/div[1]/h5",
                 "Use a code sent by post to your address");
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[2]", "The letter will contain " +
+        common.verifyStringByXpath("//*[@id=\"letter-confirm-modal\"]/div/div/div[2]", "The letter will contain " +
                 "a code that you enter here to verify your identity. The code sent to you will expire in 2 weeks starting " +
                 "from now");
 
@@ -360,15 +363,16 @@ public class Identity {
 
         //Switch to pop up and verify its text
         common.switchToPopUpWindow();
-        common.explicitWaitVisibilityElement("//div[2]/div/div[1]/div/div/div[1]/h5");
-        common.verifyStringByXpath("//div[2]/div/div[1]/div/div/div[1]/h5",
+        common.explicitWaitVisibilityElement("//*[@id=\"letter-confirm-modal\"]/div/div/div[1]/h5");
+        common.verifyStringByXpath("//*[@id=\"letter-confirm-modal\"]/div/div/div[1]/h5",
                 "Skriv in koden du fått hemskickad");
-        common.verifyStringOnPage("Om du accepterar att " +
+        common.verifyStringByXpath("//*[@id=\"letter-confirm-modal\"]/div/div/div[2]", "Om du accepterar att " +
                 "få ett brev hem måste du skriva in koden här för att bevisa att personnumret är ditt. Av säkerhetsskäl " +
                 "går koden ut om två veckor.");
 
         //Close pop-up
-        common.closePopupDialog();
+        //common.closePopupDialog();
+        common.findWebElementById("letter-confirm-modal-close-button").click();
     }
 
     public void expandIdentityOptions(){

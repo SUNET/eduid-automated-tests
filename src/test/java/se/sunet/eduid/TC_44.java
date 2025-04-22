@@ -6,6 +6,7 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 public class TC_44 extends BeforeAndAfter {
     @Test
     void swamid(){
+        common.navigateToUrl("https://release-check.qa.swamid.se");
         swamid.runSwamid();
     }
 

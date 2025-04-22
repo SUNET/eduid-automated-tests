@@ -83,7 +83,10 @@ public class TC_29 extends BeforeAndAfter {
         Common.log.info("Verify BankID labels - Swedish");
 
         //Verify texts
-        common.verifyStringOnPage("eduID BankID-SP i staging har begärt att du legitimerar dig.");
+        //Wait for cancel button
+        common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[2]/button");
+
+        common.verifyStringOnPage(testData.getBankIdTextSwe());
         common.verifyStringOnPage("Vill du använda BankID på den här enheten eller på en annan enhet?");
 
         //Verify button texts
@@ -102,7 +105,7 @@ public class TC_29 extends BeforeAndAfter {
         Common.log.info("Verify BankID labels - English");
 
         //Verify texts
-        common.verifyStringOnPage("eduID BankID SP in staging has requested that you authenticate.");
+        common.verifyStringOnPage(testData.getBankIdTextEng());
         common.verifyStringOnPage("Do you want to use your BankID on this device or on another device?");
 
         //Verify button texts
@@ -147,6 +150,9 @@ public class TC_29 extends BeforeAndAfter {
         Common.log.info("Verify BankID labels on other device - English");
 
         //Verify pop-up texts - english
+        //Wait for pop-up close button
+        common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[1]/dialog/button");
+
         common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/dialog/ol/li[1]", "Start the BankID app");
         common.verifyStringByXpath(
                 "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[2]", "Press the QR code button in the BankID app");
@@ -172,6 +178,54 @@ public class TC_29 extends BeforeAndAfter {
 
         //Select to navigate to dashboard
         common.findWebElementById("dashboard-button").click();
-        common.timeoutSeconds(5);
+        common.timeoutSeconds(2);
+    }
+
+    @Test( dependsOnMethods = {"verifySamlFailPage"} )
+    void delete() {
+        testData.setDeleteButton(true);
+        deleteAccount.runDeleteAccount();
+
+        //Verify the extra pop-up when logged in +5minutes
+        deleteAccount.confirmDeleteAfter5Min();
+    }
+
+    @Test( dependsOnMethods = {"delete"} )
+    void login2(){
+        login.verifyPageTitle();
+        login.enterPassword();
+
+        //Click log in button
+        common.findWebElementById("login-form-button").click();
+    }
+
+    @Test( dependsOnMethods = {"login2"} )
+    void extraSecurityFreja() {
+        //Set mfa method to be used to "bankid" at login.
+        testData.setMfaMethod("freja");
+
+        //Login page for extra security select security key mfa method
+        loginExtraSecurity.runLoginExtraSecurity();
+        extraSecurity.selectMfaMethod();
+
+        Common.log.info("Log in with Freja");
+    }
+
+    @Test( dependsOnMethods = {"extraSecurityFreja"} )
+    void selectIdRefIdp() {
+        confirmIdentity.selectAndSubmitUserRefIdp();
+    }
+
+    @Test( dependsOnMethods = {"selectIdRefIdp"} )
+    void startPage3(){
+        startPage.runStartPage();
+    }
+
+    @Test( dependsOnMethods = {"startPage3"} )
+    void verifyAccountDeleted(){
+        testData.setIncorrectPassword(true);
+        login.verifyPageTitle();
+        login.enterPassword();
+        login.signIn();
     }
 }

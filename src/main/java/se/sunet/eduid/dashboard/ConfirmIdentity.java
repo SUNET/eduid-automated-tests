@@ -7,7 +7,7 @@ public class ConfirmIdentity{
     private final Common common;
     private final TestData testData;
     private final Identity identity;
-    String letterCodeConfirmationInputFieldId = "//div[2]/div/div[1]/div/div/form/div[1]/div/input";
+    String letterCodeConfirmationInputFieldId = "letter-confirm-modal";
     String letterProceedButton = "//*[@id=\"accordion__panel-se-letter\"]/button";
     String letterSubmitCodeOkButton = "//*[@id=\"letter-confirm-modal-form\"]/div[2]/button";
 
@@ -61,8 +61,7 @@ public class ConfirmIdentity{
 
             //Fetch the code
             String letterProofingCode =
-                    common.getCodeInNewTab("https://dashboard.dev.eduid.se/services/letter-proofing/get-code",
-                            10);
+                    common.getCodeInNewTab(testData.getLetterProofingCodeUrl(), 10);
 
             //Verify labels when letter is sent
             verifyLabelsSentLetter();
@@ -84,7 +83,7 @@ public class ConfirmIdentity{
             }
 
             //Wait for close button at pop up before enter the code
-            common.findWebElementByXpath(letterCodeConfirmationInputFieldId).sendKeys(letterProofingCode);
+            common.findWebElementById(letterCodeConfirmationInputFieldId).sendKeys(letterProofingCode);
 
             //Click OK
             common.findWebElementByXpath(letterSubmitCodeOkButton).click();
@@ -228,18 +227,22 @@ public class ConfirmIdentity{
         common.verifyStringByXpath(letterProceedButton, "FORTSÄTT");
 
         //Verify text in confirmation pop up
+        Common.log.info("Open pop-up to confirm with code received in letter - Swedish");
         common.click(common.findWebElementByXpath(letterProceedButton));
 
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5",
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/dialog/div/div/div/div/h5",
                 "Skriv in koden du fått hemskickad");
         common.verifyStringByXpath("//*[@id=\"letter-confirm-modal-wrapper\"]/div/label", "Kod");
-        common.verifyPlaceholderXpath("skriv in koden", letterCodeConfirmationInputFieldId);
+
+        common.verifyPlaceholder("skriv in koden", letterCodeConfirmationInputFieldId);
 
         //Verify OK button text
         common.verifyStringByXpath(letterSubmitCodeOkButton, "OK");
 
         //Close
-        common.click(common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button"));
+        common.click(common.findWebElementByXpath(
+                "//*[@id=\"accordion__panel-se-letter\"]/dialog/div/div/div/div/button"));
+        Common.log.info("Closed pop-up to confirm with code received in letter - Swedish");
 
         //Select english
         common.selectEnglish();
@@ -265,12 +268,13 @@ public class ConfirmIdentity{
         common.verifyStringByXpath(letterProceedButton, "PROCEED");
 
         //Verify text in confirmation pop up
+        Common.log.info("Open pop-up to confirm with code received in letter - English");
         common.click(common.findWebElementByXpath(letterProceedButton));
 
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5",
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/dialog/div/div/div/div/h5",
                 "Add the code you have received by post");
         common.verifyStringByXpath("//*[@id=\"letter-confirm-modal-wrapper\"]/div/label", "Code");
-        common.verifyPlaceholderXpath("enter code", letterCodeConfirmationInputFieldId);
+        common.verifyPlaceholder("enter code", letterCodeConfirmationInputFieldId);
 
         //Verify OK button text
         common.verifyStringByXpath(letterSubmitCodeOkButton, "OK");

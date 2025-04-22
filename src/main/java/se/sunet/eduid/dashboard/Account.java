@@ -62,8 +62,9 @@ public class Account {
         //Extract all table rows in to a list of web elements
         common.click(common.findWebElementByXpathContainingText("Tillgängliga lärosäten"));
         common.timeoutSeconds(1);
+        common.click(common.findWebElementByXpathContainingText("Tillgängliga lärosäten"));
 
-        WebElement elementName = common.findWebElementByXpath("//*[@id=\"react-select-3-listbox\"]/div");
+        WebElement elementName = common.findWebElementById("react-select-3-listbox");
         List<WebElement> rows = elementName.findElements(By.xpath("*"));
 
         //Assert that there are at least two univeritys in the drop down

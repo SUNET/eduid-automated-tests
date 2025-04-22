@@ -23,6 +23,9 @@ public class StartPage {
     }
 
     public void runStartPage(){
+        //Wait for sign up button
+        common.explicitWaitClickableElementId(buttonSign);
+
         verifyPageTitle();
 
         if(testData.getLanguage() != null && testData.getLanguage().equalsIgnoreCase("English"))
@@ -46,7 +49,7 @@ public class StartPage {
         //Click on sign in link
         common.explicitWaitClickableElementId(buttonLogin);
 
-        common.findWebElementById(buttonLogin).click();
+        common.click(common.findWebElementById(buttonLogin));
 
         //Wait for log in page
         common.explicitWaitPageTitle("Logga in | eduID");

@@ -61,8 +61,8 @@ public class ExtraSecurity {
         common.verifyStringByXpath("//div/main/div/section/div/div[3]/form/div/div/div[1]/div", "SHOW OTHER OPTIONS");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Continue without security option");
-        common.verifyStringByXpath("//*[@id=\"content\"]/p", "Your identity will require confirmation after the password has been " +
-                "reset. continue resetting password");
+        common.verifyStringByXpath("//*[@id=\"content\"]/p", "Your identity will require " +
+                "confirmation after the password has been reset. continue resetting password");
         common.verifyStringById("continue-without-security", "continue resetting password");
 
         //Switch to Swedish

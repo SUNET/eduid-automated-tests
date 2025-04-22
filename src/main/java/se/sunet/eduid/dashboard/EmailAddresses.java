@@ -8,6 +8,7 @@ import se.sunet.eduid.utils.TestData;
 public class EmailAddresses {
     private final Common common;
     private final TestData testData;
+    String emailConfirmationCodeInputField = "email-confirm-modal";
 
     public EmailAddresses(Common common, TestData testData){
         this.common = common;
@@ -66,7 +67,8 @@ public class EmailAddresses {
                 //Verify info messages - swedish
                 common.timeoutMilliSeconds(500);
 
-                common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/small/span", "E-postadressen finns redan i listan.");
+                common.verifyStringByXpath("//div/div/main/div/section/article[2]/div/form/div[1]/div/span",
+                        "E-postadressen finns redan i listan.");
 
                 //Switch to English
                 common.timeoutMilliSeconds(200);
@@ -82,7 +84,8 @@ public class EmailAddresses {
                 common.verifyStrings("CANCEL", common.findWebElementById("cancel-adding-email").getText());
 
                 common.timeoutMilliSeconds(500);
-                common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/small/span", "The email is already in the list.");
+                common.verifyStringByXpath("//div/div/main/div/section/article[2]/div/form/div[1]/div/span",
+                        "The email is already in the list.");
 
                 //Switch back to Swedish
                 common.timeoutMilliSeconds(200);
@@ -110,25 +113,25 @@ public class EmailAddresses {
                     }
 
                     //Click on confirm link
-                    pressConfirmEmail();
+//                    pressConfirmEmail();
 
                     verifyConfirmEmailPopupLabels();
 
                     // In pop-up enter the confirmation code
-                    WebElement emailConfirmationCodeInputField = common.findWebElementById("email-confirm-modal");
-                    emailConfirmationCodeInputField.clear();
+                    common.findWebElementById(emailConfirmationCodeInputField).clear();
+                    common.findWebElementById("email-confirm-modal").clear();
                     if (testData.getConfirmNewEmail1().equals("code")) {
-                        emailConfirmationCodeInputField.sendKeys(confirmationCode);
+                        common.findWebElementById(emailConfirmationCodeInputField).sendKeys(confirmationCode);
                         Common.log.info("Confirmation email correct activation code: " +confirmationCode);
                     }
                     if (testData.getConfirmNewEmail1().equals("wrongCode")) {
-                        emailConfirmationCodeInputField.sendKeys("18587");
+                        common.findWebElementById(emailConfirmationCodeInputField).sendKeys("18587");
                         Common.log.info("Attempt to confirm email not correct activation code.");
-                        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-wrapper\"]/small/span",
+                        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-wrapper\"]/div[2]/span",
                                 "Den kod du angett stämmer inte. Var god försök igen");
 
                         //For some reason the .clear() method does not work here, closing pop-up and open it again
-                        common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div/h5/button").click();
+                        common.findWebElementByXpath("//*[@id=\"add-email-addresses\"]/dialog/div/div/div/div/button").click();
 
                         //Click on confirm link
                         pressConfirmEmail();
@@ -136,6 +139,7 @@ public class EmailAddresses {
                         //Switch to the new pop-up window
                         common.switchToPopUpWindow();
 
+                        //Send
                         common.findWebElementById("email-confirm-modal").sendKeys("e01460442a");
                     }
 
@@ -145,32 +149,12 @@ public class EmailAddresses {
                     //Switch back to original window handle after submitting username, password
                     common.switchToDefaultWindow();
                 }
-                /*
-                Obsolete, we do not provide any url in the confirmation emails 2024-04-11
-                else if (testData.getConfirmNewEmail1().equals("url")) {
-                    //Get the confirmationUrl
-                    String confirmationUrl = mailReader.readEmail("confirmationUrl");
-                    Common.log.info("Confirmation Url: " + confirmationUrl);
-                    //common.navigateToUrl(confirmationUrl);
-                    common.navigateToUrl("https://dashboard.dev.eduid.se/services/email/verify?code=2cd31df7-7ce1-4179-b43d-4282a52b09e6&email=eduidtest.se1@gmail.com");
-                }
-                */
 
                 //Check labels
                 common.timeoutSeconds(1);
                 if(testData.getConfirmNewEmail1().equals("wrongCode")) {
                     Common.log.info("Verify status message when email confirmation code is not correct");
                     common.verifyStatusMessage("Ogiltig kod eller en kod som har gått ut. Var god prova igen eller begär en ny kod");
-
-                    //For unknown reason page is frozen when submitting wrong code, refresh it before change of language
-/*                    common.getWebDriver().navigate().refresh();
-                    common.timeoutSeconds(4);
-
-                    common.selectEnglish();
-
-                    common.verifyStatusMessage("The code is invalid or has expired, please try again or request a new code");
-                    common.selectSwedish();*/
-
                 }
                 else {
                     common.timeoutMilliSeconds(1000);
@@ -270,41 +254,41 @@ public class EmailAddresses {
     }
 
     private void verifyConfirmEmailPopupLabels(){
-        // In pop-up, verify labels and placeholder
-        Common.log.info("Verify email confirmation pop-up - Swedish");
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
-                "Skriv in koden som skickats till " +testData.getAddNewEmail1());
-        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-wrapper\"]/div/label", "Kod");
-        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-form\"]/div[1]/div[2]/button",
-                "Skicka ny kod");
-
-        //Close confirmation pop-up
-        common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
-
-        common.timeoutMilliSeconds(200);
+        //Select English
         common.selectEnglish();
 
-        //Click on confirm link
+        //Click on confirm link to open pop up
         pressConfirmEmail();
 
         //Switch to the new pop-up window
         common.switchToPopUpWindow();
 
         // In pop-up, verify labels and placeholder
-        Common.log.info("Verify email confirmation pop-up - English");
-        common.verifyStringByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5",
-                "Enter the code sent to " +testData.getAddNewEmail1());
-        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-wrapper\"]/div/label", "Code");
-        common.verifyStringByXpath("//*[@id=\"email-confirm-modal-form\"]/div[1]/div[2]/button",
-                "Send a new code");
+        String headerXpath = "//div/div/main/div/section/article[2]/dialog/div/div/div/div/h5";
+        String labelXpath = "//*[@id=\"email-confirm-modal-wrapper\"]/div/label";
+        String sendNewCodeXpath = "//*[@id=\"email-confirm-modal-form\"]/div[1]/div[2]/button";
+        String closeButtonXpath = "//*[@id=\"add-email-addresses\"]/dialog/div/div/div/div/button";
+
+        // In pop-up, verify labels and placeholder
+        Common.log.info("Verify email confirmation pop-up labels - English");
+        common.verifyStringByXpath(headerXpath, "Enter the code sent to " +testData.getAddNewEmail1());
+        common.verifyStringByXpath(labelXpath, "Code");
+        common.verifyPlaceholder("enter code", emailConfirmationCodeInputField);
+        common.verifyStringByXpath(sendNewCodeXpath, "Send a new code");
 
         //Close confirmation pop-up
-        common.findWebElementByXpath("//*[@id=\"confirm-user-data-modal\"]/div/div[1]/h5/button").click();
+        common.findWebElementByXpath(closeButtonXpath).click();
 
         common.timeoutMilliSeconds(200);
         common.selectSwedish();
 
         pressConfirmEmail();
+
+        Common.log.info("Verify email confirmation pop-up labels - Swedish");
+        common.verifyStringByXpath(headerXpath, "Skriv in koden som skickats till " +testData.getAddNewEmail1());
+        common.verifyStringByXpath(labelXpath, "Kod");
+        common.verifyPlaceholder("skriv in koden", emailConfirmationCodeInputField);
+        common.verifyStringByXpath(sendNewCodeXpath, "Skicka ny kod");
     }
 
     private void pressConfirmEmail(){

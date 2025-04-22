@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.testng.ITestContext;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
@@ -107,20 +108,21 @@ public class TC_49 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"stopBrowser"} )
-    @Parameters({"url", "browser", "headless", "language", "testsuite"})
-    void startBrowser(String url, String browser, String headless, String language, String testsuite) throws IOException {
-        initBrowser(url, browser, headless, language,testsuite);
-        testData.setTestSuite(testsuite);
+    @Parameters({"browser", "headless", "language"})
+    void startBrowser(String browser, String headless, String language, final ITestContext testContext) throws IOException {
+        initBrowser(browser, headless, language, testContext);
+        common.navigateToUrl(testData.getBaseUrl());
+        testData.setTestSuite(testContext.getCurrentXmlTest().getSuite().getName());
         testData.setTestCase("TC_49");
         testData.setDisplayName(displayname1);
     }
 
     //Log in to first account, verify that identity needs to be confirmed
     @Test( dependsOnMethods = {"startBrowser"} )
-    void checkFirstAccounNotVerifiedIdentity(){
+    void checkFirstAccountNotVerifiedIdentity(){
     }
 
-    @Test( dependsOnMethods = {"checkFirstAccounNotVerifiedIdentity"} )
+    @Test( dependsOnMethods = {"checkFirstAccountNotVerifiedIdentity"} )
     void startPage4(){
         testData.setIncorrectPassword(false);
         testData.setRegisterAccount(false);
