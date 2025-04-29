@@ -34,9 +34,7 @@ public class DashBoard {
             common.navigateToDashboard();
         }
 
-
         verifyPageTitle();
-
         verifyUserId();
 
         if(testData.getTestCase().equalsIgnoreCase("TC_5"))
@@ -49,13 +47,7 @@ public class DashBoard {
     }
 
     private void verifyPageTitle() {
-        //TODO temp fix to get swedish language - needed when new accounts created
-        if(common.findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().contains("Svenska")
-                && testData.getLanguage().equalsIgnoreCase("Svenska")) {
-            common.selectSwedish();
-        }
-
-        common.verifyPageTitle("Start | eduID");
+        common.explicitWaitPageTitle("Start | eduID");
     }
 
     private void verifyUserId() {

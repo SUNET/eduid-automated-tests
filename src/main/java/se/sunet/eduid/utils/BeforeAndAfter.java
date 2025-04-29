@@ -53,20 +53,19 @@ public class BeforeAndAfter {
     public AccessibilityBase accessibilityBase;
     public RequestResetPwEmail requestResetPwEmail;
     public TestData testData = new TestData();
-
     public WebDriver webdriver;
 
     @BeforeTest
     @Parameters({"browser", "headless", "language"})
     public void initBrowser(String browser, String headless, String language, final ITestContext testContext) throws IOException {
         initBrowser = new InitBrowser();
-        WebDriverManager.setWebDriver(initBrowser.initiateBrowser(browser, headless, language));
+        webdriver = initBrowser.initiateBrowser(browser, headless, language);
 
         testData.setTestSuite(testContext.getCurrentXmlTest().getSuite().getName());
         testData.setBrowser(browser);
         testData.setHeadlessExecution(headless);
 
-        common = new Common(WebDriverManager.getWebDriver(), testData, testData.getTestSuite());
+        common = new Common(webdriver, testData, testData.getTestSuite());
         startPage = new StartPage(common, testData);
         register = new Register(common, testData);
         login = new Login(common, testData);
@@ -88,7 +87,7 @@ public class BeforeAndAfter {
         deleteAccount = new DeleteAccount(common, testData);
         confirmedNewAccount = new ConfirmedNewAccount(common, testData);
         registeredData = new RegisteredData(common, testData);
-        swamid = new Swamid(common);
+        swamid = new Swamid(common, testData);
         swamidData = new SwamidData(common, testData);
         securityKey = new SecurityKey(common, testData);
         help = new Help(common);
@@ -117,7 +116,7 @@ public class BeforeAndAfter {
 
     @AfterTest
     public void quitBrowser() throws IOException {
-        WebDriverManager.quitWebDriver();
+        webdriver.quit();
         Common.log.info("End of: " + testData.getTestCase());
     }
 
@@ -125,7 +124,7 @@ public class BeforeAndAfter {
     public void captureScreenshot(ITestResult result){
         // Change the condition , If the screenshot needs to be taken for other status as well
         if(ITestResult.FAILURE==result.getStatus()){
-            Shutterbug.shootPage(WebDriverManager.getWebDriver(), Capture.FULL_SCROLL, 500, true)
+            Shutterbug.shootPage(webdriver, Capture.FULL_SCROLL, 500, true)
                     .withName(testData.getTestCase() +"-" +result.getName())
                     .save("screenshots/");
         }

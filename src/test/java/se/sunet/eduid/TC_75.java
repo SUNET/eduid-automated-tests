@@ -2,7 +2,6 @@ package se.sunet.eduid;
 
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
-import se.sunet.eduid.utils.WebDriverManager;
 
 public class TC_75 extends BeforeAndAfter {
     @Test
@@ -66,7 +65,7 @@ public class TC_75 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"verifyStatusMessage"} )
     void closeTab(){
-        WebDriverManager.getWebDriver().close();
+        webdriver.close();
         common.switchToDefaultWindow();
     }
 

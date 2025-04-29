@@ -115,7 +115,7 @@
     </test>
 
     <test name="TC_14">
-        <parameter name="testDescription" value="Try to add additional email address thats invalid" />
+        <parameter name="testDescription" value="Try to add additional email address that's invalid" />
         <classes>
             <class name="se.sunet.eduid.TC_14" >
             </class>
@@ -248,17 +248,16 @@
             </class>
         </classes>
     </test>
-<!--
 
     <test name="TC_31">
-        <parameter name="testDescription" value="After reset password without extra security (mobile OTP). Confirm
-        the phone number from dashboard" />
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings,
+        verify it immediately using eIDAS" />
         <classes>
             <class name="se.sunet.eduid.TC_31" >
             </class>
         </classes>
     </test>
--->
+
     <test name="TC_32">
         <parameter name="testDescription" value="Initiate account termination but abort in confirm pop-up" />
         <classes>

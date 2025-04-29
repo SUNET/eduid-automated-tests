@@ -20,7 +20,7 @@ public class TestData {
             emailCode, testCase, testDescription, testSuite, testMethod, otpPhoneNumber, otherDeviceCode,
             otherDeviceSubmitCode, emailVerificationCode, browser, headlessExecution, letterProofingCodeUrl,
             emailVerificationCodeUrl, phoneConfirmationCodeUrl, emailResetPwCodeUrl, domain, bankIdTextSwe,
-            bankIdTextEng, supportUrl, baseUrl;
+            bankIdTextEng, supportUrl, baseUrl, idpName;
 
     private boolean buttonValueConfirm = true;
     private boolean generateUsername = true;
@@ -29,6 +29,7 @@ public class TestData {
     private boolean addSecurityKey = false;
     private boolean verifySecurityKeyByFreja;
     private boolean verifySecurityKeyByBankId;
+    private boolean verifySecurityKeyByEidas;
     private boolean accountVerified = true;
     private boolean useRecommendedPw = true;
     private boolean registerAccount, resetPassword, incorrectPassword, removeNewEmail1,
@@ -61,6 +62,7 @@ public class TestData {
         setBankIdTextSwe(properties.getProperty("bankid_text_sv"));
         setBankIdTextEng(properties.getProperty("bankid_text_eng"));
         setSupportUsername(properties.getProperty("support_url"));
+        setIdpName(properties.getProperty("idp_name"));
 
         setLanguage("Svenska");
     }

@@ -16,6 +16,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class InitBrowser {
     private WebDriver webDriver;
@@ -32,7 +33,7 @@ public class InitBrowser {
             initMobile(browser);
 
         //Time we will wait before retry functionality will step in
-//        webDriver.manage().timeouts().implicitlyWait(11, TimeUnit.SECONDS);
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(11));
 
         //If page does not respond within 35sec drop the session.
         webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(35));

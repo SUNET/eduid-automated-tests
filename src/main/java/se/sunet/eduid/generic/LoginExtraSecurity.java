@@ -19,12 +19,6 @@ public class LoginExtraSecurity {
 
     private void verifyPageTitle() {
         common.explicitWaitPageTitle("Logga in | eduID");
-
-        //TODO temp fix to get swedish language
-        if(common.findWebElementByXpath("//div/footer/nav/ul/li[2]").getText().contains("Svenska")){
-            common.selectSwedish();
-        }
-        common.timeoutMilliSeconds(500);
     }
 
     private void verifyTexts(){

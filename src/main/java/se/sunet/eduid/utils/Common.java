@@ -516,18 +516,20 @@ public class Common {
         Common.log.info("Captcha code entered (" +captchaCode +"), pressing Continue");
     }
 
-    public void securityConfirmPopUp(String xPathToButton){
+    public void securityConfirmPopUp(String xPathToButton, String fineTextSwe, String fineTextEng){
         switchToPopUpWindow();
+        log.info("Extra security log pop up, verify labels - Swedish");
 
         if(xPathToButton.equalsIgnoreCase("")){
             log.info("Ignore security confirm popup label verification, pressing Continue button");
         }
         else {
             //Verify labels and text
-            timeoutSeconds(3);
+            timeoutSeconds(1);
             explicitWaitClickableElementId("security-confirm-modal-close-button");
             verifyStringOnPage("Säkerhetsskäl");
             verifyStringOnPage("Du behöver logga in igen för att kunna utföra åtgärden.");
+            verifyStringOnPage(fineTextSwe);
 
             verifyStringById("security-confirm-modal-accept-button", "FORTSÄTT");
 
@@ -543,19 +545,23 @@ public class Common {
             switchToPopUpWindow();
 
             //Verify labels and text
-            timeoutSeconds(3);
+            //timeoutSeconds(1);
 
             //For Delete account additional click is needed
             try {
                 //Click on 'Delete my eduid' button in pop up after Delete eduid link is clicked in settings
+                log.info("Clicking on extra delete button in pop up");
                 click(findWebElementByIdNoExplWait("delete-account-modal-accept-button"));
             } catch (Exception ex) {
                 //log.info("");
             }
 
+            log.info("Extra security log pop up, verify labels and press continue - English");
+
             explicitWaitClickableElementId("security-confirm-modal-close-button");
             verifyStringOnPage("Security check");
             verifyStringOnPage("You need to log in again to perform the requested action.");
+            verifyStringOnPage(fineTextEng);
 
             verifyStringById("security-confirm-modal-accept-button", "CONTINUE");
         }
@@ -568,7 +574,6 @@ public class Common {
         CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
 
         boolean httpStatus = true;
-        String notEncodedUrl = url;
 
         try {
             //Replace swedish characters in url

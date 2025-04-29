@@ -1,11 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="wcag">
-    <parameter name="url" value="https://dev.eduid.se" />
+<suite name="staging">
     <parameter name="browser" value="chrome" />
     <parameter name="headless" value="false" />
     <parameter name="language" value="sv" />
-    <parameter name="testsuite" value="dev" />
 
     <test name="EduID_StartPage">
         <parameter name="testDescription" value="Verify WCAG at Start page" />

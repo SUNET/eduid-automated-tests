@@ -137,7 +137,9 @@ public class DeleteAccount {
         common.switchToPopUpWindow();
         log.info("Verify text and labels in pop-up when delete of account demands one more log in");
 
-        common.securityConfirmPopUp("//*[@id=\"delete-button\"]");
+        common.securityConfirmPopUp("//*[@id=\"delete-button\"]",
+                "",
+                "");
 
         log.info("Clicked on Accept, to delete account and to be forwarded to log in page");
     }

@@ -1,17 +1,20 @@
 package se.sunet.eduid.swamid;
 
 import se.sunet.eduid.utils.Common;
+import se.sunet.eduid.utils.TestData;
 
 public class Swamid {
     private final Common common;
+    private final TestData testData;
 
-    public Swamid(Common common){
+    public Swamid(Common common, TestData testData) {
         this.common = common;
+        this.testData = testData;
     }
 
     public void runSwamid(){
         selectIdp();
-        navigateEduId("eduid staging");
+        navigateEduId(testData.getIdpName());
     }
 
     private void selectIdp(){

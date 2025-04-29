@@ -118,7 +118,7 @@ public class ExtraSecurity {
             //Wait for ref IDP page
             common.explicitWaitPageTitle("Sweden Connect Reference Identity Provider");
         }
-        //IF BankID should be used
+        //If BankID should be used
         else if(testData.getMfaMethod().equalsIgnoreCase("bankid")) {
             common.selectSwedish();
 
@@ -131,6 +131,21 @@ public class ExtraSecurity {
             common.findWebElementByXpath("//span[contains(text(), 'BankID')]").click();
 
             //Wait for bankID page
+            common.explicitWaitPageTitle("BankID");
+        }
+        //If eIDAS should be used
+        else if(testData.getMfaMethod().equalsIgnoreCase("eidas")) {
+            common.selectSwedish();
+
+            Common.log.info("Selecting eIDAS");
+
+            //Expand other options
+            common.findWebElementByXpath("//div[contains(text(), 'Visa andra alternativ')]").click();
+            common.timeoutMilliSeconds(500);
+
+            common.findWebElementByXpath("//span[contains(text(), 'EIDAS')]").click();
+
+            //Wait for eIDAS page
             common.explicitWaitPageTitle("BankID");
         }
         //If external security key should be used

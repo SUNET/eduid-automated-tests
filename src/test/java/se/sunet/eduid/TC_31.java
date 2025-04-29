@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
-public class TC_56 extends BeforeAndAfter {
+public class TC_31 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -28,6 +28,7 @@ public class TC_56 extends BeforeAndAfter {
         testData.setRegisterAccount(false);
         login.runLogin(); }
 
+
     @Test( dependsOnMethods = {"login"} )
     void confirmIdentityMail(){
         testData.setConfirmIdBy("mail");
@@ -43,14 +44,17 @@ public class TC_56 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void addSecurityKey() {
         testData.setAddSecurityKey(true);
-        testData.setVerifySecurityKeyByFreja(true);
+        testData.setVerifySecurityKeyByEidas(true);
 
         securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKeyLogin() {
-       //Enter username, password to verify security key first time
+        //Add nin cookie
+        common.addNinCookie();
+
+        //Enter username, password to verify security key first time
         login.verifyPageTitle();
         login.enterPassword();
 
@@ -61,18 +65,18 @@ public class TC_56 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
-    void loginMfa() {
-        //Set mfa method to be used to "security key" at login.
-        testData.setMfaMethod("securitykey");
+    void extraSecurityFreja() {
+        //Set mfa method to be used to "freja" at login, since eidas is not an option to enhance the security key
+        testData.setMfaMethod("freja");
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
 
-        Common.log.info("Log in with extra security");
+        Common.log.info("Log in with Freja");
     }
 
-    @Test( dependsOnMethods = {"loginMfa"} )
+    @Test( dependsOnMethods = {"extraSecurityFreja"} )
     void selectUserRefIdp(){
         //Select and submit user
         common.explicitWaitClickableElementId("submitButton");
@@ -82,28 +86,47 @@ public class TC_56 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void verifySecurityKeyStatus() {
-        //Verify the status message
-        common.verifyStatusMessage("Felaktigt format av identitetsnumret. Var god försök igen.");
+    void selectCountry(){
+        //Select country XA
+        common.findWebElementById("countryFlag_XA").click();
 
-        //Verify status beside the added key dates
-        common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[2]", "FREJA+");
-
-        common.selectEnglish();
-
-        //Verify status beside the added key dates
-        common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[1]", "BANKID");
-
-        //Verify the status message
-        common.verifyStatusMessage("Incorrect format of the identity number. Please try again.");
-        common.closeStatusMessage();
-
-        common.selectSwedish();
+        //Wait for idp button on next page
+        common.explicitWaitClickableElementId("idpSubmitbutton");
     }
 
-    @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
+    @Test( dependsOnMethods = {"selectCountry"} )
+    void submitEidasUser(){
+        //Select loa substantial level and submit
+        common.findWebElementByXpath("//*[@id=\"eidasDiv\"]/div/button").click();
+        common.findWebElementByXpath("//*[@id=\"bs-select-3-1\"]").click();
+
+        common.findWebElementById("idpSubmitbutton").click();
+
+        //Wait for consent button on next page
+        common.explicitWaitClickableElementId("buttonNext");
+    }
+
+    @Test( dependsOnMethods = {"submitEidasUser"} )
+    void submitConsent(){
+        //Select country XA
+        common.findWebElementById("buttonNext").click();
+    }
+
+    @Test( dependsOnMethods = {"submitConsent"} )
+    void verifiedSecurityKeyStatus() {
+        securityKey.verifiedSecurityKey();
+    }
+
+    //Verify at dashboard that all security options are checked
+    @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
+    void dashboard() {
+        //Confirmed identity by mail sets displayname to cookie testsson
+        //In this case we have updated the name to the default from properties
+        testData.setDisplayName(testData.getGivenName() +" " +testData.getSurName());
+        dashBoard.runDashBoard();
+    }
+
+    @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
@@ -122,14 +145,6 @@ public class TC_56 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login3"} )
-    void loginExtraSecurity(){
-
-        //loginExtraSecurity.selectMfaMethod();
-        extraSecurity.selectMfaMethod();
-        //common.timeoutSeconds(2);
-    }
-
-    @Test( dependsOnMethods = {"loginExtraSecurity"} )
     void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )

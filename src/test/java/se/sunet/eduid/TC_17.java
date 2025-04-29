@@ -40,7 +40,9 @@ public class TC_17 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void initiateTurnOffMfa() {
-        common.securityConfirmPopUp("//*[@id=\"content\"]/article[2]/form/fieldset/label/div");
+        common.securityConfirmPopUp("//*[@id=\"content\"]/article[2]/form/fieldset/label/div",
+                "",
+                "");
     }
 
 
