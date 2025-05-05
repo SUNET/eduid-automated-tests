@@ -21,7 +21,7 @@ public class EmailAddresses {
         if(testData.isRemoveNewEmail1())
             removeEmail();
         addNewEmail();
-        //Skip labels verification when not submittning a valid confirmation code
+        //Skip labels verification when not submitting a valid confirmation code
         if(!testData.getConfirmNewEmail1().equals("wrongCode")) {
             verifyLabelsSwedish();
             verifyLabelsEnglish();
@@ -264,7 +264,7 @@ public class EmailAddresses {
         common.switchToPopUpWindow();
 
         // In pop-up, verify labels and placeholder
-        String headerXpath = "//div/div/main/div/section/article[2]/dialog/div/div/div/div/h5";
+        String headerXpath = "//*[@id=\"add-email-addresses\"]/dialog/div/div/div/div/h4";
         String labelXpath = "//*[@id=\"email-confirm-modal-wrapper\"]/div/label";
         String sendNewCodeXpath = "//*[@id=\"email-confirm-modal-form\"]/div[1]/div[2]/button";
         String closeButtonXpath = "//*[@id=\"add-email-addresses\"]/dialog/div/div/div/div/button";

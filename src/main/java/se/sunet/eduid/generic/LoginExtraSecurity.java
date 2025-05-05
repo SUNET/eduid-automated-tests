@@ -22,8 +22,8 @@ public class LoginExtraSecurity {
     }
 
     private void verifyTexts(){
-        //Extract page body for validation
-        common.timeoutMilliSeconds(600);
+        //Extract page body for validation, wait for security key button
+        common.explicitWaitClickableElementId("mfa-security-key");
         String pageBody = common.getPageBody();
 
         //Swedish

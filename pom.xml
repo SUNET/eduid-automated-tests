@@ -12,8 +12,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <selenium.version>4.4.0</selenium.version>
-        <testng.version>7.4.0</testng.version>
-        <webdrivermanager.version>5.9.3</webdrivermanager.version>
+        <testng.version>7.11.0</testng.version>
+        <webdrivermanager.version>6.1.0</webdrivermanager.version>
         <log4j>2.19.0</log4j>
         <lombook>1.18.24</lombook>
     </properties>

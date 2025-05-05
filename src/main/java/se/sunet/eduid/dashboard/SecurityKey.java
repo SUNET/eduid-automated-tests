@@ -169,7 +169,7 @@ public class SecurityKey {
         common.explicitWaitClickableElement(closePopupButton);
 
         //Labels and placeholder
-        common.verifyStringByXpath("//*[@id=\"content\"]/dialog[1]/div/div/div/div/h5", "Add a name for your security key");
+        common.verifyStringByXpath("//*[@id=\"content\"]/dialog[1]/div/div/div/div/h4", "Add a name for your security key");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-form\"]/div[1]/p",
                 "Note: this is only for your own use to be able to distinguish between your added keys.");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Security key");
@@ -189,7 +189,7 @@ public class SecurityKey {
         common.explicitWaitClickableElement(closePopupButton);
 
         //Labels and placeholder
-        common.verifyStringByXpath("//*[@id=\"content\"]/dialog[1]/div/div/div/div/h5", "Ge ett namn till din säkerhetsnyckel");
+        common.verifyStringByXpath("//*[@id=\"content\"]/dialog[1]/div/div/div/div/h4", "Ge ett namn till din säkerhetsnyckel");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-form\"]/div[1]/p",
                 "Obs: beskrivningen är endast för att hjälpa dig skilja på dina tillagda nycklar.");
         common.verifyStringByXpath("//*[@id=\"describe-webauthn-token-modal-wrapper\"]/div/label", "Säkerhetsnyckel");

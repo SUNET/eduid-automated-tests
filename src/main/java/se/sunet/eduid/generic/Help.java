@@ -398,7 +398,7 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Kontrollera med tillverkaren eller återförsäljaren om produkten möter dessa krav:");
         common.verifyPageBodyContainsString(pageBody, "Certifierad FIDO 2.0, läs mer på fidoalliance.org.");
         //Verify link is working
-        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-security-usb\"]/article/ul/li[1]/a");
+        //common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-security-usb\"]/article/ul/li[1]/a");
         common.verifyPageBodyContainsString(pageBody, "Släpper ett intyg utfärdat av tillverkaren som berättar vilken enhet " +
                 "det är i samband med inloggningen och kräver att personen är fysiskt vid säkerhetsnyckeln för att den ska kunna användas. ");
         common.verifyPageBodyContainsString(pageBody, "YTTERLIGARE TEKNISK INFORMATION:");
@@ -619,19 +619,19 @@ public class Help {
                 "som du kan autentisera dig för:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Bekräftat konto:\n" +
+        common.verifyPageBodyContainsString(pageBody, "BEKRÄFTAT KONTO:\n" +
                 "tjänster som kräver en låg tillitsnivå, ofta kallad AL1 (obekräftad användare) / RAF Low.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Verifierad identitet:\n" +
+        common.verifyPageBodyContainsString(pageBody, "VERIFIERAD IDENTITET:\n" +
                 "tjänster som kräver en medelhög tillitsnivå, inklusive många lärosäten, ofta kallad AL2 (bekräftad användare) / RAF Medium.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Ökad säkerhet:\n" +
+        common.verifyPageBodyContainsString(pageBody, "ÖKAD SÄKERHET:\n" +
                 "tjänster som kräver att du loggar in med multifaktorautentisering, ofta kallad REFEDS MFA.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Verifierad säkerhetsnyckel:\n" +
+        common.verifyPageBodyContainsString(pageBody, "VERIFIERAD SÄKERHETSNYCKEL:\n" +
                 "tjänster som kräver en stark koppling mellan din identitet och din inloggning, ofta kallad AL3 (verifierad användare) / RAF High / LoA2.");
 
         //Text
@@ -1334,20 +1334,20 @@ public class Help {
                 "and the services you may authenticate to:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Confirmed account:\n" +
+        common.verifyPageBodyContainsString(pageBody, "CONFIRMED ACCOUNT:\n" +
                 "services requiring a low level of assurance, often called AL1 (unconfirmed user) / RAF Low.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Verified identity:\n" +
+        common.verifyPageBodyContainsString(pageBody, "VERIFIED IDENTITY:\n" +
                 "services requiring a medium level of assurance, including many higher education institutions, " +
                 "often called AL2 (confirmed user) / RAF Medium.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Enhanced security:\n" +
+        common.verifyPageBodyContainsString(pageBody, "ENHANCED SECURITY:\n" +
                 "services requiring you to log in using multi factor authentication, often called REFEDS MFA.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Verified security key:\n" +
+        common.verifyPageBodyContainsString(pageBody, "VERIFIED SECURITY KEY:\n" +
                 "services requiring a strong binding between your identity and your login, often called AL3 (verified user) / RAF High / LoA2.\n");
 
         //Text

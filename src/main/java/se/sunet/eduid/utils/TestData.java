@@ -61,7 +61,7 @@ public class TestData {
         setDomain(properties.getProperty("domain"));
         setBankIdTextSwe(properties.getProperty("bankid_text_sv"));
         setBankIdTextEng(properties.getProperty("bankid_text_eng"));
-        setSupportUsername(properties.getProperty("support_url"));
+        setSupportUrl(properties.getProperty("support_url"));
         setIdpName(properties.getProperty("idp_name"));
 
         setLanguage("Svenska");

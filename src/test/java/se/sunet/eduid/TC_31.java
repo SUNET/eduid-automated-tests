@@ -4,6 +4,8 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
+import java.io.IOException;
+
 public class TC_31 extends BeforeAndAfter {
     @Test
     void startPage(){
@@ -119,10 +121,10 @@ public class TC_31 extends BeforeAndAfter {
 
     //Verify at dashboard that all security options are checked
     @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
-    void dashboard() {
-        //Confirmed identity by mail sets displayname to cookie testsson
-        //In this case we have updated the name to the default from properties
-        testData.setDisplayName(testData.getGivenName() +" " +testData.getSurName());
+    void dashboard() throws IOException {
+        //In this case we have updated the display name from country XA
+        testData.setDisplayName("Bernt Olof" +" " +"Larsson");
+        testData.setVerifySecurityKeyByFreja(true);
         dashBoard.runDashBoard();
     }
 
@@ -145,6 +147,27 @@ public class TC_31 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login3"} )
+    void extraSecurityFreja2() {
+        //Set mfa method to be used to "freja" at login, since eidas is not an option to enhance the security key
+        testData.setMfaMethod("freja");
+
+        //Login page for extra security select security key mfa method
+        loginExtraSecurity.runLoginExtraSecurity();
+        extraSecurity.selectMfaMethod();
+
+        Common.log.info("Log in with Freja");
+    }
+
+    @Test( dependsOnMethods = {"extraSecurityFreja2"} )
+    void selectUserRefIdp2(){
+        //Select and submit user
+        common.explicitWaitClickableElementId("submitButton");
+        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
+
+        common.findWebElementById("submitButton").click();
+    }
+
+    @Test( dependsOnMethods = {"selectUserRefIdp2"} )
     void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )

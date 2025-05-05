@@ -239,6 +239,7 @@ public class DashBoard {
         log.info("Verifying menu labels in swedish and check that sub menu links are not broken");
 
         expandFullNavigationMenuWithSubMenus();
+        common.timeoutMilliSeconds(200);
 
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/a", "Start");
         common.verifyStringByXpath(eduIDStatusOverviewMenuLink, "eduID statusöversikt");

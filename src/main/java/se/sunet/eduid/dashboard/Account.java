@@ -46,28 +46,27 @@ public class Account {
     }
 
     private void pressLadok(){
-        Common.log.info("Verify Ladok");
-
-        //Activate ladok
-        //common.timeoutSeconds(2);
+        Common.log.info("Verify Ladok/ESI");
         common.scrollToPageBottom();
+
+        //Activate Ladok/ESI
         common.findWebElementByXpath("//*[@id=\"ladok\"]/form/fieldset/label/div").click();
         common.timeoutSeconds(1);
 
-        String availableUniversitys = "//*[@id=\"content\"]/article[6]/form[2]/fieldset/div/div/div[1]/div";
+        String availableUniversitys = "//*[@id=\"ladok\"]/form[2]/fieldset/div/div";
 
         common.verifyStringByXpath("//*[@id=\"content\"]/article[6]/form[2]/fieldset/label", "Välj lärosäte");
         common.verifyStringByXpath(availableUniversitys, "Tillgängliga lärosäten");
 
-        //Extract all table rows in to a list of web elements
-        common.click(common.findWebElementByXpathContainingText("Tillgängliga lärosäten"));
+        //Expand options
+        common.findWebElementByXpath(availableUniversitys).click();
         common.timeoutSeconds(1);
-        common.click(common.findWebElementByXpathContainingText("Tillgängliga lärosäten"));
 
-        WebElement elementName = common.findWebElementById("react-select-3-listbox");
+        //Extract all table rows in to a list of web elements
+        WebElement elementName = common.findWebElementByXpath("//*[@id=\"react-select-3-listbox\"]/div");
         List<WebElement> rows = elementName.findElements(By.xpath("*"));
 
-        //Assert that there are at least two univeritys in the drop down
+        //Assert that there are at least two universitys in the drop down
         Assert.assertTrue(rows.size() > 1,
                 "Number of rows with available universitys are too low (are: " +rows.size() +" lower than 2)");
 
@@ -86,16 +85,10 @@ public class Account {
         common.scrollToPageBottom();
 
         //Expand options
-        common.findWebElementByXpath("//*[@id=\"content\"]/article[6]/form[2]/fieldset/div/div[1]/div[1]/div").click();
-        try {
-            common.click(common.findWebElementByXpathContainingText("Linnaeus"));
-        }catch (NoSuchElementException ex){
-            Common.log.info("Failed to click on ESI drop down first time, trying again.");
-            common.scrollToPageBottom();
-            common.findWebElementByXpathContainingText("Available higher education institutions").click();
-            common.timeoutMilliSeconds(500);
-            common.findWebElementByXpathContainingText("Linnaeus").click();
-        }
+        common.findWebElementByXpath(availableUniversitys).click();
+
+        //Select one option
+        common.click(common.findWebElementByXpathContainingText("Linnaeus"));
         common.timeoutMilliSeconds(500);
 
         //When Identity is confirmed
@@ -142,16 +135,6 @@ public class Account {
             Common.log.info("ORCID NOT page present, page title is: " +common.getWebDriver().getTitle());
             Assert.fail("ORCID NOT page present, page title is: " +common.getWebDriver().getTitle());
         }
-
-        //Accept cookies
-/*
-        try {
-            common.timeoutSeconds(4);
-            common.findWebElementById("onetrust-accept-btn-handler").click();
-        }catch (Exception ex){
-            Common.log.info("No cookie dialog present");
-        }
-*/
 
         //Just go back to end test case by logout
         common.getWebDriver().navigate().back();

@@ -68,7 +68,7 @@ public class ConfirmIdentity{
 
             //Press again on the letter button - Add a faulty code. Not needed for all test cases
             if(testData.getTestCase().equalsIgnoreCase("TC_41")) {
-                common.findWebElementByXpath(letterCodeConfirmationInputFieldId).sendKeys("1qvw3fw2q3");
+                common.findWebElementById(letterCodeConfirmationInputFieldId).sendKeys("1qvw3fw2q3");
 
                 //Click OK
                 common.findWebElementByXpath(letterSubmitCodeOkButton).click();
@@ -230,7 +230,7 @@ public class ConfirmIdentity{
         Common.log.info("Open pop-up to confirm with code received in letter - Swedish");
         common.click(common.findWebElementByXpath(letterProceedButton));
 
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/dialog/div/div/div/div/h5",
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/dialog/div/div/div/div/h4",
                 "Skriv in koden du fått hemskickad");
         common.verifyStringByXpath("//*[@id=\"letter-confirm-modal-wrapper\"]/div/label", "Kod");
 
@@ -271,13 +271,16 @@ public class ConfirmIdentity{
         Common.log.info("Open pop-up to confirm with code received in letter - English");
         common.click(common.findWebElementByXpath(letterProceedButton));
 
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/dialog/div/div/div/div/h5",
+        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/dialog/div/div/div/div/h4",
                 "Add the code you have received by post");
         common.verifyStringByXpath("//*[@id=\"letter-confirm-modal-wrapper\"]/div/label", "Code");
+
         common.verifyPlaceholder("enter code", letterCodeConfirmationInputFieldId);
 
         //Verify OK button text
         common.verifyStringByXpath(letterSubmitCodeOkButton, "OK");
+
+        Common.log.info("Pop-up to confirm with code received in letter Done! - English");
     }
 
 
@@ -301,6 +304,6 @@ public class ConfirmIdentity{
         common.findWebElementById("submitButton").click();
 
         //Redirect back to eduID takes time, adding some timeout
-        common.timeoutSeconds(18);
+        common.timeoutSeconds(5);
     }
 }
