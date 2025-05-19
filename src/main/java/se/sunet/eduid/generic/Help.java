@@ -1516,57 +1516,57 @@ public class Help {
     }
 
     public void expandAllOptions(){
-        if(common.findWebElementById("accordion__heading-help-contact").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-contact").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-contact"));
-        if(common.findWebElementById("accordion__heading-help-about-sunet").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-about-sunet").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-about-sunet"));
-        if(common.findWebElementById("accordion__heading-help-privacy-accessibility").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-privacy-accessibility").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-privacy-accessibility"));
-        if(common.findWebElementById("accordion__heading-help-orcid-ladok").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-orcid-ladok").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-orcid-ladok"));
-        if(common.findWebElementById("accordion__heading-help-tou").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-tou").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-tou"));
-        if(common.findWebElementById("accordion__heading-help-verification").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-verification").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-verification"));
-        if(common.findWebElementById("accordion__heading-help-international").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-international").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-international"));
-        if(common.findWebElementById("accordion__heading-help-eidas").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-eidas").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-eidas"));
-        if(common.findWebElementById("accordion__heading-help-freja").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-freja").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-freja"));
-        if(common.findWebElementById("accordion__heading-help-bankid").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-bankid").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-bankid"));
-        if(common.findWebElementById("accordion__heading-help-security-key").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-security-key").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-security-key"));
-        if(common.findWebElementById("accordion__heading-help-assurance-levels").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-assurance-levels").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-assurance-levels"));
-        if(common.findWebElementById("accordion__heading-help-security-usb").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-security-usb").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-security-usb"));
-        if(common.findWebElementById("accordion__heading-security-key-list").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-security-key-list").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-security-key-list"));
 
         //Use eduID
-        if(common.findWebElementById("accordion__heading-help-using-eduid").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-using-eduid").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-using-eduid"));
-        if(common.findWebElementById("accordion__heading-help-relogin").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-relogin").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-relogin"));
-        if(common.findWebElementById("accordion__heading-help-Account").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-Account").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-Account"));
-        if(common.findWebElementById("accordion__heading-help-security").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-security").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-security"));
-        if(common.findWebElementById("accordion__heading-help-identity").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-identity").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-identity"));
-        if(common.findWebElementById("accordion__heading-help-start").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-start").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-start"));
-        if(common.findWebElementById("accordion__heading-help-pw").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-pw").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-pw"));
-        if(common.findWebElementById("accordion__heading-help-login").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-login").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-login"));
-        if(common.findWebElementById("accordion__heading-help-create").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-create").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-create"));
 
 
-        if(common.findWebElementById("accordion__heading-help-about-eduid").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-help-about-eduid").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-help-about-eduid"));
     }
 }

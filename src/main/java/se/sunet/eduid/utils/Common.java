@@ -116,8 +116,14 @@ public class Common {
     }
 
     public void expandNavigationMenu(){
-        //Expand navigation menu
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/button"));
+        //Expand navigation menu, if not already expanded
+        if(findWebElementByXpath("//*[@id=\"header\"]/nav/button").getDomAttribute("aria-expanded").equalsIgnoreCase("false")) {
+            findWebElementByXpath("//*[@id=\"header\"]/nav/button").click();
+            log.info("Expanding navigation menu");
+        }
+        else {
+            log.info("Navigation menu already expanded");
+        }
     }
 
     public void verifyPageTitle(String pageTitle) {
@@ -261,12 +267,12 @@ public class Common {
 
     public String getAttributeByXpath(String elementToFind) {
         explicitWaitVisibilityElement(elementToFind);
-        return webDriver.findElement(By.xpath(elementToFind)).getAttribute("value");
+        return webDriver.findElement(By.xpath(elementToFind)).getDomAttribute("value");
     }
 
     public String getAttributeById(String elementToFind) {
         explicitWaitVisibilityElementId(elementToFind);
-        return webDriver.findElement(By.id(elementToFind)).getAttribute("value");
+        return webDriver.findElement(By.id(elementToFind)).getDomAttribute("value");
     }
 
     public void click(WebElement element) {
@@ -286,20 +292,20 @@ public class Common {
 
     public void verifyPlaceholder(String placeholderText, String placeholderElementId) {
         //Verify placeholder
-        verifyStrings(placeholderText, findWebElementById(placeholderElementId).getAttribute("placeholder"));
+        verifyStrings(placeholderText, findWebElementById(placeholderElementId).getDomAttribute("placeholder"));
     }
 
     public void verifyPlaceholderXpath(String placeholderText, String placeholderElementXpath) {
         //Verify placeholder
-        verifyStrings(placeholderText, findWebElementByXpath(placeholderElementXpath).getAttribute("placeholder"));
+        verifyStrings(placeholderText, findWebElementByXpath(placeholderElementXpath).getDomAttribute("placeholder"));
     }
 
     public void verifyXpathIsWorkingLink(String xpathToLink){
-        Assert.assertTrue(findWebElementByXpath(xpathToLink).getAttribute("href") != null,
+        Assert.assertTrue(findWebElementByXpath(xpathToLink).getDomAttribute("href") != null,
                 "Provided xpath: " +xpathToLink +" \nDoes not contain a href element, failing test case!");
 
         try {
-            Assert.assertTrue(linkWorking(findWebElementByXpath(xpathToLink).getAttribute("href")),
+            Assert.assertTrue(linkWorking(findWebElementByXpath(xpathToLink).getDomAttribute("href")),
                     "Provided xpath: " +xpathToLink +" \nDoes not contain a working url, failing test case!");
         }catch (Exception ex){
             log.info("Catching exception when trying to validate url");
@@ -404,7 +410,7 @@ public class Common {
         if(!isCookieSet("autotests")) {
             Date today = new Date();
             Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
-            webDriver.manage().addCookie(new Cookie("autotests", "w9eB5yt2TwEoDsTNgzmtINq03R24DPQD8ubmRVfXPOST3gRi",
+            webDriver.manage().addCookie(new Cookie("autotests", testData.getAutotestsCookieValue(),
                     testData.getDomain(), "/", tomorrow, true, true, "None"));
 
             logCookie("autotests");
@@ -448,20 +454,6 @@ public class Common {
         log.info("Cookie samesite: " + webDriver.manage().getCookieNamed(name).getSameSite());*/
     }
 
-    public void setPhoneNumber(){
-        //Select random phone number from file
-        List<String> lines;
-        Random random = new Random();
-        try {
-            lines = Files.readAllLines(Paths.get("src/main/resources/phone_numbers.txt"));
-
-            testData.setPhoneNumber(lines.get(random.nextInt(lines.size())));
-            Common.log.info("Phone number set to: " +testData.getPhoneNumber());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public String getCodeInNewTab(String fromURL, int expectedLength) {
         //Store current window handle
         switchToPopUpWindow();
@@ -496,24 +488,6 @@ public class Common {
         timeoutMilliSeconds(500);
 
         return code;
-    }
-
-    public void enterCaptcha(String reqCaptchaCode){
-       String captchaCode = "";
-        captchaCode = reqCaptchaCode;
-
-        //Wait for generate new captcha button
-        switchToPopUpWindow();
-        timeoutMilliSeconds(300);
-        explicitWaitClickableElement("//*[@id=\"phone-captcha-modal-form\"]/div[1]/div[2]/button");
-
-        clearTextField(findWebElementById("phone-captcha-modal"));
-        timeoutMilliSeconds(100);
-        findWebElementById("phone-captcha-modal").sendKeys(captchaCode);
-
-        //Press continue
-        findWebElementByXpath("//*[@id=\"phone-captcha-modal-form\"]/div[2]/button").click();
-        Common.log.info("Captcha code entered (" +captchaCode +"), pressing Continue");
     }
 
     public void securityConfirmPopUp(String xPathToButton, String fineTextSwe, String fineTextEng){
@@ -584,10 +558,18 @@ public class Common {
                     .replace("Å", "%C3%85")
                     .replace("Ö", "%C3%96");
 
-            //Creating URL object
-            URL url_link = new URL(url);
+            //Creating URL object, if url is internal, the base url is needed
+            URL url_link;
+            if(url.contains("http")){
+                //log.info("External url: " +url);
+                url_link = new URL(url);
+            }
+            else {
+                //System.out.println("Internal url, adding base url: " + testData.getBaseUrl() + url);
+                url_link = new URL(testData.getBaseUrl() + url);
+            }
 
-            //creating conn object for the URL
+            //Creating conn object for the URL
             HttpURLConnection conn = (HttpURLConnection) url_link.openConnection();
             conn.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
             conn.addRequestProperty("Connection", "keep-alive");

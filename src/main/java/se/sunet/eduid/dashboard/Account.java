@@ -55,7 +55,7 @@ public class Account {
 
         String availableUniversitys = "//*[@id=\"ladok\"]/form[2]/fieldset/div/div";
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[6]/form[2]/fieldset/label", "Välj lärosäte");
+        common.verifyStringByXpath("//*[@id=\"ladok\"]/form[2]/fieldset/span", "Välj lärosäte");
         common.verifyStringByXpath(availableUniversitys, "Tillgängliga lärosäten");
 
         //Expand options
@@ -77,7 +77,7 @@ public class Account {
         common.click(common.findWebElementById("ladok-connection"));
         common.timeoutMilliSeconds(200);
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[6]/form[2]/fieldset/label",
+        common.verifyStringByXpath("//*[@id=\"ladok\"]/form[2]/fieldset/span",
                 "Select higher education institution");
         common.verifyStringByXpath(availableUniversitys, "Available higher education institutions");
 
@@ -168,7 +168,7 @@ public class Account {
                 "som du kan behöva ange för att identifiera ditt konto eller vid teknisk support. Det är en del av vad " +
                 "som kan hänvisas till som EPPN.");
         common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/label/strong", "Unikt ID:");
-        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
+        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getDomAttribute("value"));
         common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/button", "KOPIERA");
 
         //OrcID
@@ -210,7 +210,7 @@ public class Account {
                 "you may need to provide when accessing other services or requesting support. It is part of what may be " +
                 "referred to as EPPN.");
         common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/label/strong", "Unique ID:");
-        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
+        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getDomAttribute("value"));
         common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/button", "COPY");
 
         //OrcID

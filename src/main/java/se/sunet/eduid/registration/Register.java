@@ -247,7 +247,7 @@ public class Register {
         List<String> lines;
         Random random = new Random();
         try {
-            lines = Files.readAllLines(Paths.get("src/main/resources/identity_numbers.txt"));
+            lines = Files.readAllLines(Paths.get(testData.getIdentityNumberFilePath()));
 
             testData.setIdentityNumber(lines.get(random.nextInt(lines.size())));
             log.info("Identitynumber set to: " +testData.getIdentityNumber());
@@ -261,7 +261,7 @@ public class Register {
         List<String> lines;
         Random random = new Random();
         try {
-            lines = Files.readAllLines(Paths.get("src/main/resources/given_name.txt"));
+            lines = Files.readAllLines(Paths.get(testData.getGivenNameFilePath()));
 
             testData.setGivenName(lines.get(random.nextInt(lines.size())));
             log.info("First name set to: " +testData.getGivenName());
@@ -275,7 +275,7 @@ public class Register {
         List<String> lines;
         Random random = new Random();
         try {
-            lines = Files.readAllLines(Paths.get("src/main/resources/sur_name.txt"));
+            lines = Files.readAllLines(Paths.get(testData.getSurNameFilePath()));
 
             testData.setSurName(lines.get(random.nextInt(lines.size())));
             log.info("Sur name set to: " +testData.getSurName());
@@ -286,12 +286,15 @@ public class Register {
 
 
     private void verifyLabelsAtConfirmEmailAddress() {
+        //Wait for generate new captcha link
+        common.explicitWaitClickableElement("//*[@id=\"content\"]/figure/button");
+
         //Label1
         common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Register: Confirm that you are a human");
         common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/p",
                 "As a protection against automated spam, you'll need to confirm that you are a human.");
         common.verifyStringOnPage("Enter the code from the image");
-        common.verifyStringOnPage("Generate a new image");
+        common.verifyStringOnPage("generate a new image"); //Not possible to verify link with href check
 
         //Verify button text
         common.verifyStringById("cancel-captcha-button", "CANCEL");
@@ -305,7 +308,7 @@ public class Register {
         common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/p",
                 "Som ett skydd mot automatisk spam måste du bekräfta att du är en människa.");
         common.verifyStringOnPage("Ange koden från bilden");
-        common.verifyStringOnPage("Generera en ny bild");
+        common.verifyStringOnPage("generera en ny bild");
 
         //Verify button text
         common.verifyStringById("cancel-captcha-button", "AVBRYT");

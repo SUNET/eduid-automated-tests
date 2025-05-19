@@ -1,5 +1,6 @@
 package se.sunet.eduid.dashboard;
 
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
@@ -77,7 +78,7 @@ public class DashBoard {
 
         //EPPN
         common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/label/strong", "Unikt ID:");
-        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
+        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getDomAttribute("value"));
 
         //Verify heading sub-text
         common.verifyPageBodyContainsString(pageBody, "eduID statusöversikt");
@@ -163,11 +164,11 @@ public class DashBoard {
         common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/label/strong", "Unique ID:");
         if(testData.isRegisterAccount()) {
             //Just check that eppn is 11 characters long
-            Assert.assertEquals(common.findWebElementById("user-eppn").getAttribute("value").length(),
+            Assert.assertEquals(common.findWebElementById("user-eppn").getDomAttribute("value").length(),
                     11, "EPPN seems to be missing or not correct length");
         }
         else
-            common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getAttribute("value"));
+            common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getDomAttribute("value"));
 
         //Verify heading sub-text
         common.verifyPageBodyContainsString(pageBody, "eduID status overview");
@@ -239,7 +240,7 @@ public class DashBoard {
         log.info("Verifying menu labels in swedish and check that sub menu links are not broken");
 
         expandFullNavigationMenuWithSubMenus();
-        common.timeoutMilliSeconds(200);
+        common.timeoutMilliSeconds(400);
 
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/a", "Start");
         common.verifyStringByXpath(eduIDStatusOverviewMenuLink, "eduID statusöversikt");
@@ -307,10 +308,18 @@ public class DashBoard {
     public void expandFullNavigationMenuWithSubMenus(){
         common.expandNavigationMenu();
 
-        //Expand sub-menus
-        common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[7]/button").click();
-        common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[5]/button").click();
-        common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/button").click();
-        common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/button").click();
+        //Expand sub-menus, if not expanded
+        if(common.getWebDriver().findElement(By.xpath("//*[@id=\"header\"]/nav/div/ul/li[8]")).getDomAttribute("class").equals("submenu-collapse submenu-close")) {
+            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[7]/button").click();
+        }
+        if(common.getWebDriver().findElement(By.xpath("//*[@id=\"header\"]/nav/div/ul/li[6]")).getDomAttribute("class").equals("submenu-collapse submenu-close")) {
+            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[5]/button").click();
+        }
+        if(common.getWebDriver().findElement(By.xpath("//*[@id=\"header\"]/nav/div/ul/li[4]")).getDomAttribute("class").equals("submenu-collapse submenu-close")) {
+            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/button").click();
+        }
+        if(common.getWebDriver().findElement(By.xpath("//*[@id=\"header\"]/nav/div/ul/li[2]")).getDomAttribute("class").equals("submenu-collapse submenu-close")) {
+            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/button").click();
+        }
     }
 }

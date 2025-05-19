@@ -11,7 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        <selenium.version>4.4.0</selenium.version>
+        <selenium.version>4.31.0</selenium.version>
         <testng.version>7.11.0</testng.version>
         <webdrivermanager.version>6.1.0</webdrivermanager.version>
         <log4j>2.19.0</log4j>
@@ -58,13 +58,6 @@
             <artifactId>webdrivermanager</artifactId>
             <version>${webdrivermanager.version}</version>
         </dependency>
-<!--
-        <dependency>
-            <groupId>org.fluentlenium</groupId>
-            <artifactId>fluentlenium-core</artifactId>
-            <version>5.0.4</version>
-        </dependency>
--->
 
         <!-- For mail -->
         <dependency>

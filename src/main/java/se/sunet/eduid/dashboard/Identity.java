@@ -375,18 +375,18 @@ public class Identity {
 
     public void expandIdentityOptions(){
         //Expand buttons if not already expanded, to make all text visible
-        if(common.findWebElementById("accordion__heading-swedish").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-swedish").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-swedish"));
         common.explicitWaitClickableElementId("accordion__heading-se-bankID");
-        if(common.findWebElementById("accordion__heading-se-bankID").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-se-bankID").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-se-bankID"));
-        if(common.findWebElementById("accordion__heading-se-freja").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-se-freja").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-se-freja"));
-        if(common.findWebElementById("accordion__heading-se-letter").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-se-letter").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-se-letter"));
-        if(common.findWebElementById("accordion__heading-eu").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-eu").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-eu"));
-        if(common.findWebElementById("accordion__heading-world").getAttribute("aria-expanded").equalsIgnoreCase("false"))
+        if(common.findWebElementById("accordion__heading-world").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
             common.click(common.findWebElementById("accordion__heading-world"));
     }
 }

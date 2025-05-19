@@ -119,7 +119,7 @@ public class Login {
         common.timeoutSeconds(2);
         common.explicitWaitClickableElement("//*[@id=\"uniqueId-container\"]/button");
 
-        testData.setEppn(common.findWebElementById("user-eppn").getAttribute("value"));
+        testData.setEppn(common.findWebElementById("user-eppn").getDomAttribute("value"));
         if(testData.getEppn().isEmpty()) {
             Assert.fail("Failed to save eppn, saved eppn is: " +testData.getEppn());
         }

@@ -20,7 +20,8 @@ public class TestData {
             emailCode, testCase, testDescription, testSuite, testMethod, otpPhoneNumber, otherDeviceCode,
             otherDeviceSubmitCode, emailVerificationCode, browser, headlessExecution, letterProofingCodeUrl,
             emailVerificationCodeUrl, phoneConfirmationCodeUrl, emailResetPwCodeUrl, domain, bankIdTextSwe,
-            bankIdTextEng, supportUrl, baseUrl, idpName;
+            bankIdTextEng, supportUrl, baseUrl, idpName, autotestsCookieValue, identityNumberFilePath,
+            givenNameFilePath, surNameFilePath;
 
     private boolean buttonValueConfirm = true;
     private boolean generateUsername = true;
@@ -52,6 +53,10 @@ public class TestData {
         setEppn(properties.getProperty("eppn"));
         setSupportUsername(properties.getProperty("support_username"));
         setSupportPassword(properties.getProperty("support_password"));
+        setAutotestsCookieValue(properties.getProperty("autotests_cookie_value"));
+        setIdentityNumberFilePath(properties.getProperty("identity_number_file_path"));
+        setGivenNameFilePath(properties.getProperty("given_name_file_path"));
+        setSurNameFilePath(properties.getProperty("surname_file_path"));
 
         setBaseUrl(properties.getProperty("base_url"));
         setLetterProofingCodeUrl(properties.getProperty("letter_proofing_code_url"));

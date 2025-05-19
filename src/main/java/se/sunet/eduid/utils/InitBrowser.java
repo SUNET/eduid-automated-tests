@@ -111,7 +111,7 @@ public class InitBrowser {
 
             // If execution should be performed headless
             if (headless.equals("true"))
-                firefoxOptions.setHeadless(true);
+                firefoxOptions.addArguments("--headless");
 
             webDriver = new FirefoxDriver(firefoxOptions);
         } else {

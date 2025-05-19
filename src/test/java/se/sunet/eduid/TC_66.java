@@ -30,7 +30,7 @@ public class TC_66 extends BeforeAndAfter {
         common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName()+"!");
 
         //Verify placeholder for username
-        common.verifyStrings(testData.getUsername(), common.findWebElementById("username").getAttribute("value"));
+        common.verifyStrings(testData.getUsername(), common.findWebElementById("username").getDomAttribute("value"));
     }
 
     @Test( dependsOnMethods = {"verifySignInPage"} )
