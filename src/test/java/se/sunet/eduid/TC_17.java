@@ -47,21 +47,6 @@ public class TC_17 extends BeforeAndAfter {
 
 
     @Test( dependsOnMethods = {"initiateTurnOffMfa"} )
-    void turnOffNonVerifiedSecurityKeyLogin() {
-        //Add nin cookie
-        common.addNinCookie();
-
-        //Enter username, password to verify security key first time
-        login.verifyPageTitle();
-        login.enterPassword();
-
-        //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
-
-        common.explicitWaitClickableElementId("mfa-security-key");
-    }
-
-    @Test( dependsOnMethods = {"turnOffNonVerifiedSecurityKeyLogin"} )
     void loginMfaSecurityKey() {
         //Set mfa method to be used to "security key" at login.
         testData.setMfaMethod("securitykey");
@@ -76,7 +61,7 @@ public class TC_17 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
-    //Log out and verify that it is possible to log in again without the security key
+    //Log out and verify that it is possible to log in again without the security key (needs the remember me to be turned off)
     void logout(){
         logout.runLogout();
     }
@@ -89,9 +74,10 @@ public class TC_17 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        login.verifyPageTitle();
-        login.enterPassword();
-        common.click(common.findWebElementById("login-form-button"));
+        //Turn off the remember me function at startpage for this
+        common.findWebElementByXpath("//*[@id=\"content\"]/label/div").click();
+
+        login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login2"} )
@@ -104,18 +90,11 @@ public class TC_17 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void login3(){
-        login.verifyPageTitle();
-        login.enterPassword();
-
-        //Click log in button
-        common.findWebElementById("login-form-button").click();
-    }
-
-    @Test( dependsOnMethods = {"login3"} )
     void loginExtraSecurity(){
+        //Login page for extra security select security key mfa method
         extraSecurity.selectMfaMethod();
-        //common.timeoutSeconds(6);
+
+        Common.log.info("Log in with securitykey");
     }
 
     @Test( dependsOnMethods = {"loginExtraSecurity"} )
@@ -127,8 +106,7 @@ public class TC_17 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage3"} )
     void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
+
+        login.runLogin();
     }
 }

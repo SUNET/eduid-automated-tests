@@ -56,7 +56,6 @@ public class SecurityKey {
             common.click(common.findWebElementById("verify-webauthn-token-modal-continue-frejaID-button"));
 
             //Verify the security key extra login pop up and click accept
-            //common.securityConfirmPopUp("//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[1]");
             common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div[3]/span/button[2]",
                     "Obs: använd säkerhetsnyckeln " + securityKeyName + " vid inloggningen. Efter inloggning omdirigeras " +
                             "du till FREJA för att verifiera din säkerhetsnyckel.",
@@ -113,11 +112,9 @@ public class SecurityKey {
 
         String pageBody = common.getPageBody();
 
-        common.verifyPageBodyContainsString(pageBody, "Använd alltid tvåfaktorsautentisering (2FA) vid " +
-                "inloggning till eduID");
-        common.verifyPageBodyContainsString(pageBody, "Om andra externa tjänster än eduID kräver " +
-                "tvåfaktorsautentisering (2FA) vid inloggning, kommer du ändå behöva använda din säkerhetsnyckel då, " +
-                "även när denna inställning är avslagen.");
+        common.verifyPageBodyContainsString(pageBody, "Använd alltid säkerhetsnyckel för att logga in");
+        common.verifyPageBodyContainsString(pageBody, "Om andra tjänster kräver extra verifiering vid " +
+                "inloggning så kommer du ändå behöva använda din säkerhetsnyckel då, även när denna inställning är avslagen.");
 
         //Verify headings
         common.verifyPageBodyContainsString(pageBody, "Hantera dina säkerhetsnycklar");
@@ -141,9 +138,9 @@ public class SecurityKey {
 
         //Security key Toggle information
         common.verifyPageBodyContainsString(pageBody,
-                "Always use a second factor (2FA) to log in to eduID\n" +
-                        "If external services other than eduID require a second factor during login, you will then " +
-                        "still need to use your security key even when this setting is toggled off.");
+                "Always use a security key to log in\n" +
+                        "If a service require extra login verification, you will then still need to use your security " +
+                        "key even when this setting is toggled off.");
 
         //Verify headings
         common.verifyPageBodyContainsString(pageBody, "Manage your security keys");

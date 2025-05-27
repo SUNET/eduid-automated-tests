@@ -37,7 +37,7 @@ public class InitBrowser {
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(11));
 
         //If page does not respond within 35sec drop the session.
-        webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(35));
+        webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(15));
 
         return webDriver;
     }

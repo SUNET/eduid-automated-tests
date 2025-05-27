@@ -47,24 +47,12 @@ public class TC_15 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"initiateRemoveNonVerifiedSecurityKey"} )
-    void deleteNonVerifiedSecurityKeyLogin() {
-        //Add nin cookie
-        common.addNinCookie();
-
-        //Enter username, password to verify security key first time
-        login.verifyPageTitle();
-        login.enterPassword();
-
-        //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
-
-        common.explicitWaitClickableElementId("mfa-security-key");
-    }
-
-    @Test( dependsOnMethods = {"deleteNonVerifiedSecurityKeyLogin"} )
     void loginMfaSecurityKey() {
         //Set mfa method to be used to "security key" at login.
         testData.setMfaMethod("securitykey");
+
+        //Add nin cookie
+        common.addNinCookie();
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();

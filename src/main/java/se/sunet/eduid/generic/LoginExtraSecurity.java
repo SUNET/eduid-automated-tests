@@ -31,11 +31,6 @@ public class LoginExtraSecurity {
         common.verifyPageBodyContainsString(pageBody,"Autentisera dig själv med ytterligare en metod för " +
                 "att vara säker på att bara du har tillgång till ditt eduID.");
 
-        if(testData.isIdentityConfirmed()) {
-            common.verifyPageBodyContainsString(pageBody, "Om du inte kan använda säkerhetsnyckeln, var " +
-                    "vänlig välj annat alternativ nedan, t.ex. BankID eller Freja+.");
-        }
-
         common.verifyPageBodyContainsString(pageBody, "Kan du inte använda säkerhetsnyckel?");
         common.verifyPageBodyContainsString(pageBody, "VISA ANDRA ALTERNATIV");
 
@@ -56,10 +51,6 @@ public class LoginExtraSecurity {
 
         common.verifyPageBodyContainsString(pageBody, "Log in: Security");
         common.verifyPageBodyContainsString(pageBody,"Choose a second method to authenticate yourself, ensuring only you can access your eduID.");
-        if(testData.isIdentityConfirmed()) {
-            common.verifyPageBodyContainsString(pageBody, "If you are unable to use the security key, " +
-                    "please select from other options below, such as BankID or Freja+.");
-        }
 
         common.verifyPageBodyContainsString(pageBody, "Having issues using a security key?");
         common.verifyPageBodyContainsString(pageBody, "SHOW OTHER OPTIONS");

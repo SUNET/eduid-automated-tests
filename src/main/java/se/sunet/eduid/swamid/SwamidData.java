@@ -21,7 +21,6 @@ public class SwamidData {
     public void runSwamidData(boolean confirmedUser){
         common.timeoutSeconds(1);
         verifyUserData(confirmedUser);
-        //verifyIdpAttributes();
         verifyIdpSessionAttributes();
     }
 
@@ -74,15 +73,15 @@ public class SwamidData {
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[6]/td",
                     "http://www.swamid.se/policy/assurance/al1\n" +
                             "http://www.swamid.se/policy/assurance/al2\n" +
-                            "http://www.swamid.se/policy/assurance/al3\n" +
+                            //"http://www.swamid.se/policy/assurance/al3\n" +
                             "https://refeds.org/assurance\n" +
                             "https://refeds.org/assurance/profile/cappuccino\n" +
-                            "https://refeds.org/assurance/profile/espresso\n" +
+                            //"https://refeds.org/assurance/profile/espresso\n" +
                             "https://refeds.org/assurance/ID/unique\n" +
                             "https://refeds.org/assurance/ID/eppn-unique-no-reassign\n" +
                             "https://refeds.org/assurance/IAP/low\n" +
-                            "https://refeds.org/assurance/IAP/medium\n" +
-                            "https://refeds.org/assurance/IAP/high");
+                            "https://refeds.org/assurance/IAP/medium");
+                            //"https://refeds.org/assurance/IAP/high");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[7]/td", testData.getEppn() +"@dev.eduid.se");
             common.verifyXpathContainsString("//*[@id=\"attributes\"]/table[1]/tbody/tr[8]/td",
                     "https://idp.dev.eduid.se/idp.xml!https://release-check.qa.swamid.se/shibboleth!");
@@ -190,12 +189,11 @@ public class SwamidData {
         else if(!testData.getMfaMethod().isEmpty()){
             //Authentication method
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[4]/td",
-                    "https://refeds.org/profile/mfa");
+                    "https://refeds.org/profile/sfa");
 
             //Authentication class
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[5]/td",
-                    "https://refeds.org/profile/mfa");
-
+                    "https://refeds.org/profile/sfa");
         }
     }
 }

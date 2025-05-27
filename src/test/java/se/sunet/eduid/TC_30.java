@@ -51,51 +51,24 @@ public class TC_30 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKeyLogin() {
-        //Add nin cookie
+        //Set mfa method to be used at login.
+        testData.setMfaMethod("securitykey");
         common.addNinCookie();
-
-        //Enter username, password to verify security key first time
-        login.verifyPageTitle();
-        login.enterPassword();
-
-        //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
-
-        common.explicitWaitClickableElementId("mfa-security-key");
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
-    void extraSecurityFreja() {
-        //Set mfa method to be used to "freja" at login.
-        testData.setMfaMethod("freja");
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
 
-        Common.log.info("Log in with Freja");
+        Common.log.info("Log in with security key");
     }
 
-
-    @Test( dependsOnMethods = {"extraSecurityFreja"} )
+    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
     void selectUserRefIdp(){
         //Select and submit user
-        common.explicitWaitClickableElementId("submitButton");
-        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
-
-        common.findWebElementById("submitButton").click();
+        common.refIdpEnterAndSubmitUser();
     }
 
-    @Test( dependsOnMethods = {"extraSecurityFreja"} )
-    void selectUserRefIdp2ndTime(){
-        //Select and submit user
-        common.explicitWaitClickableElementId("submitButton");
-        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
-
-        common.findWebElementById("submitButton").click();
-    }
-
-    @Test( dependsOnMethods = {"selectUserRefIdp2ndTime"} )
+    @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void verifiedSecurityKeyStatus() {
         securityKey.verifiedSecurityKey();
     }
@@ -114,22 +87,28 @@ public class TC_30 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void login3(){
-        login.verifyPageTitle();
-        login.enterPassword();
+    void extraSecuritySecurityKey() {
+        //Set mfa method to be used to "securitykey" at login.
+        testData.setMfaMethod("securitykey");
 
-        //Click log in button
-        common.findWebElementById("login-form-button").click();
+        //Login page for extra security select security key mfa method
+        extraSecurity.selectMfaMethod();
+
+        Common.log.info("Log in with securitykey");
     }
 
-    @Test( dependsOnMethods = {"login3"} )
-    void startPage2(){ startPage.runStartPage(); }
+    @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
+    void startPage3(){
+        startPage.runStartPage();
+    }
 
-    @Test( dependsOnMethods = {"startPage2"} )
+    @Test( dependsOnMethods = {"startPage3"} )
     void verifyAccountDeleted(){
-        testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
+        testData.setAccountDeleted(true);
+
+        //Login page for extra security select security key mfa method
+        extraSecurity.selectMfaMethod();
+
         login.signIn();
     }
 }

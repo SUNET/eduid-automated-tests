@@ -66,8 +66,10 @@ public class Login {
     }
 
     public void signIn(){
-        //Click log in button
-        common.findWebElementById("login-form-button").click();
+        //Click log in button, if account has not been deleted
+        if(!testData.isAccountDeleted()) {
+            common.findWebElementById("login-form-button").click();
+        }
 
         if(testData.isIncorrectPassword()) {
             common.timeoutMilliSeconds(500);
@@ -76,6 +78,14 @@ public class Login {
             common.selectEnglish();
             common.verifyStatusMessage("The email address or password was incorrect.");
             common.selectSwedish();
+        }
+        else if(testData.isAccountDeleted()) {
+            common.verifyStatusMessage("Detta konto har avslutats, men finns kvar några dagar. Gör en " +
+                    "lösenordsåterställning för att ångra avslutet.");
+
+            common.selectEnglish();
+            common.verifyStatusMessage("This account has been terminated, but is still present. Perform a password " +
+                    "reset to cancel termination.");
         }
         else {
             //Log in successful, wait for copy button at dashboard

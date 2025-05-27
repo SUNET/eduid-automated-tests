@@ -50,39 +50,21 @@ public class TC_58 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKeyLogin() {
-        //Add nin cookie
-        common.addNinCookie();
-
-        //Enter username, password to verify security key first time
-        login.verifyPageTitle();
-        login.enterPassword();
-
-        //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
-
-        common.explicitWaitClickableElementId("mfa-security-key");
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
-    void loginMfaSecurityKey() {
-        //Set mfa method to be used to "security key" at login.
+        //Set mfa method to be used at login.
         testData.setMfaMethod("securitykey");
+        common.addNinCookie();
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
-        Common.log.info("Log in with Security key");
 
-        common.timeoutSeconds(3);
+        Common.log.info("Log in with security key");
     }
 
-    @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
+    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
     void selectUserRefIdp(){
         //Select and submit user
-        common.explicitWaitClickableElementId("submitButton");
-        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
-
-        common.findWebElementById("submitButton").click();
+        common.refIdpEnterAndSubmitUser();
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
@@ -106,13 +88,6 @@ public class TC_58 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"swamid"} )
-    void login2(){
-        login.verifyPageTitle();
-        login.enterPassword();
-        common.click(common.findWebElementById("login-form-button"));
-    }
-
-    @Test( dependsOnMethods = {"login2"} )
     void loginMfaSecurityKey2() {
         //Login page for extra security select security key mfa method
         extraSecurity.selectMfaMethod();
@@ -150,20 +125,34 @@ public class TC_58 extends BeforeAndAfter {
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
-        common.timeoutSeconds(2);
+
+        //Verify the extra pop-up when logged in +5minutes
+        deleteAccount.confirmDeleteAfter5Min();
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void startPage2(){
-        common.timeoutSeconds(2);
+    void extraSecuritySecurityKey() {
+        //Set mfa method to be used to "securitykey" at login.
+        testData.setMfaMethod("securitykey");
+
+        //Login page for extra security select security key mfa method
+        extraSecurity.selectMfaMethod();
+
+        Common.log.info("Log in with securitykey");
+    }
+
+    @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
+    void startPage3(){
         startPage.runStartPage();
     }
 
-    @Test( dependsOnMethods = {"startPage2"} )
+    @Test( dependsOnMethods = {"startPage3"} )
     void verifyAccountDeleted(){
-        testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
+        testData.setAccountDeleted(true);
+
+        //Login page for extra security select security key mfa method
+        extraSecurity.selectMfaMethod();
+
         login.signIn();
     }
 }

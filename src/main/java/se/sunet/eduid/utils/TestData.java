@@ -34,7 +34,7 @@ public class TestData {
     private boolean accountVerified = true;
     private boolean useRecommendedPw = true;
     private boolean registerAccount, resetPassword, incorrectPassword, removeNewEmail1,
-            resendOTP, deleteButton, otherDeviceFillCode, rememberMe, identityConfirmed;
+            resendOTP, deleteButton, otherDeviceFillCode, rememberMe, identityConfirmed, accountDeleted;
     private int counter = 0;
 
     public void setProperties(String testSuite) throws IOException {

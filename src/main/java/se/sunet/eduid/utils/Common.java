@@ -211,27 +211,27 @@ public class Common {
     }
 
     public void explicitWaitClickableElement(String xpathToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(50));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathToElementToWaitFor)));
     }
 
     public void explicitWaitClickableElementId(String idToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(50));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.elementToBeClickable(By.id(idToElementToWaitFor)));
     }
 
     public void explicitWaitVisibilityElement(String xpathToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathToElementToWaitFor)));
     }
 
     public void explicitWaitVisibilityElementId(String idToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(idToElementToWaitFor)));
     }
 
     public void explicitWaitPageTitle(String pageTitle) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.titleContains(pageTitle));
     }
 
@@ -675,5 +675,21 @@ public class Common {
                 "return absoluteXPath(arguments[0]);";
 
         return (String) ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(script, element);
+    }
+
+    public void refIdpEnterAndSubmitUser(){
+        //Click advanced options
+        findWebElementById("advancedButton").click();
+
+        //Enter First name, family name and id number
+        findWebElementById("personalIdNumber").sendKeys(testData.getIdentityNumber());
+        findWebElementById("givenName").sendKeys(testData.getGivenName());
+        findWebElementById("surname").sendKeys(testData.getSurName());
+
+        //Submit
+        findWebElementById("submitButton").click();
+
+        log.info("Submitted user id: " + testData.getIdentityNumber() + ", "
+                + testData.getGivenName() + ", " + testData.getSurName());
     }
 }

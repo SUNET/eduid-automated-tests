@@ -51,32 +51,17 @@ public class TC_29 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKeyLogin() {
-        //Add nin cookie
-        common.addNinCookie();
-
-        //Enter username, password to verify security key first time
-        login.verifyPageTitle();
-        login.enterPassword();
-
-        //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
-
-        common.explicitWaitClickableElementId("mfa-security-key");
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
-    void extraSecurityBankId() {
-        //Set mfa method to be used to "bankid" at login.
-        testData.setMfaMethod("bankid");
+        //Set mfa method to be used at login.
+        testData.setMfaMethod("securitykey");
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
 
-        Common.log.info("Log in with BankID");
+        Common.log.info("Log in with security key");
     }
 
-    @Test( dependsOnMethods = {"extraSecurityBankId"} )
+    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
     void verifyBankId() {
         common.explicitWaitPageTitle("BankID");
 
@@ -191,41 +176,28 @@ public class TC_29 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void login2(){
-        login.verifyPageTitle();
-        login.enterPassword();
-
-        //Click log in button
-        common.findWebElementById("login-form-button").click();
-    }
-
-    @Test( dependsOnMethods = {"login2"} )
-    void extraSecurityFreja() {
-        //Set mfa method to be used to "bankid" at login.
-        testData.setMfaMethod("freja");
+    void extraSecuritySecurityKey() {
+        //Set mfa method to be used to "securitykey" at login.
+        testData.setMfaMethod("securitykey");
 
         //Login page for extra security select security key mfa method
-        loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
 
-        Common.log.info("Log in with Freja");
+        Common.log.info("Log in with securitykey");
     }
 
-    @Test( dependsOnMethods = {"extraSecurityFreja"} )
-    void selectIdRefIdp() {
-        confirmIdentity.selectAndSubmitUserRefIdp();
-    }
-
-    @Test( dependsOnMethods = {"selectIdRefIdp"} )
+    @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
     void startPage3(){
         startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage3"} )
     void verifyAccountDeleted(){
-        testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
+        testData.setAccountDeleted(true);
+
+        //Login page for extra security select security key mfa method
+        extraSecurity.selectMfaMethod();
+
         login.signIn();
     }
 }

@@ -83,24 +83,11 @@ public class TC_92 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"navigateEduId"} )
-    void login2(){
-        //We need the magic cookie and the nin-cookie for log in with extra security options
-        common.addMagicCookie();
-        common.addNinCookie();
-
-        login.verifyPageTitle();
-
-        login.enterPassword();
-        common.click(common.findWebElementById("login-form-button"));
-    }
-
-    @Test( dependsOnMethods = {"login2"} )
     void loginMfaSecurityKey2() {
         //Set mfa method to be used to "security key" at login.
         testData.setMfaMethod("securitykey");
 
         //Login page for extra security select security key mfa method
-        loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
 
         Common.log.info("Log in with Security key");
@@ -111,11 +98,11 @@ public class TC_92 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
     void validateNonSuccessfulLogin(){
         //Verify Status text
-        common.verifyStatusMessage("This multi-factor authentication (MFA) method is not allowed. Please choose a valid authentication method.");
+        common.verifyStatusMessage("Det är inte möjligt att använda detta alternativ för multifaktor-autentiseringen (MFA). Välj en giltig autentiseringsmetod.");
 
-        common.selectSwedish();
+        common.selectEnglish();
 
         //Verify Status text
-        common.verifyStatusMessage("Det är inte möjligt att använda detta alternativ för multifaktor-autentiseringen (MFA). Välj en giltig autentiseringsmetod.");
+        common.verifyStatusMessage("This multi-factor authentication (MFA) method is not allowed. Please choose a valid authentication method.");
     }
 }

@@ -40,43 +40,21 @@ public class TC_85 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKeyLogin() {
-        //Add nin cookie
-        common.addNinCookie();
-
-        //Enter username, password to verify security key first time
-        login.verifyPageTitle();
-        login.enterPassword();
-
-        //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
-
-        common.explicitWaitClickableElementId("mfa-security-key");
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
-    void loginMfaSecurityKey() {
-        //Set mfa method to be used to "security key" at login.
+        //Set mfa method to be used at login.
         testData.setMfaMethod("securitykey");
+        common.addNinCookie();
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
 
-        Common.log.info("Log in with Security key");
-
-        common.timeoutSeconds(2);
+        Common.log.info("Log in with security key");
     }
 
-    @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
+    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
     void selectUserRefIdp(){
-        //Click on Verify for the added security key - Selecting Freja
-        common.click(common.findWebElementByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/button"));
-
         //Select and submit user
-        common.explicitWaitClickableElementId("submitButton");
-        common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
-
-        common.findWebElementById("submitButton").click();
+        common.refIdpEnterAndSubmitUser();
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )

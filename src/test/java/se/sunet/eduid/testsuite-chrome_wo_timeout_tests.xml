@@ -448,7 +448,7 @@ Obsolete! phone number is not used any more unleass they are already confirmed
 
     <test name="TC_57">
         <parameter name="testDescription" value="Register account, Verify that login to eduID can be done from Swamid Testing
-        on a verified account using Freja eID+ as mfa method" />
+        on a verified account using Security Key" />
         <classes>
             <class name="se.sunet.eduid.TC_57" >
             </class>
@@ -680,21 +680,22 @@ tested in tc_28
 
     <test name="TC_88">
         <parameter name="testDescription" value="Log in to DNP 'with eID' with username, password and extra
-        security option using Freja." />
+        security option using Security key." />
         <classes>
             <class name="se.sunet.eduid.TC_88" >
             </class>
         </classes>
     </test>
 
-    <test name="TC_89">
+<!--    Obsolete, BankID can no longer be seleted as log in option.
+        <test name="TC_89">
         <parameter name="testDescription" value="Initiate Log in to DNP 'with eID' with username, password and extra
         security option BankID (here only verify that we reach the IDP)." />
         <classes>
             <class name="se.sunet.eduid.TC_89" >
             </class>
         </classes>
-    </test>
+    </test>-->
 
     <test name="TC_90">
         <parameter name="testDescription" value="Register a user, Log in to DNP 'with eID' with username, password and extra

@@ -7,19 +7,78 @@ import se.sunet.eduid.utils.Common;
 public class TC_57 extends BeforeAndAfter {
     @Test
     void startPage(){
-        testData.setUsername("x2lSCHs1@dev.eduid.sunet.se");
-        testData.setPassword("0our 2s65 q0pl");
-        testData.setEppn("jutap-dizid");
-        testData.setIdentityNumber("199706212389");
-        testData.setGivenName("Eleonara");
-        testData.setSurName("Lagerfeldt");
-        testData.setDisplayName(testData.getGivenName() + " " +testData.getSurName());
-        testData.setEmail(testData.getUsername());
-
+        testData.setRegisterAccount(true);
         startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage"} )
+    void register(){ register.runRegister(); }
+
+    @Test( dependsOnMethods = {"register"} )
+    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
+
+    @Test( dependsOnMethods = {"confirmEmailAddress"} )
+    void setRecommendedPassword() { password.setPassword(); }
+
+    @Test( dependsOnMethods = {"setRecommendedPassword"} )
+    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
+
+    @Test( dependsOnMethods = {"confirmedNewAccount"} )
+    void login(){
+        testData.setRegisterAccount(false);
+        login.runLogin(); }
+
+
+    @Test( dependsOnMethods = {"login"} )
+    void confirmIdentityMail(){
+        testData.setConfirmIdBy("mail");
+        confirmIdentity.runConfirmIdentity(); }
+
+    @Test( dependsOnMethods = {"confirmIdentityMail"} )
+    void confirmedIdentity() {
+        confirmedIdentity.runConfirmedIdentity();
+
+        testData.setRegisterAccount(false);
+    }
+
+    @Test( dependsOnMethods = {"confirmedIdentity"} )
+    void addSecurityKey() {
+        testData.setAddSecurityKey(true);
+        testData.setVerifySecurityKeyByFreja(true);
+
+        securityKey.runSecurityKey();
+    }
+
+    @Test( dependsOnMethods = {"addSecurityKey"} )
+    void verifySecurityKeyLogin() {
+        //Set mfa method to be used at login.
+        testData.setMfaMethod("securitykey");
+        common.addNinCookie();
+
+        //Login page for extra security select security key mfa method
+        loginExtraSecurity.runLoginExtraSecurity();
+        extraSecurity.selectMfaMethod();
+
+        Common.log.info("Log in with security key");
+    }
+
+    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
+    void selectUserRefIdp(){
+        //Select and submit user
+        common.refIdpEnterAndSubmitUser();
+    }
+
+    @Test( dependsOnMethods = {"selectUserRefIdp"} )
+    void verifiedSecurityKeyStatus() {
+        securityKey.verifiedSecurityKey();
+    }
+
+    @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
+    void logout(){
+        logout.runLogout();
+    }
+
+    @Test( dependsOnMethods = {"logout"} )
     void navigateToSwamid(){
         common.navigateToUrl("https://release-check.qa.swamid.se");
     }
@@ -30,42 +89,22 @@ public class TC_57 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"swamid"} )
-    void login(){
-        //Add nin cookie and magic cookie
-        common.addNinCookie();
-        common.addMagicCookie();
-
-        login.verifyPageTitle();
-
-        login.enterUsername();
-        login.enterPassword();
-        common.click(common.findWebElementById("login-form-button"));
-    }
-
-    @Test( dependsOnMethods = {"login"} )
-    void loginMfaFreja() {
+    void loginSecurityKey() {
         common.timeoutSeconds(2);
 
         //Set mfa method to be used to "security key" at login.
-        testData.setMfaMethod("freja");
+        testData.setMfaMethod("securitykey");
 
         //This account has confirmed identity
         testData.setIdentityConfirmed(true);
 
         //Login page for extra security select security key mfa method
-        loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
 
-        Common.log.info("Log in with Freja eID+");
+        Common.log.info("Log in with Security Key");
     }
 
-    @Test( dependsOnMethods = {"loginMfaFreja"} )
-    void selectUserRefIdp2(){
-        confirmIdentity.selectAndSubmitUserRefIdp();
-        common.timeoutSeconds(3);
-    }
-
-    @Test( dependsOnMethods = {"selectUserRefIdp2"} )
+    @Test( dependsOnMethods = {"loginSecurityKey"} )
     void swamidData(){
         swamidData.runSwamidData(true); }
 }
