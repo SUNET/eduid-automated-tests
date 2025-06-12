@@ -249,7 +249,7 @@ public class DashBoard {
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/a", "Identitet");
         common.verifyStringByXpath(verifyIdentityMenuLink, "Verifiera identitet");
         common.verifyXpathIsWorkingLink(verifyIdentityMenuLink);
-        common.verifyStringByXpath(nameMenuLink, "Namn & Visningsnamn");
+        common.verifyStringByXpath(nameMenuLink, "Namn & visningsnamn");
         common.verifyXpathIsWorkingLink(nameMenuLink);
 
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[5]/a", "Säkerhet");
@@ -287,7 +287,7 @@ public class DashBoard {
 
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/a", "Identity");
         common.verifyStringByXpath(verifyIdentityMenuLink, "Verify identity");
-        common.verifyStringByXpath(nameMenuLink, "Names & Display Name");
+        common.verifyStringByXpath(nameMenuLink, "Names & display Name");
 
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[5]/a", "Security");
         common.verifyStringByXpath(mfaMenuLink, "Two-factor Authentication (2FA)");

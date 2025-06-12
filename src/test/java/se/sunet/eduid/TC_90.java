@@ -50,15 +50,18 @@ public class TC_90 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKeyLogin() {
-        //Set mfa method to be used at login.
+        //Set mfa method to be used to "security key" at login.
         testData.setMfaMethod("securitykey");
+
+        //Add nin cookie
         common.addNinCookie();
 
         //Login page for extra security select security key mfa method
-        loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
 
-        Common.log.info("Log in with security key");
+        Common.log.info("Log in with Security key");
+
+        common.timeoutSeconds(4);
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
@@ -86,7 +89,7 @@ public class TC_90 extends BeforeAndAfter {
 
         common.navigateToUrl("https://fidustest.skolverket.se/DNP-staging/");
 
-       //Wait for login button (with eID) at skolverket dnp page
+        //Wait for login button (with eID) at skolverket dnp page
         common.explicitWaitClickableElement("//div[2]/div/div/p[3]");
     }
 
@@ -128,7 +131,7 @@ public class TC_90 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
     void validateSuccessfulLogin(){
-        //Wait for handeling of personal info link
+        //Wait for handling of personal info link
         common.explicitWaitVisibilityElement("//div[2]/div/div/p[5]/a");
 
         common.verifyStringOnPage("Grattis!\n" +

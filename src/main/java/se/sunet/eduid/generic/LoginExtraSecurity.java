@@ -41,7 +41,7 @@ public class LoginExtraSecurity {
 
         //If identity is not confirmed or security key is missing
         if(!testData.isVerifySecurityKeyByFreja() && !testData.isIdentityConfirmed())
-            common.verifyPageBodyContainsString(pageBody, "Kräver ett bekräftat svenskt personnummer.");
+            common.verifyPageBodyContainsString(pageBody, "Kräver ett bekräftat svenskt person- eller samordningsnummer.");
 
         common.selectEnglish();
 
@@ -61,6 +61,6 @@ public class LoginExtraSecurity {
 
         //If identity is not confirmed or security key is missing
         if(!testData.isVerifySecurityKeyByFreja() && !testData.isIdentityConfirmed())
-            common.verifyPageBodyContainsString(pageBody, "Requires a confirmed Swedish national identity number.");
+            common.verifyPageBodyContainsString(pageBody, "Requires a confirmed Swedish national identity or coordination number.");
     }
 }

@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
-public class TC_56 extends BeforeAndAfter {
+public class TC_27 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -28,8 +28,9 @@ public class TC_56 extends BeforeAndAfter {
         testData.setRegisterAccount(false);
         login.runLogin(); }
 
+
     @Test( dependsOnMethods = {"login"} )
-    void confirmIdentityMail(){
+/*    void confirmIdentityMail(){
         testData.setConfirmIdBy("mail");
         confirmIdentity.runConfirmIdentity(); }
 
@@ -40,7 +41,7 @@ public class TC_56 extends BeforeAndAfter {
         testData.setRegisterAccount(false);
     }
 
-    @Test( dependsOnMethods = {"confirmedIdentity"} )
+    @Test( dependsOnMethods = {"confirmedIdentity"} )*/
     void addSecurityKey() {
         testData.setAddSecurityKey(true);
         testData.setVerifySecurityKeyByFreja(true);
@@ -50,14 +51,13 @@ public class TC_56 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKeyLogin() {
-        //Set mfa method to be used to "security key" at login.
+        //Set mfa method to be used at login. Freja will not be available, since identity is not confirmed. User
+        //Will be directed to Freja IDP after using the security key option.
         testData.setMfaMethod("securitykey");
+        common.addNinCookie();
 
         //Login page for extra security select security key mfa method
-        loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
-
-        Common.log.info("Log in with extra security");
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
@@ -67,40 +67,18 @@ public class TC_56 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void verifySecurityKeyStatus() {
-        //Verify the status message
-        common.verifyStatusMessage("Felaktigt format av identitetsnumret. Var god försök igen.");
-
-        //Verify status beside the added key dates
-        common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[1]", "BANKID");
-
-        common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[2]", "FREJA+");
-
-        common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[3]", "EIDAS");
-
-        common.selectEnglish();
-
-        //Verify status beside the added key dates
-        common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[1]", "BANKID");
-
-        common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[2]", "FREJA+");
-
-        common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[3]", "EIDAS");
-
-        //Verify the status message
-        common.verifyStatusMessage("Incorrect format of the identity number. Please try again.");
-        common.closeStatusMessage();
-
-        common.selectSwedish();
+    void verifiedSecurityKeyStatus() {
+        securityKey.verifiedSecurityKey();
     }
 
-    @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
+    @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
+    void dashboard() {
+        testData.setAccountVerified(true);
+        testData.setIdentityConfirmed(true);
+        dashBoard.runDashBoard();
+    }
+
+    @Test( dependsOnMethods = {"dashboard"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
@@ -110,14 +88,22 @@ public class TC_56 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void loginExtraSecurity(){
+    void extraSecuritySecurityKey() {
+        //Set mfa method to be used to "securitykey" at login.
+        testData.setMfaMethod("securitykey");
+
+        //Login page for extra security select security key mfa method
         extraSecurity.selectMfaMethod();
+
+        Common.log.info("Log in with securitykey");
     }
 
-    @Test( dependsOnMethods = {"loginExtraSecurity"} )
-    void startPage2(){ startPage.runStartPage(); }
+    @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
+    void startPage3(){
+        startPage.runStartPage();
+    }
 
-    @Test( dependsOnMethods = {"startPage2"} )
+    @Test( dependsOnMethods = {"startPage3"} )
     void verifyAccountDeleted(){
         testData.setAccountDeleted(true);
 

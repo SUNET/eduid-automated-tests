@@ -5,7 +5,7 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
 public class TC_89 extends BeforeAndAfter {
-/*    @Test
+    @Test
     void navigateToFidusTestSkolverketDnp() {
         testData.setUsername("tBnmBXbE@dev.eduid.sunet.se");
         testData.setPassword("zfvs qtip dwn2");
@@ -15,81 +15,9 @@ public class TC_89 extends BeforeAndAfter {
 
         //Wait for login button (with eID) at skolverket dnp page
         common.explicitWaitClickableElement("//div[2]/div/div/p[3]");
-    }*/
-    @Test
-    void startPage(){
-        testData.setRegisterAccount(true);
-        startPage.runStartPage();
     }
 
-    @Test( dependsOnMethods = {"startPage"} )
-    void register(){ register.runRegister(); }
-
-    @Test( dependsOnMethods = {"register"} )
-    void confirmEmailAddress() { confirmEmailAddress.runConfirmEmailAddress(); }
-
-    @Test( dependsOnMethods = {"confirmEmailAddress"} )
-    void setRecommendedPassword() { password.setPassword(); }
-
-    @Test( dependsOnMethods = {"setRecommendedPassword"} )
-    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
-
-    @Test( dependsOnMethods = {"confirmedNewAccount"} )
-    void login(){
-        testData.setRegisterAccount(false);
-        login.runLogin(); }
-
-
-    @Test( dependsOnMethods = {"login"} )
-    void confirmIdentityMail(){
-        testData.setConfirmIdBy("mail");
-        confirmIdentity.runConfirmIdentity(); }
-
-    @Test( dependsOnMethods = {"confirmIdentityMail"} )
-    void confirmedIdentity() {
-        confirmedIdentity.runConfirmedIdentity();
-
-        testData.setRegisterAccount(false);
-    }
-
-    @Test( dependsOnMethods = {"confirmedIdentity"} )
-    void addSecurityKey() {
-        testData.setAddSecurityKey(true);
-        testData.setVerifySecurityKeyByFreja(true);
-
-        securityKey.runSecurityKey();
-    }
-
-    @Test( dependsOnMethods = {"addSecurityKey"} )
-    void verifySecurityKeyLogin() {
-        //Set mfa method to be used at login.
-        testData.setMfaMethod("securitykey");
-        common.addNinCookie();
-
-        //Login page for extra security select security key mfa method
-        loginExtraSecurity.runLoginExtraSecurity();
-        extraSecurity.selectMfaMethod();
-
-        Common.log.info("Log in with security key");
-    }
-
-    @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
-    void selectUserRefIdp(){
-        //Select and submit user
-        common.refIdpEnterAndSubmitUser();
-    }
-
-    @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void verifiedSecurityKeyStatus() {
-        securityKey.verifiedSecurityKey();
-    }
-
-    @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
-    void logout(){
-        logout.runLogout();
-    }
-
-    @Test( dependsOnMethods = {"logout"} )
+    @Test( dependsOnMethods = {"navigateToFidusTestSkolverketDnp"} )
     void loginWithEid() {
         //Click on login button (with eID)
         common.findWebElementByXpath("//div[2]/div/div/p[3]/a/button").click();
@@ -113,7 +41,7 @@ public class TC_89 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"navigateEduId"} )
-/*    void login(){
+    void login(){
         //We need the magic cookie and the nin-cookie for log in with extra security options
         common.addMagicCookie();
         common.addNinCookie();
@@ -125,7 +53,7 @@ public class TC_89 extends BeforeAndAfter {
         common.findWebElementById("login-form-button").click();
     }
 
-    @Test( dependsOnMethods = {"login"} )*/
+    @Test( dependsOnMethods = {"login"} )
     void loginMfaBankId() {
         common.timeoutSeconds(2);
 

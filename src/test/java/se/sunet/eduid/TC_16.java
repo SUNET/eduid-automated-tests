@@ -39,9 +39,11 @@ public class TC_16 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKeyLogin() {
+        //Add nin cookie
+        common.addNinCookie();
+
         //Set mfa method to be used at login.
         testData.setMfaMethod("securitykey");
-        common.addNinCookie();
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
@@ -68,7 +70,7 @@ public class TC_16 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"initiateRemoveVerifiedSecurityKey"} )
-    void loginMfaSecurityKey2() {
+    void deleteVerifiedSecurityKeyLogin() {
         //Set mfa method to be used to "security key" at login.
         testData.setMfaMethod("securitykey");
 
@@ -83,7 +85,7 @@ public class TC_16 extends BeforeAndAfter {
         common.explicitWaitClickableElementId("security-webauthn-button");
     }
 
-    @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
+    @Test( dependsOnMethods = {"deleteVerifiedSecurityKeyLogin"} )
     void verifySecurityKeyRemoved() {
         Assert.assertFalse(common.getPageBody().contains("test-key1"),
                 "Security is still present at page! Should have been removed.");

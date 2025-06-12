@@ -57,8 +57,8 @@ public class ExtraSecurity {
                     "required after the password reset.");
         }
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/span", "Having issues using a security key?");
-        common.verifyStringByXpath("//div/main/div/section/div/div[3]/form/div/div/div[1]/div", "SHOW OTHER OPTIONS");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[1]/span", "Having issues using a security key?");
+        common.verifyStringByXpath("//div/div/main/div/section/div/div[2]/form/div/div/div[1]/div", "SHOW OTHER OPTIONS");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Continue without security option");
         common.verifyStringByXpath("//*[@id=\"content\"]/p", "Your identity will require " +
@@ -86,8 +86,8 @@ public class ExtraSecurity {
         }
 
         common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Fortsätt utan extra säkerhet");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]/span", "Kan du inte använda säkerhetsnyckel?");
-        common.verifyStringByXpath("//div/main/div/section/div/div[3]/form/div/div/div[1]/div", "VISA ANDRA ALTERNATIV");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[1]/span", "Kan du inte använda säkerhetsnyckel?");
+        common.verifyStringByXpath("//div/div/main/div/section/div/div[2]/form/div/div/div[1]/div", "VISA ANDRA ALTERNATIV");
 
         common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Fortsätt utan extra säkerhet");
         common.verifyStringByXpath("//*[@id=\"content\"]/p", "Din identitet kommer att behöva verifieras efter att lösenordet har " +

@@ -492,7 +492,7 @@ public class Common {
 
     public void securityConfirmPopUp(String xPathToButton, String fineTextSwe, String fineTextEng){
         switchToPopUpWindow();
-        log.info("Extra security log pop up, verify labels - Swedish");
+        log.info("Extra security log in pop up, verify labels - Swedish");
 
         if(xPathToButton.equalsIgnoreCase("")){
             log.info("Ignore security confirm popup label verification, pressing Continue button");
@@ -519,15 +519,11 @@ public class Common {
             switchToPopUpWindow();
 
             //Verify labels and text
-            //timeoutSeconds(1);
-
             //For Delete account additional click is needed
-            try {
+            if(testData.isDeleteButton()) {
                 //Click on 'Delete my eduid' button in pop up after Delete eduid link is clicked in settings
                 log.info("Clicking on extra delete button in pop up");
                 click(findWebElementByIdNoExplWait("delete-account-modal-accept-button"));
-            } catch (Exception ex) {
-                //log.info("");
             }
 
             log.info("Extra security log pop up, verify labels and press continue - English");

@@ -47,15 +47,14 @@ public class TC_15 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"initiateRemoveNonVerifiedSecurityKey"} )
-    void loginMfaSecurityKey() {
-        //Set mfa method to be used to "security key" at login.
-        testData.setMfaMethod("securitykey");
-
+    void deleteNonVerifiedSecurityKeyLogin() {
         //Add nin cookie
         common.addNinCookie();
 
+        //Set mfa method to be used to "security key" at login.
+        testData.setMfaMethod("securitykey");
+
         //Login page for extra security select security key mfa method
-        loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
 
         Common.log.info("Log in with Security key");
@@ -63,7 +62,7 @@ public class TC_15 extends BeforeAndAfter {
         common.timeoutSeconds(8);
     }
 
-    @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
+    @Test( dependsOnMethods = {"deleteNonVerifiedSecurityKeyLogin"} )
     void removeNonVerifiedSecurityKey() {
         Assert.assertFalse(common.getPageBody().contains("test-key1"),
                 "Security is still present at page! Should have been removed.");

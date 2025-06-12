@@ -26,13 +26,14 @@ public class TC_30 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
         testData.setRegisterAccount(false);
-        login.runLogin(); }
-
+        login.runLogin();
+    }
 
     @Test( dependsOnMethods = {"login"} )
     void confirmIdentityMail(){
         testData.setConfirmIdBy("mail");
-        confirmIdentity.runConfirmIdentity(); }
+        confirmIdentity.runConfirmIdentity();
+    }
 
     @Test( dependsOnMethods = {"confirmIdentityMail"} )
     void confirmedIdentity() {
@@ -51,15 +52,17 @@ public class TC_30 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKeyLogin() {
-        //Set mfa method to be used at login.
-        testData.setMfaMethod("securitykey");
+        //Add nin cookie
         common.addNinCookie();
 
-        //Login page for extra security select security key mfa method
+        //Set mfa method to be used to "freja" at login.
+        testData.setMfaMethod("freja");
+
+        //Login page for extra security select freja mfa method
         loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
 
-        Common.log.info("Log in with security key");
+        Common.log.info("Log in with Freja");
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
@@ -87,22 +90,18 @@ public class TC_30 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void extraSecuritySecurityKey() {
-        //Set mfa method to be used to "securitykey" at login.
-        testData.setMfaMethod("securitykey");
+    void login3(){
+        login.verifyPageTitle();
+        login.enterPassword();
 
-        //Login page for extra security select security key mfa method
-        extraSecurity.selectMfaMethod();
-
-        Common.log.info("Log in with securitykey");
+        //Click log in button
+        common.findWebElementById("login-form-button").click();
     }
 
-    @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
-    void startPage3(){
-        startPage.runStartPage();
-    }
+    @Test( dependsOnMethods = {"login3"} )
+    void startPage2(){ startPage.runStartPage(); }
 
-    @Test( dependsOnMethods = {"startPage3"} )
+    @Test( dependsOnMethods = {"startPage2"} )
     void verifyAccountDeleted(){
         testData.setAccountDeleted(true);
 

@@ -155,7 +155,7 @@ public class Name {
         common.verifySiteLocation("Identitet");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody,  "Namn & Visningsnamn");
+        common.verifyPageBodyContainsString(pageBody,  "Namn & visningsnamn");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Den här informationen kan komma att användas för att anpassa tjänster " +
@@ -186,7 +186,7 @@ public class Name {
         common.verifySiteLocation("Identity");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "Names & Display Name");
+        common.verifyPageBodyContainsString(pageBody, "Names & display Name");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "This information may be used to personalise services that you access with your eduID.");

@@ -53,18 +53,21 @@ public class TC_31 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKeyLogin() {
-        //Set mfa method to be used at login.
-        testData.setMfaMethod("securitykey");
+        //Add nin cookie
         common.addNinCookie();
 
-        //Login page for extra security select security key mfa method
-        loginExtraSecurity.runLoginExtraSecurity();
+        //Set mfa method to be used to "freja" at login, since eidas is not an option to enhance the security key
+        testData.setMfaMethod("freja");
         extraSecurity.selectMfaMethod();
-
-        Common.log.info("Log in with security key");
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
+    void selectUserRefIdp(){
+        //Select and submit user
+        common.refIdpEnterAndSubmitUser();
+    }
+
+    @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void selectCountry(){
         //Select country XA
         common.findWebElementById("countryFlag_XA").click();
@@ -115,17 +118,30 @@ public class TC_31 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void extraSecuritySecurityKey() {
-        //Set mfa method to be used to "securitykey" at login.
-        testData.setMfaMethod("securitykey");
+    void login3(){
+        login.verifyPageTitle();
+        login.enterPassword();
 
-        //Login page for extra security select security key mfa method
-        extraSecurity.selectMfaMethod();
-
-        Common.log.info("Log in with securitykey");
+        //Click log in button
+        common.findWebElementById("login-form-button").click();
     }
 
-    @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
+    @Test( dependsOnMethods = {"login3"} )
+    void extraSecurityFreja2() {
+        //Set mfa method to be used to "freja" at login, since eidas is not an option to enhance the security key
+        testData.setMfaMethod("freja");
+
+        //Login page for extra security select freja as mfa method
+        extraSecurity.selectMfaMethod();
+    }
+
+    @Test( dependsOnMethods = {"extraSecurityFreja2"} )
+    void selectUserRefIdp2() {
+        //Select and submit user
+        common.refIdpEnterAndSubmitUser();
+    }
+
+    @Test( dependsOnMethods = {"selectUserRefIdp2"} )
     void startPage3(){
         startPage.runStartPage();
     }

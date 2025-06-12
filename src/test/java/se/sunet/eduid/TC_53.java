@@ -51,15 +51,17 @@ public class TC_53 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void verifySecurityKeyLogin() {
-        //Set mfa method to be used at login.
-        testData.setMfaMethod("securitykey");
+        //Add nin cookie
         common.addNinCookie();
+
+        //Set mfa method to be used to "security key" at login.
+        testData.setMfaMethod("securitykey");
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
         extraSecurity.selectMfaMethod();
 
-        Common.log.info("Log in with security key");
+        Common.log.info("Log in with Security key");
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
@@ -87,22 +89,14 @@ public class TC_53 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void extraSecuritySecurityKey() {
-        //Set mfa method to be used to "securitykey" at login.
-        testData.setMfaMethod("securitykey");
-
-        //Login page for extra security select security key mfa method
+    void loginExtraSecurity(){
         extraSecurity.selectMfaMethod();
-
-        Common.log.info("Log in with securitykey");
     }
 
-    @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
-    void startPage3(){
-        startPage.runStartPage();
-    }
+    @Test( dependsOnMethods = {"loginExtraSecurity"} )
+    void startPage2(){ startPage.runStartPage(); }
 
-    @Test( dependsOnMethods = {"startPage3"} )
+    @Test( dependsOnMethods = {"startPage2"} )
     void verifyAccountDeleted(){
         testData.setAccountDeleted(true);
 

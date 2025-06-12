@@ -98,6 +98,7 @@ public class TC_86 extends BeforeAndAfter {
         //Verify texts
         //Wait for cancel button
         common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[2]/button");
+        common.timeoutMilliSeconds(500);
 
         common.verifyStringOnPage(testData.getBankIdTextSwe());
         common.verifyStringOnPage("Vill du använda BankID på den här enheten eller på en annan enhet?");

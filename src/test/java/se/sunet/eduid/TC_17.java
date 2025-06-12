@@ -47,7 +47,10 @@ public class TC_17 extends BeforeAndAfter {
 
 
     @Test( dependsOnMethods = {"initiateTurnOffMfa"} )
-    void loginMfaSecurityKey() {
+    void turnOffNonVerifiedSecurityKeyLogin() {
+        //Add nin cookie
+        common.addNinCookie();
+
         //Set mfa method to be used to "security key" at login.
         testData.setMfaMethod("securitykey");
 
@@ -60,7 +63,7 @@ public class TC_17 extends BeforeAndAfter {
         common.timeoutSeconds(2);
     }
 
-    @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
+    @Test( dependsOnMethods = {"turnOffNonVerifiedSecurityKeyLogin"} )
     //Log out and verify that it is possible to log in again without the security key (needs the remember me to be turned off)
     void logout(){
         logout.runLogout();

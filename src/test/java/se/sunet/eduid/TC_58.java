@@ -103,7 +103,6 @@ public class TC_58 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
     void swamidData(){
-        testData.setGivenName("Jan Ove");
         swamidData.runSwamidData(true); }
 
     @Test( dependsOnMethods = {"swamidData"} )
