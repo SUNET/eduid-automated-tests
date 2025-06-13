@@ -72,6 +72,12 @@ public class TC_30 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
+    void selectUserRefIdp2(){
+        //Select and submit user
+        common.refIdpEnterAndSubmitUser();
+    }
+
+    @Test( dependsOnMethods = {"selectUserRefIdp2"} )
     void verifiedSecurityKeyStatus() {
         securityKey.verifiedSecurityKey();
     }
@@ -90,15 +96,20 @@ public class TC_30 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void login3(){
-        login.verifyPageTitle();
-        login.enterPassword();
+    void login2() {
+        //Login page for extra security select freja mfa method
+        extraSecurity.selectMfaMethod();
 
-        //Click log in button
-        common.findWebElementById("login-form-button").click();
+        Common.log.info("Log in with Freja");
     }
 
-    @Test( dependsOnMethods = {"login3"} )
+    @Test( dependsOnMethods = {"login2"} )
+    void selectUserRefIdp3(){
+        //Select and submit user
+        common.refIdpEnterAndSubmitUser();
+    }
+
+    @Test( dependsOnMethods = {"selectUserRefIdp3"} )
     void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
@@ -107,6 +118,9 @@ public class TC_30 extends BeforeAndAfter {
 
         //Login page for extra security select security key mfa method
         extraSecurity.selectMfaMethod();
+
+        //Select and submit user
+        common.refIdpEnterAndSubmitUser();
 
         login.signIn();
     }

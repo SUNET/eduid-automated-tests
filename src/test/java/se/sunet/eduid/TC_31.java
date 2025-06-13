@@ -119,23 +119,13 @@ public class TC_31 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"delete"} )
     void login3(){
-        login.verifyPageTitle();
-        login.enterPassword();
-
-        //Click log in button
-        common.findWebElementById("login-form-button").click();
-    }
-
-    @Test( dependsOnMethods = {"login3"} )
-    void extraSecurityFreja2() {
-        //Set mfa method to be used to "freja" at login, since eidas is not an option to enhance the security key
-        testData.setMfaMethod("freja");
+        //mfa method"freja" at login, since eidas is not an option to enhance the security key
 
         //Login page for extra security select freja as mfa method
         extraSecurity.selectMfaMethod();
     }
 
-    @Test( dependsOnMethods = {"extraSecurityFreja2"} )
+    @Test( dependsOnMethods = {"login3"} )
     void selectUserRefIdp2() {
         //Select and submit user
         common.refIdpEnterAndSubmitUser();
@@ -152,6 +142,9 @@ public class TC_31 extends BeforeAndAfter {
 
         //Login page for extra security select security key mfa method
         extraSecurity.selectMfaMethod();
+
+        //Select and submit user
+        common.refIdpEnterAndSubmitUser();
 
         login.signIn();
     }

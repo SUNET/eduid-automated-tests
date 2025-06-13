@@ -251,7 +251,7 @@
 
     <test name="TC_30">
         <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings,
-        verify it immediately using Freja" />
+        verify it immediately using Freja, delete account using Freja" />
         <classes>
             <class name="se.sunet.eduid.TC_30" >
             </class>
