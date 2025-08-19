@@ -703,11 +703,10 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "För eduID.se gäller generellt:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "att all användning av användarkonton ska följa " +
-                "Sveriges lagar och förordningar,\n" +
+        common.verifyPageBodyContainsString(pageBody, "att all användning av användarkonton ska följa Sveriges lagar och förordningar,\n" +
                 "att man är sanningsenlig vid uppgivande av personlig information som namn, kontaktuppgifter el. dyl,\n" +
                 "att användarkonton, lösenord, säkerhetsnycklar och koder är personliga och får endast användas av innehavaren,\n" +
-                "att SUNET:s etiska regler reglerar övrig tillåten användning.");
+                "att SUNET:s etiska regler (enligt nedan) reglerar övrig tillåten användning.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "SUNET bedömer som oetiskt när någon:");
@@ -1419,7 +1418,7 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "that all usage of user accounts follow the laws and by-laws of Sweden,\n" +
                 "that all personal information that you provide, such as name and contact information shall be truthful,\n" +
                 "that user accounts, password, security keys and codes are individual and shall only be used by the intended individual,\n" +
-                "that SUNET's ethical rules regulate the “other” usage.");
+                "that SUNET's ethical rules (listed below) regulate other permitted usage.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "SUNET judges unethical behaviour to be when someone:");

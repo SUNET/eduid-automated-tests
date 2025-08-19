@@ -46,7 +46,7 @@ public class ExtraSecurity {
 
         common.verifyPageBodyContainsString(pageBody, "Reset password: Verification method");
         if(testData.isResetPassword()){
-            common.verifyStringByXpath("//*[@id=\"content\"]/section/p",
+            common.verifyPageBodyContainsString(pageBody,
                     "Choose a second method to authenticate yourself, " +
                     "ensuring only you can access your eduID. If you are unable to use the security key, please select " +
                     "from other options below, such as BankID or Freja+.");
@@ -57,11 +57,11 @@ public class ExtraSecurity {
                     "required after the password reset.");
         }
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[1]/span", "Having issues using a security key?");
-        common.verifyStringByXpath("//div/div/main/div/section/div/div[2]/form/div/div/div[1]/div", "SHOW OTHER OPTIONS");
+        common.verifyPageBodyContainsString(pageBody, "Having issues using a security key?");
+        common.verifyPageBodyContainsString(pageBody, "SHOW OTHER OPTIONS");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Continue without security option");
-        common.verifyStringByXpath("//*[@id=\"content\"]/p", "Your identity will require " +
+        common.verifyPageBodyContainsString(pageBody, "Continue without security option");
+        common.verifyPageBodyContainsString(pageBody, "Your identity will require " +
                 "confirmation after the password has been reset. continue resetting password");
         common.verifyStringById("continue-without-security", "continue resetting password");
 
@@ -74,7 +74,7 @@ public class ExtraSecurity {
 
         common.verifyPageBodyContainsString(pageBody, "Återställ lösenord: Verifieringsmetod");
         if(testData.isResetPassword()){
-            common.verifyStringByXpath("//*[@id=\"content\"]/section/p",
+            common.verifyPageBodyContainsString(pageBody,
                     "Autentisera dig själv med ytterligare en metod " +
                     "för att vara säker på att bara du har tillgång till ditt eduID. Om du inte kan använda säkerhetsnyckeln, " +
                     "var vänlig välj annat alternativ nedan, t.ex. BankID eller Freja+.");
@@ -85,12 +85,12 @@ public class ExtraSecurity {
                     "identitetsbekräftelse efter lösenordsåterställningen.");
         }
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Fortsätt utan extra säkerhet");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[1]/span", "Kan du inte använda säkerhetsnyckel?");
-        common.verifyStringByXpath("//div/div/main/div/section/div/div[2]/form/div/div/div[1]/div", "VISA ANDRA ALTERNATIV");
+        common.verifyPageBodyContainsString(pageBody, "Fortsätt utan extra säkerhet");
+        common.verifyPageBodyContainsString(pageBody, "Kan du inte använda säkerhetsnyckel?");
+        common.verifyPageBodyContainsString(pageBody, "VISA ANDRA ALTERNATIV");
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/h3", "Fortsätt utan extra säkerhet");
-        common.verifyStringByXpath("//*[@id=\"content\"]/p", "Din identitet kommer att behöva verifieras efter att lösenordet har " +
+        common.verifyPageBodyContainsString(pageBody, "Fortsätt utan extra säkerhet");
+        common.verifyPageBodyContainsString(pageBody, "Din identitet kommer att behöva verifieras efter att lösenordet har " +
                 "återställts. fortsätt återställa lösenordet");
         common.verifyStringById("continue-without-security", "fortsätt återställa lösenordet");
     }

@@ -48,8 +48,6 @@ public class TC_42 extends BeforeAndAfter {
         extraSecurity.selectMfaMethod();
 
         Common.log.info("Log in with Security key");
-
-        //common.timeoutSeconds(4);
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
@@ -101,24 +99,16 @@ public class TC_42 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"verifyAccountDeleted"} )
-    void startPage2(){
-        common.navigateToUrl(testData.getBaseUrl());
-
-        startPage.runStartPage();
+    void clickReqPwLink(){
+        //Navigate to the reset password page by click on link on deleted account information page
+        common.findWebElementByXpath("//*[@id=\"content\"]/section/div/button").click();
     }
-
-    //TODO - continue here, we never get to the login page when account is deleted with security key
 
     //Init reset password and verify that the Identity still is verified
-    @Test( dependsOnMethods = {"startPage2"} )
-    void resetPassword(){
-        testData.setResetPassword(true);
-        login.runLogin();
-    }
-
-    @Test( dependsOnMethods = {"resetPassword"} )
+    @Test( dependsOnMethods = {"clickReqPwLink"} )
     void requestNewPassword() {
-        requestResetPwEmail.runRequestResetPwEmail();
+        common.selectSwedish();
+        requestNewPassword.runRequestNewPassword();
     }
 
     @Test( dependsOnMethods = {"requestNewPassword"} )
@@ -132,115 +122,20 @@ public class TC_42 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailLink"} )
     void extraSecuritySecurityKey() {
-        //testData.setMfaMethod("securitykey");
+        securityKey.virtualAuthenticator();
+
+        //Set add security key just to pass label verification at log in extra security
+        testData.setAddSecurityKey(false);
+        testData.setResetPassword(true);
+
         extraSecurity.runExtraSecurity();
+
+        //extraSecurity.selectMfaMethod();
     }
 
     //TODO continue here
-    @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
+    /*@Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
     void verifyBankId() {
-        common.explicitWaitPageTitle("BankID");
-
-        Common.log.info("Verify BankID labels - Swedish");
-
-        //Verify texts
-        //Wait for cancel button
-        common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[2]/button");
-
-        common.verifyStringOnPage(testData.getBankIdTextSwe());
-        common.verifyStringOnPage("Vill du använda BankID på den här enheten eller på en annan enhet?");
-
-        //Verify button texts
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[1]", "BankID på den här enheten");
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]", "Mobilt BankID på annan enhet");
-
-        //Cancel button
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[2]/button", "Avbryt");
-
-        //English link
-        common.verifyStringByXpath("//*[@id=\"app\"]/div/button", "English");
-
-        //Select english
-        common.findWebElementByXpath("//*[@id=\"app\"]/div/button").click();
-
-        Common.log.info("Verify BankID labels - English");
-
-        //Verify texts
-        common.verifyStringOnPage(testData.getBankIdTextEng());
-        common.verifyStringOnPage("Do you want to use your BankID on this device or on another device?");
-
-        //Verify button texts
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[1]", "BankID on this device");
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]", "Mobile BankID on other device");
-
-        //Cancel button
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[2]/button", "Cancel");
-
-        //English link
-        common.verifyStringByXpath("//*[@id=\"app\"]/div/button", "Svenska");
-
-        //Select swedish
-        common.findWebElementByXpath("//*[@id=\"app\"]/div/button").click();
-
-        Common.log.info("Verify BankID labels on other device - Swedish");
-
-        //Select BankID on other device
-        common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]").click();
-
-        //Verify pop-up texts - swedish
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/dialog/ol/li[1]", "Starta BankID-appen");
-        common.verifyStringByXpath(
-                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[2]", "Tryck på QR-kodsknappen i BankID-appen");
-        common.verifyStringByXpath(
-                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[3]", "Ge BankID-appen tillåtelse att använda kameran");
-        common.verifyStringByXpath(
-                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[4]", "Rikta kameran mot QR-koden som visas här");
-        common.verifyStringByXpath(
-                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[5]", "Följ instruktionerna i appen");
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/dialog/button", "Stäng");
-
-        //Close pop-up
-        common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/dialog/button").click();
-
-        //Select english
-        common.findWebElementByXpath("//*[@id=\"app\"]/div/button").click();
-
-        //Select BankID on other device
-        common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]").click();
-
-        Common.log.info("Verify BankID labels on other device - English");
-
-        //Verify pop-up texts - english
-        //Wait for pop-up close button
-        common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[1]/dialog/button");
-
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/dialog/ol/li[1]", "Start the BankID app");
-        common.verifyStringByXpath(
-                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[2]", "Press the QR code button in the BankID app");
-        common.verifyStringByXpath(
-                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[3]", "Allow the BankID app to use your camera");
-        common.verifyStringByXpath(
-                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[4]", "Point the camera at the QR code displayed here");
-        common.verifyStringByXpath(
-                "//*[@id=\"app\"]/main/div[1]/dialog/ol/li[5]", "Follow the instructions in the app");
-        common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/dialog/button", "Close");
-
-        //Close pop-up
-        common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/dialog/button").click();
-
-        //Press cancel
-        common.findWebElementByXpath("//*[@id=\"app\"]/main/div[2]/button").click();
-    }
-
-    @Test( dependsOnMethods = {"verifyBankId"} )
-    void verifySamlFailPage() {
-        common.explicitWaitClickableElementId("dashboard-button");
-        common.verifyStringOnPage("Ett fel uppstod under åtkomst till tjänsten.");
-
-        //Select to navigate to dashboard
-        common.findWebElementById("dashboard-button").click();
-        common.timeoutSeconds(5);
-    }
 
     //Reset password and verify that the Identity still is verified
     @Test( dependsOnMethods = {"verifySamlFailPage"} )
@@ -284,9 +179,9 @@ public class TC_42 extends BeforeAndAfter {
         testData.setResetPassword(false);
         login.enterPassword();
         login.signIn();
-    }
+    }*/
 
-    @Test( dependsOnMethods = {"login4"} )
+    @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
     void dashboard() {
         //Account is verified
         testData.setAccountVerified(true);

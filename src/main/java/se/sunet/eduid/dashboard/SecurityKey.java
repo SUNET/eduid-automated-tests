@@ -227,9 +227,12 @@ public class SecurityKey {
 
         //Security key
         common.verifyPageBodyContainsString(pageBody,"Tvåfaktorsautentisering (2FA)");
-        common.verifyPageBodyContainsString(pageBody,"Om möjligt lägg till ett ytterligare sätt att identifiera dig i form " +
-                "av en säkerhetsnyckel, utöver användarnamn och lösenord, så att du är säker på att bara du har tillgång " +
-                "till ditt eduID. Exempel på säkerhetsnycklar kan vara en USB-säkerhetsnyckel eller din enhet.");
+        common.verifyPageBodyContainsString(pageBody,"Om möjligt lägg till ett ytterligare sätt att " +
+                "identifiera dig i form av en säkerhetsnyckel, utöver användarnamn och lösenord, så att du är säker på " +
+                "att bara du har tillgång till ditt eduID. Exempel på säkerhetsnycklar är en separat USB-säkerhetsnyckel," +
+                " eller inbyggda funktioner i din enhet som mobiltelefon eller dator.");
+        common.verifyPageBodyContainsString(pageBody,"Obs: Tillagda säkerhetsnycklar är personliga och ska " +
+                "inte delas med andra. Det är för att säkerställa att endast du som kontohavare har tillgång till ditt konto.");
         common.verifyPageBodyContainsString(pageBody,"Du kan läsa mer om säkerhetsnycklar i hjälpavsnittet: Utökad säkerhet med ditt eduID.");
 
         //Verify internal link to help pages works
@@ -237,7 +240,7 @@ public class SecurityKey {
 
         common.verifyPageBodyContainsString(pageBody,"Lägg till en ny säkerhetsnyckel:");
         common.verifyStringById("security-webauthn-button", "SÄKERHETSNYCKEL");
-        common.verifyPageBodyContainsString(pageBody,"T.ex. USB-säkerhetsnyckel som du använder.");
+        common.verifyPageBodyContainsString(pageBody,"USB-säkerhetsnyckel som du använder.");
         if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
             common.verifyStringById("security-webauthn-platform-button", "DEN HÄR ENHETEN");
             common.verifyPageBodyContainsString(pageBody,"Enheten som du just nu använder");
@@ -262,8 +265,11 @@ public class SecurityKey {
 
         //Security key
         common.verifyPageBodyContainsString(pageBody,"Two-factor Authentication (2FA)");
-        common.verifyPageBodyContainsString(pageBody,"If possible add a security key as a second factor of authentication, " +
-                "beyond username and password, to prove you are the owner of your eduID. Examples are USB security keys or your device.");
+        common.verifyPageBodyContainsString(pageBody,"If possible add a security key as a second factor " +
+                "of authentication, beyond username and password, to prove you are the owner of your eduID. Examples are" +
+                " separate physical USB security keys, or built-in features on your device such as mobile phone or laptop computer.");
+        common.verifyPageBodyContainsString(pageBody,"Note: Added security keys are personal and not to be " +
+                "shared with others. This is to ensure that access to your account is limited solely to you, the account holder.");
         common.verifyPageBodyContainsString(pageBody,"You can read more about security keys in the Help section: Improving the security level of eduID.");
 
         //Verify internal link to help pages works
@@ -271,7 +277,7 @@ public class SecurityKey {
 
         common.verifyPageBodyContainsString(pageBody,"Add a new security key:");
         common.verifyStringById("security-webauthn-button", "SECURITY KEY");
-        common.verifyPageBodyContainsString(pageBody,"E.g a USB Security Key you are using.");
+        common.verifyPageBodyContainsString(pageBody,"A USB Security Key you are using.");
         if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
             common.verifyStringById("security-webauthn-platform-button", "THIS DEVICE");
             common.verifyPageBodyContainsString(pageBody,"The device you are currently using.");
@@ -341,7 +347,6 @@ public class SecurityKey {
 
         System.out.println("Virtual USB authentication completed successfully");
 */
-
 
         VirtualAuthenticatorOptions options = new VirtualAuthenticatorOptions();
         options.setTransport(VirtualAuthenticatorOptions.Transport.USB)

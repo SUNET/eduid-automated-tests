@@ -292,7 +292,7 @@
     </test>
 
     <test name="TC_42">
-        <parameter name="testDescription" value="Register account, add security key. Delete account and reset password,
+        <parameter name="testDescription" value="Register account, add security key and verify it by Freja. Delete account and reset password,
         using security key as extra security." />
         <classes>
             <class name="se.sunet.eduid.TC_42" >

@@ -169,7 +169,7 @@ public class Register {
                 "sanningsenlig vid uppgivande av personlig information som namn, kontaktuppgifter el. dyl,");
         common.verifyPageBodyContainsString(pageBody, "att användarkonton, lösenord, " +
                 "säkerhetsnycklar och koder är personliga och får endast användas av innehavaren,");
-        common.verifyPageBodyContainsString(pageBody, "att SUNET:s etiska regler reglerar övrig tillåten användning.");
+        common.verifyPageBodyContainsString(pageBody, "att SUNET:s etiska regler (enligt nedan) reglerar övrig tillåten användning.");
         common.verifyPageBodyContainsString(pageBody, "SUNET bedömer som oetiskt när någon:");
         common.verifyPageBodyContainsString(pageBody, "försöker " +
                 "få tillgång till nätverksresurser utan att ha rätt till det");
@@ -202,7 +202,7 @@ public class Register {
                 "that you provide, such as name and contact information shall be truthful,");
         common.verifyPageBodyContainsString(pageBody, "that user accounts, password, " +
                 "security keys and codes are individual and shall only be used by the intended individual,");
-        common.verifyPageBodyContainsString(pageBody, "that SUNET's ethical rules regulate the “other” usage.");
+        common.verifyPageBodyContainsString(pageBody, "that SUNET's ethical rules (listed below) regulate other permitted usage.");
         common.verifyPageBodyContainsString(pageBody, "SUNET judges unethical behaviour to be when someone:");
         common.verifyPageBodyContainsString(pageBody, "attempts to gain access to " +
                 "network resources that they do not have the right to");

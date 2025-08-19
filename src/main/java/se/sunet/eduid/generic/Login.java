@@ -83,9 +83,23 @@ public class Login {
             common.verifyStatusMessage("Detta konto har avslutats, men finns kvar några dagar. Gör en " +
                     "lösenordsåterställning för att ångra avslutet.");
 
+            common.verifyStringOnPage("Raderat konto\n" +
+                    "Kontot har nyligen raderats och kan inte användas för inloggning. Under en kort tid därefter " +
+                    "kan kontot återupptas genom att återställa lösenordet med hjälp av länken nedan.");
+            common.verifyStringOnPage("Till återställ lösenord");
+            common.verifyStringOnPage("Gå till startsidan genom att klicka eduIDs logo i " +
+                    "sidhuvudet för att logga in med ett annat konto, eller skapa ett nytt konto med knappen Registrera.");
+
             common.selectEnglish();
             common.verifyStatusMessage("This account has been terminated, but is still present. Perform a password " +
                     "reset to cancel termination.");
+
+            common.verifyStringOnPage("Account terminated\n" +
+                    "This account has recently been terminated and can not be used to log in. It is possible to " +
+                    "re-activate the account shortly afterwards by resetting the password using the link below.");
+            common.verifyStringOnPage("Go to reset password page");
+            common.verifyStringOnPage("To log in with another account go to the start page by clicking " +
+                    "the eduID logo in the header, or create a new account using the Register button.");
         }
         else {
             //Log in successful, wait for copy button at dashboard
@@ -108,7 +122,7 @@ public class Login {
 
         common.explicitWaitClickableElementId("go-back-button");
 
-/*        // If whe have initiated authetication with bankID and aborted since it's not possible to do by automation,
+/*        // If whe have initiated authentication with bankID and aborted since it's not possible to do by automation,
         // then the captcha has already been done in the same req-pw session. Then user will not end up at captcha page
         // after clicking forgot password link but on the send reset-pw email page
         if(testData.getMfaMethod().equalsIgnoreCase("bankid")){
