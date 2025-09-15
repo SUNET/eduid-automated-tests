@@ -53,7 +53,7 @@ public class Account {
         common.findWebElementByXpath("//*[@id=\"ladok\"]/form/fieldset/label/div").click();
         common.timeoutSeconds(1);
 
-        String availableUniversitys = "//*[@id=\"ladok\"]/form[2]/fieldset/div/div";
+        String availableUniversitys = "//*[@id=\"ladok\"]/form[2]/fieldset/div/div/div[1]/div";
 
         common.verifyStringByXpath("//*[@id=\"ladok\"]/form[2]/fieldset/span", "Välj lärosäte");
         common.verifyStringByXpath(availableUniversitys, "Tillgängliga lärosäten");
@@ -63,7 +63,7 @@ public class Account {
         common.timeoutSeconds(1);
 
         //Extract all table rows in to a list of web elements
-        WebElement elementName = common.findWebElementByXpath("//*[@id=\"react-select-3-listbox\"]/div");
+        WebElement elementName = common.findWebElementByXpath("//*[@id=\"ladok\"]/form[2]/fieldset/div/div");
         List<WebElement> rows = elementName.findElements(By.xpath("*"));
 
         //Assert that there are at least two universitys in the drop down

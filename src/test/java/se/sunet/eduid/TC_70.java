@@ -26,7 +26,8 @@ public class TC_70 extends BeforeAndAfter {
     void runLoginOtherDevice2nd() {
         common.timeoutSeconds(1);
 
-        loginOtherDevice.enterCode("9", "8", "7", "6", "5", "4");
+        //loginOtherDevice.enterCode("9", "8", "7", "6", "5", "4");
+        confirmEmailAddress.typeEmailVerificationCode("987654");
         loginOtherDevice.submitCode();
     }
 
@@ -34,7 +35,7 @@ public class TC_70 extends BeforeAndAfter {
     void runLoginOtherDevice3rd() {
         common.timeoutSeconds(1);
 
-        loginOtherDevice.enterCode("3", "2", "1", "9", "8", "7");
+        confirmEmailAddress.typeEmailVerificationCode("321987");
         loginOtherDevice.submitCode();
 
         common.explicitWaitClickableElementId("response-code-cancel-button");

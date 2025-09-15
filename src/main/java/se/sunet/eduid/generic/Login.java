@@ -39,24 +39,13 @@ public class Login {
         common.verifyPlaceholder("ange lösenord", "currentPassword");
 
         //Enter username
-//        common.findWebElementById("username").clear();
-//        common.timeoutMilliSeconds(200);
         common.findWebElementById("username").clear();
-/*        Common.log.info("Username field : " + common.findWebElementById("username").getText());
-        if(common.findWebElementById("username").getText().contains("@")) {
-            Common.log.info("Username field already contains an email address: "
-                    +common.findWebElementById("username").getText() +" do not type it again");
-        }
-        else*/
-            common.findWebElementById("username").sendKeys(testData.getUsername());
+        common.findWebElementById("username").sendKeys(testData.getUsername());
 
         Common.log.info("Log in with username: " +testData.getUsername());
     }
 
     public void enterPassword() {
-//        common.timeoutMilliSeconds(500);
-//        common.findWebElementById("currentPassword").clear();
-//        common.timeoutMilliSeconds(200);
         common.findWebElementById("currentPassword").clear();
 
         common.findWebElementById("currentPassword").sendKeys(testData.getPassword());
@@ -121,21 +110,6 @@ public class Login {
         common.click(common.findWebElementById("link-forgot-password"));
 
         common.explicitWaitClickableElementId("go-back-button");
-
-/*        // If whe have initiated authentication with bankID and aborted since it's not possible to do by automation,
-        // then the captcha has already been done in the same req-pw session. Then user will not end up at captcha page
-        // after clicking forgot password link but on the send reset-pw email page
-        if(testData.getMfaMethod().equalsIgnoreCase("bankid")){
-            common.explicitWaitClickableElementId("reset-password-button");
-        }
-        else {
-            //Wait for next page, return to login
-            common.explicitWaitClickableElementId("cancel-captcha-button");
-
-            //Add nin cookie
-            common.addNinCookie();
-            register.enterCaptchaCode();
-        }*/
     }
 
     public void storeEppn(){

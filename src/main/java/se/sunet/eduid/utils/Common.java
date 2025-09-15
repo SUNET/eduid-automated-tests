@@ -627,7 +627,8 @@ public class Common {
             }
         }
         else{
-            log.info("Text String can not be found on webpage.");
+            log.warn("Text String can not be found on webpage.");
+            Assert.fail("Exception caught, was not due to updated xpath. Failing test case");
         }
     }
 

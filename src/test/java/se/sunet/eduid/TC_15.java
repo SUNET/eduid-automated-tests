@@ -65,7 +65,7 @@ public class TC_15 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"deleteNonVerifiedSecurityKeyLogin"} )
     void removeNonVerifiedSecurityKey() {
         Assert.assertFalse(common.getPageBody().contains("test-key1"),
-                "Security is still present at page! Should have been removed.");
+                "Security key is still present at page! Should have been removed.");
     }
 
     //Log out and verify that it is possible to log in again without the security key

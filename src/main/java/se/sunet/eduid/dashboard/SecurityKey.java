@@ -113,8 +113,8 @@ public class SecurityKey {
         String pageBody = common.getPageBody();
 
         common.verifyPageBodyContainsString(pageBody, "Använd alltid säkerhetsnyckel för att logga in");
-        common.verifyPageBodyContainsString(pageBody, "Om andra tjänster kräver extra verifiering vid " +
-                "inloggning så kommer du ändå behöva använda din säkerhetsnyckel då, även när denna inställning är avslagen.");
+        common.verifyPageBodyContainsString(pageBody, "Om denna stängs av behöver du bara använda din " +
+                "säkerhetsnyckel när andra tjänster kräver extra verifiering vid inloggning.");
 
         //Verify headings
         common.verifyPageBodyContainsString(pageBody, "Hantera dina säkerhetsnycklar");
@@ -139,8 +139,7 @@ public class SecurityKey {
         //Security key Toggle information
         common.verifyPageBodyContainsString(pageBody,
                 "Always use a security key to log in\n" +
-                        "If a service require extra login verification, you will then still need to use your security " +
-                        "key even when this setting is toggled off.");
+                        "Turning this off you only need to use your security key for services that require extra login verification.");
 
         //Verify headings
         common.verifyPageBodyContainsString(pageBody, "Manage your security keys");
@@ -204,8 +203,8 @@ public class SecurityKey {
 
         //Verify the security pop up and click accept
         common.securityConfirmPopUp("//*[@id=\"remove-webauthn\"]",
-                "Obs: Din säkerhetsnyckel " + securityKeyName + " kommer att tas bort efter inloggningen.",
-                "Note: Your security key " + securityKeyName + " will be removed after you log in.");
+                "Obs: Din säkerhetsnyckel kommer att tas bort efter inloggningen.",
+                "Note: Your security key will be removed after you log in.");
 
         //Click on Accept
         log.info("Delete security key - start verify security key pop up - pressed Accept button");

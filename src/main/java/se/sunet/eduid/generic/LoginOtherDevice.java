@@ -1,5 +1,6 @@
 package se.sunet.eduid.generic;
 
+import se.sunet.eduid.registration.ConfirmEmailAddress;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -8,17 +9,20 @@ import static se.sunet.eduid.utils.Common.log;
 public class LoginOtherDevice {
     private final Common common;
     private final TestData testData;
+    private final ConfirmEmailAddress confirmEmailAddress;
 
-    public LoginOtherDevice(Common common, TestData testData){
+    public LoginOtherDevice(Common common, TestData testData, ConfirmEmailAddress confirmEmailAddress) {
         this.common = common;
         this.testData = testData;
+        this.confirmEmailAddress = confirmEmailAddress;
     }
 
     public void runLoginOtherDevice(){
         selectLoginOtherDevice();
         checkLabels();
-        if(testData.isOtherDeviceFillCode())
-            enterCode("1", "2", "3", "4", "5", "6");
+        if(testData.isOtherDeviceFillCode()) {
+            confirmEmailAddress.typeEmailVerificationCode("123456");
+        }
         submitCode();
     }
 
@@ -66,23 +70,6 @@ public class LoginOtherDevice {
             common.verifyXpathContainsString("//*[@id=\"content\"]/div/ol/li[3]", "Enter " +
                     "the six-digit response code shown on the other device in the form below");
         }
-    }
-
-    public void enterCode(String code1, String code2, String code3, String code4, String code5, String code6) {
-        //Enter faulty code
-        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[1]")
-                .sendKeys(code1);
-        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[2]")
-                .sendKeys(code2);
-        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[3]")
-                .sendKeys(code3);
-
-        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[4]")
-                .sendKeys(code4);
-        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[5]")
-                .sendKeys(code5);
-        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[6]")
-                .sendKeys(code6);
     }
 
     public void submitCode(){

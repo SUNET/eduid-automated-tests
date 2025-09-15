@@ -8,7 +8,7 @@ public class ConfirmIdentity{
     private final TestData testData;
     private final Identity identity;
     String letterCodeConfirmationInputFieldId = "letter-confirm-modal";
-    String letterProceedButton = "//*[@id=\"accordion__panel-se-letter\"]/button";
+    String letterProceedButton = "//*[@id=\"se-letter\"]/div/button";
     String letterSubmitCodeOkButton = "//*[@id=\"letter-confirm-modal-form\"]/div[2]/button";
 
     public ConfirmIdentity(Common common, TestData testData, Identity identity){
@@ -103,7 +103,7 @@ public class ConfirmIdentity{
             //Verify that nin cookie has to be used is not necessary for all test cases, check it only in tc 40
             if(testData.getTestCase().equalsIgnoreCase("TC_40")) {
                 //Select Freja eID
-                common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button"));
+                common.click(common.findWebElementByXpath("//*[@id=\"se-freja\"]/div/button"));
 
                 //Verify labels and text in pop-up
                 identity.verifyFrejaIdLabelsSwedish();
@@ -135,7 +135,7 @@ public class ConfirmIdentity{
             }
 
             //Select Freja eID
-            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button"));
+            common.click(common.findWebElementByXpath("//*[@id=\"se-freja\"]/div/button"));
 
             //Click Use Freja eID in pop-up dialog
             common.findWebElementById("eidas-info-modal-accept-button").click();
@@ -150,8 +150,8 @@ public class ConfirmIdentity{
 
             identity.expandIdentityOptions();
 
-            //Select eIDAS
-            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-eu\"]/button"));
+            //Select eIDAS by clicking on proceed button
+            common.click(common.findWebElementByXpath("//*[@id=\"eu\"]/div/button"));
 
             //Select country XA in sandbox
             common.findWebElementByXpath("//*[@id=\"countrySelectForm\"]/div/div[3]/button").click();
@@ -175,7 +175,7 @@ public class ConfirmIdentity{
             Common.log.info("Verify identity by Freja with no Swedish personal identity number");
 
             //Click proceed button
-            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-world\"]/button"));
+            common.click(common.findWebElementByXpath("//*[@id=\"world\"]/div/button"));
 
             //Wait and see that we come to Freja eID OpenID Connect - Logga in - page
             common.explicitWaitPageTitle("Freja eID OpenID Connect - Logga in");
@@ -189,7 +189,7 @@ public class ConfirmIdentity{
             identity.expandIdentityOptions();
 
             //Click proceed with bankid button
-            common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-bankID\"]/button"));
+            common.click(common.findWebElementByXpath("//*[@id=\"se-bankID\"]/div/button"));
 
             //Wait and press BankId on other device
             common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]");
@@ -213,14 +213,14 @@ public class ConfirmIdentity{
         Common.log.info("Verify Letter sent labels - Swedish");
 
         //Verify on the button that letter is sent text exists, with today's date
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[2]",
+        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/p[2]",
                 "Ett brev skickades " +common.getDate().toString());
 
         //Verify that letter is valid date is 2 weeks after today's date
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[3]",
+        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/p[3]",
                 "Brevet är giltigt till " +common.getDate().plusDays(15));
 
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[4]",
+        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/p[4]",
                 "När du har mottagit brevet, fortsätt genom att klicka på knappen nedan.");
 
         //Verify Proceed button text
@@ -230,7 +230,7 @@ public class ConfirmIdentity{
         Common.log.info("Open pop-up to confirm with code received in letter - Swedish");
         common.click(common.findWebElementByXpath(letterProceedButton));
 
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/dialog/div/div/div/div/h4",
+        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/dialog/div/div/div/div/h4",
                 "Skriv in koden du fått hemskickad");
         common.verifyStringByXpath("//*[@id=\"letter-confirm-modal-wrapper\"]/div/label", "Kod");
 
@@ -241,8 +241,8 @@ public class ConfirmIdentity{
 
         //Close
         common.click(common.findWebElementByXpath(
-                "//*[@id=\"accordion__panel-se-letter\"]/dialog/div/div/div/div/button"));
-        Common.log.info("Closed pop-up to confirm with code received in letter - Swedish");
+                "//*[@id=\"se-letter\"]/div/dialog/div/div/div/div/button"));
+        Common.log.info("Closed pop-up to confirm text and labels with code received in letter - Swedish");
 
         //Select english
         common.selectEnglish();
@@ -250,28 +250,28 @@ public class ConfirmIdentity{
         Common.log.info("Verify Letter sent labels - English");
 
         //Expand letter validation menu
-        common.click(common.findWebElementById("accordion__heading-se-letter"));
+        common.click(common.findWebElementById("se-letter-button"));
 
         //Verify on the button that letter is sent text exists, with today's date
         common.timeoutMilliSeconds(200);
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[2]",
+        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/p[2]",
                 "The letter was sent " +common.getDate().toString());
 
         //Verify that letter is valid date is 2 weeks after today's date
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[3]",
+        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/p[3]",
                 "The letter is valid to " +common.getDate().plusDays(15));
 
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/p[4]",
+        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/p[4]",
                 "When you have received the letter, proceed by clicking the button below.");
 
         //Verify Proceed button text
         common.verifyStringByXpath(letterProceedButton, "PROCEED");
 
         //Verify text in confirmation pop up
-        Common.log.info("Open pop-up to confirm with code received in letter - English");
+        Common.log.info("Open pop-up to confirm text and labels for code input received in letter - English");
         common.click(common.findWebElementByXpath(letterProceedButton));
 
-        common.verifyStringByXpath("//*[@id=\"accordion__panel-se-letter\"]/dialog/div/div/div/div/h4",
+        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/dialog/div/div/div/div/h4",
                 "Add the code you have received by post");
         common.verifyStringByXpath("//*[@id=\"letter-confirm-modal-wrapper\"]/div/label", "Code");
 
@@ -280,7 +280,7 @@ public class ConfirmIdentity{
         //Verify OK button text
         common.verifyStringByXpath(letterSubmitCodeOkButton, "OK");
 
-        Common.log.info("Pop-up to confirm with code received in letter Done! - English");
+        Common.log.info("Done! - Confirmed text and labels in pop-up for code input received in letter - English");
     }
 
 

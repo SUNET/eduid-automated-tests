@@ -61,9 +61,7 @@ public class TC_60 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"closeTab"} )
     void enterAndSubmitCode(){
-        loginOtherDevice.enterCode(testData.getOtherDeviceCode().substring(0,1), testData.getOtherDeviceCode().substring(1,2),
-                testData.getOtherDeviceCode().substring(2,3), testData.getOtherDeviceCode().substring(3,4),
-                testData.getOtherDeviceCode().substring(4,5), testData.getOtherDeviceCode().substring(5,6));
+        confirmEmailAddress.typeEmailVerificationCode(testData.getOtherDeviceCode());
 
         testData.setOtherDeviceSubmitCode("true");
         testData.setOtherDeviceFillCode(true);

@@ -140,12 +140,12 @@ public class ConfirmEmailAddress {
     }
 
     public void typeEmailVerificationCode(String emailVerificationCode){
-        common.explicitWaitVisibilityElement("//*[@id=\"eduid-splash-and-children\"]/form/div/input[1]");
-        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[1]").sendKeys(emailVerificationCode.substring(0, 1));
-        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[2]").sendKeys(emailVerificationCode.substring(1, 2));
-        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[3]").sendKeys(emailVerificationCode.substring(2, 3));
-        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[4]").sendKeys(emailVerificationCode.substring(3, 4));
-        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[5]").sendKeys(emailVerificationCode.substring(4, 5));
-        common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/form/div/input[6]").sendKeys(emailVerificationCode.substring(5, 6));
+        common.explicitWaitClickableElementId("response-code-abort-button");
+        common.findWebElementById("v[0]").sendKeys(emailVerificationCode.substring(0, 1));
+        common.findWebElementById("v[1]").sendKeys(emailVerificationCode.substring(1, 2));
+        common.findWebElementById("v[2]").sendKeys(emailVerificationCode.substring(2, 3));
+        common.findWebElementById("v[3]").sendKeys(emailVerificationCode.substring(3, 4));
+        common.findWebElementById("v[4]").sendKeys(emailVerificationCode.substring(4, 5));
+        common.findWebElementById("v[5]").sendKeys(emailVerificationCode.substring(5, 6));
     }
 }

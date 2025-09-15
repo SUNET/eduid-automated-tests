@@ -4,6 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -33,11 +34,14 @@ public class InitBrowser {
         else
             initMobile(browser);
 
+        //If page does not respond within 35sec drop the session.
+        webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(15));
+
         //Time we will wait before retry functionality will step in
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(11));
 
-        //If page does not respond within 35sec drop the session.
-        webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(15));
+        webDriver.manage().window().setSize(new Dimension(1280, 1000));
+        webDriver.manage().window().setPosition(new Point(420, 0));
 
         return webDriver;
     }

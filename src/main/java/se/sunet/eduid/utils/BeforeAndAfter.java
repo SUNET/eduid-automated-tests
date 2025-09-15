@@ -93,7 +93,7 @@ public class BeforeAndAfter {
         help = new Help(common);
         loginExtraSecurity = new LoginExtraSecurity(common, testData);
         sunet = new Sunet(common, testData);
-        loginOtherDevice = new LoginOtherDevice(common, testData);
+        loginOtherDevice = new LoginOtherDevice(common, testData, confirmEmailAddress);
         accessibilityBase = new AccessibilityBase(common, testData);
         requestResetPwEmail = new RequestResetPwEmail(common, testData, register);
     }
