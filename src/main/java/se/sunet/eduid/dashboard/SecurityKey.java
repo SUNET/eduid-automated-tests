@@ -57,10 +57,11 @@ public class SecurityKey {
 
             //Verify the security key extra login pop up and click accept
             common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div[3]/span/button[2]",
-                    "Obs: använd säkerhetsnyckeln " + securityKeyName + " vid inloggningen. Efter inloggning omdirigeras " +
-                            "du till FREJA för att verifiera din säkerhetsnyckel.",
-                    "Note: please use the security key " + securityKeyName + " during the login process. After logging in," +
-                            " you will be redirected to FREJA page to verify your security key.");
+                    "Obs: använd säkerhetsnyckeln vid inloggningen. Efter inloggning omdirigeras du till " +
+                            "FREJA för att verifiera din säkerhetsnyckel.",
+
+                    "Note: please use the security key during the login process. After logging in, you will" +
+                            " be redirected to FREJA page to verify your security key.");
         }
         else if(testData.isVerifySecurityKeyByBankId()){
             log.info("Security key added and user selecting BankID for immediate verification of it, clicking on BankID button");
@@ -72,9 +73,9 @@ public class SecurityKey {
 
             //Ignore verification of the security pop up labels and just click continue
             common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div[3]/span/button[1]",
-                    "Obs: använd säkerhetsnyckeln " + securityKeyName + " vid inloggningen. Efter inloggning omdirigeras " +
+                    "Obs: använd säkerhetsnyckeln vid inloggningen. Efter inloggning omdirigeras " +
                             "du till BANKID för att verifiera din säkerhetsnyckel.",
-                    "Note: please use the security key " + securityKeyName + " during the login process. After logging in," +
+                    "Note: please use the security key during the login process. After logging in," +
                             " you will be redirected to BANKID page to verify your security key.");
         }
         else if(testData.isVerifySecurityKeyByEidas()){
@@ -87,9 +88,9 @@ public class SecurityKey {
 
             //Verify the security pop up and click accept
             common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div[3]/span/button[3]",
-                    "Obs: använd säkerhetsnyckeln " + securityKeyName + " vid inloggningen. Efter inloggning omdirigeras " +
+                    "Obs: använd säkerhetsnyckeln vid inloggningen. Efter inloggning omdirigeras " +
                             "du till EIDAS för att verifiera din säkerhetsnyckel.",
-                    "Note: please use the security key " + securityKeyName + " during the login process. After logging in," +
+                    "Note: please use the security key during the login process. After logging in," +
                             " you will be redirected to EIDAS page to verify your security key.");
         }
 
@@ -203,8 +204,8 @@ public class SecurityKey {
 
         //Verify the security pop up and click accept
         common.securityConfirmPopUp("//*[@id=\"remove-webauthn\"]",
-                "Obs: Din säkerhetsnyckel kommer att tas bort efter inloggningen.",
-                "Note: Your security key will be removed after you log in.");
+                "Obs: Din säkerhetsnyckel " +securityKeyName +" kommer att tas bort efter inloggningen.",
+                "Note: Your security key " +securityKeyName +" will be removed after you log in.");
 
         //Click on Accept
         log.info("Delete security key - start verify security key pop up - pressed Accept button");
@@ -308,8 +309,8 @@ public class SecurityKey {
 
         common.verifyStringOnPage("Verifiera din säkerhetsnyckel med hjälp av knapparna för BankID, " +
                 "Freja+ eller eIDAS nedan.");
-        common.verifyStringOnPage("Obs: dina tillagda säkerhetsnycklar kan även verifieras från " +
-                "tabellen \"Hantera dina säkerhetsnycklar\".");
+        common.verifyStringOnPage("Obs: dina tillagda säkerhetsnycklar kan även verifieras senare i " +
+                "inställningarna under \"Hantera dina säkerhetsnycklar\".");
 
         common.verifyStringById("verify-webauthn-token-modal-continue-bankID-button", "BANKID");
         common.verifyStringById("verify-webauthn-token-modal-continue-frejaID-button", "FREJA+");

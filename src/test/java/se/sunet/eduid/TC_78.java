@@ -51,16 +51,16 @@ public class TC_78 extends BeforeAndAfter {
         // one method to confirm identity, use standard above.
 
         //Expand Swedish options
-        common.click(common.findWebElementById("accordion__heading-swedish"));
+        common.click(common.findWebElementById("swedish-button"));
 
-        //Add nin-cookie to get successfull response from idp
+        //Add nin-cookie to get successful response from idp
         common.addNinCookie();
 
         //Expand Freja menu, since collapsed when change of language
-        common.click(common.findWebElementById("accordion__heading-se-freja"));
+        common.click(common.findWebElementById("se-freja-button"));
 
-        //Select Freja eID
-        common.click(common.findWebElementByXpath("//*[@id=\"accordion__panel-se-freja\"]/button"));
+        //Select Freja eID by pressing Continue
+        common.click(common.findWebElementByXpath("//*[@id=\"se-freja\"]/div/button"));
 
         //Click Use Freja eID in pop-up dialog
         common.findWebElementById("eidas-info-modal-accept-button").click();

@@ -26,7 +26,7 @@ public class WCAG_5 extends BeforeAndAfter
         common.navigateToIdentity();
 
         //Collapse swedish menu first
-        common.findWebElementById("accordion__heading-swedish").click();
+        common.findWebElementById("swedish-button").click();
 
         //Expand all menus
         identity.expandIdentityOptions();

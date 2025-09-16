@@ -78,7 +78,8 @@ public class TC_17 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
         //Turn off the remember me function at startpage for this
-        common.findWebElementByXpath("//*[@id=\"content\"]/label/div").click();
+        testData.setRememberMe(false);
+        common.rememberMe();
 
         login.runLogin();
     }

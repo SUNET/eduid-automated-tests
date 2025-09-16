@@ -74,7 +74,7 @@ public class TC_47 extends BeforeAndAfter {
         //Press confirm delete
         common.click(common.findWebElementById("remove-identity-verification-accept-button"));
 
-        common.explicitWaitClickableElementId("accordion__heading-swedish");
+        common.explicitWaitClickableElementId("swedish-button");
     }
 
 
