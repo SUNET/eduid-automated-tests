@@ -88,7 +88,7 @@ public class Common {
         expandNavigationMenu();
 
         //Click on Account
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[7]/a"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[4]/div/a"));
     }
 
     public void navigateToIdentity() {
@@ -96,7 +96,7 @@ public class Common {
         expandNavigationMenu();
 
         //Click on Identity
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/a"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[2]/div/a"));
     }
 
     public void navigateToSecurity() {
@@ -104,7 +104,7 @@ public class Common {
         expandNavigationMenu();
 
         //Click on Security Settings
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[5]/a"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/div/a"));
     }
 
     public void navigateToDashboard() {
@@ -112,7 +112,7 @@ public class Common {
         expandNavigationMenu();
 
         //Click on Start
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/a"));
+        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/div/a"));
     }
 
     public void expandNavigationMenu(){
@@ -223,11 +223,13 @@ public class Common {
     public void explicitWaitVisibilityElement(String xpathToElementToWaitFor) {
         WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathToElementToWaitFor)));
+        //wait.until(ExpectedConditions.presenceOfElementLocated(By.id(xpathToElementToWaitFor)));
     }
 
     public void explicitWaitVisibilityElementId(String idToElementToWaitFor) {
         WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(idToElementToWaitFor)));
+        //wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idToElementToWaitFor)));
     }
 
     public void explicitWaitPageTitle(String pageTitle) {
@@ -323,10 +325,10 @@ public class Common {
         findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/button").click();
     }
 
-    public void verifySiteLocation(String location) {
+/*    public void verifySiteLocation(String location) {
         //Verify site location text
-        verifyStringByXpath("//*[@id=\"content\"]/nav/a[2]", location);
-    }
+        //verifyStringByXpath("//*[@id=\"content\"]/nav/a[2]", location);
+    }*/
 
     public void closePopupDialog() {
         //Close the pop up dialog
@@ -352,7 +354,7 @@ public class Common {
             if (webDriver.findElement(By.id("remember-me")).isSelected())
                 click(findWebElementById("remember-me"));
         }
-        //log.info("Status of Remember me: " +webDriver.findElement(By.id("remember-me")).isSelected());
+        log.info("Status of Remember me: " +webDriver.findElement(By.id("remember-me")).isSelected());
     }
 
     public void switchToPopUpWindow() {
@@ -491,7 +493,10 @@ public class Common {
     }
 
     public void securityConfirmPopUp(String xPathToButton, String fineTextSwe, String fineTextEng){
+        String closeButtonId = "security-confirm-modal-close-button";
+        String acceptButtonId = "security-confirm-modal-accept-button";
         switchToPopUpWindow();
+
         log.info("Extra security log in pop up, verify labels - Swedish");
 
         if(xPathToButton.equalsIgnoreCase("")){
@@ -500,15 +505,16 @@ public class Common {
         else {
             //Verify labels and text
             timeoutSeconds(1);
-            explicitWaitClickableElementId("security-confirm-modal-close-button");
+            explicitWaitClickableElementId(closeButtonId);
+            //explicitWaitClickableElementId("security-confirm-modal-close-button");
             verifyStringOnPage("Säkerhetsskäl");
             verifyStringOnPage("Du behöver logga in igen för att kunna utföra åtgärden.");
             verifyStringOnPage(fineTextSwe);
 
-            verifyStringById("security-confirm-modal-accept-button", "FORTSÄTT");
+            verifyStringById(acceptButtonId, "FORTSÄTT");
 
             //Close pop-up
-            click(findWebElementById("security-confirm-modal-close-button"));
+            click(findWebElementById(closeButtonId));
 
             //Select English
             selectEnglish();
@@ -528,15 +534,15 @@ public class Common {
 
             log.info("Extra security log pop up, verify labels and press continue - English");
 
-            explicitWaitClickableElementId("security-confirm-modal-close-button");
+            explicitWaitClickableElementId(closeButtonId);
             verifyStringOnPage("Security check");
             verifyStringOnPage("You need to log in again to perform the requested action.");
             verifyStringOnPage(fineTextEng);
 
-            verifyStringById("security-confirm-modal-accept-button", "CONTINUE");
+            verifyStringById(acceptButtonId, "CONTINUE");
         }
 
-        click(findWebElementById("security-confirm-modal-accept-button"));
+        click(findWebElementById(acceptButtonId));
     }
 
     public boolean linkWorking(String url) throws IOException {

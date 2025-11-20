@@ -96,10 +96,10 @@ public class TC_43 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage3"} )
     void verifyAccountDeleted(){
+        testData.setReLogin(true);
         testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
+
+        login.runLogin();
     }
 
     //Navigate to the support tool again

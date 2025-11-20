@@ -75,8 +75,6 @@ public class TC_49 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        login.verifyPageTitle();
-
         //Disable Remember me
         testData.setRememberMe(false);
         common.rememberMe();
@@ -135,6 +133,8 @@ public class TC_49 extends BeforeAndAfter {
     void login4(){
         testData.setUsername(username1);
         testData.setPassword(password1);
+
+        testData.setRememberMe(true);
         login.runLogin();
     }
 

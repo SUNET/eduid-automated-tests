@@ -57,10 +57,10 @@ public class SecurityKey {
 
             //Verify the security key extra login pop up and click accept
             common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div[3]/span/button[2]",
-                    "Obs: använd säkerhetsnyckeln vid inloggningen. Efter inloggning omdirigeras du till " +
+                    "Obs: använd säkerhetsnyckeln test-key1 vid inloggningen. Efter inloggning omdirigeras du till " +
                             "FREJA för att verifiera din säkerhetsnyckel.",
 
-                    "Note: please use the security key during the login process. After logging in, you will" +
+                    "Note: please use the security key test-key1 during the login process. After logging in, you will" +
                             " be redirected to FREJA page to verify your security key.");
         }
         else if(testData.isVerifySecurityKeyByBankId()){
@@ -73,9 +73,9 @@ public class SecurityKey {
 
             //Ignore verification of the security pop up labels and just click continue
             common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div[3]/span/button[1]",
-                    "Obs: använd säkerhetsnyckeln vid inloggningen. Efter inloggning omdirigeras " +
+                    "Obs: använd säkerhetsnyckeln test-key1 vid inloggningen. Efter inloggning omdirigeras " +
                             "du till BANKID för att verifiera din säkerhetsnyckel.",
-                    "Note: please use the security key during the login process. After logging in," +
+                    "Note: please use the security key test-key1 during the login process. After logging in," +
                             " you will be redirected to BANKID page to verify your security key.");
         }
         else if(testData.isVerifySecurityKeyByEidas()){
@@ -88,9 +88,9 @@ public class SecurityKey {
 
             //Verify the security pop up and click accept
             common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div[3]/span/button[3]",
-                    "Obs: använd säkerhetsnyckeln vid inloggningen. Efter inloggning omdirigeras " +
+                    "Obs: använd säkerhetsnyckeln test-key1 vid inloggningen. Efter inloggning omdirigeras " +
                             "du till EIDAS för att verifiera din säkerhetsnyckel.",
-                    "Note: please use the security key during the login process. After logging in," +
+                    "Note: please use the security key test-key1 during the login process. After logging in," +
                             " you will be redirected to EIDAS page to verify your security key.");
         }
 
@@ -219,31 +219,30 @@ public class SecurityKey {
         String pageBody = common.getPageBody();
 
         //Swedish
-        //Verify site location menu, beside Start link
-        common.verifySiteLocation("Säkerhet");
-
         common.verifyPageBodyContainsString(pageBody,"Säkerhet");
-        common.verifyPageBodyContainsString(pageBody,"Ökad säkerhet för ditt eduID.");
+        common.verifyPageBodyContainsString(pageBody,"Öka och hantera säkerheten för ditt eduID.");
 
         //Security key
-        common.verifyPageBodyContainsString(pageBody,"Tvåfaktorsautentisering (2FA)");
+        common.verifyPageBodyContainsString(pageBody,"Lägg till multifaktorautentisering (MFA)");
         common.verifyPageBodyContainsString(pageBody,"Om möjligt lägg till ett ytterligare sätt att " +
-                "identifiera dig i form av en säkerhetsnyckel, utöver användarnamn och lösenord, så att du är säker på " +
-                "att bara du har tillgång till ditt eduID. Exempel på säkerhetsnycklar är en separat USB-säkerhetsnyckel," +
-                " eller inbyggda funktioner i din enhet som mobiltelefon eller dator.");
+                "identifiera dig i form av en säkerhetsnyckel, utöver användarnamn och lösenord, för att vara säker på " +
+                "att bara du har tillgång till ditt eduID. Exempelvis en separat USB-säkerhetsnyckel som du kan skaffa," +
+                " eller inbyggda passkey/lösennyckel-funktioner i din enhet som använder biometri eller pinkod. Lägg " +
+                "gärna till flera säkerhetsnycklar.");
         common.verifyPageBodyContainsString(pageBody,"Obs: Tillagda säkerhetsnycklar är personliga och ska " +
                 "inte delas med andra. Det är för att säkerställa att endast du som kontohavare har tillgång till ditt konto.");
-        common.verifyPageBodyContainsString(pageBody,"Du kan läsa mer om säkerhetsnycklar i hjälpavsnittet: Utökad säkerhet med ditt eduID.");
+        common.verifyPageBodyContainsString(pageBody,"Du kan läsa mer om säkerhetsnycklar som stöds i " +
+                "hjälpavsnittet: Utökad säkerhet med ditt eduID.");
 
         //Verify internal link to help pages works
         common.verifyXpathIsWorkingLink("//*[@id=\"content\"]/article[1]/p[3]/a");
 
         common.verifyPageBodyContainsString(pageBody,"Lägg till en ny säkerhetsnyckel:");
         common.verifyStringById("security-webauthn-button", "SÄKERHETSNYCKEL");
-        common.verifyPageBodyContainsString(pageBody,"USB-säkerhetsnyckel som du använder.");
+        common.verifyPageBodyContainsString(pageBody,"Din externa USB-säkerhetsnyckel");
         if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
             common.verifyStringById("security-webauthn-platform-button", "DEN HÄR ENHETEN");
-            common.verifyPageBodyContainsString(pageBody,"Enheten som du just nu använder");
+            common.verifyPageBodyContainsString(pageBody,"Inbyggd passkey i din mobil eller laptop");
         }
 
         //click on english
@@ -257,30 +256,29 @@ public class SecurityKey {
         pageBody = common.getPageBody();
 
         //English
-        //Verify site location menu, beside Start link
-        common.verifySiteLocation("Security");
-
         common.verifyPageBodyContainsString(pageBody,"Security");
-        common.verifyPageBodyContainsString(pageBody,"Enhanced security of your eduID.");
+        common.verifyPageBodyContainsString(pageBody,"Enhance and manage the security of your eduID.");
 
         //Security key
-        common.verifyPageBodyContainsString(pageBody,"Two-factor Authentication (2FA)");
+        common.verifyPageBodyContainsString(pageBody,"Add multi-factor Authentication (MFA)");
         common.verifyPageBodyContainsString(pageBody,"If possible add a security key as a second factor " +
-                "of authentication, beyond username and password, to prove you are the owner of your eduID. Examples are" +
-                " separate physical USB security keys, or built-in features on your device such as mobile phone or laptop computer.");
+                "of authentication, beyond username and password, to prove you are the owner of your eduID. Examples " +
+                "are separate physical USB security keys that you can get, or built-in passkey features on your device," +
+                " such as biometrics or pins. It is recommended to add more than one security key.");
         common.verifyPageBodyContainsString(pageBody,"Note: Added security keys are personal and not to be " +
                 "shared with others. This is to ensure that access to your account is limited solely to you, the account holder.");
-        common.verifyPageBodyContainsString(pageBody,"You can read more about security keys in the Help section: Improving the security level of eduID.");
+        common.verifyPageBodyContainsString(pageBody,"You can read more about supported security keys in " +
+                "the Help section: Improving the security level of eduID.");
 
         //Verify internal link to help pages works
         common.verifyXpathIsWorkingLink("//*[@id=\"content\"]/article[1]/p[3]/a");
 
         common.verifyPageBodyContainsString(pageBody,"Add a new security key:");
         common.verifyStringById("security-webauthn-button", "SECURITY KEY");
-        common.verifyPageBodyContainsString(pageBody,"A USB Security Key you are using.");
+        common.verifyPageBodyContainsString(pageBody,"Your external USB security key");
         if(testData.getBrowser().equalsIgnoreCase("chrome") && testData.getHeadlessExecution().equalsIgnoreCase("false")){
             common.verifyStringById("security-webauthn-platform-button", "THIS DEVICE");
-            common.verifyPageBodyContainsString(pageBody,"The device you are currently using.");
+            common.verifyPageBodyContainsString(pageBody,"Internal passkey on your phone or laptop");
         }
         log.info("Done verify security page labels - english");
     }
@@ -319,39 +317,35 @@ public class SecurityKey {
 
 
     public void virtualAuthenticator(){
-        //Add cookie for back doors, if not set
+        //Add cookie for back doors, if not already set
         if(!common.isCookieSet("autotests"))
             common.addMagicCookie();
-/*
 
         //Virtual authenticatior emulating authenticator devices in chrome
-        // Create a DevTools session
-        DevTools devTools = ((ChromeDriver) common.getWebDriver()).getDevTools();
-        devTools.createSession();
-
-        // Enable security domain
-        devTools.send(Security.enable());
-
-        // Set up a virtual authenticator (USB)
-        JsonObject options = new JsonObject();
-        options.addProperty("transport", "usb");
-        options.addProperty("hasUserVerification", true);
-        options.addProperty("isUserVerified", true);
-
-        JsonObject setUserVerifiedParams = new JsonObject();
-        setUserVerifiedParams.add("options", options);
-
-        // Execute the CDP command to set user verified
-        //TODO send the command to devtools in some other way...
-        //devTools.executeCdpCommand("Security.setUserVerified", setUserVerifiedParams);
-
-        System.out.println("Virtual USB authentication completed successfully");
-*/
-
         VirtualAuthenticatorOptions options = new VirtualAuthenticatorOptions();
-        options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
+/*        options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
                 .setHasUserVerification(true)
-                .setIsUserVerified(true);
+                .setIsUserConsenting(true)
+                .setIsUserVerified(true);*/
+
+        if(testData.isMfaUserConsentingAuthentication()){
+            options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
+                    .setHasUserVerification(true)
+                    .setIsUserConsenting(true)
+                    .setIsUserVerified(true);
+        }
+        else if(testData.isMfaUserDeclinedConsentAuthentication()){
+            options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
+                    .setHasUserVerification(true)
+                    .setIsUserConsenting(false)
+                    .setIsUserVerified(true);
+        }
+        else {
+            options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
+                    .setHasUserVerification(true)
+                    .setIsUserVerified(true);
+        }
+
 
         VirtualAuthenticator authenticator = ((HasVirtualAuthenticator) common.getWebDriver()).addVirtualAuthenticator(options);
         authenticator.setUserVerified(true);

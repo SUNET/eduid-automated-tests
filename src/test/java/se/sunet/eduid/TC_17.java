@@ -36,6 +36,8 @@ public class TC_17 extends BeforeAndAfter {
         //Turn security off for logging in
         common.explicitWaitClickableElement("//*[@id=\"content\"]/article[2]/form/fieldset/label/div");
         common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[2]/form/fieldset/label/div"));
+
+        testData.setMfaDisabled(true);
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
@@ -77,6 +79,8 @@ public class TC_17 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
+        testData.setAddSecurityKey(false);
+
         //Turn off the remember me function at startpage for this
         testData.setRememberMe(false);
         common.rememberMe();

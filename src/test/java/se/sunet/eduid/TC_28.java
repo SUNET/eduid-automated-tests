@@ -121,9 +121,9 @@ public class TC_28 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage4"} )
     void verifyAccountDeleted(){
+        testData.setReLogin(true);
         testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
+
+        login.runLogin();
     }
 }

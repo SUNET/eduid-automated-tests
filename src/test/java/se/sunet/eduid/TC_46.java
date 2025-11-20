@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
-public class TC_42 extends BeforeAndAfter {
+public class TC_46 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -61,6 +61,20 @@ public class TC_42 extends BeforeAndAfter {
         securityKey.verifiedSecurityKey();
     }
 
+    @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
+    void logout() { logout.runLogout(); }
+
+    @Test( dependsOnMethods = {"logout"} )
+    void startPage2() {
+        testData.setMfaUserDeclinedConsentAuthentication(true);
+        startPage.runStartPage();
+    }
+    //TODO - test case not completed press abort at the security log when mfa, maybe it can be done by setting user has NOT verified in virtural auth
+
+/*    @Test( dependsOnMethods = {"startPage"} )
+    void login2(){ login.runLogin(); }*/
+
+    /*
     //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
     void delete() {
@@ -121,13 +135,20 @@ public class TC_42 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"emailLink"} )
     void extraSecuritySecurityKey() {
+        //securityKey.virtualAuthenticator();
+
         //Set add security key just to pass label verification at log in extra security
+        //testData.setAddSecurityKey(false);
         testData.setResetPassword(true);
 
-        extraSecurity.selectMfaMethod();
-    }
+        //extraSecurity.runExtraSecurity();
 
-    @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
+        extraSecurity.selectMfaMethod();
+    }*/
+
+    //TODO continue here
+    /*
+    @Test( dependsOnMethods = {"selectIdRefIdp"} )
     void setRecommendedPassword2() { password.setPassword(); }
 
     @Test( dependsOnMethods = {"setRecommendedPassword2"} )
@@ -136,25 +157,13 @@ public class TC_42 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"passwordChanged"} )
     void login4(){
         testData.setResetPassword(false);
-        testData.setAccountDeleted(false);
-
-        login.enterUsername();
         login.enterPassword();
-
-        common.findWebElementById("login-form-button").click();
-    }
-
-    @Test( dependsOnMethods = {"login4"} )
-    void extraSecuritySecurityKey4() {
-        testData.setMfaUserConsentingAuthentication(true);
-        extraSecurity.selectMfaMethod();
-    }
-
-    @Test( dependsOnMethods = {"extraSecuritySecurityKey4"} )
+        login.signIn();
+    }*/
+/*
+    @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
     void dashboard() {
-        //Account is verification status
-        testData.setAccountVerified(true);
-        testData.setIdentityConfirmed(true);
+        //Account is verified
         testData.setAccountVerified(true);
 
         dashBoard.runDashBoard();
@@ -180,14 +189,10 @@ public class TC_42 extends BeforeAndAfter {
     void startPage4(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage4"} )
-    void extraSecuritySecurityKey5(){
-        extraSecurity.selectMfaMethod();
-    }
-
-    @Test( dependsOnMethods = {"extraSecuritySecurityKey5"} )
-    void verifyAccountDeleted2(){
-        testData.setAccountDeleted(true);
-
+    void login5(){
+        testData.setIncorrectPassword(true);
+        login.verifyPageTitle();
+        login.enterPassword();
         login.signIn();
-    }
+    }*/
 }

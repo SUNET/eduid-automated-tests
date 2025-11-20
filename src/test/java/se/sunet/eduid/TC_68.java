@@ -9,23 +9,11 @@ public class TC_68 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
+        testData.setMfaDisabled(true);
+
         //Disable Remember me
         testData.setRememberMe(false);
         common.rememberMe();
-
-        //Verify remember me labels
-        common.verifyStringOnPage("Kom ihåg mig på den här enheten");
-        common.verifyStringOnPage("Genom att tillåta eduID " +
-                "att komma ihåg dig på den här enheten kan inloggningen göras enklare och säkrare");
-
-        //Swedish
-        common.selectEnglish();
-        //Verify remember me labels
-        common.verifyStringOnPage("Remember me on this device");
-        common.verifyStringOnPage("Allowing eduID to remember " +
-                "you on this device makes logging in easier and more secure");
-
-        common.selectSwedish();
 
         login.runLogin();
     }

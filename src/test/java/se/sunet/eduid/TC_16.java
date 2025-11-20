@@ -105,9 +105,10 @@ public class TC_16 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        login.verifyPageTitle();
-        login.enterPassword();
-        common.click(common.findWebElementById("login-form-button"));
+        testData.setAddSecurityKey(false);
+        testData.setReLogin(true);
+
+        login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login2"} )
@@ -126,8 +127,7 @@ public class TC_16 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage3"} )
     void verifyAccountDeleted(){
         testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
+
+        login.runLogin();
     }
 }

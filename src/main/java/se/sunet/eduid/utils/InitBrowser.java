@@ -40,8 +40,10 @@ public class InitBrowser {
         //Time we will wait before retry functionality will step in
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(11));
 
-        webDriver.manage().window().setSize(new Dimension(1280, 1000));
-        webDriver.manage().window().setPosition(new Point(420, 0));
+        //webDriver.manage().window().setSize(new Dimension(1280, 1000));
+        //Setting width to 1199 to keep the expandable menu
+        webDriver.manage().window().setSize(new Dimension(1199, 1000));
+        webDriver.manage().window().setPosition(new Point(500, 0));
 
         return webDriver;
     }
@@ -78,10 +80,12 @@ public class InitBrowser {
 
             // If execution should be performed headless
             if (headless.equals("true")) {
-                chromeOptions.addArguments("--headless");
+                //chromeOptions.addArguments("--headless");
+                //New headless config thats acts more like gui version of dom.
+                chromeOptions.addArguments("--headless=new");
                 chromeOptions.addArguments("--lang=" +language);
 
-                chromeOptions.addArguments("window-size=1920,1080");
+                //chromeOptions.addArguments("window-size=1920,1080");
                 chromeOptions.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
 
             }
@@ -108,6 +112,7 @@ public class InitBrowser {
         if (System.getProperty("os.name").toLowerCase().contains("mac")) {
 
             //Create Firefox instance with options
+            WebDriverManager.firefoxdriver().clearDriverCache().setup();
             WebDriverManager.firefoxdriver().setup();
 
             FirefoxOptions firefoxOptions = new FirefoxOptions();

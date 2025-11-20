@@ -2,7 +2,7 @@
 
 <suite name="staging">
     <parameter name="browser" value="chrome" />
-    <parameter name="headless" value="true" />
+    <parameter name="headless" value="false" />
     <parameter name="language" value="sv" />
 
     <listeners>
@@ -293,7 +293,7 @@
 
     <test name="TC_42">
         <parameter name="testDescription" value="Register account, add security key and verify it by Freja. Delete account and reset password,
-        using security key as extra security." />
+        using security key as extra security. Verify that account still has the same security level" />
         <classes>
             <class name="se.sunet.eduid.TC_42" >
             </class>
@@ -316,24 +316,14 @@
         </classes>
     </test>
 
-<!--
-Obsolete! phone number is not used any more unleass they are already confirmed
-    <test name="TC_51">
-        <parameter name="testDescription" value="Add and confirm two extra phone numbers" />
+<!--    <test name="TC_50">
+        <parameter name="testDescription" value="Register account, add and verify security key. Log out and log in
+        with passkey, instead of username and password" />
         <classes>
-            <class name="se.sunet.eduid.TC_51" >
+            <class name="se.sunet.eduid.TC_50" >
             </class>
         </classes>
-    </test>
-
-    <test name="TC_55">
-        <parameter name="testDescription" value="Remove extra phone numbers added in TC_51" />
-        <classes>
-            <class name="se.sunet.eduid.TC_55" >
-            </class>
-        </classes>
-    </test>
--->
+    </test>-->
 
     <test name="TC_60">
         <parameter name="testDescription" value="Log in using 'Other Device' - 'Remember me' disabled" />

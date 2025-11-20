@@ -1,8 +1,6 @@
 package se.sunet.eduid.utils;
 
-
 import lombok.Data;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -33,8 +31,10 @@ public class TestData {
     private boolean verifySecurityKeyByEidas;
     private boolean accountVerified = true;
     private boolean useRecommendedPw = true;
+    private boolean rememberMe = true;
     private boolean registerAccount, resetPassword, incorrectPassword, removeNewEmail1,
-            resendOTP, deleteButton, otherDeviceFillCode, rememberMe, identityConfirmed, accountDeleted;
+            resendOTP, deleteButton, otherDeviceFillCode, identityConfirmed, accountDeleted,
+            mfaUserConsentingAuthentication, mfaUserDeclinedConsentAuthentication, reLogin, mfaDisabled;
     private int counter = 0;
 
     public void setProperties(String testSuite) throws IOException {

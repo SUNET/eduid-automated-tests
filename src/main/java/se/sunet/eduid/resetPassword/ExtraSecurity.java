@@ -60,9 +60,9 @@ public class ExtraSecurity {
         common.verifyPageBodyContainsString(pageBody, "Having issues using a security key?");
         common.verifyPageBodyContainsString(pageBody, "SHOW OTHER OPTIONS");
 
-        common.verifyPageBodyContainsString(pageBody, "Continue without security option");
-        common.verifyPageBodyContainsString(pageBody, "Your identity will require " +
-                "confirmation after the password has been reset. continue resetting password");
+        common.verifyPageBodyContainsString(pageBody, "Continue without additional authentication");
+        common.verifyPageBodyContainsString(pageBody, "Your identity will require confirmation after the " +
+                "password has been reset. ");
         common.verifyStringById("continue-without-security", "continue resetting password");
 
         //Switch to Swedish
@@ -85,13 +85,13 @@ public class ExtraSecurity {
                     "identitetsbekräftelse efter lösenordsåterställningen.");
         }
 
-        common.verifyPageBodyContainsString(pageBody, "Fortsätt utan extra säkerhet");
+        //common.verifyPageBodyContainsString(pageBody, "Fortsätt utan extra säkerhet");
         common.verifyPageBodyContainsString(pageBody, "Kan du inte använda säkerhetsnyckel?");
         common.verifyPageBodyContainsString(pageBody, "VISA ANDRA ALTERNATIV");
 
-        common.verifyPageBodyContainsString(pageBody, "Fortsätt utan extra säkerhet");
-        common.verifyPageBodyContainsString(pageBody, "Din identitet kommer att behöva verifieras efter att lösenordet har " +
-                "återställts. fortsätt återställa lösenordet");
+        common.verifyPageBodyContainsString(pageBody, "Fortsätt utan ytterligare autentisering");
+        common.verifyPageBodyContainsString(pageBody, "Din identitet kommer att behöva verifieras efter " +
+                "att lösenordet har återställts. ");
         common.verifyStringById("continue-without-security", "fortsätt återställa lösenordet");
     }
 

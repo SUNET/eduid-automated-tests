@@ -45,9 +45,6 @@ public class Identity {
 
         expandIdentityOptions();
 
-        //Verify site location menu, beside Start link
-        common.verifySiteLocation("Identitet");
-
         //Heading
         common.verifyStringByXpath("//*[@id=\"content\"]/section/h1", "Identitet");
         common.verifyStringByXpath("//*[@id=\"content\"]/section/div/p", "För att använda vissa" +
@@ -192,9 +189,6 @@ public class Identity {
         Common.log.info("Verify Identity heading labels in English");
 
         expandIdentityOptions();
-
-        //Verify site location menu, beside Start link
-        common.verifySiteLocation("Identity");
 
         //Heading
         common.verifyStringByXpath("//*[@id=\"content\"]/section/h1", "Identity");

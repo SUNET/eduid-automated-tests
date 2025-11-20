@@ -137,7 +137,7 @@ public class Help {
                 "IT-system. Eller så använder du bara ditt eduID konto för att skapa åtkomst till andra konton, t.ex. " +
                 "ditt studentkonto eller antagning.se.");
         //Verify link is working
-        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-about-eduid\"]/article/p[5]/a");
+        common.verifyXpathIsWorkingLink("//*[@id=\"help-about-eduid\"]/div/article/p[5]/a");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Logga in med eduID när du:");
@@ -166,7 +166,7 @@ public class Help {
         //Text
         common.verifyPageBodyContainsString(pageBody, "Hur du registrerar ditt nya eduID-konto på eduid.se/register:");
         //Verify link is working
-        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-create\"]/p/a");
+        common.verifyXpathIsWorkingLink("//*[@id=\"help-create\"]/div/p/a");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Ange ditt förnamn, efternamn och e-postadress i " +
@@ -217,7 +217,7 @@ public class Help {
                 "och följ instruktionerna för din säkerhetsnyckel.\n" +
                 "Ytterligare tillagd säkerhet finns listad i menyn \"Visa andra alternativ\", t.ex. BankID och Freja+.\n" +
                 "Om du bara vill använda säkerhetsnyckel för att logga in när det efterfrågas, stäng av kontrollen " +
-                "märkt \"Använd alltid tvåfaktorsautentisering (2FA) vid inloggning till eduID\" under Säkerhet.\n" +
+                "märkt \"Använd alltid säkerhetsnyckel för att logga in\" under Säkerhet.\n" +
                 "Obs: du kan läsa mer om säkerhetsnycklar i hjälpavsnittet \"Utökad säkerhet med ditt eduID\".");
 
         //Heading
@@ -240,7 +240,7 @@ public class Help {
                 "du har en tillagd) för att slutföra åtgärderna, t.ex:");
 
         common.verifyPageBodyContainsString(pageBody, "Lösenordsbyte.\n" +
-                "På- och avstängning av 2FA vid inloggning.\n" +
+                "På- och avstängning av MFA vid inloggning.\n" +
                 "Radera eduID-konto.\n" +
                 "Lägga till/ta bort säkerhetsnyckel.\n" +
                 "Radera din verifierade identitet.");
@@ -250,8 +250,9 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "När du loggar in i eduid.se finns olika " +
-                "inställningar uppdelade i 4 vyer; Start, Identitet, Säkerhet och Konto som nås med menyn i övre högra " +
-                "hörnet genom att klicka på användarnamnet. Läs mer om varje sida nedan.");
+                "inställningar uppdelade i 4 vyer; Start, Identitet, Säkerhet och Konto som nås med horisontella menyn" +
+                " i sidhuvudet för större skärmar eller en utfällbar meny i övre högra hörnet genom att klicka på " +
+                "användarnamnet. Läs mer om varje sida nedan.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Start");
@@ -259,9 +260,8 @@ public class Help {
         //Text
         common.verifyPageBodyContainsString(pageBody, "Startsidan innehåller:");
         common.verifyPageBodyContainsString(pageBody, "ditt namn\n" +
-                "ditt unika användar-ID\n" +
-                "en statusöversikt av ditt eduID som länkar till föreslagna inställningar i siten. Dessa uppgifter " +
-                "förstärker och utökar användbarheten av ditt eduID:\n" +
+                "ditt unika användar-ID - en del av vad som ibland kallas EPPN.\n" +
+                "en statusöversikt av ditt eduID som länkar till föreslagna inställningar i siten. Dessa uppgifter förstärker och utökar användbarheten av ditt eduID:\n" +
                 "bekräftat konto (bekräftad epostadress och godkända användarvillkor)\n" +
                 "verifierad verklig identitet\n" +
                 "ökad säkerhet (lagt till metod för multifaktor-inloggning)\n" +
@@ -295,14 +295,18 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Säkerhetssidan innehåller:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Knappar för att lägga till tvåfaktorsautentisering för att öka säkerheten för ditt eduID m.h.a. en säkerhetsnyckel som ytterligare ett lager till inloggningsprocessen utöver ditt lösenord. Genom att även verifiera säkerhetsnyckeln kopplas den till din identitet vilket stärker kontots tillitsnivå. Du kan lägga till så många säkerhetsnycklar du önskar och beroende på din enhet (dator, mobil, operativsystem m.m.) är alternativen för att lägga till en säkerhetsnyckel följande:\n" +
+        common.verifyPageBodyContainsString(pageBody, "Knappar för att lägga till multifaktorautentisering" +
+                " för att öka säkerheten för ditt eduID m.h.a. en säkerhetsnyckel som ytterligare ett lager till " +
+                "inloggningsprocessen utöver ditt lösenord. Genom att även verifiera säkerhetsnyckeln kopplas den till " +
+                "din identitet vilket stärker kontots tillitsnivå. Du kan lägga till så många säkerhetsnycklar du önskar" +
+                " och beroende på din enhet (dator, mobil, operativsystem m.m.) är alternativen för att lägga till en " +
+                "säkerhetsnyckel följande:\n" +
                 "Denna enhet: inbyggd säkerhetsnyckel i mobil eller laptop, t.ex. passkey med din biometriska information.\n" +
                 "Säkerhetsnyckel: extern enhet som t.ex. din USB-säkerhetsnyckel,");
 
         common.verifyPageBodyContainsString(pageBody, "Under \"Hantera dina säkerhetsnycklar\" finns en " +
-                "toggle-kontroll märkt \"Använd alltid tvåfaktorsautentisering (2FA) vid inloggning till eduID\" som " +
-                "kan stängas av för att bara använda säkerhetsnyckel för att logga in när det efterfrågas. " +
-                "Standardinställning är påslagen.");
+                "toggle-kontroll märkt \"Använd alltid säkerhetsnyckel för att logga in\" som kan stängas av för att " +
+                "bara använda säkerhetsnyckel för att logga in när det efterfrågas. Standardinställning är påslagen.");
 
         common.verifyPageBodyContainsString(pageBody, "En tabell som visar dina tillagda nycklar med " +
                 "följande information:\n" +
@@ -357,12 +361,12 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Hur kan jag göra mitt eduID säkrare?");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Vissa tjänster kräver att kontot du använder för att logga in har " +
-                "en högre tillitsnivå. När du skapar ett konto i eduID behöver du kännedom om ditt användarnamn " +
-                "(bekräftad epost-adress) och tillhörande lösenord. Lösenordet räknas som den första " +
+        common.verifyPageBodyContainsString(pageBody, "Vissa tjänster kräver att kontot du använder för " +
+                "att logga in har en högre tillitsnivå. När du skapar ett konto i eduID behöver du kännedom om ditt " +
+                "användarnamn (bekräftad epost-adress) och tillhörande lösenord. Lösenordet räknas som den första " +
                 "autentiserings-faktorn. För ett ytterligare lager av autentisering för att kunna logga in kan du " +
-                "lägga till en säkerhetsnyckel. Säkerhetsnyckeln kallas tvåfaktorsautentisering (2FA) eller i vissa " +
-                "fall multifaktorautentisering (MFA).");
+                "lägga till en säkerhetsnyckel. Säkerhetsnyckeln kallas multifaktorautentisering (MFA) eller i vissa " +
+                "fall tvåfaktorautentisering (2FA).");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Ett exempel på en säkerhetsnyckel är en fysisk ändamålsenlig " +
@@ -371,15 +375,15 @@ public class Help {
                 "in med, för att kunna låsa upp säkerhetsnyckeln vid behov.");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "Hur kan jag lägga till 2FA för mitt eduID?");
+        common.verifyPageBodyContainsString(pageBody, "Hur kan jag lägga till MFA för mitt eduID?");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "När du är inloggad kan du lägga till och bekräfta " +
                 "säkerhetsnycklar som du har möjlighet att använda, under Säkerhet i eduID och följa instruktionerna.");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Obs: om du har lagt till en säkerhetsnyckel till " +
-                "ditt eduID behöver du sedan använda den för att kunna logga in, om du inte har stängt av 2FA " +
+        common.verifyPageBodyContainsString(pageBody, "Obs: om du har lagt till en säkerhetsnyckel till" +
+                " ditt eduID behöver du sedan använda den för att kunna logga in, om du inte har stängt av MFA " +
                 "inställningen under Säkerhet. Du kan ändå behöva använda säkerhetsnyckeln för åtkomst till andra " +
                 "anslutande tjänster som kräver det.");
 
@@ -398,7 +402,7 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Kontrollera med tillverkaren eller återförsäljaren om produkten möter dessa krav:");
         common.verifyPageBodyContainsString(pageBody, "Certifierad FIDO 2.0, läs mer på fidoalliance.org.");
         //Verify link is working
-        //common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-security-usb\"]/article/ul/li[1]/a");
+        //common.verifyXpathIsWorkingLink("//*[@id=\"panel-help-security-usb\"]/article/ul/li[1]/a");
         common.verifyPageBodyContainsString(pageBody, "Släpper ett intyg utfärdat av tillverkaren som berättar vilken enhet " +
                 "det är i samband med inloggningen och kräver att personen är fysiskt vid säkerhetsnyckeln för att den ska kunna användas. ");
         common.verifyPageBodyContainsString(pageBody, "YTTERLIGARE TEKNISK INFORMATION:");
@@ -479,8 +483,9 @@ public class Help {
         //Text
         common.verifyPageBodyContainsString(pageBody, "installera Freja-appen på din mobila enhet " +
                 "(iOS eller Android) och skapa ett Freja+ konto enligt instruktionerna,");
+
         //Verify link is working
-        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-freja\"]/article/ul/li[1]/a");
+        common.verifyXpathIsWorkingLink("//*[@id=\"help-freja\"]/div/article/ul/li[1]/a");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "om du har ett giltigt svenskt pass kan du verifiera ditt konto " +
@@ -667,7 +672,7 @@ public class Help {
                 "logga in i ORCID och ge eduID tillstånd att använda ditt ORCID iD för att försäkra att det är " +
                 "korrekt kopplat till dig.");
         //Verify link is working
-        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-orcid-ladok\"]/article[1]/ul/li[1]/a");
+        common.verifyXpathIsWorkingLink("//*[@id=\"help-orcid-ladok\"]/div/article[1]/ul/li[1]/a");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Hur kan jag ta bort ett länkat ORCID från eduID?");
@@ -736,7 +741,7 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Läs Integritetspolicyn i sin helhet för användning av eduID på Sunets " +
                 "hemsida, där du även hittar kontaktinformation till Dataskyddsombudet och Integritetsskyddsmyndigheten.");
         //Verify link is working
-        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-privacy-accessibility\"]/article[1]/p[1]/a");
+        common.verifyXpathIsWorkingLink("//*[@id=\"help-privacy-accessibility\"]/div/article[1]/p[1]/a");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Sammanfattning av hur eduID behandlar dina personuppgifter enligt policyn:");
@@ -761,7 +766,7 @@ public class Help {
                 "tillgänglighet. Rapporten beskriver eduIDs arbete för förenlighet med lagen om tillgänglighet till " +
                 "digital offentlig service, inklusive kända brister.");
         //Verify link is working
-        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-privacy-accessibility\"]/article[2]/p[1]/a");
+        common.verifyXpathIsWorkingLink("//*[@id=\"help-privacy-accessibility\"]/div/article[2]/p[1]/a");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Det är av stor vikt för oss att så många som möjligt kan använda " +
@@ -785,7 +790,7 @@ public class Help {
                 "framförallt lärosäten gemensamma rutiner för identitetshantering av väl identifierade och " +
                 "autentiserade användare. Läs mer om SUNET på www.sunet.se.");
         //Verify link is working
-        common.verifyXpathIsWorkingLink("//*[@id=\"accordion__panel-help-about-sunet\"]/article/p[2]/a");
+        common.verifyXpathIsWorkingLink("//*[@id=\"help-about-sunet\"]/div/article/p[2]/a");
     }
 
     private void contactEduIdSwe(){
@@ -926,12 +931,12 @@ public class Help {
         //Text
         common.verifyPageBodyContainsString(pageBody, "If you have added a security key for authentication " +
                 "under Security, it will be requested after the initial login form in an additional Security step:");
-        common.verifyPageBodyContainsString(pageBody, "Press the \"Use my security key\" button and follow " +
-                "the instructions, which will vary depending on your key.\n" +
-                "Added security alternatives are listed in the \"Other options\" dropdown below the security key button, " +
-                "such as BankID and Freja+.\n" +
-                "If you don't wish to use a security key to log in unless required, set the \"Always use a second factor " +
-                "(2FA) to log in to eduID\" toggle control under Security to off.\n" +
+        common.verifyPageBodyContainsString(pageBody, "Press the \"Use my security key\" button and follow" +
+                " the instructions, which will vary depending on your key.\n" +
+                "Added security alternatives are listed in the \"Other options\" dropdown below the security key button," +
+                " such as BankID and Freja+.\n" +
+                "If you don't wish to use a security key to log in unless required, set the \"Always use a security key" +
+                " to log in\" toggle control under Security to off.\n" +
                 "Note: you can read more about security keys in the \"Enhancing the security level of eduID\" help section.");
 
         //Heading
@@ -952,7 +957,7 @@ public class Help {
                 "will be asked to log in again (with your security key if you are using one), if more than 5 minutes " +
                 "have passed since you logged in, e.g:");
         common.verifyPageBodyContainsString(pageBody, "Changing your password.\n" +
-                "Toggling 2FA login requirement setting.\n" +
+                "Toggling MFA login requirement setting.\n" +
                 "Deleting your eduID account.\n" +
                 "Adding/removing a security key.\n" +
                 "Deleting your verified identity.");
@@ -962,8 +967,9 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "When you log in to eduid.se the various settings " +
-                "are grouped into 4 views; Start, Identity, Security and Account, accessible from the drop down menu " +
-                "in the header by clicking on your username. Read more about the possible actions of each page below.");
+                "are grouped into 4 views; Start, Identity, Security and Account, accessible from the header with a " +
+                "horizontal menu for larger screens or drop down menu by clicking on your username on smaller screens." +
+                " Read more about the possible actions of each page below.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Start");
@@ -971,9 +977,8 @@ public class Help {
         //Text
         common.verifyPageBodyContainsString(pageBody, "The Start page contains:");
         common.verifyPageBodyContainsString(pageBody, "your name\n" +
-                "your unique user ID\n" +
-                "an overview of the status of your eduID with links to where it can be addressed in the site. These " +
-                "tasks strengthen and increase the use of your eduID:\n" +
+                "your unique user ID - part of what is sometimes referred to as EPPN.\n" +
+                "an overview of the status of your eduID with links to where it can be addressed in the site. These tasks strengthen and increase the use of your eduID:\n" +
                 "confirmed account (confirmed email address and accepted terms of use)\n" +
                 "real identity verified\n" +
                 "enhanced security (added a method used for multi factor login)\n" +
@@ -1007,17 +1012,17 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "The Security page contains:");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Buttons to add Two-factor authentication to increase " +
-                "the security of your eduID by adding a layer called a security key to your login process besides password. " +
-                "By also verifying the security key it is bound to your identity, increasing the assurance level of your " +
-                "account. You can add as many as you wish and depending on your device (computer, mobile, operating system etc.), " +
-                "the options to add a security key include:\n" +
+        common.verifyPageBodyContainsString(pageBody, "Buttons to add multi-factor authentication to " +
+                "increase the security of your eduID by adding a layer called a security key to your login process " +
+                "besides password. By also verifying the security key it is bound to your identity, increasing the " +
+                "assurance level of your account. You can add as many as you wish and depending on your device " +
+                "(computer, mobile, operating system etc.), the options to add a security key include:\n" +
                 "This device: built in security key in mobile or laptop, e.g. a passkey, including your biometrics.\n" +
                 "Security key: external device such as your USB security key.");
 
         common.verifyPageBodyContainsString(pageBody, "Under \"Manage your security keys\" is a toggle " +
-                "control marked \"Always use a second factor (2FA) to log in to eduID\" which can let you log in with " +
-                "your eduID account without using your added security key when allowed. Default setting is on.");
+                "control marked \"Always use a security key to log in\" which can let you log in with your eduID account" +
+                " without using your added security key when allowed. Default setting is on.");
 
         common.verifyPageBodyContainsString(pageBody, "A table displaying all your added security keys " +
                 "with the following information:\n" +
@@ -1068,18 +1073,16 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Enhancing the security level of eduID");
 
         //Heading - text
-        common.verifyPageBodyContainsString(pageBody, "Adding an MFA/2FA Security Key");
+        common.verifyPageBodyContainsString(pageBody, "Adding an MFA Security Key");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "How can I make my eduID more secure?");
 
         //Text
-        common.verifyPageBodyContainsString(pageBody, "Depending on the service you are trying to access it might require " +
-                "that the account used to log in has reached a certain level of security. When you create your account " +
-                "you are required to have knowledge of your username (confirmed email address) and its associated " +
-                "password. The password is considered the first factor of authentication. For an additional layer of " +
-                "authentication to log in you may add a security key. The security key is called a two-factor " +
-                "authentication (2FA) or in some cases multi-factor (MFA), depending on the specifics of the layers of authentication.");
+        common.verifyPageBodyContainsString(pageBody, "Some services will require a higher security level" +
+                " and to improve the security of your eduID, in addition to knowledge of your username (e.g. confirmed" +
+                " email address) and password combination, you can use another layer of authentication to log in. This " +
+                "is called multi-Factor authentication (MFA); and in eduID's case usually two-factor authentication (2FA).");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "An example of a security key would be a physical device in your " +
@@ -1088,7 +1091,7 @@ public class Help {
                 "supported on the device you are using, to be able to unlock your security key, if needed.");
 
         //Heading
-        common.verifyPageBodyContainsString(pageBody, "How can I add 2FA to eduID?");
+        common.verifyPageBodyContainsString(pageBody, "How do I implement MFA with eduID?");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "When logged in you can add and confirm security " +
@@ -1097,9 +1100,8 @@ public class Help {
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Note: if you have added a security key to your " +
-                "eduID it must be used to log in to eduID, unless you turn off this feature under Two-factor " +
-                "Authentication (2FA) in Security. You might still need to use your security key if other connecting " +
-                "services require 2FA.");
+                "eduID it must be used to log in to eduID, unless you turn off this feature under Manage your security" +
+                " keys in Security. You might still need to use your security key if other connecting services require MFA.");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Which type of security key can I use with eduID?");
@@ -1515,57 +1517,57 @@ public class Help {
     }
 
     public void expandAllOptions(){
-        if(common.findWebElementById("accordion__heading-help-contact").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-contact"));
-        if(common.findWebElementById("accordion__heading-help-about-sunet").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-about-sunet"));
-        if(common.findWebElementById("accordion__heading-help-privacy-accessibility").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-privacy-accessibility"));
-        if(common.findWebElementById("accordion__heading-help-orcid-ladok").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-orcid-ladok"));
-        if(common.findWebElementById("accordion__heading-help-tou").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-tou"));
-        if(common.findWebElementById("accordion__heading-help-verification").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-verification"));
-        if(common.findWebElementById("accordion__heading-help-international").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-international"));
-        if(common.findWebElementById("accordion__heading-help-eidas").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-eidas"));
-        if(common.findWebElementById("accordion__heading-help-freja").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-freja"));
-        if(common.findWebElementById("accordion__heading-help-bankid").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-bankid"));
-        if(common.findWebElementById("accordion__heading-help-security-key").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-security-key"));
-        if(common.findWebElementById("accordion__heading-help-assurance-levels").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-assurance-levels"));
-        if(common.findWebElementById("accordion__heading-help-security-usb").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-security-usb"));
-        if(common.findWebElementById("accordion__heading-security-key-list").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-security-key-list"));
+        if(common.findWebElementById("help-contact").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-contact-button"));
+        if(common.findWebElementById("help-about-sunet").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-about-sunet-button"));
+        if(common.findWebElementById("help-privacy-accessibility").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-privacy-accessibility-button"));
+        if(common.findWebElementById("help-orcid-ladok").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-orcid-ladok-button"));
+        if(common.findWebElementById("help-tou").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-tou-button"));
+        if(common.findWebElementById("help-verification").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-verification-button"));
+        if(common.findWebElementById("help-international").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-international-button"));
+        if(common.findWebElementById("help-eidas").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-eidas-button"));
+        if(common.findWebElementById("help-freja").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-freja-button"));
+        if(common.findWebElementById("help-bankid").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-bankid-button"));
+        if(common.findWebElementById("help-security-key").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-security-key-button"));
+        if(common.findWebElementById("help-assurance-levels").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-assurance-levels-button"));
+        if(common.findWebElementById("help-security-usb").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-security-usb-button"));
+        if(common.findWebElementById("security-key-list").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("security-key-list-button"));
 
         //Use eduID
-        if(common.findWebElementById("accordion__heading-help-using-eduid").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-using-eduid"));
-        if(common.findWebElementById("accordion__heading-help-relogin").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-relogin"));
-        if(common.findWebElementById("accordion__heading-help-Account").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-Account"));
-        if(common.findWebElementById("accordion__heading-help-security").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-security"));
-        if(common.findWebElementById("accordion__heading-help-identity").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-identity"));
-        if(common.findWebElementById("accordion__heading-help-start").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-start"));
-        if(common.findWebElementById("accordion__heading-help-pw").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-pw"));
-        if(common.findWebElementById("accordion__heading-help-login").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-login"));
-        if(common.findWebElementById("accordion__heading-help-create").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-create"));
+        if(common.findWebElementById("help-using-eduid").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-using-eduid-button"));
+        if(common.findWebElementById("help-relogin").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-relogin-button"));
+        if(common.findWebElementById("help-Account").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-Account-button"));
+        if(common.findWebElementById("help-security").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-security-button"));
+        if(common.findWebElementById("help-identity").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-identity-button"));
+        if(common.findWebElementById("help-start").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-start-button"));
+        if(common.findWebElementById("help-pw").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-pw-button"));
+        if(common.findWebElementById("help-login").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-login-button"));
+        if(common.findWebElementById("help-create").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-create-button"));
 
 
-        if(common.findWebElementById("accordion__heading-help-about-eduid").getDomAttribute("aria-expanded").equalsIgnoreCase("false"))
-            common.click(common.findWebElementById("accordion__heading-help-about-eduid"));
+        if(common.findWebElementById("help-about-eduid").getDomAttribute("open") == null)
+            common.click(common.findWebElementById("help-about-eduid-button"));
     }
 }

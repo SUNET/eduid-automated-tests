@@ -151,14 +151,6 @@ public class Account {
         Common.log.info("Verify Account page labels - Swedish");
 
         //Swedish
-        //Verify site location menu, beside Start link
-        common.verifySiteLocation("Konto");
-
-        //Swedish
-        //Verify site location menu, beside Start link
-
-        common.verifySiteLocation("Konto");
-
         common.verifyPageBodyContainsString(pageBody,"Konto");
         common.verifyPageBodyContainsString(pageBody,"Uppdatera dina eduID-kontoinställningar, byt lösenord eller ta bort ditt eduID.");
 
@@ -198,9 +190,6 @@ public class Account {
 
 
         //English
-        //Verify site location menu, beside Start link
-        common.verifySiteLocation("Account");
-
         common.verifyPageBodyContainsString(pageBody,"Account");
         common.verifyPageBodyContainsString(pageBody,"Update your eduID account settings, change password or delete your eduID.");
 

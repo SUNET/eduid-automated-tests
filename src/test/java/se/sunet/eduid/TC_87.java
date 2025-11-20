@@ -50,7 +50,7 @@ public class TC_87 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login2"} )
     void validateSuccessfulLogin(){
-        //Wait for handeling of personal info link
+        //Wait for handling of personal info link
         common.explicitWaitVisibilityElement("//div[2]/div/div/p[5]/a");
 
         common.verifyStringOnPage("Grattis!\n" +

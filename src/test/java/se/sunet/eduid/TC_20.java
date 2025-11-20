@@ -40,8 +40,10 @@ public class TC_20 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        login.enterPassword();
-        login.signIn();
+        testData.setAddSecurityKey(false);
+        testData.setReLogin(true);
+
+        login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login2"} )

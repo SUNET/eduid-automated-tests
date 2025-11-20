@@ -22,7 +22,8 @@ public class TC_19 extends BeforeAndAfter {
    }
 
     @Test( dependsOnMethods = {"dashboard"} )
-    void setRecommendedPassword() { password.runPassword(); }
+    void setRecommendedPassword() {
+        password.runPassword(); }
 
     @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void logout() {
@@ -38,8 +39,10 @@ public class TC_19 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        login.enterPassword();
-        login.signIn();
+        testData.setAddSecurityKey(false);
+        testData.setReLogin(true);
+
+        login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login2"} )

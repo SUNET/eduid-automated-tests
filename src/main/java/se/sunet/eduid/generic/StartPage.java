@@ -10,7 +10,7 @@ public class StartPage {
     //Buttons and text at page
     String buttonSign = "sign-up-button";
     String buttonLogin = "login-button";
-    String h1EduEasierAndSafer = "//h1";
+    String h1EduEasierAndSafer = "//*[@id=\"eduid-splash-and-children\"]/div[1]/h1";
     String  pCreateEduAndConnect = "//p[.//strong]";
     String pEduEasierForYou = "//html/body/div/div/main/div/section/div/div[1]/p[2]";
     String pYouCanReadMore = "//p[.//a[@target='_blank']]";

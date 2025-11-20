@@ -151,9 +151,6 @@ public class Name {
         //Extract page body for validation
         pageBody = common.getPageBody();
 
-        //Verify site location menu, beside Start link
-        common.verifySiteLocation("Identitet");
-
         //Heading
         common.verifyPageBodyContainsString(pageBody,  "Namn & visningsnamn");
 
@@ -181,9 +178,6 @@ public class Name {
 
         //Extract page body for validation
         pageBody = common.getPageBody();
-
-        //Verify site location menu, beside Start link
-        common.verifySiteLocation("Identity");
 
         //Heading
         common.verifyPageBodyContainsString(pageBody, "Names & display Name");

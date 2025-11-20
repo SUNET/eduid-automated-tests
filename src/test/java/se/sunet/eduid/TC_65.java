@@ -45,11 +45,13 @@ public class TC_65 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"waitForTimeout"} )
     void verifyLabels() {
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "The code has expired, please close this browser window.");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p",
+                "The code has expired, please close this browser window.");
 
         common.selectSwedish();
         common.timeoutSeconds(121);
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Koden har gått ut och du bör stänga det här fönstret");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p",
+                "Koden har gått ut och du bör stänga det här fönstret");
     }
 }

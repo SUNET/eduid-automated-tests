@@ -76,7 +76,7 @@ public class LoginOtherDevice {
         if(testData.getOtherDeviceSubmitCode().equalsIgnoreCase("true")) {
             //Submit code
             if(testData.isOtherDeviceFillCode())
-                common.click(common.findWebElementById("response-code-submit-button"));
+                common.click(common.findWebElementById("response-code-ok-button"));
             else
                 common.click(common.findWebElementById("response-code-continue-button"));
         }

@@ -52,10 +52,10 @@ public class TC_40 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void verifyAccountDeleted(){
+        testData.setReLogin(true);
         testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
+
+        login.runLogin();
 
         testData.setIncorrectPassword(false);
     }
@@ -108,8 +108,10 @@ public class TC_40 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"passwordChanged"} )
     void login4(){
         testData.setResetPassword(false);
-        login.enterPassword();
-        login.signIn();
+        testData.setAddSecurityKey(false);
+        testData.setReLogin(true);
+
+        login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login4"} )
@@ -145,8 +147,7 @@ public class TC_40 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage4"} )
     void verifyAccountDeleted2(){
         testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
+
+        login.runLogin();
     }
 }

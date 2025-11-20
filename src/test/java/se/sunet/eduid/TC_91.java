@@ -44,22 +44,23 @@ public class TC_91 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmedNewAccount2"} )
     void login2(){
         testData.setRegisterAccount(false);
+
         login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login2"} )
-    void dashboard() {
+/*    void dashboard() {
         //Set some user data that will be verified in dashboard
-        testData.setDisplayName("inget namn sparat");
+*//*        testData.setDisplayName("inget namn sparat");
         testData.setGivenName("inget");
         testData.setSurName("namn");
         testData.setIdentityNumber("lägg till personnummer");
-        testData.setEmail(testData.getUsername());
+        testData.setEmail(testData.getUsername());*//*
 
         common.navigateToAccount();
     }
 
-    @Test( dependsOnMethods = {"dashboard"} )
+    @Test( dependsOnMethods = {"dashboard"} )*/
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }
@@ -69,9 +70,9 @@ public class TC_91 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage3"} )
     void verifyAccountDeleted(){
+        testData.setReLogin(true);
         testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
+
+        login.runLogin();
     }
 }

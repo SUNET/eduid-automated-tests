@@ -70,15 +70,31 @@ public class SwamidData {
             common.verifyXpathContainsString("//*[@id=\"attributes\"]/table[1]/tbody/tr[3]/td", testData.getGivenName() + " " +testData.getSurName());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[4]/td", "Sweden");
             common.verifyStrings(common.findWebElementByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[5]/td").getText(), testData.getDisplayName());
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[6]/td",
-                    "http://www.swamid.se/policy/assurance/al1\n" +
-                            "http://www.swamid.se/policy/assurance/al2\n" +
-                            "https://refeds.org/assurance\n" +
-                            "https://refeds.org/assurance/profile/cappuccino\n" +
-                            "https://refeds.org/assurance/ID/unique\n" +
-                            "https://refeds.org/assurance/ID/eppn-unique-no-reassign\n" +
-                            "https://refeds.org/assurance/IAP/low\n" +
-                            "https://refeds.org/assurance/IAP/medium");
+            if(testData.getMfaMethod().equalsIgnoreCase("securitykey")) {
+                common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[6]/td",
+                        "http://www.swamid.se/policy/assurance/al1\n" +
+                                "http://www.swamid.se/policy/assurance/al2\n" +
+                                "https://refeds.org/assurance\n" +
+                                "https://refeds.org/assurance/profile/cappuccino\n" +
+                                "https://refeds.org/assurance/ID/unique\n" +
+                                "https://refeds.org/assurance/ID/eppn-unique-no-reassign\n" +
+                                "https://refeds.org/assurance/IAP/low\n" +
+                                "https://refeds.org/assurance/IAP/medium");
+            }
+            else if(testData.getMfaMethod().equalsIgnoreCase("freja")) {
+                common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[6]/td",
+                        "http://www.swamid.se/policy/assurance/al1\n" +
+                                "http://www.swamid.se/policy/assurance/al2\n" +
+                                "http://www.swamid.se/policy/assurance/al3\n" +
+                                "https://refeds.org/assurance\n" +
+                                "https://refeds.org/assurance/profile/cappuccino\n" +
+                                "https://refeds.org/assurance/profile/espresso\n" +
+                                "https://refeds.org/assurance/ID/unique\n" +
+                                "https://refeds.org/assurance/ID/eppn-unique-no-reassign\n" +
+                                "https://refeds.org/assurance/IAP/low\n" +
+                                "https://refeds.org/assurance/IAP/medium\n" +
+                                "https://refeds.org/assurance/IAP/high");
+            }
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[7]/td", testData.getEppn() +"@dev.eduid.se");
             common.verifyXpathContainsString("//*[@id=\"attributes\"]/table[1]/tbody/tr[8]/td",
                     "https://idp.dev.eduid.se/idp.xml!https://release-check.qa.swamid.se/shibboleth!");
@@ -184,13 +200,24 @@ public class SwamidData {
                     "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
         }
         else if(!testData.getMfaMethod().isEmpty()){
-            //Authentication method
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[4]/td",
-                    "https://refeds.org/profile/sfa");
+            if(testData.getMfaMethod().equalsIgnoreCase("securitykey")){
+                //Authentication method
+                common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[4]/td",
+                        "https://refeds.org/profile/sfa");
 
-            //Authentication class
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[5]/td",
-                    "https://refeds.org/profile/sfa");
+                //Authentication class
+                common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[5]/td",
+                        "https://refeds.org/profile/sfa");
+            }
+            else if(testData.getMfaMethod().equalsIgnoreCase("freja")) {
+                //Authentication method
+                common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[4]/td",
+                        "https://refeds.org/profile/mfa");
+
+                //Authentication class
+                common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[5]/td",
+                        "https://refeds.org/profile/mfa");
+            }
         }
     }
 }

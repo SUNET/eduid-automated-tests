@@ -90,25 +90,31 @@ public class TC_47 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"delete"} )
     void login2(){
-        login.verifyPageTitle();
         login.enterPassword();
 
-        //Click log in button
         common.findWebElementById("login-form-button").click();
 
-        common.timeoutSeconds(5);
+        common.timeoutSeconds(2);
     }
 
     @Test( dependsOnMethods = {"login2"} )
     void startPage2(){ startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void verifyAccountDeleted(){
-        testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
+    void login3(){
         login.enterPassword();
-        login.signIn();
 
-        testData.setIncorrectPassword(false);
+        common.findWebElementById("login-form-button").click();
+
+        common.timeoutSeconds(2);
+    }
+
+    @Test( dependsOnMethods = {"login3"} )
+    void verifyAccountDeleted(){
+        testData.setReLogin(true);
+        testData.setRememberMe(false);
+        testData.setIncorrectPassword(true);
+
+        login.runLogin();
     }
 }

@@ -106,7 +106,12 @@ public class Password {
             //If too weak password is chosen, click abort. Inside save button if-statement to test if its possible to click it
             else if(testData.getNewPassword().equalsIgnoreCase("test")) {
                 Common.log.info("Pressing Cancel abort new password");
-                common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[1]"));
+
+                //Verify that the button is disabled when password is too weak.
+                String buttonEnabled = String.valueOf(common.findWebElementById("chpass-button").isEnabled());
+                common.verifyStrings("false", buttonEnabled);
+
+                //common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[1]"));
             }
             else {
                 //Confirmation of password change is no longer presented

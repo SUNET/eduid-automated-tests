@@ -1,8 +1,10 @@
 package se.sunet.eduid;
 
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
+@Slf4j
 public class TC_48 extends BeforeAndAfter {
     @Test
     void startPage() { startPage.runStartPage(); }
@@ -21,9 +23,10 @@ public class TC_48 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        login.verifyPageTitle();
-        login.enterPassword();
-        login.signIn();
+        testData.setAddSecurityKey(false);
+        testData.setReLogin(true);
+
+        login.runLogin();
     }
 
     @Test( dependsOnMethods = {"login2"} )

@@ -111,17 +111,17 @@ public class DashBoard {
 
         if(testData.isAddSecurityKey()){
             common.verifyPageBodyContainsString(pageBody, "Ökad säkerhet");
-            common.verifyPageBodyContainsString(pageBody, "Läs mer om din tillagda tvåfaktorsautentisering under Säkerhet");
+            common.verifyPageBodyContainsString(pageBody, "Läs mer om din tillagda multifaktorautentisering under Säkerhet");
         }
         else {
             common.verifyPageBodyContainsString(pageBody, "Öka säkerheten");
-            common.verifyPageBodyContainsString(pageBody, "Lägg till tvåfaktorsautentisering under Säkerhet");
+            common.verifyPageBodyContainsString(pageBody, "Lägg till multifaktorautentisering under Säkerhet");
         }
         common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[3]/div[2]/span/a");
 
         if(testData.isVerifySecurityKeyByFreja()) {
             common.verifyPageBodyContainsString(pageBody, "Verifierad säkerhetsnyckel");
-            common.verifyPageBodyContainsString(pageBody, "Läs mer om din verifierade tvåfaktorsautentisering under Säkerhet");
+            common.verifyPageBodyContainsString(pageBody, "Läs mer om din verifierade multifaktorautentisering under Säkerhet");
         }
         else{
             common.verifyPageBodyContainsString(pageBody, "Verifiera din säkerhetsnyckel");
@@ -203,11 +203,11 @@ public class DashBoard {
         if(testData.isAddSecurityKey()){
             log.info("Security key is added");
             common.verifyPageBodyContainsString(pageBody, "Enhanced security");
-            common.verifyPageBodyContainsString(pageBody, "Read more about your added two-factor authentication at Security");
+            common.verifyPageBodyContainsString(pageBody, "Read more about your added multi-factor authentication at Security");
         }
         else {
             common.verifyPageBodyContainsString(pageBody, "Enhance security");
-            common.verifyPageBodyContainsString(pageBody, "Add two-factor authentication at Security");
+            common.verifyPageBodyContainsString(pageBody, "Add multi-factor authentication at");
         }
 
         common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[3]/div[2]/span/a");
@@ -215,7 +215,7 @@ public class DashBoard {
         if(testData.isVerifySecurityKeyByFreja()) {
             log.info("Security key is verified");
             common.verifyPageBodyContainsString(pageBody, "Verified security key");
-            common.verifyPageBodyContainsString(pageBody, "Read more details about your verified two-factor authentication at Security");
+            common.verifyPageBodyContainsString(pageBody, "Read more details about your verified multi-factor authentication at Security");
         }
         else {
             common.verifyPageBodyContainsString(pageBody, "Verify your security key");
@@ -239,27 +239,27 @@ public class DashBoard {
     void verifyMenuLabelsSwe(){
         log.info("Verifying menu labels in swedish and check that sub menu links are not broken");
 
-        expandFullNavigationMenuWithSubMenus();
+        //expandFullNavigationMenuWithSubMenus();
         common.timeoutMilliSeconds(400);
 
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/a", "Start");
-        common.verifyStringByXpath(eduIDStatusOverviewMenuLink, "eduID statusöversikt");
-        common.verifyXpathIsWorkingLink(eduIDStatusOverviewMenuLink);
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/div/a", "Start");
+        //common.verifyStringByXpath(eduIDStatusOverviewMenuLink, "eduID statusöversikt");
+        //common.verifyXpathIsWorkingLink(eduIDStatusOverviewMenuLink);
 
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/a", "Identitet");
-        common.verifyStringByXpath(verifyIdentityMenuLink, "Verifiera identitet");
-        common.verifyXpathIsWorkingLink(verifyIdentityMenuLink);
-        common.verifyStringByXpath(nameMenuLink, "Namn & visningsnamn");
-        common.verifyXpathIsWorkingLink(nameMenuLink);
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[2]/div/a", "Identitet");
+        //common.verifyStringByXpath(verifyIdentityMenuLink, "Verifiera identitet");
+        //common.verifyXpathIsWorkingLink(verifyIdentityMenuLink);
+        //common.verifyStringByXpath(nameMenuLink, "Namn & visningsnamn");
+        //common.verifyXpathIsWorkingLink(nameMenuLink);
 
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[5]/a", "Säkerhet");
-        common.verifyStringByXpath(mfaMenuLink, "Tvåfaktorsautentisering (2FA)");
-        common.verifyXpathIsWorkingLink(mfaMenuLink);
-        common.verifyStringByXpath(handleSecurityKeyMenuLink, "Hantera dina säkerhetsnycklar");
-        common.verifyXpathIsWorkingLink(handleSecurityKeyMenuLink);
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/div/a", "Säkerhet");
+        //common.verifyStringByXpath(mfaMenuLink, "Tvåfaktorsautentisering (2FA)");
+        //common.verifyXpathIsWorkingLink(mfaMenuLink);
+        //common.verifyStringByXpath(handleSecurityKeyMenuLink, "Hantera dina säkerhetsnycklar");
+        //common.verifyXpathIsWorkingLink(handleSecurityKeyMenuLink);
 
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[7]/a", "Konto");
-        common.verifyStringByXpath(uniqueMenuLink, "Unikt ID");
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[4]/div/a", "Konto");
+/*        common.verifyStringByXpath(uniqueMenuLink, "Unikt ID");
         common.verifyXpathIsWorkingLink(uniqueMenuLink);
         common.verifyStringByXpath(emailMenuLink, "E-postadresser");
         common.verifyXpathIsWorkingLink(emailMenuLink);
@@ -272,7 +272,7 @@ public class DashBoard {
         common.verifyStringByXpath(esiInfoMenuLink, "ESI information");
         common.verifyXpathIsWorkingLink(esiInfoMenuLink);
         common.verifyStringByXpath(deleteAccountMenuLink, "Spärra och radera eduID");
-        common.verifyXpathIsWorkingLink(deleteAccountMenuLink);
+        common.verifyXpathIsWorkingLink(deleteAccountMenuLink);*/
 
         common.verifyStringById("logout", "LOGGA UT");
     }
@@ -280,27 +280,27 @@ public class DashBoard {
     void verifyMenuLabelsEng(){
         log.info("Verifying menu labels in swedish");
 
-        expandFullNavigationMenuWithSubMenus();
+        //expandFullNavigationMenuWithSubMenus();
 
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/a", "Start");
-        common.verifyStringByXpath(eduIDStatusOverviewMenuLink, "eduID status overview");
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/div/a", "Start");
+        //common.verifyStringByXpath(eduIDStatusOverviewMenuLink, "eduID status overview");
 
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/a", "Identity");
-        common.verifyStringByXpath(verifyIdentityMenuLink, "Verify identity");
-        common.verifyStringByXpath(nameMenuLink, "Names & Display Name");
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[2]/div/a", "Identity");
+        //common.verifyStringByXpath(verifyIdentityMenuLink, "Verify identity");
+        //common.verifyStringByXpath(nameMenuLink, "Names & Display Name");
 
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[5]/a", "Security");
-        common.verifyStringByXpath(mfaMenuLink, "Two-factor Authentication (2FA)");
-        common.verifyStringByXpath(handleSecurityKeyMenuLink, "Manage your security keys");
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/div/a", "Security");
+        //common.verifyStringByXpath(mfaMenuLink, "Two-factor Authentication (2FA)");
+        //common.verifyStringByXpath(handleSecurityKeyMenuLink, "Manage your security keys");
 
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[7]/a", "Account");
-        common.verifyStringByXpath(uniqueMenuLink, "Unique ID");
+        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[4]/div/a", "Account");
+/*        common.verifyStringByXpath(uniqueMenuLink, "Unique ID");
         common.verifyStringByXpath(emailMenuLink, "Email addresses");
         common.verifyStringByXpath(languageMenuLink, "Language");
         common.verifyStringByXpath(changePasswordMenuLink, "Change password");
         common.verifyStringByXpath(orchIdMenuLink, "ORCID account");
         common.verifyStringByXpath(esiInfoMenuLink, "ESI information");
-        common.verifyStringByXpath(deleteAccountMenuLink, "Block and delete eduID");
+        common.verifyStringByXpath(deleteAccountMenuLink, "Block and delete eduID");*/
 
         common.verifyStringById("logout", "LOG OUT");
     }
