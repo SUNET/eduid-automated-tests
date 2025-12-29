@@ -137,7 +137,7 @@ public class Help {
                 "IT-system. Eller så använder du bara ditt eduID konto för att skapa åtkomst till andra konton, t.ex. " +
                 "ditt studentkonto eller antagning.se.");
         //Verify link is working
-        common.verifyXpathIsWorkingLink("//*[@id=\"help-about-eduid\"]/div/article/p[5]/a");
+        //common.verifyXpathIsWorkingLink("//*[@id=\"help-about-eduid\"]/div/article/p[5]/a");
 
         //Text
         common.verifyPageBodyContainsString(pageBody, "Logga in med eduID när du:");

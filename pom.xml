@@ -11,11 +11,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        <selenium.version>4.35.0</selenium.version>
+        <selenium.version>4.39.0</selenium.version>
         <testng.version>7.11.0</testng.version>
-        <webdrivermanager.version>6.3.1</webdrivermanager.version>
-        <log4j>2.19.0</log4j>
-        <lombook>1.18.24</lombook>
+        <webdrivermanager.version>6.3.3</webdrivermanager.version>
+        <log4j>2.25.3</log4j>
+        <lombok>1.18.42</lombok>
     </properties>
 
     <build>
@@ -60,22 +60,37 @@
             <version>${webdrivermanager.version}</version>
         </dependency>
 
+        <!-- base on chrome/edge dev tools protocol, local execution-->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-devtools-v143</artifactId>
+            <version>${selenium.version}</version>
+            <optional>true</optional>
+        </dependency>
+
         <!-- For mail -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
             <version>2.0.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.sun.activation</groupId>
-            <artifactId>jakarta.activation</artifactId>
-            <version>2.0.1</version>
-        </dependency>
+        <!-- https://mvnrepository.com/artifact/jakarta.mail/jakarta.mail-api -->
+<!--        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <version>2.2.0-M1</version>
+        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/jakarta.activation/jakarta.activation-api -->
+<!--        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <version>2.2.0-M1</version>
+        </dependency>-->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombook}</version>
+            <version>${lombok}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

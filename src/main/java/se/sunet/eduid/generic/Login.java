@@ -24,7 +24,7 @@ public class Login {
             registerAccount();
         }
         //Log in with passkey
-        else if (testData.isAddSecurityKey()) {
+        else if (testData.isUsePasskey()) {
             common.findWebElementById("pass-key").click();
         }
         else {
@@ -73,26 +73,28 @@ public class Login {
             common.selectSwedish();
         }
         else if(testData.isAccountDeleted()) {
-            common.verifyStatusMessage("Detta konto har avslutats, men finns kvar några dagar. Gör en " +
-                    "lösenordsåterställning för att ångra avslutet.");
+            common.explicitWaitClickableElement("//*[@id=\"content\"]/section/div/button");
 
-            common.verifyStringOnPage("Raderat konto\n" +
-                    "Kontot har nyligen raderats och kan inte användas för inloggning. Under en kort tid därefter " +
-                    "kan kontot återupptas genom att återställa lösenordet med hjälp av länken nedan.");
+/*            common.verifyStatusMessage("Detta konto har avslutats, men finns kvar några dagar. Gör en " +
+                    "lösenordsåterställning för att ångra avslutet.");*/
+
+            common.verifyStringOnPage("Raderat konto");
+            common.verifyStringOnPage("Kontot har nyligen raderats och kan inte användas för inloggning." +
+                    " Under en kort tid därefter kan kontot återupptas genom att återställa lösenordet med hjälp av länken nedan.");
             common.verifyStringOnPage("Till återställ lösenord");
-            common.verifyStringOnPage("Gå till startsidan genom att klicka eduIDs logo i " +
-                    "sidhuvudet för att logga in med ett annat konto, eller skapa ett nytt konto med knappen Registrera.");
+            common.verifyStringOnPage("Gå till startsidan genom att klicka på eduIDs logo i " +
+                    "sidhuvudet för att logga in med ett annat konto, eller skapa ett nytt konto med knappen Skapa eduID.");
 
             common.selectEnglish();
-            common.verifyStatusMessage("This account has been terminated, but is still present. Perform a password " +
-                    "reset to cancel termination.");
 
-            common.verifyStringOnPage("Account terminated\n" +
-                    "This account has recently been terminated and can not be used to log in. It is possible to " +
-                    "re-activate the account shortly afterwards by resetting the password using the link below.");
+/*            common.verifyStatusMessage("This account has been terminated, but is still present. Perform a password " +
+                    "reset to cancel termination.");*/
+            common.verifyStringOnPage("Account terminated");
+            common.verifyStringOnPage("This account has recently been terminated and can not be used "+
+                    "to log in. It is possible to re-activate the account shortly afterwards by resetting the password using the link below.");
             common.verifyStringOnPage("Go to reset password page");
             common.verifyStringOnPage("To log in with another account go to the start page by clicking " +
-                    "the eduID logo in the header, or create a new account using the Register button.");
+                    "the eduID logo in the header, or create a new account using the Create eduID button.");
         }
         else {
             //Log in successful, wait for copy button at dashboard

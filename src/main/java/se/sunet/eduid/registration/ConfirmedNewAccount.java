@@ -31,7 +31,7 @@ public class ConfirmedNewAccount {
         log.info("Verify new account labels - swedish");
 
         //Details
-        common.verifyStringOnPage("Registrera: Slutförd");
+        common.verifyStringOnPage("Skapa eduID: Slutfört");
         common.verifyStringOnPage("Här är dina inloggningsuppgifter för eduID. Kom ihåg eller spara " +
                 "lösenordet på ett säkert sätt! Obs: mellanrummen i lösenordet är för att göra det mer läsbart och " +
                 "tas automatiskt bort vid inmatning. Du kan efter att du har loggat in välja att byta lösenord.");
@@ -56,7 +56,7 @@ public class ConfirmedNewAccount {
         common.verifyPageTitle("Register | eduID");
 
         //Details
-        common.verifyStringOnPage("Register: Completed");
+        common.verifyStringOnPage("Create eduID: Completed");
         common.verifyStringOnPage("These are your login details for eduID. Remember or save the " +
                 "password securely! Note: spaces in the password are there for legibility and will be removed " +
                 "automatically if entered. Once you've logged in it is possible to change your password.");

@@ -99,7 +99,7 @@ public class ConfirmEmailAddress {
             common.click(common.findWebElementById("response-code-abort-button"));
 
             //Wait for text header
-            common.verifyStringOnPage("Registrera: Ange dina uppgifter");
+            common.verifyStringOnPage("Skapa eduID: Ange dina personuppgifter");
         }
     }
 
@@ -111,7 +111,7 @@ public class ConfirmEmailAddress {
 
         String pagebody = common.getPageBody();
 
-        common.verifyPageBodyContainsString(pagebody, "Registrera: Verifiera e-postadress");
+        common.verifyPageBodyContainsString(pagebody, "Skapa eduID: Verifiera e-postadress");
         common.verifyPageBodyContainsString(pagebody, "Ange den sexsiffriga koden som skickats från no-reply@eduid.se till");
         common.verifyPageBodyContainsString(pagebody, testData.getUsername().toLowerCase());
         common.verifyPageBodyContainsString(pagebody, "för att verifiera din e-postadress. Du kan också kopiera och klistra " +
@@ -126,7 +126,7 @@ public class ConfirmEmailAddress {
 
         pagebody = common.getPageBody();
 
-        common.verifyPageBodyContainsString(pagebody, "Register: Verify email address");
+        common.verifyPageBodyContainsString(pagebody, "Create eduID: Verification of email address");
         common.verifyPageBodyContainsString(pagebody, "Enter the six digit code sent from no-reply@eduid.se to");
         common.verifyPageBodyContainsString(pagebody, testData.getUsername().toLowerCase());
         common.verifyPageBodyContainsString(pagebody, "to verify your email address. You can also copy and paste the code " +

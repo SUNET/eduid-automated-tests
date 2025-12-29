@@ -137,7 +137,7 @@ public class Password {
 
         //Heading - Swedish
         if(testData.isRegisterAccount()){
-            common.verifyStringOnPage("Registrera: Skapa ditt eget lösenord");
+            common.verifyStringOnPage("Skapa eduID: Skapa ditt eget lösenord");
         }
         else if(testData.isResetPassword()){
             common.verifyStringOnPage("Återställ lösenord: Ange ditt eget lösenord");
@@ -187,7 +187,7 @@ public class Password {
 
         //Heading - English
         if(testData.isRegisterAccount()){
-            common.verifyStringOnPage("Register: Set your own password");
+            common.verifyStringOnPage("Create eduID: Set your own password");
         }
         else if(testData.isResetPassword()){
             common.verifyStringOnPage("Reset password: Set your own password");
@@ -237,7 +237,7 @@ public class Password {
 
         //Heading - Swedish
         if(testData.isRegisterAccount()){
-            common.verifyStringOnPage("Registrera: Rekommenderat lösenord");
+            common.verifyStringOnPage("Skapa eduID: Rekommenderat lösenord");
         }
         else if(testData.isResetPassword()){
             common.verifyStringOnPage("Återställ lösenord: Föreslaget lösenord");
@@ -277,7 +277,7 @@ public class Password {
 
         //Heading - English
         if(testData.isRegisterAccount()){
-            common.verifyStringOnPage("Register: Suggested password");
+            common.verifyStringOnPage("Create eduID: Suggested password");
         }
         else if(testData.isResetPassword()){
             common.verifyStringOnPage("Reset password: Suggested password");

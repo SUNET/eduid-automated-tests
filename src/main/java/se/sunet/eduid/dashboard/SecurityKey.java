@@ -56,7 +56,7 @@ public class SecurityKey {
             common.click(common.findWebElementById("verify-webauthn-token-modal-continue-frejaID-button"));
 
             //Verify the security key extra login pop up and click accept
-            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div[3]/span/button[2]",
+            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]//button[2]",
                     "Obs: använd säkerhetsnyckeln test-key1 vid inloggningen. Efter inloggning omdirigeras du till " +
                             "FREJA för att verifiera din säkerhetsnyckel.",
 
@@ -72,7 +72,7 @@ public class SecurityKey {
             common.click(common.findWebElementById("verify-webauthn-token-modal-continue-bankID-button"));
 
             //Ignore verification of the security pop up labels and just click continue
-            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div[3]/span/button[1]",
+            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]//button[1]",
                     "Obs: använd säkerhetsnyckeln test-key1 vid inloggningen. Efter inloggning omdirigeras " +
                             "du till BANKID för att verifiera din säkerhetsnyckel.",
                     "Note: please use the security key test-key1 during the login process. After logging in," +
@@ -87,7 +87,7 @@ public class SecurityKey {
             common.click(common.findWebElementById("verify-webauthn-token-modal-continue-eidas-button"));
 
             //Verify the security pop up and click accept
-            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div[3]/span/button[3]",
+            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]//button[3]",
                     "Obs: använd säkerhetsnyckeln test-key1 vid inloggningen. Efter inloggning omdirigeras " +
                             "du till EIDAS för att verifiera din säkerhetsnyckel.",
                     "Note: please use the security key test-key1 during the login process. After logging in," +
@@ -225,10 +225,9 @@ public class SecurityKey {
         //Security key
         common.verifyPageBodyContainsString(pageBody,"Lägg till multifaktorautentisering (MFA)");
         common.verifyPageBodyContainsString(pageBody,"Om möjligt lägg till ett ytterligare sätt att " +
-                "identifiera dig i form av en säkerhetsnyckel, utöver användarnamn och lösenord, för att vara säker på " +
-                "att bara du har tillgång till ditt eduID. Exempelvis en separat USB-säkerhetsnyckel som du kan skaffa," +
-                " eller inbyggda passkey/lösennyckel-funktioner i din enhet som använder biometri eller pinkod. Lägg " +
-                "gärna till flera säkerhetsnycklar.");
+                "identifiera dig i form av en säkerhetsnyckel, utöver användarnamn och lösenord, för att vara säker på" +
+                " att bara du har tillgång till ditt eduID. Exempelvis en separat USB-säkerhetsnyckel som du kan skaffa," +
+                " eller inbyggda passkey/lösennyckel-funktioner i din enhet som använder biometri eller pinkod.");
         common.verifyPageBodyContainsString(pageBody,"Obs: Tillagda säkerhetsnycklar är personliga och ska " +
                 "inte delas med andra. Det är för att säkerställa att endast du som kontohavare har tillgång till ditt konto.");
         common.verifyPageBodyContainsString(pageBody,"Du kan läsa mer om säkerhetsnycklar som stöds i " +
@@ -261,10 +260,10 @@ public class SecurityKey {
 
         //Security key
         common.verifyPageBodyContainsString(pageBody,"Add multi-factor Authentication (MFA)");
-        common.verifyPageBodyContainsString(pageBody,"If possible add a security key as a second factor " +
-                "of authentication, beyond username and password, to prove you are the owner of your eduID. Examples " +
-                "are separate physical USB security keys that you can get, or built-in passkey features on your device," +
-                " such as biometrics or pins. It is recommended to add more than one security key.");
+        common.verifyPageBodyContainsString(pageBody,"If possible add a security key as a second factor of" +
+                " authentication, beyond username and password, to prove you are the owner of your eduID. Examples are" +
+                " separate physical USB security keys that you can get, or built-in passkey features on your device, " +
+                "such as biometrics or pins.");
         common.verifyPageBodyContainsString(pageBody,"Note: Added security keys are personal and not to be " +
                 "shared with others. This is to ensure that access to your account is limited solely to you, the account holder.");
         common.verifyPageBodyContainsString(pageBody,"You can read more about supported security keys in " +
@@ -288,12 +287,12 @@ public class SecurityKey {
         common.explicitWaitClickableElementId("remove-webauthn");
 
         //Verify the added security key status
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[2]/figure/div[3]/span/strong", "VERIFIERAD");
+        common.verifyStringByXpath("//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/strong", "VERIFIERAD");
 
         common.selectEnglish();
 
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[2]/figure/div[3]/span/strong", "VERIFIED");
+        common.verifyStringByXpath("//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/strong", "VERIFIED");
         common.selectSwedish();
     }
 
@@ -321,7 +320,7 @@ public class SecurityKey {
         if(!common.isCookieSet("autotests"))
             common.addMagicCookie();
 
-        //Virtual authenticatior emulating authenticator devices in chrome
+        //Virtual authenticator emulating authenticator devices in chrome
         VirtualAuthenticatorOptions options = new VirtualAuthenticatorOptions();
 /*        options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
                 .setHasUserVerification(true)
@@ -339,6 +338,14 @@ public class SecurityKey {
                     .setHasUserVerification(true)
                     .setIsUserConsenting(false)
                     .setIsUserVerified(true);
+        }
+        else if (testData.isResendOTP()){
+            options.setTransport(VirtualAuthenticatorOptions.Transport.INTERNAL)
+                    .setHasUserVerification(true)
+                    .setIsUserConsenting(true)
+                    .setIsUserVerified(true);
+
+            log.info("Virtual authentication made with INTERNAL");
         }
         else {
             options.setTransport(VirtualAuthenticatorOptions.Transport.USB)

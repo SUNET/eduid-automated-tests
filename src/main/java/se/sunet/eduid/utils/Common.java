@@ -10,6 +10,10 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.virtualauthenticator.Credential;
+import org.openqa.selenium.virtualauthenticator.HasVirtualAuthenticator;
+import org.openqa.selenium.virtualauthenticator.VirtualAuthenticator;
+import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
 import org.testng.Assert;
 import io.github.sukgu.Shadow;
 import se.sunet.eduid.generic.Login;
@@ -31,11 +35,13 @@ public class Common {
     private final WebDriver webDriver;
     private String firstWinHandle = null;
     private final TestData testData;
+    private VirtualAuthenticator authenticator;
 
     public Common(WebDriver webDriver, TestData testData, String testSuite) throws IOException {
         this.webDriver = webDriver;
         this.testData = testData;
         testData.setProperties(testSuite);
+        authenticator = null;
     }
 
     private String getTitle() {
@@ -677,7 +683,7 @@ public class Common {
                 "}" +
                 "return absoluteXPath(arguments[0]);";
 
-        return (String) ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(script, element);
+        return (String) ((JavascriptExecutor) driver).executeScript(script, element);
     }
 
     public void refIdpEnterAndSubmitUser(){
@@ -695,4 +701,153 @@ public class Common {
         log.info("Submitted user id: " + testData.getIdentityNumber() + ", "
                 + testData.getGivenName() + ", " + testData.getSurName());
     }
+
+    //Create a virtual authenticator (simulated passkey)
+    public void createVirtualWebAuthn() {
+        //this.driver = driver;
+
+        VirtualAuthenticatorOptions options = new VirtualAuthenticatorOptions()
+                .setProtocol(VirtualAuthenticatorOptions.Protocol.CTAP2)
+                .setTransport(VirtualAuthenticatorOptions.Transport.INTERNAL)
+                .setHasResidentKey(true)
+                .setHasUserVerification(true)
+                .setIsUserVerified(true);
+
+        authenticator = ((HasVirtualAuthenticator) getWebDriver()).addVirtualAuthenticator(options);
+        System.out.println("Created virtual web authn");
+    }
+
+    // -------------------------------------------------------------
+    //  Inject WebAuthn interceptor for login
+    // -------------------------------------------------------------
+    public void injectLoginInterceptor() {
+        JavascriptExecutor js = (JavascriptExecutor) getWebDriver();
+
+        String script = """
+        (function() {
+            const originalGet = navigator.credentials.get;
+
+            navigator.credentials.get = function(options) {
+                try {
+                    window.__rpId = options.publicKey.rpId || window.location.hostname;
+                    window.__challenge = btoa(String.fromCharCode.apply(null, options.publicKey.challenge));
+                    window.__allowCreds = (options.publicKey.allowCredentials || []).map(c => ({
+                        id: btoa(String.fromCharCode.apply(null, c.id)),
+                        type: c.type
+                    }));
+                } catch (e) {}
+
+                return originalGet.apply(this, arguments);
+            };
+        })();
+        """;
+
+        js.executeScript(script);
+        System.out.println("✔ Login interceptor injected.");
+    }
+
+    // -------------------------------------------------------------
+    //  Wait for WebAuthn to be invoked & return first credentialId
+    // -------------------------------------------------------------
+    public String waitForCredentialRequest() {
+        JavascriptExecutor js = (JavascriptExecutor) getWebDriver();
+
+        for (int i = 0; i < 200; i++) {
+            Object allow = js.executeScript("return window.__allowCreds;");
+            if (allow != null) break;
+            try { Thread.sleep(50); } catch (InterruptedException ignored) {}
+        }
+
+        String rpId = (String) js.executeScript("return window.__rpId;");
+        String challenge = (String) js.executeScript("return window.__challenge;");
+        Object allowCreds = js.executeScript("return window.__allowCreds;");
+
+        System.out.println("\n=== WebAuthn Login Parameters ===");
+        System.out.println("RP ID: " + rpId);
+        System.out.println("Challenge: " + challenge);
+        System.out.println("Allowed cred IDs: " + allowCreds);
+        System.out.println("=================================");
+
+        String firstCred = (String) js.executeScript("""
+            if (window.__allowCreds && window.__allowCreds.length > 0)
+                return window.__allowCreds[0].id;
+            return null;
+        """);
+
+        return firstCred;
+    }
+
+    // -------------------------------------------------------------
+    //  Perform registration via navigator.credentials.create()
+    // -------------------------------------------------------------
+    public void registerPasskey(String rpId) {
+        JavascriptExecutor js = (JavascriptExecutor) getWebDriver();
+
+        System.out.println("🛠 Registering passkey at RP ID = " + rpId);
+
+        String createJs = """
+        async function reg() {
+            const challenge = Uint8Array.from("regchallenge", c => c.charCodeAt(0));
+            const uid = Uint8Array.from([1,2,3,4]);
+
+            return await navigator.credentials.create({
+                publicKey: {
+                    challenge: challenge,
+                    rp: { id: "%s" },
+                    user: {
+                        id: uid,
+                        name: "test@example.com",
+                        displayName: "Test User"
+                    },
+                    pubKeyCredParams: [{ type: "public-key", alg: -7 }],
+                    authenticatorSelection: {
+                        residentKey: "required",
+                        userVerification: "required"
+                    }
+                }
+            });
+        }
+        return reg();
+        """.formatted(rpId);
+
+        js.executeAsyncScript("""
+    var done = arguments[arguments.length - 1];
+
+    (async () => {
+        try {
+            const result = await reg();
+            done(result);
+        } catch (err) {
+            done("ERR:" + err);
+        }
+    })();
+""");
+
+
+        System.out.println("✔ Passkey stored in virtual authenticator.");
+    }
+
+    // -------------------------------------------------------------
+    //  Helper to check if authenticator contains credentials
+    // -------------------------------------------------------------
+    public boolean hasCredentials() {
+        List<Credential> creds = authenticator.getCredentials();
+        return creds != null && !creds.isEmpty();
+    }
+
+    // -------------------------------------------------------------
+    //  Debug: print stored credentials
+    // -------------------------------------------------------------
+    public void printStoredCredentials() {
+        List<Credential> creds = authenticator.getCredentials();
+
+        System.out.println("\n=== Stored Credentials ===");
+        System.out.println("Count: " + creds.size());
+        for (Credential c : creds) {
+            System.out.println("Credential ID: "
+                    + Base64.getEncoder().encodeToString(c.getId()));
+        }
+        System.out.println("==========================");
+    }
+
 }

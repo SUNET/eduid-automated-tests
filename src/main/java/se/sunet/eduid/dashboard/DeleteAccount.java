@@ -58,7 +58,7 @@ public class DeleteAccount {
                 "en vecka, sedan rensas all information du sparat permanent.");
 
         //Delete eduid link
-        common.verifyStringById("delete-button", "radera eduid");
+        common.verifyStringById("delete-button", "radera eduID");
     }
 
     private void verifyLabelsEnglish() {
@@ -74,7 +74,7 @@ public class DeleteAccount {
                 "week, after which it will be removed permanently.");
 
         //Delete eduid link
-        common.verifyStringById("delete-button", "delete eduid");
+        common.verifyStringById("delete-button", "delete eduID");
 
         //Click on Swedish
         common.selectSwedish();

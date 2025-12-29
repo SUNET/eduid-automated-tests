@@ -137,14 +137,22 @@ public class TC_31 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"startPage3"} )
-    void verifyAccountDeleted(){
-        testData.setAccountDeleted(true);
-
-        //Login page for extra security select security key mfa method
+    void login4() {
+        //Login page for extra security select freja mfa method
         extraSecurity.selectMfaMethod();
 
+        Common.log.info("Log in with Freja");
+    }
+
+    @Test( dependsOnMethods = {"login4"} )
+    void selectUserRefIdp4(){
         //Select and submit user
         common.refIdpEnterAndSubmitUser();
+    }
+
+    @Test( dependsOnMethods = {"selectUserRefIdp4"} )
+    void verifyAccountDeleted(){
+        testData.setAccountDeleted(true);
 
         login.signIn();
     }

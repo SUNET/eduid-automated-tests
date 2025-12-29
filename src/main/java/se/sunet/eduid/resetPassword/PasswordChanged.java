@@ -27,6 +27,7 @@ public class PasswordChanged {
         common.explicitWaitClickableElementId("reset-password-finished");
 
         //verify the labels - swedish
+        Common.log.info("Verify text and labels - Swedish");
         common.verifyStringOnPage("Återställ lösenord: Slutförd");
         common.verifyStringOnPage("Ditt lösenord är nu uppdaterat. Se till att förvara ditt lösenord på " +
                 "ett säkert sätt för framtida användning. När du har loggat in är det möjligt att ändra ditt lösenord.");
@@ -45,6 +46,7 @@ public class PasswordChanged {
         common.selectEnglish();
 
         //verify the labels - english
+        Common.log.info("Verify text and labels - English");
         common.verifyStringOnPage("Reset password: Completed");
         common.verifyStringOnPage("You have successfully updated your password. Make sure to store " +
                 "your password securely for future use. Once you've logged in it is possible to change your password.");
@@ -66,6 +68,7 @@ public class PasswordChanged {
     private void clickReturnToLoginLink() {
         //Return to landing page, click with javascript is needed here...
         common.click(common.findWebElementById("reset-password-finished"));
+        Common.log.info("Clicked the Go To eduID login link");
 
         //Page is redirected a few times so wait for the correct page title
         common.explicitWaitPageTitle("Logga in | eduID");

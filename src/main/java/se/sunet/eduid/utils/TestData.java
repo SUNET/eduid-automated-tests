@@ -34,7 +34,7 @@ public class TestData {
     private boolean rememberMe = true;
     private boolean registerAccount, resetPassword, incorrectPassword, removeNewEmail1,
             resendOTP, deleteButton, otherDeviceFillCode, identityConfirmed, accountDeleted,
-            mfaUserConsentingAuthentication, mfaUserDeclinedConsentAuthentication, reLogin, mfaDisabled;
+            mfaUserConsentingAuthentication, mfaUserDeclinedConsentAuthentication, reLogin, mfaDisabled, usePasskey;
     private int counter = 0;
 
     public void setProperties(String testSuite) throws IOException {

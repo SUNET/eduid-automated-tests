@@ -67,31 +67,33 @@ public class TC_56 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
-    void verifySecurityKeyStatus() {
+    void verifyFailedSecurityKey() {
         //Verify the status message
         common.verifyStatusMessage("Felaktigt format av identitetsnumret. Var god försök igen.");
 
+        common.explicitWaitClickableElement("//*[@id=\"manage-security-keys\"]//button[1]");
+
         //Verify status beside the added key dates
         common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[1]", "BANKID");
+                "//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/button[1]", "BANKID");
 
         common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[2]", "FREJA+");
+                "//*[@id=\"manage-security-keys\"]//button[2]", "FREJA+");
 
         common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[3]", "EIDAS");
+                "//*[@id=\"manage-security-keys\"]//button[3]", "EIDAS");
 
         common.selectEnglish();
 
         //Verify status beside the added key dates
         common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[1]", "BANKID");
+                "//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/button[1]", "BANKID");
 
         common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[2]", "FREJA+");
+                "//*[@id=\"manage-security-keys\"]//button[2]", "FREJA+");
 
         common.verifyStringByXpath(
-                "//*[@id=\"content\"]/article[2]/figure/div[3]/span/button[3]", "EIDAS");
+                "//*[@id=\"manage-security-keys\"]//button[3]", "EIDAS");
 
         //Verify the status message
         common.verifyStatusMessage("Incorrect format of the identity number. Please try again.");
@@ -100,7 +102,7 @@ public class TC_56 extends BeforeAndAfter {
         common.selectSwedish();
     }
 
-    @Test( dependsOnMethods = {"verifySecurityKeyStatus"} )
+    @Test( dependsOnMethods = {"verifyFailedSecurityKey"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();

@@ -44,7 +44,7 @@ public class Register {
         common.verifyPlaceholder("efternamn", "surname");
         common.verifyPlaceholder("namn@example.com", "email");
 
-        common.verifyStringOnPage("Registrera: Ange dina uppgifter");
+        common.verifyStringOnPage("Skapa eduID: Ange dina personuppgifter");
         common.verifyStringOnPage("När du har skapat ditt eduID kan du logga in och koppla det till " +
                 "din identitet.");
 
@@ -57,7 +57,7 @@ public class Register {
         log.info("Verify registration labels - english");
         common.verifyPageTitle("Register | eduID");
 
-        common.verifyStringOnPage("Register: Enter your details");
+        common.verifyStringOnPage("Create eduID: Enter your personal information");
         common.verifyStringOnPage("Once you have created an eduID you will be able to log in and " +
                 "connect it to your identity.");
 
@@ -160,7 +160,7 @@ public class Register {
         //Wait for cancel terms button
         common.explicitWaitClickableElementId("cancel-button");
 
-        common.verifyPageBodyContainsString(pageBody, "Registrera: Godkänn användarvillkor");
+        common.verifyPageBodyContainsString(pageBody, "Skapa eduID: Godkänn användarvillkor");
         common.verifyPageBodyContainsString(pageBody, "För att skapa ditt eduID måste du acceptera användarvillkoren för eduID.");
         common.verifyPageBodyContainsString(pageBody, "För eduID.se gäller generellt");
         common.verifyPageBodyContainsString(pageBody, "att all användning av " +
@@ -193,7 +193,7 @@ public class Register {
         //Wait for cancel terms button
         common.explicitWaitClickableElementId("cancel-button");
 
-        common.verifyPageBodyContainsString(pageBody, "Register: Approve terms of use");
+        common.verifyPageBodyContainsString(pageBody, "Create eduID: Accept Terms of Use");
         common.verifyPageBodyContainsString(pageBody, "To create your eduID you need to accept the eduID terms of use.");
         common.verifyPageBodyContainsString(pageBody, "The following generally applies:");
         common.verifyPageBodyContainsString(pageBody, "that all usage of user accounts " +
@@ -290,7 +290,7 @@ public class Register {
         common.explicitWaitClickableElement("//*[@id=\"content\"]/figure/button");
 
         //Label1
-        common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Register: Confirm that you are a human");
+        common.verifyStringByXpath("//*[@id=\"content\"]/h1", "Create eduID: Confirm that you are a human");
         common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/p",
                 "As a protection against automated spam, you'll need to confirm that you are a human.");
         common.verifyStringOnPage("Enter the code from the image");
@@ -304,7 +304,7 @@ public class Register {
 
         //Label1
         common.verifyStringByXpath("//*[@id=\"content\"]/h1",
-                "Registrera: Bekräfta att du är en människa");
+                "Skapa eduID: Bekräfta att du är en människa");
         common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/p",
                 "Som ett skydd mot automatisk spam måste du bekräfta att du är en människa.");
         common.verifyStringOnPage("Ange koden från bilden");

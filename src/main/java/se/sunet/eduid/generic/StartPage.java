@@ -70,8 +70,8 @@ public class StartPage {
                 "eduID är enklare eftersom du bara har en inloggning och säkrare eftersom det är " +
                         "kopplat till en verklig person - dig.");
         common.verifyStringByXpath(pYouCanReadMore,
-                "Du kan läsa mer om eduID på Sunet hemsida eller i Hjälp länken i sidfoten. Du kan " +
-                        "också registrera dig eller logga in med knapparna nedan!");
+                "Du kan läsa mer om eduID på Sunets webbplats och i vårt hjälpinnehåll, alltid " +
+                        "tillgängligt i sidfoten. Registrera dig eller logga in med knapparna nedan!");
 
         common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[2]/div[1]",
                 "Skapa ett grundläggande konto med din e-postadress.");
@@ -97,8 +97,8 @@ public class StartPage {
                 "eduID is easier because you only have one login and safer because it's connected to " +
                         "a real individual - you.");
         common.verifyStringByXpath(pYouCanReadMore,
-                "You can read more about eduID at Sunet website or in the Help link in the footer. " +
-                        "You can also register or log in using the buttons below!");
+                "You can read more about eduID at Sunet's website and in our help content, always" +
+                        " accessible from the footer. Register or log in using the buttons below!");
 
         common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[2]/div[1]",
                 "Create a basic account with your email address.");
