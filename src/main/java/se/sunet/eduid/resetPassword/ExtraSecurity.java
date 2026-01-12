@@ -6,6 +6,7 @@ import se.sunet.eduid.utils.TestData;
 public class ExtraSecurity {
     private final Common common;
     private final TestData testData;
+    private String continueWithoutExtraSecurityButtonID = "continue-without-security";
 
     public ExtraSecurity(Common common, TestData testData){
         this.common = common;
@@ -19,7 +20,7 @@ public class ExtraSecurity {
     }
 
     private void verifyPageTitle() {
-        if(testData.isAddSecurityKey()){
+        if(testData.isAddExternalSecurityKey()){
             common.verifyPageTitle("Logga in | eduID");
         }
         else if(testData.isResetPassword()) {
@@ -34,7 +35,7 @@ public class ExtraSecurity {
 
         //verify the labels - English
         common.timeoutSeconds(1);
-        if(testData.isAddSecurityKey()){
+        if(testData.isAddExternalSecurityKey()){
             common.verifyPageTitle("Log in | eduID");
         }
         else if(testData.isResetPassword()) {
@@ -43,6 +44,9 @@ public class ExtraSecurity {
 
         //Extract page body for validation
         String pageBody = common.getPageBody();
+
+        // Wait for the continue without extra security link
+        common.explicitWaitClickableElementId(continueWithoutExtraSecurityButtonID);
 
         common.verifyPageBodyContainsString(pageBody, "Reset password: Verification method");
         if(testData.isResetPassword()){
@@ -63,7 +67,7 @@ public class ExtraSecurity {
         common.verifyPageBodyContainsString(pageBody, "Continue without additional authentication");
         common.verifyPageBodyContainsString(pageBody, "Your identity will require confirmation after the " +
                 "password has been reset. ");
-        common.verifyStringById("continue-without-security", "continue resetting password");
+        common.verifyStringById(continueWithoutExtraSecurityButtonID, "continue resetting password");
 
         //Switch to Swedish
         common.selectSwedish();
@@ -71,6 +75,9 @@ public class ExtraSecurity {
         //verify the labels - swedish
         //Extract page body for validation
         pageBody = common.getPageBody();
+
+        // Wait for the continue without extra security link
+        common.explicitWaitClickableElementId(continueWithoutExtraSecurityButtonID);
 
         common.verifyPageBodyContainsString(pageBody, "Återställ lösenord: Verifieringsmetod");
         if(testData.isResetPassword()){
@@ -92,14 +99,14 @@ public class ExtraSecurity {
         common.verifyPageBodyContainsString(pageBody, "Fortsätt utan ytterligare autentisering");
         common.verifyPageBodyContainsString(pageBody, "Din identitet kommer att behöva verifieras efter " +
                 "att lösenordet har återställts. ");
-        common.verifyStringById("continue-without-security", "fortsätt återställa lösenordet");
+        common.verifyStringById(continueWithoutExtraSecurityButtonID, "fortsätt återställa lösenordet");
     }
 
     public void selectMfaMethod(){
         //Continue without extra security
         if(testData.getMfaMethod().equalsIgnoreCase("no")) {
             Common.log.info("Selecting 'no extra security'");
-            common.click(common.findWebElementById("continue-without-security"));
+            common.click(common.findWebElementById(continueWithoutExtraSecurityButtonID));
         }
 
         //IF Freja eID should be used

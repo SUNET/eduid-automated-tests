@@ -2,7 +2,7 @@
 
 <suite name="staging">
     <parameter name="browser" value="chrome" />
-    <parameter name="headless" value="false" />
+    <parameter name="headless" value="true" />
     <parameter name="language" value="sv" />
 
     <listeners>
@@ -300,13 +300,14 @@
         </classes>
     </test>
 
+<!-- Can not access the support tool, 2026-01-12
     <test name="TC_43">
         <parameter name="testDescription" value="On a new account with verified identity, log in to support tool and verify all registered parameters" />
         <classes>
             <class name="se.sunet.eduid.TC_43" >
             </class>
         </classes>
-    </test>
+    </test>-->
 
     <test name="TC_48">
         <parameter name="testDescription" value="Check that user/pw is requested at log in same session after previous log out" />
@@ -316,14 +317,14 @@
         </classes>
     </test>
 
-<!--    <test name="TC_50">
-        <parameter name="testDescription" value="Register account, add and verify security key. Log out and log in
-        with passkey, instead of username and password" />
+    <test name="TC_50">
+        <parameter name="testDescription" value="Register account, add and verify passkey. Log out and log in
+        with passkey, instead of username and password. Restore account and verify its still verified etc" />
         <classes>
             <class name="se.sunet.eduid.TC_50" >
             </class>
         </classes>
-    </test>-->
+    </test>
 
     <test name="TC_60">
         <parameter name="testDescription" value="Log in using 'Other Device' - 'Remember me' disabled" />
@@ -670,7 +671,7 @@ tested in tc_28
 
     <test name="TC_86">
         <parameter name="testDescription" value="Register a user, reset password and select BankID as extra security option. Cancel and
-        at BankID page and continue the reset pw using mail option, verify that the identity is still verified." />
+        at BankID page and continue the reset pw using Freja option, verify that the identity is still verified." />
         <classes>
             <class name="se.sunet.eduid.TC_86" >
             </class>

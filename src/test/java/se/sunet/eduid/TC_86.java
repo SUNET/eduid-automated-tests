@@ -231,10 +231,10 @@ public class TC_86 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"setRecommendedPassword2"} )
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
-
     @Test( dependsOnMethods = {"passwordChanged"} )
     void login4(){
         testData.setReLogin(true);
+        testData.setResetPassword(false);
 
         login.runLogin();
     }

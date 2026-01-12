@@ -30,7 +30,7 @@ public class TC_42 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login"} )
     void addSecurityKey() {
-        testData.setAddSecurityKey(true);
+        testData.setAddExternalSecurityKey(true);
         testData.setVerifySecurityKeyByFreja(true);
 
         securityKey.runSecurityKey();

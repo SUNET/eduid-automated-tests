@@ -27,8 +27,11 @@ public class LoginExtraSecurity {
         String pageBody = common.getPageBody();
 
         //Swedish
-        if(testData.isIdentityConfirmed() &! testData.isAddSecurityKey()){
-            common.verifyPageBodyContainsString(pageBody, "Logga in: med MFA");
+        if(testData.isIdentityConfirmed() &! testData.isAddExternalSecurityKey()){
+            //Text not visible when logging in with passkey
+            if(!testData.isAddInternalPassKey()) {
+                common.verifyPageBodyContainsString(pageBody, "Logga in: med MFA");
+            }
             common.verifyPageBodyContainsString(pageBody, "Autentisera dig själv med ytterligare en metod " +
                     "för att vara säker på att bara du har tillgång till ditt eduID. Om du inte kan använda " +
                     "säkerhetsnyckeln, var vänlig välj annat alternativ nedan, t.ex. BankID eller Freja+.");
@@ -68,8 +71,11 @@ public class LoginExtraSecurity {
         //Extract page body for validation
         pageBody = common.getPageBody();
 
-        if(testData.isIdentityConfirmed() &! testData.isAddSecurityKey()){
-            common.verifyPageBodyContainsString(pageBody, "Log in: with MFA");
+        if(testData.isIdentityConfirmed() &! testData.isAddExternalSecurityKey()){
+            //Text not visible when logging in with passkey
+            if(!testData.isAddInternalPassKey()) {
+                common.verifyPageBodyContainsString(pageBody, "Log in: with MFA");
+            }
             common.verifyPageBodyContainsString(pageBody, "Choose a second method to authenticate yourself," +
                     " ensuring only you can access your eduID. If you are unable to use the security key, please select" +
                     " another option below, such as BankID or Freja+.");

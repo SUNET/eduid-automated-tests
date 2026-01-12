@@ -12,6 +12,7 @@ public class SecurityKey {
     private final Common common;
     private final TestData testData;
     String securityKeyInputFieldId = "describe-webauthn-token-modal";
+    String securityKeyClosePopupButton = "//*[@id=\"content\"]/dialog[1]/div/div/div/div/button";
     String securityKeyName = "test-key1";
 
     public SecurityKey(Common common, TestData testData){
@@ -21,11 +22,7 @@ public class SecurityKey {
 
     public void runSecurityKey(){
         pressAdvancedSettings();
-
         verifySecurityLabels();
-
-        virtualAuthenticator();
-
         addSecurityKey();
     }
 
@@ -37,12 +34,38 @@ public class SecurityKey {
     }
 
     private void addSecurityKey(){
-        //Click on add security key and verify labels
-        verifyAddSecurityKeyLabels();
+        //For internal passkey, use chrome .executeCdpCommand()
+        if(testData.isAddInternalPassKey()) {
+            common.createVirtualWebAuthn();
+        }
+        //For external security key, use chrome VirtualAuthenticatorOptions
+        else if(testData.isAddExternalSecurityKey()){
+            virtualAuthenticator();
 
-        //Enter name of key and click OK
+            //Press external security key button
+            common.selectSwedish();
+            common.findWebElementById("security-webauthn-button").click();
+        }
+
+        //Only check all labels in the pop-up for both internal and external security key for some test cases, start with tc_50
+        if(testData.getTestCase().contains("TC_50")) {
+            //Click on add security key (external) and verify labels
+            verifyAddSecurityKeyLabels("security-webauthn-button");
+
+            //Close pop up
+            common.click(common.findWebElementByXpath(securityKeyClosePopupButton));
+
+            //Select English
+            common.selectEnglish();
+
+            //Click on add internal security key (passkey) and verify labels
+            verifyAddSecurityKeyLabels("security-webauthn-platform-button");
+        }
+
+        //Enter name of key in the pop-up and click OK
         common.findWebElementById(securityKeyInputFieldId).sendKeys(securityKeyName);
         common.click(common.findWebElementByXpath("//*[@id=\"describe-webauthn-token-modal-form\"]/div[2]/button"));
+        log.info("Added Security Key with name " + securityKeyName + " to Virtual Web Authn and clicked OK");
         common.timeoutMilliSeconds(500);
 
         //If security key should be verified, it can be done directly when added.
@@ -56,11 +79,11 @@ public class SecurityKey {
             common.click(common.findWebElementById("verify-webauthn-token-modal-continue-frejaID-button"));
 
             //Verify the security key extra login pop up and click accept
-            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]//button[2]",
-                    "Obs: använd säkerhetsnyckeln test-key1 vid inloggningen. Efter inloggning omdirigeras du till " +
+            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]//span/button[2]",
+                    "Obs: använd säkerhetsnyckeln " + securityKeyName + " vid inloggningen. Efter inloggning omdirigeras du till " +
                             "FREJA för att verifiera din säkerhetsnyckel.",
 
-                    "Note: please use the security key test-key1 during the login process. After logging in, you will" +
+                    "Note: please use the security key " + securityKeyName + " during the login process. After logging in, you will" +
                             " be redirected to FREJA page to verify your security key.");
         }
         else if(testData.isVerifySecurityKeyByBankId()){
@@ -71,11 +94,12 @@ public class SecurityKey {
             //Click on BankID button
             common.click(common.findWebElementById("verify-webauthn-token-modal-continue-bankID-button"));
 
+
             //Ignore verification of the security pop up labels and just click continue
-            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]//button[1]",
-                    "Obs: använd säkerhetsnyckeln test-key1 vid inloggningen. Efter inloggning omdirigeras " +
+            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]//span/button[1]",
+                    "Obs: använd säkerhetsnyckeln " + securityKeyName + " vid inloggningen. Efter inloggning omdirigeras " +
                             "du till BANKID för att verifiera din säkerhetsnyckel.",
-                    "Note: please use the security key test-key1 during the login process. After logging in," +
+                    "Note: please use the security key " + securityKeyName + " during the login process. After logging in," +
                             " you will be redirected to BANKID page to verify your security key.");
         }
         else if(testData.isVerifySecurityKeyByEidas()){
@@ -87,10 +111,10 @@ public class SecurityKey {
             common.click(common.findWebElementById("verify-webauthn-token-modal-continue-eidas-button"));
 
             //Verify the security pop up and click accept
-            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]//button[3]",
-                    "Obs: använd säkerhetsnyckeln test-key1 vid inloggningen. Efter inloggning omdirigeras " +
+            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]//span/button[3]",
+                    "Obs: använd säkerhetsnyckeln " + securityKeyName + " vid inloggningen. Efter inloggning omdirigeras " +
                             "du till EIDAS för att verifiera din säkerhetsnyckel.",
-                    "Note: please use the security key test-key1 during the login process. After logging in," +
+                    "Note: please use the security key " + securityKeyName + " during the login process. After logging in," +
                             " you will be redirected to EIDAS page to verify your security key.");
         }
 
@@ -119,7 +143,7 @@ public class SecurityKey {
 
         //Verify headings
         common.verifyPageBodyContainsString(pageBody, "Hantera dina säkerhetsnycklar");
-        common.verifyPageBodyContainsString(pageBody, "Namn: " +securityKeyName);
+        common.verifyPageBodyContainsString(pageBody, "Namn: " + securityKeyName);
         common.verifyPageBodyContainsString(pageBody, "Skapad: " + common.getDate().toString());
         common.verifyPageBodyContainsString(pageBody, "Använd: Aldrig använd");
         common.verifyPageBodyContainsString(pageBody, "Verifiera med:");
@@ -144,8 +168,8 @@ public class SecurityKey {
 
         //Verify headings
         common.verifyPageBodyContainsString(pageBody, "Manage your security keys");
-        common.verifyPageBodyContainsString(pageBody, "Name: " +securityKeyName);
-        common.verifyPageBodyContainsString(pageBody, "Created: " +common.getDate().toString());
+        common.verifyPageBodyContainsString(pageBody, "Name: " + securityKeyName);
+        common.verifyPageBodyContainsString(pageBody, "Created: " + common.getDate().toString());
         common.verifyPageBodyContainsString(pageBody, "Used: Never used");
         common.verifyPageBodyContainsString(pageBody, "Verify with:");
         common.verifyPageBodyContainsString(pageBody, "FREJA+");
@@ -157,13 +181,12 @@ public class SecurityKey {
         common.selectSwedish();
     }
 
-    private void verifyAddSecurityKeyLabels(){
-        String closePopupButton = "//*[@id=\"content\"]/dialog[1]/div/div/div/div/button";
-        log.info("Verify add security key headers in pop-up - english");
+    private void verifyAddSecurityKeyLabels(String buttonID){
+        log.info("Verify add security key headers in pop-up with button ID: " +buttonID +" - english");
 
         //Verify Security key
-        common.click(common.findWebElementById("security-webauthn-button"));
-        common.explicitWaitClickableElement(closePopupButton);
+        common.click(common.findWebElementById(buttonID));
+        common.explicitWaitClickableElement(securityKeyClosePopupButton);
 
         //Labels and placeholder
         common.verifyStringByXpath("//*[@id=\"content\"]/dialog[1]/div/div/div/div/h4", "Add a name for your security key");
@@ -174,16 +197,16 @@ public class SecurityKey {
         common.verifyPlaceholder("describe your security key", securityKeyInputFieldId);
 
         //Close pop up
-        common.click(common.findWebElementByXpath(closePopupButton));
+        common.click(common.findWebElementByXpath(securityKeyClosePopupButton));
 
 
         //Select swedish
-        log.info("Verify add security key headers in pop-up - swedish");
+        log.info("Verify add security key headers in pop-up with button ID: " +buttonID + " - swedish");
         common.selectSwedish();
 
         //Verify Security key
-        common.click(common.findWebElementById("security-webauthn-button"));
-        common.explicitWaitClickableElement(closePopupButton);
+        common.click(common.findWebElementById(buttonID));
+        common.explicitWaitClickableElement(securityKeyClosePopupButton);
 
         //Labels and placeholder
         common.verifyStringByXpath("//*[@id=\"content\"]/dialog[1]/div/div/div/div/h4", "Ge ett namn till din säkerhetsnyckel");
@@ -322,37 +345,9 @@ public class SecurityKey {
 
         //Virtual authenticator emulating authenticator devices in chrome
         VirtualAuthenticatorOptions options = new VirtualAuthenticatorOptions();
-/*        options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
+        options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
                 .setHasUserVerification(true)
-                .setIsUserConsenting(true)
-                .setIsUserVerified(true);*/
-
-        if(testData.isMfaUserConsentingAuthentication()){
-            options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
-                    .setHasUserVerification(true)
-                    .setIsUserConsenting(true)
-                    .setIsUserVerified(true);
-        }
-        else if(testData.isMfaUserDeclinedConsentAuthentication()){
-            options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
-                    .setHasUserVerification(true)
-                    .setIsUserConsenting(false)
-                    .setIsUserVerified(true);
-        }
-        else if (testData.isResendOTP()){
-            options.setTransport(VirtualAuthenticatorOptions.Transport.INTERNAL)
-                    .setHasUserVerification(true)
-                    .setIsUserConsenting(true)
-                    .setIsUserVerified(true);
-
-            log.info("Virtual authentication made with INTERNAL");
-        }
-        else {
-            options.setTransport(VirtualAuthenticatorOptions.Transport.USB)
-                    .setHasUserVerification(true)
-                    .setIsUserVerified(true);
-        }
-
+                .setIsUserVerified(true);
 
         VirtualAuthenticator authenticator = ((HasVirtualAuthenticator) common.getWebDriver()).addVirtualAuthenticator(options);
         authenticator.setUserVerified(true);

@@ -222,7 +222,7 @@ public class Login {
             common.verifyXpathIsWorkingLink("//*[@id=\"content\"]/section[1]/div[2]/div[2]/span/a");
         }
         else{
-            //Pass key
+            //Passkey
             common.verifyPageBodyContainsString(pageBody, "Log in: with Passkey or Password");
             common.verifyPageBodyContainsString(pageBody, "Faster and safer way to authenticate");
             common.verifyPageBodyContainsString(pageBody, "You can log in securely with your passkey using " +

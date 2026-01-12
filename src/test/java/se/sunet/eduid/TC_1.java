@@ -24,4 +24,10 @@ public class TC_1 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"account"} )
     void logout() { logout.runLogout(); }
+
+    @Test( dependsOnMethods = {"logout"} )
+    void pressBackButton() { common.getWebDriver().navigate().back(); }
+
+    @Test( dependsOnMethods = {"pressBackButton"} )
+    void verifyNotLoggedIn() { startPage.verifyLabelsSwedish(); }
 }

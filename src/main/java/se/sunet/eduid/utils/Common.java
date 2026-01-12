@@ -7,6 +7,7 @@ import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -35,13 +36,11 @@ public class Common {
     private final WebDriver webDriver;
     private String firstWinHandle = null;
     private final TestData testData;
-    private VirtualAuthenticator authenticator;
 
     public Common(WebDriver webDriver, TestData testData, String testSuite) throws IOException {
         this.webDriver = webDriver;
         this.testData = testData;
         testData.setProperties(testSuite);
-        authenticator = null;
     }
 
     private String getTitle() {
@@ -123,7 +122,8 @@ public class Common {
 
     public void expandNavigationMenu(){
         //Expand navigation menu, if not already expanded
-        if(findWebElementByXpath("//*[@id=\"header\"]/nav/button").getDomAttribute("aria-expanded").equalsIgnoreCase("false")) {
+        if(findWebElementByXpath("//*[@id=\"header\"]/nav/button").getDomAttribute("aria-expanded")
+                .equalsIgnoreCase("false")) {
             findWebElementByXpath("//*[@id=\"header\"]/nav/button").click();
             log.info("Expanding navigation menu");
         }
@@ -512,7 +512,6 @@ public class Common {
             //Verify labels and text
             timeoutSeconds(1);
             explicitWaitClickableElementId(closeButtonId);
-            //explicitWaitClickableElementId("security-confirm-modal-close-button");
             verifyStringOnPage("Säkerhetsskäl");
             verifyStringOnPage("Du behöver logga in igen för att kunna utföra åtgärden.");
             verifyStringOnPage(fineTextSwe);
@@ -702,152 +701,51 @@ public class Common {
                 + testData.getGivenName() + ", " + testData.getSurName());
     }
 
-    //Create a virtual authenticator (simulated passkey)
+
+    //For internal passkey option at security page, use chrome .executeCdpCommand()
     public void createVirtualWebAuthn() {
-        //this.driver = driver;
+        // Enable WebAuthn
+        ((ChromeDriver) webDriver).executeCdpCommand(
+                "WebAuthn.enable",
+                Map.of()
+        );
 
-        VirtualAuthenticatorOptions options = new VirtualAuthenticatorOptions()
-                .setProtocol(VirtualAuthenticatorOptions.Protocol.CTAP2)
-                .setTransport(VirtualAuthenticatorOptions.Transport.INTERNAL)
-                .setHasResidentKey(true)
-                .setHasUserVerification(true)
-                .setIsUserVerified(true);
+        // Set the virtual authenticator options
+        Map<String, Object> options = new HashMap<>();
+        options.put("protocol", "ctap2");
+        options.put("transport", "internal");
+        options.put("hasResidentKey", true);
+        options.put("hasUserVerification", true);
+        options.put("isUserVerified", true);
 
-        authenticator = ((HasVirtualAuthenticator) getWebDriver()).addVirtualAuthenticator(options);
-        System.out.println("Created virtual web authn");
-    }
+        // Add the virtual authenticator options
+        Map<String, Object> result = ((ChromeDriver) webDriver).executeCdpCommand(
+                "WebAuthn.addVirtualAuthenticator",
+                Map.of("options", options)
+        );
 
-    // -------------------------------------------------------------
-    //  Inject WebAuthn interceptor for login
-    // -------------------------------------------------------------
-    public void injectLoginInterceptor() {
-        JavascriptExecutor js = (JavascriptExecutor) getWebDriver();
+        String authenticatorId = (String) result.get("authenticatorId");
 
-        String script = """
-        (function() {
-            const originalGet = navigator.credentials.get;
+        log.info("Virtual authenticator (executeCdpCommand() ) created with ID: " + authenticatorId);
 
-            navigator.credentials.get = function(options) {
-                try {
-                    window.__rpId = options.publicKey.rpId || window.location.hostname;
-                    window.__challenge = btoa(String.fromCharCode.apply(null, options.publicKey.challenge));
-                    window.__allowCreds = (options.publicKey.allowCredentials || []).map(c => ({
-                        id: btoa(String.fromCharCode.apply(null, c.id)),
-                        type: c.type
-                    }));
-                } catch (e) {}
+        // From CDP-version: 143+: control presence and verification are now separate commands
+        ((ChromeDriver) webDriver).executeCdpCommand(
+                "WebAuthn.setAutomaticPresenceSimulation",
+                Map.of(
+                        "authenticatorId", authenticatorId,
+                        "enabled", true
+                )
+        );
 
-                return originalGet.apply(this, arguments);
-            };
-        })();
-        """;
+        ((ChromeDriver) webDriver).executeCdpCommand(
+                "WebAuthn.setUserVerified",
+                Map.of(
+                        "authenticatorId", authenticatorId,
+                        "isUserVerified", true
+                )
+        );
 
-        js.executeScript(script);
-        System.out.println("✔ Login interceptor injected.");
-    }
-
-    // -------------------------------------------------------------
-    //  Wait for WebAuthn to be invoked & return first credentialId
-    // -------------------------------------------------------------
-    public String waitForCredentialRequest() {
-        JavascriptExecutor js = (JavascriptExecutor) getWebDriver();
-
-        for (int i = 0; i < 200; i++) {
-            Object allow = js.executeScript("return window.__allowCreds;");
-            if (allow != null) break;
-            try { Thread.sleep(50); } catch (InterruptedException ignored) {}
-        }
-
-        String rpId = (String) js.executeScript("return window.__rpId;");
-        String challenge = (String) js.executeScript("return window.__challenge;");
-        Object allowCreds = js.executeScript("return window.__allowCreds;");
-
-        System.out.println("\n=== WebAuthn Login Parameters ===");
-        System.out.println("RP ID: " + rpId);
-        System.out.println("Challenge: " + challenge);
-        System.out.println("Allowed cred IDs: " + allowCreds);
-        System.out.println("=================================");
-
-        String firstCred = (String) js.executeScript("""
-            if (window.__allowCreds && window.__allowCreds.length > 0)
-                return window.__allowCreds[0].id;
-            return null;
-        """);
-
-        return firstCred;
-    }
-
-    // -------------------------------------------------------------
-    //  Perform registration via navigator.credentials.create()
-    // -------------------------------------------------------------
-    public void registerPasskey(String rpId) {
-        JavascriptExecutor js = (JavascriptExecutor) getWebDriver();
-
-        System.out.println("🛠 Registering passkey at RP ID = " + rpId);
-
-        String createJs = """
-        async function reg() {
-            const challenge = Uint8Array.from("regchallenge", c => c.charCodeAt(0));
-            const uid = Uint8Array.from([1,2,3,4]);
-
-            return await navigator.credentials.create({
-                publicKey: {
-                    challenge: challenge,
-                    rp: { id: "%s" },
-                    user: {
-                        id: uid,
-                        name: "test@example.com",
-                        displayName: "Test User"
-                    },
-                    pubKeyCredParams: [{ type: "public-key", alg: -7 }],
-                    authenticatorSelection: {
-                        residentKey: "required",
-                        userVerification: "required"
-                    }
-                }
-            });
-        }
-        return reg();
-        """.formatted(rpId);
-
-        js.executeAsyncScript("""
-    var done = arguments[arguments.length - 1];
-
-    (async () => {
-        try {
-            const result = await reg();
-            done(result);
-        } catch (err) {
-            done("ERR:" + err);
-        }
-    })();
-""");
-
-
-        System.out.println("✔ Passkey stored in virtual authenticator.");
-    }
-
-    // -------------------------------------------------------------
-    //  Helper to check if authenticator contains credentials
-    // -------------------------------------------------------------
-    public boolean hasCredentials() {
-        List<Credential> creds = authenticator.getCredentials();
-        return creds != null && !creds.isEmpty();
-    }
-
-    // -------------------------------------------------------------
-    //  Debug: print stored credentials
-    // -------------------------------------------------------------
-    public void printStoredCredentials() {
-        List<Credential> creds = authenticator.getCredentials();
-
-        System.out.println("\n=== Stored Credentials ===");
-        System.out.println("Count: " + creds.size());
-        for (Credential c : creds) {
-            System.out.println("Credential ID: "
-                    + Base64.getEncoder().encodeToString(c.getId()));
-        }
-        System.out.println("==========================");
+        log.info("WebAuthn credentials set to: User is set to verified and automatic presence simulation");
     }
 
 }

@@ -30,7 +30,7 @@ public class TC_17 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login"} )
     void addSecurityKey() {
-        testData.setAddSecurityKey(true);
+        testData.setAddExternalSecurityKey(true);
         securityKey.runSecurityKey();
 
         //Turn security off for logging in
@@ -79,7 +79,7 @@ public class TC_17 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        testData.setAddSecurityKey(false);
+        testData.setAddExternalSecurityKey(false);
 
         //Turn off the remember me function at startpage for this
         testData.setRememberMe(false);

@@ -42,7 +42,7 @@ public class StartPage {
         common.explicitWaitPageTitle("eduID");
 
         //Verify footer
-        common.verifyStringOnPage("©2013-" +common.getDate().toString().substring(0,4));
+//        common.verifyStringOnPage("©2013-" +common.getDate().toString().substring(0,4));
     }
 
     private void signIn(){

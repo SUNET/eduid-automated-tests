@@ -11,18 +11,18 @@ public class DashBoard {
     private final Common common;
     private final TestData testData;
     String pageBody;
-    String eduIDStatusOverviewMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[2]/ul/li/a";
-    String verifyIdentityMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[1]/a";
-    String nameMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[2]/a";
-    String mfaMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[6]/ul/li[1]/a";
-    String handleSecurityKeyMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[6]/ul/li[2]/a";
-    String uniqueMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[1]/a";
-    String emailMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[2]/a";
-    String languageMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[3]/a";
-    String changePasswordMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[4]/a";
-    String orchIdMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[5]/a";
-    String esiInfoMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[6]/a";
-    String deleteAccountMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[8]/ul/li[7]/a";
+    String eduIDStatusOverviewMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[1]/ul/li/a";
+    String verifyIdentityMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[2]/ul/li[1]/a";
+    String nameMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[2]/ul/li[2]/a";
+    String mfaMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[3]/ul/li[1]/a";
+    String handleSecurityKeyMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[3]/ul/li[2]/a";
+    String uniqueMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[1]/a";
+    String emailMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[2]/a";
+    String languageMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[3]/a";
+    String changePasswordMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[4]/a";
+    String orchIdMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[5]/a";
+    String esiInfoMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[6]/a";
+    String deleteAccountMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[7]/a";
 
     public DashBoard(Common common, TestData testData){
         this.common = common;
@@ -44,7 +44,6 @@ public class DashBoard {
             verifyLabelsSwedish();
             verifyLabelsEnglish();
         }
-
     }
 
     private void verifyPageTitle() {
@@ -64,7 +63,7 @@ public class DashBoard {
         pageBody = common.getPageBody();
 
         //Verify menu labels, not needed for every test case
-        if(testData.getTestCase().equalsIgnoreCase("TC_40"))
+        if(testData.getTestCase().equalsIgnoreCase("TC_1"))
             verifyMenuLabelsSwe();
 
         //Verify welcome heading
@@ -109,7 +108,7 @@ public class DashBoard {
         }
         common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[2]/div[2]/span/a");
 
-        if(testData.isAddSecurityKey()){
+        if(testData.isAddExternalSecurityKey() || testData.isAddInternalPassKey()){
             common.verifyPageBodyContainsString(pageBody, "Ökad säkerhet");
             common.verifyPageBodyContainsString(pageBody, "Läs mer om din tillagda multifaktorautentisering under Säkerhet");
         }
@@ -148,7 +147,7 @@ public class DashBoard {
         pageBody = common.getPageBody();
 
         //Verify menu labels, not needed for every test case
-        if(testData.getTestCase().equalsIgnoreCase("TC_40"))
+        if(testData.getTestCase().equalsIgnoreCase("TC_1"))
             verifyMenuLabelsEng();
 
         //Verify welcome heading
@@ -200,7 +199,7 @@ public class DashBoard {
         }
         common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[2]/div[2]/span/a");
 
-        if(testData.isAddSecurityKey()){
+        if(testData.isAddExternalSecurityKey() || testData.isAddInternalPassKey()){
             log.info("Security key is added");
             common.verifyPageBodyContainsString(pageBody, "Enhanced security");
             common.verifyPageBodyContainsString(pageBody, "Read more about your added multi-factor authentication at Security");
@@ -239,25 +238,53 @@ public class DashBoard {
     void verifyMenuLabelsSwe(){
         log.info("Verifying menu labels in swedish and check that sub menu links are not broken");
 
-        //expandFullNavigationMenuWithSubMenus();
-        common.timeoutMilliSeconds(400);
+        common.expandNavigationMenu();
+        common.timeoutMilliSeconds(100);
 
+        //Expand Start menu
+        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(1) > div > button > svg"))
+                .getDomAttribute("data-icon").equals("chevron-down")) {
+            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/div/button").click();
+        }
+
+        //Verify Start menu
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/div/a", "Start");
         common.verifyStringByXpath(eduIDStatusOverviewMenuLink, "eduID statusöversikt");
         common.verifyXpathIsWorkingLink(eduIDStatusOverviewMenuLink);
 
+        //Expand Identity menu
+        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(2) > div > button > svg"))
+                .getDomAttribute("data-icon").equals("chevron-down")) {
+            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[2]/div/button").click();
+        }
+
+        //Verify Identity menu
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[2]/div/a", "Identitet");
         common.verifyStringByXpath(verifyIdentityMenuLink, "Verifiera identitet");
         common.verifyXpathIsWorkingLink(verifyIdentityMenuLink);
         common.verifyStringByXpath(nameMenuLink, "Namn & visningsnamn");
         common.verifyXpathIsWorkingLink(nameMenuLink);
 
+        //Expand Security menu
+        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(3) > div > button > svg"))
+                .getDomAttribute("data-icon").equals("chevron-down")) {
+            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/div/button").click();
+        }
+
+        //Verify Security menu
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/div/a", "Säkerhet");
-        common.verifyStringByXpath(mfaMenuLink, "Tvåfaktorsautentisering (2FA)");
+        common.verifyStringByXpath(mfaMenuLink, "Lägg till multifaktorautentisering (MFA)");
         common.verifyXpathIsWorkingLink(mfaMenuLink);
         common.verifyStringByXpath(handleSecurityKeyMenuLink, "Hantera dina säkerhetsnycklar");
         common.verifyXpathIsWorkingLink(handleSecurityKeyMenuLink);
 
+        //Expand Account menu
+        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(4) > div > button > svg"))
+                .getDomAttribute("data-icon").equals("chevron-down")) {
+            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[4]/div/button").click();
+        }
+
+        //Verify Account menu
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[4]/div/a", "Konto");
         common.verifyStringByXpath(uniqueMenuLink, "Unikt ID");
         common.verifyXpathIsWorkingLink(uniqueMenuLink);
@@ -280,19 +307,47 @@ public class DashBoard {
     void verifyMenuLabelsEng(){
         log.info("Verifying menu labels in english");
 
-        expandFullNavigationMenuWithSubMenus();
+        common.expandNavigationMenu();
 
+        //Expand Start menu
+        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(1) > div > button > svg"))
+                .getDomAttribute("data-icon").equals("chevron-down")) {
+            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/div/button").click();
+        }
+
+        //Verify Start menu
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/div/a", "Start");
         common.verifyStringByXpath(eduIDStatusOverviewMenuLink, "eduID status overview");
 
+        //Expand Identity menu
+        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(2) > div > button > svg"))
+                .getDomAttribute("data-icon").equals("chevron-down")) {
+            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[2]/div/button").click();
+        }
+
+        //Verify Identity menu
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[2]/div/a", "Identity");
         common.verifyStringByXpath(verifyIdentityMenuLink, "Verify identity");
         common.verifyStringByXpath(nameMenuLink, "Names & Display Name");
 
+        //Expand Security menu
+        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(3) > div > button > svg"))
+                .getDomAttribute("data-icon").equals("chevron-down")) {
+            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/div/button").click();
+        }
+
+        //Verify Security menu
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/div/a", "Security");
-        common.verifyStringByXpath(mfaMenuLink, "Two-factor Authentication (2FA)");
+        common.verifyStringByXpath(mfaMenuLink, "Add multi-factor Authentication (MFA)");
         common.verifyStringByXpath(handleSecurityKeyMenuLink, "Manage your security keys");
 
+        //Expand Account menu
+        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(4) > div > button > svg"))
+                .getDomAttribute("data-icon").equals("chevron-down")) {
+            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[4]/div/button").click();
+        }
+
+        //Verify Account menu
         common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[4]/div/a", "Account");
         common.verifyStringByXpath(uniqueMenuLink, "Unique ID");
         common.verifyStringByXpath(emailMenuLink, "Email addresses");
@@ -303,23 +358,5 @@ public class DashBoard {
         common.verifyStringByXpath(deleteAccountMenuLink, "Block and delete eduID");
 
         common.verifyStringById("logout", "LOG OUT");
-    }
-
-    public void expandFullNavigationMenuWithSubMenus(){
-        common.expandNavigationMenu();
-
-        //Expand sub-menus, if not expanded
-        if(common.getWebDriver().findElement(By.xpath("//*[@id=\"header\"]/nav/div/ul/li[8]")).getDomAttribute("class").equals("submenu-collapse submenu-close")) {
-            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[7]/button").click();
-        }
-        if(common.getWebDriver().findElement(By.xpath("//*[@id=\"header\"]/nav/div/ul/li[6]")).getDomAttribute("class").equals("submenu-collapse submenu-close")) {
-            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[5]/button").click();
-        }
-        if(common.getWebDriver().findElement(By.xpath("//*[@id=\"header\"]/nav/div/ul/li[4]")).getDomAttribute("class").equals("submenu-collapse submenu-close")) {
-            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/button").click();
-        }
-        if(common.getWebDriver().findElement(By.xpath("//*[@id=\"header\"]/nav/div/ul/li[2]")).getDomAttribute("class").equals("submenu-collapse submenu-close")) {
-            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/button").click();
-        }
     }
 }

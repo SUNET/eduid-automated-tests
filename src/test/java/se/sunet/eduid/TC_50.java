@@ -1,14 +1,8 @@
 package se.sunet.eduid;
 
-import org.testng.Assert;
-import org.testng.ITestContext;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
-import se.sunet.eduid.utils.InitBrowser;
-
-import java.io.IOException;
 
 public class TC_50 extends BeforeAndAfter {
     @Test
@@ -31,27 +25,15 @@ public class TC_50 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
-        //testData.setUsername("N9yGFo4f@dev.eduid.sunet.se");
-        //testData.setPassword("97x9 n7py wty4");
         testData.setRegisterAccount(false);
-        //testData.setUsePasskey(true);
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
     void addPassKey() {
-        common.navigateToSecurity();
-        common.addMagicCookie();
-        common.addNinCookie();
-        common.findWebElementById("security-webauthn-platform-button").click();
+        testData.setAddInternalPassKey(true);
+        testData.setVerifySecurityKeyByFreja(true);
 
-        common.timeoutSeconds(4);
-        common.findWebElementById("describe-webauthn-token-modal").sendKeys("eduID-passkey");
-        common.timeoutSeconds(1);
-        common.findWebElementByXpath("//*[@id=\"describe-webauthn-token-modal-form\"]/div[2]/button").click();
-        //testData.setAddSecurityKey(true);
-        //testData.setVerifySecurityKeyByFreja(true);
-        common.timeoutSeconds(20);
-        //securityKey.runSecurityKey();
+        securityKey.runSecurityKey();
     }
 
     @Test( dependsOnMethods = {"addPassKey"} )
@@ -59,7 +41,7 @@ public class TC_50 extends BeforeAndAfter {
         //Add nin cookie
         common.addNinCookie();
 
-        //Set mfa method to be used at login.
+        //Set mfa method to be used at login, before Freja can be used for confirmation
         testData.setMfaMethod("securitykey");
 
         //Login page for extra security select security key mfa method
@@ -91,59 +73,49 @@ public class TC_50 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        testData.setRememberMe(false);
-        common.rememberMe();
+    void loginPasskey(){
+        //Used for the extra security log in
+        testData.setIdentityConfirmed(true);
 
-        testData.setResendOTP(true);
-        securityKey.virtualAuthenticator();
-
-        testData.setMfaDisabled(true);
-
-        //login.verifyPageTitle();
-
-
-        login.runLogin();
-
-        //Log in with passkey
-        //login.enterPassword();
-        //common.click(common.findWebElementById("login-form-button"));
-    }
-/*
-    @Test( dependsOnMethods = {"logout"} )
-    void stopBrowser(){
-        common.getWebDriver().quit();
+        //Login page for extra security select security key mfa method
+        loginExtraSecurity.runLoginExtraSecurity();
+        extraSecurity.selectMfaMethod();
     }
 
-    @Test( dependsOnMethods = {"stopBrowser"} )
-    @Parameters({"browser", "headless", "language"})
-    void startBrowser(String browser, String headless, String language, final ITestContext testContext) throws IOException {
-        initBrowser(browser, headless, language, testContext);
-        common.navigateToUrl(testData.getBaseUrl());
-        testData.setTestSuite(testContext.getCurrentXmlTest().getSuite().getName());
-        testData.setTestCase("TC_50");
-        //testData.setDisplayName(displayname1);
-
-        securityKey.virtualAuthenticator();
+    @Test( dependsOnMethods = {"loginPasskey"} )
+    void dashboard() {
+        dashBoard.runDashBoard();
     }
 
-    @Test( dependsOnMethods = {"startBrowser"} )
-    void startPage2(){
+    @Test( dependsOnMethods = {"dashboard"} )
+    void logout2(){
+        logout.runLogout();
+    }
+
+    @Test( dependsOnMethods = {"logout2"} )
+    void startPage3(){
         startPage.runStartPage();
     }
 
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        login.verifyPageTitle();
+    @Test( dependsOnMethods = {"startPage3"} )
+    void loginPasskeyDefaultLoginPage(){
+        // Disable remember me, to get the login page with both passkey and username passwd option
+        testData.setRememberMe(false);
+        common.rememberMe();
 
+        //Disable to verify to the text for remember me correctly
+        testData.setMfaDisabled(true);
+
+        testData.setUsePasskey(true);
         login.runLogin();
+    }
 
-        //Log in with passkey
-        //login.enterPassword();
-        //common.click(common.findWebElementById("login-form-button"));
-    }*/
-/*
-    @Test( dependsOnMethods = {"login2"} )
+    @Test( dependsOnMethods = {"loginPasskeyDefaultLoginPage"} )
+    void dashboard2() {
+        dashBoard.runDashBoard();
+    }
+
+    @Test( dependsOnMethods = {"dashboard2"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
@@ -151,16 +123,125 @@ public class TC_50 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void startPage3(){
+    void startPage4(){
         common.timeoutSeconds(2);
         startPage.runStartPage();
     }
 
-    @Test( dependsOnMethods = {"startPage3"} )
+    @Test( dependsOnMethods = {"startPage4"} )
+    void loginPasskeyDefaultLoginPage2(){
+        // Disable remember me, to get the login page with both passkey and username passwd option
+        testData.setRememberMe(false);
+        common.rememberMe();
+
+        //Disable to verify to verify texts correctly
+        testData.setDeleteButton(false);
+
+        testData.setUsePasskey(true);
+        login.runLogin();
+    }
+
+    @Test( dependsOnMethods = {"loginPasskeyDefaultLoginPage2"} )
     void verifyAccountDeleted(){
-        testData.setIncorrectPassword(true);
-        login.verifyPageTitle();
-        login.enterPassword();
+        common.timeoutSeconds(3);
+
+        testData.setAccountDeleted(true);
         login.signIn();
-    }*/
+    }
+
+    @Test( dependsOnMethods = {"verifyAccountDeleted"} )
+    void clickReqPwLink(){
+        //Navigate to the reset password page by click on link on deleted account information page
+        common.findWebElementByXpath("//*[@id=\"content\"]/section/div/button").click();
+    }
+
+    //Init reset password and verify that the Identity still is verified
+    @Test( dependsOnMethods = {"clickReqPwLink"} )
+    void requestNewPassword(){
+        common.selectSwedish();
+        requestNewPassword.runRequestNewPassword();
+    }
+
+    @Test( dependsOnMethods = {"requestNewPassword"} )
+    void emailSent() { emailSent.runEmailSent(); }
+
+    @Test( dependsOnMethods = {"emailSent"} )
+    void emailLink() {
+        emailLink.runEmailLink();
+        common.addNinCookie();
+    }
+
+    @Test( dependsOnMethods = {"emailLink"} )
+    void extraSecuritySecurityKey() {
+        //Set add security key just to pass label verification at log in extra security
+        testData.setResetPassword(true);
+
+        extraSecurity.selectMfaMethod();
+    }
+
+    @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
+    void setCustomPassword2() {
+        //Get default password from properties
+        testData.setNewPassword(testData.getPassword());
+
+        testData.setUseRecommendedPw(false);
+        password.setPassword();
+    }
+
+    @Test( dependsOnMethods = {"setCustomPassword2"} )
+    void passwordChanged() { passwordChanged.runPasswordChanged(); }
+
+    @Test( dependsOnMethods = {"passwordChanged"} )
+    void login4(){
+        testData.setResetPassword(false);
+        testData.setAddExternalSecurityKey(false);
+        testData.setReLogin(true);
+
+        login.runLogin();
+    }
+
+    @Test( dependsOnMethods = {"login4"} )
+    void dashboard3() {
+        //Account is verified
+        testData.setAccountVerified(true);
+
+        dashBoard.runDashBoard();
+    }
+
+    @Test( dependsOnMethods = {"dashboard3"} )
+    void identity() {
+        //Verify that identity is still confirmed
+        common.navigateToIdentity();
+
+        common.verifyStringOnPage("Ditt eduID är redo att användas");
+        common.verifyStringOnPage("Följande identiteter är nu kopplade till ditt eduID");
+        common.verifyStringOnPage("Svenskt personnummer");
+    }
+
+    //Delete account when confirmed that identity is no longer verified
+    @Test( dependsOnMethods = {"identity"} )
+    void delete2() {
+        common.navigateToAccount();
+
+        testData.setDeleteButton(true);
+        deleteAccount.runDeleteAccount();
+    }
+
+    @Test( dependsOnMethods = {"delete2"} )
+    void startPage5(){ startPage.runStartPage(); }
+
+    @Test( dependsOnMethods = {"startPage5"} )
+    void extraSecuritySecurityKey3() {
+        //Login page for extra security select security key mfa method
+        extraSecurity.selectMfaMethod();
+
+        Common.log.info("Log in with securitykey");
+    }
+    
+    @Test( dependsOnMethods = {"extraSecuritySecurityKey3"} )
+    void verifyAccountDeleted2(){
+        testData.setAccountDeleted(true);
+
+        login.signIn();
+    }
 }

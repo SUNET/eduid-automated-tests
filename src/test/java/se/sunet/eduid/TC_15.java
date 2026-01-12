@@ -39,7 +39,7 @@ public class TC_15 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"login"} )
     void addSecurityKey() {
-        testData.setAddSecurityKey(true);
+        testData.setAddExternalSecurityKey(true);
         securityKey.runSecurityKey();
     }
 
@@ -84,7 +84,7 @@ public class TC_15 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        testData.setAddSecurityKey(false);
+        testData.setAddExternalSecurityKey(false);
         testData.setReLogin(true);
 
         login.runLogin();

@@ -43,7 +43,7 @@ public class TC_29 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void addSecurityKey() {
-        testData.setAddSecurityKey(true);
+        testData.setAddExternalSecurityKey(true);
         testData.setVerifySecurityKeyByBankId(true);
 
         securityKey.runSecurityKey();

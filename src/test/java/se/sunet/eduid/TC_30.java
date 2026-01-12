@@ -44,7 +44,7 @@ public class TC_30 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void addSecurityKey() {
-        testData.setAddSecurityKey(true);
+        testData.setAddExternalSecurityKey(true);
         testData.setVerifySecurityKeyByFreja(true);
 
         securityKey.runSecurityKey();

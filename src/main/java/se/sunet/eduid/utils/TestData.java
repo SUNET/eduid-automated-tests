@@ -25,7 +25,8 @@ public class TestData {
     private boolean generateUsername = true;
     private boolean acceptTerms = true;
     private boolean verifyEmail = true;
-    private boolean addSecurityKey = false;
+    private boolean addExternalSecurityKey = false;
+    private boolean addInternalPassKey = false;
     private boolean verifySecurityKeyByFreja;
     private boolean verifySecurityKeyByBankId;
     private boolean verifySecurityKeyByEidas;

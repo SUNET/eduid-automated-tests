@@ -45,7 +45,7 @@ public class TC_31 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmedIdentity"} )
     void addSecurityKey() {
-        testData.setAddSecurityKey(true);
+        testData.setAddExternalSecurityKey(true);
         testData.setVerifySecurityKeyByEidas(true);
 
         securityKey.runSecurityKey();
@@ -79,8 +79,8 @@ public class TC_31 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"selectCountry"} )
     void submitEidasUser(){
         //Select loa substantial level and submit
-        common.findWebElementByXpath("//*[@id=\"eidasDiv\"]/div/button").click();
-        common.findWebElementByXpath("//*[@id=\"bs-select-3-1\"]").click();
+        common.findWebElementByXpath("//*[@id=\"eidasDiv\"]/div/button/div/div/div").click();
+        common.findWebElementById("bs-select-8-1").click();
 
         common.findWebElementById("idpSubmitbutton").click();
 

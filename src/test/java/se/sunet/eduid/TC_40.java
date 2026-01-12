@@ -108,7 +108,7 @@ public class TC_40 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"passwordChanged"} )
     void login4(){
         testData.setResetPassword(false);
-        testData.setAddSecurityKey(false);
+        testData.setAddExternalSecurityKey(false);
         testData.setReLogin(true);
 
         login.runLogin();
