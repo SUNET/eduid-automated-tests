@@ -31,7 +31,7 @@ public class Account {
         }
 
         //TODO investigate why orcid does not work for tc 1
-        if(testData.getTestCase().equalsIgnoreCase("TC_1")){
+        if(testData.getTestClassName().contains("TC_1")){
             pressLadok();
             pressOrcid();
         }

@@ -150,13 +150,11 @@ public class TC_50 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"verifyAccountDeleted"} )
-    void clickReqPwLink(){
-        //Navigate to the reset password page by click on link on deleted account information page
-        common.findWebElementByXpath("//*[@id=\"content\"]/section/div/button").click();
+    void startRestoreDeletedAccount(){
+        login.clickRestoreDeletedAccountButton();
     }
 
-    //Init reset password and verify that the Identity still is verified
-    @Test( dependsOnMethods = {"clickReqPwLink"} )
+    @Test( dependsOnMethods = {"startRestoreDeletedAccount"} )
     void requestNewPassword(){
         common.selectSwedish();
         requestNewPassword.runRequestNewPassword();
@@ -237,7 +235,7 @@ public class TC_50 extends BeforeAndAfter {
 
         Common.log.info("Log in with securitykey");
     }
-    
+
     @Test( dependsOnMethods = {"extraSecuritySecurityKey3"} )
     void verifyAccountDeleted2(){
         testData.setAccountDeleted(true);

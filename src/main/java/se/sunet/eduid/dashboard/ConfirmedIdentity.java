@@ -75,7 +75,7 @@ public class ConfirmedIdentity {
             common.verifyPageBodyContainsString(pageBody,"personnummer");
 
             //Show full id-number
-            common.findWebElementById("undefined-show-hide-button").click();
+            common.findWebElementById("show-hide-button").click();
 
             //Data
             common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/figure/div[3]/div/div", testData.getIdentityNumber());
@@ -113,7 +113,7 @@ public class ConfirmedIdentity {
             //common.verifyStringOnPage("National ID number");
 
             //Show full id-number
-            common.findWebElementById("undefined-show-hide-button").click();
+            common.findWebElementById("show-hide-button").click();
 
             //Data
             common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/figure/div[3]/div/div", testData.getIdentityNumber());

@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="staging">
+<suite name="staging" parallel="tests" thread-count="1">
     <parameter name="browser" value="chrome" />
     <parameter name="headless" value="true" />
     <parameter name="language" value="sv" />
@@ -18,7 +18,8 @@
     </test>
 
     <test name="TC_2">
-        <parameter name="testDescription" value="Change givenName, surName and displayName" />
+        <parameter name="testDescription" value="Change givenName, surName and displayName, log out and log in. Verify that the
+        changes persist. Then restore to default user data according to properties." />
         <classes>
             <class name="se.sunet.eduid.TC_2" >
             </class>
@@ -26,7 +27,7 @@
     </test>
 
     <test name="TC_3">
-        <parameter name="testDescription" value="Check that dashboard names changed according to TC_2 and restore names to default" />
+        <parameter name="testDescription" value="Register account, delete it directly after log in." />
         <classes>
             <class name="se.sunet.eduid.TC_3" >
             </class>
@@ -34,17 +35,10 @@
     </test>
 
     <test name="TC_4">
-        <parameter name="testDescription" value="Change language to English" />
+        <parameter name="testDescription" value="Change language to English, log out and log in. Verify that English i preserved.
+        Then restore to Swedish." />
         <classes>
             <class name="se.sunet.eduid.TC_4" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_5">
-        <parameter name="testDescription" value="Check that dashboard language is english and restore language to default" />
-        <classes>
-            <class name="se.sunet.eduid.TC_5" >
             </class>
         </classes>
     </test>
@@ -58,17 +52,10 @@
     </test>
 
     <test name="TC_7">
-        <parameter name="testDescription" value="Add an additional email address and confirm it by code" />
+        <parameter name="testDescription" value="Add an additional email address and confirm it by code, log out and log in with
+        the new non-primary email address added, then remove it" />
         <classes>
             <class name="se.sunet.eduid.TC_7" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_8">
-        <parameter name="testDescription" value="Log in with the new non-primary email address added in TC_7, then remove it" />
-        <classes>
-            <class name="se.sunet.eduid.TC_8" >
             </class>
         </classes>
     </test>
@@ -99,17 +86,9 @@
     </test>
 
     <test name="TC_12">
-        <parameter name="testDescription" value="Add additional email address, try to confirm with incorrect code" />
+        <parameter name="testDescription" value="Add additional email address, try to confirm with incorrect code. Remove the unconfirmed email." />
         <classes>
             <class name="se.sunet.eduid.TC_12" >
-            </class>
-        </classes>
-    </test>
-
-    <test name="TC_13">
-        <parameter name="testDescription" value="Remove the additional email address added in TC_12" />
-        <classes>
-            <class name="se.sunet.eduid.TC_13" >
             </class>
         </classes>
     </test>
@@ -121,7 +100,6 @@
             </class>
         </classes>
     </test>
-
 
     <test name="TC_15">
         <parameter name="testDescription" value="Register account, add security key and verify that it can
@@ -166,16 +144,8 @@
         </classes>
     </test>
 
-    <test name="TC_20">
-        <parameter name="testDescription" value="Change password, use custom" />
-        <classes>
-            <class name="se.sunet.eduid.TC_20" >
-            </class>
-        </classes>
-    </test>
-
     <test name="TC_21">
-        <parameter name="testDescription" value="Initiate password change but enter incorrect current password" />
+        <parameter name="testDescription" value="Initiate password change but fail to enter same password on both lines" />
         <classes>
             <class name="se.sunet.eduid.TC_21" >
             </class>
@@ -259,8 +229,9 @@
     </test>
 
     <test name="TC_31">
-        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings,
-        verify it immediately using eIDAS" />
+        <parameter name="testDescription" value="Register account, confirm identity with mail. Add Extra security key in Advanced Settings,
+        verify it immediately using Freja for re-auth and eIDAS for security key verification. Then delete the security
+        key and use eIDAS for the re-auth" />
         <classes>
             <class name="se.sunet.eduid.TC_31" >
             </class>
@@ -322,6 +293,24 @@
         with passkey, instead of username and password. Restore account and verify its still verified etc" />
         <classes>
             <class name="se.sunet.eduid.TC_50" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_51">
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings,
+        verify it immediately using Freja eID. No complete verification of security key." />
+        <classes>
+            <class name="se.sunet.eduid.TC_51" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_52">
+        <parameter name="testDescription" value="Register account, Add Extra security key in Advanced Settings,
+        verify it immediately using eIDAS, delete the account and restore it again using eIDAS as extra security." />
+        <classes>
+            <class name="se.sunet.eduid.TC_52" >
             </class>
         </classes>
     </test>

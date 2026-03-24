@@ -1,6 +1,9 @@
 package se.sunet.eduid.generic;
 
+import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
+
+import java.util.List;
 
 public class Help {
     private final Common common;
@@ -1516,6 +1519,43 @@ public class Help {
         common.verifyPageBodyContainsString(pageBody, "Opening hours:");
     }
 
+    public void expandAllOptions() {
+
+        List<String> sections = List.of(
+                "help-contact",
+                "help-about-sunet",
+                "help-privacy-accessibility",
+                "help-orcid-ladok",
+                "help-tou",
+                "help-verification",
+                "help-international",
+                "help-eidas",
+                "help-freja",
+                "help-bankid",
+                "help-security-key",
+                "help-assurance-levels",
+                "help-security-usb",
+                "security-key-list",
+                "help-using-eduid",
+                "help-relogin",
+                "help-Account",
+                "help-security",
+                "help-identity",
+                "help-start",
+                "help-pw",
+                "help-login",
+                "help-create",
+                "help-about-eduid"
+        );
+
+        for (String id : sections) {
+            common.expandIfCollapsed(id);
+        }
+    }
+
+
+
+/*
     public void expandAllOptions(){
         if(common.findWebElementById("help-contact").getDomAttribute("open") == null)
             common.click(common.findWebElementById("help-contact-button"));
@@ -1570,4 +1610,5 @@ public class Help {
         if(common.findWebElementById("help-about-eduid").getDomAttribute("open") == null)
             common.click(common.findWebElementById("help-about-eduid-button"));
     }
+*/
 }

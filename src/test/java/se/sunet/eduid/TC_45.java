@@ -63,7 +63,7 @@ public class TC_45 extends BeforeAndAfter {
         login.enterPassword();
         common.click(common.findWebElementById("login-form-button"));
 
-        common.explicitWaitPageTitle("Release check for SWAMID");
+        common.explicitWaitPageTitle("Releasecheck för Swamid");
     }
 
     @Test( dependsOnMethods = {"login2"} )

@@ -56,7 +56,7 @@ public class TC_88 extends BeforeAndAfter {
         login.enterPassword();
 
         //Click log in button
-        common.findWebElementById("login-form-button").click();
+        login.clickLoginButton();
 
         common.timeoutSeconds(3);
     }

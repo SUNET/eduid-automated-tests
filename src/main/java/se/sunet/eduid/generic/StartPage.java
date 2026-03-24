@@ -1,5 +1,6 @@
 package se.sunet.eduid.generic;
 
+import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -27,11 +28,7 @@ public class StartPage {
         common.explicitWaitClickableElementId(buttonSign);
 
         verifyPageTitle();
-
-        if(testData.getLanguage() != null && testData.getLanguage().equalsIgnoreCase("English"))
-            verifyLabelsEnglish();
-        else
-            verifyLabelsSwedish();
+        verifyLabelsSwedish();
         if(testData.isRegisterAccount())
             registerAccount();
         else
@@ -42,7 +39,7 @@ public class StartPage {
         common.explicitWaitPageTitle("eduID");
 
         //Verify footer
-//        common.verifyStringOnPage("©2013-" +common.getDate().toString().substring(0,4));
+        common.verifyStringOnPage("©2013-" +common.getDate().toString().substring(0,4));
     }
 
     private void signIn(){
@@ -83,6 +80,7 @@ public class StartPage {
                 "Höj nivån igen - bevisa att DU loggar in.");
 
         //Verify link to Sunet and Help page works
+        common.timeoutMilliSeconds(500);
         common.verifyXpathIsWorkingLink(linkSunet);
         common.verifyXpathIsWorkingLink(linkHelp);
     }

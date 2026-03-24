@@ -15,7 +15,7 @@ public class TestData {
     private String loaLevel = "eIDAS Substantial";
     private String username, password, givenName, surName, displayName, email,
             phoneNumber, identityNumber, language, eppn, supportUsername, supportPassword,
-            emailCode, testCase, testDescription, testSuite, testMethod, otpPhoneNumber, otherDeviceCode,
+            emailCode, testCase, testDescription, testSuite, testMethod, testClassName, otpPhoneNumber, otherDeviceCode,
             otherDeviceSubmitCode, emailVerificationCode, browser, headlessExecution, letterProofingCodeUrl,
             emailVerificationCodeUrl, phoneConfirmationCodeUrl, emailResetPwCodeUrl, domain, bankIdTextSwe,
             bankIdTextEng, supportUrl, baseUrl, idpName, autotestsCookieValue, identityNumberFilePath,
@@ -28,6 +28,7 @@ public class TestData {
     private boolean addExternalSecurityKey = false;
     private boolean addInternalPassKey = false;
     private boolean verifySecurityKeyByFreja;
+    private boolean verifySecurityKeyByFrejaeID;
     private boolean verifySecurityKeyByBankId;
     private boolean verifySecurityKeyByEidas;
     private boolean accountVerified = true;

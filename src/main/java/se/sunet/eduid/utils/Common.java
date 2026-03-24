@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -17,6 +18,7 @@ import org.openqa.selenium.virtualauthenticator.VirtualAuthenticator;
 import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
 import org.testng.Assert;
 import io.github.sukgu.Shadow;
+import org.testng.annotations.Test;
 import se.sunet.eduid.generic.Login;
 
 import java.io.IOException;
@@ -149,12 +151,7 @@ public class Common {
     }
 
     public void verifyStringByXpath(String xpath, String stringToCompareWith) {
-        try {
-            Assert.assertEquals(findWebElementByXpath(xpath).getText(), stringToCompareWith, errorMsg);
-        }catch (Exception ex){
-            checkIfXpathIsUpdated(xpath, stringToCompareWith);
-            Assert.fail("Failed to find text by Xpath: " + stringToCompareWith);
-        }
+        Assert.assertEquals(findWebElementByXpath(xpath).getText(), stringToCompareWith, errorMsg);
     }
 
     public void verifyStringById(String id, String stringToCompareWith) {
@@ -215,6 +212,74 @@ public class Common {
         Shadow shadow = new Shadow(webDriver);
         return shadow.findElement(cssLocator);
     }
+
+    public void clickViaPointer(By locator){
+        WebElement el = waitUntilPresence(locator);
+
+        new Actions(getWebDriver())
+                .moveToElement(el)
+                .pause(Duration.ofMillis(140))
+                .click()
+                .perform();
+    }
+
+    public void waitUntilPageTitleContains(String titleFragment) {
+        new WebDriverWait(webDriver, Duration.ofSeconds(15))
+                .until(ExpectedConditions.titleContains(titleFragment));
+    }
+
+    public WebElement waitUntilPresence(By locator) {
+        return new WebDriverWait(webDriver, Duration.ofSeconds(15))
+                .until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+
+    public WebElement waitUntilClickable(By locator) {
+        return new WebDriverWait(webDriver, Duration.ofSeconds(15))
+                .until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
+    public WebElement waitUntilVisible(By locator) {
+        return new WebDriverWait(webDriver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    public void waitUntilNotCovered(By overlay) {
+        new WebDriverWait(webDriver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.invisibilityOfElementLocated(overlay));
+    }
+
+    public List<WebElement> waitUntilPresenceOfAllElements(By locator) {
+        return new WebDriverWait(webDriver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+    }
+
+    public void expandIfCollapsed(String id) {
+
+        WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(10));
+
+        By sectionLocator = By.id(id);
+        By buttonLocator  = By.id(id + "-button");
+
+        // Wait until section exists
+        WebElement section = wait.until(
+                ExpectedConditions.presenceOfElementLocated(sectionLocator)
+        );
+
+        // Check if already open
+        if (section.getDomAttribute("open") == null) {
+
+            // Click toggle button
+            wait.until(ExpectedConditions.elementToBeClickable(buttonLocator))
+                    .click();
+
+            // Wait until expanded
+            wait.until(ExpectedConditions.attributeToBeNotEmpty(
+                    getWebDriver().findElement(sectionLocator),
+                    "open"
+            ));
+        }
+    }
+
 
     public void explicitWaitClickableElement(String xpathToElementToWaitFor) {
         WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
@@ -330,11 +395,6 @@ public class Common {
         //Close the status message
         findWebElementByXpath("//*[@id=\"panel\"]/div[1]/div/button").click();
     }
-
-/*    public void verifySiteLocation(String location) {
-        //Verify site location text
-        //verifyStringByXpath("//*[@id=\"content\"]/nav/a[2]", location);
-    }*/
 
     public void closePopupDialog() {
         //Close the pop up dialog
@@ -510,8 +570,7 @@ public class Common {
         }
         else {
             //Verify labels and text
-            timeoutSeconds(1);
-            explicitWaitClickableElementId(closeButtonId);
+            waitUntilPresence(By.id(closeButtonId));
             verifyStringOnPage("Säkerhetsskäl");
             verifyStringOnPage("Du behöver logga in igen för att kunna utföra åtgärden.");
             verifyStringOnPage(fineTextSwe);
@@ -519,13 +578,14 @@ public class Common {
             verifyStringById(acceptButtonId, "FORTSÄTT");
 
             //Close pop-up
-            click(findWebElementById(closeButtonId));
+            waitUntilClickable(By.id(closeButtonId)).click();
+            log.info("Closed pop up - Swedish");
 
             //Select English
             selectEnglish();
 
             //Click on the button that will initiate the security confirm pop up
-            click(findWebElementByXpath(xPathToButton));
+            waitUntilClickable(By.xpath(xPathToButton)).click();
 
             switchToPopUpWindow();
 
@@ -534,12 +594,12 @@ public class Common {
             if(testData.isDeleteButton()) {
                 //Click on 'Delete my eduid' button in pop up after Delete eduid link is clicked in settings
                 log.info("Clicking on extra delete button in pop up");
-                click(findWebElementByIdNoExplWait("delete-account-modal-accept-button"));
+                waitUntilClickable(By.id("delete-account-modal-accept-button")).click();
             }
 
             log.info("Extra security log pop up, verify labels and press continue - English");
 
-            explicitWaitClickableElementId(closeButtonId);
+            waitUntilClickable(By.id(closeButtonId));
             verifyStringOnPage("Security check");
             verifyStringOnPage("You need to log in again to perform the requested action.");
             verifyStringOnPage(fineTextEng);
@@ -616,75 +676,6 @@ public class Common {
         }
     }
 
-
-    private void checkIfXpathIsUpdated(String xpath, String stringToCompareWith){
-        if (getPageBody().contains(stringToCompareWith)){
-            log.info("Text String on webpage, xpath is probably changed");
-            log.info("Searching webpage for possible update of xpath...");
-
-            // Find elements containing the specified text
-            List<WebElement> elements = webDriver.findElements(By.xpath("//*[contains(text(), '" + stringToCompareWith + "')]"));
-
-            // Print the XPath of each matching element
-            if (elements.isEmpty()) {
-                System.out.println("No elements found with the text: " + stringToCompareWith);
-            }
-            else {
-                for (WebElement element : elements) {
-                    String newXpath = generateXPath(element, getWebDriver());
-                    Assert.fail("Xpath (" +xpath +") to text string: \n" +stringToCompareWith +
-                            "\nIs not working. Suggested new xpath to element is: " +newXpath);
-                }
-            }
-        }
-        else{
-            log.warn("Text String can not be found on webpage.");
-            Assert.fail("Exception caught, was not due to updated xpath. Failing test case");
-        }
-    }
-
-    // Helper method to generate an XPath for a WebElement
-    private static String generateXPath(WebElement element, WebDriver driver) {
-        String script = "function absoluteXPath(element) {" +
-                "var comp, comps = [];" +
-                "var xpath = '';" +
-                "var getPos = function(element) {" +
-                "var position = 1, curNode;" +
-                "for (curNode = element.previousSibling; curNode; curNode = curNode.previousSibling) {" +
-                "if (curNode.nodeName == element.nodeName) {" +
-                "++position;" +
-                "}" +
-                "}" +
-                "for (curNode = element.nextSibling; curNode; curNode = curNode.nextSibling) {" +
-                "if (curNode.nodeName == element.nodeName) {" +
-                "return position;" + // More than one sibling, return position
-                "}" +
-                "}" +
-                "return null;" + // No siblings, no index
-                "};" +
-                "if (element instanceof Document) {" +
-                "return '/';" +
-                "}" +
-                "for (; element && !(element instanceof Document); element = element.parentNode) {" +
-                "comp = {};" +
-                "comp.name = element.nodeName;" +
-                "comp.position = getPos(element);" +
-                "comps.unshift(comp);" +
-                "}" +
-                "for (var i = 0; i < comps.length; i++) {" +
-                "comp = comps[i];" +
-                "xpath += '/' + comp.name.toLowerCase();" +
-                "if (comp.position !== null) {" +
-                "xpath += '[' + comp.position + ']';" +
-                "}" +
-                "}" +
-                "return xpath;" +
-                "}" +
-                "return absoluteXPath(arguments[0]);";
-
-        return (String) ((JavascriptExecutor) driver).executeScript(script, element);
-    }
-
     public void refIdpEnterAndSubmitUser(){
         //Click advanced options
         findWebElementById("advancedButton").click();
@@ -748,4 +739,32 @@ public class Common {
         log.info("WebAuthn credentials set to: User is set to verified and automatic presence simulation");
     }
 
+    public void selectCountry(String country){
+        //Select country
+        findWebElementById("countryFlag_" +country).click();
+
+        //Wait for idp button on next page
+        explicitWaitClickableElementId("idpSubmitbutton");
+    }
+
+    public void submitEidasUser(){
+        //Set LoA to substantial
+        click(findWebElementByXpath("//*[@id=\"authnForm\"]/table/tbody/tr[3]/td/div/div/button"));
+        click(findWebElementByXpath(
+                "//*[@id=\"authnForm\"]//span[contains(text(),'" +testData.getLoaLevel() +"')]"));
+
+        //Submit IDP identity
+        findWebElementById("idpSubmitbutton").click();
+
+        //Wait for consent button on next page
+        explicitWaitClickableElementId("buttonNext");
+    }
+
+    public void submitConsent(){
+        //Submit Consent
+        timeoutSeconds(2);
+        findWebElementById("buttonNext").click();
+
+        timeoutSeconds(2);
+    }
 }

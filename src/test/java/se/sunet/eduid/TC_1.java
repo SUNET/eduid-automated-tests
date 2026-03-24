@@ -29,5 +29,9 @@ public class TC_1 extends BeforeAndAfter {
     void pressBackButton() { common.getWebDriver().navigate().back(); }
 
     @Test( dependsOnMethods = {"pressBackButton"} )
-    void verifyNotLoggedIn() { startPage.verifyLabelsSwedish(); }
+    void verifyNotLoggedIn() {
+        //Set re-login to verify correct text on page
+        testData.setReLogin(true);
+        login.verifyPageTitle();
+    }
 }

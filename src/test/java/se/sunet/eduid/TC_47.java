@@ -92,7 +92,7 @@ public class TC_47 extends BeforeAndAfter {
     void login2(){
         login.enterPassword();
 
-        common.findWebElementById("login-form-button").click();
+        login.clickLoginButton();
 
         common.timeoutSeconds(2);
     }
@@ -104,7 +104,7 @@ public class TC_47 extends BeforeAndAfter {
     void login3(){
         login.enterPassword();
 
-        common.findWebElementById("login-form-button").click();
+        login.clickLoginButton();
 
         common.timeoutSeconds(2);
     }

@@ -38,7 +38,8 @@ public class DashBoard {
         verifyPageTitle();
         verifyUserId();
 
-        if(testData.getTestCase().equalsIgnoreCase("TC_5"))
+        //if(testData.getTestClassName().equalsIgnoreCase("TC_5"))
+        if(testData.getLanguage().equalsIgnoreCase("English"))
             verifyLabelsEnglish();
         else{
             verifyLabelsSwedish();
@@ -63,7 +64,7 @@ public class DashBoard {
         pageBody = common.getPageBody();
 
         //Verify menu labels, not needed for every test case
-        if(testData.getTestCase().equalsIgnoreCase("TC_1"))
+        if(testData.getTestClassName().equalsIgnoreCase("TC_1"))
             verifyMenuLabelsSwe();
 
         //Verify welcome heading
@@ -111,6 +112,11 @@ public class DashBoard {
         if(testData.isAddExternalSecurityKey() || testData.isAddInternalPassKey()){
             common.verifyPageBodyContainsString(pageBody, "Ökad säkerhet");
             common.verifyPageBodyContainsString(pageBody, "Läs mer om din tillagda multifaktorautentisering under Säkerhet");
+            //When identity is confirmed, this extra text will not be displayed
+            if(!testData.isIdentityConfirmed()) {
+                common.verifyPageBodyContainsString(pageBody, "Det rekommenderas starkt att lägga till mer än " +
+                        "en säkerhetsnyckel eller passkey/lösennyckel för att försäkra dig om att du kan logga in även om en förloras.");
+            }
         }
         else {
             common.verifyPageBodyContainsString(pageBody, "Öka säkerheten");
@@ -118,7 +124,7 @@ public class DashBoard {
         }
         common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[3]/div[2]/span/a");
 
-        if(testData.isVerifySecurityKeyByFreja()) {
+        if(testData.isVerifySecurityKeyByFreja() || testData.isVerifySecurityKeyByEidas()) {
             common.verifyPageBodyContainsString(pageBody, "Verifierad säkerhetsnyckel");
             common.verifyPageBodyContainsString(pageBody, "Läs mer om din verifierade multifaktorautentisering under Säkerhet");
         }
@@ -138,7 +144,7 @@ public class DashBoard {
 
     private void verifyLabelsEnglish() {
         //Select English
-        if(!testData.getTestCase().equalsIgnoreCase("TC_5"))
+        if(!testData.getTestClassName().equalsIgnoreCase("TC_4"))
             common.selectEnglish();
 
         common.verifyPageTitle("Start | eduID");
@@ -147,7 +153,7 @@ public class DashBoard {
         pageBody = common.getPageBody();
 
         //Verify menu labels, not needed for every test case
-        if(testData.getTestCase().equalsIgnoreCase("TC_1"))
+        if(testData.getTestClassName().equalsIgnoreCase("TC_1"))
             verifyMenuLabelsEng();
 
         //Verify welcome heading
@@ -203,6 +209,11 @@ public class DashBoard {
             log.info("Security key is added");
             common.verifyPageBodyContainsString(pageBody, "Enhanced security");
             common.verifyPageBodyContainsString(pageBody, "Read more about your added multi-factor authentication at Security");
+            //When identity is confirmed, this extra text will not be displayed
+            if(!testData.isIdentityConfirmed()) {
+                common.verifyPageBodyContainsString(pageBody, "It is strongly recommended to add more than " +
+                        "one security key or passkey to ensure you can still sign in to your account if one is lost.");
+            }
         }
         else {
             common.verifyPageBodyContainsString(pageBody, "Enhance security");
@@ -211,7 +222,7 @@ public class DashBoard {
 
         common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[3]/div[2]/span/a");
 
-        if(testData.isVerifySecurityKeyByFreja()) {
+        if(testData.isVerifySecurityKeyByFreja()  || testData.isVerifySecurityKeyByEidas()) {
             log.info("Security key is verified");
             common.verifyPageBodyContainsString(pageBody, "Verified security key");
             common.verifyPageBodyContainsString(pageBody, "Read more details about your verified multi-factor authentication at Security");
@@ -231,7 +242,7 @@ public class DashBoard {
         common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/p[4]/a");
 
         //Select swedish
-        if(!testData.getTestCase().equalsIgnoreCase("TC_5"))
+        if(!testData.getTestClassName().equalsIgnoreCase("TC_4"))
             common.selectSwedish();
     }
 

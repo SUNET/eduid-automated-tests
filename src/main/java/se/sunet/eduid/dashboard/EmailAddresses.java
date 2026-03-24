@@ -108,28 +108,23 @@ public class EmailAddresses {
                 common.verifyStringByXpath("//*[@id=\"add-email-addresses\"]/div/div/table/tbody/tr[3]/td[2]/button",
                         "BEKRÄFTA");
 
-                //Wait 5 sec for the email to arrive in inbox
-                common.timeoutSeconds(5);
-
                 // Confirm email address by code successfully, not successfully by wrongCode
                 if(testData.getConfirmNewEmail1().equals("code") || testData.getConfirmNewEmail1().equals("wrongCode")) {
                     Common.log.info("Confirm email with code: " +testData.getConfirmNewEmail1());
-                    //String confirmationCode = null;
 
                     if(testData.getConfirmNewEmail1().equals("code")) {
+                        //Wait 15 sec for the email to arrive in inbox
+                        common.timeoutSeconds(15);
+
                         //Get the confirmationCode
                         confirmationCode = mailReader.readEmail("confirmationCode");
                         Common.log.info("Confirmation Code: " + confirmationCode);
                     }
 
-                    //Click on confirm link
-//                    pressConfirmEmail();
-
                     verifyConfirmEmailPopupLabels();
 
                     // In pop-up enter the confirmation code
                     common.findWebElementById(emailConfirmationCodeInputField).clear();
-                    //common.findWebElementById("email-confirm-modal").clear();
 
                     if (testData.getConfirmNewEmail1().equals("code")) {
                         common.findWebElementById(emailConfirmationCodeInputField).sendKeys(confirmationCode);

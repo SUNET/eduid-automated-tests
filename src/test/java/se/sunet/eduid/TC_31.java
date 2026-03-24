@@ -1,11 +1,14 @@
 package se.sunet.eduid;
 
+import lombok.extern.slf4j.Slf4j;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
 import java.io.IOException;
 
+@Slf4j
 public class TC_31 extends BeforeAndAfter {
     @Test
     void startPage(){
@@ -37,13 +40,13 @@ public class TC_31 extends BeforeAndAfter {
         confirmIdentity.runConfirmIdentity(); }
 
     @Test( dependsOnMethods = {"confirmIdentityMail"} )
-    void confirmedIdentity() {
+    void confirmedIdentityMail() {
         confirmedIdentity.runConfirmedIdentity();
 
         testData.setRegisterAccount(false);
     }
 
-    @Test( dependsOnMethods = {"confirmedIdentity"} )
+    @Test( dependsOnMethods = {"confirmedIdentityMail"} )
     void addSecurityKey() {
         testData.setAddExternalSecurityKey(true);
         testData.setVerifySecurityKeyByEidas(true);
@@ -59,6 +62,8 @@ public class TC_31 extends BeforeAndAfter {
         //Set mfa method to be used to "freja" at login, since eidas is not an option to enhance the security key
         testData.setMfaMethod("freja");
         extraSecurity.selectMfaMethod();
+
+        Common.log.info("At this point Freja needs to be used for the re-authentication (nin) and eIDAS for the verification of security key");
     }
 
     @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
@@ -70,28 +75,19 @@ public class TC_31 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void selectCountry(){
         //Select country XA
-        common.findWebElementById("countryFlag_XA").click();
-
-        //Wait for idp button on next page
-        common.explicitWaitClickableElementId("idpSubmitbutton");
+        common.selectCountry("XA");
     }
 
     @Test( dependsOnMethods = {"selectCountry"} )
     void submitEidasUser(){
         //Select loa substantial level and submit
-        common.findWebElementByXpath("//*[@id=\"eidasDiv\"]/div/button/div/div/div").click();
-        common.findWebElementById("bs-select-8-1").click();
-
-        common.findWebElementById("idpSubmitbutton").click();
-
-        //Wait for consent button on next page
-        common.explicitWaitClickableElementId("buttonNext");
+        common.submitEidasUser();
     }
 
     @Test( dependsOnMethods = {"submitEidasUser"} )
     void submitConsent(){
-        //Select country XA
-        common.findWebElementById("buttonNext").click();
+        //Consent
+        common.submitConsent();
     }
 
     @Test( dependsOnMethods = {"submitConsent"} )
@@ -108,52 +104,58 @@ public class TC_31 extends BeforeAndAfter {
         dashBoard.runDashBoard();
     }
 
+    //Delete the added security key and use eIDAS for re-authentication
+    //Remove the verified security key
     @Test( dependsOnMethods = {"dashboard"} )
+    void initiateRemoveVerifiedSecurityKey() {
+        common.navigateToSecurity();
+        securityKey.deleteSecurityKey();
+    }
+
+    @Test( dependsOnMethods = {"initiateRemoveVerifiedSecurityKey"} )
+    void deleteVerifiedSecurityKeyLogin() {
+        //Set mfa method to be used to "security key" at login.
+        testData.setMfaMethod("eidas");
+
+        //Login page for extra security select security key mfa method
+        loginExtraSecurity.runLoginExtraSecurity();
+        extraSecurity.selectMfaMethod();
+
+        Common.log.info("Log in with eIDAS");
+    }
+
+    @Test( dependsOnMethods = {"deleteVerifiedSecurityKeyLogin"} )
+    void extraLoginEidas() {
+        common.selectCountry("XA");
+        common.submitEidasUser();
+        common.submitConsent();
+    }
+
+    @Test( dependsOnMethods = {"extraLoginEidas"} )
+    void verifySecurityKeyRemoved() {
+        Assert.assertFalse(common.getPageBody().contains("test-key1"),
+                "Security is still present at page! Should have been removed.");
+
+        common.navigateToAccount();
+    }
+
+
+    @Test( dependsOnMethods = {"verifySecurityKeyRemoved"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
-
-        //Verify the extra pop-up when logged in +5minutes
-        deleteAccount.confirmDeleteAfter5Min();
     }
 
     @Test( dependsOnMethods = {"delete"} )
-    void login3(){
-        //mfa method"freja" at login, since eidas is not an option to enhance the security key
-
-        //Login page for extra security select freja as mfa method
-        extraSecurity.selectMfaMethod();
-    }
-
-    @Test( dependsOnMethods = {"login3"} )
-    void selectUserRefIdp2() {
-        //Select and submit user
-        common.refIdpEnterAndSubmitUser();
-    }
-
-    @Test( dependsOnMethods = {"selectUserRefIdp2"} )
     void startPage3(){
         startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage3"} )
     void login4() {
-        //Login page for extra security select freja mfa method
-        extraSecurity.selectMfaMethod();
+        testData.setIncorrectPassword(true);
 
-        Common.log.info("Log in with Freja");
-    }
-
-    @Test( dependsOnMethods = {"login4"} )
-    void selectUserRefIdp4(){
-        //Select and submit user
-        common.refIdpEnterAndSubmitUser();
-    }
-
-    @Test( dependsOnMethods = {"selectUserRefIdp4"} )
-    void verifyAccountDeleted(){
-        testData.setAccountDeleted(true);
-
-        login.signIn();
+        login.enterPassword();
+        login.clickLoginButton();
     }
 }

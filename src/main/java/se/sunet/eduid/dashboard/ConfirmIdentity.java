@@ -47,7 +47,7 @@ public class ConfirmIdentity{
         common.click(common.findWebElementById("add-nin-button"));
 
         //Wait for the nin to be added and show/hide button is visible
-        common.explicitWaitClickableElementId("letter-proofing-show-hide-button");
+        common.explicitWaitClickableElementId("show-hide-button");
 
         Common.log.info("Added swedish personal id number");
     }
@@ -59,6 +59,8 @@ public class ConfirmIdentity{
         if(testData.getConfirmIdBy().equalsIgnoreCase("mail")) {
             Common.log.info("Verify identity by Letter");
 
+            //Wait a few seconds, because sometimes the OTP is not available directly
+            common.timeoutSeconds(3);
             //Fetch the code
             String letterProofingCode =
                     common.getCodeInNewTab(testData.getLetterProofingCodeUrl(), 10);
@@ -67,7 +69,7 @@ public class ConfirmIdentity{
             verifyLabelsSentLetter();
 
             //Press again on the letter button - Add a faulty code. Not needed for all test cases
-            if(testData.getTestCase().equalsIgnoreCase("TC_41")) {
+            if(testData.getTestClassName().contains("TC_41")) {
                 common.findWebElementById(letterCodeConfirmationInputFieldId).sendKeys("1qvw3fw2q3");
 
                 //Click OK
@@ -101,7 +103,7 @@ public class ConfirmIdentity{
             Common.log.info("Verify identity by Freja eID");
 
             //Verify that nin cookie has to be used is not necessary for all test cases, check it only in tc 40
-            if(testData.getTestCase().equalsIgnoreCase("TC_40")) {
+            if(testData.getTestClassName().contains("TC_40")) {
                 //Select Freja eID
                 common.click(common.findWebElementByXpath("//*[@id=\"se-freja\"]/div/button"));
 
@@ -154,20 +156,24 @@ public class ConfirmIdentity{
             common.click(common.findWebElementByXpath("//*[@id=\"eu\"]/div/button"));
 
             //Select country XA in sandbox
-            common.findWebElementByXpath("//*[@id=\"countrySelectForm\"]/div/div[3]/button").click();
+            common.selectCountry("XA");
+            //common.findWebElementByXpath("//*[@id=\"countrySelectForm\"]/div/div[3]/button").click();
 
             //Set LoA to substantial
-            common.click(common.findWebElementByXpath("//*[@id=\"authnForm\"]/table/tbody/tr[3]/td/div/div/button"));
+            common.submitEidasUser();
+/*            common.click(common.findWebElementByXpath("//*[@id=\"authnForm\"]/table/tbody/tr[3]/td/div/div/button"));
             common.click(common.findWebElementByXpath(
                     "//*[@id=\"authnForm\"]//span[contains(text(),'" +testData.getLoaLevel() +"')]"));
 
             //Submit IDP identity
-            common.findWebElementById("idpSubmitbutton").click();
+            common.findWebElementById("idpSubmitbutton").click();*/
 
             //Submit Consent
+            common.submitConsent();
+/*            common.timeoutSeconds(2);
             common.findWebElementById("buttonNext").click();
 
-            common.timeoutSeconds(2);
+            common.timeoutSeconds(2);*/
         }
 
         //Freja no Swedish Pnr

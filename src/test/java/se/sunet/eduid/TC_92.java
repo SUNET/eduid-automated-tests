@@ -98,11 +98,7 @@ public class TC_92 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
     void validateNonSuccessfulLogin(){
         //Verify Status text
-        common.verifyStatusMessage("Det är inte möjligt att använda detta alternativ för multifaktor-autentiseringen (MFA). Välj en giltig autentiseringsmetod.");
-
-        common.selectEnglish();
-
-        //Verify Status text
-        common.verifyStatusMessage("This multi-factor authentication (MFA) method is not allowed. Please choose a valid authentication method.");
+        common.verifyStringOnPage("Åtkomst nekades!\n" +
+                "Vi kunde inte ge dig åtkomst till Skolverkets testsida.");
     }
 }

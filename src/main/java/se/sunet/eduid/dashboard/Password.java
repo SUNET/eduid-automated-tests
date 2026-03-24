@@ -1,5 +1,6 @@
 package se.sunet.eduid.dashboard;
 
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
@@ -33,7 +34,6 @@ public class Password {
 
     public void setPassword(){
         //Wait for abort button to be clickable
-        //common.timeoutSeconds(6);
         common.explicitWaitClickableElementId(abortRecPwButton);
 
         //Verify recommend password labels
@@ -86,38 +86,58 @@ public class Password {
         //Save button or Abort
         if(testData.isButtonValueConfirm()) {
             //The Save button has different ID depending on if recommended or own password is used.
-            Common.log.info("Pressing OK to save new password");
+            //Common.log.info("Pressing OK to save new password");
             common.timeoutMilliSeconds(500);
-            if(testData.isUseRecommendedPw())
+            if(testData.isUseRecommendedPw()) {
+                Common.log.info("Pressing OK to save new recommended password");
                 common.click(common.findWebElementById("new-password-button"));
-            else
-                common.click(common.findWebElementById("chpass-button"));
-
-            common.timeoutMilliSeconds(500);
-
-            // If not the correct password was entered at password change
-            if(testData.isIncorrectPassword()) {
+            }
+            else if(testData.isIncorrectPassword()) {
+                Common.log.info("Repeated passwords do not match. Pressing Cancel abort new password");
                 common.verifyStringByXpath("//*[@id=\"repeat-wrapper\"]/div[3]/span",
                         "Det nya och repeterade lösenordet är olika.");
                 common.timeoutMilliSeconds(500);
+
                 //Click abort
-                common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[1]"));
+                common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[1]").click();
             }
             //If too weak password is chosen, click abort. Inside save button if-statement to test if its possible to click it
             else if(testData.getNewPassword().equalsIgnoreCase("test")) {
-                Common.log.info("Pressing Cancel abort new password");
+                Common.log.info("Pressing Cancel abort too weak new password");
 
                 //Verify that the button is disabled when password is too weak.
                 String buttonEnabled = String.valueOf(common.findWebElementById("chpass-button").isEnabled());
                 common.verifyStrings("false", buttonEnabled);
 
+                //Click abort
+                common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[1]").click();
                 //common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[1]"));
             }
             else {
+                Common.log.info("Pressing OK to save new password");
+                common.waitUntilClickable(By.id("chpass-button")).click();
+                //common.click(common.findWebElementById("chpass-button"));
                 //Confirmation of password change is no longer presented
                 Common.log.info("Password changed!");
                 common.timeoutSeconds(2);
             }
+
+            common.timeoutMilliSeconds(500);
+
+            // If not the correct password was entered at password change
+/*            if(testData.isIncorrectPassword()) {
+                common.verifyStringByXpath("//*[@id=\"repeat-wrapper\"]/div[3]/span",
+                        "Det nya och repeterade lösenordet är olika.");
+                common.timeoutMilliSeconds(500);
+                //Click abort
+                common.click(common.findWebElementByXpath("//*[@id=\"chpass-form\"]/button[1]"));
+            }*/
+
+/*            else {
+                //Confirmation of password change is no longer presented
+                Common.log.info("Password changed!");
+                common.timeoutSeconds(2);
+            }*/
         }
         else {
             if(testData.isUseRecommendedPw()) {

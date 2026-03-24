@@ -1,5 +1,7 @@
 package se.sunet.eduid.resetPassword;
 
+import com.sun.mail.handlers.text_html;
+import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -36,10 +38,10 @@ public class ExtraSecurity {
         //verify the labels - English
         common.timeoutSeconds(1);
         if(testData.isAddExternalSecurityKey()){
-            common.verifyPageTitle("Log in | eduID");
+            common.waitUntilPageTitleContains("Log in | eduID");
         }
         else if(testData.isResetPassword()) {
-            common.verifyPageTitle("Reset password | eduID");
+            common.waitUntilPageTitleContains("Reset password | eduID");
         }
 
         //Extract page body for validation
@@ -92,7 +94,6 @@ public class ExtraSecurity {
                     "identitetsbekräftelse efter lösenordsåterställningen.");
         }
 
-        //common.verifyPageBodyContainsString(pageBody, "Fortsätt utan extra säkerhet");
         common.verifyPageBodyContainsString(pageBody, "Kan du inte använda säkerhetsnyckel?");
         common.verifyPageBodyContainsString(pageBody, "VISA ANDRA ALTERNATIV");
 
@@ -106,7 +107,9 @@ public class ExtraSecurity {
         //Continue without extra security
         if(testData.getMfaMethod().equalsIgnoreCase("no")) {
             Common.log.info("Selecting 'no extra security'");
-            common.click(common.findWebElementById(continueWithoutExtraSecurityButtonID));
+            //common.click(common.findWebElementById(continueWithoutExtraSecurityButtonID));
+            common.scrollToPageBottom();
+            common.waitUntilClickable(By.id(continueWithoutExtraSecurityButtonID)).click();
         }
 
         //IF Freja eID should be used
@@ -116,14 +119,15 @@ public class ExtraSecurity {
             Common.log.info("Selecting Freja+");
 
             //Expand other options
-            common.findWebElementByXpath("//div[contains(text(), 'Visa andra alternativ')]").click();
+            common.scrollToPageBottom();
+            common.waitUntilClickable(By.xpath("//div[contains(text(), 'Visa andra alternativ')]")).click();
             common.timeoutMilliSeconds(500);
 
-            //Click Freja button - Freja might be displayed out window display, using javascript click for this.
-            common.click(common.findWebElementByXpath("//span[contains(text(), 'Freja+')]"));
+            //Click Freja button
+            common.waitUntilClickable(By.xpath("//span[contains(text(), 'Freja+')]")).click();
 
             //Wait for ref IDP page
-            common.explicitWaitPageTitle("Sweden Connect Reference Identity Provider");
+            common.waitUntilPageTitleContains("Sweden Connect Reference Identity Provider");
         }
         //If BankID should be used
         else if(testData.getMfaMethod().equalsIgnoreCase("bankid")) {
@@ -132,13 +136,14 @@ public class ExtraSecurity {
             Common.log.info("Selecting BankID");
 
             //Expand other options
-            common.findWebElementByXpath("//div[contains(text(), 'Visa andra alternativ')]").click();
+            common.scrollToPageBottom();
+            common.waitUntilClickable(By.xpath("//div[contains(text(), 'Visa andra alternativ')]")).click();
             common.timeoutMilliSeconds(500);
 
-            common.findWebElementByXpath("//span[contains(text(), 'BankID')]").click();
+            common.waitUntilClickable(By.xpath("//span[contains(text(), 'BankID')]")).click();
 
             //Wait for bankID page
-            common.explicitWaitPageTitle("BankID");
+            common.waitUntilPageTitleContains("BankID");
         }
         //If eIDAS should be used
         else if(testData.getMfaMethod().equalsIgnoreCase("eidas")) {
@@ -146,14 +151,15 @@ public class ExtraSecurity {
 
             Common.log.info("Selecting eIDAS");
 
-            //Expand other options
-            common.findWebElementByXpath("//div[contains(text(), 'Visa andra alternativ')]").click();
+            //Expand other options at the re-auth page
             common.timeoutMilliSeconds(500);
+            common.scrollToPageBottom();
+            common.waitUntilClickable(By.xpath("//div[contains(text(), 'Visa andra alternativ')]")).click();
 
-            common.findWebElementByXpath("//span[contains(text(), 'EIDAS')]").click();
+            common.waitUntilClickable(By.xpath("//span[contains(text(), 'eIDAS')]")).click();
 
-            //Wait for eIDAS page
-            common.explicitWaitPageTitle("BankID");
+            //Wait for eIDAS connector page
+            common.waitUntilPageTitleContains("Foreign eID - Sweden Connect");
         }
         //If external security key should be used
         else if(testData.getMfaMethod().equalsIgnoreCase("securitykey")) {

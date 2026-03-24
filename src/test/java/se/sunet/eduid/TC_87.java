@@ -45,7 +45,7 @@ public class TC_87 extends BeforeAndAfter {
         login.enterPassword();
 
         //Click log in button
-        common.findWebElementById("login-form-button").click();
+        login.clickLoginButton();
     }
 
     @Test( dependsOnMethods = {"login2"} )

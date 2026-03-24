@@ -50,10 +50,10 @@ public class DeleteAccount {
 
     private void verifyLabelsSwedish() {
         //Heading
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[7]/h2", "Spärra och radera eduID");
+        common.verifyStringByXpath("//*[@id=\"delete-account\"]/div/h2", "Spärra och radera eduID");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[7]/p", "Klicka på länken för " +
+        common.verifyStringByXpath("//*[@id=\"delete-account\"]/p", "Klicka på länken för " +
                 "att radera ditt eduID. Det spärrar all åtkomst till kontot om du inte väljer att byta lösenord inom " +
                 "en vecka, sedan rensas all information du sparat permanent.");
 
@@ -66,10 +66,10 @@ public class DeleteAccount {
         common.selectEnglish();
 
         //Heading
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[7]/h2", "Block and delete eduID");
+        common.verifyStringByXpath("//*[@id=\"delete-account\"]/div/h2", "Block and delete eduID");
 
         //Text
-        common.verifyStringByXpath("//*[@id=\"content\"]/article[7]/p", "Click the link to " +
+        common.verifyStringByXpath("//*[@id=\"delete-account\"]/p", "Click the link to " +
                 "delete your eduID. It will block any access to the account unless you change your password within one " +
                 "week, after which it will be removed permanently.");
 

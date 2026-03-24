@@ -1,10 +1,13 @@
 package se.sunet.eduid.dashboard;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.virtualauthenticator.HasVirtualAuthenticator;
 import org.openqa.selenium.virtualauthenticator.VirtualAuthenticator;
 import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
+
+import java.util.Objects;
 
 import static se.sunet.eduid.utils.Common.log;
 
@@ -48,7 +51,7 @@ public class SecurityKey {
         }
 
         //Only check all labels in the pop-up for both internal and external security key for some test cases, start with tc_50
-        if(testData.getTestCase().contains("TC_50")) {
+        if(testData.getTestClassName().contains("TC_50")) {
             //Click on add security key (external) and verify labels
             verifyAddSecurityKeyLabels("security-webauthn-button");
 
@@ -76,10 +79,11 @@ public class SecurityKey {
             verifyTheVerifySecurityKeyPopupLabels();
 
             //Click on Freja button
-            common.click(common.findWebElementById("verify-webauthn-token-modal-continue-frejaID-button"));
+            common.waitUntilClickable(By.id("verify-webauthn-token-modal-continue-frejaID-button")).click();
+            //common.click(common.findWebElementById("verify-webauthn-token-modal-continue-frejaID-button"));
 
             //Verify the security key extra login pop up and click accept
-            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]//span/button[2]",
+            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/button[2]",
                     "Obs: använd säkerhetsnyckeln " + securityKeyName + " vid inloggningen. Efter inloggning omdirigeras du till " +
                             "FREJA för att verifiera din säkerhetsnyckel.",
 
@@ -92,11 +96,10 @@ public class SecurityKey {
             verifyTheVerifySecurityKeyPopupLabels();
 
             //Click on BankID button
-            common.click(common.findWebElementById("verify-webauthn-token-modal-continue-bankID-button"));
-
+            common.waitUntilClickable(By.id("verify-webauthn-token-modal-continue-bankID-button")).click();
 
             //Ignore verification of the security pop up labels and just click continue
-            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]//span/button[1]",
+            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/button[1]",
                     "Obs: använd säkerhetsnyckeln " + securityKeyName + " vid inloggningen. Efter inloggning omdirigeras " +
                             "du till BANKID för att verifiera din säkerhetsnyckel.",
                     "Note: please use the security key " + securityKeyName + " during the login process. After logging in," +
@@ -108,14 +111,36 @@ public class SecurityKey {
             verifyTheVerifySecurityKeyPopupLabels();
 
             //Click on eIDAS button
-            common.click(common.findWebElementById("verify-webauthn-token-modal-continue-eidas-button"));
+            common.waitUntilClickable(By.id("verify-webauthn-token-modal-continue-eidas-button")).click();
 
             //Verify the security pop up and click accept
-            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]//span/button[3]",
+            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/button[3]",
                     "Obs: använd säkerhetsnyckeln " + securityKeyName + " vid inloggningen. Efter inloggning omdirigeras " +
                             "du till EIDAS för att verifiera din säkerhetsnyckel.",
                     "Note: please use the security key " + securityKeyName + " during the login process. After logging in," +
                             " you will be redirected to EIDAS page to verify your security key.");
+
+            common.timeoutSeconds(3);
+            if(Objects.requireNonNull(common.getWebDriver().getTitle()).equalsIgnoreCase("Säkerhet | eduID")){
+                Common.log.info("Still at the security page for unknown reason, clicking again on eIDAS: " +testData.getMfaMethod());
+                common.findWebElementByXpath("//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/button[3]").click();
+            }
+        }
+        else if(testData.isVerifySecurityKeyByFrejaeID()){
+            log.info("Security key added and user selecting Freja eID for immediate verification of it, clicking on Freja eID button");
+
+            common.addNinCookie();
+            verifyTheVerifySecurityKeyPopupLabels();
+
+            //Click on Freja eID button
+            common.waitUntilClickable(By.id("verify-webauthn-token-modal-continue-frejaeid-button")).click();
+
+            //Verify the security pop up and click accept
+            common.securityConfirmPopUp("//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/button[4]",
+                    "Obs: använd säkerhetsnyckeln " + securityKeyName + " vid inloggningen. Efter inloggning omdirigeras " +
+                            "du till FREJA för att verifiera din säkerhetsnyckel.",
+                    "Note: please use the security key " + securityKeyName + " during the login process. After logging in," +
+                            " you will be redirected to FREJA page to verify your security key.");
         }
 
         //If security key should not be verified when added, close the pop-up
@@ -151,6 +176,7 @@ public class SecurityKey {
         //common.verifyXpathIsWorkingLink("//*[@id=\"register-webauthn-tokens-area\"]/figure/div[3]/span/button[1]");
         common.verifyPageBodyContainsString(pageBody, "BANKID");
         common.verifyPageBodyContainsString(pageBody, "EIDAS");
+        common.verifyPageBodyContainsString(pageBody, "FREJA EID");
         common.explicitWaitClickableElementId("remove-webauthn"); //Remove button
     }
 
@@ -175,6 +201,7 @@ public class SecurityKey {
         common.verifyPageBodyContainsString(pageBody, "FREJA+");
         common.verifyPageBodyContainsString(pageBody, "BANKID");
         common.verifyPageBodyContainsString(pageBody, "EIDAS");
+        common.verifyPageBodyContainsString(pageBody, "FREJA EID");
         common.explicitWaitClickableElementId("remove-webauthn"); //Remove button
 
         //Swedish
@@ -182,7 +209,7 @@ public class SecurityKey {
     }
 
     private void verifyAddSecurityKeyLabels(String buttonID){
-        log.info("Verify add security key headers in pop-up with button ID: " +buttonID +" - english");
+        log.info("Verify add security key headers in pop-up with button ID: " +buttonID +" - English");
 
         //Verify Security key
         common.click(common.findWebElementById(buttonID));
@@ -322,19 +349,20 @@ public class SecurityKey {
     private void verifyTheVerifySecurityKeyPopupLabels(){
         log.info("Confirm security key popup labels - swedish");
 
-        //Wait for bankid button
+        //Wait for BankID button
         common.explicitWaitClickableElementId("verify-webauthn-token-modal-continue-bankID-button");
 
         common.verifyStringOnPage("Verifiera din tillagda säkerhetsnyckel");
 
-        common.verifyStringOnPage("Verifiera din säkerhetsnyckel med hjälp av knapparna för BankID, " +
-                "Freja+ eller eIDAS nedan.");
+        common.verifyStringOnPage("\n" +
+                "Verifiera din säkerhetsnyckel med hjälp av knapparna för BankID, Freja+, eIDAS eller Freja eID nedan.");
         common.verifyStringOnPage("Obs: dina tillagda säkerhetsnycklar kan även verifieras senare i " +
                 "inställningarna under \"Hantera dina säkerhetsnycklar\".");
 
         common.verifyStringById("verify-webauthn-token-modal-continue-bankID-button", "BANKID");
         common.verifyStringById("verify-webauthn-token-modal-continue-frejaID-button", "FREJA+");
         common.verifyStringById("verify-webauthn-token-modal-continue-eidas-button", "EIDAS");
+        common.verifyStringById("verify-webauthn-token-modal-continue-frejaeid-button", "FREJA EID");
     }
 
 

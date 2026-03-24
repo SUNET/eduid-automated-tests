@@ -58,6 +58,10 @@ public class Login {
             Common.log.info("Log in with password: " +testData.getPassword());
     }
 
+    public void clickLoginButton(){
+        common.findWebElementById("login-form-button").click();
+    }
+
     public void signIn(){
         //Click log in button, if account has not been deleted
         if(!testData.isAccountDeleted()) {
@@ -75,8 +79,8 @@ public class Login {
         else if(testData.isAccountDeleted()) {
             common.explicitWaitClickableElement("//*[@id=\"content\"]/section/div/button");
 
-/*            common.verifyStatusMessage("Detta konto har avslutats, men finns kvar några dagar. Gör en " +
-                    "lösenordsåterställning för att ångra avslutet.");*/
+            common.verifyStatusMessage("Detta konto har avslutats, men finns kvar några dagar. Gör en " +
+                    "lösenordsåterställning för att ångra avslutet.");
 
             common.verifyStringOnPage("Raderat konto");
             common.verifyStringOnPage("Kontot har nyligen raderats och kan inte användas för inloggning." +
@@ -87,8 +91,8 @@ public class Login {
 
             common.selectEnglish();
 
-/*            common.verifyStatusMessage("This account has been terminated, but is still present. Perform a password " +
-                    "reset to cancel termination.");*/
+            common.verifyStatusMessage("This account has been terminated, but is still present. Perform a password " +
+                    "reset to cancel termination.");
             common.verifyStringOnPage("Account terminated");
             common.verifyStringOnPage("This account has recently been terminated and can not be used "+
                     "to log in. It is possible to re-activate the account shortly afterwards by resetting the password using the link below.");
@@ -155,17 +159,19 @@ public class Login {
         }
         else{
             //Passkey
-            common.verifyPageBodyContainsString(pageBody, "Logga in: med passkey eller lösenord");
+            common.verifyPageBodyContainsString(pageBody, "Logga in: med lösenord eller passkey");
             common.verifyPageBodyContainsString(pageBody, "Snabbare och enklare autentisering");
-            common.verifyPageBodyContainsString(pageBody, "Du kan logga in säkert med din passkey mha " +
-                    "fingeravtryck, ansiktsigenkänning eller andra skärmlåsmetoder.");
+            common.verifyPageBodyContainsString(pageBody, "Om du har lagt till en passkey för eduid.se " +
+                    "kan du logga in säkert mha fingeravtryck, ansiktsigenkänning, PIN-kod eller andra skärmlåsmetoder.");
+            common.verifyPageBodyContainsString(pageBody, "Läs mer om att logga in m.h.a. passkeys i " +
+                    "avsnittet \"Användning av eduID\" i Hjälp.");
+            common.verifyXpathIsWorkingLink("//*[@id=\"content\"]/section[3]/div/div[1]/div/div/p[2]/a");
+
 
             //Button text
             common.verifyStringById("pass-key", "LOGGA IN MED PASSKEY");
 
             //Username password
-            common.verifyPageBodyContainsString(pageBody, "eller andra inloggnings-alternativ?");
-
             //Verify placeholder
             common.verifyPlaceholder("e-post eller unikt ID", "username");
         }
@@ -223,17 +229,18 @@ public class Login {
         }
         else{
             //Passkey
-            common.verifyPageBodyContainsString(pageBody, "Log in: with Passkey or Password");
+            common.verifyPageBodyContainsString(pageBody, "Log in: with Password or Passkey");
             common.verifyPageBodyContainsString(pageBody, "Faster and safer way to authenticate");
-            common.verifyPageBodyContainsString(pageBody, "You can log in securely with your passkey using " +
-                    "your fingerprint, face recognition or other screen-lock methods.");
+            common.verifyPageBodyContainsString(pageBody, "If you have registered a passkey for eduID.se " +
+                    "you can log in securely using your fingerprint, face recognition, PIN code or other screen-lock methods.");
+            common.verifyPageBodyContainsString(pageBody, "Read more about logging in using passkeys in " +
+                    "the \"Using eduID\" section in eduID Help.");
+            common.verifyXpathIsWorkingLink("//*[@id=\"content\"]/section[3]/div/div[1]/div/div/p[2]/a");
 
             //Button text
             common.verifyStringById("pass-key", "LOG IN WITH PASSKEY");
 
             //Username password
-            common.verifyPageBodyContainsString(pageBody, "or other log in options?");
-
             //Verify placeholder
             common.verifyPlaceholder("email or unique ID", "username");
         }
@@ -270,5 +277,10 @@ public class Login {
             common.verifyStringById("login-abort-button", "CANCEL");
         }
         common.selectSwedish();
+    }
+
+    public void clickRestoreDeletedAccountButton(){
+        //Navigate to the reset password page by click on link on deleted account information page
+        common.findWebElementByXpath("//*[@id=\"content\"]/section/div/button").click();
     }
 }

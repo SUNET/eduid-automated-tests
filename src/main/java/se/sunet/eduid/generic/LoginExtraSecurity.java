@@ -24,7 +24,10 @@ public class LoginExtraSecurity {
     private void verifyTexts(){
         //Extract page body for validation, wait for security key button
         common.explicitWaitClickableElementId("mfa-security-key");
+        common.timeoutSeconds(2);
         String pageBody = common.getPageBody();
+
+        Common.log.info("Verify text and labels in Swedish");
 
         //Swedish
         if(testData.isIdentityConfirmed() &! testData.isAddExternalSecurityKey()){
@@ -34,7 +37,7 @@ public class LoginExtraSecurity {
             }
             common.verifyPageBodyContainsString(pageBody, "Autentisera dig själv med ytterligare en metod " +
                     "för att vara säker på att bara du har tillgång till ditt eduID. Om du inte kan använda " +
-                    "säkerhetsnyckeln, var vänlig välj annat alternativ nedan, t.ex. BankID eller Freja+.");
+                    "säkerhetsnyckeln, var vänlig välj annat alternativ nedan, t.ex. BankID, Freja+, eIDAS eller Freja eID.");
         }
         else {
             common.verifyPageBodyContainsString(pageBody, "Återautentisering: med MFA");
@@ -49,8 +52,14 @@ public class LoginExtraSecurity {
             }
             common.verifyPageBodyContainsString(pageBody,"Autentisera dig själv med ytterligare en metod för " +
                     "att vara säker på att bara du har tillgång till ditt eduID.");
+            System.out.println(testData.isAddExternalSecurityKey() +" " + testData.isAddInternalPassKey() +" " + testData.isIdentityConfirmed());
+            //This text is only visible when security key is added
+            //if((testData.isAddExternalSecurityKey() || testData.isAddInternalPassKey()) &!testData.isIdentityConfirmed()) {
+            //Since test case 16 removes the security key the extra text will not be present
+            if(!testData.isIdentityConfirmed() &!testData.getTestClassName().contains("TC_16")) {
+                common.verifyPageBodyContainsString(pageBody, "Det rekommenderas starkt att lägga till mer än " +
+                        "en säkerhetsnyckel eller passkey/lösennyckel för att försäkra dig om att du kan logga in även om en förloras.");
         }
-
 
         common.verifyPageBodyContainsString(pageBody, "Kan du inte använda säkerhetsnyckel?");
         common.verifyPageBodyContainsString(pageBody, "VISA ANDRA ALTERNATIV");
@@ -63,9 +72,11 @@ public class LoginExtraSecurity {
 
         //If identity is not confirmed or security key is missing
         if(!testData.isVerifySecurityKeyByFreja() && !testData.isIdentityConfirmed())
-            common.verifyPageBodyContainsString(pageBody, "Kräver ett bekräftat svenskt person- eller samordningsnummer.");
+            common.verifyPageBodyContainsString(pageBody, "Kräver att du har verifierat din identitet i " +
+                    "eduID med svenskt person- eller samordningsnummer, eIDAS eller Freja eID.");
 
         common.selectEnglish();
+        Common.log.info("Verify text and labels in English");
 
         //English
         //Extract page body for validation
@@ -78,7 +89,7 @@ public class LoginExtraSecurity {
             }
             common.verifyPageBodyContainsString(pageBody, "Choose a second method to authenticate yourself," +
                     " ensuring only you can access your eduID. If you are unable to use the security key, please select" +
-                    " another option below, such as BankID or Freja+.");
+                    " other options below, such as BankID, Freja+, eIDAS or Freja eID.");
         }
         else {
             common.verifyPageBodyContainsString(pageBody, "Re-authentication: with MFA");
@@ -93,6 +104,14 @@ public class LoginExtraSecurity {
             }
             common.verifyPageBodyContainsString(pageBody, "Choose a second method to authenticate yourself, " +
                     "ensuring only you can access your eduID.");
+
+            //This text is only visible when security key is added
+            //TODO uncomment when bug is fixed and text is visible again
+/*                        //Since test case 16 removes the security key the extra text will not be present
+            if(!testData.isIdentityConfirmed() &! testData.getTestClassName().contains("TC_16")) {
+                common.verifyPageBodyContainsString(pageBody, "It is strongly recommended to add more than" +
+                        "one security key or passkey to ensure you can still sign in to your account if one is lost.");
+            }*/
         }
 
         common.verifyPageBodyContainsString(pageBody, "Having issues using a security key?");
@@ -104,6 +123,8 @@ public class LoginExtraSecurity {
 
         //If identity is not confirmed or security key is missing
         if(!testData.isVerifySecurityKeyByFreja() && !testData.isIdentityConfirmed())
-            common.verifyPageBodyContainsString(pageBody, "Requires a confirmed Swedish national identity or coordination number.");
+            common.verifyPageBodyContainsString(pageBody, "Requires that you have verified your identity " +
+                    "in eduID with a Swedish personal identity number or coordination number, eIDAS or Freja eID.");
+        }
     }
 }

@@ -6,6 +6,7 @@ import se.sunet.eduid.utils.BeforeAndAfter;
 import java.io.IOException;
 
 public class TC_19 extends BeforeAndAfter {
+    String origPassword;
     @Test
     void startPage(){
         startPage.runStartPage();
@@ -13,6 +14,13 @@ public class TC_19 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
+        testData.setGivenName("Bengt Gustav Lennart");
+        testData.setSurName("Brown");
+        testData.setDisplayName("Bengt Gustav Lennart Brown");
+        testData.setUsername("sTnZArGg@dev.eduid.sunet.se");
+        testData.setPassword("hftq xikf fajn");
+        origPassword = testData.getPassword();
+
         login.runLogin();
     }
 
@@ -53,7 +61,7 @@ public class TC_19 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"dashboard2"} )
     void password2() throws IOException {
         testData.setProperties(testData.getTestSuite());
-        testData.setNewPassword(testData.getPassword());
+        testData.setNewPassword(origPassword);
 
         testData.setUseRecommendedPw(false);
         password.runPassword();

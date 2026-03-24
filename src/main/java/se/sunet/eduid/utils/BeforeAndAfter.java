@@ -102,8 +102,9 @@ public class BeforeAndAfter {
     public void testCase(final ITestContext testContext){
         common.navigateToUrl(testData.getBaseUrl());
 
-        //testData.setTestSuite(testContext.getSuite().getName());
         testData.setTestCase(testContext.getName());
+        testData.setTestClassName(this.getClass().getName());
+
         Common.log.info("\n\nStart executing: " +testData.getTestCase() + " - "
                 +testContext.getCurrentXmlTest().getParameter("testDescription"));
     }
