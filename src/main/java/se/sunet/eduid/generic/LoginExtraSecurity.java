@@ -52,7 +52,8 @@ public class LoginExtraSecurity {
             }
             common.verifyPageBodyContainsString(pageBody,"Autentisera dig själv med ytterligare en metod för " +
                     "att vara säker på att bara du har tillgång till ditt eduID.");
-            System.out.println(testData.isAddExternalSecurityKey() +" " + testData.isAddInternalPassKey() +" " + testData.isIdentityConfirmed());
+
+            //System.out.println(testData.isAddExternalSecurityKey() +" " + testData.isAddInternalPassKey() +" " + testData.isIdentityConfirmed());
             //This text is only visible when security key is added
             //if((testData.isAddExternalSecurityKey() || testData.isAddInternalPassKey()) &!testData.isIdentityConfirmed()) {
             //Since test case 16 removes the security key the extra text will not be present

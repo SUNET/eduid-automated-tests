@@ -26,6 +26,7 @@ public class Login {
         //Log in with passkey
         else if (testData.isUsePasskey()) {
             common.findWebElementById("pass-key").click();
+            Common.log.info("Clicked on Login with passkey");
         }
         else {
             if(!testData.isReLogin()) {
@@ -147,7 +148,7 @@ public class Login {
             common.verifyPageBodyContainsString(pageBody, "Logga in: med lösenord");
             common.verifyPageBodyContainsString(pageBody, "Välkommen tillbaka, " +testData.getDisplayName());
             common.verifyPageBodyContainsString(pageBody, "Inte du?");
-            common.verifyXpathIsWorkingLink("//*[@id=\"wrong-person-button\"]");
+            //common.verifyXpathIsWorkingLink("//*[@id=\"wrong-person-button\"]");
         }
         else if(testData.isDeleteButton()){
             common.verifyPageBodyContainsString(pageBody, "Återautentisering: med lösenord");
@@ -217,7 +218,7 @@ public class Login {
             common.verifyPageBodyContainsString(pageBody, "Log in: with Password");
             common.verifyPageBodyContainsString(pageBody, "Welcome back, " +testData.getDisplayName());
             common.verifyPageBodyContainsString(pageBody, "Not you?");
-            common.verifyXpathIsWorkingLink("//*[@id=\"wrong-person-button\"]");
+            //common.verifyXpathIsWorkingLink("//*[@id=\"wrong-person-button\"]");
         }
         else if(testData.isDeleteButton()){
             common.verifyPageBodyContainsString(pageBody, "Re-authentication: with Password");

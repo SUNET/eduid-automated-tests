@@ -138,8 +138,8 @@ public class Account {
 
         //Just go back to end test case by logout
         common.getWebDriver().navigate().back();
-        common.timeoutMilliSeconds(500);
-        common.getWebDriver().navigate().back();
+        //common.timeoutMilliSeconds(500);
+        //common.getWebDriver().navigate().back();
         //common.timeoutSeconds(5);
         common.explicitWaitPageTitle("Konto | eduID");
     }

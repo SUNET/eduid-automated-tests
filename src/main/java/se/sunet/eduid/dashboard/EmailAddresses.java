@@ -243,7 +243,7 @@ public class EmailAddresses {
         common.verifyStringOnPage("Du kan koppla en eller flera e-postadresser till ditt eduID.");
 
         //Add more addresses
-        common.verifyStringOnPage("+ lägg till fler");
+        common.verifyStringOnPage("+ Lägg till fler");
     }
 
     private void verifyLabelsEnglish() {
@@ -258,7 +258,7 @@ public class EmailAddresses {
         common.verifyStringOnPage("You can connect one or more email addresses to your eduID.");
 
         //Add more addresses
-        common.verifyStringOnPage("+ add more");
+        common.verifyStringOnPage("+ Add more");
 
         //Click on Swedish
         common.timeoutMilliSeconds(200);

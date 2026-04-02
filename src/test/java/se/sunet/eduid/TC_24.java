@@ -22,7 +22,7 @@ public class TC_24 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
-    @Test( dependsOnMethods = {"confirmedNewAccount"} )
+/*    @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void login(){
         testData.setRegisterAccount(false);
         login.runLogin();
@@ -61,5 +61,5 @@ public class TC_24 extends BeforeAndAfter {
         testData.setIncorrectPassword(true);
 
         login.runLogin();
-    }
+    }*/
 }

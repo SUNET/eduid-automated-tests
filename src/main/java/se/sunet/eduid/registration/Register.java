@@ -294,7 +294,7 @@ public class Register {
         common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/p",
                 "As a protection against automated spam, you'll need to confirm that you are a human.");
         common.verifyStringOnPage("Enter the code from the image");
-        common.verifyStringOnPage("generate a new image"); //Not possible to verify link with href check
+        common.verifyStringOnPage("Generate a new image"); //Not possible to verify link with href check
 
         //Verify button text
         common.verifyStringById("cancel-captcha-button", "CANCEL");
@@ -308,7 +308,7 @@ public class Register {
         common.verifyStringByXpath("//*[@id=\"content\"]/div[1]/p",
                 "Som ett skydd mot automatisk spam måste du bekräfta att du är en människa.");
         common.verifyStringOnPage("Ange koden från bilden");
-        common.verifyStringOnPage("generera en ny bild");
+        common.verifyStringOnPage("Generera en ny bild");
 
         //Verify button text
         common.verifyStringById("cancel-captcha-button", "AVBRYT");

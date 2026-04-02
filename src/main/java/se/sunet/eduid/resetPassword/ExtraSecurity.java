@@ -69,7 +69,7 @@ public class ExtraSecurity {
         common.verifyPageBodyContainsString(pageBody, "Continue without additional authentication");
         common.verifyPageBodyContainsString(pageBody, "Your identity will require confirmation after the " +
                 "password has been reset. ");
-        common.verifyStringById(continueWithoutExtraSecurityButtonID, "continue resetting password");
+        common.verifyStringById(continueWithoutExtraSecurityButtonID, "Continue resetting password");
 
         //Switch to Swedish
         common.selectSwedish();
@@ -100,7 +100,7 @@ public class ExtraSecurity {
         common.verifyPageBodyContainsString(pageBody, "Fortsätt utan ytterligare autentisering");
         common.verifyPageBodyContainsString(pageBody, "Din identitet kommer att behöva verifieras efter " +
                 "att lösenordet har återställts. ");
-        common.verifyStringById(continueWithoutExtraSecurityButtonID, "fortsätt återställa lösenordet");
+        common.verifyStringById(continueWithoutExtraSecurityButtonID, "Fortsätt återställa lösenordet");
     }
 
     public void selectMfaMethod(){

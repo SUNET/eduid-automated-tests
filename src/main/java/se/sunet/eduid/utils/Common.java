@@ -30,6 +30,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.NoSuchElementException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Common {
 
@@ -59,11 +61,11 @@ public class Common {
     }
 
     public void selectEnglish() {
-        if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("English")) {
-            click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a"));
+        if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/button").getText().equalsIgnoreCase("English")) {
+            click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/button"));
             timeoutMilliSeconds(400);
 
-            if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("Svenska")) {
+            if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/button").getText().equalsIgnoreCase("Svenska")) {
                 log.info("English language selected");
             }
             else {
@@ -71,20 +73,20 @@ public class Common {
                 selectEnglish();
             }
         }
-        else if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("Svenska"))
+        else if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/button").getText().equalsIgnoreCase("Svenska"))
             log.info("English language was already selected");
         else
             Assert.fail("Failed to switch language to English");
     }
 
     public void selectSwedish() {
-        if(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("Svenska")) {
-            click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a"));
+        if(findWebElementByXpath("//*[@id=\"language-selector\"]/span/button").getText().equalsIgnoreCase("Svenska")) {
+            click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/button"));
             timeoutMilliSeconds(400);
 
             log.info("Swedish language selected");
         }
-        else if(findWebElementByXpath("//*[@id=\"language-selector\"]/span/a").getText().equalsIgnoreCase("English"))
+        else if(findWebElementByXpath("//*[@id=\"language-selector\"]/span/button").getText().equalsIgnoreCase("English"))
             log.info("Swedish language was already selected");
         else
             Assert.fail("Failed to switch language to Swedish");
@@ -373,16 +375,69 @@ public class Common {
         verifyStrings(placeholderText, findWebElementByXpath(placeholderElementXpath).getDomAttribute("placeholder"));
     }
 
-    public void verifyXpathIsWorkingLink(String xpathToLink){
-        Assert.assertTrue(findWebElementByXpath(xpathToLink).getDomAttribute("href") != null,
-                "Provided xpath: " +xpathToLink +" \nDoes not contain a href element, failing test case!");
+    public void verifyXpathIsWorkingLink(String xpath) {
 
-        try {
-            Assert.assertTrue(linkWorking(findWebElementByXpath(xpathToLink).getDomAttribute("href")),
-                    "Provided xpath: " +xpathToLink +" \nDoes not contain a working url, failing test case!");
-        }catch (Exception ex){
-            log.info("Catching exception when trying to validate url");
+        WebElement element = findWebElementByXpath(xpath);
+
+        String href = element.getDomAttribute("href");
+        String onclick = element.getDomAttribute("onclick");
+
+        // Case 1: Standard <a href="...">
+        if (href != null && !href.isBlank()) {
+            try {
+                Assert.assertTrue(linkWorking(href),
+                        "Provided xpath: " + xpath + "\nHref is not a working URL!");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return;
         }
+
+        // Case 2: Button with onclick navigation (e.g. location.href='...')
+        if (onclick != null && onclick.contains("http")) {
+
+            String extractedUrl = extractUrlFromOnclick(onclick);
+
+            Assert.assertNotNull(extractedUrl,
+                    "Provided xpath: " + xpath + "\nCould not extract URL from onclick!");
+
+            try {
+                Assert.assertTrue(linkWorking(extractedUrl),
+                        "Provided xpath: " + xpath + "\nOnclick URL is not working!");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return;
+        }
+
+        // Case 3: Button inside <a> (common pattern)
+        try {
+            WebElement parentLink = element.findElement(By.xpath("./ancestor::a"));
+            String parentHref = parentLink.getDomAttribute("href");
+
+            Assert.assertTrue(parentHref != null && linkWorking(parentHref),
+                    "Provided xpath: " + xpath + "\nParent <a> does not contain a working URL!");
+            return;
+
+        } catch (Exception ignored) {
+            // no parent link
+        }
+
+        // If nothing worked → fail
+        Assert.fail("Provided xpath: " + xpath +
+                "\nElement is neither a link nor a navigational button!");
+    }
+
+    private String extractUrlFromOnclick(String onclick) {
+
+        // Handles patterns like:
+        // location.href='https://example.com'
+        // window.location='https://example.com'
+
+        Pattern pattern = Pattern.compile("(https?://[^'\"\\s]+)");
+        Matcher matcher = pattern.matcher(onclick);
+
+        return matcher.find() ? matcher.group(1) : null;
     }
 
     public void verifyStatusMessage(String message) {
