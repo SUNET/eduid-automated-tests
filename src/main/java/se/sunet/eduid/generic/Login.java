@@ -25,6 +25,7 @@ public class Login {
         }
         //Log in with passkey
         else if (testData.isUsePasskey()) {
+            common.enableVirtualAuthenticator();
             common.findWebElementById("pass-key").click();
             Common.log.info("Clicked on Login with passkey");
         }

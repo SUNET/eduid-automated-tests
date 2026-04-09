@@ -34,6 +34,7 @@ public class TC_50 extends BeforeAndAfter {
         testData.setVerifySecurityKeyByFreja(true);
 
         securityKey.runSecurityKey();
+        common.disableVirtualAuthenticator();
     }
 
     @Test( dependsOnMethods = {"addPassKey"} )
@@ -46,7 +47,9 @@ public class TC_50 extends BeforeAndAfter {
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
+        common.enableVirtualAuthenticator();
         extraSecurity.selectMfaMethod();
+        common.disableVirtualAuthenticator();
 
         Common.log.info("Log in with security key");
     }
@@ -79,7 +82,9 @@ public class TC_50 extends BeforeAndAfter {
 
         //Login page for extra security select security key mfa method
         loginExtraSecurity.runLoginExtraSecurity();
+        common.enableVirtualAuthenticator();
         extraSecurity.selectMfaMethod();
+        common.disableVirtualAuthenticator();
     }
 
     @Test( dependsOnMethods = {"loginPasskey"} )
@@ -108,6 +113,7 @@ public class TC_50 extends BeforeAndAfter {
 
         testData.setUsePasskey(true);
         login.runLogin();
+        common.disableVirtualAuthenticator();
     }
 
     @Test( dependsOnMethods = {"loginPasskeyDefaultLoginPage"} )
@@ -118,7 +124,9 @@ public class TC_50 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"dashboard2"} )
     void delete() {
         testData.setDeleteButton(true);
+        common.enableVirtualAuthenticator();
         deleteAccount.runDeleteAccount();
+        common.disableVirtualAuthenticator();
         common.timeoutSeconds(2);
     }
 
@@ -139,6 +147,7 @@ public class TC_50 extends BeforeAndAfter {
 
         testData.setUsePasskey(true);
         login.runLogin();
+        common.disableVirtualAuthenticator();
     }
 
     @Test( dependsOnMethods = {"loginPasskeyDefaultLoginPage2"} )
@@ -174,7 +183,9 @@ public class TC_50 extends BeforeAndAfter {
         //Set add security key just to pass label verification at log in extra security
         testData.setResetPassword(true);
 
+        common.enableVirtualAuthenticator();
         extraSecurity.selectMfaMethod();
+        common.disableVirtualAuthenticator();
     }
 
     @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
@@ -222,7 +233,9 @@ public class TC_50 extends BeforeAndAfter {
         common.navigateToAccount();
 
         testData.setDeleteButton(true);
+        common.enableVirtualAuthenticator();
         deleteAccount.runDeleteAccount();
+        common.disableVirtualAuthenticator();
     }
 
     @Test( dependsOnMethods = {"delete2"} )
@@ -231,7 +244,9 @@ public class TC_50 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage5"} )
     void extraSecuritySecurityKey3() {
         //Login page for extra security select security key mfa method
+        common.enableVirtualAuthenticator();
         extraSecurity.selectMfaMethod();
+        common.disableVirtualAuthenticator();
 
         Common.log.info("Log in with securitykey");
     }

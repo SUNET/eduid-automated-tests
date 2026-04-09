@@ -66,6 +66,9 @@ public class SecurityKey {
         }
 
         //Enter name of key in the pop-up and click OK
+        if(testData.isAddInternalPassKey()) {
+            common.enableVirtualAuthenticator();
+        }
         common.findWebElementById(securityKeyInputFieldId).sendKeys(securityKeyName);
         common.click(common.findWebElementByXpath("//*[@id=\"describe-webauthn-token-modal-form\"]/div[2]/button"));
         log.info("Added Security Key with name " + securityKeyName + " to Virtual Web Authn and clicked OK");
