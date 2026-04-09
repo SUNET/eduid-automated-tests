@@ -37,6 +37,7 @@ public class TestData {
     private boolean registerAccount, resetPassword, incorrectPassword, removeNewEmail1,
             resendOTP, deleteButton, otherDeviceFillCode, identityConfirmed, accountDeleted,
             mfaUserConsentingAuthentication, mfaUserDeclinedConsentAuthentication, reLogin, mfaDisabled, usePasskey;
+    private String virtualAuthenticatorId;
     private int counter = 0;
 
     public void setProperties(String testSuite) throws IOException {

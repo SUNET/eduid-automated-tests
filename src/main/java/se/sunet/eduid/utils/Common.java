@@ -7,6 +7,7 @@ import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chromium.HasCdp;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -751,7 +752,7 @@ public class Common {
     //For internal passkey option at security page, use chrome .executeCdpCommand()
     public void createVirtualWebAuthn() {
         // Enable WebAuthn
-        ((ChromeDriver) webDriver).executeCdpCommand(
+        ((HasCdp) webDriver).executeCdpCommand(
                 "WebAuthn.enable",
                 Map.of()
         );
@@ -765,25 +766,26 @@ public class Common {
         options.put("isUserVerified", true);
 
         // Add the virtual authenticator options
-        Map<String, Object> result = ((ChromeDriver) webDriver).executeCdpCommand(
+        Map<String, Object> result = ((HasCdp) webDriver).executeCdpCommand(
                 "WebAuthn.addVirtualAuthenticator",
                 Map.of("options", options)
         );
 
         String authenticatorId = (String) result.get("authenticatorId");
+        testData.setVirtualAuthenticatorId(authenticatorId);
 
         log.info("Virtual authenticator (executeCdpCommand() ) created with ID: " + authenticatorId);
 
         // From CDP-version: 143+: control presence and verification are now separate commands
-        ((ChromeDriver) webDriver).executeCdpCommand(
+        ((HasCdp) webDriver).executeCdpCommand(
                 "WebAuthn.setAutomaticPresenceSimulation",
                 Map.of(
                         "authenticatorId", authenticatorId,
-                        "enabled", true
+                        "enabled", false
                 )
         );
 
-        ((ChromeDriver) webDriver).executeCdpCommand(
+        ((HasCdp) webDriver).executeCdpCommand(
                 "WebAuthn.setUserVerified",
                 Map.of(
                         "authenticatorId", authenticatorId,
@@ -791,7 +793,31 @@ public class Common {
                 )
         );
 
-        log.info("WebAuthn credentials set to: User is set to verified and automatic presence simulation");
+        log.info("WebAuthn credentials set to: User is set to verified, automatic presence simulation disabled");
+    }
+
+    public void enableVirtualAuthenticator() {
+        String authenticatorId = testData.getVirtualAuthenticatorId();
+        ((HasCdp) webDriver).executeCdpCommand(
+                "WebAuthn.setAutomaticPresenceSimulation",
+                Map.of(
+                        "authenticatorId", authenticatorId,
+                        "enabled", true
+                )
+        );
+        log.info("Virtual authenticator automatic presence simulation enabled");
+    }
+
+    public void disableVirtualAuthenticator() {
+        String authenticatorId = testData.getVirtualAuthenticatorId();
+        ((HasCdp) webDriver).executeCdpCommand(
+                "WebAuthn.setAutomaticPresenceSimulation",
+                Map.of(
+                        "authenticatorId", authenticatorId,
+                        "enabled", false
+                )
+        );
+        log.info("Virtual authenticator automatic presence simulation disabled");
     }
 
     public void selectCountry(String country){

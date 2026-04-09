@@ -16,6 +16,7 @@ import org.openqa.selenium.devtools.v143.webauthn.model.VirtualAuthenticatorOpti
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
@@ -113,7 +114,7 @@ public class InitBrowser {
             chromeOptions.addArguments("--disable-search-engine-choice-screen");
 
             try {
-                webDriver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), chromeOptions);
+                webDriver = new Augmenter().augment(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), chromeOptions));
             } catch (Exception ex) {
                 log.error("Chrome driver initialization exception: " + ex);
             }
@@ -144,7 +145,7 @@ public class InitBrowser {
             firefoxOptions.setProfile(profile);
 
             try {
-                webDriver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), firefoxOptions);
+                webDriver = new Augmenter().augment(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), firefoxOptions));
             } catch (Exception ex) {
                 log.error("Firefox driver initialization exception: " + ex);
             }
