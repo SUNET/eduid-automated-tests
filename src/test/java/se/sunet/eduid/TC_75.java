@@ -78,7 +78,6 @@ public class TC_75 extends BeforeAndAfter {
         loginOtherDevice.submitCode();
 
         //wait for Proceed button at next page
-        //common.explicitWaitClickableElementId("login-other-device-button");
-        common.verifyStringById("login-other-device-button", "OTHER DEVICE");
+        common.verifyStringById("login-other-device-button", "ANNAN ENHET");
     }
 }

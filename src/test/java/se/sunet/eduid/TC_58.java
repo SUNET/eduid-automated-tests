@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
@@ -98,7 +99,7 @@ public class TC_58 extends BeforeAndAfter {
         }
 
         //Wait for button show attributes in swamid data
-        common.explicitWaitClickableElement("//div/div[4]/div[1]/div[1]/div/a/button");
+        common.waitUntilClickable(By.xpath("//div/div[4]/div[1]/div[1]/div/a/button"));
     }
 
     @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
@@ -109,7 +110,7 @@ public class TC_58 extends BeforeAndAfter {
     void navigateToEduid(){
         common.navigateToUrl(testData.getBaseUrl());
 
-        common.explicitWaitClickableElementId("login-button");
+        common.waitUntilClickable(By.id("login-button"));
         common.findWebElementById("login-button").click();
         common.timeoutSeconds(3);
     }

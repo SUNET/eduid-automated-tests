@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -33,7 +34,7 @@ public class TC_11 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmIdentityEidas"} )
     void verifySamlFailPage() {
-        common.explicitWaitClickableElementId("dashboard-button");
+        common.waitUntilClickable(By.id("dashboard-button"));
         common.verifyStringOnPage("Ett fel uppstod under åtkomst till tjänsten.");
 
         //Select to navigate to dashboard

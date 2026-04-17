@@ -12,26 +12,18 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.virtualauthenticator.Credential;
-import org.openqa.selenium.virtualauthenticator.HasVirtualAuthenticator;
-import org.openqa.selenium.virtualauthenticator.VirtualAuthenticator;
-import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
 import org.testng.Assert;
 import io.github.sukgu.Shadow;
-import org.testng.annotations.Test;
-import se.sunet.eduid.generic.Login;
-
 import java.io.IOException;
 import java.net.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static se.sunet.eduid.generic.LoginPageLocators.LOGIN_BUTTON;
 
 public class Common {
 
@@ -40,6 +32,12 @@ public class Common {
     private final WebDriver webDriver;
     private String firstWinHandle = null;
     private final TestData testData;
+    private static final Duration SHORT_WAIT  = Duration.ofSeconds(10);
+    private static final Duration DEFAULT_WAIT = Duration.ofSeconds(20);
+    private static final Duration LINK_TIMEOUT = Duration.ofSeconds(10);
+    private static final String LANG_BUTTON_XPATH = "//*[@id=\"language-selector\"]/span/button";
+    private static final String NAV_LINK_XPATH = "//*[@id=\"header\"]/nav/div/ul/li[%d]/div/a";
+    private static final By SECURITY_KEY_BUTTON = By.id("mfa-security-key");
 
     public Common(WebDriver webDriver, TestData testData, String testSuite) throws IOException {
         this.webDriver = webDriver;
@@ -48,81 +46,86 @@ public class Common {
     }
 
     private String getTitle() {
-        int counter = 0;
-        while (webDriver.getTitle().isEmpty()) {
-            timeoutMilliSeconds(20);
-            counter++;
-            if (counter > 500) {
-                break;
-            }
-        }
-
+        new WebDriverWait(webDriver, DEFAULT_WAIT)
+                .until(d -> !d.getTitle().isEmpty());
         return webDriver.getTitle();
     }
 
-    public void selectEnglish() {
-        if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/button").getText().equalsIgnoreCase("English")) {
-            click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/button"));
-            timeoutMilliSeconds(400);
+    private void selectLanguage(String buttonTextWhenNotSelected, String expectedAfterClick, String logLabel) {
+        By langButton = By.xpath(LANG_BUTTON_XPATH);
 
-            if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/button").getText().equalsIgnoreCase("Svenska")) {
-                log.info("English language selected");
-            }
-            else {
-                log.info("English language not selected, trying again");
-                selectEnglish();
-            }
+        WebElement button = findWebElementByXpath(LANG_BUTTON_XPATH);
+        String currentText = button.getText();
+
+        if (currentText.equalsIgnoreCase(buttonTextWhenNotSelected)) {
+            click(button);
+            log.info("Switching language to {}", logLabel);
+            timeoutMilliSeconds(600);
+
+            // Wait until language actually changed
+            new WebDriverWait(getWebDriver(), Duration.ofSeconds(10))
+                    .until(d -> {
+                        String newText = d.findElement(langButton).getText();
+                        return newText.equalsIgnoreCase(expectedAfterClick);
+                    });
+
+            log.info("{} successfully selected", logLabel);
+
+        } else if (currentText.equalsIgnoreCase(expectedAfterClick)) {
+
+            log.info("{} already selected", logLabel);
+
+        } else {
+            throw new RuntimeException("Unknown language state. Button text: " + currentText);
         }
-        else if (findWebElementByXpath("//*[@id=\"language-selector\"]/span/button").getText().equalsIgnoreCase("Svenska"))
-            log.info("English language was already selected");
-        else
-            Assert.fail("Failed to switch language to English");
     }
 
+/*    public void selectEnglish() {
+        selectLanguage("English", "Svenska", "English");
+    }
     public void selectSwedish() {
-        if(findWebElementByXpath("//*[@id=\"language-selector\"]/span/button").getText().equalsIgnoreCase("Svenska")) {
-            click(findWebElementByXpath("//*[@id=\"language-selector\"]/span/button"));
-            timeoutMilliSeconds(400);
+        selectLanguage("Svenska", "English", "Swedish");
+    }*/
 
+    public void selectSwedish() {
+        if(findWebElementByXpath(LANG_BUTTON_XPATH).getText().equalsIgnoreCase("Svenska")) {
+            click(findWebElementByXpath(LANG_BUTTON_XPATH));
+            timeoutMilliSeconds(400);
             log.info("Swedish language selected");
         }
-        else if(findWebElementByXpath("//*[@id=\"language-selector\"]/span/button").getText().equalsIgnoreCase("English"))
+        else if(findWebElementByXpath(LANG_BUTTON_XPATH).getText().equalsIgnoreCase("English"))
             log.info("Swedish language was already selected");
         else
             Assert.fail("Failed to switch language to Swedish");
     }
 
-    public void navigateToAccount() {
-        //Expand navigation menu
-        expandNavigationMenu();
+    public void selectEnglish() {
+        if(findWebElementByXpath(LANG_BUTTON_XPATH).getText().equalsIgnoreCase("English")) {
+            click(findWebElementByXpath(LANG_BUTTON_XPATH));
+            timeoutMilliSeconds(400);
+            log.info("English language selected");
+        }
+        else if(findWebElementByXpath(LANG_BUTTON_XPATH).getText().equalsIgnoreCase("Svenska"))
+            log.info("English language was already selected");
+        else
+            Assert.fail("Failed to switch language to English");
 
-        //Click on Account
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[4]/div/a"));
+/*        if(findWebElementByXpath(LANG_BUTTON_XPATH).getText().equalsIgnoreCase("English")) {
+            click(findWebElementByXpath(LANG_BUTTON_XPATH));
+            timeoutMilliSeconds(600);
+            log.info("Failed to switch to English language first time, clicking on language again");
+        }*/
     }
 
-    public void navigateToIdentity() {
-        //Expand navigation menu
+    private void navigateTo(int menuIndex) {
         expandNavigationMenu();
-
-        //Click on Identity
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[2]/div/a"));
+        click(findWebElementByXpath(String.format(NAV_LINK_XPATH, menuIndex)));
     }
 
-    public void navigateToSecurity() {
-        //Expand navigation menu
-        expandNavigationMenu();
-
-        //Click on Security Settings
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/div/a"));
-    }
-
-    public void navigateToDashboard() {
-        //Expand navigation menu
-        expandNavigationMenu();
-
-        //Click on Start
-        click(findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/div/a"));
-    }
+    public void navigateToDashboard()  { navigateTo(1); }
+    public void navigateToIdentity()   { navigateTo(2); }
+    public void navigateToSecurity()   { navigateTo(3); }
+    public void navigateToAccount()    { navigateTo(4); }
 
     public void expandNavigationMenu(){
         //Expand navigation menu, if not already expanded
@@ -134,6 +137,20 @@ public class Common {
         else {
             log.info("Navigation menu already expanded");
         }
+    }
+
+    public void navigateToEduId(){
+        WebElement searchInput = findWebElementById("searchinput");
+        searchInput.clear();
+        searchInput.sendKeys("eduid staging");
+        timeoutMilliSeconds(3500);
+
+        //Select eduid staging
+        click(findWebElementByXpath("//*[@id=\"ds-search-list\"]/li/a"));
+
+        //Wait for the eduID log in page to load
+        timeoutMilliSeconds(2000);
+        waitUntilPageTitleContains("Logga in | eduID");
     }
 
     public void verifyPageTitle(String pageTitle) {
@@ -156,8 +173,17 @@ public class Common {
         Assert.assertEquals(findWebElementByXpath(xpath).getText(), stringToCompareWith, errorMsg);
     }
 
+    public void verifyString(By locator, String stringToCompareWith) {
+        Assert.assertEquals(findWebElement(locator).getText(), stringToCompareWith, errorMsg);
+    }
+
     public void verifyStringById(String id, String stringToCompareWith) {
         Assert.assertEquals(findWebElementById(id).getText(), stringToCompareWith, errorMsg);
+    }
+
+    public void verifyLocatorContainsString(By locator, String stringToCompareWith) {
+        Assert.assertTrue(findWebElement(locator).getText().toLowerCase().contains(stringToCompareWith.toLowerCase()), errorMsg
+                + findWebElement(locator).getText() + " Does not contain search string: " + stringToCompareWith);
     }
 
     public void verifyXpathContainsString(String xpathToBeEval, String stringToCompareWith) {
@@ -282,34 +308,6 @@ public class Common {
         }
     }
 
-
-    public void explicitWaitClickableElement(String xpathToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathToElementToWaitFor)));
-    }
-
-    public void explicitWaitClickableElementId(String idToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(idToElementToWaitFor)));
-    }
-
-    public void explicitWaitVisibilityElement(String xpathToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathToElementToWaitFor)));
-        //wait.until(ExpectedConditions.presenceOfElementLocated(By.id(xpathToElementToWaitFor)));
-    }
-
-    public void explicitWaitVisibilityElementId(String idToElementToWaitFor) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(idToElementToWaitFor)));
-        //wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idToElementToWaitFor)));
-    }
-
-    public void explicitWaitPageTitle(String pageTitle) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.titleContains(pageTitle));
-    }
-
     public void timeoutMilliSeconds(int milliSeconds) {
         try {
             Thread.sleep(milliSeconds);
@@ -318,8 +316,13 @@ public class Common {
         }
     }
 
+    public WebElement findWebElement(By locator) {
+        waitUntilVisible(locator);
+        return webDriver.findElement(locator);
+    }
+
     public WebElement findWebElementById(String elementToFind) {
-        explicitWaitVisibilityElementId(elementToFind);
+        waitUntilVisible(By.id(elementToFind));
         return webDriver.findElement(By.id(elementToFind));
     }
 
@@ -332,7 +335,7 @@ public class Common {
     }
 
     public WebElement findWebElementByXpath(String elementToFind) {
-        explicitWaitVisibilityElement(elementToFind);
+        waitUntilVisible(By.xpath(elementToFind));
         return webDriver.findElement(By.xpath(elementToFind));
     }
 
@@ -341,13 +344,18 @@ public class Common {
     }
 
     public String getAttributeByXpath(String elementToFind) {
-        explicitWaitVisibilityElement(elementToFind);
+        waitUntilVisible(By.xpath(elementToFind));
         return webDriver.findElement(By.xpath(elementToFind)).getDomAttribute("value");
     }
 
     public String getAttributeById(String elementToFind) {
-        explicitWaitVisibilityElementId(elementToFind);
+        waitUntilVisible(By.id(elementToFind));
         return webDriver.findElement(By.id(elementToFind)).getDomAttribute("value");
+    }
+
+    public String getAttribute(By locator) {
+        waitUntilVisible(locator);
+        return webDriver.findElement(locator).getDomAttribute("value");
     }
 
     public void click(WebElement element) {
@@ -370,13 +378,71 @@ public class Common {
         verifyStrings(placeholderText, findWebElementById(placeholderElementId).getDomAttribute("placeholder"));
     }
 
+    public void verifyPlaceholderBy(String placeholderText, By placeholderElement) {
+        //Verify placeholder
+        verifyStrings(placeholderText, findWebElement(placeholderElement).getDomAttribute("placeholder"));
+    }
+
     public void verifyPlaceholderXpath(String placeholderText, String placeholderElementXpath) {
         //Verify placeholder
         verifyStrings(placeholderText, findWebElementByXpath(placeholderElementXpath).getDomAttribute("placeholder"));
     }
 
-    public void verifyXpathIsWorkingLink(String xpath) {
+    public void verifyLocatorIsWorkingLink(By locator) {
+        timeoutSeconds(1);
+        WebElement element = findWebElement(locator);
 
+        String href = element.getDomAttribute("href");
+        String onclick = element.getDomAttribute("onclick");
+
+        // Case 1: Standard <a href="...">
+        if (href != null && !href.isBlank()) {
+            try {
+                Assert.assertTrue(linkWorking(href),
+                        "Provided xpath: " + locator + "\nHref is not a working URL!");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return;
+        }
+
+        // Case 2: Button with onclick navigation (e.g. location.href='...')
+        if (onclick != null && onclick.contains("http")) {
+
+            String extractedUrl = extractUrlFromOnclick(onclick);
+
+            Assert.assertNotNull(extractedUrl,
+                    "Provided xpath: " + locator + "\nCould not extract URL from onclick!");
+
+            try {
+                Assert.assertTrue(linkWorking(extractedUrl),
+                        "Provided xpath: " + locator + "\nOnclick URL is not working!");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return;
+        }
+
+        // Case 3: Button inside <a> (common pattern)
+        try {
+            WebElement parentLink = element.findElement(By.xpath("./ancestor::a"));
+            String parentHref = parentLink.getDomAttribute("href");
+
+            Assert.assertTrue(parentHref != null && linkWorking(parentHref),
+                    "Provided xpath: " + locator + "\nParent <a> does not contain a working URL!");
+            return;
+
+        } catch (Exception ignored) {
+            // no parent link
+        }
+
+        // If nothing worked → fail
+        Assert.fail("Provided xpath: " + locator +
+                "\nElement is neither a link nor a navigational button!");
+    }
+
+    public void verifyXpathIsWorkingLink(String xpath) {
+        timeoutSeconds(1);
         WebElement element = findWebElementByXpath(xpath);
 
         String href = element.getDomAttribute("href");
@@ -442,7 +508,7 @@ public class Common {
 
     public void verifyStatusMessage(String message) {
         //Verify the status message
-        explicitWaitVisibilityElement("//*[@id=\"panel\"]/div[1]/div/span/output");
+        waitUntilVisible(By.xpath("//*[@id=\"panel\"]/div[1]/div/span/output"));
         verifyStringByXpath("//*[@id=\"panel\"]/div[1]/div/span/output", message);
     }
 
@@ -459,7 +525,7 @@ public class Common {
 
     public void rememberMe() {
         boolean enableRememberMe = testData.isRememberMe();
-        explicitWaitClickableElementId("remember-me");
+        //waitUntilClickable(By.id("remember-me")).click();
 
         log.info("Status of Remember me: " + webDriver.findElement(By.id("remember-me")).isSelected());
         timeoutSeconds(1);
@@ -487,6 +553,14 @@ public class Common {
             webDriver.switchTo().window(winHandle);
         }
         timeoutMilliSeconds(700);
+/*        firstWinHandle = webDriver.getWindowHandle();
+        Set<String> before = webDriver.getWindowHandles();
+        new WebDriverWait(webDriver, DEFAULT_WAIT)
+                .until(d -> d.getWindowHandles().size() > before.size());
+        webDriver.getWindowHandles().stream()
+                .filter(h -> !before.contains(h))
+                .findFirst()
+                .ifPresent(h -> webDriver.switchTo().window(h));*/
     }
 
     //Scroll down to bottom of page, otherwise we get click exception
@@ -529,27 +603,16 @@ public class Common {
         return new Select(findWebElementById(dropDownId));
     }
 
-    public void addMagicCookie(){
-        if(!isCookieSet("autotests")) {
-            Date today = new Date();
-            Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
-            webDriver.manage().addCookie(new Cookie("autotests", testData.getAutotestsCookieValue(),
-                    testData.getDomain(), "/", tomorrow, true, true, "None"));
-
-            logCookie("autotests");
-        }
+    private void addCookieIfAbsent(String name, String value) {
+        if (isCookieSet(name)) return;
+        Date tomorrow = new Date(System.currentTimeMillis() + Duration.ofDays(1).toMillis());
+        webDriver.manage().addCookie(
+                new Cookie(name, value, testData.getDomain(), "/", tomorrow, true, true, "None"));
+        logCookie(name);
     }
 
-    public void addNinCookie(){
-        if(!isCookieSet("nin")) {
-            Date today = new Date();
-            Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
-            webDriver.manage().addCookie(new Cookie("nin", testData.getIdentityNumber(),
-                    testData.getDomain(), "/", tomorrow, true, true, "None"));
-
-            logCookie("nin");
-        }
-    }
+    public void addMagicCookie() { addCookieIfAbsent("autotests", testData.getAutotestsCookieValue()); }
+    public void addNinCookie()   { addCookieIfAbsent("nin", testData.getIdentityNumber()); }
 
     public void deleteCookie(String cookieName) {
         if(isCookieSet(cookieName)) {
@@ -557,14 +620,14 @@ public class Common {
         }
     }
 
-    public boolean isCookieSet(String cookieName){
-        try {
-            log.info("Cookie set with name: " + webDriver.manage().getCookieNamed(cookieName).getName());
-        }catch (Exception ex){
-            log.info("No cookie found with name:" +cookieName);
-            return false;
+    public boolean isCookieSet(String cookieName) {
+        Cookie cookie = webDriver.manage().getCookieNamed(cookieName);
+        if (cookie != null) {
+            log.info("Cookie set with name: {}", cookie.getName());
+            return true;
         }
-        return true;
+        log.info("No cookie found with name: {}", cookieName);
+        return false;
     }
 
     public void logCookie(String name){
@@ -578,6 +641,43 @@ public class Common {
     }
 
     public String getCodeInNewTab(String fromURL, int expectedLength) {
+        WebDriver driver = getWebDriver();
+
+        // Store current window
+        String originalWindow = driver.getWindowHandle();
+
+        Common.log.info("Opening new browser tab");
+
+        // Open new tab and switch automatically
+        driver.switchTo().newWindow(WindowType.TAB);
+
+        // Navigate
+        navigateToUrl(fromURL);
+
+        String code = findWebElementByXpath("/html/body").getText();
+
+        if (code.length() != expectedLength) {
+            Common.log.info("Failed to fetch code, got: " + code + " - retrying...");
+            driver.navigate().refresh();
+            timeoutSeconds(4);
+            code = findWebElementByXpath("/html/body").getText();
+        }
+
+        Assert.assertEquals(code.length(), expectedLength,
+                "Failed to fetch OTP code! Got: " + code);
+
+        Common.log.info("Fetched code: " + code);
+
+        // Close tab
+        driver.close();
+
+        // Switch back
+        driver.switchTo().window(originalWindow);
+
+        return code;
+    }
+
+    /*public String getCodeInNewTab(String fromURL, int expectedLength) {
         //Store current window handle
         switchToPopUpWindow();
 
@@ -611,12 +711,77 @@ public class Common {
         timeoutMilliSeconds(500);
 
         return code;
+    }*/
+
+    public void securityConfirmPopUpBy(By button, String fineTextSwe, String fineTextEng){
+        String closeButtonId = "security-confirm-modal-close-button";
+        String acceptButtonId = "security-confirm-modal-accept-button";
+        //switchToPopUpWindow();
+
+        log.info("Extra security log in pop up, verify labels - Swedish");
+
+        if(findWebElement(button).getText().equalsIgnoreCase("")){
+            log.info("Ignore security confirm popup label verification, pressing Continue button");
+        }
+        else {
+            //Verify labels and text
+            waitUntilPresence(By.id(closeButtonId));
+            verifyStringOnPage("Säkerhetsskäl");
+            verifyStringOnPage("Du behöver logga in igen för att kunna utföra åtgärden.");
+            verifyStringOnPage(fineTextSwe);
+
+            verifyStringById(acceptButtonId, "FORTSÄTT");
+
+            //Close pop-up
+            click(waitUntilClickable(By.id(closeButtonId)));
+            log.info("Closed pop up - Swedish");
+
+            //Select English
+            selectEnglish();
+
+            //Click on the button that will initiate the security confirm pop up
+            click(waitUntilClickable(button));
+
+            //switchToPopUpWindow();
+
+            //Verify labels and text
+            //For Delete account additional click is needed
+            if(testData.isDeleteButton()) {
+                //Click on 'Delete my eduid' button in pop up after Delete eduid link is clicked in settings
+                log.info("Clicking on extra delete button in pop up");
+                click(waitUntilClickable(By.id("delete-account-modal-accept-button")));
+
+                waitUntilClickable(By.id(acceptButtonId));
+            }
+
+            log.info("Extra security log in pop up, verify labels and press continue - English");
+
+            waitUntilClickable(By.id(closeButtonId));
+            verifyStringOnPage("Security check");
+            verifyStringOnPage("You need to log in again to perform the requested action.");
+            verifyStringOnPage(fineTextEng);
+
+            verifyStringById(acceptButtonId, "CONTINUE");
+        }
+
+        waitUntilClickable(By.id(acceptButtonId)).click();
+        log.info("Clicked on button with ID: " +acceptButtonId);
+        //click(findWebElementById(acceptButtonId));
+        //TODO add wait for extra security login page when security key is added
+        //Wait for the next page, if a security key is added
+        if(testData.isAddExternalSecurityKey() || testData.isAddInternalPassKey()){
+            waitUntilClickable(SECURITY_KEY_BUTTON);
+        }
+        //If not, wait for the login button to be present when no security key is added
+        else {
+            waitUntilClickable(LOGIN_BUTTON);
+        }
     }
 
     public void securityConfirmPopUp(String xPathToButton, String fineTextSwe, String fineTextEng){
         String closeButtonId = "security-confirm-modal-close-button";
         String acceptButtonId = "security-confirm-modal-accept-button";
-        switchToPopUpWindow();
+        //switchToPopUpWindow();
 
         log.info("Extra security log in pop up, verify labels - Swedish");
 
@@ -633,26 +798,28 @@ public class Common {
             verifyStringById(acceptButtonId, "FORTSÄTT");
 
             //Close pop-up
-            waitUntilClickable(By.id(closeButtonId)).click();
+            click(waitUntilClickable(By.id(closeButtonId)));
             log.info("Closed pop up - Swedish");
 
             //Select English
             selectEnglish();
 
             //Click on the button that will initiate the security confirm pop up
-            waitUntilClickable(By.xpath(xPathToButton)).click();
+            click(waitUntilClickable(By.xpath(xPathToButton)));
 
-            switchToPopUpWindow();
+            //switchToPopUpWindow();
 
             //Verify labels and text
             //For Delete account additional click is needed
             if(testData.isDeleteButton()) {
                 //Click on 'Delete my eduid' button in pop up after Delete eduid link is clicked in settings
                 log.info("Clicking on extra delete button in pop up");
-                waitUntilClickable(By.id("delete-account-modal-accept-button")).click();
+                click(waitUntilClickable(By.id("delete-account-modal-accept-button")));
+
+                waitUntilClickable(By.id(acceptButtonId));
             }
 
-            log.info("Extra security log pop up, verify labels and press continue - English");
+            log.info("Extra security log in pop up, verify labels and press continue - English");
 
             waitUntilClickable(By.id(closeButtonId));
             verifyStringOnPage("Security check");
@@ -662,7 +829,18 @@ public class Common {
             verifyStringById(acceptButtonId, "CONTINUE");
         }
 
-        click(findWebElementById(acceptButtonId));
+        waitUntilClickable(By.id(acceptButtonId)).click();
+        log.info("Clicked on button with ID: " +acceptButtonId);
+        //click(findWebElementById(acceptButtonId));
+        //TODO add wait for extra security login page when security key is added
+        //Wait for the next page, if a security key is added
+        if(testData.isAddExternalSecurityKey() || testData.isAddInternalPassKey()){
+            waitUntilClickable(SECURITY_KEY_BUTTON);
+        }
+        //If not, wait for the login button to be present when no security key is added
+        else {
+            waitUntilClickable(LOGIN_BUTTON);
+        }
     }
 
     public boolean linkWorking(String url) throws IOException {
@@ -797,28 +975,31 @@ public class Common {
     public void selectCountry(String country){
         //Select country
         findWebElementById("countryFlag_" +country).click();
+        log.info("Clicked on country Flag at eIDAS connector");
 
         //Wait for idp button on next page
-        explicitWaitClickableElementId("idpSubmitbutton");
+        waitUntilClickable(By.id("idpSubmitbutton"));
     }
 
     public void submitEidasUser(){
         //Set LoA to substantial
-        click(findWebElementByXpath("//*[@id=\"authnForm\"]/table/tbody/tr[3]/td/div/div/button"));
+        waitUntilClickable(By.xpath("//*[@id=\"authnForm\"]/table/tbody/tr[3]/td/div/div/button")).click();
         click(findWebElementByXpath(
                 "//*[@id=\"authnForm\"]//span[contains(text(),'" +testData.getLoaLevel() +"')]"));
+        log.info("Selected LoA level");
 
         //Submit IDP identity
-        findWebElementById("idpSubmitbutton").click();
+        waitUntilClickable(By.id("idpSubmitbutton")).click();
+        log.info("Clicked on submit");
 
         //Wait for consent button on next page
-        explicitWaitClickableElementId("buttonNext");
+        waitUntilClickable(By.id("buttonNext"));
     }
 
     public void submitConsent(){
         //Submit Consent
-        timeoutSeconds(2);
-        findWebElementById("buttonNext").click();
+        waitUntilClickable(By.id("buttonNext")).click();
+        log.info("Clicked on submit Consent");
 
         timeoutSeconds(2);
     }

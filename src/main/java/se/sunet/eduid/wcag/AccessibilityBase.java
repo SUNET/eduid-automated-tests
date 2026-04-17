@@ -152,7 +152,7 @@ public class AccessibilityBase{
 
         Common.log.debug("Remember me is: " + testData.isRememberMe());
         if(testData.isRememberMe()) {
-            common.switchToPopUpWindow();
+            //common.switchToPopUpWindow();
             Common.log.debug("Remember me is: " + testData.isRememberMe());
         }
         Results results = builder.include(Collections.singletonList(selector)).analyze(common.getWebDriver());

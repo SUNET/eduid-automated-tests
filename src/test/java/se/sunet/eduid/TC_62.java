@@ -24,6 +24,6 @@ public class TC_62 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"runLoginOtherDevice"} )
     void verifyStatusMessage(){
-        common.verifyStringById("wrong-code-error", "Incorrect code, please try again");
+        common.verifyStringById("wrong-code-error", "Felaktig kod, försök igen");
     }
 }

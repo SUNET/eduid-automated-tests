@@ -5,369 +5,343 @@ import org.testng.Assert;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
+import static se.sunet.eduid.dashboard.DashBoardLocators.*;
 import static se.sunet.eduid.utils.Common.log;
 
+/**
+ * Page object för eduID Start / Dashboard-sidan.
+ */
 public class DashBoard {
-    private final Common common;
-    private final TestData testData;
-    String pageBody;
-    String eduIDStatusOverviewMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[1]/ul/li/a";
-    String verifyIdentityMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[2]/ul/li[1]/a";
-    String nameMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[2]/ul/li[2]/a";
-    String mfaMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[3]/ul/li[1]/a";
-    String handleSecurityKeyMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[3]/ul/li[2]/a";
-    String uniqueMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[1]/a";
-    String emailMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[2]/a";
-    String languageMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[3]/a";
-    String changePasswordMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[4]/a";
-    String orchIdMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[5]/a";
-    String esiInfoMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[6]/a";
-    String deleteAccountMenuLink = "//*[@id=\"header\"]/nav/div/ul/li[4]/ul/li[7]/a";
 
-    public DashBoard(Common common, TestData testData){
-        this.common = common;
+    private final Common   common;
+    private final TestData testData;
+
+    public DashBoard(Common common, TestData testData) {
+        this.common   = common;
         this.testData = testData;
     }
 
-    public void runDashBoard(){
-        //If we are not on dashboard e.g. after security key validation, navigate to dashboard
-        if(!common.getWebDriver().getCurrentUrl().equalsIgnoreCase(testData.getBaseUrl() + "/profile/")) {
+    // -------------------------------------------------------------------------
+    // Public API
+    // -------------------------------------------------------------------------
+
+    public void runDashBoard() {
+        if (!common.getWebDriver().getCurrentUrl().equalsIgnoreCase(testData.getBaseUrl() + "/profile/")) {
             common.navigateToDashboard();
         }
-
         verifyPageTitle();
         verifyUserId();
 
-        //if(testData.getTestClassName().equalsIgnoreCase("TC_5"))
-        if(testData.getLanguage().equalsIgnoreCase("English"))
+        if (testData.getLanguage().equalsIgnoreCase("English")) {
             verifyLabelsEnglish();
-        else{
+        } else {
             verifyLabelsSwedish();
             verifyLabelsEnglish();
         }
     }
 
+    // -------------------------------------------------------------------------
+    // Verifiering
+    // -------------------------------------------------------------------------
+
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("Start | eduID");
+        common.waitUntilPageTitleContains("Start | eduID");
     }
 
     private void verifyUserId() {
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/button/span", testData.getUsername().toLowerCase());
+        common.verifyString(USERNAME_DISPLAY, testData.getUsername().toLowerCase());
     }
 
     private void verifyLabelsSwedish() {
-        log.info("Verifying dashboard labels in swedish");
+        // Säkerställ att svenska är valt innan verifiering börjar
+        common.selectSwedish();
+        log.info("Verifying dashboard labels in Swedish");
 
         common.verifyPageTitle("Start | eduID");
+        String pageBody = common.getPageBody();
 
-        //Extract page body for validation
-        pageBody = common.getPageBody();
-
-        //Verify menu labels, not needed for every test case
-        if(testData.getTestClassName().equalsIgnoreCase("TC_1"))
+        if (testData.getTestClassName().equalsIgnoreCase("TC_1")) {
             verifyMenuLabelsSwe();
-
-        //Verify welcome heading
-        if (testData.getDisplayName().isEmpty())
-            common.verifyPageBodyContainsString(pageBody, "Välkommen, " + testData.getEmail().toLowerCase() + "!");
-        else {
-            //Ignore case-sensitive since when double name all names are shown with capital letter
-            common.verifyStrings(common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/section/h1/strong")
-                    .getText(), "Välkommen, " + testData.getDisplayName() + "!");
         }
 
-        //EPPN
-        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/label/strong", "Unikt ID:");
-        common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getDomAttribute("value"));
+        verifyWelcomeHeading(pageBody, "Välkommen, ");
 
-        //Verify heading sub-text
+        common.verifyString(EPPN_LABEL, "Unikt ID:");
+        common.verifyStrings(testData.getEppn(), common.findWebElement(USER_EPPN).getDomAttribute("value"));
+
         common.verifyPageBodyContainsString(pageBody, "eduID statusöversikt");
-        common.verifyPageBodyContainsString(pageBody, "Säkerheten och användbarheten av ditt eduID kan " +
-                "förbättras genom nedanstående åtgärder.\n" + "Förslag på vad som kan vara lämpligt beroende av " +
-                "organisationen du använder ditt eduID för, kan hittas under avsnittet för Tillitsnivåer under Hjälp.");
+        common.verifyPageBodyContainsString(pageBody,
+                "Säkerheten och användbarheten av ditt eduID kan förbättras genom nedanstående åtgärder.\n" +
+                "Förslag på vad som kan vara lämpligt beroende av organisationen du använder ditt eduID för, " +
+                "kan hittas under avsnittet för Tillitsnivåer under Hjälp.");
         common.verifyPageBodyContainsString(pageBody, "Status på slutförda åtgärder markeras med en bockmarkering.");
+        common.verifyLocatorIsWorkingLink(HELP_LINK);
 
-        //Verify internal help-link
-        common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/p[2]/a");
+        verifyAccountStatusSwedish(pageBody);
+        verifyIdentityStatusSwedish(pageBody);
+        verifySecurityStatusSwedish(pageBody);
+        verifySecurityKeyStatusSwedish(pageBody);
 
-        //Account status texts
-        if(testData.isAccountVerified()) {
-            common.verifyPageBodyContainsString(pageBody, "Bekräftat konto");
-            common.verifyPageBodyContainsString(pageBody, testData.getUsername().toLowerCase());
-        }
-        else{
-            //TODO when account is not confirmed i.e. email address not verified
-            log.info("TODO - Account is not verified");
-        }
-        if(testData.isIdentityConfirmed()){
-            common.verifyPageBodyContainsString(pageBody, "Verifierad identitet");
-            common.verifyPageBodyContainsString(pageBody, "Läs mer om din verifierade identitet under Identitet");
-        }
-        else {
-            common.verifyPageBodyContainsString(pageBody, "Verifiera din identitet");
-            common.verifyPageBodyContainsString(pageBody, "Koppla din identitet till eduID under Identitet");
-        }
-        common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[2]/div[2]/span/a");
-
-        if(testData.isAddExternalSecurityKey() || testData.isAddInternalPassKey()){
-            common.verifyPageBodyContainsString(pageBody, "Ökad säkerhet");
-            common.verifyPageBodyContainsString(pageBody, "Läs mer om din tillagda multifaktorautentisering under Säkerhet");
-            //When identity is confirmed, this extra text will not be displayed
-            if(!testData.isIdentityConfirmed()) {
-                common.verifyPageBodyContainsString(pageBody, "Det rekommenderas starkt att lägga till mer än " +
-                        "en säkerhetsnyckel eller passkey/lösennyckel för att försäkra dig om att du kan logga in även om en förloras.");
-            }
-        }
-        else {
-            common.verifyPageBodyContainsString(pageBody, "Öka säkerheten");
-            common.verifyPageBodyContainsString(pageBody, "Lägg till multifaktorautentisering under Säkerhet");
-        }
-        common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[3]/div[2]/span/a");
-
-        if(testData.isVerifySecurityKeyByFreja() || testData.isVerifySecurityKeyByEidas()) {
-            common.verifyPageBodyContainsString(pageBody, "Verifierad säkerhetsnyckel");
-            common.verifyPageBodyContainsString(pageBody, "Läs mer om din verifierade multifaktorautentisering under Säkerhet");
-        }
-        else{
-            common.verifyPageBodyContainsString(pageBody, "Verifiera din säkerhetsnyckel");
-            common.verifyPageBodyContainsString(pageBody, "Verifiera din säkerhetsnyckel under Säkerhet");
-        }
-        common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[4]/div[2]/span/a");
-
-        //Fine text at bottom
-        common.verifyPageBodyContainsString(pageBody, "Obs: ytterligare inställningar för språk, " +
-                "e-postadresser, lösenordshantering samt länkning till ORCID och ESI kan hanteras under Konto.");
-
-        //Verify internal account-link
-        common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/p[4]/a");
+        common.verifyPageBodyContainsString(pageBody,
+                "Obs: ytterligare inställningar för språk, e-postadresser, lösenordshantering samt " +
+                "länkning till ORCID och ESI kan hanteras under Konto.");
+        common.verifyLocatorIsWorkingLink(ACCOUNT_LINK);
     }
 
     private void verifyLabelsEnglish() {
-        //Select English
-        if(!testData.getTestClassName().equalsIgnoreCase("TC_4"))
+        if (!testData.getTestClassName().equalsIgnoreCase("TC_4")) {
             common.selectEnglish();
+        }
 
+        log.info("Verifying dashboard labels in English");
         common.verifyPageTitle("Start | eduID");
+        String pageBody = common.getPageBody();
 
-        //Extract page body for validation
-        pageBody = common.getPageBody();
-
-        //Verify menu labels, not needed for every test case
-        if(testData.getTestClassName().equalsIgnoreCase("TC_1"))
+        if (testData.getTestClassName().equalsIgnoreCase("TC_1")) {
             verifyMenuLabelsEng();
-
-        //Verify welcome heading
-        if(testData.getDisplayName().isEmpty()) {
-            common.verifyPageBodyContainsString(pageBody, "Welcome, " + testData.getEmail().toLowerCase() + "!");
-        }
-        else {
-            common.verifyStrings(common.findWebElementByXpath("//*[@id=\"eduid-splash-and-children\"]/section/h1/strong")
-                    .getText(), "Welcome, " + testData.getDisplayName() + "!");
         }
 
-        //EPPN
-        common.verifyStringByXpath("//*[@id=\"uniqueId-container\"]/label/strong", "Unique ID:");
-        if(testData.isRegisterAccount()) {
-            //Just check that eppn is 11 characters long
-            Assert.assertEquals(common.findWebElementById("user-eppn").getDomAttribute("value").length(),
+        verifyWelcomeHeading(pageBody, "Welcome, ");
+
+        common.verifyString(EPPN_LABEL, "Unique ID:");
+        if (testData.isRegisterAccount()) {
+            Assert.assertEquals(
+                    common.findWebElement(USER_EPPN).getDomAttribute("value").length(),
                     11, "EPPN seems to be missing or not correct length");
+        } else {
+            common.verifyStrings(testData.getEppn(), common.findWebElement(USER_EPPN).getDomAttribute("value"));
         }
-        else
-            common.verifyStrings(testData.getEppn(), common.findWebElementById("user-eppn").getDomAttribute("value"));
 
-        //Verify heading sub-text
         common.verifyPageBodyContainsString(pageBody, "eduID status overview");
-        common.verifyPageBodyContainsString(pageBody, "The strength and usage of your eduID can be improved" +
-                " by following the steps listed below.\n" +"Suggestions on what might be required depending on the " +
-                "organisation you are accessing with your eduID, can be found in the Assurance levels section in Help.");
+        common.verifyPageBodyContainsString(pageBody,
+                "The strength and usage of your eduID can be improved by following the steps listed below.\n" +
+                "Suggestions on what might be required depending on the organisation you are accessing with " +
+                "your eduID, can be found in the Assurance levels section in Help.");
         common.verifyPageBodyContainsString(pageBody, "Status of completed steps are indicated with a checkmark.");
+        common.verifyLocatorIsWorkingLink(HELP_LINK);
 
-        //Verify internal help-link
-        common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/p[2]/a");
+        verifyAccountStatusEnglish(pageBody);
+        verifyIdentityStatusEnglish(pageBody);
+        verifySecurityStatusEnglish(pageBody);
+        verifySecurityKeyStatusEnglish(pageBody);
 
-        //Account status texts
-        if(testData.isAccountVerified()) {
+        common.verifyPageBodyContainsString(pageBody,
+                "Note: additional settings such as language, email addresses, password management as well as " +
+                "ORCID and ESI affiliation can be edited at Account.");
+        common.verifyLocatorIsWorkingLink(ACCOUNT_LINK);
+
+        if (!testData.getTestClassName().equalsIgnoreCase("TC_4")) {
+            common.selectSwedish();
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Välkomenrubrik — undviker duplikering av displayName/e-post-logik
+    // -------------------------------------------------------------------------
+
+    private void verifyWelcomeHeading(String pageBody, String prefix) {
+        if (testData.getDisplayName().isEmpty()) {
+            common.verifyPageBodyContainsString(pageBody, prefix + testData.getEmail().toLowerCase() + "!");
+        } else {
+            common.verifyStrings(
+                    common.findWebElement(WELCOME_HEADING).getText(),
+                    prefix + testData.getDisplayName() + "!");
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Status-sektionshjälpare — Svenska
+    // -------------------------------------------------------------------------
+
+    private void verifyAccountStatusSwedish(String pageBody) {
+        if (testData.isAccountVerified()) {
+            common.verifyPageBodyContainsString(pageBody, "Bekräftat konto");
+            common.verifyPageBodyContainsString(pageBody, testData.getUsername().toLowerCase());
+        } else {
+            log.info("TODO — konto är inte verifierat");
+        }
+    }
+
+    private void verifyIdentityStatusSwedish(String pageBody) {
+        if (testData.isIdentityConfirmed()) {
+            common.verifyPageBodyContainsString(pageBody, "Verifierad identitet");
+            common.verifyPageBodyContainsString(pageBody, "Läs mer om din verifierade identitet under Identitet");
+        } else {
+            common.verifyPageBodyContainsString(pageBody, "Verifiera din identitet");
+            common.verifyPageBodyContainsString(pageBody, "Koppla din identitet till eduID under Identitet");
+        }
+        common.verifyLocatorIsWorkingLink(IDENTITY_SECTION_LINK);
+    }
+
+    private void verifySecurityStatusSwedish(String pageBody) {
+        if (testData.isAddExternalSecurityKey() || testData.isAddInternalPassKey()) {
+            common.verifyPageBodyContainsString(pageBody, "Ökad säkerhet");
+            common.verifyPageBodyContainsString(pageBody, "Läs mer om din tillagda multifaktorautentisering under Säkerhet");
+            if (!testData.isIdentityConfirmed()) {
+                common.verifyPageBodyContainsString(pageBody,
+                        "Det rekommenderas starkt att lägga till mer än en säkerhetsnyckel eller " +
+                        "passkey/lösennyckel för att försäkra dig om att du kan logga in även om en förloras.");
+            }
+        } else {
+            common.verifyPageBodyContainsString(pageBody, "Öka säkerheten");
+            common.verifyPageBodyContainsString(pageBody, "Lägg till multifaktorautentisering under Säkerhet");
+        }
+        common.verifyLocatorIsWorkingLink(SECURITY_SECTION_LINK);
+    }
+
+    private void verifySecurityKeyStatusSwedish(String pageBody) {
+        if (testData.isVerifySecurityKeyByFreja() || testData.isVerifySecurityKeyByEidas()) {
+            common.verifyPageBodyContainsString(pageBody, "Verifierad säkerhetsnyckel");
+            common.verifyPageBodyContainsString(pageBody, "Läs mer om din verifierade multifaktorautentisering under Säkerhet");
+        } else {
+            common.verifyPageBodyContainsString(pageBody, "Verifiera din säkerhetsnyckel");
+            common.verifyPageBodyContainsString(pageBody, "Verifiera din säkerhetsnyckel under Säkerhet");
+        }
+        common.verifyLocatorIsWorkingLink(SEC_KEY_SECTION_LINK);
+    }
+
+    // -------------------------------------------------------------------------
+    // Status-sektionshjälpare — Engelska
+    // -------------------------------------------------------------------------
+
+    private void verifyAccountStatusEnglish(String pageBody) {
+        if (testData.isAccountVerified()) {
             common.verifyPageBodyContainsString(pageBody, "Confirmed account");
             common.verifyPageBodyContainsString(pageBody, testData.getUsername().toLowerCase());
+        } else {
+            log.info("TODO — account is not verified");
         }
-        else{
-            //TODO when account is not confirmed i.e. email address not verified
-            log.info("TODO - Account is not verified");
-        }
-        if(testData.isIdentityConfirmed()){
+    }
+
+    private void verifyIdentityStatusEnglish(String pageBody) {
+        if (testData.isIdentityConfirmed()) {
             log.info("Identity is verified");
             common.verifyPageBodyContainsString(pageBody, "Verified identity");
             common.verifyPageBodyContainsString(pageBody, "Read more details about your verified identity at Identity");
-        }
-        else {
+        } else {
             common.verifyPageBodyContainsString(pageBody, "Verify your identity");
             common.verifyPageBodyContainsString(pageBody, "Connect your identity to eduID at Identity");
         }
-        common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[2]/div[2]/span/a");
+        common.verifyLocatorIsWorkingLink(IDENTITY_SECTION_LINK);
+    }
 
-        if(testData.isAddExternalSecurityKey() || testData.isAddInternalPassKey()){
+    private void verifySecurityStatusEnglish(String pageBody) {
+        if (testData.isAddExternalSecurityKey() || testData.isAddInternalPassKey()) {
             log.info("Security key is added");
             common.verifyPageBodyContainsString(pageBody, "Enhanced security");
             common.verifyPageBodyContainsString(pageBody, "Read more about your added multi-factor authentication at Security");
-            //When identity is confirmed, this extra text will not be displayed
-            if(!testData.isIdentityConfirmed()) {
-                common.verifyPageBodyContainsString(pageBody, "It is strongly recommended to add more than " +
-                        "one security key or passkey to ensure you can still sign in to your account if one is lost.");
+            if (!testData.isIdentityConfirmed()) {
+                common.verifyPageBodyContainsString(pageBody,
+                        "It is strongly recommended to add more than one security key or passkey to ensure " +
+                        "you can still sign in to your account if one is lost.");
             }
-        }
-        else {
+        } else {
             common.verifyPageBodyContainsString(pageBody, "Enhance security");
             common.verifyPageBodyContainsString(pageBody, "Add multi-factor authentication at");
         }
+        common.verifyLocatorIsWorkingLink(SECURITY_SECTION_LINK);
+    }
 
-        common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[3]/div[2]/span/a");
-
-        if(testData.isVerifySecurityKeyByFreja()  || testData.isVerifySecurityKeyByEidas()) {
+    private void verifySecurityKeyStatusEnglish(String pageBody) {
+        if (testData.isVerifySecurityKeyByFreja() || testData.isVerifySecurityKeyByEidas()) {
             log.info("Security key is verified");
             common.verifyPageBodyContainsString(pageBody, "Verified security key");
             common.verifyPageBodyContainsString(pageBody, "Read more details about your verified multi-factor authentication at Security");
-        }
-        else {
+        } else {
             common.verifyPageBodyContainsString(pageBody, "Verify your security key");
             common.verifyPageBodyContainsString(pageBody, "Verify your security key at Security");
         }
-
-        common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/section/div[4]/div[2]/span/a");
-
-        //Fine text at bottom
-        common.verifyPageBodyContainsString(pageBody, "Note: additional settings such as language, email " +
-                "addresses, password management as well as ORCID and ESI affiliation can be edited at Account.");
-
-        //Verify internal account-link
-        common.verifyXpathIsWorkingLink("//*[@id=\"eduid-splash-and-children\"]/article/p[4]/a");
-
-        //Select swedish
-        if(!testData.getTestClassName().equalsIgnoreCase("TC_4"))
-            common.selectSwedish();
+        common.verifyLocatorIsWorkingLink(SEC_KEY_SECTION_LINK);
     }
 
-    void verifyMenuLabelsSwe(){
-        log.info("Verifying menu labels in swedish and check that sub menu links are not broken");
+    // -------------------------------------------------------------------------
+    // Menyetikettverifiering
+    // -------------------------------------------------------------------------
 
+    void verifyMenuLabelsSwe() {
+        log.info("Verifying menu labels in Swedish and checking sub-menu links");
         common.expandNavigationMenu();
         common.timeoutMilliSeconds(100);
 
-        //Expand Start menu
-        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(1) > div > button > svg"))
-                .getDomAttribute("data-icon").equals("chevron-down")) {
-            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/div/button").click();
-        }
+        expandMenuSection(NAV_START_CHEVRON, NAV_START_EXPAND);
+        common.verifyString(NAV_START_LABEL, "Start");
+        common.verifyString(MENU_STATUS_OVERVIEW, "eduID statusöversikt");
+        common.verifyLocatorIsWorkingLink(MENU_STATUS_OVERVIEW);
 
-        //Verify Start menu
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/div/a", "Start");
-        common.verifyStringByXpath(eduIDStatusOverviewMenuLink, "eduID statusöversikt");
-        common.verifyXpathIsWorkingLink(eduIDStatusOverviewMenuLink);
+        expandMenuSection(NAV_IDENTITY_CHEVRON, NAV_IDENTITY_EXPAND);
+        common.verifyString(NAV_IDENTITY_LABEL, "Identitet");
+        common.verifyString(MENU_VERIFY_IDENTITY, "Verifiera identitet");
+        common.verifyLocatorIsWorkingLink(MENU_VERIFY_IDENTITY);
+        common.verifyString(MENU_NAME, "Namn & visningsnamn");
+        common.verifyLocatorIsWorkingLink(MENU_NAME);
 
-        //Expand Identity menu
-        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(2) > div > button > svg"))
-                .getDomAttribute("data-icon").equals("chevron-down")) {
-            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[2]/div/button").click();
-        }
+        expandMenuSection(NAV_SECURITY_CHEVRON, NAV_SECURITY_EXPAND);
+        common.verifyString(NAV_SECURITY_LABEL, "Säkerhet");
+        common.verifyString(MENU_MFA, "Lägg till multifaktorautentisering (MFA)");
+        common.verifyLocatorIsWorkingLink(MENU_MFA);
+        common.verifyString(MENU_SECURITY_KEYS, "Hantera dina säkerhetsnycklar");
+        common.verifyLocatorIsWorkingLink(MENU_SECURITY_KEYS);
 
-        //Verify Identity menu
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[2]/div/a", "Identitet");
-        common.verifyStringByXpath(verifyIdentityMenuLink, "Verifiera identitet");
-        common.verifyXpathIsWorkingLink(verifyIdentityMenuLink);
-        common.verifyStringByXpath(nameMenuLink, "Namn & visningsnamn");
-        common.verifyXpathIsWorkingLink(nameMenuLink);
+        expandMenuSection(NAV_ACCOUNT_CHEVRON, NAV_ACCOUNT_EXPAND);
+        common.verifyString(NAV_ACCOUNT_LABEL, "Konto");
+        common.verifyString(MENU_UNIQUE_ID, "Unikt ID");
+        common.verifyLocatorIsWorkingLink(MENU_UNIQUE_ID);
+        common.verifyString(MENU_EMAIL, "E-postadresser");
+        common.verifyLocatorIsWorkingLink(MENU_EMAIL);
+        common.verifyString(MENU_LANGUAGE, "Språk");
+        common.verifyLocatorIsWorkingLink(MENU_LANGUAGE);
+        common.verifyString(MENU_CHANGE_PASSWORD, "Byt lösenord");
+        common.verifyLocatorIsWorkingLink(MENU_CHANGE_PASSWORD);
+        common.verifyString(MENU_ORCID, "Länka till ditt ORCID konto");
+        common.verifyLocatorIsWorkingLink(MENU_ORCID);
+        common.verifyString(MENU_ESI, "ESI information");
+        common.verifyLocatorIsWorkingLink(MENU_ESI);
+        common.verifyString(MENU_DELETE_ACCOUNT, "Spärra och radera eduID");
+        common.verifyLocatorIsWorkingLink(MENU_DELETE_ACCOUNT);
 
-        //Expand Security menu
-        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(3) > div > button > svg"))
-                .getDomAttribute("data-icon").equals("chevron-down")) {
-            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/div/button").click();
-        }
-
-        //Verify Security menu
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/div/a", "Säkerhet");
-        common.verifyStringByXpath(mfaMenuLink, "Lägg till multifaktorautentisering (MFA)");
-        common.verifyXpathIsWorkingLink(mfaMenuLink);
-        common.verifyStringByXpath(handleSecurityKeyMenuLink, "Hantera dina säkerhetsnycklar");
-        common.verifyXpathIsWorkingLink(handleSecurityKeyMenuLink);
-
-        //Expand Account menu
-        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(4) > div > button > svg"))
-                .getDomAttribute("data-icon").equals("chevron-down")) {
-            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[4]/div/button").click();
-        }
-
-        //Verify Account menu
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[4]/div/a", "Konto");
-        common.verifyStringByXpath(uniqueMenuLink, "Unikt ID");
-        common.verifyXpathIsWorkingLink(uniqueMenuLink);
-        common.verifyStringByXpath(emailMenuLink, "E-postadresser");
-        common.verifyXpathIsWorkingLink(emailMenuLink);
-        common.verifyStringByXpath(languageMenuLink, "Språk");
-        common.verifyXpathIsWorkingLink(languageMenuLink);
-        common.verifyStringByXpath(changePasswordMenuLink, "Byt lösenord");
-        common.verifyXpathIsWorkingLink(changePasswordMenuLink);
-        common.verifyStringByXpath(orchIdMenuLink, "Länka till ditt ORCID konto");
-        common.verifyXpathIsWorkingLink(orchIdMenuLink);
-        common.verifyStringByXpath(esiInfoMenuLink, "ESI information");
-        common.verifyXpathIsWorkingLink(esiInfoMenuLink);
-        common.verifyStringByXpath(deleteAccountMenuLink, "Spärra och radera eduID");
-        common.verifyXpathIsWorkingLink(deleteAccountMenuLink);
-
-        common.verifyStringById("logout", "LOGGA UT");
+        common.verifyString(LOGOUT_BUTTON, "LOGGA UT");
     }
 
-    void verifyMenuLabelsEng(){
-        log.info("Verifying menu labels in english");
-
+    void verifyMenuLabelsEng() {
+        log.info("Verifying menu labels in English");
         common.expandNavigationMenu();
 
-        //Expand Start menu
-        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(1) > div > button > svg"))
-                .getDomAttribute("data-icon").equals("chevron-down")) {
-            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/div/button").click();
+        expandMenuSection(NAV_START_CHEVRON, NAV_START_EXPAND);
+        common.verifyString(NAV_START_LABEL, "Start");
+        common.verifyString(MENU_STATUS_OVERVIEW, "eduID status overview");
+
+        expandMenuSection(NAV_IDENTITY_CHEVRON, NAV_IDENTITY_EXPAND);
+        common.verifyString(NAV_IDENTITY_LABEL, "Identity");
+        common.verifyString(MENU_VERIFY_IDENTITY, "Verify identity");
+        common.verifyString(MENU_NAME, "Names & Display Name");
+
+        expandMenuSection(NAV_SECURITY_CHEVRON, NAV_SECURITY_EXPAND);
+        common.verifyString(NAV_SECURITY_LABEL, "Security");
+        common.verifyString(MENU_MFA, "Add multi-factor Authentication (MFA)");
+        common.verifyString(MENU_SECURITY_KEYS, "Manage your security keys");
+
+        expandMenuSection(NAV_ACCOUNT_CHEVRON, NAV_ACCOUNT_EXPAND);
+        common.verifyString(NAV_ACCOUNT_LABEL, "Account");
+        common.verifyString(MENU_UNIQUE_ID, "Unique ID");
+        common.verifyString(MENU_EMAIL, "Email addresses");
+        common.verifyString(MENU_LANGUAGE, "Language");
+        common.verifyString(MENU_CHANGE_PASSWORD, "Change password");
+        common.verifyString(MENU_ORCID, "ORCID account");
+        common.verifyString(MENU_ESI, "ESI information");
+        common.verifyString(MENU_DELETE_ACCOUNT, "Block and delete eduID");
+
+        common.verifyString(LOGOUT_BUTTON, "LOG OUT");
+    }
+
+    /**
+     * Expanderar ett navigationsavsnitt om chevron-ikonen indikerar att det är hopfällt.
+     */
+    private void expandMenuSection(By locator, By buttonLocator) {
+        String icon = common.getWebDriver()
+                .findElement(locator)
+                .getDomAttribute("data-icon");
+        if ("chevron-down".equals(icon)) {
+            common.findWebElement(buttonLocator).click();
         }
-
-        //Verify Start menu
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[1]/div/a", "Start");
-        common.verifyStringByXpath(eduIDStatusOverviewMenuLink, "eduID status overview");
-
-        //Expand Identity menu
-        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(2) > div > button > svg"))
-                .getDomAttribute("data-icon").equals("chevron-down")) {
-            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[2]/div/button").click();
-        }
-
-        //Verify Identity menu
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[2]/div/a", "Identity");
-        common.verifyStringByXpath(verifyIdentityMenuLink, "Verify identity");
-        common.verifyStringByXpath(nameMenuLink, "Names & Display Name");
-
-        //Expand Security menu
-        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(3) > div > button > svg"))
-                .getDomAttribute("data-icon").equals("chevron-down")) {
-            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/div/button").click();
-        }
-
-        //Verify Security menu
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[3]/div/a", "Security");
-        common.verifyStringByXpath(mfaMenuLink, "Add multi-factor Authentication (MFA)");
-        common.verifyStringByXpath(handleSecurityKeyMenuLink, "Manage your security keys");
-
-        //Expand Account menu
-        if(common.getWebDriver().findElement(By.cssSelector("#header > nav > div > ul > li:nth-child(4) > div > button > svg"))
-                .getDomAttribute("data-icon").equals("chevron-down")) {
-            common.findWebElementByXpath("//*[@id=\"header\"]/nav/div/ul/li[4]/div/button").click();
-        }
-
-        //Verify Account menu
-        common.verifyStringByXpath("//*[@id=\"header\"]/nav/div/ul/li[4]/div/a", "Account");
-        common.verifyStringByXpath(uniqueMenuLink, "Unique ID");
-        common.verifyStringByXpath(emailMenuLink, "Email addresses");
-        common.verifyStringByXpath(languageMenuLink, "Language");
-        common.verifyStringByXpath(changePasswordMenuLink, "Change password");
-        common.verifyStringByXpath(orchIdMenuLink, "ORCID account");
-        common.verifyStringByXpath(esiInfoMenuLink, "ESI information");
-        common.verifyStringByXpath(deleteAccountMenuLink, "Block and delete eduID");
-
-        common.verifyStringById("logout", "LOG OUT");
     }
 }

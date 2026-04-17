@@ -24,6 +24,6 @@ public class TC_61 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"runLoginOtherDevice"} )
     void verifyCanceledLogin() {
         //wait for Proceed button at next page
-        common.verifyStringById("login-other-device-button", "OTHER DEVICE");
+        common.verifyStringById("login-other-device-button", "ANNAN ENHET");
     }
 }

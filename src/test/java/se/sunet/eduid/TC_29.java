@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
@@ -66,13 +67,13 @@ public class TC_29 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"verifySecurityKeyLogin"} )
     void verifyBankId() {
-        common.explicitWaitPageTitle("BankID");
+        common.waitUntilPageTitleContains("BankID");
 
         Common.log.info("Verify BankID labels - Swedish");
 
         //Verify texts
         //Wait for cancel button
-        common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[2]/button");
+        common.waitUntilClickable(By.xpath("//*[@id=\"app\"]/main/div[2]/button"));
 
         common.verifyStringOnPage(testData.getBankIdTextSwe());
         common.verifyStringOnPage("Vill du använda BankID på den här enheten eller på en annan enhet?");
@@ -139,7 +140,7 @@ public class TC_29 extends BeforeAndAfter {
 
         //Verify pop-up texts - english
         //Wait for pop-up close button
-        common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[1]/dialog/button");
+        common.waitUntilClickable(By.xpath("//*[@id=\"app\"]/main/div[1]/dialog/button"));
 
         common.verifyStringByXpath("//*[@id=\"app\"]/main/div[1]/dialog/ol/li[1]", "Start the BankID app");
         common.verifyStringByXpath(
@@ -161,7 +162,7 @@ public class TC_29 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"verifyBankId"} )
     void verifySamlFailPage() {
-        common.explicitWaitClickableElementId("dashboard-button");
+        common.waitUntilClickable(By.id("dashboard-button"));
         common.verifyStringOnPage("Ett fel uppstod under åtkomst till tjänsten.");
 
         //Select to navigate to dashboard

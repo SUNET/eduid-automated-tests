@@ -1,151 +1,183 @@
 package se.sunet.eduid.registration;
 
+import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
+
+import static se.sunet.eduid.registration.ConfirmEmailAddressLocators.*;
 import static se.sunet.eduid.utils.Common.log;
 
+/**
+ * Page object för sidan "Skapa eduID: Verifiera e-postadress".
+ *
+ * Hanterar tre scenarion:
+ *  1. E-postadressen är redan registrerad — verifiera felmeddelande och navigera till inloggning.
+ *  2. Felaktig verifieringskod — verifiera felmeddelande och räkna antalet försök.
+ *  3. Korrekt kod — vänta på nästa sida.
+ *
+ * Om {@code testData.isVerifyEmail()} är false avbryts flödet och användaren
+ * skickas tillbaka till registreringssidan.
+ */
 public class ConfirmEmailAddress {
-    private final Common common;
-    private final TestData testData;
-    int emailVerificationAttempts = 0;
 
-    public ConfirmEmailAddress(Common common, TestData testData){
-        this.common = common;
+    private final Common   common;
+    private final TestData testData;
+    private       int      emailVerificationAttempts = 0;
+
+    public ConfirmEmailAddress(Common common, TestData testData) {
+        this.common   = common;
         this.testData = testData;
     }
 
-    public void runConfirmEmailAddress(){
+    // -------------------------------------------------------------------------
+    // Public API
+    // -------------------------------------------------------------------------
+
+    public void runConfirmEmailAddress() {
         verifyPageTitle();
         submitEmailConfirmationCode();
     }
+
+    // -------------------------------------------------------------------------
+    // Navigering
+    // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
         common.verifyPageTitle("Registrera | eduID");
     }
 
-    private void submitEmailConfirmationCode(){
-        //Old naming of variable, should be renamed to continue sign up with otp code
-        if(testData.isVerifyEmail()) {
-            //Evaluate response according to below criterias
-            if(!testData.isGenerateUsername()) {
-                //Verify status message in swedish
-                common.verifyStatusMessage("E-postadressen är redan registrerad. Om du har glömt ditt lösenord kan " +
-                        "du gå till inloggningssidan och återställa det.");
+    // -------------------------------------------------------------------------
+    // Verifieringsflöde
+    // -------------------------------------------------------------------------
 
-                //Verify status message in english
-                common.selectEnglish();
-                common.verifyStatusMessage("The email address is already registered. If you've forgotten your password, " +
-                        "go to the login page and reset it.");
-
-                //Press on login button to prepare Log in and delete the account
-                common.click(common.findWebElementById("login"));
-            }
-            else {
-                //Verify labels
-                verityTextAndLabels();
-
-                //If not the code fetched above should be used...
-                if("987654".equals(testData.getEmailVerificationCode())){
-                    Common.log.info("Will use an incorrect emailVerificationCode code: " +testData.getEmailVerificationCode());
-                }
-                else{
-                    //Fetch the email verification code, first url encode the email address
-                    String userName = testData.getUsername().replace("@", "%40");
-                    testData.setEmailVerificationCode(common.getCodeInNewTab(
-                            testData.getEmailVerificationCodeUrl() + userName.toLowerCase(), 6));
-                }
-
-                //Enter email verification code
-                typeEmailVerificationCode(testData.getEmailVerificationCode());
-
-                //Press OK button
-                common.findWebElementById("response-code-ok-button").click();
-
-                //Wait for go to eduid link on next page or error message if not correct code is supplied or too many attempts
-                if ("987654".equals(testData.getEmailVerificationCode()) && emailVerificationAttempts == 2) {
-                    //verify status message in swedish
-                    common.verifyStatusMessage("För många ogiltiga verifieringsförsök. Var god försök igen senare.");
-
-                    //verify status message in english
-                    common.selectEnglish();
-                    common.verifyStatusMessage("Too many invalid verification attempts. Please try again later.");
-
-                    common.selectSwedish();
-                }
-                else if ("987654".equals(testData.getEmailVerificationCode())) {
-                    //verify status message in swedish
-                    common.verifyStatusMessage("E-post verifieringen misslyckades. Var god försök igen.");
-
-                    //verify status message in english
-                    common.selectEnglish();
-                    common.verifyStatusMessage("The email verification failed. Please try again.");
-
-                    common.selectSwedish();
-
-                    //Close status message
-                    common.closeStatusMessage();
-
-                    emailVerificationAttempts ++;
-                }
-
-                //Wait the copy password on confirm password page
-                else {
-                    common.explicitWaitClickableElement("//*[@id=\"eduid-splash-and-children\"]//button");
-                }
-            }
+    private void submitEmailConfirmationCode() {
+        if (!testData.isVerifyEmail()) {
+            cancelAndReturnToRegistration();
+            return;
         }
-        else {
-            //Cancel confirm human will send user back to register email page
-            common.click(common.findWebElementById("response-code-abort-button"));
 
-            //Wait for text header
-            common.verifyStringOnPage("Skapa eduID: Ange dina personuppgifter");
+        if (!testData.isGenerateUsername()) {
+            handleAlreadyRegisteredEmail();
+        } else {
+            handleEmailVerification();
         }
     }
 
-    private void verityTextAndLabels(){
-        log.info("Verify text and labels for verify of email address - swedish");
+    private void cancelAndReturnToRegistration() {
+        common.click(common.findWebElement(ABORT_BUTTON));
+        common.verifyStringOnPage("Skapa eduID: Ange dina personuppgifter");
+    }
 
-        //Wait for cancel button to be present
-        common.explicitWaitClickableElementId("response-code-abort-button");
-
-        String pagebody = common.getPageBody();
-
-        common.verifyPageBodyContainsString(pagebody, "Skapa eduID: Verifiera e-postadress");
-        common.verifyPageBodyContainsString(pagebody, "Ange den sexsiffriga koden som skickats från no-reply@eduid.se till");
-        common.verifyPageBodyContainsString(pagebody, testData.getUsername().toLowerCase());
-        common.verifyPageBodyContainsString(pagebody, "för att verifiera din e-postadress. Du kan också kopiera och klistra " +
-                        "in koden från e-posten i inmatningsfältet.");
-
-        common.verifyPageBodyContainsString(pagebody, "Koden går ut om");
-        common.verifyStringById("response-code-abort-button", "AVBRYT");
-
-        //Select English
+    private void handleAlreadyRegisteredEmail() {
+        common.verifyStatusMessage("E-postadressen är redan registrerad. Om du har glömt ditt lösenord kan " +
+                "du gå till inloggningssidan och återställa det.");
         common.selectEnglish();
-        log.info("Verify text and labels for verify of email address - swedish");
+        common.verifyStatusMessage("The email address is already registered. If you've forgotten your password, " +
+                "go to the login page and reset it.");
+        common.click(common.findWebElement(LOGIN_BUTTON));
+    }
 
-        pagebody = common.getPageBody();
+    private void handleEmailVerification() {
+        verifyTextAndLabels();
+        fetchCodeIfNeeded();
+        typeEmailVerificationCode(testData.getEmailVerificationCode());
+        common.findWebElement(OK_BUTTON).click();
+        verifyVerificationOutcome();
+    }
 
-        common.verifyPageBodyContainsString(pagebody, "Create eduID: Verification of email address");
-        common.verifyPageBodyContainsString(pagebody, "Enter the six digit code sent from no-reply@eduid.se to");
-        common.verifyPageBodyContainsString(pagebody, testData.getUsername().toLowerCase());
-        common.verifyPageBodyContainsString(pagebody, "to verify your email address. You can also copy and paste the code " +
-                "from the email into the input field.");
+    private void fetchCodeIfNeeded() {
+        if ("987654".equals(testData.getEmailVerificationCode())) {
+            Common.log.info("Using intentionally incorrect code: {}", testData.getEmailVerificationCode());
+        } else {
+            String userNameEncoded = testData.getUsername().replace("@", "%40");
+            String code = common.getCodeInNewTab(
+                    testData.getEmailVerificationCodeUrl() + userNameEncoded.toLowerCase(), 6);
+            testData.setEmailVerificationCode(code);
+        }
+    }
 
-        common.verifyPageBodyContainsString(pagebody, "The code expires in");
-        common.verifyStringById("response-code-abort-button", "CANCEL");
+    private void verifyVerificationOutcome() {
+        if ("987654".equals(testData.getEmailVerificationCode()) && emailVerificationAttempts == 2) {
+            verifyTooManyAttemptsError();
+        } else if ("987654".equals(testData.getEmailVerificationCode())) {
+            verifyIncorrectCodeError();
+        } else {
+            common.waitUntilClickable(NEXT_PAGE_BUTTON);
+        }
+    }
 
-        //Select Swedish
+    private void verifyTooManyAttemptsError() {
+        common.verifyStatusMessage("För många ogiltiga verifieringsförsök. Var god försök igen senare.");
+        common.selectEnglish();
+        common.verifyStatusMessage("Too many invalid verification attempts. Please try again later.");
         common.selectSwedish();
     }
 
-    public void typeEmailVerificationCode(String emailVerificationCode){
-        common.explicitWaitClickableElementId("response-code-abort-button");
-        common.findWebElementById("v[0]").sendKeys(emailVerificationCode.substring(0, 1));
-        common.findWebElementById("v[1]").sendKeys(emailVerificationCode.substring(1, 2));
-        common.findWebElementById("v[2]").sendKeys(emailVerificationCode.substring(2, 3));
-        common.findWebElementById("v[3]").sendKeys(emailVerificationCode.substring(3, 4));
-        common.findWebElementById("v[4]").sendKeys(emailVerificationCode.substring(4, 5));
-        common.findWebElementById("v[5]").sendKeys(emailVerificationCode.substring(5, 6));
+    private void verifyIncorrectCodeError() {
+        common.verifyStatusMessage("E-post verifieringen misslyckades. Var god försök igen.");
+        common.selectEnglish();
+        common.verifyStatusMessage("The email verification failed. Please try again.");
+        common.selectSwedish();
+        common.closeStatusMessage();
+        emailVerificationAttempts++;
+    }
+
+    // -------------------------------------------------------------------------
+    // Etikett-verifiering
+    // -------------------------------------------------------------------------
+
+    private void verifyTextAndLabels() {
+        log.info("Verifying email verification labels — Swedish");
+        common.waitUntilClickable(ABORT_BUTTON);
+
+        verifyLabelsSwedish();
+        common.selectEnglish();
+        verifyLabelsEnglish();
+        common.selectSwedish();
+    }
+
+    private void verifyLabelsSwedish() {
+        String pageBody = common.getPageBody();
+
+        common.verifyPageBodyContainsString(pageBody, "Skapa eduID: Verifiera e-postadress");
+        common.verifyPageBodyContainsString(pageBody,
+                "Ange den sexsiffriga koden som skickats från no-reply@eduid.se till");
+        common.verifyPageBodyContainsString(pageBody, testData.getUsername().toLowerCase());
+        common.verifyPageBodyContainsString(pageBody,
+                "för att verifiera din e-postadress. Du kan också kopiera och klistra in koden från " +
+                "e-posten i inmatningsfältet.");
+        common.verifyPageBodyContainsString(pageBody, "Koden går ut om");
+        common.verifyString(ABORT_BUTTON, "AVBRYT");
+    }
+
+    private void verifyLabelsEnglish() {
+        log.info("Verifying email verification labels — English");
+        String pageBody = common.getPageBody();
+
+        common.verifyPageBodyContainsString(pageBody, "Create eduID: Verification of email address");
+        common.verifyPageBodyContainsString(pageBody, "Enter the six digit code sent from no-reply@eduid.se to");
+        common.verifyPageBodyContainsString(pageBody, testData.getUsername().toLowerCase());
+        common.verifyPageBodyContainsString(pageBody,
+                "to verify your email address. You can also copy and paste the code from the email into the input field.");
+        common.verifyPageBodyContainsString(pageBody, "The code expires in");
+        common.verifyString(ABORT_BUTTON, "CANCEL");
+    }
+
+    // -------------------------------------------------------------------------
+    // Kodinmatning
+    // -------------------------------------------------------------------------
+
+    /**
+     * Skriver in en sexsiffrig verifieringskod ett tecken i taget
+     * i de separata inmatningsfälten.
+     */
+    public void typeEmailVerificationCode(String code) {
+        common.timeoutSeconds(2);
+        common.findWebElement(CODE_DIGIT_0).sendKeys(code.substring(0, 1));
+        common.waitUntilClickable(CODE_DIGIT_1).sendKeys(code.substring(1, 2));
+        common.waitUntilClickable(CODE_DIGIT_2).sendKeys(code.substring(2, 3));
+        common.waitUntilClickable(CODE_DIGIT_3).sendKeys(code.substring(3, 4));
+        common.waitUntilClickable(CODE_DIGIT_4).sendKeys(code.substring(4, 5));
+        common.waitUntilClickable(CODE_DIGIT_5).sendKeys(code.substring(5, 6));
     }
 }

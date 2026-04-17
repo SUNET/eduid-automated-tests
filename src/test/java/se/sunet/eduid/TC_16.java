@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
@@ -82,7 +83,7 @@ public class TC_16 extends BeforeAndAfter {
 
         common.timeoutSeconds(5);
         //Wait for the add security key button to appear
-        common.explicitWaitClickableElementId("security-webauthn-button");
+        common.waitUntilClickable(By.id("security-webauthn-button"));
     }
 
     @Test( dependsOnMethods = {"deleteVerifiedSecurityKeyLogin"} )

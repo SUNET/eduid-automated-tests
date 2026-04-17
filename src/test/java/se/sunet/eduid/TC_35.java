@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -34,14 +35,14 @@ public class TC_35 extends BeforeAndAfter {
         register.registerPopUp();
 
         //Wait for cancel email verification button
-        common.explicitWaitClickableElementId("response-code-abort-button");
+        common.waitUntilClickable(By.id("response-code-abort-button"));
 //        register.runRegister();
 
         //Cancel email response code at confirm email page
         common.click(common.findWebElementById("response-code-abort-button"));
 
         //Wait for given name field at register page
-        common.explicitWaitVisibilityElementId("given_name");
+        common.waitUntilVisible(By.id("given_name"));
         }
 
     @Test( dependsOnMethods = {"firstInitiateRegistrationAbortAtTerms"} )

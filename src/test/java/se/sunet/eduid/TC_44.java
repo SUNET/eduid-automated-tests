@@ -17,7 +17,7 @@ public class TC_44 extends BeforeAndAfter {
         login.enterPassword();
         common.click(common.findWebElementById("login-form-button"));
 
-        common.explicitWaitPageTitle("Releasecheck för Swamid");
+        common.waitUntilPageTitleContains("Releasecheck för Swamid");
     }
 
     @Test( dependsOnMethods = {"login"} )

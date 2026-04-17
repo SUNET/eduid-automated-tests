@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -7,7 +8,7 @@ public class Antagning_Se extends BeforeAndAfter {
     @Test
     void selectLogIn(){
         //Wait for page to load
-        common.explicitWaitPageTitle("Antagning.se - Anmälan till högskola och universitet");
+        common.waitUntilPageTitleContains("Antagning.se - Anmälan till högskola och universitet");
 
         //Select log in
         common.click(common.findWebElementByXpathContainingText("Logga in"));
@@ -16,14 +17,14 @@ public class Antagning_Se extends BeforeAndAfter {
     @Test( dependsOnMethods = {"selectLogIn"} )
     void logInWithEduId(){
         //Wait for Heading Logga in
-        common.explicitWaitVisibilityElement("//main/section/h1");
+        common.waitUntilVisible(By.xpath("//main/section/h1"));
 
         //Click logga in med eduid
         common.click(common.findWebElementByXpathContainingText("Logga in med eduID"));
 
         //Wait for the eduID log in page to load
         common.timeoutMilliSeconds(1000);
-        common.explicitWaitPageTitle("eduID login");
+        common.waitUntilPageTitleContains("eduID login");
     }
 
     @Test( dependsOnMethods = {"logInWithEduId"} )
@@ -34,7 +35,7 @@ public class Antagning_Se extends BeforeAndAfter {
         common.click(common.findWebElementById("login-form-button"));
 
         // Verify that we are logged in
-        common.explicitWaitClickableElement("//main/section/a");
+        common.waitUntilClickable(By.xpath("//main/section/a"));
         common.verifyStringOnPage("Du är inloggad");
     }
 

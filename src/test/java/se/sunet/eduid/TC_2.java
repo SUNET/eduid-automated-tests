@@ -55,7 +55,7 @@ public class TC_2 extends BeforeAndAfter {
     void dashboard2() { dashBoard.runDashBoard(); }
 
     @Test( dependsOnMethods = {"dashboard2"} )
-    void setNewUserNames2() throws IOException {
+    void setNewUserNames2() {
         common.navigateToIdentity();
 
         testData.setGivenName("Bruno");

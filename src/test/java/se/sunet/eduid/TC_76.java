@@ -47,12 +47,10 @@ public class TC_76 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"clickDoneThreeTimes"} )
     void verifyAbortedMessage() {
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "The request is not valid anymore");
-
-        common.selectSwedish();
         common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Inloggningen är inte giltig längre");
 
         common.selectEnglish();
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "The request is not valid anymore");
     }
 
     @Test( dependsOnMethods = {"verifyAbortedMessage"} )
@@ -62,7 +60,6 @@ public class TC_76 extends BeforeAndAfter {
         loginOtherDevice.submitCode();
 
         //wait for the Log in page to be loaded
-        //common.explicitWaitClickableElementId("login-other-device-button");
         common.verifyStringById("login-other-device-button", "OTHER DEVICE");
     }
 }

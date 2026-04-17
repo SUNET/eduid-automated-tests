@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
@@ -71,7 +72,7 @@ public class TC_56 extends BeforeAndAfter {
         //Verify the status message
         common.verifyStatusMessage("Felaktigt format av identitetsnumret. Var god försök igen.");
 
-        common.explicitWaitClickableElement("//*[@id=\"manage-security-keys\"]//button[1]");
+        common.waitUntilClickable(By.xpath("//*[@id=\"manage-security-keys\"]//button[1]"));
 
         //Verify status beside the added key dates
         common.verifyStringByXpath(

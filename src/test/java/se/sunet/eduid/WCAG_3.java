@@ -8,13 +8,13 @@ import java.io.IOException;
 public class WCAG_3 extends BeforeAndAfter
 {
     @Test
-    public void startPage() throws IOException {
+    public void startPage() {
         testData.setCounter(3);
         startPage.runStartPage();
     }
 
     @Test( dependsOnMethods = {"startPage"} )
-    void loginPage() throws IOException {
+    void loginPage() {
 
     }
 

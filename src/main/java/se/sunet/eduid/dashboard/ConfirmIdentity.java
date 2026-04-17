@@ -1,213 +1,62 @@
 package se.sunet.eduid.dashboard;
 
+import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
-public class ConfirmIdentity{
-    private final Common common;
+import static se.sunet.eduid.dashboard.ConfirmIdentityLocators.*;
+
+/**
+ * Page object for the identity confirmation flow.
+ * Supports verification by: letter (post), Freja eID, eIDAS, Freja without Swedish PNR, and BankID.
+ */
+public class ConfirmIdentity {
+
+    private final Common   common;
     private final TestData testData;
     private final Identity identity;
-    String letterCodeConfirmationInputFieldId = "letter-confirm-modal";
-    String letterProceedButton = "//*[@id=\"se-letter\"]/div/button";
-    String letterSubmitCodeOkButton = "//*[@id=\"letter-confirm-modal-form\"]/div[2]/button";
 
-    public ConfirmIdentity(Common common, TestData testData, Identity identity){
-        this.common = common;
+    public ConfirmIdentity(Common common, TestData testData, Identity identity) {
+        this.common   = common;
         this.testData = testData;
         this.identity = identity;
     }
 
-    public void runConfirmIdentity(){
+    // -------------------------------------------------------------------------
+    // Public API
+    // -------------------------------------------------------------------------
+
+    public void runConfirmIdentity() {
         common.navigateToIdentity();
         verifyPageTitle();
 
-        //Check and add personal id number when confirming by mail
-        if(testData.getConfirmIdBy().equalsIgnoreCase("mail")){
+        if (testData.getConfirmIdBy().equalsIgnoreCase("mail")) {
             identity.expandIdentityOptions();
-
             enterPersonalNumber();
             pressAddButton();
         }
+
         verifyLabels();
         selectConfirmIdentity();
     }
+
+    // -------------------------------------------------------------------------
+    // Navigation & NIN entry
+    // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
         common.verifyPageTitle("Identitet | eduID");
     }
 
-    private void enterPersonalNumber(){
-        //Verify placeholder
-        common.verifyPlaceholder("ååååmmddnnnn", "nin");
-
-        common.findWebElementById("nin").sendKeys(testData.getIdentityNumber());
+    private void enterPersonalNumber() {
+        common.verifyPlaceholderBy("ååååmmddnnnn", NIN_INPUT);
+        common.findWebElement(NIN_INPUT).sendKeys(testData.getIdentityNumber());
     }
 
-    private void pressAddButton(){
-        common.click(common.findWebElementById("add-nin-button"));
-
-        //Wait for the nin to be added and show/hide button is visible
-        common.explicitWaitClickableElementId("show-hide-button");
-
-        Common.log.info("Added swedish personal id number");
-    }
-
-    public void selectConfirmIdentity(){
-        common.timeoutSeconds(1);
-
-        //Select way to confirm the identity. By letter or Freja Id
-        if(testData.getConfirmIdBy().equalsIgnoreCase("mail")) {
-            Common.log.info("Verify identity by Letter");
-
-            //Wait a few seconds, because sometimes the OTP is not available directly
-            common.timeoutSeconds(3);
-            //Fetch the code
-            String letterProofingCode =
-                    common.getCodeInNewTab(testData.getLetterProofingCodeUrl(), 10);
-
-            //Verify labels when letter is sent
-            verifyLabelsSentLetter();
-
-            //Press again on the letter button - Add a faulty code. Not needed for all test cases
-            if(testData.getTestClassName().contains("TC_41")) {
-                common.findWebElementById(letterCodeConfirmationInputFieldId).sendKeys("1qvw3fw2q3");
-
-                //Click OK
-                common.findWebElementByXpath(letterSubmitCodeOkButton).click();
-
-                //Verify response
-                //common.verifyStatusMessage("Den kod du angett stämmer inte. Var god försök igen");
-                common.verifyStatusMessage("Incorrect code");
-                common.closeStatusMessage();
-
-                //Press again on the letter proceed button to open send letter pop-up
-                common.click(common.findWebElementByXpath(letterProceedButton));
-            }
-
-            //Wait for close button at pop up before enter the code
-            common.findWebElementById(letterCodeConfirmationInputFieldId).sendKeys(letterProofingCode);
-
-            //Click OK
-            common.findWebElementByXpath(letterSubmitCodeOkButton).click();
-
-            common.timeoutMilliSeconds(3800);
-
-            Common.log.info("Verify identity by Letter - Done");
-
-            //Select Swedish
-            common.selectSwedish();
-        }
-
-        //Freja eID
-        else if(testData.getConfirmIdBy().equalsIgnoreCase("freja")) {
-            Common.log.info("Verify identity by Freja eID");
-
-            //Verify that nin cookie has to be used is not necessary for all test cases, check it only in tc 40
-            if(testData.getTestClassName().contains("TC_40")) {
-                //Select Freja eID
-                common.click(common.findWebElementByXpath("//*[@id=\"se-freja\"]/div/button"));
-
-                //Verify labels and text in pop-up
-                identity.verifyFrejaIdLabelsSwedish();
-                common.selectEnglish();
-
-                identity.expandIdentityOptions();
-                identity.verifyFrejaIdLabelsEnglish();
-
-                //Click Use Freja eID in pop-up dialog
-                common.findWebElementById("eidas-info-modal-accept-button").click();
-
-                //Select and submit user at reference IDP
-                selectAndSubmitUserRefIdp();
-
-                //Nin cookie required
-                common.verifyStatusMessage("Felaktigt format av identitetsnumret. Var god försök igen.");
-
-                //Add nin-cookie to get successful response from idp
-                common.addNinCookie();
-
-                //Expand Freja menu, since collapsed when change of language
-                common.timeoutMilliSeconds(800);
-
-                identity.expandIdentityOptions();
-            }
-            else {
-                //Add nin-cookie to get successful response from idp
-                common.addNinCookie();
-            }
-
-            //Select Freja eID
-            common.click(common.findWebElementByXpath("//*[@id=\"se-freja\"]/div/button"));
-
-            //Click Use Freja eID in pop-up dialog
-            common.findWebElementById("eidas-info-modal-accept-button").click();
-
-            //Select and submit user at reference IDP
-            selectAndSubmitUserRefIdp();
-        }
-
-        //eIDAS
-        else if(testData.getConfirmIdBy().equalsIgnoreCase("eidas")) {
-            Common.log.info("Verify identity by eIDAS");
-
-            identity.expandIdentityOptions();
-
-            //Select eIDAS by clicking on proceed button
-            common.click(common.findWebElementByXpath("//*[@id=\"eu\"]/div/button"));
-
-            //Select country XA in sandbox
-            common.selectCountry("XA");
-            //common.findWebElementByXpath("//*[@id=\"countrySelectForm\"]/div/div[3]/button").click();
-
-            //Set LoA to substantial
-            common.submitEidasUser();
-/*            common.click(common.findWebElementByXpath("//*[@id=\"authnForm\"]/table/tbody/tr[3]/td/div/div/button"));
-            common.click(common.findWebElementByXpath(
-                    "//*[@id=\"authnForm\"]//span[contains(text(),'" +testData.getLoaLevel() +"')]"));
-
-            //Submit IDP identity
-            common.findWebElementById("idpSubmitbutton").click();*/
-
-            //Submit Consent
-            common.submitConsent();
-/*            common.timeoutSeconds(2);
-            common.findWebElementById("buttonNext").click();
-
-            common.timeoutSeconds(2);*/
-        }
-
-        //Freja no Swedish Pnr
-        else if(testData.getConfirmIdBy().equalsIgnoreCase("frejaNoSwedishPnr")) {
-            Common.log.info("Verify identity by Freja with no Swedish personal identity number");
-
-            //Click proceed button
-            common.click(common.findWebElementByXpath("//*[@id=\"world\"]/div/button"));
-
-            //Wait and see that we come to Freja eID OpenID Connect - Logga in - page
-            common.explicitWaitPageTitle("Freja eID OpenID Connect - Logga in");
-            common.verifyStringOnPage("För att gå vidare skanna QR-koden");
-        }
-
-        //BankID
-        else if(testData.getConfirmIdBy().equalsIgnoreCase("bankid")) {
-            Common.log.info("Verify identity by BankID");
-
-            identity.expandIdentityOptions();
-
-            //Click proceed with bankid button
-            common.click(common.findWebElementByXpath("//*[@id=\"se-bankID\"]/div/button"));
-
-            //Wait and press BankId on other device
-            common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]");
-            common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/div[1]/button[2]").click();
-
-            //Wait and press abort scanning the qr code
-            common.explicitWaitClickableElement("//*[@id=\"app\"]/main/div[1]/dialog/button");
-            common.findWebElementByXpath("//*[@id=\"app\"]/main/div[1]/dialog/button").click();
-
-            //Cancel the authention
-            common.findWebElementByXpath("//*[@id=\"app\"]/main/div[2]/button/span").click();
-        }
+    private void pressAddButton() {
+        common.click(common.findWebElement(ADD_NIN_BUTTON));
+        common.waitUntilClickable(SHOW_HIDE_BUTTON);
+        Common.log.info("Added Swedish personal identity number");
     }
 
     private void verifyLabels() {
@@ -215,101 +64,179 @@ public class ConfirmIdentity{
         identity.verifyLabelsEnglish();
     }
 
-    private void verifyLabelsSentLetter(){
-        Common.log.info("Verify Letter sent labels - Swedish");
+    // -------------------------------------------------------------------------
+    // Identity confirmation — method dispatch
+    // -------------------------------------------------------------------------
 
-        //Verify on the button that letter is sent text exists, with today's date
-        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/p[2]",
-                "Ett brev skickades " +common.getDate().toString());
+    public void selectConfirmIdentity() {
+        common.timeoutSeconds(1);
+        String method = testData.getConfirmIdBy();
 
-        //Verify that letter is valid date is 2 weeks after today's date
-        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/p[3]",
-                "Brevet är giltigt till " +common.getDate().plusDays(15));
-
-        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/p[4]",
-                "När du har mottagit brevet, fortsätt genom att klicka på knappen nedan.");
-
-        //Verify Proceed button text
-        common.verifyStringByXpath(letterProceedButton, "FORTSÄTT");
-
-        //Verify text in confirmation pop up
-        Common.log.info("Open pop-up to confirm with code received in letter - Swedish");
-        common.click(common.findWebElementByXpath(letterProceedButton));
-
-        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/dialog/div/div/div/div/h4",
-                "Skriv in koden du fått hemskickad");
-        common.verifyStringByXpath("//*[@id=\"letter-confirm-modal-wrapper\"]/div/label", "Kod");
-
-        common.verifyPlaceholder("skriv in koden", letterCodeConfirmationInputFieldId);
-
-        //Verify OK button text
-        common.verifyStringByXpath(letterSubmitCodeOkButton, "OK");
-
-        //Close
-        common.click(common.findWebElementByXpath(
-                "//*[@id=\"se-letter\"]/div/dialog/div/div/div/div/button"));
-        Common.log.info("Closed pop-up to confirm text and labels with code received in letter - Swedish");
-
-        //Select english
-        common.selectEnglish();
-
-        Common.log.info("Verify Letter sent labels - English");
-
-        //Expand letter validation menu
-        common.click(common.findWebElementById("se-letter-button"));
-
-        //Verify on the button that letter is sent text exists, with today's date
-        common.timeoutMilliSeconds(200);
-        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/p[2]",
-                "The letter was sent " +common.getDate().toString());
-
-        //Verify that letter is valid date is 2 weeks after today's date
-        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/p[3]",
-                "The letter is valid to " +common.getDate().plusDays(15));
-
-        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/p[4]",
-                "When you have received the letter, proceed by clicking the button below.");
-
-        //Verify Proceed button text
-        common.verifyStringByXpath(letterProceedButton, "PROCEED");
-
-        //Verify text in confirmation pop up
-        Common.log.info("Open pop-up to confirm text and labels for code input received in letter - English");
-        common.click(common.findWebElementByXpath(letterProceedButton));
-
-        common.verifyStringByXpath("//*[@id=\"se-letter\"]/div/dialog/div/div/div/div/h4",
-                "Add the code you have received by post");
-        common.verifyStringByXpath("//*[@id=\"letter-confirm-modal-wrapper\"]/div/label", "Code");
-
-        common.verifyPlaceholder("enter code", letterCodeConfirmationInputFieldId);
-
-        //Verify OK button text
-        common.verifyStringByXpath(letterSubmitCodeOkButton, "OK");
-
-        Common.log.info("Done! - Confirmed text and labels in pop-up for code input received in letter - English");
+        if (method.equalsIgnoreCase("mail")) {
+            confirmByLetter();
+        } else if (method.equalsIgnoreCase("freja")) {
+            confirmByFreja();
+        } else if (method.equalsIgnoreCase("eidas")) {
+            confirmByEidas();
+        } else if (method.equalsIgnoreCase("frejaNoSwedishPnr")) {
+            confirmByFrejaNoSwedishPnr();
+        } else if (method.equalsIgnoreCase("bankid")) {
+            confirmByBankId();
+        }
     }
 
+    // -------------------------------------------------------------------------
+    // Confirmation methods
+    // -------------------------------------------------------------------------
 
-    public void selectAndSubmitUserRefIdp(){
-        common.explicitWaitClickableElementId("selectSimulatedUser");
+    private void confirmByLetter() {
+        Common.log.info("Verifying identity by letter");
 
-        //Click advanced options
-        common.findWebElementById("advancedButton").click();
+        common.timeoutSeconds(3);
+        String letterCode = common.getCodeInNewTab(testData.getLetterProofingCodeUrl(), 10);
 
-        //Enter First name, family name and id number
-        common.findWebElementById("personalIdNumber").sendKeys(testData.getIdentityNumber());
-        common.findWebElementById("givenName").sendKeys(testData.getGivenName());
-        common.findWebElementById("surname").sendKeys(testData.getSurName());
+        verifyLetterSentLabels();
 
-        Common.log.info("At ref IDP, submit: "+testData.getIdentityNumber() );
-        Common.log.info("At ref IDP, submit: "+testData.getGivenName() );
-        Common.log.info("At ref IDP, submit: "+testData.getSurName() );
+        if (testData.getTestClassName().contains("TC_41")) {
+            submitFaultyLetterCode();
+        }
 
+        common.findWebElement(LETTER_CODE_INPUT).sendKeys(letterCode);
+        common.findWebElement(LETTER_SUBMIT_OK_BUTTON).click();
+        common.timeoutMilliSeconds(3800);
 
-        //Submit
-        common.findWebElementById("submitButton").click();
+        Common.log.info("Identity verified by letter — done");
+        common.selectSwedish();
+    }
 
-        //Redirect back to eduID takes time, adding some timeout
+    private void submitFaultyLetterCode() {
+        common.findWebElement(LETTER_CODE_INPUT).sendKeys("1qvw3fw2q3");
+        common.findWebElement(LETTER_SUBMIT_OK_BUTTON).click();
+        common.verifyStatusMessage("Incorrect code");
+        common.closeStatusMessage();
+        common.click(common.findWebElement(LETTER_PROCEED_BUTTON));
+    }
+
+    private void confirmByFreja() {
+        Common.log.info("Verifying identity by Freja eID");
+
+        if (testData.getTestClassName().contains("TC_40")) {
+            // Verify labels before adding cookie
+            common.click(common.findWebElement(FREJA_PROCEED));
+            identity.verifyFrejaIdLabelsSwedish();
+            common.selectEnglish();
+            identity.expandIdentityOptions();
+            identity.verifyFrejaIdLabelsEnglish();
+            common.findWebElement(FREJA_ACCEPT).click();
+            selectAndSubmitUserRefIdp();
+            common.verifyStatusMessage("Felaktigt format av identitetsnumret. Var god försök igen.");
+            common.addNinCookie();
+            common.timeoutMilliSeconds(800);
+            identity.expandIdentityOptions();
+        } else {
+            common.addNinCookie();
+        }
+
+        common.click(common.findWebElement(FREJA_PROCEED));
+        common.findWebElement(FREJA_ACCEPT).click();
+        selectAndSubmitUserRefIdp();
+    }
+
+    private void confirmByEidas() {
+        Common.log.info("Verifying identity by eIDAS");
+        identity.expandIdentityOptions();
+        common.click(common.findWebElement(EU_PROCEED));
+        common.selectCountry("XA");
+        common.submitEidasUser();
+        common.submitConsent();
+    }
+
+    private void confirmByFrejaNoSwedishPnr() {
+        Common.log.info("Verifying identity by Freja (no Swedish PNR)");
+        common.click(common.findWebElement(WORLD_PROCEED));
+
+        //Wait and see that we come to Freja eID OpenID Connect - Logga in - page
+        common.waitUntilPageTitleContains("Freja eID OpenID Connect - Logga in");
+        common.verifyStringOnPage("Logga in på eduID Sweden");
+        common.verifyStringOnPage("Öppna Freja-appen och tryck på knappen ”Skanna”.\n" +
+                "Skanna QR-koden.");
+    }
+
+    private void confirmByBankId() {
+        Common.log.info("Verifying identity by BankID");
+        identity.expandIdentityOptions();
+        common.click(common.findWebElement(BANKID_PROCEED));
+        common.waitUntilClickable(BANKID_OTHER_DEVICE).click();
+        common.waitUntilClickable(BANKID_ABORT_SCAN).click();
+        common.findWebElement(BANKID_CANCEL_AUTH).click();
+    }
+
+    // -------------------------------------------------------------------------
+    // Letter labels verification
+    // -------------------------------------------------------------------------
+
+    private void verifyLetterSentLabels() {
+        Common.log.info("Verifying letter-sent labels — Swedish");
+
+        common.verifyString(LETTER_SENT_DATE_XPATH,
+                "Ett brev skickades " + common.getDate());
+        common.verifyString(LETTER_VALID_DATE_XPATH,
+                "Brevet är giltigt till " + common.getDate().plusDays(15));
+        common.verifyString(LETTER_INSTRUCTION_XPATH,
+                "När du har mottagit brevet, fortsätt genom att klicka på knappen nedan.");
+        common.verifyString(LETTER_PROCEED_BUTTON, "FORTSÄTT");
+
+        // Open and verify Swedish pop-up
+        Common.log.info("Opening pop-up to verify letter code labels — Swedish");
+        common.click(common.findWebElement(LETTER_PROCEED_BUTTON));
+        common.verifyString(LETTER_POPUP_HEADING, "Skriv in koden du fått hemskickad");
+        common.verifyString(LETTER_POPUP_LABEL, "Kod");
+        common.verifyPlaceholderBy("skriv in koden", LETTER_CODE_INPUT);
+        common.verifyString(LETTER_SUBMIT_OK_BUTTON, "OK");
+        common.click(common.findWebElement(LETTER_POPUP_CLOSE));
+        Common.log.info("Closed Swedish letter pop-up");
+
+        // English
+        common.selectEnglish();
+        Common.log.info("Verifying letter-sent labels — English");
+
+        common.click(common.findWebElement(LETTER_EXPAND_BUTTON));
+        common.timeoutMilliSeconds(200);
+
+        common.verifyString(LETTER_SENT_DATE_XPATH,
+                "The letter was sent " + common.getDate());
+        common.verifyString(LETTER_VALID_DATE_XPATH,
+                "The letter is valid to " + common.getDate().plusDays(15));
+        common.verifyString(LETTER_INSTRUCTION_XPATH,
+                "When you have received the letter, proceed by clicking the button below.");
+        common.verifyString(LETTER_PROCEED_BUTTON, "PROCEED");
+
+        Common.log.info("Opening pop-up to verify letter code labels — English");
+        common.click(common.findWebElement(LETTER_PROCEED_BUTTON));
+        common.verifyString(LETTER_POPUP_HEADING, "Add the code you have received by post");
+        common.verifyString(LETTER_POPUP_LABEL, "Code");
+        common.verifyPlaceholderBy("enter code", LETTER_CODE_INPUT);
+        common.verifyString(LETTER_SUBMIT_OK_BUTTON, "OK");
+
+        Common.log.info("Done verifying letter code pop-up labels — English");
+        // Pop-up stays open — caller will enter the code next
+    }
+
+    // -------------------------------------------------------------------------
+    // Reference IDP helpers
+    // -------------------------------------------------------------------------
+
+    public void selectAndSubmitUserRefIdp() {
+        common.waitUntilClickable(SELECT_SIMULATED_USER);
+        common.findWebElement(ADVANCED_BUTTON).click();
+        common.findWebElement(PERSONAL_ID_INPUT).sendKeys(testData.getIdentityNumber());
+        common.findWebElement(GIVEN_NAME_INPUT).sendKeys(testData.getGivenName());
+        common.findWebElement(SURNAME_INPUT).sendKeys(testData.getSurName());
+
+        Common.log.info("At ref IDP, submitting: {} {} {}",
+                testData.getIdentityNumber(), testData.getGivenName(), testData.getSurName());
+
+        common.findWebElement(SUBMIT_BUTTON).click();
         common.timeoutSeconds(5);
     }
 }

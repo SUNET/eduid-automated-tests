@@ -4,43 +4,63 @@ import se.sunet.eduid.registration.ConfirmEmailAddress;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
+import static se.sunet.eduid.resetPassword.EmailLinkLocators.*;
+
+/**
+ * Page object för hämtning och inmatning av e-postkod vid lösenordsåterställning.
+ *
+ * Om magic cookie inte är satt verifieras att ingen kod är tillgänglig (Bad Request).
+ * Annars hämtas koden via ny flik, fylls i och formuläret skickas.
+ */
 public class EmailLink {
-    private final Common common;
-    private final TestData testData;
-    private final ConfirmEmailAddress confirmEmailAddress;
+
+    private final Common               common;
+    private final TestData             testData;
+    private final ConfirmEmailAddress  confirmEmailAddress;
 
     public EmailLink(Common common, TestData testData, ConfirmEmailAddress confirmEmailAddress) {
-        this.common = common;
-        this.testData = testData;
-        this.confirmEmailAddress = confirmEmailAddress;
+        this.common               = common;
+        this.testData             = testData;
+        this.confirmEmailAddress  = confirmEmailAddress;
     }
 
-    public void runEmailLink(){
+    // -------------------------------------------------------------------------
+    // Public API
+    // -------------------------------------------------------------------------
+
+    public void runEmailLink() {
         verifyEmailAddress();
     }
 
-    private void verifyEmailAddress(){
-        //Verify that there is no reset pw code when magic cookie is not set
-        if(!common.isCookieSet("autotests")){
-            common.navigateToUrl(testData.getEmailResetPwCodeUrl() +testData.getEppn());
-            common.verifyStringOnPage("Bad Request");
-        }
-        else{
-            //Add cookie for back doors
-            common.addMagicCookie();
+    // -------------------------------------------------------------------------
+    // Kodverifiering
+    // -------------------------------------------------------------------------
 
-            //Navigate to get the code
-            testData.setEmailCode(common.getCodeInNewTab(
-                    testData.getEmailResetPwCodeUrl() +testData.getEppn(), 6));
-
-                //Fill in the code and press OK
-                Common.log.info("Filling in the code (" +testData.getEmailCode() +") and pressing ok");
-                confirmEmailAddress.typeEmailVerificationCode(testData.getEmailCode());
-
-                common.findWebElementById("response-code-ok-button").click();
-
-            common.explicitWaitPageTitle("Återställ lösenord | eduID");
+    private void verifyEmailAddress() {
+        if (!common.isCookieSet("autotests")) {
+            verifyNoCodeWithoutCookie();
+        } else {
+            fetchAndSubmitCode();
         }
         common.timeoutSeconds(3);
+    }
+
+    private void verifyNoCodeWithoutCookie() {
+        common.navigateToUrl(testData.getEmailResetPwCodeUrl() + testData.getEppn());
+        common.verifyStringOnPage("Bad Request");
+    }
+
+    private void fetchAndSubmitCode() {
+        common.addMagicCookie();
+
+        String code = common.getCodeInNewTab(
+                testData.getEmailResetPwCodeUrl() + testData.getEppn(), 6);
+        testData.setEmailCode(code);
+
+        Common.log.info("Filling in the code ({}) and pressing OK", code);
+        confirmEmailAddress.typeEmailVerificationCode(code);
+        common.findWebElement(OK_BUTTON).click();
+
+        common.waitUntilPageTitleContains("Återställ lösenord | eduID");
     }
 }

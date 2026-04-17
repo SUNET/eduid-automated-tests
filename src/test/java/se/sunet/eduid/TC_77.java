@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -39,20 +40,19 @@ public class TC_77 extends BeforeAndAfter {
 
         loginOtherDevice.submitCode();
 
-        common.explicitWaitClickableElementId("response-code-cancel-button");
+        common.waitUntilClickable(By.id("response-code-cancel-button"));
     }
 
     @Test( dependsOnMethods = {"runLoginOtherDevice3rd"} )
     void verifyStatusMessage(){
-        common.verifyStringOnPage("The request is not valid anymore");
-
-        common.selectSwedish();
-
         common.verifyStringOnPage("Inloggningen är inte giltig längre");
+
+        common.selectEnglish();
+        common.verifyStringOnPage("The request is not valid anymore");
 
         common.findWebElementById("response-code-cancel-button").click();
 
         //Wait for the Log in page
-        common.explicitWaitClickableElementId("login-form-button");
+        common.waitUntilClickable(By.id("login-form-button"));
     }
 }

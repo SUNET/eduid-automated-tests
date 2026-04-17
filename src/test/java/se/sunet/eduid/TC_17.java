@@ -1,8 +1,11 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
+
+import java.nio.Buffer;
 
 public class TC_17 extends BeforeAndAfter {
     @Test
@@ -34,7 +37,7 @@ public class TC_17 extends BeforeAndAfter {
         securityKey.runSecurityKey();
 
         //Turn security off for logging in
-        common.explicitWaitClickableElement("//*[@id=\"content\"]/article[2]/form/fieldset/label/div");
+        common.waitUntilClickable(By.xpath("//*[@id=\"content\"]/article[2]/form/fieldset/label/div"));
         common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[2]/form/fieldset/label/div"));
 
         testData.setMfaDisabled(true);
@@ -79,8 +82,6 @@ public class TC_17 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
-        testData.setAddExternalSecurityKey(false);
-
         //Turn off the remember me function at startpage for this
         testData.setRememberMe(false);
         common.rememberMe();

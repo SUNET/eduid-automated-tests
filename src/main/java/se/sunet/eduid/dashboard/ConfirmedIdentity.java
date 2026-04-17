@@ -1,122 +1,112 @@
 package se.sunet.eduid.dashboard;
 
+import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
+import static se.sunet.eduid.dashboard.ConfirmedIdentityLocators.*;
+import static se.sunet.eduid.generic.LoginOtherDeviceLocators.ABORT_BUTTON;
+import static se.sunet.eduid.generic.LoginOtherDeviceLocators.CANCEL_BUTTON;
+
+/**
+ * Page object for the Identity page after the user's identity has already been confirmed.
+ * Verifies the confirmation state labels in both languages, then delegates to Name.
+ */
 public class ConfirmedIdentity {
-    private final Common common;
+
+    private final Common   common;
     private final TestData testData;
-    private final Name name;
-    private String pageBody;
+    private final Name     name;
 
     public ConfirmedIdentity(Common common, TestData testData, Name name) {
-        this.common = common;
+        this.common   = common;
         this.testData = testData;
-        this.name = name;
+        this.name     = name;
     }
 
-    public void runConfirmedIdentity(){
+    // -------------------------------------------------------------------------
+    // Public API
+    // -------------------------------------------------------------------------
+
+    public void runConfirmedIdentity() {
         verifyPageTitle();
         verifyTextAndLabels();
-
         name.runName();
     }
 
-    private void verifyPageTitle() {
-        //Wait for heading to be loaded
-        common.explicitWaitVisibilityElement("//*[@id=\"content\"]/section/h1");
+    // -------------------------------------------------------------------------
+    // Verification
+    // -------------------------------------------------------------------------
 
+    private void verifyPageTitle() {
+        common.waitUntilVisible(PAGE_H1);
         common.verifyPageTitle("Identitet | eduID");
         common.timeoutMilliSeconds(500);
     }
 
-    private void verifyTextAndLabels(){
-        //Wait for the remove identity button, use xpath since different id depending on method of identification
-        common.explicitWaitClickableElement("//div/div/main/div/section/article[1]/figure/button");
+    private void verifyTextAndLabels() {
+        //Button has different ID when confirmed by eIDAS
+        if(testData.getConfirmIdBy().equalsIgnoreCase("eidas")) {
+            common.waitUntilClickable(REMOVE_EIDAS_ID_BUTTON);
+        }
+        else {
+            common.waitUntilClickable(REMOVE_ID_BUTTON);
+        }
 
-        //Swedish labels
-        textAndLabelsSwedish();
-
-        //Change to English
+        verifyLabelsSwedish();
         common.selectEnglish();
-
-        //English labels
-        textAndLabelsEnglish();
-
-        //Change to Swedish
+        verifyLabelsEnglish();
         common.selectSwedish();
     }
 
-    private void textAndLabelsSwedish(){
-        Common.log.info("Verify confirmed identity labels in Swedish");
+    private void verifyLabelsSwedish() {
+        Common.log.info("Verifying confirmed identity labels in Swedish");
+        String pageBody = common.getPageBody();
 
-        //Extract page body for validation
-        pageBody = common.getPageBody();
+        common.verifyPageBodyContainsString(pageBody, "Identitet");
+        common.verifyPageBodyContainsString(pageBody, "Ditt eduID är redo att användas");
+        common.verifyPageBodyContainsString(pageBody, "Följande identiteter är nu kopplade till ditt eduID");
+        common.verifyPageBodyContainsString(pageBody, "Svenskt personnummer");
 
-        //Heading
-        common.verifyPageBodyContainsString(pageBody,"Identitet");
-
-        //Heading 1
-        common.verifyPageBodyContainsString(pageBody,"Ditt eduID är redo att användas");
-
-        //Text 1
-        common.verifyPageBodyContainsString(pageBody,"Följande identiteter är nu kopplade till ditt eduID");
-
-        //Heading
-        common.verifyPageBodyContainsString(pageBody,"Svenskt personnummer");
-
-        //Heading -eIDAS
-        if(testData.getConfirmIdBy().equalsIgnoreCase("eidas")) {
-            common.verifyPageBodyContainsString(pageBody,"Europeisk eIDAS-identitet");
-            common.verifyPageBodyContainsString(pageBody,"XA 1939-11-13");
+        if (isEidas()) {
+            common.verifyPageBodyContainsString(pageBody, "Europeisk eIDAS-identitet");
+            common.verifyPageBodyContainsString(pageBody, "XA 1939-11-13");
+        } else {
+            common.verifyPageBodyContainsString(pageBody, "personnummer");
+            revealAndVerifyIdNumber();
         }
-        //Heading -non eIDAS
-        else {
-            common.verifyPageBodyContainsString(pageBody,"personnummer");
 
-            //Show full id-number
-            common.findWebElementById("show-hide-button").click();
-
-            //Data
-            common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/figure/div[3]/div/div", testData.getIdentityNumber());
-        }
         testData.setIdentityConfirmed(true);
     }
 
-    private void textAndLabelsEnglish(){
-        Common.log.info("Verify confirmed identity labels in English");
-
-        //Extract page body for validation
-        pageBody = common.getPageBody();
+    private void verifyLabelsEnglish() {
+        Common.log.info("Verifying confirmed identity labels in English");
+        String pageBody = common.getPageBody();
 
         common.verifyPageTitle("Identity | eduID");
+        common.verifyPageBodyContainsString(pageBody, "Identity");
+        common.verifyPageBodyContainsString(pageBody, "Your eduID is ready to use");
+        common.verifyPageBodyContainsString(pageBody, "The identities below are now connected to your eduID");
 
-        //Heading
-        common.verifyPageBodyContainsString(pageBody,"Identity");
-
-        //Heading 1
-        common.verifyPageBodyContainsString(pageBody,"Your eduID is ready to use");
-
-        //Text 1
-        common.verifyPageBodyContainsString(pageBody,"The identities below are now connected to your eduID");
-
-        //Heading -eIDAS
-        if(testData.getConfirmIdBy().equalsIgnoreCase("eidas")) {
-            common.verifyPageBodyContainsString(pageBody,"European eIDAS identity");
-            common.verifyPageBodyContainsString(pageBody,"XA 1939-11-13");
+        if (isEidas()) {
+            common.verifyPageBodyContainsString(pageBody, "European eIDAS identity");
+            common.verifyPageBodyContainsString(pageBody, "XA 1939-11-13");
+        } else {
+            common.verifyPageBodyContainsString(pageBody, "Swedish national ID number");
+            revealAndVerifyIdNumber();
         }
-        //Heading -non eIDAS
-        else {
-            common.verifyPageBodyContainsString(pageBody,"Swedish national ID number");
+    }
 
-            //Heading
-            //common.verifyStringOnPage("National ID number");
+    // -------------------------------------------------------------------------
+    // Helpers
+    // -------------------------------------------------------------------------
 
-            //Show full id-number
-            common.findWebElementById("show-hide-button").click();
+    private boolean isEidas() {
+        return testData.getConfirmIdBy().equalsIgnoreCase("eidas");
+    }
 
-            //Data
-            common.verifyStringByXpath("//*[@id=\"content\"]/article[1]/figure/div[3]/div/div", testData.getIdentityNumber());
-        }
+    private void revealAndVerifyIdNumber() {
+        common.findWebElement(SHOW_HIDE_BUTTON).click();
+        common.verifyString(ID_NUMBER_DISPLAY, testData.getIdentityNumber());
     }
 }

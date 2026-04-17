@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -74,7 +75,7 @@ public class TC_47 extends BeforeAndAfter {
         //Press confirm delete
         common.click(common.findWebElementById("remove-identity-verification-accept-button"));
 
-        common.explicitWaitClickableElementId("swedish-button");
+        common.waitUntilClickable(By.id("swedish-button"));
     }
 
 

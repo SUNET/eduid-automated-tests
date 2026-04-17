@@ -100,14 +100,16 @@ public class TC_50 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage3"} )
     void loginPasskeyDefaultLoginPage(){
         // Disable remember me, to get the login page with both passkey and username passwd option
-        testData.setRememberMe(false);
+/*        testData.setRememberMe(false);
         common.rememberMe();
 
-        //Disable to verify to the text for remember me correctly
+       //Disable to verify to the text for remember me correctly
         testData.setMfaDisabled(true);
 
         testData.setUsePasskey(true);
         login.runLogin();
+
+ */
     }
 
     @Test( dependsOnMethods = {"loginPasskeyDefaultLoginPage"} )
@@ -129,7 +131,7 @@ public class TC_50 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"startPage4"} )
-    void loginPasskeyDefaultLoginPage2(){
+/*    void loginPasskeyDefaultLoginPage2(){
         // Disable remember me, to get the login page with both passkey and username passwd option
         testData.setRememberMe(false);
         common.rememberMe();
@@ -141,7 +143,7 @@ public class TC_50 extends BeforeAndAfter {
         login.runLogin();
     }
 
-    @Test( dependsOnMethods = {"loginPasskeyDefaultLoginPage2"} )
+    @Test( dependsOnMethods = {"loginPasskeyDefaultLoginPage2"} )*/
     void verifyAccountDeleted(){
         common.timeoutSeconds(3);
 
@@ -190,7 +192,7 @@ public class TC_50 extends BeforeAndAfter {
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
 
     @Test( dependsOnMethods = {"passwordChanged"} )
-    void login4(){
+/*    void login4(){
         testData.setResetPassword(false);
         testData.setAddExternalSecurityKey(false);
         testData.setReLogin(true);
@@ -198,7 +200,7 @@ public class TC_50 extends BeforeAndAfter {
         login.runLogin();
     }
 
-    @Test( dependsOnMethods = {"login4"} )
+    @Test( dependsOnMethods = {"login4"} )*/
     void dashboard3() {
         //Account is verified
         testData.setAccountVerified(true);

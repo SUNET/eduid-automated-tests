@@ -24,7 +24,7 @@ public class BeforeAndAfter {
     public Login login;
     public DashBoard dashBoard;
     public Name name;
-    public EmailAddresses emailAddresses;
+    public EmailAddresses_old emailAddresses;
     public Account account;
     public Identity identity;
     public Logout logout;
@@ -70,7 +70,7 @@ public class BeforeAndAfter {
         register = new Register(common, testData);
         login = new Login(common, testData);
         name = new Name(common, testData);
-        emailAddresses = new EmailAddresses(common, testData);
+        emailAddresses = new EmailAddresses_old(common, testData);
         account = new Account(common, testData);
         identity = new Identity(common, testData, name);
         requestNewPassword = new RequestNewPassword(common, testData, register);
@@ -115,7 +115,7 @@ public class BeforeAndAfter {
         Common.log.info(testData.getTestCase() +" - "+testData.getTestMethod());
     }
 
-//    @AfterTest
+    @AfterTest
     public void quitBrowser() throws IOException {
         webdriver.quit();
         Common.log.info("End of: " + testData.getTestCase());

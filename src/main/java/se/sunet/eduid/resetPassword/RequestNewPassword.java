@@ -1,103 +1,109 @@
 package se.sunet.eduid.resetPassword;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import se.sunet.eduid.registration.Register;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
+import static se.sunet.eduid.resetPassword.RequestNewPasswordLocators.*;
+
+/**
+ * Page object för sidan "Återställ lösenord: Ange e-postadressen".
+ * Verifierar etiketter, fyller i e-postadressen och skickar formuläret.
+ */
 public class RequestNewPassword {
-    private final Common common;
+
+    private final Common   common;
     private final TestData testData;
     private final Register register;
 
-    public RequestNewPassword(Common common, TestData testData, Register register){
-        this.common = common;
+    public RequestNewPassword(Common common, TestData testData, Register register) {
+        this.common   = common;
         this.testData = testData;
         this.register = register;
     }
 
-    public void runRequestNewPassword(){
+    // -------------------------------------------------------------------------
+    // Public API
+    // -------------------------------------------------------------------------
+
+    public void runRequestNewPassword() {
         verifyPageTitle();
         verifyLabels();
         enterEmail();
         pressResetPassword();
     }
 
+    // -------------------------------------------------------------------------
+    // Navigering & inmatning
+    // -------------------------------------------------------------------------
+
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("Återställ lösenord | eduID");
+        common.waitUntilPageTitleContains("Återställ lösenord | eduID");
     }
 
-    private void enterEmail(){
-        common.findWebElementById("email").clear();
-        common.findWebElementById("email").sendKeys(testData.getUsername());
+    private void enterEmail() {
+        WebElement emailField = common.findWebElement(EMAIL_INPUT);
+        emailField.clear();
+        emailField.sendKeys(testData.getUsername());
     }
 
-    public void pressResetPassword(){
-        common.click(common.findWebElementById("reset-password-button"));
+    public void pressResetPassword() {
+        common.click(common.findWebElement(RESET_PASSWORD_BUTTON));
 
-        // If whe have initiated authentication with bankID and aborted since it's not possible to do by automation,
-        // then the captcha has already been done in the same req-pw session. Then user will not end up at captcha page
-        // after clicking forgot password link but on the send reset-pw email page
-        if(testData.getMfaMethod().equalsIgnoreCase("bankid")){
-            common.explicitWaitClickableElementId("reset-password-button");
-        }
-        else {
-            //Wait for next page, return to login
-            common.explicitWaitClickableElementId("cancel-captcha-button");
-
-            //Add nin cookie
+        // Om BankID-autentisering redan påbörjats och avbrutits i samma session
+        // hoppas captcha-steget över
+        if (testData.getMfaMethod().equalsIgnoreCase("bankid")) {
+            common.waitUntilClickable(RESET_PASSWORD_BUTTON);
+        } else {
+            common.waitUntilClickable(CANCEL_CAPTCHA_BUTTON);
             common.addNinCookie();
             register.enterCaptchaCode();
         }
 
-        //If non-existing user is submitted
-        if(testData.isIncorrectPassword()){
-            common.verifyStatusMessage("Användaren hittades inte. Vänligen försök igen.");
-
-            common.selectEnglish();
-
-            common.verifyStatusMessage("User not found. Please try again.");
-        }
-        else {
-            //wait for the Send-again button on next page
-            common.explicitWaitClickableElementId("response-code-abort-button");
+        if (testData.isIncorrectPassword()) {
+            verifyUserNotFoundError();
+        } else {
+            common.waitUntilClickable(ABORT_BUTTON);
         }
     }
 
-    private void verifyLabels(){
-        //Heading
-        common.verifyStringOnPage("Återställ lösenord: Ange e-postadressen");
+    private void verifyUserNotFoundError() {
+        common.verifyStatusMessage("Användaren hittades inte. Vänligen försök igen.");
+        common.selectEnglish();
+        common.verifyStatusMessage("User not found. Please try again.");
+    }
 
+    // -------------------------------------------------------------------------
+    // Etikett-verifiering
+    // -------------------------------------------------------------------------
+
+    private void verifyLabels() {
+        verifyLabelsSwedish();
+        common.selectEnglish();
+        verifyLabelsEnglish();
+        common.selectSwedish();
+    }
+
+    private void verifyLabelsSwedish() {
+        common.verifyStringOnPage("Återställ lösenord: Ange e-postadressen");
         common.verifyStringOnPage("Om det finns en användare med den epostadressen, skickas ett mail " +
                 "med instruktioner från no-reply@eduid.se.");
-        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "E-postadress");
+        common.verifyString(EMAIL_LABEL_XPATH, "E-postadress");
+        common.verifyPlaceholderBy("namn@example.com", EMAIL_INPUT);
+        common.verifyString(RESET_PASSWORD_BUTTON, "SKICKA E-POST");
+        common.verifyString(GO_BACK_BUTTON, "TILLBAKA");
+    }
 
-        //Verify placeholder
-        common.verifyPlaceholder("namn@example.com", "email");
-
-        //Buttons
-        common.verifyStringById("reset-password-button", "SKICKA E-POST");
-        common.verifyStringById("go-back-button", "TILLBAKA");
-
-        //Switch to english
-        common.selectEnglish();
-
+    private void verifyLabelsEnglish() {
         common.verifyPageTitle("Reset password | eduID");
-
-        //Heading
         common.verifyStringOnPage("Reset password: Enter the email address");
-
         common.verifyStringOnPage("Once entered, if the address is registered, a message with " +
                 "instructions to reset the password will be sent from no-reply@eduid.se.");
-        common.verifyStringByXpath("//*[@id=\"email-wrapper\"]/div/label", "Email address");
-
-        //Verify placeholder
-        common.verifyPlaceholder("name@example.com", "email");
-
-        //Buttons
-        common.verifyStringById("reset-password-button", "SEND EMAIL");
-        common.verifyStringById("go-back-button", "GO BACK");
-
-        //Switch to swedish
-        common.selectSwedish();
+        common.verifyString(EMAIL_LABEL_XPATH, "Email address");
+        common.verifyPlaceholderBy("name@example.com", EMAIL_INPUT);
+        common.verifyString(RESET_PASSWORD_BUTTON, "SEND EMAIL");
+        common.verifyString(GO_BACK_BUTTON, "GO BACK");
     }
 }

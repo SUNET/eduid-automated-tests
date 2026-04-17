@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -126,7 +127,7 @@ public class TC_43 extends BeforeAndAfter {
     }
 
     private void loginSupportTool(){
-        common.explicitWaitClickableElementId("email");
+        common.waitUntilClickable(By.id("email"));
 
         //Click on not you, otherwise last username is pre-filled
         common.findWebElementById("wrong-person-button").click();

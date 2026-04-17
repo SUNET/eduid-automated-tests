@@ -8,7 +8,7 @@ import java.io.IOException;
 public class WCAG_2 extends BeforeAndAfter
 {
     @Test
-    public void startPage() throws IOException {
+    public void startPage() {
         testData.setCounter(2);
         startPage.runStartPage();
     }

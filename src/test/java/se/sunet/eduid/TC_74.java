@@ -48,11 +48,12 @@ public class TC_74 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmLoginCancel"} )
     void verifyCanceledLogin() {
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Logga in på en annan enhet");
+        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Avbrutet. Du kan stänga det här fönstret.");
+
+        common.selectEnglish();
         common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Log in on another device");
         common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Request cancelled. You should close this browser window.");
 
-        common.selectSwedish();
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Logga in på en annan enhet");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Avbrutet. Du kan stänga det här fönstret.");
     }
 }

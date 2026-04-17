@@ -1,5 +1,7 @@
 package se.sunet.eduid.swamid;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -19,8 +21,7 @@ public class Swamid {
 
     private void selectIdp(){
         //Press select IDP
-        common.explicitWaitClickableElement("//div/div[2]/div[2]/a/button");
-        common.findWebElementByXpath("//div/div[2]/div[2]/a/button").click();
+        common.waitUntilClickable(By.xpath("//div/div[2]/div[2]/a/button")).click();
         common.timeoutMilliSeconds(1000);
 
         //Switch to first iframe
@@ -33,12 +34,13 @@ public class Swamid {
         common.getWebDriver().switchTo().defaultContent();
 
         //wait for next page
-        common.explicitWaitClickableElementId("searchinput");
+        common.waitUntilClickable(By.id("searchinput"));
     }
 
     public void navigateEduId(String searchString){
-        common.findWebElementById("searchinput").clear();
-        common.findWebElementById("searchinput").sendKeys(searchString);
+        WebElement searchInput = common.findWebElementById("searchinput");
+        searchInput.clear();
+        searchInput.sendKeys(searchString);
         common.timeoutMilliSeconds(1500);
 
         //Select eduid staging
@@ -46,6 +48,6 @@ public class Swamid {
 
         //Wait for the eduID log in page to load
         common.timeoutMilliSeconds(1000);
-        common.explicitWaitPageTitle("Logga in | eduID");
+        common.waitUntilPageTitleContains("Logga in | eduID");
     }
 }

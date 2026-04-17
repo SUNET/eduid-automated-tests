@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
@@ -90,7 +91,7 @@ public class TC_90 extends BeforeAndAfter {
         common.navigateToUrl("https://fidustest.skolverket.se/DNP-staging/");
 
         //Wait for login button (with eID) at skolverket dnp page
-        common.explicitWaitClickableElement("//div[2]/div/div/p[3]");
+        common.waitUntilClickable(By.xpath("//div[2]/div/div/p[3]"));
     }
 
     @Test( dependsOnMethods = {"navigateToFidusTestSkolverketDnp"} )
@@ -99,24 +100,15 @@ public class TC_90 extends BeforeAndAfter {
         common.findWebElementByXpath("//div[2]/div/div/p[3]/a/button").click();
 
         //Wait for idp search field
-        common.explicitWaitClickableElementId("searchinput");
+        common.waitUntilClickable(By.id("searchinput"));
     }
 
     @Test( dependsOnMethods = {"loginWithEid"} )
-    public void navigateEduId(){
-        common.findWebElementById("searchinput").clear();
-        common.findWebElementById("searchinput").sendKeys("eduid staging");
-        common.timeoutMilliSeconds(3500);
-
-        //Select eduid staging
-        common.click(common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/li/a"));
-
-        //Wait for the eduID log in page to load
-        common.timeoutMilliSeconds(2000);
-        common.explicitWaitPageTitle("Logga in | eduID");
+    public void navigateToEduId(){
+        common.navigateToEduId();
     }
 
-    @Test( dependsOnMethods = {"navigateEduId"} )
+    @Test( dependsOnMethods = {"navigateToEduId"} )
     void loginMfaSecurityKey2() {
         //Set mfa method to be used to "security key" at login.
         testData.setMfaMethod("securitykey");
@@ -132,7 +124,7 @@ public class TC_90 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"loginMfaSecurityKey2"} )
     void validateSuccessfulLogin(){
         //Wait for handling of personal info link
-        common.explicitWaitVisibilityElement("//div[2]/div/div/p[5]/a");
+        common.waitUntilVisible(By.xpath("//div[2]/div/div/p[5]/a"));
 
         common.verifyStringOnPage("Grattis!\n" +
                 "Du har nu lyckats logga in till testsidan.");

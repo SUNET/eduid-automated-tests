@@ -70,8 +70,10 @@ public class TC_51 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void verifyFrejaEidPage(){
         //Wait and see that we come to Freja eID OpenID Connect - Logga in - page
-        common.explicitWaitPageTitle("Freja eID OpenID Connect - Logga in");
-        common.verifyStringOnPage("För att gå vidare skanna QR-koden");
+        common.waitUntilPageTitleContains("Freja eID OpenID Connect - Logga in");
+        common.verifyStringOnPage("Logga in på eduID Sweden");
+        common.verifyStringOnPage("Öppna Freja-appen och tryck på knappen ”Skanna”.\n" +
+                "Skanna QR-koden.");
     }
 
     @Test( dependsOnMethods = {"verifyFrejaEidPage"} )
@@ -86,16 +88,6 @@ public class TC_51 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
-   /* void verifySamlFailPage() {
-        common.explicitWaitClickableElementId("dashboard-button");
-        common.verifyStringOnPage("Ett fel uppstod under åtkomst till tjänsten.");
-
-        //Select to navigate to dashboard
-        common.findWebElementById("dashboard-button").click();
-        common.timeoutSeconds(2);
-    }
-
-    @Test( dependsOnMethods = {"verifySamlFailPage"} )*/
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();

@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -24,7 +25,7 @@ public class TC_67 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage2"} )
     void verifySignInPage() {
         //Verify label with registered display name
-        common.explicitWaitClickableElementId("login-form-button");
+        common.waitUntilClickable(By.id("login-form-button"));
         common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName() +"!");
 
         //Verify placeholder for username

@@ -87,7 +87,7 @@ public class TC_52 extends BeforeAndAfter {
 
     //Verify at dashboard that all security options are checked
     @Test( dependsOnMethods = {"verifiedSecurityKeyStatus"} )
-    void dashboard() throws IOException {
+    void dashboard() {
         //In this case we have updated the display name from country XA
         testData.setDisplayName("Bernt Olof" +" " +"Larsson");
         testData.setVerifySecurityKeyByEidas(true);

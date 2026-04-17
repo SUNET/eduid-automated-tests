@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
@@ -66,10 +67,9 @@ public class TC_85 extends BeforeAndAfter {
     void logInSomething(){
         common.navigateToUrl("https://ds.fidus.skolverket.se/ds/?entityID=https%3A%2F%2Fidpproxy.dev.eduid.se%2Fsp&return=https%3A%2F%2Fidpproxy.dev.eduid.se%2FSaml2SP%2Fdisco");
 
-        common.explicitWaitVisibilityElementId("searchinput");
+        common.waitUntilClickable(By.id("searchinput"));
         common.findWebElementById("searchinput").sendKeys("eduid staging");
-        //testData.setRegisterAccount(true);
-        //startPage.runStartPage();
+
         common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/a/li/div/div[1]").click();
 
         common.timeoutSeconds(5);
@@ -115,7 +115,7 @@ public class TC_85 extends BeforeAndAfter {
 //    @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
     void selectUserRefIdp2(){
         //Select and submit user
-        common.explicitWaitClickableElementId("submitButton");
+        common.waitUntilClickable(By.id("submitButton"));
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
         common.findWebElementById("submitButton").click();

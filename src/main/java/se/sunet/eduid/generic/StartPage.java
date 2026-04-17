@@ -4,111 +4,136 @@ import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
+import static se.sunet.eduid.generic.StartPageLocators.*;
+
+/**
+ * Page object for the eduID start/splash page.
+ *
+ * Responsibilities:
+ *  - Wait for the page to be ready.
+ *  - Verify page title, footer, and all visible labels in both languages.
+ *  - Navigate to either registration or login based on the test scenario.
+ */
 public class StartPage {
-    private final Common common;
+
+    private final Common   common;
     private final TestData testData;
 
-    //Buttons and text at page
-    String buttonSign = "sign-up-button";
-    String buttonLogin = "login-button";
-    String h1EduEasierAndSafer = "//*[@id=\"eduid-splash-and-children\"]/div[1]/h1";
-    String  pCreateEduAndConnect = "//p[.//strong]";
-    String pEduEasierForYou = "//html/body/div/div/main/div/section/div/div[1]/p[2]";
-    String pYouCanReadMore = "//p[.//a[@target='_blank']]";
-    String linkSunet = "//a[@target='_blank']";
-    String linkHelp = "//*[@id=\"eduid-splash-and-children\"]/div[1]/p[3]/a[2]";
-
-    public StartPage(Common common, TestData testData){
-        this.common = common;
+    public StartPage(Common common, TestData testData) {
+        this.common   = common;
         this.testData = testData;
     }
 
-    public void runStartPage(){
-        //Wait for sign up button
-        common.explicitWaitClickableElementId(buttonSign);
+    // -------------------------------------------------------------------------
+    // Public API
+    // -------------------------------------------------------------------------
 
+    public void runStartPage() {
+        common.waitUntilClickable(SIGN_UP_BUTTON);
         verifyPageTitle();
-        verifyLabelsSwedish();
-        if(testData.isRegisterAccount())
+        verifyLabels();
+
+        if (testData.isRegisterAccount()) {
             registerAccount();
-        else
+        } else {
             signIn();
+        }
     }
+
+    // -------------------------------------------------------------------------
+    // Navigation
+    // -------------------------------------------------------------------------
+
+    private void signIn() {
+        common.click(common.waitUntilClickable(LOGIN_BUTTON));
+        common.waitUntilPageTitleContains("Logga in | eduID");
+    }
+
+    private void registerAccount() {
+        common.click(common.findWebElement(SIGN_UP_BUTTON));
+    }
+
+    // -------------------------------------------------------------------------
+    // Page verification
+    // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        common.explicitWaitPageTitle("eduID");
-
-        //Verify footer
-        common.verifyStringOnPage("©2013-" +common.getDate().toString().substring(0,4));
+        common.waitUntilPageTitleContains("eduID");
+        String currentYear = common.getDate().toString().substring(0, 4);
+        common.verifyStringOnPage("©2013-" + currentYear);
     }
 
-    private void signIn(){
-        //Click on sign in link
-        common.explicitWaitClickableElementId(buttonLogin);
+    /**
+     * Verifies labels in Swedish first, then switches to English and verifies,
+     * then restores Swedish — consistent with the pattern used in Login.
+     */
+    private void verifyLabels() {
+        common.selectSwedish();
+        verifyLabelsSwedish();
 
-        common.click(common.findWebElementById(buttonLogin));
+        common.selectEnglish();
 
-        //Wait for log in page
-        common.explicitWaitPageTitle("Logga in | eduID");
+        verifyLabelsEnglish();
+        common.selectSwedish();
     }
 
-    private void registerAccount(){
-        //Click on sign up button
-        common.click(common.findWebElementById(buttonSign));
-    }
-
-    public void verifyLabelsSwedish(){
-        common.verifyStringByXpath(h1EduEasierAndSafer,
+    public void verifyLabelsSwedish() {
+        common.verifyString(H1_HEADLINE,
                 "Säkrare och enklare inloggning med eduID");
-        common.verifyStringByXpath(pCreateEduAndConnect,
+        common.verifyString(P_CREATE_EDU,
                 "Skapa ett eduID och koppla det till din identitet för att få tillgång till tjänster " +
-                        "och organisationer som är relaterade till högre utbildning.");
-        common.verifyStringByXpath(pEduEasierForYou,
+                "och organisationer som är relaterade till högre utbildning.");
+        common.verifyString(P_EDU_EASIER,
                 "eduID är enklare eftersom du bara har en inloggning och säkrare eftersom det är " +
-                        "kopplat till en verklig person - dig.");
-        common.verifyStringByXpath(pYouCanReadMore,
+                "kopplat till en verklig person - dig.");
+        common.verifyString(P_READ_MORE,
                 "Du kan läsa mer om eduID på Sunets webbplats och i vårt hjälpinnehåll, alltid " +
-                        "tillgängligt i sidfoten. Registrera dig eller logga in med knapparna nedan!");
+                "tillgängligt i sidfoten. Registrera dig eller logga in med knapparna nedan!");
 
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[2]/div[1]",
-                "Skapa ett grundläggande konto med din e-postadress.");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[2]/div[2]",
-                "Bevisa att du är DU.");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[2]/div[3]",
-                "Höj din inloggningssäkerhet.");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[2]/div[4]",
-                "Höj nivån igen - bevisa att DU loggar in.");
-
-        //Verify link to Sunet and Help page works
-        common.timeoutMilliSeconds(500);
-        common.verifyXpathIsWorkingLink(linkSunet);
-        common.verifyXpathIsWorkingLink(linkHelp);
+        verifyStepsSwedish();
+        verifyLinks();
     }
 
-    private void verifyLabelsEnglish(){
-        common.verifyStringByXpath(h1EduEasierAndSafer,
+    private void verifyLabelsEnglish() {
+        common.verifyString(H1_HEADLINE,
                 "Safer and easier login with eduID");
-        common.verifyStringByXpath(pCreateEduAndConnect,
+        common.verifyString(P_CREATE_EDU,
                 "Create an eduID and connect it to your identity for access to services and " +
-                        "organisations related to higher education.");
-        common.verifyStringByXpath(pEduEasierForYou,
+                "organisations related to higher education.");
+        common.verifyString(P_EDU_EASIER,
                 "eduID is easier because you only have one login and safer because it's connected to " +
-                        "a real individual - you.");
-        common.verifyStringByXpath(pYouCanReadMore,
+                "a real individual - you.");
+        common.verifyString(P_READ_MORE,
                 "You can read more about eduID at Sunet's website and in our help content, always" +
-                        " accessible from the footer. Register or log in using the buttons below!");
+                " accessible from the footer. Register or log in using the buttons below!");
 
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[2]/div[1]",
-                "Create a basic account with your email address.");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[2]/div[2]",
-                "Prove that you are YOU.");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[2]/div[3]",
-                "Level up your login security.");
-        common.verifyStringByXpath("//*[@id=\"eduid-splash-and-children\"]/div[2]/div[4]",
-                "Level up again - proving that YOU are logging in.");
+        verifyStepsEnglish();
+        verifyLinks();
+    }
 
-        //Verify link to Sunet and Help page works
-        common.verifyXpathIsWorkingLink(linkSunet);
-        common.verifyXpathIsWorkingLink(linkHelp);
+    private void verifyStepsSwedish() {
+        common.waitUntilPresence(STEP_1);
+        common.verifyString(STEP_1, "Skapa ett grundläggande konto med din e-postadress.");
+        common.verifyString(STEP_2, "Bevisa att du är DU.");
+        common.verifyString(STEP_3, "Höj din inloggningssäkerhet.");
+        common.verifyString(STEP_4, "Höj nivån igen - bevisa att DU loggar in.");
+    }
+
+    private void verifyStepsEnglish() {
+        common.verifyString(STEP_1, "Create a basic account with your email address.");
+        common.verifyString(STEP_2, "Prove that you are YOU.");
+        common.verifyString(STEP_3, "Level up your login security.");
+        common.verifyString(STEP_4, "Level up again - proving that YOU are logging in.");
+    }
+
+    /**
+     * Link targets don't change between languages — verified once per language pass
+     * so any breakage is caught regardless of which language is active.
+     */
+    private void verifyLinks() {
+        common.verifyLocatorIsWorkingLink(LINK_SUNET);
+        common.verifyLocatorIsWorkingLink(LINK_HELP);
+        common.verifyLocatorIsWorkingLink(LINK_SUNET_IN_TEXT);
+        common.verifyLocatorIsWorkingLink(LINK_HELP_IN_TEXT);
     }
 }

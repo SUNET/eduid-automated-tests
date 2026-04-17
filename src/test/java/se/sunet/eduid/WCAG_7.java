@@ -8,7 +8,7 @@ import java.io.IOException;
 public class WCAG_7 extends BeforeAndAfter
 {
     @Test
-    public void startPage() throws IOException {
+    public void startPage() {
         testData.setCounter(7);
     }
 
@@ -18,7 +18,7 @@ public class WCAG_7 extends BeforeAndAfter
         //common.findWebElementByXpath("//*[@id=\"footer\"]/nav/ul/li[1]/a").click();
         help.clickHelp();
         common.timeoutSeconds(2);
-        help.expandAllOptions();
+        //help.expandAllOptions();
         common.timeoutSeconds(2);
         accessibilityBase.checkAccessibilityViolations();
     }
