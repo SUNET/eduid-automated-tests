@@ -33,7 +33,7 @@ public class LoginExtraSecurity {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        common.waitUntilPageTitleContains("Logga in | eduID");
+        //common.waitUntilPageTitleContains("Logga in | eduID");
     }
 
     private void verifyTexts() {

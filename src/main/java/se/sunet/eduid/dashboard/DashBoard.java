@@ -57,7 +57,7 @@ public class DashBoard {
         common.selectSwedish();
         log.info("Verifying dashboard labels in Swedish");
 
-        common.verifyPageTitle("Start | eduID");
+        common.waitUntilPageTitleContains("Start | eduID");
         String pageBody = common.getPageBody();
 
         if (testData.getTestClassName().equalsIgnoreCase("TC_1")) {
@@ -94,7 +94,7 @@ public class DashBoard {
         }
 
         log.info("Verifying dashboard labels in English");
-        common.verifyPageTitle("Start | eduID");
+        common.waitUntilPageTitleContains("Start | eduID");
         String pageBody = common.getPageBody();
 
         if (testData.getTestClassName().equalsIgnoreCase("TC_1")) {

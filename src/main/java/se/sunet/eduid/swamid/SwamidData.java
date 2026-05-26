@@ -36,7 +36,7 @@ public class SwamidData {
             Assert.assertEquals(rows.size(), 13, "Number of rows in user data table has changed, i.e eduID has " +
                     "release more attributes that it should. Should be 14, now its " + rows.size());
 
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/h3[2]", "Result for eduID staging (https://idp.dev.eduid.se/idp.xml)");
+            common.verifyStringByXpath("//*[@id=\"attributes\"]/h3[2]", "Result för eduID staging (https://idp.dev.eduid.se/idp.xml)");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[2]/td", "se");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[3]/td", testData.getDisplayName());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[4]/td", "Sweden");
@@ -47,7 +47,11 @@ public class SwamidData {
                             "https://refeds.org/assurance/ID/unique\n" +
                             "https://refeds.org/assurance/ID/eppn-unique-no-reassign\n" +
                             "https://refeds.org/assurance/IAP/low");
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[7]/td", testData.getEppn() +"@dev.eduid.se");
+
+            //When register an account triggered from swamid release check SP, user never sees the eppn
+            if(!testData.isSwamidSp()) {
+                common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[7]/td", testData.getEppn() + "@dev.eduid.se");
+            }
             common.verifyXpathContainsString("//*[@id=\"attributes\"]/table[1]/tbody/tr[8]/td",
                     "https://idp.dev.eduid.se/idp.xml!https://release-check.qa.swamid.se/shibboleth!");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[9]/td", testData.getGivenName());
@@ -55,7 +59,11 @@ public class SwamidData {
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[11]/td", testData.getEmail());
             //common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[12]/td", testData.getDisplayName());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[12]/td", testData.getSurName());
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[13]/td", testData.getEppn() +"@dev.eduid.se");
+
+            //When register an account triggered from swamid release check SP, user never sees the eppn
+            if(!testData.isSwamidSp()) {
+                common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[13]/td", testData.getEppn() + "@dev.eduid.se");
+            }
         }
         else if(!testData.getMfaMethod().isEmpty()) {
             //Given name and Surname will always be Magic Cookie Testsson when user is confirmed using some magic
@@ -65,7 +73,7 @@ public class SwamidData {
 
             Assert.assertEquals(rows.size(), 17, "Number of rows in user data table has changed, i.e eduID has " +
                     "release more attributes that it should. Should be 17, now its " + rows.size());
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/h3[2]", "Result for eduID staging (https://idp.dev.eduid.se/idp.xml)");
+            common.verifyStringByXpath("//*[@id=\"attributes\"]/h3[2]", "Result för eduID staging (https://idp.dev.eduid.se/idp.xml)");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[2]/td", "se");
             common.verifyXpathContainsString("//*[@id=\"attributes\"]/table[1]/tbody/tr[3]/td", testData.getGivenName() + " " +testData.getSurName());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[4]/td", "Sweden");
@@ -112,7 +120,7 @@ public class SwamidData {
             Assert.assertEquals(rows.size(), 13, "Number of rows in user data table has changed, i.e eduID has " +
                     "release more attributes that it should. Should be 13, now its " + rows.size());
 
-            common.verifyStringByXpath("//*[@id=\"attributes\"]/h3[2]", "Result for eduID staging (https://idp.dev.eduid.se/idp.xml)");
+            common.verifyStringByXpath("//*[@id=\"attributes\"]/h3[2]", "Result för eduID staging (https://idp.dev.eduid.se/idp.xml)");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[2]/td", "se");
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[3]/td", testData.getDisplayName());
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[1]/tbody/tr[4]/td", "Sweden");
@@ -190,7 +198,7 @@ public class SwamidData {
         common.verifyStringNotEmptyByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[3]/td",
                 "//*[@id=\"attributes\"]/table[3]/tbody/tr[3]/th");
 
-        if(testData.getMfaMethod().isEmpty()){
+        if(testData.getMfaMethod().isEmpty() &!testData.isSwamidSp()){
             //Authentication method
             common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[4]/td",
                     "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
@@ -209,7 +217,7 @@ public class SwamidData {
                 common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[5]/td",
                         "https://refeds.org/profile/sfa");
             }
-            else if(testData.getMfaMethod().equalsIgnoreCase("freja")) {
+            else if(testData.getMfaMethod().equalsIgnoreCase("freja") || testData.isSwamidSp()) {
                 //Authentication method
                 common.verifyStringByXpath("//*[@id=\"attributes\"]/table[3]/tbody/tr[4]/td",
                         "https://refeds.org/profile/mfa");

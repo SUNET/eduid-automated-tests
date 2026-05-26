@@ -30,7 +30,7 @@ public final class StartPageLocators {
     public static final By LINK_HELP_IN_TEXT     = By.cssSelector("#eduid-splash-and-children > div.landing-content.horizontal-content-margin > p.med-txt > a:nth-child(2)");
 
     // ===== STEPS =====
-    public static final By STEP_1        = By.cssSelector("#eduid-splash-and-children div.flex-between.landing-howTo div:nth-child(1)");
+    public static final By STEP_1        = By.cssSelector("#eduid-splash-and-children > div.flex-between.landing-how-to > div:nth-child(1)");
     public static final By STEP_2        = By.cssSelector("#eduid-splash-and-children div:nth-child(2) div:nth-child(2)");
     public static final By STEP_3        = By.cssSelector("#eduid-splash-and-children div:nth-child(2) div:nth-child(3)");
     public static final By STEP_4        = By.cssSelector("#eduid-splash-and-children div:nth-child(2) div:nth-child(4)");

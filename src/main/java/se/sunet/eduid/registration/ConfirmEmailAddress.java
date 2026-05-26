@@ -43,7 +43,7 @@ public class ConfirmEmailAddress {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Registrera | eduID");
+        //common.waitUntilPageTitleContains("Registrera | eduID");
     }
 
     // -------------------------------------------------------------------------

@@ -35,6 +35,7 @@ public class SecurityKey {
         navigateToSecurityPage();
         verifySecurityLabels();
         addSecurityKey();
+        verifyAfterKeyAdded();
     }
 
     public void deleteSecurityKey() {
@@ -82,9 +83,13 @@ public class SecurityKey {
     // Add security key flow
     // -------------------------------------------------------------------------
 
-    private void addSecurityKey() {
+    public void addSecurityKey() {
         if (testData.isAddInternalPassKey()) {
             common.createVirtualWebAuthn();
+
+            //TODO check that this works for TC_50
+            common.findWebElement(ADD_INTERNAL_KEY_BUTTON).click();
+
         } else if (testData.isAddExternalSecurityKey()) {
             virtualAuthenticator();
             common.selectSwedish();
@@ -110,10 +115,10 @@ public class SecurityKey {
         log.info("Added security key '{}' and clicked OK", KEY_NAME);
         common.timeoutMilliSeconds(500);
 
-        verifyAfterKeyAdded();
+        //verifyAfterKeyAdded();
     }
 
-    private void verifyAfterKeyAdded() {
+    public void verifyAfterKeyAdded() {
         if (testData.isVerifySecurityKeyByFreja()) {
             verifyAndProceedWithMethod("Freja",
                     VERIFY_FREJA_BUTTON,
@@ -203,7 +208,7 @@ public class SecurityKey {
         common.selectEnglish();
         log.info("Verifying security page labels — English");
 
-        common.verifyPageTitle("Security | eduID");
+        common.waitUntilPageTitleContains("Security | eduID");
         pageBody = common.getPageBody();
 
         common.verifyPageBodyContainsString(pageBody, "Security");

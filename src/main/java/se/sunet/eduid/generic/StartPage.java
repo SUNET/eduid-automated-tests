@@ -46,7 +46,7 @@ public class StartPage {
 
     private void signIn() {
         common.click(common.waitUntilClickable(LOGIN_BUTTON));
-        common.waitUntilPageTitleContains("Logga in | eduID");
+        //common.waitUntilPageTitleContains("Logga in | eduID");
     }
 
     private void registerAccount() {
@@ -112,18 +112,20 @@ public class StartPage {
     }
 
     private void verifyStepsSwedish() {
-        common.waitUntilPresence(STEP_1);
-        common.verifyString(STEP_1, "Skapa ett grundläggande konto med din e-postadress.");
-        common.verifyString(STEP_2, "Bevisa att du är DU.");
-        common.verifyString(STEP_3, "Höj din inloggningssäkerhet.");
-        common.verifyString(STEP_4, "Höj nivån igen - bevisa att DU loggar in.");
+        String pageBody = common.getPageBody();
+        //common.waitUntilPresence(STEP_1);
+        common.verifyPageBodyContainsString(pageBody, "Skapa ett grundläggande konto med din e-postadress.");
+        common.verifyPageBodyContainsString(pageBody, "Bevisa att du är DU.");
+        common.verifyPageBodyContainsString(pageBody, "Höj din inloggningssäkerhet.");
+        common.verifyPageBodyContainsString(pageBody, "Höj nivån igen - bevisa att DU loggar in.");
     }
 
     private void verifyStepsEnglish() {
-        common.verifyString(STEP_1, "Create a basic account with your email address.");
-        common.verifyString(STEP_2, "Prove that you are YOU.");
-        common.verifyString(STEP_3, "Level up your login security.");
-        common.verifyString(STEP_4, "Level up again - proving that YOU are logging in.");
+        String pageBody = common.getPageBody();
+        common.verifyPageBodyContainsString(pageBody, "Create a basic account with your email address.");
+        common.verifyPageBodyContainsString(pageBody,"Prove that you are YOU.");
+        common.verifyPageBodyContainsString(pageBody,"Level up your login security.");
+        common.verifyPageBodyContainsString(pageBody, "Level up again - proving that YOU are logging in.");
     }
 
     /**

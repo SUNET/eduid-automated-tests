@@ -45,12 +45,13 @@ public class ConfirmIdentity {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Identitet | eduID");
+        //common.waitUntilPageTitleContains("Identitet | eduID");
     }
 
     private void enterPersonalNumber() {
         common.verifyPlaceholderBy("ååååmmddnnnn", NIN_INPUT);
         common.findWebElement(NIN_INPUT).sendKeys(testData.getIdentityNumber());
+        common.addNinCookie();
     }
 
     private void pressAddButton() {

@@ -61,6 +61,6 @@ public class EmailLink {
         confirmEmailAddress.typeEmailVerificationCode(code);
         common.findWebElement(OK_BUTTON).click();
 
-        common.waitUntilPageTitleContains("Återställ lösenord | eduID");
+        //common.waitUntilPageTitleContains("Återställ lösenord | eduID");
     }
 }

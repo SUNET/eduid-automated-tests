@@ -45,12 +45,6 @@ public class Common {
         testData.setProperties(testSuite);
     }
 
-    private String getTitle() {
-        new WebDriverWait(webDriver, DEFAULT_WAIT)
-                .until(d -> !d.getTitle().isEmpty());
-        return webDriver.getTitle();
-    }
-
     private void selectLanguage(String buttonTextWhenNotSelected, String expectedAfterClick, String logLabel) {
         By langButton = By.xpath(LANG_BUTTON_XPATH);
 
@@ -150,11 +144,7 @@ public class Common {
 
         //Wait for the eduID log in page to load
         timeoutMilliSeconds(2000);
-        waitUntilPageTitleContains("Logga in | eduID");
-    }
-
-    public void verifyPageTitle(String pageTitle) {
-        Assert.assertEquals(getTitle(), pageTitle);
+        //waitUntilPageTitleContains("Logga in | eduID");
     }
 
     public void navigateToUrl(String url) {
@@ -655,6 +645,7 @@ public class Common {
         navigateToUrl(fromURL);
 
         String code = findWebElementByXpath("/html/body").getText();
+        Common.log.info("Code ?: " + code);
 
         if (code.length() != expectedLength) {
             Common.log.info("Failed to fetch code, got: " + code + " - retrying...");

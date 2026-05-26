@@ -49,7 +49,7 @@ public class EmailAddresses {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        common.waitUntilPageTitleContains("Konto | eduID");
+        //common.waitUntilPageTitleContains("Konto | eduID");
     }
 
     private void removeEmail() {

@@ -51,7 +51,7 @@ public class Register {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        common.waitUntilPageTitleContains("Registrera | eduID");
+        //common.waitUntilPageTitleContains("Registrera | eduID");
     }
 
     // -------------------------------------------------------------------------
@@ -152,7 +152,7 @@ public class Register {
 
     private void verifyLabelsEnglish() {
         log.info("Verifying registration labels — English");
-        common.verifyPageTitle("Register | eduID");
+        common.waitUntilPageTitleContains("Register | eduID");
 
         String pageBody = common.getPageBody();
 

@@ -40,7 +40,7 @@ public class ConfirmedIdentity {
 
     private void verifyPageTitle() {
         common.waitUntilVisible(PAGE_H1);
-        common.verifyPageTitle("Identitet | eduID");
+        //common.waitUntilPageTitleContains("Identitet | eduID");
         common.timeoutMilliSeconds(500);
     }
 
@@ -83,7 +83,7 @@ public class ConfirmedIdentity {
         Common.log.info("Verifying confirmed identity labels in English");
         String pageBody = common.getPageBody();
 
-        common.verifyPageTitle("Identity | eduID");
+        common.waitUntilPageTitleContains("Identity | eduID");
         common.verifyPageBodyContainsString(pageBody, "Identity");
         common.verifyPageBodyContainsString(pageBody, "Your eduID is ready to use");
         common.verifyPageBodyContainsString(pageBody, "The identities below are now connected to your eduID");

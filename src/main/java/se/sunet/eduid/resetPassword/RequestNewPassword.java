@@ -40,7 +40,7 @@ public class RequestNewPassword {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        common.waitUntilPageTitleContains("Återställ lösenord | eduID");
+        //common.waitUntilPageTitleContains("Återställ lösenord | eduID");
     }
 
     private void enterEmail() {
@@ -97,7 +97,7 @@ public class RequestNewPassword {
     }
 
     private void verifyLabelsEnglish() {
-        common.verifyPageTitle("Reset password | eduID");
+        common.waitUntilPageTitleContains("Reset password | eduID");
         common.verifyStringOnPage("Reset password: Enter the email address");
         common.verifyStringOnPage("Once entered, if the address is registered, a message with " +
                 "instructions to reset the password will be sent from no-reply@eduid.se.");

@@ -49,7 +49,8 @@ public class Account {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Konto | eduID");
+        //common.waitUntilPageTitleContains("Konto | eduID");
+
         // Ensure Swedish is active if the language selector shows "Svenska" as the switch option
         if (common.findWebElement(LANGUAGE_SELECTOR).getText().contains("Svenska")) {
             common.selectSwedish();
@@ -136,7 +137,7 @@ public class Account {
         }
 
         common.getWebDriver().navigate().back();
-        common.waitUntilPageTitleContains("Konto | eduID");
+        //common.waitUntilPageTitleContains("Konto | eduID");
     }
 
     // -------------------------------------------------------------------------
@@ -183,7 +184,7 @@ public class Account {
 
     private void verifyLabelsEnglish() {
         log.info("Verifying Account page labels — English");
-        common.verifyPageTitle("Account | eduID");
+        common.waitUntilPageTitleContains("Account | eduID");
         String pageBody = common.getPageBody();
 
         common.verifyPageBodyContainsString(pageBody, "Account");

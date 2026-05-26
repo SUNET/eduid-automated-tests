@@ -29,7 +29,7 @@ public class Sunet {
     }
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("eduID | Sunet");
+        common.waitUntilPageTitleContains("eduID | Sunet");
     }
 
     private void verifyPageBody() {

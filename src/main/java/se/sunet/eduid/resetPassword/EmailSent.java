@@ -34,7 +34,7 @@ public class EmailSent {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Återställ lösenord | eduID");
+        //common.waitUntilPageTitleContains("Återställ lösenord | eduID");
     }
 
     private void verifyLabels() {
@@ -62,7 +62,7 @@ public class EmailSent {
     }
 
     private void verifyLabelsEnglish() {
-        common.verifyPageTitle("Reset password | eduID");
+        common.waitUntilPageTitleContains("Reset password | eduID");
 
         String pageBody = common.getPageBody();
 

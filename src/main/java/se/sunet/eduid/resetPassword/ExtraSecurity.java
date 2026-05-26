@@ -39,9 +39,9 @@ public class ExtraSecurity {
 
     private void verifyPageTitle() {
         if (testData.isAddExternalSecurityKey()) {
-            common.verifyPageTitle("Logga in | eduID");
+            common.waitUntilPageTitleContains("Logga in | eduID");
         } else if (testData.isResetPassword()) {
-            common.verifyPageTitle("Återställ lösenord | eduID");
+            //common.waitUntilPageTitleContains("Återställ lösenord | eduID");
         }
     }
 

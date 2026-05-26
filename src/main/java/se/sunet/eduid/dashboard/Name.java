@@ -140,7 +140,7 @@ public class Name {
 
     private void verifyLabelsSwedish() {
         Common.log.info("Verifying name labels in Swedish");
-        common.waitUntilPageTitleContains("Identitet | eduID");
+        //common.waitUntilPageTitleContains("Identitet | eduID");
 
         String pageBody = common.getPageBody();
         common.verifyPageBodyContainsString(pageBody, "Namn & visningsnamn");

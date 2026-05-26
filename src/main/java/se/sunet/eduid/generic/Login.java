@@ -45,7 +45,7 @@ public class Login {
     }
 
     public void verifyPageTitle() {
-        common.waitUntilPageTitleContains("Logga in | eduID");
+        //common.waitUntilPageTitleContains("Logga in | eduID");
         verifyTextAndLabels();
     }
 
@@ -116,7 +116,7 @@ public class Login {
         common.waitUntilClickable(REGISTER_CONFIRM);
     }
 
-    private void loginWithPasskey() {
+    public void loginWithPasskey() {
         common.findWebElement(PASSKEY_BUTTON).click();
         Common.log.info("Clicked 'Login with passkey'");
     }

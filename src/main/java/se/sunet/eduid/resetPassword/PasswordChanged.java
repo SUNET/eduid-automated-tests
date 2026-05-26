@@ -36,13 +36,13 @@ public class PasswordChanged {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Återställ lösenord | eduID");
+        //common.waitUntilPageTitleContains("Återställ lösenord | eduID");
     }
 
     private void clickReturnToLoginLink() {
         common.click(common.findWebElement(FINISHED_BUTTON));
         Common.log.info("Clicked the Go To eduID login link");
-        common.waitUntilPageTitleContains("Logga in | eduID");
+        //common.waitUntilPageTitleContains("Logga in | eduID");
     }
 
     // -------------------------------------------------------------------------

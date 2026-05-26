@@ -43,6 +43,15 @@
         </classes>
     </test>
 
+    <test name="TC_5">
+        <parameter name="testDescription" value="Register an account, add external security key in register flow.
+        confirm the security key when logged in." />
+        <classes>
+            <class name="se.sunet.eduid.TC_5" >
+            </class>
+        </classes>
+    </test>
+
     <test name="TC_6">
         <parameter name="testDescription" value="Verify that eppn can be used as user name for log in" />
         <classes>
@@ -56,6 +65,15 @@
         the new non-primary email address added, then remove it" />
         <classes>
             <class name="se.sunet.eduid.TC_7" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_8">
+        <parameter name="testDescription" value="Register an account, add internal security key in register flow.
+        confirm the security key when logged in." />
+        <classes>
+            <class name="se.sunet.eduid.TC_8" >
             </class>
         </classes>
     </test>
@@ -89,6 +107,15 @@
         <parameter name="testDescription" value="Add additional email address, try to confirm with incorrect code. Remove the unconfirmed email." />
         <classes>
             <class name="se.sunet.eduid.TC_12" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_13">
+        <parameter name="testDescription" value="From release check swamid, register an account, add external security
+        key in register flow. User should be redirected back to release check when finished. Verify swamid data" />
+        <classes>
+            <class name="se.sunet.eduid.TC_13" >
             </class>
         </classes>
     </test>

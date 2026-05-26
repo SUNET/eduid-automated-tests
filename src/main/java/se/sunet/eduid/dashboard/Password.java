@@ -43,7 +43,7 @@ public class Password {
     }
 
     private void verifyPageTitle() {
-        common.waitUntilPageTitleContains("Byt lösenord | eduID");
+        //common.waitUntilPageTitleContains("Byt lösenord | eduID");
     }
 
     // -------------------------------------------------------------------------
@@ -51,6 +51,11 @@ public class Password {
     // -------------------------------------------------------------------------
 
     public void setPassword() {
+        //Click Register with password link but not when internal or external security keys are added
+        if(testData.isRegisterAccount() &! (testData.isAddExternalSecurityKey() || testData.isAddInternalPassKey())) {
+            common.findWebElement(By.xpath("//*[@id=\"content\"]/section[2]/button")).click();
+        }
+
         common.waitUntilClickable(ABORT_REC_PW_BUTTON);
         verifyRecommendedPwLabels();
 

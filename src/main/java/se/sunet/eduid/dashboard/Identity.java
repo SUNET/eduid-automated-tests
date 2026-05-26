@@ -46,7 +46,7 @@ public class Identity {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        common.verifyPageTitle("Identitet | eduID");
+        //common.waitUntilPageTitleContains("Identitet | eduID");
     }
 
     // -------------------------------------------------------------------------

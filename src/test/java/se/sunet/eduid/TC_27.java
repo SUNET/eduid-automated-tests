@@ -30,18 +30,6 @@ public class TC_27 extends BeforeAndAfter {
 
 
     @Test( dependsOnMethods = {"login"} )
-/*    void confirmIdentityMail(){
-        testData.setConfirmIdBy("mail");
-        confirmIdentity.runConfirmIdentity(); }
-
-    @Test( dependsOnMethods = {"confirmIdentityMail"} )
-    void confirmedIdentity() {
-        confirmedIdentity.runConfirmedIdentity();
-
-        testData.setRegisterAccount(false);
-    }
-
-    @Test( dependsOnMethods = {"confirmedIdentity"} )*/
     void addSecurityKey() {
         testData.setAddExternalSecurityKey(true);
         testData.setVerifySecurityKeyByFreja(true);
