@@ -32,7 +32,7 @@ public class TC_88 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"navigateToFidusTestSkolverketDnp"} )
     void loginWithEid() {
         //Click on login button (with eID)
-        common.findWebElementByXpath("//div[2]/div/div/p[3]/a/button").click();
+        common.findWebElement(By.xpath("//div[2]/div/div/p[3]/a/button")).click();
 
         //Wait for idp search field
         common.waitUntilClickable(By.id("searchinput"));
@@ -76,7 +76,7 @@ public class TC_88 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"loginMfaFreja"} )
     void selectUserRefIdp(){
         //Select and submit user
-        confirmIdentity.selectAndSubmitUserRefIdp();
+        common.selectAndSubmitUserRefIdp();
     }
 
     @Test( dependsOnMethods = {"selectUserRefIdp"} )
@@ -84,8 +84,7 @@ public class TC_88 extends BeforeAndAfter {
         //Wait for handling of personal info link
         common.waitUntilVisible(By.xpath("//div[2]/div/div/p[5]/a"));
 
-        common.verifyStringOnPage("Grattis!\n" +
-                "Du har nu lyckats logga in till testsidan.");
+        common.verifyString(By.xpath("/html/body/div[2]/div/div/p[1]"), "Du har nu lyckats logga in till testsidan.");
 
         common.verifyStringOnPage(testData.getEppn() +"@dev.eduid.se");
     }

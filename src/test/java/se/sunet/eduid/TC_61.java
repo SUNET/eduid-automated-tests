@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -24,6 +25,6 @@ public class TC_61 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"runLoginOtherDevice"} )
     void verifyCanceledLogin() {
         //wait for Proceed button at next page
-        common.verifyStringById("login-other-device-button", "ANNAN ENHET");
+        common.verifyString(By.id("login-other-device-button"), "ANNAN ENHET");
     }
 }

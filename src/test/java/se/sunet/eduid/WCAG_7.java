@@ -15,7 +15,7 @@ public class WCAG_7 extends BeforeAndAfter
     @Test( dependsOnMethods = {"startPage"} )
     void helpPage() throws IOException {
         //Press help
-        //common.findWebElementByXpath("//*[@id=\"footer\"]/nav/ul/li[1]/a").click();
+        //common.findWebElement(By.xpath("//*[@id=\"footer\"]/nav/ul/li[1]/a").click();
         help.clickHelp();
         common.timeoutSeconds(2);
         //help.expandAllOptions();

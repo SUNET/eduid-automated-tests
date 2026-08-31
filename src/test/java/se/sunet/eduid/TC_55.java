@@ -1,11 +1,12 @@
 package se.sunet.eduid;
 
 import org.openqa.selenium.By;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
-public class TC_13 extends BeforeAndAfter {
+public class TC_55 extends BeforeAndAfter {
     @Test
     void swamid(){
         common.navigateToUrl("https://release-check.qa.swamid.se");
@@ -13,14 +14,14 @@ public class TC_13 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"swamid"} )
-    void createEduIDAccount(){
+    void createEduIDAccountFreja(){
         common.findWebElement(By.id("register")).click();
     }
 
-    @Test( dependsOnMethods = {"createEduIDAccount"} )
+    @Test( dependsOnMethods = {"createEduIDAccountFreja"} )
     void register(){
         testData.setRegisterAccount(true);
-        testData.setSwamidSp(true);
+        testData.setRegisterWithFreja(true);
         register.runRegister();}
 
     @Test( dependsOnMethods = {"register"} )
@@ -44,13 +45,14 @@ public class TC_13 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"registerPassword"} )
-    void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
+    void confirmedNewAccount() {
+        testData.setSwamidSp(true);
+        confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void swamidData(){
-        testData.setMfaMethod("");
+        testData.setMfaMethod("freja");
         swamidData.runSwamidData(true); }
-
 
     @Test( dependsOnMethods = {"swamidData"} )
     void navigateToEduid(){
@@ -62,19 +64,25 @@ public class TC_13 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"navigateToEduid"} )
-    void loginMfaSecurityKey() {
-        //Set mfa method to be used to "securitykey" at login.
-        testData.setMfaMethod("securitykey");
+    void loginMfaFreja() {
+        //Set mfa method to be used to "freja" at login.
+        testData.setMfaMethod("freja");
 
         //This account has confirmed identity
         testData.setIdentityConfirmed(true);
 
         //Login page for extra security select freja mfa method
         extraSecurity.selectMfaMethod();
-        Common.log.info("Log in with Security key");
+        Common.log.info("Log in with Freja");
     }
 
-    @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
+    @Test( dependsOnMethods = {"loginMfaFreja"} )
+    void selectUserRefIdp(){
+        //Select and submit user
+        common.selectAndSubmitUserRefIdp();
+    }
+
+    @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
@@ -92,6 +100,9 @@ public class TC_13 extends BeforeAndAfter {
 
         //Login page for extra security select security key mfa method
         extraSecurity.selectMfaMethod();
+
+        //Select and submit user
+        common.selectAndSubmitUserRefIdp();
 
         login.signIn();
     }

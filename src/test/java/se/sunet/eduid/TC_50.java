@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
@@ -100,8 +101,9 @@ public class TC_50 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage3"} )
     void loginPasskeyDefaultLoginPage(){
         // Disable remember me, to get the login page with both passkey and username passwd option
-        testData.setRememberMe(false);
-        common.rememberMe();
+        //testData.setRememberMe(false);
+        //common.rememberMe();
+        extraSecurity.selectMfaMethod();
     }
 
     @Test( dependsOnMethods = {"loginPasskeyDefaultLoginPage"} )
@@ -114,9 +116,17 @@ public class TC_50 extends BeforeAndAfter {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
         common.timeoutSeconds(2);
+
+        //Verify the extra pop-up when logged in +5minutes
+        deleteAccount.confirmDeleteAfter5Min();
     }
 
     @Test( dependsOnMethods = {"delete"} )
+    void loginExtraSecurity(){
+        extraSecurity.selectMfaMethod();
+    }
+
+    @Test( dependsOnMethods = {"loginExtraSecurity"} )
     void startPage4(){
         common.timeoutSeconds(2);
         startPage.runStartPage();
@@ -125,6 +135,8 @@ public class TC_50 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage4"} )
     void verifyAccountDeleted(){
         common.timeoutSeconds(3);
+
+        extraSecurity.selectMfaMethod();
 
         testData.setAccountDeleted(true);
         login.signIn();
@@ -160,6 +172,8 @@ public class TC_50 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
     void setCustomPassword2() {
+        testData.setAddInternalPassKey(false);
+
         //Get default password from properties
         testData.setNewPassword(testData.getPassword());
 
@@ -172,6 +186,9 @@ public class TC_50 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"passwordChanged"} )
     void dashboard3() {
+        //Set interalpasskey to get correct status at dashboard
+        testData.setAddInternalPassKey(true);
+
         //Account is verified
         testData.setAccountVerified(true);
 
@@ -183,9 +200,10 @@ public class TC_50 extends BeforeAndAfter {
         //Verify that identity is still confirmed
         common.navigateToIdentity();
 
-        common.verifyStringOnPage("Ditt eduID är redo att användas");
-        common.verifyStringOnPage("Följande identiteter är nu kopplade till ditt eduID");
-        common.verifyStringOnPage("Svenskt personnummer");
+        String pageBody = common.getPageBody();
+        common.verifyPageBodyContainsString(pageBody, "Ditt eduID är redo att användas");
+        common.verifyPageBodyContainsString(pageBody, "Följande identiteter är nu kopplade till ditt eduID");
+        common.verifyPageBodyContainsString(pageBody, "Svenskt personnummer");
     }
 
     //Delete account when confirmed that identity is no longer verified

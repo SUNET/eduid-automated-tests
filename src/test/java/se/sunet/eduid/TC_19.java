@@ -14,11 +14,11 @@ public class TC_19 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"startPage"} )
     void login(){
-        testData.setGivenName("Bengt Gustav Lennart");
-        testData.setSurName("Brown");
-        testData.setDisplayName("Bengt Gustav Lennart Brown");
-        testData.setUsername("sTnZArGg@dev.eduid.sunet.se");
-        testData.setPassword("hftq xikf fajn");
+        testData.setGivenName("Stella Ann");
+        testData.setSurName("Magnum");
+        testData.setDisplayName("Stella Ann Magnum");
+        testData.setUsername("ydlxcFqm@dev.eduid.sunet.se");
+        testData.setPassword("h0s9 lz91 fp61");
         origPassword = testData.getPassword();
 
         login.runLogin();

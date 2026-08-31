@@ -145,8 +145,10 @@ public class LoginOtherDevice {
         } else {
             common.verifyLocatorContainsString(STEP_1,
                     "Notera att du använder den här enheten för att logga in på enheten nedan");
-            common.verifyStringOnPage("IP adress");
-            common.verifyStringOnPage("Beskrivning");
+            common.verifyString(By.xpath("//*[@id=\"content\"]/div/ol/li[1]/figure/table/tbody/tr[1]/th/strong"),
+                    "IP adress");
+            common.verifyString(By.xpath("//*[@id=\"content\"]/div/ol/li[1]/figure/table/tbody/tr[2]/th/strong"),
+                    "Beskrivning");
         }
         common.verifyLocatorContainsString(STEP_2, "Logga in den här enheten");
         common.verifyLocatorContainsString(STEP_1_CAPTION, "ID# ");
@@ -160,8 +162,10 @@ public class LoginOtherDevice {
         } else {
             common.verifyLocatorContainsString(STEP_1,
                     "Note that you are using this device to log in on the device below");
-            common.verifyStringOnPage("IP address");
-            common.verifyStringOnPage("Description");
+            common.verifyString(By.xpath("//*[@id=\"content\"]/div/ol/li[1]/figure/table/tbody/tr[1]/th/strong"),
+                    "IP address");
+            common.verifyString(By.xpath("//*[@id=\"content\"]/div/ol/li[1]/figure/table/tbody/tr[2]/th/strong"),
+                    "Description");
         }
         common.verifyLocatorContainsString(STEP_2, "Log in this device");
         common.verifyLocatorContainsString(STEP_1_CAPTION, "ID# ");

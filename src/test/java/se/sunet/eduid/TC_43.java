@@ -67,8 +67,8 @@ public class TC_43 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"loginSupport"} )
     void searchAndVerifyUserData(){
         common.timeoutSeconds(1);
-        common.findWebElementByXpath("//div/form/div/p[1]/input").sendKeys(testData.getEppn());
-        common.click(common.findWebElementByXpath("//div/form/div/p[2]/button"));
+        common.findWebElement(By.xpath("//div/form/div/p[1]/input")).sendKeys(testData.getEppn());
+        common.click(common.findWebElement(By.xpath("//div/form/div/p[2]/button")));
 
         registeredData.runRegisteredData();
     }
@@ -82,7 +82,7 @@ public class TC_43 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
         //Click on not you, otherwise last username is pre-filled
-        common.findWebElementById("wrong-person-button").click();
+        common.findWebElement(By.id("wrong-person-button")).click();
 
         login.runLogin();
     }
@@ -119,23 +119,23 @@ public class TC_43 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"loginSupport2"} )
     void searchAndVerifyUserData2(){
         common.timeoutSeconds(1);
-        common.findWebElementByXpath("//div/form/div/p[1]/input").sendKeys(testData.getEppn());
-        common.click(common.findWebElementByXpath("//div/form/div/p[2]/button"));
+        common.findWebElement(By.xpath("//div/form/div/p[1]/input")).sendKeys(testData.getEppn());
+        common.click(common.findWebElement(By.xpath("//div/form/div/p[2]/button")));
 
         //Verify Terminated Status contains today's timestamp
-        common.verifyXpathContainsString("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[10]/td", String.valueOf(localDate));
+        common.verifyByContainsString(By.xpath("//div/div[2]/div/div[1]/div[1]/table/tbody/tr[10]/td"), String.valueOf(localDate));
     }
 
     private void loginSupportTool(){
         common.waitUntilClickable(By.id("email"));
 
         //Click on not you, otherwise last username is pre-filled
-        common.findWebElementById("wrong-person-button").click();
+        common.findWebElement(By.id("wrong-person-button")).click();
 
         //Enter support username and password
-        common.findWebElementById("username").sendKeys(testData.getSupportUsername());
-        common.findWebElementById("current-password").sendKeys(testData.getSupportPassword());
+        common.findWebElement(By.id("username")).sendKeys(testData.getSupportUsername());
+        common.findWebElement(By.id("current-password")).sendKeys(testData.getSupportPassword());
 
-        common.click(common.findWebElementById("login-form-button"));
+        common.click(common.findWebElement(By.id("login-form-button")));
     }
 }

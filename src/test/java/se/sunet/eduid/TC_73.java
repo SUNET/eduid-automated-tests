@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -27,56 +28,6 @@ public class TC_73 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"runLoginOtherDevice"} )
     void verifyCanceledLogin() {
         //wait for Proceed button at next page
-        //common.explicitWaitClickableElementId("login-other-device-button");
-        common.verifyStringById("login-other-device-button", "ANNAN ENHET");
+        common.verifyString(By.id("login-other-device-button"), "ANNAN ENHET");
     }
-/*
-    @Test( dependsOnMethods = {"runLoginOtherDevice"} )
-    void clickLoginShortcut() {
-        common.timeoutSeconds(1);
-        loginOtherDevice.clickLoginShortcut();
-        common.timeoutSeconds(1);
-    }
-
-    @Test( dependsOnMethods = {"clickLoginShortcut"} )
-    void confirmLogin() {
-        loginOtherDevice.verifyConfirmLoginLabels();
-
-        //Click login button
-        common.findWebElementById("proceed-other-device-button").click();
-        common.timeoutSeconds(1);
-    }
-
-    @Test( dependsOnMethods = {"confirmLogin"} )
-    void login2(){
-        common.selectSwedish();
-
-        login.enterPassword();
-
-        //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
-
-        common.timeoutSeconds(1);
-    }
-
-    @Test( dependsOnMethods = {"login2"} )
-    void closeTab(){
-        webdriver.close();
-        common.switchToDefaultWindow();
-    }
-
-    @Test( dependsOnMethods = {"closeTab"} )
-    void pressCancel(){
-        common.timeoutMilliSeconds(500);
-
-        //No code submitted in this case, just pressing cancel button
-        testData.setOtherDeviceSubmitCode("false");
-        loginOtherDevice.submitCode();
-    }
-//TODO here we should end up at log in page after pressing cancel above
-//    @Test( dependsOnMethods = {"pressCancel"} )
-    void dashboard() { dashBoard.runDashBoard(); }
-
-//    @Test( dependsOnMethods = {"dashboard"} )
-    void logout2() { logout.runLogout(); }*/
 }

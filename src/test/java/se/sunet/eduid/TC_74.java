@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
@@ -38,22 +39,22 @@ public class TC_74 extends BeforeAndAfter {
         loginOtherDevice.verifyConfirmLoginLabels();
 
         //Check timer is present
-        Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"content\"]/div/div/div[2]/span[2]").isDisplayed(),
+        Assert.assertTrue(common.findWebElement(By.xpath("//*[@id=\"content\"]/div/div/div[2]/span[2]")).isDisplayed(),
                 "Timer is missing");
 
         //Click login button
-        common.findWebElementById("cancel-other-device-button").click();
+        common.findWebElement(By.id("cancel-other-device-button")).click();
         common.timeoutMilliSeconds(300);
     }
 
     @Test( dependsOnMethods = {"confirmLoginCancel"} )
     void verifyCanceledLogin() {
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Logga in på en annan enhet");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Avbrutet. Du kan stänga det här fönstret.");
+        common.verifyString(By.xpath("//*[@id=\"content\"]/div/h1"), "Logga in på en annan enhet");
+        common.verifyString(By.xpath("//*[@id=\"content\"]/div/p"), "Avbrutet. Du kan stänga det här fönstret.");
 
         common.selectEnglish();
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Log in on another device");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Request cancelled. You should close this browser window.");
+        common.verifyString(By.xpath("//*[@id=\"content\"]/div/h1"), "Log in on another device");
+        common.verifyString(By.xpath("//*[@id=\"content\"]/div/p"), "Request cancelled. You should close this browser window.");
 
     }
 }

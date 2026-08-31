@@ -40,7 +40,7 @@ public class ConfirmedIdentity {
 
     private void verifyPageTitle() {
         common.waitUntilVisible(PAGE_H1);
-        //common.waitUntilPageTitleContains("Identitet | eduID");
+        common.waitUntilPageTitleContains("Identitet | eduID");
         common.timeoutMilliSeconds(500);
     }
 

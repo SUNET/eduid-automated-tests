@@ -40,7 +40,7 @@ public class RequestNewPassword {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        //common.waitUntilPageTitleContains("Återställ lösenord | eduID");
+        common.waitUntilPageTitleContains("Återställ lösenord | eduID");
     }
 
     private void enterEmail() {
@@ -87,8 +87,8 @@ public class RequestNewPassword {
     }
 
     private void verifyLabelsSwedish() {
-        common.verifyStringOnPage("Återställ lösenord: Ange e-postadressen");
-        common.verifyStringOnPage("Om det finns en användare med den epostadressen, skickas ett mail " +
+        common.verifyStringOnPage("Återställ lösenord: Ange e-postadress");
+        common.verifyStringOnPage("Om det finns en användare med den e-postadressen skickas ett mail " +
                 "med instruktioner från no-reply@eduid.se.");
         common.verifyString(EMAIL_LABEL_XPATH, "E-postadress");
         common.verifyPlaceholderBy("namn@example.com", EMAIL_INPUT);
@@ -98,9 +98,9 @@ public class RequestNewPassword {
 
     private void verifyLabelsEnglish() {
         common.waitUntilPageTitleContains("Reset password | eduID");
-        common.verifyStringOnPage("Reset password: Enter the email address");
-        common.verifyStringOnPage("Once entered, if the address is registered, a message with " +
-                "instructions to reset the password will be sent from no-reply@eduid.se.");
+        common.verifyStringOnPage("Reset Password: Enter email address");
+        common.verifyStringOnPage("If the entered address is registered, a message with instructions " +
+                "for resetting the password will be sent from no-reply@eduid.se.");
         common.verifyString(EMAIL_LABEL_XPATH, "Email address");
         common.verifyPlaceholderBy("name@example.com", EMAIL_INPUT);
         common.verifyString(RESET_PASSWORD_BUTTON, "SEND EMAIL");

@@ -1,6 +1,7 @@
 package se.sunet.eduid;
 
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
@@ -230,9 +231,10 @@ public class TC_52 extends BeforeAndAfter {
         //Verify that identity is still confirmed
         common.navigateToIdentity();
 
-        common.verifyStringOnPage("Ditt eduID är redo att användas");
-        common.verifyStringOnPage("Följande identiteter är nu kopplade till ditt eduID");
-        common.verifyStringOnPage("Europeisk eIDAS-identitet");
+        String pageBody = common.getPageBody();
+        common.verifyPageBodyContainsString(pageBody, "Ditt eduID är redo att användas");
+        common.verifyPageBodyContainsString(pageBody, "Följande identiteter är nu kopplade till ditt eduID");
+        common.verifyPageBodyContainsString(pageBody, "Europeisk eIDAS-identitet");
     }
 
     //Delete the account when confirmed that identity is no longer verified

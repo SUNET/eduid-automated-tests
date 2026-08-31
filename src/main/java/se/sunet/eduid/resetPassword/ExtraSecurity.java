@@ -41,7 +41,7 @@ public class ExtraSecurity {
         if (testData.isAddExternalSecurityKey()) {
             common.waitUntilPageTitleContains("Logga in | eduID");
         } else if (testData.isResetPassword()) {
-            //common.waitUntilPageTitleContains("Återställ lösenord | eduID");
+            common.waitUntilPageTitleContains("Återställ lösenord | eduID");
         }
     }
 
@@ -102,9 +102,9 @@ public class ExtraSecurity {
 
     private String descriptionTextEnglish() {
         if (testData.isResetPassword()) {
-            return "Choose a second method to authenticate yourself, ensuring only you can access your eduID. " +
-                   "If you are unable to use the security key, please select from other options below, " +
-                   "such as BankID or Freja+.";
+            return "Choose a second method to authenticate yourself now to ensure only you can access your eduID, or " +
+                    "continue without MFA authentication.\n" +
+                    "If you are unable to use the security key, please select another option below, such as BankID or Freja+.";
         }
         return "Select an security option to maintain identity confirmation during the password reset process, " +
                "or continue without security, with identity confirmation required after the password reset.";
@@ -112,9 +112,11 @@ public class ExtraSecurity {
 
     private String descriptionTextSwedish() {
         if (testData.isResetPassword()) {
-            return "Autentisera dig själv med ytterligare en metod för att vara säker på att bara du har tillgång " +
+            return "Välj ytterligare en autentiseringsmetod nu för att vara säker på att bara du har tillgång till ditt eduID, eller fortsätt utan MFA autentisering.\n" +
+                    "Om du inte kan använda säkerhetsnyckeln, var vänlig välj annat alternativ nedan, t.ex. BankID eller Freja+.";
+/*            return "Autentisera dig själv med ytterligare en metod för att vara säker på att bara du har tillgång " +
                    "till ditt eduID. Om du inte kan använda säkerhetsnyckeln, var vänlig välj annat alternativ " +
-                   "nedan, t.ex. BankID eller Freja+.";
+                   "nedan, t.ex. BankID eller Freja+.";*/
         }
         return "Välj ett säkerhetsalternativ för att bekräfta din identitet under lösenordsåterställningsprocessen, " +
                "eller fortsätt utan säkerhet, med krav på identitetsbekräftelse efter lösenordsåterställningen.";

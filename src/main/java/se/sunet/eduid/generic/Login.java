@@ -45,7 +45,7 @@ public class Login {
     }
 
     public void verifyPageTitle() {
-        //common.waitUntilPageTitleContains("Logga in | eduID");
+        common.waitUntilPageTitleContains("Logga in | eduID");
         verifyTextAndLabels();
     }
 
@@ -137,8 +137,7 @@ public class Login {
     // -------------------------------------------------------------------------
 
     private void verifyIncorrectPasswordError() {
-        common.timeoutMilliSeconds(500);
-
+        // OPTIMERING: Tog bort den fasta timeout-sekunden (500ms) och litar på dynamisk väntan i verifyStatusMessage
         common.verifyStatusMessage("E-postadressen eller lösenordet är felaktigt.");
         common.selectEnglish();
         common.verifyStatusMessage("The email address or password was incorrect.");
@@ -155,36 +154,38 @@ public class Login {
     }
 
     private void verifyDeletedAccountSwedish() {
+        String body = common.getPageBody();
         common.verifyStatusMessage(
-            "Detta konto har avslutats, men finns kvar några dagar. Gör en " +
-            "lösenordsåterställning för att ångra avslutet."
+                "Detta konto har avslutats, men finns kvar några dagar. Gör en " +
+                        "lösenordsåterställning för att ångra avslutet."
         );
-        common.verifyStringOnPage("Raderat konto");
-        common.verifyStringOnPage(
-            "Kontot har nyligen raderats och kan inte användas för inloggning." +
-            " Under en kort tid därefter kan kontot återupptas genom att återställa lösenordet med hjälp av länken nedan."
+        common.verifyPageBodyContainsString(body, "Raderat konto");
+        common.verifyPageBodyContainsString(body,
+                "Kontot har nyligen raderats och kan inte användas för inloggning." +
+                        " Under en kort tid därefter kan kontot återupptas genom att återställa lösenordet med hjälp av länken nedan."
         );
-        common.verifyStringOnPage("Till återställ lösenord");
-        common.verifyStringOnPage(
-            "Gå till startsidan genom att klicka på eduIDs logo i " +
-            "sidhuvudet för att logga in med ett annat konto, eller skapa ett nytt konto med knappen Skapa eduID."
+        common.verifyPageBodyContainsString(body, "Till återställ lösenord");
+        common.verifyPageBodyContainsString(body,
+                "Gå till startsidan genom att klicka på eduIDs logo i " +
+                        "sidhuvudet för att logga in med ett annat konto, eller skapa ett nytt konto med knappen Skapa eduID."
         );
     }
 
     private void verifyDeletedAccountEnglish() {
+        String body = common.getPageBody();
         common.verifyStatusMessage(
-            "This account has been terminated, but is still present. Perform a password " +
-            "reset to cancel termination."
+                "This account has been terminated, but is still present. Perform a password " +
+                        "reset to cancel termination."
         );
-        common.verifyStringOnPage("Account terminated");
-        common.verifyStringOnPage(
-            "This account has recently been terminated and can not be used " +
-            "to log in. It is possible to re-activate the account shortly afterwards by resetting the password using the link below."
+        common.verifyPageBodyContainsString(body, "Account terminated");
+        common.verifyPageBodyContainsString(body,
+                "This account has recently been terminated and can not be used " +
+                        "to log in. It is possible to re-activate the account shortly afterwards by resetting the password using the link below."
         );
-        common.verifyStringOnPage("Go to reset password page");
-        common.verifyStringOnPage(
-            "To log in with another account go to the start page by clicking " +
-            "the eduID logo in the header, or create a new account using the Create eduID button."
+        common.verifyPageBodyContainsString(body, "Go to reset password page");
+        common.verifyPageBodyContainsString(body,
+                "To log in with another account go to the start page by clicking " +
+                        "the eduID logo in the header, or create a new account using the Create eduID button."
         );
     }
 
@@ -195,14 +196,17 @@ public class Login {
     private void verifyTextAndLabels() {
         common.waitUntilClickable(LOGIN_BUTTON);
 
-        verifySwedishLabels();
+        // OPTIMERING: Hämta pageBody en gång per språk och skicka med som parameter
+        verifySwedishLabels(common.getPageBody());
         common.selectEnglish();
-        verifyEnglishLabels();
+        verifyEnglishLabels(common.getPageBody());
         common.selectSwedish();
+
+        // OPTIMERING: Kör länkvalideringarna samlat en gång i slutet istället för per språkflöde
+        verifyLinks();
     }
 
-    private void verifySwedishLabels() {
-        String body = common.getPageBody();
+    private void verifySwedishLabels(String body) {
         Common.log.info("Verifying text and labels in Swedish");
 
         if (testData.isReLogin() && testData.isRememberMe()) {
@@ -216,8 +220,7 @@ public class Login {
         verifyCommonLabelsSwedish(body);
     }
 
-    private void verifyEnglishLabels() {
-        String body = common.getPageBody();
+    private void verifyEnglishLabels(String body) {
         Common.log.info("Verifying text and labels in English");
 
         if (testData.isReLogin() && testData.isRememberMe()) {
@@ -244,21 +247,19 @@ public class Login {
         common.verifyPageBodyContainsString(body, "Autentisera dig för att fortsätta");
         common.verifyPageBodyContainsString(body, "Efteråt omdirigeras du till sidan för att radera konto.");
         common.verifyPageBodyContainsString(body,
-            "Om du vill avbryta utan att spara förändringen kan du återvända direkt till sidan Konto.");
-        common.verifyLocatorIsWorkingLink(RETURN_TO_ACCOUNT_LINK);
+                "Om du vill avbryta utan att spara förändringen kan du återvända direkt till sidan Konto.");
     }
 
     private void verifyStandardLabelsSwedish(String body) {
         common.verifyPageBodyContainsString(body, "Logga in: med lösenord eller passkey");
         common.verifyPageBodyContainsString(body, "Snabbare och enklare autentisering");
         common.verifyPageBodyContainsString(body,
-            "Om du har lagt till en passkey för eduid.se kan du logga in säkert mha " +
-            "fingeravtryck, ansiktsigenkänning, PIN-kod eller andra skärmlåsmetoder.");
+                "Om du har lagt till en passkey för eduid.se kan du logga in säkert mha " +
+                        "fingeravtryck, ansiktsigenkänning, PIN-kod eller andra skärmlåsmetoder.");
         common.verifyPageBodyContainsString(body,
-            "Läs mer om att logga in m.h.a. passkeys i avsnittet \"Användning av eduID\" i Hjälp.");
-        common.verifyLocatorIsWorkingLink(PASSKEY_HELP_LINK);
+                "Läs mer om att logga in m.h.a. passkeys i avsnittet \"Användning av eduID\" i Hjälp.");
         common.verifyString(PASSKEY_BUTTON, "LOGGA IN MED PASSKEY");
-        common.verifyPlaceholderBy("e-post eller unikt ID", USERNAME_INPUT);
+        common.verifyPlaceholderBy("e-postadress eller unikt ID", USERNAME_INPUT);
     }
 
     private void verifyCommonLabelsSwedish(String body) {
@@ -268,7 +269,7 @@ public class Login {
 
         if (testData.isDeleteButton()) return;
 
-        common.verifyStringByXpath("//*[@id=\"link-forgot-password\"]", "Glömt ditt lösenord?");
+        common.verifyString(By.xpath("//*[@id=\"link-forgot-password\"]"), "Glömt ditt lösenord?");
         common.verifyPageBodyContainsString(body, "Kom ihåg mig på den här enheten");
         verifyRememberMeTextSwedish(body);
         common.verifyPlaceholderBy("ange lösenord", PASSWORD_INPUT);
@@ -280,10 +281,10 @@ public class Login {
     private void verifyRememberMeTextSwedish(String body) {
         if (testData.isRememberMe()) {
             common.verifyPageBodyContainsString(body,
-                "Om denna stängs av kommer du till inloggning med användarnamn och lösenord istället.");
+                    "Om denna stängs av kommer du till inloggning med användarnamn och lösenord istället.");
         } else if (!testData.isMfaDisabled()) {
             common.verifyPageBodyContainsString(body,
-                "Genom att tillåta eduID att komma ihåg dig på den här enheten kan inloggningen göras enklare och säkrare");
+                    "Genom att tillåta eduID att komma ihåg dig på den här enheten kan inloggningen göras enklare och säkrare");
         }
     }
 
@@ -300,19 +301,17 @@ public class Login {
         common.verifyPageBodyContainsString(body, "Authenticate to continue");
         common.verifyPageBodyContainsString(body, "Afterward, you will be redirected to the page to delete account.");
         common.verifyPageBodyContainsString(body,
-            "If you wish to cancel this process without affecting a change you can return straight to Account page.");
-        common.verifyLocatorIsWorkingLink(RETURN_TO_ACCOUNT_LINK);
+                "If you wish to cancel this process without affecting a change you can return straight to Account page.");
     }
 
     private void verifyStandardLabelsEnglish(String body) {
         common.verifyPageBodyContainsString(body, "Log in: with Password or Passkey");
         common.verifyPageBodyContainsString(body, "Faster and safer way to authenticate");
         common.verifyPageBodyContainsString(body,
-            "If you have registered a passkey for eduID.se you can log in securely using your " +
-            "fingerprint, face recognition, PIN code or other screen-lock methods.");
+                "If you have registered a passkey for eduID.se you can log in securely using your " +
+                        "fingerprint, face recognition, PIN code or other screen-lock methods.");
         common.verifyPageBodyContainsString(body,
-            "Read more about logging in using passkeys in the \"Using eduID\" section in eduID Help.");
-        common.verifyLocatorIsWorkingLink(PASSKEY_HELP_LINK);
+                "Read more about logging in using passkeys in the \"Using eduID\" section in eduID Help.");
         common.verifyString(PASSKEY_BUTTON, "LOG IN WITH PASSKEY");
         common.verifyPlaceholderBy("email or unique ID", USERNAME_INPUT);
     }
@@ -324,7 +323,7 @@ public class Login {
 
         if (testData.isDeleteButton()) return;
 
-        common.verifyStringByXpath("//*[@id=\"link-forgot-password\"]", "Forgot your password?");
+        common.verifyString(By.xpath("//*[@id=\"link-forgot-password\"]"), "Forgot your password?");
         common.verifyPageBodyContainsString(body, "Remember me on this device");
         verifyRememberMeTextEnglish(body);
         common.verifyPlaceholderBy("enter password", PASSWORD_INPUT);
@@ -336,10 +335,24 @@ public class Login {
     private void verifyRememberMeTextEnglish(String body) {
         if (testData.isRememberMe()) {
             common.verifyPageBodyContainsString(body,
-                "Turning this off will enable login with username and password instead.");
+                    "Turning this off will enable login with username and password instead.");
         } else if (!testData.isMfaDisabled()) {
             common.verifyPageBodyContainsString(body,
-                "Allowing eduID to remember you on this device makes logging in easier and more secure");
+                    "Allowing eduID to remember you on this device makes logging in easier and more secure");
+        }
+    }
+
+    // OPTIMERING: Samlad metod för länkverifiering som tar hänsyn till om elementen faktiskt är synliga
+    private void verifyLinks() {
+        if (testData.isReLogin() && testData.isRememberMe()) {
+            // I Re-Login-scenariot finns ingen av dessa två länkar på sidan
+            Common.log.info("Skipping link verification: No global links present in Re-Login scenario.");
+        } else if (testData.isDeleteButton()) {
+            // Denna länk finns bara när man ska radera kontot
+            common.verifyLocatorIsWorkingLink(RETURN_TO_ACCOUNT_LINK);
+        } else {
+            // Standardscenariot där passkey-hjälplänken är synlig
+            common.verifyLocatorIsWorkingLink(PASSKEY_HELP_LINK);
         }
     }
 }

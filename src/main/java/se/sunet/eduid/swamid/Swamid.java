@@ -28,7 +28,7 @@ public class Swamid {
         common.getWebDriver().switchTo().frame(0);
 
         //Click on - Choose your organisation
-        common.click(common.findWebElementById("idpbutton"));
+        common.click(common.findWebElement(By.id("idpbutton")));
 
         //Switch back to default window
         common.getWebDriver().switchTo().defaultContent();
@@ -38,16 +38,16 @@ public class Swamid {
     }
 
     public void navigateEduId(String searchString){
-        WebElement searchInput = common.findWebElementById("searchinput");
+        WebElement searchInput = common.findWebElement(By.id("searchinput"));
         searchInput.clear();
         searchInput.sendKeys(searchString);
         common.timeoutMilliSeconds(1500);
 
         //Select eduid staging
-        common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/li/a").click();
+        common.findWebElement(By.xpath("//*[@id=\"ds-search-list\"]/li/a")).click();
 
         //Wait for the eduID log in page to load
         common.timeoutMilliSeconds(1000);
-        //common.waitUntilPageTitleContains("Logga in | eduID");
+        common.waitUntilPageTitleContains("Logga in | eduID");
     }
 }

@@ -19,14 +19,19 @@ public class TestData {
             otherDeviceSubmitCode, emailVerificationCode, browser, headlessExecution, letterProofingCodeUrl,
             emailVerificationCodeUrl, phoneConfirmationCodeUrl, emailResetPwCodeUrl, domain, bankIdTextSwe,
             bankIdTextEng, supportUrl, baseUrl, idpName, autotestsCookieValue, identityNumberFilePath,
-            givenNameFilePath, surNameFilePath;
+            givenNameFilePath, surNameFilePath, orcidPassword;
 
     private boolean buttonValueConfirm = true;
     private boolean generateUsername = true;
     private boolean acceptTerms = true;
     private boolean verifyEmail = true;
+    private boolean registerWithBankId = false;
+    private boolean registerWithFreja = false;
+    private boolean registerWithFrejaEid = false;
+    private boolean registerWithEidas = false;
     private boolean addExternalSecurityKey = false;
     private boolean addInternalPassKey = false;
+    private boolean addPasswordToInternalPassKey = false;
     private boolean verifySecurityKeyByFreja;
     private boolean verifySecurityKeyByFrejaeID;
     private boolean verifySecurityKeyByBankId;
@@ -34,7 +39,7 @@ public class TestData {
     private boolean accountVerified = true;
     private boolean useRecommendedPw = true;
     private boolean rememberMe = true;
-    private boolean registerAccount, resetPassword, incorrectPassword, removeNewEmail1,
+    private boolean registerAccount, resetPassword, resetPasswordNewSession, incorrectPassword, removeNewEmail1,
             resendOTP, deleteButton, otherDeviceFillCode, identityConfirmed, accountDeleted,
             mfaUserConsentingAuthentication, mfaUserDeclinedConsentAuthentication, reLogin, mfaDisabled, usePasskey,
             swamidSp;
@@ -71,6 +76,7 @@ public class TestData {
         setBankIdTextEng(properties.getProperty("bankid_text_eng"));
         setSupportUrl(properties.getProperty("support_url"));
         setIdpName(properties.getProperty("idp_name"));
+        setOrcidPassword(properties.getProperty("orcid_password"));
 
         setLanguage("Svenska");
     }

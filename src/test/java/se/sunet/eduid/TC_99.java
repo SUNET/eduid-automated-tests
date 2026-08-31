@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -12,7 +13,7 @@ public class TC_99 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkQA"} )
     void helpPageDirectLinkQA(){
-        common.verifyStringOnPage("Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
+        common.verifyString(By.xpath("//*[@id=\"content\"]/section/div/p"), "Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
                 "om användandet av eduID och kontaktinformation till supporten.");
     }
 
@@ -21,7 +22,7 @@ public class TC_99 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkQAEng"} )
     void helpPageDirectLinkQAEng(){
-        common.verifyStringOnPage("Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
+        common.verifyString(By.xpath("//*[@id=\"content\"]/section/div/p"), "Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
                 "om användandet av eduID och kontaktinformation till supporten.");
     }
 
@@ -30,7 +31,7 @@ public class TC_99 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkNewUrlQA"} )
     void helpPageDirectLinkNewUrlQA(){
-        common.verifyStringOnPage("Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
+        common.verifyString(By.xpath("//*[@id=\"content\"]/section/div/p"), "Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
                 "om användandet av eduID och kontaktinformation till supporten.");
     }
 
@@ -40,7 +41,7 @@ public class TC_99 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkProd"} )
     void helpPageDirectLinkProd(){
-        common.verifyStringOnPage("Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
+        common.verifyString(By.xpath("//*[@id=\"content\"]/section/div/p"), "Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
                 "om användandet av eduID och kontaktinformation till supporten.");
     }
 
@@ -49,7 +50,7 @@ public class TC_99 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkProdEng"} )
     void helpPageDirectLinkProdEng(){
-        common.verifyStringOnPage("Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
+        common.verifyString(By.xpath("//*[@id=\"content\"]/section/div/p"), "Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
                 "om användandet av eduID och kontaktinformation till supporten.");
     }
 
@@ -58,7 +59,7 @@ public class TC_99 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"navigateToHelpPageDirectLinkNewUrlProd"} )
     void helpPageDirectLinkNewUrlProd(){
-        common.verifyStringOnPage("Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
+        common.verifyString(By.xpath("//*[@id=\"content\"]/section/div/p"), "Nedan ser du allmän information om tjänsten, svar på vanliga frågor " +
                 "om användandet av eduID och kontaktinformation till supporten.");
     }
 }

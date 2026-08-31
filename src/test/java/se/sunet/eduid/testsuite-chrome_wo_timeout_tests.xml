@@ -71,9 +71,18 @@
 
     <test name="TC_8">
         <parameter name="testDescription" value="Register an account, add internal security key in register flow.
-        confirm the security key when logged in." />
+        (password not added in register flow) confirm the security key when logged in." />
         <classes>
             <class name="se.sunet.eduid.TC_8" >
+            </class>
+        </classes>
+    </test>
+
+    <test name="TC_80">
+        <parameter name="testDescription" value="Register an account, add internal security key in register flow.
+        (password added in register flow) confirm the security key when logged in." />
+        <classes>
+            <class name="se.sunet.eduid.TC_80" >
             </class>
         </classes>
     </test>
@@ -609,15 +618,22 @@
         </classes>
     </test>
 
-<!-- Obsolete - About sunet link is removed from startpage
+    <test name="TC_55">
+        <parameter name="testDescription" value="From release check swamid, register an account with Freja, add internal security
+        key in register flow. User should be redirected back to release check when finished. Verify swamid data" />
+        <classes>
+            <class name="se.sunet.eduid.TC_55" >
+            </class>
+        </classes>
+    </test>
+
     <test name="TC_59">
-        <parameter name="testDescription" value="Verify text on 'About Sunet' page" />
+        <parameter name="testDescription" value="From release check swamid, initiate register an account with BankID." />
         <classes>
             <class name="se.sunet.eduid.TC_59" >
             </class>
         </classes>
     </test>
-    -->
 
     <test name="TC_78">
         <parameter name="testDescription" value="Register new account. Confirm identity by eIDAS and Freja eID" />

@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
 @Slf4j
-public class TC_8 extends BeforeAndAfter {
+public class TC_80 extends BeforeAndAfter {
     @Test
     void startPage(){
         testData.setRegisterAccount(true);
@@ -22,6 +22,7 @@ public class TC_8 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"confirmEmailAddress"} )
     void registerInternalSecurityKey() {
         testData.setAddInternalPassKey(true);
+        testData.setAddPasswordToInternalPassKey(true);
 
         //Add security key
         securityKey.addSecurityKey();

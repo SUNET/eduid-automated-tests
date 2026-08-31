@@ -22,7 +22,7 @@ public class TC_89 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"navigateToFidusTestSkolverketDnp"} )
     void loginWithEid() {
         //Click on login button (with eID)
-        common.findWebElementByXpath("//div[2]/div/div/p[3]/a/button").click();
+        common.findWebElement(By.xpath("//div[2]/div/div/p[3]/a/button")).click();
 
         //Wait for idp search field
         common.waitUntilClickable(By.id("searchinput"));

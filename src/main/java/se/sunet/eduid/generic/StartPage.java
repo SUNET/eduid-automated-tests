@@ -24,6 +24,101 @@ public class StartPage {
         this.testData = testData;
     }
 
+    public void runStartPage() {
+        common.waitUntilClickable(SIGN_UP_BUTTON);
+        verifyPageTitle();
+        verifyLabels();
+
+        // OPTIMERING 1: Testa länkarna EN gång istället för två
+        verifyLinks();
+
+        if (testData.isRegisterAccount()) {
+            registerAccount();
+        } else {
+            signIn();
+        }
+    }
+
+    private void signIn() {
+        common.click(common.waitUntilClickable(LOGIN_BUTTON));
+        common.waitUntilPageTitleContains("Logga in | eduID");
+    }
+
+    private void registerAccount() {
+        common.click(common.findWebElement(SIGN_UP_BUTTON));
+    }
+
+    private void verifyPageTitle() {
+        common.waitUntilPageTitleContains("eduID");
+        String currentYear = common.getDate().toString().substring(0, 4);
+        common.verifyString(By.xpath("//*[@id=\"footer\"]/div/span"), "©2013-" + currentYear);
+    }
+
+    public void verifyLabels() {
+        common.selectSwedish();
+        // OPTIMERING 2: Hämta sidtexten här och skicka med den
+        String swedishBody = common.getPageBody();
+        verifyLabelsSwedish(swedishBody);
+
+        common.selectEnglish();
+        String englishBody = common.getPageBody();
+        verifyLabelsEnglish(englishBody);
+
+        common.selectSwedish();
+    }
+
+    // Tagit emot pageBody som parameter för att slippa hämta den igen
+    public void verifyLabelsSwedish(String pageBody) {
+        common.verifyString(H1_HEADLINE, "Säkrare och enklare inloggning med eduID");
+        common.verifyString(P_CREATE_EDU, "Skapa ett eduID och koppla det till din identitet för att få tillgång till tjänster och organisationer som är relaterade till högre utbildning.");
+        common.verifyString(P_EDU_EASIER, "eduID är enklare eftersom du bara har en inloggning och säkrare eftersom det är kopplat till en verklig person - dig.");
+        common.verifyString(P_READ_MORE, "Du kan läsa mer om eduID på Sunets webbplats och i vårt hjälpinnehåll, alltid tillgängligt i sidfoten. Registrera dig eller logga in med knapparna nedan!");
+
+        verifyStepsSwedish(pageBody);
+    }
+
+    // Tagit emot pageBody som parameter för att slippa hämta den igen
+    private void verifyLabelsEnglish(String pageBody) {
+        common.verifyString(H1_HEADLINE, "Safer and easier login with eduID");
+        common.verifyString(P_CREATE_EDU, "Create an eduID and connect it to your identity for access to services and organisations related to higher education.");
+        common.verifyString(P_EDU_EASIER, "eduID is easier because you only have one login and safer because it's connected to a real individual - you.");
+        common.verifyString(P_READ_MORE, "You can read more about eduID at Sunet's website and in our help content, always accessible from the footer. Register or log in using the buttons below!");
+
+        verifyStepsEnglish(pageBody);
+    }
+
+    private void verifyStepsSwedish(String pageBody) {
+        common.verifyPageBodyContainsString(pageBody, "Skapa ett grundläggande konto med din e-postadress.");
+        common.verifyPageBodyContainsString(pageBody, "Bevisa att du är DU.");
+        common.verifyPageBodyContainsString(pageBody, "Höj din inloggningssäkerhet.");
+        common.verifyPageBodyContainsString(pageBody, "Höj nivån igen - bevisa att DU loggar in.");
+    }
+
+    private void verifyStepsEnglish(String pageBody) {
+        common.verifyPageBodyContainsString(pageBody, "Create a basic account with your email address.");
+        common.verifyPageBodyContainsString(pageBody, "Prove that you are YOU.");
+        common.verifyPageBodyContainsString(pageBody, "Level up your login security.");
+        common.verifyPageBodyContainsString(pageBody, "Level up again - proving that YOU are logging in.");
+    }
+
+    private void verifyLinks() {
+        common.verifyLocatorIsWorkingLink(LINK_SUNET);
+        common.verifyLocatorIsWorkingLink(LINK_HELP);
+        common.verifyLocatorIsWorkingLink(LINK_SUNET_IN_TEXT);
+        common.verifyLocatorIsWorkingLink(LINK_HELP_IN_TEXT);
+    }
+}
+
+/*public class StartPage {
+
+    private final Common   common;
+    private final TestData testData;
+
+    public StartPage(Common common, TestData testData) {
+        this.common   = common;
+        this.testData = testData;
+    }
+
     // -------------------------------------------------------------------------
     // Public API
     // -------------------------------------------------------------------------
@@ -46,7 +141,7 @@ public class StartPage {
 
     private void signIn() {
         common.click(common.waitUntilClickable(LOGIN_BUTTON));
-        //common.waitUntilPageTitleContains("Logga in | eduID");
+        common.waitUntilPageTitleContains("Logga in | eduID");
     }
 
     private void registerAccount() {
@@ -63,10 +158,10 @@ public class StartPage {
         common.verifyStringOnPage("©2013-" + currentYear);
     }
 
-    /**
+    *//**
      * Verifies labels in Swedish first, then switches to English and verifies,
      * then restores Swedish — consistent with the pattern used in Login.
-     */
+     *//*
     private void verifyLabels() {
         common.selectSwedish();
         verifyLabelsSwedish();
@@ -128,14 +223,14 @@ public class StartPage {
         common.verifyPageBodyContainsString(pageBody, "Level up again - proving that YOU are logging in.");
     }
 
-    /**
+    *//**
      * Link targets don't change between languages — verified once per language pass
      * so any breakage is caught regardless of which language is active.
-     */
+     *//*
     private void verifyLinks() {
         common.verifyLocatorIsWorkingLink(LINK_SUNET);
         common.verifyLocatorIsWorkingLink(LINK_HELP);
         common.verifyLocatorIsWorkingLink(LINK_SUNET_IN_TEXT);
         common.verifyLocatorIsWorkingLink(LINK_HELP_IN_TEXT);
     }
-}
+}*/

@@ -38,59 +38,6 @@ public class TC_3 extends BeforeAndAfter {
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-/*    void addSecurityKey() {
-        testData.setAddExternalSecurityKey(true);
-        securityKey.runSecurityKey();
-    }
-
-    @Test( dependsOnMethods = {"addSecurityKey"} )
-    void initiateRemoveNonVerifiedSecurityKey() {
-        securityKey.deleteSecurityKey();
-    }
-
-    @Test( dependsOnMethods = {"initiateRemoveNonVerifiedSecurityKey"} )
-    void deleteNonVerifiedSecurityKeyLogin() {
-        //Add nin cookie
-        common.addNinCookie();
-
-        //Set mfa method to be used to "security key" at login.
-        testData.setMfaMethod("securitykey");
-
-        //Login page for extra security select security key mfa method
-        extraSecurity.selectMfaMethod();
-
-        Common.log.info("Log in with Security key");
-
-        common.timeoutSeconds(8);
-    }
-
-    @Test( dependsOnMethods = {"deleteNonVerifiedSecurityKeyLogin"} )
-    void removeNonVerifiedSecurityKey() {
-        Assert.assertFalse(common.getPageBody().contains("test-key1"),
-                "Security key is still present at page! Should have been removed.");
-    }
-
-    //Log out and verify that it is possible to log in again without the security key
-    @Test( dependsOnMethods = {"removeNonVerifiedSecurityKey"} )
-    void logout(){
-        logout.runLogout();
-    }
-
-    @Test( dependsOnMethods = {"logout"} )
-    void startPage2(){
-        testData.setRegisterAccount(false);
-        startPage.runStartPage();
-    }
-
-    @Test( dependsOnMethods = {"startPage2"} )
-    void login2(){
-        testData.setAddExternalSecurityKey(false);
-        testData.setReLogin(true);
-
-        login.runLogin();
-    }
-
-    @Test( dependsOnMethods = {"login2"} )*/
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();

@@ -36,13 +36,13 @@ public class PasswordChanged {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        //common.waitUntilPageTitleContains("Återställ lösenord | eduID");
+        common.waitUntilPageTitleContains("Återställ lösenord | eduID");
     }
 
     private void clickReturnToLoginLink() {
         common.click(common.findWebElement(FINISHED_BUTTON));
         Common.log.info("Clicked the Go To eduID login link");
-        //common.waitUntilPageTitleContains("Logga in | eduID");
+        common.waitUntilPageTitleContains("Logga in | eduID");
     }
 
     // -------------------------------------------------------------------------
@@ -62,7 +62,7 @@ public class PasswordChanged {
         Common.log.info("Verifying text and labels — Swedish");
         String pageBody = common.getPageBody();
 
-        common.verifyPageBodyContainsString(pageBody, "Återställ lösenord: Slutförd");
+        common.verifyPageBodyContainsString(pageBody, "Återställ lösenord: Slutfört");
         common.verifyStringOnPage("Ditt lösenord är nu uppdaterat. Se till att förvara ditt lösenord på " +
                 "ett säkert sätt för framtida användning. När du har loggat in är det möjligt att ändra ditt lösenord.");
         common.verifyPageBodyContainsString(pageBody, "E-postadress");
@@ -81,8 +81,8 @@ public class PasswordChanged {
         String pageBody = common.getPageBody();
 
         common.verifyPageBodyContainsString(pageBody,"Reset password: Completed");
-        common.verifyPageBodyContainsString(pageBody,"You have successfully updated your password. Make sure to store " +
-                "your password securely for future use. Once you've logged in it is possible to change your password.");
+        common.verifyPageBodyContainsString(pageBody,"You have successfully updated your password. Make " +
+                "sure to store your password securely for future use. When logged in it is possible to change your password.");
         common.verifyPageBodyContainsString(pageBody,"Email address");
         common.verifyString(USER_EMAIL_DISPLAY, testData.getUsername().toLowerCase());
 

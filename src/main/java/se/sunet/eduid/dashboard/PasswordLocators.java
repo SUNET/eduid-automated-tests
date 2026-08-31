@@ -6,7 +6,8 @@ public final class PasswordLocators {
 
     private PasswordLocators() {}
 
-    public static final By ABORT_REC_PW_BUTTON   = By.id("new-password-cancel-button");
+    //public static final By ABORT_REC_PW_BUTTON   = By.id("new-password-cancel-button");
+    public static final By ABORT_REC_PW_BUTTON   = By.cssSelector("#chpass-form > button.secondary");
     public static final By SAVE_REC_PW_BUTTON    = By.id("new-password-button");
     public static final By CUSTOM_PW_RADIO       = By.id("custom-pw");
     public static final By SUGGESTED_PW_RADIO    = By.id("suggested-pw");
@@ -28,6 +29,9 @@ public final class PasswordLocators {
 
     public static final By MISMATCH_MSG_XPATH =
             By.cssSelector("#repeat-wrapper span");
+
+    public static final By SHOW_PW_FORM=
+            By.cssSelector("#register-password div button");
 }
 /*public final class PasswordLocators {
 

@@ -24,6 +24,7 @@ public class TC_82 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmEmailAddress1stAttempt"} )
     void confirmEmailAddress2ndAttempt() {
+        common.selectEnglish();
         //Set incorrect email verification code
         testData.setEmailVerificationCode("987654");
         confirmEmailAddress.runConfirmEmailAddress();
@@ -31,6 +32,7 @@ public class TC_82 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"confirmEmailAddress2ndAttempt"} )
     void confirmEmailAddress3rdAttempt() {
+        common.selectEnglish();
         //Set incorrect email verification code
         testData.setEmailVerificationCode("987654");
         confirmEmailAddress.runConfirmEmailAddress();

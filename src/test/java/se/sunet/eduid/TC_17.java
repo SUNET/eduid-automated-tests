@@ -38,14 +38,14 @@ public class TC_17 extends BeforeAndAfter {
 
         //Turn security off for logging in
         common.waitUntilClickable(By.xpath("//*[@id=\"content\"]/article[2]/form/fieldset/label/div"));
-        common.click(common.findWebElementByXpath("//*[@id=\"content\"]/article[2]/form/fieldset/label/div"));
+        common.click(common.findWebElement(By.xpath("//*[@id=\"content\"]/article[2]/form/fieldset/label/div")));
 
         testData.setMfaDisabled(true);
     }
 
     @Test( dependsOnMethods = {"addSecurityKey"} )
     void initiateTurnOffMfa() {
-        common.securityConfirmPopUp("//*[@id=\"content\"]/article[2]/form/fieldset/label/div",
+        common.securityConfirmPopUpBy(By.xpath("//*[@id=\"content\"]/article[2]/form/fieldset/label/div"),
                 "",
                 "");
     }

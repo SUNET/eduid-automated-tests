@@ -27,13 +27,10 @@ public class TC_5 extends BeforeAndAfter {
 
         //Add security key
         securityKey.addSecurityKey();
-
-        //Press continue to password button
-        common.findWebElement(By.id("continue-to-password")).click();
     }
 
     @Test( dependsOnMethods = {"registerExternalSecurityKey"} )
-    void confirmPassword() {
+    void registerPassword() {
         testData.setUseRecommendedPw(false);
 
         //Get default password from properties
@@ -41,7 +38,7 @@ public class TC_5 extends BeforeAndAfter {
         password.setPassword();
     }
 
-    @Test( dependsOnMethods = {"confirmPassword"} )
+    @Test( dependsOnMethods = {"registerPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
 
     @Test( dependsOnMethods = {"confirmedNewAccount"} )

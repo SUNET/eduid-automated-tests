@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -90,7 +91,7 @@ public class TC_40 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"extraSecurityFreja"} )
     void selectIdRefIdp() {
-        confirmIdentity.selectAndSubmitUserRefIdp();
+        common.selectAndSubmitUserRefIdp();
     }
 
     @Test( dependsOnMethods = {"selectIdRefIdp"} )
@@ -127,9 +128,10 @@ public class TC_40 extends BeforeAndAfter {
         //Verify that identity is still confirmed
         common.navigateToIdentity();
 
-        common.verifyStringOnPage("Ditt eduID är redo att användas");
-        common.verifyStringOnPage("Följande identiteter är nu kopplade till ditt eduID");
-        common.verifyStringOnPage("Svenskt personnummer");
+        String pageBody = common.getPageBody();
+        common.verifyPageBodyContainsString(pageBody, "Ditt eduID är redo att användas");
+        common.verifyPageBodyContainsString(pageBody, "Följande identiteter är nu kopplade till ditt eduID");
+        common.verifyPageBodyContainsString(pageBody, "Svenskt personnummer");
     }
 
     //Delete account when confirmed that identity is no longer verified

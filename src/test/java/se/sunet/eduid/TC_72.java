@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -36,7 +37,7 @@ public class TC_72 extends BeforeAndAfter {
         loginOtherDevice.verifyConfirmLoginLabels();
 
         //Click login button
-        common.findWebElementById("proceed-other-device-button").click();
+        common.findWebElement(By.id("proceed-other-device-button")).click();
         common.timeoutSeconds(1);
     }
 
@@ -47,7 +48,7 @@ public class TC_72 extends BeforeAndAfter {
         login.enterPassword();
 
         //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
+        common.click(common.findWebElement(By.id("login-form-button")));
 
         common.timeoutSeconds(1);
     }

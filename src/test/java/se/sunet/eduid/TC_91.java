@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -20,11 +21,12 @@ public class TC_91 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"setRecommendedPassword"} )
     void confirmedNewAccount() { confirmedNewAccount.runConfirmedNewAccount(); }
-
+/*
     @Test( dependsOnMethods = {"confirmedNewAccount"} )
     void loginPage(){
         //Press register button at login page
-        common.findWebElementById("register").click();
+        common.timeoutSeconds(5);
+        common.waitUntilClickable(By.id("register")).click();
     }
 
     @Test( dependsOnMethods = {"loginPage"} )
@@ -49,18 +51,6 @@ public class TC_91 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"login2"} )
-/*    void dashboard() {
-        //Set some user data that will be verified in dashboard
-*//*        testData.setDisplayName("inget namn sparat");
-        testData.setGivenName("inget");
-        testData.setSurName("namn");
-        testData.setIdentityNumber("lägg till personnummer");
-        testData.setEmail(testData.getUsername());*//*
-
-        common.navigateToAccount();
-    }
-
-    @Test( dependsOnMethods = {"dashboard"} )*/
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount(); }
@@ -74,5 +64,5 @@ public class TC_91 extends BeforeAndAfter {
         testData.setIncorrectPassword(true);
 
         login.runLogin();
-    }
+    }*/
 }

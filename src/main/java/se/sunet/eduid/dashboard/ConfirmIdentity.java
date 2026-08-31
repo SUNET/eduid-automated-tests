@@ -45,7 +45,7 @@ public class ConfirmIdentity {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        //common.waitUntilPageTitleContains("Identitet | eduID");
+        common.waitUntilPageTitleContains("Identitet | eduID");
     }
 
     private void enterPersonalNumber() {
@@ -129,7 +129,7 @@ public class ConfirmIdentity {
             identity.expandIdentityOptions();
             identity.verifyFrejaIdLabelsEnglish();
             common.findWebElement(FREJA_ACCEPT).click();
-            selectAndSubmitUserRefIdp();
+            common.selectAndSubmitUserRefIdp();
             common.verifyStatusMessage("Felaktigt format av identitetsnumret. Var god försök igen.");
             common.addNinCookie();
             common.timeoutMilliSeconds(800);
@@ -140,7 +140,7 @@ public class ConfirmIdentity {
 
         common.click(common.findWebElement(FREJA_PROCEED));
         common.findWebElement(FREJA_ACCEPT).click();
-        selectAndSubmitUserRefIdp();
+        common.selectAndSubmitUserRefIdp();
     }
 
     private void confirmByEidas() {
@@ -221,23 +221,5 @@ public class ConfirmIdentity {
 
         Common.log.info("Done verifying letter code pop-up labels — English");
         // Pop-up stays open — caller will enter the code next
-    }
-
-    // -------------------------------------------------------------------------
-    // Reference IDP helpers
-    // -------------------------------------------------------------------------
-
-    public void selectAndSubmitUserRefIdp() {
-        common.waitUntilClickable(SELECT_SIMULATED_USER);
-        common.findWebElement(ADVANCED_BUTTON).click();
-        common.findWebElement(PERSONAL_ID_INPUT).sendKeys(testData.getIdentityNumber());
-        common.findWebElement(GIVEN_NAME_INPUT).sendKeys(testData.getGivenName());
-        common.findWebElement(SURNAME_INPUT).sendKeys(testData.getSurName());
-
-        Common.log.info("At ref IDP, submitting: {} {} {}",
-                testData.getIdentityNumber(), testData.getGivenName(), testData.getSurName());
-
-        common.findWebElement(SUBMIT_BUTTON).click();
-        common.timeoutSeconds(5);
     }
 }

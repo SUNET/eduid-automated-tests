@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -61,7 +62,7 @@ public class TC_28 extends BeforeAndAfter {
         testData.setResetPassword(true);
 
         //Click on not you, to verify that username has to be filled on next page
-        common.findWebElementById("wrong-person-button").click();
+        common.findWebElement(By.id("wrong-person-button")).click();
 
         login.runLogin();
     }

@@ -42,7 +42,7 @@ public class TC_24 extends BeforeAndAfter {
         common.verifyStringOnPage("Ett fel uppstod under åtkomst till tjänsten.");
 
         //Select to navigate to dashboard
-        common.findWebElementById("dashboard-button").click();
+        common.findWebElement(By.id("dashboard-button").click();
         common.timeoutSeconds(5);
     }
 

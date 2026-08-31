@@ -34,7 +34,7 @@ public class EmailSent {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        //common.waitUntilPageTitleContains("Återställ lösenord | eduID");
+        common.waitUntilPageTitleContains("Återställ lösenord | eduID");
     }
 
     private void verifyLabels() {
@@ -48,32 +48,48 @@ public class EmailSent {
 
     private void verifyLabelsSwedish() {
         String pageBody = common.getPageBody();
+        Common.log.info("Verify email confirmation - Swedish");
 
-        common.verifyPageBodyContainsString(pageBody, "Återställ lösenord: Verifiera e-postadressen");
-        common.verifyPageBodyContainsString(pageBody, "Om du har ett eduID-konto, har koden skickats till ");
-        common.verifyPageBodyContainsString(pageBody,
-                testData.getEmail().toLowerCase() + ". från no-reply@eduid.se.");
-        common.verifyPageBodyContainsString(pageBody, "E-postkoden är giltig i två timmar.");
-        common.verifyPageBodyContainsString(pageBody,
-                "Om du inte har fått koden kan du avbryta processen och börja om från början.");
+        if(testData.isResetPasswordNewSession()){
+            common.verifyPageBodyContainsString(pageBody, "Återställ lösenord: Ange e-postkod");
+            common.verifyPageBodyContainsString(pageBody, "Ange e-postadressen som koden skickats till samt koden från mejlet.");
+            common.verifyPageBodyContainsString(pageBody, "E-postadress");
+        }
+        else {
+            common.verifyPageBodyContainsString(pageBody, "Återställ lösenord: Verifiera e-postadress");
+            common.verifyPageBodyContainsString(pageBody, "Ange den sexsiffriga koden som skickades från " +
+                    "no-reply@eduid.se till ");
+            common.verifyPageBodyContainsString(pageBody,
+                    testData.getEmail().toLowerCase() + " för att bekräfta din e-postadress.");
+            common.verifyPageBodyContainsString(pageBody,
+                    "Om du inte har fått koden kan du avbryta processen och börja om från början.");
+        }
 
+        common.verifyStepIndicator(3, "Verifiera e-postadress");
         common.verifyString(ABORT_BUTTON, "AVBRYT");
         common.verifyString(OK_BUTTON, "OK");
     }
 
     private void verifyLabelsEnglish() {
+        Common.log.info("Verify email confirmation - English");
+
         common.waitUntilPageTitleContains("Reset password | eduID");
 
         String pageBody = common.getPageBody();
 
-        common.verifyPageBodyContainsString(pageBody, "Reset password: Verify email address");
-        common.verifyPageBodyContainsString(pageBody, "If you have an eduID account, the code has been sent to ");
-        common.verifyPageBodyContainsString(pageBody,
-                testData.getEmail().toLowerCase() + ". from no-reply@eduid.se.");
-        common.verifyPageBodyContainsString(pageBody, "The email code is valid for two hours.");
-        common.verifyPageBodyContainsString(pageBody,
-                "If you haven't receive the code, please cancel the process and restart from the beginning.");
+        if(testData.isResetPasswordNewSession()){
+            common.verifyPageBodyContainsString(pageBody, "Reset Password: Enter email code");
+            common.verifyPageBodyContainsString(pageBody, "Enter the email address that the code was sent to, and the code from the email.");
+            common.verifyPageBodyContainsString(pageBody, "Email address");
+        }
+        else {
+            common.verifyPageBodyContainsString(pageBody, "Reset password: Verify email address");
+            common.verifyPageBodyContainsString(pageBody, "Enter the six digit code sent from no-reply@eduid.se to ");
+            common.verifyPageBodyContainsString(pageBody, testData.getEmail().toLowerCase() + " to verify your email address.");
+            common.verifyPageBodyContainsString(pageBody, "If you haven't received it, cancel and restart the process.");
+        }
 
+        common.verifyStepIndicator(3, "Verify email address");
         common.verifyString(ABORT_BUTTON, "CANCEL");
         common.verifyString(OK_BUTTON, "OK");
     }

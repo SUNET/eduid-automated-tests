@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -48,7 +49,7 @@ public class TC_7 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"startPage2"} )
     void login2(){
         //Click on not you, otherwise last username is pre-filled
-        common.findWebElementById("wrong-person-button").click();
+        common.findWebElement(By.id("wrong-person-button")).click();
 
         testData.setUsername("eduidtest.se1@gmail.com");
         login.runLogin();

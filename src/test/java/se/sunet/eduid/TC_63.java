@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -29,19 +30,18 @@ public class TC_63 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"waitForTimeout"} )
     void verifyLabels() {
         //Verify labels English
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/div[2]", "The login attempt was " +
+        common.verifyString(By.xpath("//*[@id=\"content\"]/div/div[2]"), "The login attempt was " +
                 "aborted or exceeded the time limit. Please try again.");
-        common.verifyStringById("response-code-cancel-button", "CANCEL");
-        common.verifyStringById("refresh-get-new-code", "RETRY");
+        common.verifyString(By.id("response-code-cancel-button"), "CANCEL");
+        common.verifyString(By.id("refresh-get-new-code"), "RETRY");
     }
 
     @Test( dependsOnMethods = {"verifyLabels"} )
     void pressCancel() {
         //Press cancel button
-        common.click(common.findWebElementById("response-code-cancel-button"));
+        common.click(common.findWebElement(By.id("response-code-cancel-button")));
 
         //wait for Proceed button at next page
-        //common.explicitWaitClickableElementId("login-other-device-button");
-        common.verifyStringById("login-other-device-button", "OTHER DEVICE");
+        common.verifyString(By.id("login-other-device-button"), "OTHER DEVICE");
     }
 }

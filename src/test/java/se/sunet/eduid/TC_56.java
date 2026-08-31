@@ -30,18 +30,6 @@ public class TC_56 extends BeforeAndAfter {
         login.runLogin(); }
 
     @Test( dependsOnMethods = {"login"} )
-    void confirmIdentityMail(){
-        testData.setConfirmIdBy("mail");
-        confirmIdentity.runConfirmIdentity(); }
-
-    @Test( dependsOnMethods = {"confirmIdentityMail"} )
-    void confirmedIdentity() {
-        confirmedIdentity.runConfirmedIdentity();
-
-        testData.setRegisterAccount(false);
-    }
-
-    @Test( dependsOnMethods = {"confirmedIdentity"} )
     void addSecurityKey() {
         testData.setAddExternalSecurityKey(true);
         testData.setVerifySecurityKeyByFreja(true);
@@ -75,26 +63,26 @@ public class TC_56 extends BeforeAndAfter {
         common.waitUntilClickable(By.xpath("//*[@id=\"manage-security-keys\"]//button[1]"));
 
         //Verify status beside the added key dates
-        common.verifyStringByXpath(
-                "//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/button[1]", "BANKID");
+        common.verifyString(By.xpath(
+                "//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/button[1]"), "BANKID");
 
-        common.verifyStringByXpath(
-                "//*[@id=\"manage-security-keys\"]//button[2]", "FREJA+");
+        common.verifyString(By.xpath(
+                "//*[@id=\"manage-security-keys\"]//button[2]"), "FREJA+");
 
-        common.verifyStringByXpath(
-                "//*[@id=\"manage-security-keys\"]//button[3]", "EIDAS");
+        common.verifyString(By.xpath(
+                "//*[@id=\"manage-security-keys\"]//button[3]"), "EIDAS");
 
         common.selectEnglish();
 
         //Verify status beside the added key dates
-        common.verifyStringByXpath(
-                "//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/button[1]", "BANKID");
+        common.verifyString(By.xpath(
+                "//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/button[1]"), "BANKID");
 
-        common.verifyStringByXpath(
-                "//*[@id=\"manage-security-keys\"]//button[2]", "FREJA+");
+        common.verifyString(By.xpath(
+                "//*[@id=\"manage-security-keys\"]//button[2]"), "FREJA+");
 
-        common.verifyStringByXpath(
-                "//*[@id=\"manage-security-keys\"]//button[3]", "EIDAS");
+        common.verifyString(By.xpath(
+                "//*[@id=\"manage-security-keys\"]//button[3]"), "EIDAS");
 
         //Verify the status message
         common.verifyStatusMessage("Incorrect format of the identity number. Please try again.");

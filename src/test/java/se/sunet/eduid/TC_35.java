@@ -3,6 +3,7 @@ package se.sunet.eduid;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
+import se.sunet.eduid.utils.Common;
 
 public class TC_35 extends BeforeAndAfter {
     @Test
@@ -25,8 +26,12 @@ public class TC_35 extends BeforeAndAfter {
 
         register.enterEmailAndPressRegister();
 
+
+        //Expand the registration, used for TC_35
+        //common.waitUntilClickable(EXPAND_REGISTRATION_FORM_BUTTON).click();
+
         try {
-            if (common.findWebElementById("value").isDisplayed())
+            if (common.findWebElement(By.id("value")).isDisplayed())
                 register.enterCaptchaCode();
         }catch (Exception ex){
             System.out.println("dsfklasf");
@@ -35,14 +40,24 @@ public class TC_35 extends BeforeAndAfter {
         register.registerPopUp();
 
         //Wait for cancel email verification button
-        common.waitUntilClickable(By.id("response-code-abort-button"));
+        Common.log.info("Clicking on cancel email verification button");
+        common.waitUntilClickable(By.id("response-code-abort-button")).click();
 //        register.runRegister();
 
         //Cancel email response code at confirm email page
-        common.click(common.findWebElementById("response-code-abort-button"));
+        //common.click(common.findWebElement(By.id("response-code-abort-button"));
 
         //Wait for given name field at register page
-        common.waitUntilVisible(By.id("given_name"));
+        //common.waitUntilVisible(By.id("given_name"));
+        common.timeoutSeconds(6);
+        register.enterEmailAndPressRegister();
+        common.verifyStatusMessage("The captcha has not been completed.");
+        common.timeoutSeconds(6);
+        register.enterEmailAndPressRegister();
+        common.verifyStatusMessage("The captcha has not been completed.");
+        common.timeoutSeconds(6);
+        register.enterEmailAndPressRegister();
+        common.verifyStatusMessage("The captcha has not been completed.");
         }
 
     @Test( dependsOnMethods = {"firstInitiateRegistrationAbortAtTerms"} )
@@ -59,7 +74,7 @@ public class TC_35 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"secondInitiateRegisterSameEmailAgain"} )
     void acceptTerms(){
         //Accept terms & conditions
-        common.click(common.findWebElementById("accept-button"));
+        common.click(common.findWebElement(By.id("accept-button"));
 
         //Wait for cancel email verification button
         common.explicitWaitClickableElementId("response-code-abort-button");
@@ -68,7 +83,7 @@ public class TC_35 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"acceptTerms"} )
     void cancelVerifyEmail(){
         //Cancel email response code at confirm email page
-        common.click(common.findWebElementById("response-code-abort-button"));
+        common.click(common.findWebElement(By.id("response-code-abort-button"));
 
         //Wait for given name field at register page
         common.explicitWaitVisibilityElementId("given_name");
@@ -89,7 +104,7 @@ public class TC_35 extends BeforeAndAfter {
         //register.runRegister();
 
         //Accept terms & conditions
-        //common.click(common.findWebElementById("accept-button"));
+        //common.click(common.findWebElement(By.id("accept-button"));
     }
 
     @Test( dependsOnMethods = {"thirdInitiateRegisterSameEmailAgain"} )

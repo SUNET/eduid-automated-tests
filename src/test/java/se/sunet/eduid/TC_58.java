@@ -93,7 +93,7 @@ public class TC_58 extends BeforeAndAfter {
         //Login page for extra security select security key mfa method
         extraSecurity.selectMfaMethod();
 
-        if(!common.findWebElementByXpath("//div/div[4]/div[1]/div[1]/div/a/button").isDisplayed()) {
+        if(!common.findWebElement(By.xpath("//div/div[4]/div[1]/div[1]/div/a/button")).isDisplayed()) {
             Common.log.info("Show attributes button in swamid data not present, clicking again");
             extraSecurity.selectMfaMethod();
         }
@@ -111,7 +111,7 @@ public class TC_58 extends BeforeAndAfter {
         common.navigateToUrl(testData.getBaseUrl());
 
         common.waitUntilClickable(By.id("login-button"));
-        common.findWebElementById("login-button").click();
+        common.findWebElement(By.id("login-button")).click();
         common.timeoutSeconds(3);
     }
 

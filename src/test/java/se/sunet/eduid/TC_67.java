@@ -29,12 +29,12 @@ public class TC_67 extends BeforeAndAfter {
         common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName() +"!");
 
         //Verify placeholder for username
-        common.verifyStrings(testData.getUsername(), common.findWebElementById("username").getDomAttribute("value"));
+        common.verifyStrings(testData.getUsername(), common.findWebElement(By.id("username")).getDomAttribute("value"));
     }
 
     @Test( dependsOnMethods = {"verifySignInPage"} )
     void pressNotYou() {
-        common.findWebElementById("wrong-person-button").click();
+        common.findWebElement(By.id("wrong-person-button")).click();
         common.timeoutSeconds(1);
     }
 
@@ -49,7 +49,7 @@ public class TC_67 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"enterUsernamePassword"} )
     void pressLogin() {
         //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
+        common.click(common.findWebElement(By.id("login-form-button")));
 
         common.timeoutSeconds(1);
     }
@@ -77,6 +77,6 @@ public class TC_67 extends BeforeAndAfter {
         common.verifyStringOnPage("Välkommen tillbaka, Rutger Jönåker!");
 
         //Verify placeholder for username
-        common.verifyStrings(testData.getUsername().toLowerCase(), common.findWebElementById("username").getDomAttribute("value"));
+        common.verifyStrings(testData.getUsername().toLowerCase(), common.findWebElement(By.id("username")).getDomAttribute("value"));
     }
 }

@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -36,7 +37,7 @@ public class TC_75 extends BeforeAndAfter {
         loginOtherDevice.verifyConfirmLoginLabels();
 
         //Click login button
-        common.findWebElementById("proceed-other-device-button").click();
+        common.findWebElement(By.id("proceed-other-device-button")).click();
         common.timeoutSeconds(1);
     }
 
@@ -47,19 +48,19 @@ public class TC_75 extends BeforeAndAfter {
         login.enterPassword();
 
         //Click Cancel button
-        common.click(common.findWebElementById("login-abort-button"));
+        common.click(common.findWebElement(By.id("login-abort-button")));
 
         common.timeoutSeconds(1);
     }
 
     @Test( dependsOnMethods = {"login2"} )
     void verifyStatusMessage(){
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Logga in på en annan enhet");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Avbrutet. Du kan stänga det här fönstret.");
+        common.verifyString(By.xpath("//*[@id=\"content\"]/div/h1"), "Logga in på en annan enhet");
+        common.verifyString(By.xpath("//*[@id=\"content\"]/div/p"), "Avbrutet. Du kan stänga det här fönstret.");
 
         common.selectEnglish();
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/h1", "Log in on another device");
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p", "Request cancelled. You should close this browser window.");
+        common.verifyString(By.xpath("//*[@id=\"content\"]/div/h1"), "Log in on another device");
+        common.verifyString(By.xpath("//*[@id=\"content\"]/div/p"), "Request cancelled. You should close this browser window.");
 
     }
 
@@ -78,6 +79,6 @@ public class TC_75 extends BeforeAndAfter {
         loginOtherDevice.submitCode();
 
         //wait for Proceed button at next page
-        common.verifyStringById("login-other-device-button", "ANNAN ENHET");
+        common.verifyString(By.id("login-other-device-button"), "ANNAN ENHET");
     }
 }

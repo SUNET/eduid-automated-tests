@@ -38,7 +38,7 @@ public class RequestResetPwEmail {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        //common.waitUntilPageTitleContains("Återställ lösenord | eduID");
+        common.waitUntilPageTitleContains("Återställ lösenord | eduID");
     }
 
     private void clickSendEmail() {
@@ -90,7 +90,7 @@ public class RequestResetPwEmail {
         String pageBody = common.getPageBody();
 
         common.verifyPageBodyContainsString(pageBody, "Reset password: Start account recovery process");
-        common.verifyPageBodyContainsString(pageBody, "Click the button below to send an e-mail to");
+        common.verifyPageBodyContainsString(pageBody, "Click the button below to send an email to ");
         common.verifyPageBodyContainsString(pageBody, testData.getUsername().toLowerCase());
         common.verifyPageBodyContainsString(pageBody,
                 "If you decide to cancel, simply click the Go Back button to return to the login page.");

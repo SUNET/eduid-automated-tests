@@ -16,8 +16,10 @@ public final class SecurityKeyLocators {
     public static final By VERIFY_FREJA_BUTTON        = By.id("verify-webauthn-token-modal-continue-frejaID-button");
     public static final By VERIFY_EIDAS_BUTTON        = By.id("verify-webauthn-token-modal-continue-eidas-button");
     public static final By VERIFY_FREJA_EID_BUTTON    = By.id("verify-webauthn-token-modal-continue-frejaeid-button");
-
+    public static final By FINISH_INTERNAL_MFA_SIGNUP_BUTTON    = By.id("finish-signup");
     // ===== Improved locators =====
+    public static final By SHOW_PW_FORM =
+            By.cssSelector("#register-password div button");
 
     public static final By CLOSE_POPUP_BUTTON =
             By.cssSelector("dialog button");

@@ -68,9 +68,9 @@ public class TC_85 extends BeforeAndAfter {
         common.navigateToUrl("https://ds.fidus.skolverket.se/ds/?entityID=https%3A%2F%2Fidpproxy.dev.eduid.se%2Fsp&return=https%3A%2F%2Fidpproxy.dev.eduid.se%2FSaml2SP%2Fdisco");
 
         common.waitUntilClickable(By.id("searchinput"));
-        common.findWebElementById("searchinput").sendKeys("eduid staging");
+        common.findWebElement(By.id("searchinput")).sendKeys("eduid staging");
 
-        common.findWebElementByXpath("//*[@id=\"ds-search-list\"]/a/li/div/div[1]").click();
+        common.findWebElement(By.xpath("//*[@id=\"ds-search-list\"]/a/li/div/div[1]")).click();
 
         common.timeoutSeconds(5);
     }
@@ -81,7 +81,7 @@ public class TC_85 extends BeforeAndAfter {
         login.enterPassword();
 
         //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
+        common.click(common.findWebElement(By.id("login-form-button")));
     }
 
     @Test( dependsOnMethods = {"login2"} )
@@ -118,18 +118,18 @@ public class TC_85 extends BeforeAndAfter {
         common.waitUntilClickable(By.id("submitButton"));
         common.selectDropdownScript("selectSimulatedUser", "Ulla Alm (198611062384)");
 
-        common.findWebElementById("submitButton").click();
+        common.findWebElement(By.id("submitButton")).click();
     }
 
 //    @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void verifySecurityKeyStatus2() {
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIERAD");
+        common.verifyString(By.xpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span"), "VERIFIERAD");
 
         common.selectEnglish();
 
         //Verify status beside the added key dates
-        common.verifyStringByXpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span", "VERIFIED");
+        common.verifyString(By.xpath("//*[@id=\"register-webauthn-tokens-area\"]/table/tbody/tr[2]/td[4]/span"), "VERIFIED");
         common.selectSwedish();
     }
 

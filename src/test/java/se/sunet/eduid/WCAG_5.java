@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -26,7 +27,7 @@ public class WCAG_5 extends BeforeAndAfter
         common.navigateToIdentity();
 
         //Collapse swedish menu first
-        common.findWebElementById("swedish-button").click();
+        common.findWebElement(By.id("swedish-button")).click();
 
         //Expand all menus
         identity.expandIdentityOptions();

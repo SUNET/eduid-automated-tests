@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -10,7 +11,7 @@ public class Ladok_Se extends BeforeAndAfter {
         common.waitUntilPageTitleContains("Ladok - start");
 
         //Select log in
-        common.click(common.findWebElementById("eduIdBtn"));
+        common.click(common.findWebElement(By.id("eduIdBtn")));
         common.timeoutMilliSeconds(1500);
     }
 
@@ -19,7 +20,7 @@ public class Ladok_Se extends BeforeAndAfter {
         login.verifyPageTitle();
         login.enterUsername();
         login.enterPassword();
-        common.click(common.findWebElementById("login-form-button"));
+        common.click(common.findWebElement(By.id("login-form-button")));
 
         // Verify that we see page that user is not registered in ladok
         common.waitUntilPageTitleContains("Ladok - Användare saknas");

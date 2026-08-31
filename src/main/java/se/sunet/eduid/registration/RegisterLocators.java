@@ -13,6 +13,11 @@ public final class RegisterLocators {
     public static final By REGISTER_BUTTON       = By.id("register-button");
     public static final By ACCEPT_BUTTON         = By.id("accept-button");
     public static final By CANCEL_BUTTON         = By.id("cancel-button");
+    public static final By EXPAND_REGISTRATION_FORM_BUTTON          = By.cssSelector("#register-with-name div button");
+    public static final By BANKID_BUTTON         = By.id("signup-bankid");
+    public static final By FREJA_BUTTON         = By.id("signup-freja");
+    public static final By EIDAS_BUTTON         = By.id("signup-eidas");
+    public static final By FREJA_EID_BUTTON         = By.id("signup-freja-eid");
 
     // ===== CAPTCHA =====
     public static final By CAPTCHA_INPUT         = By.id("value");
@@ -27,7 +32,7 @@ public final class RegisterLocators {
 
     // ===== CAPTCHA PAGE =====
     public static final By CAPTCHA_PAGE_H1       = By.cssSelector("#content h1");
-    public static final By CAPTCHA_PAGE_DESC     = By.cssSelector("#content > div > p");
+    public static final By CAPTCHA_PAGE_DESC     = By.cssSelector("#content div section.intro div p");
     public static final By CAPTCHA_NEW_IMAGE_BTN = By.cssSelector("#content figure button");
 
     // ===== TERMS PAGE =====

@@ -37,12 +37,14 @@ public class TC_39 extends BeforeAndAfter {
         startPage.runStartPage(); }
 
     @Test( dependsOnMethods = {"startPage2"} )
-    void register2(){
+    void register2() {
         testData.setGenerateUsername(false);
-        register.runRegister(); }
+        register.runRegister();
+    }
 
     @Test( dependsOnMethods = {"register2"} )
-    void confirmEmailAddress2() { confirmEmailAddress.runConfirmEmailAddress(); }
+    void confirmEmailAddress2() {
+        confirmEmailAddress.runConfirmEmailAddress(); }
 
     //Delete the account, so it will be removed after 2 weeks by script
     @Test( dependsOnMethods = {"confirmEmailAddress2"} )

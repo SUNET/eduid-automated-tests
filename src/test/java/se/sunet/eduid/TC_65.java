@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
@@ -37,7 +38,7 @@ public class TC_65 extends BeforeAndAfter {
         common.timeoutSeconds(3);
 
         //Check timer is present
-        Assert.assertTrue(common.findWebElementByXpath("//*[@id=\"content\"]/div/div/div[2]/span[2]").isDisplayed(),
+        Assert.assertTrue(common.findWebElement(By.xpath("//*[@id=\"content\"]/div/div/div[2]/span[2]")).isDisplayed(),
                 "Timer is missing");
 
         common.timeoutSeconds(121);
@@ -45,13 +46,13 @@ public class TC_65 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"waitForTimeout"} )
     void verifyLabels() {
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p",
+        common.verifyString(By.xpath("//*[@id=\"content\"]/div/p"),
                 "The code has expired, please close this browser window.");
 
         common.selectSwedish();
         common.timeoutSeconds(121);
 
-        common.verifyStringByXpath("//*[@id=\"content\"]/div/p",
+        common.verifyString(By.xpath("//*[@id=\"content\"]/div/p"),
                 "Koden har gått ut och du bör stänga det här fönstret");
     }
 }

@@ -33,7 +33,7 @@ public class LoginExtraSecurity {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        //common.waitUntilPageTitleContains("Logga in | eduID");
+        common.waitUntilPageTitleContains("Logga in | eduID");
     }
 
     private void verifyTexts() {
@@ -138,11 +138,11 @@ public class LoginExtraSecurity {
                 "Choose a second method to authenticate yourself, ensuring only you can access your eduID.");
 
         // TODO: uncomment when bug is fixed and the multi-key warning text is visible in English again
-        // if (shouldVerifyMultiKeyWarning()) {
-        //     common.verifyPageBodyContainsString(pageBody,
-        //             "It is strongly recommended to add more than one security key or passkey to ensure " +
-        //             "you can still sign in to your account if one is lost.");
-        // }
+        if (shouldVerifyMultiKeyWarning()) {
+             common.verifyPageBodyContainsString(pageBody,
+                     "It is strongly recommended to add more than one security key or passkey to ensure " +
+                     "you can still sign in to your account if one is lost.");
+         }
     }
 
     private void verifyCommonMfaLabelsEnglish(String pageBody) {

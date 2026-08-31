@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -24,6 +25,6 @@ public class TC_62 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"runLoginOtherDevice"} )
     void verifyStatusMessage(){
-        common.verifyStringById("wrong-code-error", "Felaktig kod, försök igen");
+        common.verifyString(By.id("wrong-code-error"), "Felaktig kod, försök igen");
     }
 }

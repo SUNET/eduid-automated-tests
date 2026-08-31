@@ -20,7 +20,7 @@ public class TC_87 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"navigateToFidusTestSkolverketDnp"} )
     void loginWithoutEid() {
         //Click on login button (without eID)
-        common.findWebElementByXpath("//div[2]/div/div/p[2]/a").click();
+        common.findWebElement(By.xpath("//div[2]/div/div/p[2]/a")).click();
 
         //Wait for idp search field
         common.waitUntilClickable(By.id("searchinput"));
@@ -45,8 +45,7 @@ public class TC_87 extends BeforeAndAfter {
         //Wait for handling of personal info link
         common.waitUntilVisible(By.xpath("//div[2]/div/div/p[5]/a"));
 
-        common.verifyStringOnPage("Grattis!\n" +
-                "Du har nu lyckats logga in till testsidan.");
+        common.verifyString(By.xpath("/html/body/div[2]/div/div/p[1]"), "Du har nu lyckats logga in till testsidan.");
 
         common.verifyStringOnPage(testData.getEppn() +"@dev.eduid.se");
     }

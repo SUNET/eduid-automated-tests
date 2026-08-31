@@ -89,7 +89,7 @@ public class BeforeAndAfter {
         registeredData = new RegisteredData(common, testData);
         swamid = new Swamid(common, testData);
         swamidData = new SwamidData(common, testData);
-        securityKey = new SecurityKey(common, testData);
+        securityKey = new SecurityKey(common, testData, password);
         help = new Help(common);
         loginExtraSecurity = new LoginExtraSecurity(common, testData);
         sunet = new Sunet(common, testData);
@@ -125,7 +125,7 @@ public class BeforeAndAfter {
     public void captureScreenshot(ITestResult result){
         // Change the condition , If the screenshot needs to be taken for other status as well
         if(ITestResult.FAILURE==result.getStatus()){
-            Shutterbug.shootPage(webdriver, Capture.FULL_SCROLL, 500, true)
+            Shutterbug.shootPage(webdriver, Capture.FULL_SCROLL, 100, true)
                     .withName(testData.getTestCase() +"-" +result.getName())
                     .save("screenshots/");
         }

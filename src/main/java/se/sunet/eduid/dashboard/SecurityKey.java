@@ -19,12 +19,14 @@ public class SecurityKey {
 
     private final Common   common;
     private final TestData testData;
+    private final Password password;
 
     private static final String KEY_NAME = "test-key1";
 
-    public SecurityKey(Common common, TestData testData) {
+    public SecurityKey(Common common, TestData testData, Password password) {
         this.common   = common;
         this.testData = testData;
+        this.password = password;
     }
 
     // -------------------------------------------------------------------------
@@ -35,14 +37,14 @@ public class SecurityKey {
         navigateToSecurityPage();
         verifySecurityLabels();
         addSecurityKey();
-        verifyAfterKeyAdded();
+        selectMetodForMFAVerification();
     }
 
     public void deleteSecurityKey() {
         log.info("Delete security key — verifying pop-up labels");
         common.click(common.findWebElement(REMOVE_KEY_BUTTON));
-        common.securityConfirmPopUp(
-                "//*[@id=\"remove-webauthn\"]",
+        common.securityConfirmPopUpBy(
+                By.id("remove-webauthn"),
                 "Obs: Din säkerhetsnyckel " + KEY_NAME + " kommer att tas bort efter inloggningen.",
                 "Note: Your security key " + KEY_NAME + " will be removed after you log in.");
         log.info("Delete security key — pressed Accept");
@@ -115,10 +117,27 @@ public class SecurityKey {
         log.info("Added security key '{}' and clicked OK", KEY_NAME);
         common.timeoutMilliSeconds(500);
 
-        //verifyAfterKeyAdded();
+        //When the MFA is added in the register flow. (When MFA added when logged in from the security menu, other flow is used)
+        if(testData.isAddExternalSecurityKey() && testData.isRegisterAccount()){
+            verifyAddedExternalKey();
+        }
+        else if(testData.isAddInternalPassKey() && testData.isRegisterAccount()){
+            verifyAddedInternalKey();
+
+            //Add a password to the key
+            if(testData.isAddPasswordToInternalPassKey()){
+                log.info("Adding password to internal passkey");
+                password.setPassword();
+            }
+            else {
+                //Pressing the Complete register button.
+                log.info("Pressing the Complete register button");
+                common.findWebElement(FINISH_INTERNAL_MFA_SIGNUP_BUTTON).click();
+            }
+        }
     }
 
-    public void verifyAfterKeyAdded() {
+    public void selectMetodForMFAVerification() {
         if (testData.isVerifySecurityKeyByFreja()) {
             verifyAndProceedWithMethod("Freja",
                     VERIFY_FREJA_BUTTON,
@@ -143,7 +162,7 @@ public class SecurityKey {
             common.timeoutSeconds(3);
             if (Objects.requireNonNull(common.getWebDriver().getTitle()).equalsIgnoreCase("Säkerhet | eduID")) {
                 log.info("Still on security page — clicking eIDAS again: {}", testData.getMfaMethod());
-                common.findWebElementByXpath("//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/button[3]").click();
+                common.findWebElement(By.xpath("//*[@id=\"manage-security-keys\"]/figure/div/div[3]/span/button[3]")).click();
             }
 
         } else if (testData.isVerifySecurityKeyByFrejaeID()) {
@@ -161,6 +180,50 @@ public class SecurityKey {
             verifyAddedKeyLabelsSwedish();
             verifyAddedKeyLabelsEnglish();
         }
+    }
+
+    private void verifyAddedExternalKey(){
+        log.info("Verify added external security key information - Swedish");
+
+        String pageBody = common.getPageBody();
+        common.verifyPageBodyContainsString(pageBody, "Skapa eduID: Lägg till inloggningsmetod");
+        common.verifyPageBodyContainsString(pageBody, "En säkerhetsnyckel har registrerats. Den här typen " +
+                "av nyckel kräver även ett lösenord för att logga in.");
+        common.verifyPageBodyContainsString(pageBody, "Din registrerade säkerhetsnyckel: " + KEY_NAME);
+        common.verifyPageBodyContainsString(pageBody, "ett lösenord krävs för den här nyckeln");
+
+        common.selectEnglish();
+        log.info("Verify added external security key information - English");
+        pageBody = common.getPageBody();
+        common.verifyPageBodyContainsString(pageBody, "Create eduID: Register your sign-in method");
+        common.verifyPageBodyContainsString(pageBody, "A security key has been registered. This type of " +
+                "key also requires a password to sign in.");
+        common.verifyPageBodyContainsString(pageBody, "Your registered security key: " + KEY_NAME);
+        common.verifyPageBodyContainsString(pageBody, "a password is required for this key");
+
+        common.selectSwedish();
+    }
+
+    private void verifyAddedInternalKey(){
+        log.info("Verify added internal security key information - Swedish");
+
+        String pageBody = common.getPageBody();
+        common.verifyPageBodyContainsString(pageBody, "Skapa eduID: Lägg till inloggningsmetod");
+        common.verifyPageBodyContainsString(pageBody, "Välj mellan passkey/säkerhetsnyckel, lösenord eller båda.");
+        common.verifyPageBodyContainsString(pageBody, "Din registrerade säkerhetsnyckel: " + KEY_NAME);
+        common.verifyString(FINISH_INTERNAL_MFA_SIGNUP_BUTTON,"SLUTFÖR SKAPANDET AV EDUID");
+        common.verifyPageBodyContainsString(pageBody, "du kan också lägga till ett lösenord");
+
+        common.selectEnglish();
+        log.info("Verify added internal security key information - English");
+        pageBody = common.getPageBody();
+        common.verifyPageBodyContainsString(pageBody, "Create eduID: Register your sign-in method");
+        common.verifyPageBodyContainsString(pageBody, "Choose between a passkey/security key, password or both.");
+        common.verifyPageBodyContainsString(pageBody, "Your registered security key: " + KEY_NAME);
+        common.verifyString(FINISH_INTERNAL_MFA_SIGNUP_BUTTON,"COMPLETE CREATING EDUID");
+        common.verifyPageBodyContainsString(pageBody, "you can also add a password");
+
+        common.selectSwedish();
     }
 
     /**
@@ -196,7 +259,7 @@ public class SecurityKey {
                 "säkerställa att endast du som kontohavare har tillgång till ditt konto.");
         common.verifyPageBodyContainsString(pageBody,
                 "Du kan läsa mer om säkerhetsnycklar som stöds i hjälpavsnittet: Utökad säkerhet med ditt eduID.");
-        common.verifyXpathIsWorkingLink("//*[@id=\"content\"]/article[1]/p[3]/a");
+        common.verifyLocatorIsWorkingLink(By.xpath("//*[@id=\"content\"]/article[1]/p[3]/a"));
         common.verifyPageBodyContainsString(pageBody, "Lägg till en ny säkerhetsnyckel:");
         common.verifyString(ADD_EXTERNAL_KEY_BUTTON, "SÄKERHETSNYCKEL");
         common.verifyPageBodyContainsString(pageBody, "Din externa USB-säkerhetsnyckel");
@@ -223,7 +286,7 @@ public class SecurityKey {
                 "access to your account is limited solely to you, the account holder.");
         common.verifyPageBodyContainsString(pageBody,
                 "You can read more about supported security keys in the Help section: Improving the security level of eduID.");
-        common.verifyXpathIsWorkingLink("//*[@id=\"content\"]/article[1]/p[3]/a");
+        common.verifyLocatorIsWorkingLink(By.xpath("//*[@id=\"content\"]/article[1]/p[3]/a"));
         common.verifyPageBodyContainsString(pageBody, "Add a new security key:");
         common.verifyString(ADD_EXTERNAL_KEY_BUTTON, "SECURITY KEY");
         common.verifyPageBodyContainsString(pageBody, "Your external USB security key");

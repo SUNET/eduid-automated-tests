@@ -32,7 +32,7 @@ public class Antagning_Se extends BeforeAndAfter {
         login.verifyPageTitle();
         login.enterUsername();
         login.enterPassword();
-        common.click(common.findWebElementById("login-form-button"));
+        common.click(common.findWebElement(By.id("login-form-button")));
 
         // Verify that we are logged in
         common.waitUntilClickable(By.xpath("//main/section/a"));
@@ -42,9 +42,9 @@ public class Antagning_Se extends BeforeAndAfter {
     @Test( dependsOnMethods = {"loginToAntagning"} )
     void logout(){
         //click profile
-        common.click(common.findWebElementByXpath("//*[@id=\"header\"]/div/div[1]/button"));
+        common.click(common.findWebElement(By.xpath("//*[@id=\"header\"]/div/div[1]/button")));
 
         //Click log out
-        common.click(common.findWebElementByXpath("//*[@id=\"tab-mypages-logout\"]/button"));
+        common.click(common.findWebElement(By.xpath("//*[@id=\"tab-mypages-logout\"]/button")));
     }
 }

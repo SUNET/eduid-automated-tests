@@ -51,7 +51,7 @@ public class TC_70 extends BeforeAndAfter {
         common.verifyStringOnPage("The request is not valid anymore");
 
         //Click Abort button
-        common.findWebElementById("response-code-cancel-button").click();
+        common.findWebElement(By.id("response-code-cancel-button")).click();
 
         //Wait for the Log in page
         common.waitUntilClickable(By.id("login-form-button"));

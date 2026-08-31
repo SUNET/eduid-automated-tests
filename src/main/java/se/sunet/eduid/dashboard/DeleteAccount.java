@@ -17,6 +17,7 @@ import static se.sunet.eduid.utils.Common.log;
  *     egen pop-up och stänger den efter verifiering).
  *  3. Öppna pop-upen en sista gång och klicka antingen Ta bort eller Stäng.
  */
+
 public class DeleteAccount {
 
     private final Common   common;

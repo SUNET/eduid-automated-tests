@@ -109,7 +109,7 @@ public class TC_51 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"extraSecurityFreja"} )
     void selectIdRefIdp() {
-        confirmIdentity.selectAndSubmitUserRefIdp();
+        common.selectAndSubmitUserRefIdp();
     }
 
     @Test( dependsOnMethods = {"selectIdRefIdp"} )
@@ -130,7 +130,7 @@ public class TC_51 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"extraSecurityFreja2"} )
     void selectIdRefIdp2() {
-        confirmIdentity.selectAndSubmitUserRefIdp();
+        common.selectAndSubmitUserRefIdp();
     }
 
     @Test( dependsOnMethods = {"selectIdRefIdp2"} )

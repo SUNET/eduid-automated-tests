@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
@@ -126,7 +127,9 @@ public class TC_42 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"extraSecuritySecurityKey"} )
-    void setRecommendedPassword2() { password.setPassword(); }
+    void setRecommendedPassword2() {
+        testData.setAddExternalSecurityKey(false);
+        password.setPassword(); }
 
     @Test( dependsOnMethods = {"setRecommendedPassword2"} )
     void passwordChanged() { passwordChanged.runPasswordChanged(); }
@@ -150,6 +153,9 @@ public class TC_42 extends BeforeAndAfter {
 
     @Test( dependsOnMethods = {"extraSecuritySecurityKey4"} )
     void dashboard() {
+        //To get correct dashboard page status
+        testData.setAddExternalSecurityKey(true);
+
         //Account is verification status
         testData.setAccountVerified(true);
         testData.setIdentityConfirmed(true);
@@ -163,9 +169,10 @@ public class TC_42 extends BeforeAndAfter {
         //Verify that identity is still confirmed
         common.navigateToIdentity();
 
-        common.verifyStringOnPage("Ditt eduID är redo att användas");
-        common.verifyStringOnPage("Följande identiteter är nu kopplade till ditt eduID");
-        common.verifyStringOnPage("Svenskt personnummer");
+        String pageBody = common.getPageBody();
+        common.verifyPageBodyContainsString(pageBody, "Ditt eduID är redo att användas");
+        common.verifyPageBodyContainsString(pageBody, "Följande identiteter är nu kopplade till ditt eduID");
+        common.verifyPageBodyContainsString(pageBody, "Svenskt personnummer");
     }
 
     //Delete account when confirmed that identity is no longer verified

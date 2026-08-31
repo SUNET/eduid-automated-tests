@@ -87,7 +87,7 @@ public class Name {
         common.verifyStringOnPage("För- och efternamn kommer att ersättas med de från folkbokföringen om du verifierar ditt eduID med ditt personummer.");
 
         if (testData.isRegisterAccount()) {
-            common.click(common.findWebElementById("Svenska"));
+            common.click(common.findWebElement(By.id("Svenska")));
         }
 
         common.click(common.waitUntilClickable(SAVE_BUTTON));
@@ -140,7 +140,7 @@ public class Name {
 
     private void verifyLabelsSwedish() {
         Common.log.info("Verifying name labels in Swedish");
-        //common.waitUntilPageTitleContains("Identitet | eduID");
+        common.waitUntilPageTitleContains("Identitet | eduID");
 
         String pageBody = common.getPageBody();
         common.verifyPageBodyContainsString(pageBody, "Namn & visningsnamn");

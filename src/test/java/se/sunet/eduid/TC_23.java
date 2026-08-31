@@ -59,13 +59,15 @@ public class TC_23 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"dashboard2"} )
-    void password2() throws IOException {
-        testData.isIncorrectPassword();
+    void password2(){
         testData.setUseRecommendedPw(false);
-        testData.setProperties(testData.getTestSuite());
+        //testData.setResetPassword(true);
+        //testData.setProperties(testData.getTestSuite());
         testData.setNewPassword(origPassword);
 
         password.runPassword();
+        //password.navigateToSettings();
+        //password.setPassword();
     }
 
     @Test( dependsOnMethods = {"password2"} )

@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -14,7 +15,7 @@ public class Jira_Sunet_Se extends BeforeAndAfter {
         login.verifyPageTitle();
         login.enterUsername();
         login.enterPassword();
-        common.click(common.findWebElementById("login-form-button"));
+        common.click(common.findWebElement(By.id("login-form-button")));
 
         // Verify that we see the DIGG OPS que
         common.waitUntilPageTitleContains("Service Desk");

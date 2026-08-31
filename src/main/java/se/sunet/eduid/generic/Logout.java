@@ -35,6 +35,6 @@ public class Logout {
     private void verifyReturnToStartPage() {
         // Wait for start page to be ready before delegating label checks.
         common.waitUntilClickable(SIGN_UP_BUTTON);
-        startPage.verifyLabelsSwedish();
+        startPage.verifyLabels();
     }
 }

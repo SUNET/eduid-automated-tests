@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
@@ -51,22 +52,22 @@ public class TC_78 extends BeforeAndAfter {
         // one method to confirm identity, use standard above.
 
         //Expand Swedish options
-        common.click(common.findWebElementById("swedish-button"));
+        common.click(common.findWebElement(By.id("swedish-button")));
 
         //Add nin-cookie to get successful response from idp
         common.addNinCookie();
 
         //Expand Freja menu, since collapsed when change of language
-        common.click(common.findWebElementById("se-freja-button"));
+        common.click(common.findWebElement(By.id("se-freja-button")));
 
         //Select Freja eID by pressing Continue
-        common.click(common.findWebElementByXpath("//*[@id=\"se-freja\"]/div/button"));
+        common.click(common.findWebElement(By.xpath("//*[@id=\"se-freja\"]/div/button")));
 
         //Click Use Freja eID in pop-up dialog
-        common.findWebElementById("eidas-info-modal-accept-button").click();
+        common.findWebElement(By.id("eidas-info-modal-accept-button")).click();
 
         //Select and submit user at reference IDP
-        confirmIdentity.selectAndSubmitUserRefIdp();
+        common.selectAndSubmitUserRefIdp();
     }
 
     @Test( dependsOnMethods = {"confirmIdentityFreja"} )

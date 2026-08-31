@@ -1,6 +1,5 @@
 package se.sunet.eduid.registration;
 
-import org.openqa.selenium.By;
 import se.sunet.eduid.utils.Common;
 import se.sunet.eduid.utils.TestData;
 
@@ -36,7 +35,7 @@ public class ConfirmedNewAccount {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        //common.waitUntilPageTitleContains("Registrera | eduID");
+        common.waitUntilPageTitleContains("Registrera | eduID");
         common.waitUntilClickable(FINISHED_BUTTON);
     }
 
@@ -63,13 +62,12 @@ public class ConfirmedNewAccount {
         common.verifyPageBodyContainsString(pageBody, "Skapa eduID: Slutfört");
 
         if(testData.isAddInternalPassKey()){
-            common.verifyPageBodyContainsString(pageBody,"Ditt eduID-konto har skapats. Du kan " +
-                    "logga in med din registrerade säkerhetsnyckel.");
+            common.verifyPageBodyContainsString(pageBody,"Ditt eduID-konto har skapats och du kan logga in " +
+                    "med dina tillagda uppgifter.");
         }
         else {
-            common.verifyPageBodyContainsString(pageBody, "Här är dina inloggningsuppgifter för eduID. Kom ihåg eller spara lösenordet på " +
-                    "ett säkert sätt! Obs: mellanrummen i lösenordet är för att göra det mer läsbart och tas automatiskt " +
-                    "bort vid inmatning. Du kan efter att du har loggat in välja att byta lösenord.");
+            common.verifyPageBodyContainsString(pageBody, "Ditt eduID-konto har skapats och du kan logga in" +
+                    " med dina tillagda uppgifter.");
 
             if (testData.isUseRecommendedPw()) {
                 common.verifyPageBodyContainsString(pageBody, "Lösenord");
@@ -85,6 +83,12 @@ public class ConfirmedNewAccount {
         else {
             common.verifyString(FINISHED_BUTTON, "Gå till eduID för att logga in");
         }
+
+        common.verifyPageBodyContainsString(pageBody, "Obs: Logga in i eduID.se närsomhelst för att" +
+                " hantera dina kontoinställningar, t.ex. lägga till nycklar, byta lösenord, uppdatera namn och " +
+                "verifiera din identitet. Läs mer om eduID i hjälp-innehållet som nås i sidfoten.");
+
+        common.verifyStepIndicator(5, "Slutfört");
     }
 
     private void verifyLabelsEnglish() {
@@ -95,13 +99,12 @@ public class ConfirmedNewAccount {
         common.verifyPageBodyContainsString(pageBody, "Create eduID: Completed");
 
         if(testData.isAddInternalPassKey()){
-            common.verifyPageBodyContainsString(pageBody,"Your eduID account has been created. " +
-                    "You can sign in using your registered security key.");
+            common.verifyPageBodyContainsString(pageBody,"Your eduID account has been created and you can" +
+                    " continue using it with the details you have provided.");
         }
         else {
-            common.verifyPageBodyContainsString(pageBody, "These are your login details for eduID. Remember or save the password securely! " +
-                    "Note: spaces in the password are there for legibility and will be removed automatically if entered. " +
-                    "Once you've logged in it is possible to change your password.");
+            common.verifyPageBodyContainsString(pageBody, "Your eduID account has been created and " +
+                    "you can continue using it with the details you have provided.");
 
             if (testData.isUseRecommendedPw()) {
                 common.verifyPageBodyContainsString(pageBody, "Password");
@@ -116,5 +119,11 @@ public class ConfirmedNewAccount {
         else {
             common.verifyString(FINISHED_BUTTON, "Go to eduID to login");
         }
+
+        common.verifyPageBodyContainsString(pageBody, "Note: Sign in to eduID.se anytime to manage" +
+                " your account settings, e.g. add more keys, change password, update name and verify your " +
+                "identity. Read more about eduID in the help content accessible in the footer.");
+
+        common.verifyStepIndicator(5, "Completed");
     }
 }

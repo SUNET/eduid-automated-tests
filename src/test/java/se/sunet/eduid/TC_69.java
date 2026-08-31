@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 
@@ -64,7 +65,7 @@ public class TC_69 extends BeforeAndAfter {
         common.verifyStringOnPage("Välkommen tillbaka, " +testData.getDisplayName() +"!");
 
         //Verify placeholder for username
-        common.verifyStrings(testData.getUsername(), common.findWebElementById("username").getDomAttribute("value"));
+        common.verifyStrings(testData.getUsername(), common.findWebElement(By.id("username")).getDomAttribute("value"));
     }
 
     @Test( dependsOnMethods = {"verifySignInPage"} )
@@ -73,7 +74,7 @@ public class TC_69 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"enterPassword"} )
     void pressLogin() {
         //Click log in button
-        common.click(common.findWebElementById("login-form-button"));
+        common.click(common.findWebElement(By.id("login-form-button")));
 
         common.timeoutSeconds(1);
     }

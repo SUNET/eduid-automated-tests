@@ -1,5 +1,6 @@
 package se.sunet.eduid;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
@@ -39,7 +40,7 @@ public class TC_57 extends BeforeAndAfter {
 
         login.enterUsername();
         login.enterPassword();
-        common.click(common.findWebElementById("login-form-button"));
+        common.click(common.findWebElement(By.id("login-form-button")));
     }
 
     @Test( dependsOnMethods = {"login"} )

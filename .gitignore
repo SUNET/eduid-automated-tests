@@ -15,3 +15,4 @@ notused
 .idea
 src/test/java/se/sunet/eduid/dev.xml
 src/main/resources/staging.properties
+src/main/java/se/sunet/eduid/utils/MailReader.java

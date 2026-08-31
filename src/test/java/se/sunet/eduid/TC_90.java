@@ -97,7 +97,7 @@ public class TC_90 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"navigateToFidusTestSkolverketDnp"} )
     void loginWithEid() {
         //Click on login button (with eID)
-        common.findWebElementByXpath("//div[2]/div/div/p[3]/a/button").click();
+        common.findWebElement(By.xpath("//div[2]/div/div/p[3]/a/button")).click();
 
         //Wait for idp search field
         common.waitUntilClickable(By.id("searchinput"));
@@ -126,9 +126,63 @@ public class TC_90 extends BeforeAndAfter {
         //Wait for handling of personal info link
         common.waitUntilVisible(By.xpath("//div[2]/div/div/p[5]/a"));
 
-        common.verifyStringOnPage("Grattis!\n" +
+        common.verifyString(By.xpath("/html/body/div[2]/div/div/p[1]"),
                 "Du har nu lyckats logga in till testsidan.");
 
         common.verifyStringOnPage(testData.getEppn() +"@dev.eduid.se");
+    }
+
+
+    @Test( dependsOnMethods = {"validateSuccessfulLogin"} )
+    void navigateToEduid(){
+        common.navigateToUrl(testData.getBaseUrl());
+
+        common.waitUntilClickable(By.id("login-button"));
+        common.findWebElement(By.id("login-button")).click();
+        common.timeoutSeconds(3);
+    }
+
+    @Test( dependsOnMethods = {"navigateToEduid"} )
+    void loginMfaFreja() {
+        //Set mfa method to be used to "freja" at login.
+        testData.setMfaMethod("freja");
+
+        //This account has confirmed identity
+        testData.setIdentityConfirmed(true);
+
+        //Login page for extra security select freja mfa method
+        extraSecurity.selectMfaMethod();
+        Common.log.info("Log in with Freja");
+    }
+
+    @Test( dependsOnMethods = {"loginMfaFreja"} )
+    void selectUserRefIdp2(){
+        //Select and submit user
+        common.selectAndSubmitUserRefIdp();
+    }
+
+    @Test( dependsOnMethods = {"selectUserRefIdp2"} )
+    void delete() {
+        testData.setDeleteButton(true);
+        deleteAccount.runDeleteAccount();
+    }
+
+    @Test( dependsOnMethods = {"delete"} )
+    void startPage3(){
+        testData.setRegisterAccount(false);
+        startPage.runStartPage();
+    }
+
+    @Test( dependsOnMethods = {"startPage3"} )
+    void verifyAccountDeleted(){
+        testData.setAccountDeleted(true);
+
+        //Login page for extra security select security key mfa method
+        extraSecurity.selectMfaMethod();
+
+        //Select and submit user
+        common.selectAndSubmitUserRefIdp();
+
+        login.signIn();
     }
 }

@@ -5,7 +5,9 @@ import org.testng.annotations.Test;
 import se.sunet.eduid.utils.BeforeAndAfter;
 import se.sunet.eduid.utils.Common;
 
-public class TC_13 extends BeforeAndAfter {
+public class TC_54 extends BeforeAndAfter {
+    //TODO this test case is not completed, need to know if user should be able to register a new
+    //TODO account when already registered with eidas. since limitation of thest users in the XA/XB test countries
     @Test
     void swamid(){
         common.navigateToUrl("https://release-check.qa.swamid.se");
@@ -20,7 +22,7 @@ public class TC_13 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"createEduIDAccount"} )
     void register(){
         testData.setRegisterAccount(true);
-        testData.setSwamidSp(true);
+        testData.setRegisterWithEidas(true);
         register.runRegister();}
 
     @Test( dependsOnMethods = {"register"} )
@@ -62,19 +64,25 @@ public class TC_13 extends BeforeAndAfter {
     }
 
     @Test( dependsOnMethods = {"navigateToEduid"} )
-    void loginMfaSecurityKey() {
-        //Set mfa method to be used to "securitykey" at login.
-        testData.setMfaMethod("securitykey");
+    void loginMfaFreja() {
+        //Set mfa method to be used to "eidas" at login.
+        testData.setMfaMethod("eidas");
 
         //This account has confirmed identity
         testData.setIdentityConfirmed(true);
 
         //Login page for extra security select freja mfa method
         extraSecurity.selectMfaMethod();
-        Common.log.info("Log in with Security key");
+        Common.log.info("Log in with Freja");
     }
 
-    @Test( dependsOnMethods = {"loginMfaSecurityKey"} )
+    @Test( dependsOnMethods = {"loginMfaFreja"} )
+    void selectUserRefIdp(){
+        //Select and submit user
+        common.selectAndSubmitUserRefIdp();
+    }
+
+    @Test( dependsOnMethods = {"selectUserRefIdp"} )
     void delete() {
         testData.setDeleteButton(true);
         deleteAccount.runDeleteAccount();
@@ -92,6 +100,9 @@ public class TC_13 extends BeforeAndAfter {
 
         //Login page for extra security select security key mfa method
         extraSecurity.selectMfaMethod();
+
+        //Select and submit user
+        common.selectAndSubmitUserRefIdp();
 
         login.signIn();
     }

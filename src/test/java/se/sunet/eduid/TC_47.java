@@ -47,33 +47,33 @@ public class TC_47 extends BeforeAndAfter {
         common.selectEnglish();
 
         //Click remove identity button
-        common.findWebElementById("remove-identity-nin").click();
+        common.findWebElement(By.id("remove-identity-nin")).click();
 
         //Verify text and labels in remove identity pop-up
-        common.verifyStringByXpath("//*[@id=\"remove-identity-verification\"]/div/div/div[1]/h4",
+        common.verifyString(By.xpath("//*[@id=\"remove-identity-verification\"]/div/div/div[1]/h4"),
                 "Disconnect your identity");
-        common.verifyStringByXpath("//*[@id=\"remove-identity-verification\"]/div/div/div[2]",
+        common.verifyString(By.xpath("//*[@id=\"remove-identity-verification\"]/div/div/div[2]"),
                 "Are you sure you want to disconnect your identity from your eduID account?");
-        common.verifyStringById("remove-identity-verification-accept-button", "CONFIRM");
+        common.verifyString(By.id("remove-identity-verification-accept-button"), "CONFIRM");
 
         //Close pop up
-        common.click(common.findWebElementById("remove-identity-verification-close-button"));
+        common.click(common.findWebElement(By.id("remove-identity-verification-close-button")));
 
         //Select Swedish
         common.selectSwedish();
 
         //Click remove identity button
-        common.findWebElementById("remove-identity-nin").click();
+        common.findWebElement(By.id("remove-identity-nin")).click();
 
         //Verify text and labels in remove identity pop-up
-        common.verifyStringByXpath("//*[@id=\"remove-identity-verification\"]/div/div/div[1]/h4",
+        common.verifyString(By.xpath("//*[@id=\"remove-identity-verification\"]/div/div/div[1]/h4"),
                 "Frånkoppla din identitet");
-        common.verifyStringByXpath("//*[@id=\"remove-identity-verification\"]/div/div/div[2]",
+        common.verifyString(By.xpath("//*[@id=\"remove-identity-verification\"]/div/div/div[2]"),
                 "Är du säker på att du vill ta bort koppling till din identitet från ditt eduID konto?");
-        common.verifyStringById("remove-identity-verification-accept-button", "BEKRÄFTA");
+        common.verifyString(By.id("remove-identity-verification-accept-button"), "BEKRÄFTA");
 
         //Press confirm delete
-        common.click(common.findWebElementById("remove-identity-verification-accept-button"));
+        common.click(common.findWebElement(By.id("remove-identity-verification-accept-button")));
 
         common.waitUntilClickable(By.id("swedish-button"));
     }

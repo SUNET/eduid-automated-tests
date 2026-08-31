@@ -32,7 +32,8 @@ public class Identity {
         verifyPageTitle();
 
         if (testData.getTestSuite().equalsIgnoreCase("prod")) {
-            common.verifyStringByXpath("//*[@id=\"text-content\"]/div[1]/h4", "Ditt eduID är redo att användas");
+            common.verifyString(By.xpath("//*[@id=\"text-content\"]/div[1]/h4"),
+                    "Ditt eduID är redo att användas");
         } else {
             verifyLabelsSwedish();
             verifyLabelsEnglish();
@@ -46,7 +47,7 @@ public class Identity {
     // -------------------------------------------------------------------------
 
     private void verifyPageTitle() {
-        //common.waitUntilPageTitleContains("Identitet | eduID");
+        common.waitUntilPageTitleContains("Identitet | eduID");
     }
 
     // -------------------------------------------------------------------------
