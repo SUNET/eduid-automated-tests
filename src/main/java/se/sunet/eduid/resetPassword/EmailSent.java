@@ -67,7 +67,7 @@ public class EmailSent {
 
         common.verifyStepIndicator(3, "Verifiera e-postadress");
         common.verifyString(ABORT_BUTTON, "AVBRYT");
-        common.verifyString(OK_BUTTON, "OK");
+        common.verifyString(OK_BUTTON, "FORTSÄTT");
     }
 
     private void verifyLabelsEnglish() {
@@ -91,6 +91,6 @@ public class EmailSent {
 
         common.verifyStepIndicator(3, "Verify email address");
         common.verifyString(ABORT_BUTTON, "CANCEL");
-        common.verifyString(OK_BUTTON, "OK");
+        common.verifyString(OK_BUTTON, "CONTINUE");
     }
 }

@@ -93,16 +93,19 @@ public class TC_86 extends BeforeAndAfter {
     @Test( dependsOnMethods = {"extraSecurityBankId"} )
     void verifyBankId() {
         common.verifyBankIdTextAndLabels();
+
+        //Select to navigate to dashboard
+        common.findWebElement(By.id("dashboard-button")).click();
     }
 
     //Reset password and verify that the Identity still is verified
-    @Test( dependsOnMethods = {"verifySamlFailPage"} )
-    void login6(){
+    @Test( dependsOnMethods = {"verifyBankId"} )
+    void login2(){
         testData.setResetPassword(true);
         login.runLogin();
     }
 
-    @Test( dependsOnMethods = {"login6"} )
+    @Test( dependsOnMethods = {"login2"} )
     void requestNewPassword2() {
         requestResetPwEmail.runRequestResetPwEmail();
     }

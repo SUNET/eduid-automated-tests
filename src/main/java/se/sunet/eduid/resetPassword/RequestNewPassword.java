@@ -93,7 +93,7 @@ public class RequestNewPassword {
         common.verifyString(EMAIL_LABEL_XPATH, "E-postadress");
         common.verifyPlaceholderBy("namn@example.com", EMAIL_INPUT);
         common.verifyString(RESET_PASSWORD_BUTTON, "SKICKA E-POST");
-        common.verifyString(GO_BACK_BUTTON, "TILLBAKA");
+        common.verifyString(GO_BACK_BUTTON, "AVBRYT");
     }
 
     private void verifyLabelsEnglish() {
@@ -104,6 +104,6 @@ public class RequestNewPassword {
         common.verifyString(EMAIL_LABEL_XPATH, "Email address");
         common.verifyPlaceholderBy("name@example.com", EMAIL_INPUT);
         common.verifyString(RESET_PASSWORD_BUTTON, "SEND EMAIL");
-        common.verifyString(GO_BACK_BUTTON, "GO BACK");
+        common.verifyString(GO_BACK_BUTTON, "CANCEL");
     }
 }
